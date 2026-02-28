@@ -18,7 +18,7 @@
       </div>
       <div class="meta-row">
         <span id="lastRefreshed" class="last-refreshed">Loading…</span>
-        <button type="button" id="btnRefresh" class="btn btn-primary" title="Refresh content from official sources">
+        <button type="button" id="btnRefresh" class="btn btn-primary" title="Fetch the latest Regulation (EU) 2016/679 text from EUR-Lex">
           <span class="btn-icon" aria-hidden="true">↻</span> Refresh sources
         </button>
       </div>
@@ -37,7 +37,7 @@
       <div class="browse-layout">
         <aside class="sidebar" id="sidebar">
           <div class="sidebar-inner">
-            <h2 class="sidebar-title">Regulation structure</h2>
+            <h2 class="sidebar-title">Regulation &amp; sources</h2>
             <nav class="nav-sections">
               <div class="nav-section">
                 <a href="#" class="nav-link" data-open="recitals">
@@ -45,7 +45,7 @@
                   <span class="nav-link-text">Recitals</span>
                   <span class="nav-link-meta">1–173</span>
                 </a>
-                <p class="nav-desc">Preamble and context</p>
+                <p class="nav-desc">Preamble and context (EUR-Lex, GDPR-Info)</p>
               </div>
               <div class="nav-section">
                 <a href="#" class="nav-link" data-open="chapters">
@@ -53,7 +53,15 @@
                   <span class="nav-link-text">Chapters &amp; Articles</span>
                   <span class="nav-link-meta">1–99</span>
                 </a>
-                <p class="nav-desc">11 chapters, binding provisions</p>
+                <p class="nav-desc">11 chapters, binding provisions (EUR-Lex, GDPR-Info)</p>
+              </div>
+              <div class="nav-section">
+                <a href="#" class="nav-link" data-open="sources">
+                  <span class="nav-link-icon">S</span>
+                  <span class="nav-link-text">Credible sources</span>
+                  <span class="nav-link-meta">All</span>
+                </a>
+                <p class="nav-desc">EDPB, Commission, ICO, GDPR.eu, Council of Europe</p>
               </div>
             </nav>
             <div id="chapterList" class="chapter-list"></div>
@@ -68,7 +76,8 @@
           <div id="browsePlaceholder" class="placeholder">
             <div class="placeholder-content">
               <div class="placeholder-icon">📋</div>
-              <p>Choose <strong>Recitals</strong> or <strong>Chapters &amp; Articles</strong> to read the full regulation. Every section links to the official sources.</p>
+              <p>Choose <strong>Recitals</strong> or <strong>Chapters &amp; Articles</strong> for the regulation text, or <strong>Credible sources</strong> for guidelines and documents from EDPB, European Commission, ICO, GDPR.eu, and Council of Europe.</p>
+              <p class="placeholder-hint">Regulation text is loaded from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>. Use <strong>Refresh sources</strong> in the header to fetch the latest.</p>
             </div>
           </div>
           <div id="browseRecitals" class="browse-section hidden">
@@ -83,9 +92,55 @@
               <h2>Chapters &amp; Articles</h2>
               <p class="source-links">Official sources: <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex</a></p>
             </div>
-            <div id="chaptersList" class="chapters-grid" role="list"></div>
+            <div class="filter-bar chapters-filters" role="group" aria-label="Filter documents by category, chapter, and article">
+              <div class="filter-field">
+                <label for="chaptersFilterCategory" class="filter-field-label">Category</label>
+                <select id="chaptersFilterCategory" class="filter-field-select" aria-label="Filter by topic category">
+                  <option value="">All categories</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="chaptersFilterSubcategory" class="filter-field-label">Sub-category</label>
+                <select id="chaptersFilterSubcategory" class="filter-field-select" aria-label="Filter by topic sub-category">
+                  <option value="">All sub-categories</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="chaptersFilterChapter" class="filter-field-label">Chapter</label>
+                <select id="chaptersFilterChapter" class="filter-field-select" aria-label="Filter by chapter">
+                  <option value="">All chapters</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="chaptersFilterArticle" class="filter-field-label">Article</label>
+                <select id="chaptersFilterArticle" class="filter-field-select" aria-label="Filter by article">
+                  <option value="">All articles</option>
+                </select>
+              </div>
+              <div class="filter-actions">
+                <button type="button" id="chaptersFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear filters</button>
+              </div>
+            </div>
+            <div id="chaptersArticlesGrouped" class="chapters-articles-grouped" role="region" aria-label="Articles by chapter"></div>
+          </div>
+          <div id="browseSources" class="browse-section browse-sources-section hidden">
+            <div class="section-header">
+              <h2>Credible sources &amp; documents</h2>
+              <p class="source-links">Guidelines, guidance, and official documents from all credible sources. Links open in a new tab.</p>
+            </div>
+            <div id="browseSourcesList" class="sources-grid browse-sources-grid" role="list"></div>
           </div>
           <div id="browseDetail" class="browse-section detail-view hidden">
+            <nav id="docNav" class="doc-nav hidden" aria-label="Navigate to previous or next document">
+              <button type="button" id="docNavPrev" class="btn btn-secondary btn-doc-nav" aria-label="Previous document">← Previous</button>
+              <span id="docNavLabel" class="doc-nav-label" aria-live="polite"></span>
+              <div class="doc-nav-goto">
+                <label for="docNavNumber" class="doc-nav-goto-label">Go to</label>
+                <input type="number" id="docNavNumber" class="doc-nav-input" min="1" max="99" placeholder="No." aria-label="Document number">
+                <button type="button" id="docNavGo" class="btn btn-secondary btn-doc-nav btn-doc-nav-go">Go</button>
+              </div>
+              <button type="button" id="docNavNext" class="btn btn-secondary btn-doc-nav" aria-label="Next document">Next →</button>
+            </nav>
             <article id="detailContent" class="doc-content"></article>
             <aside class="citations">
               <h3>Citations &amp; official links</h3>
@@ -104,7 +159,7 @@
             <input type="text" id="query" placeholder="e.g. What is personal data? When is consent valid? Right to erasure..." autocomplete="off" aria-label="Search question">
             <button type="button" id="btnAsk" class="btn btn-primary">Search</button>
           </div>
-          <p class="hint">Results are based on the official Regulation text. Each result links to the original source.</p>
+          <p class="hint">Results use the official Regulation (EU) 2016/679 text from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>. Click <strong>Refresh sources</strong> in the header to load the latest consolidated text.</p>
         </div>
         <div id="askResults" class="ask-results hidden">
           <div class="ask-results-grid">
@@ -117,6 +172,11 @@
                 <h3 class="summary-in-plain-language-title">Summary</h3>
                 <p class="summary-in-plain-language-hint">A concise overview based on the regulation text.</p>
                 <div id="askSummaryContent" class="summary-in-plain-language-content"></div>
+              </div>
+              <div id="askRelevantDocs" class="ask-relevant-docs hidden" aria-label="Relevant articles and documents">
+                <h3 class="ask-relevant-docs-title">Relevant articles &amp; documents</h3>
+                <p class="ask-relevant-docs-hint">Open in the app or on the official websites.</p>
+                <ul id="askRelevantDocsList" class="ask-relevant-docs-list" role="list"></ul>
               </div>
             </aside>
           </div>
@@ -148,16 +208,22 @@
         <div class="news-list-wrap" id="newsListWrap">
           <h3>News by source and topic</h3>
           <p class="news-list-intro">Below, news is grouped by credible source. Each section has a short summary in plain language and links to the original articles.</p>
-          <div class="news-filters" role="group" aria-label="Filter news">
-            <label for="newsFilterSource" class="news-filter-label">Source</label>
-            <select id="newsFilterSource" class="news-filter-select" aria-label="Filter by source">
-              <option value="">All sources</option>
-            </select>
-            <label for="newsFilterTopic" class="news-filter-label">Topic</label>
-            <select id="newsFilterTopic" class="news-filter-select" aria-label="Filter by topic">
-              <option value="">All topics</option>
-            </select>
-            <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm news-filter-clear">Clear filters</button>
+          <div class="filter-bar news-filters" role="group" aria-label="Filter news">
+            <div class="filter-field">
+              <label for="newsFilterSource" class="filter-field-label">Source</label>
+              <select id="newsFilterSource" class="filter-field-select" aria-label="Filter by source">
+                <option value="">All sources</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label for="newsFilterTopic" class="filter-field-label">Topic</label>
+              <select id="newsFilterTopic" class="filter-field-select" aria-label="Filter by topic">
+                <option value="">All topics</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear filters</button>
+            </div>
           </div>
           <div id="newsSections" class="news-sections" role="region" aria-label="News by source"></div>
         </div>

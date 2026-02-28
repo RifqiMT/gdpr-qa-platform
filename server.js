@@ -115,7 +115,11 @@ app.get('/api/articles/:number', (req, res) => {
   const article = (data.articles || []).find(a => a.number === num);
   if (!article) return res.status(404).json({ error: 'Article not found' });
   const chapter = (data.chapters || []).find(c => c.number === article.chapter);
-  res.json({ ...article, chapter });
+  res.json({
+    ...article,
+    chapter,
+    contentAsOf: data.meta?.lastRefreshed || null
+  });
 });
 
 app.get('/api/recitals', (req, res) => {
@@ -131,7 +135,8 @@ app.get('/api/recitals/:number', (req, res) => {
   res.json({
     ...recital,
     sourceUrl: 'https://gdpr-info.eu/recitals/',
-    eurLexUrl: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679'
+    eurLexUrl: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679',
+    contentAsOf: data.meta?.lastRefreshed || null
   });
 });
 
@@ -161,6 +166,7 @@ app.post('/api/ask', (req, res) => {
 
   res.json({
     query,
+    contentAsOf: data.meta?.lastRefreshed || null,
     results: results.map(({ score, ...r }) => {
       let fullText = '';
       if (r.type === 'recital') {
