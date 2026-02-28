@@ -19,6 +19,15 @@
   const btnBackToQuestion = document.getElementById('btnBackToQuestion');
   const viewBrowse = document.getElementById('viewBrowse');
   const viewAsk = document.getElementById('viewAsk');
+  const viewSources = document.getElementById('viewSources');
+  const viewNews = document.getElementById('viewNews');
+  const sourcesList = document.getElementById('sourcesList');
+  const newsList = document.getElementById('newsList');
+  const newsFeedsList = document.getElementById('newsFeedsList');
+  const newsSections = document.getElementById('newsSections');
+  const newsFilterSource = document.getElementById('newsFilterSource');
+  const newsFilterTopic = document.getElementById('newsFilterTopic');
+  const newsFilterClear = document.getElementById('newsFilterClear');
   const browsePlaceholder = document.getElementById('browsePlaceholder');
   const browseRecitals = document.getElementById('browseRecitals');
   const browseChapters = document.getElementById('browseChapters');
@@ -54,6 +63,267 @@
     get('/api/meta').then(setMeta).catch(() => { lastRefreshedEl.textContent = 'Could not load meta.'; });
   }
 
+  function loadSources() {
+    if (!sourcesList) return;
+    get('/api/meta')
+      .then(function (data) {
+        const sources = data.sources || [];
+        sourcesList.innerHTML = '';
+        sources.forEach(function (src) {
+          const card = document.createElement('div');
+          card.className = 'source-card';
+          card.setAttribute('role', 'listitem');
+          const docs = src.documents || (src.url ? [{ label: 'Visit site', url: src.url }] : []);
+          let docsHtml = '';
+          if (docs.length) {
+            docsHtml = '<ul class="source-doc-links">' + docs.map(function (d) {
+              return '<li><a href="' + escapeHtml(d.url) + '" target="_blank" rel="noopener">' + escapeHtml(d.label) + '</a></li>';
+            }).join('') + '</ul>';
+          }
+          card.innerHTML = '<h3 class="source-card-title"><a href="' + escapeHtml(src.url) + '" target="_blank" rel="noopener">' + escapeHtml(src.name) + '</a></h3>' +
+            (src.description ? '<p class="source-card-desc">' + escapeHtml(src.description) + '</p>' : '') +
+            docsHtml;
+          sourcesList.appendChild(card);
+        });
+      })
+      .catch(function () {
+        sourcesList.innerHTML = '<p class="excerpt">Could not load sources.</p>';
+      });
+  }
+
+  var SOURCE_SUMMARIES = {
+    'European Data Protection Board (EDPB)': 'EU-level guidance, opinions, and enforcement news. Covers how national supervisors apply GDPR and coordinate across the EU.',
+    'EDPB': 'EU-level guidance, opinions, and enforcement news from the European Data Protection Board and national data protection authorities.',
+    'ICO (UK)': 'UK regulator updates: enforcement actions, fines, guidance under UK GDPR, and how the ICO interprets data protection law.',
+    'European Commission': 'Official EU policy, reform, and publications on data protection and the GDPR from the European Commission.',
+    'Council of Europe': 'International data protection standards and updates on Convention 108+ (protection of personal data).'
+  };
+
+  var NEWS_TOPIC_ORDER = ['Rights (erasure & access)', 'AI & digital', 'Enforcement & fines', 'Guidance & compliance', 'Transfers & BCR', 'International standards', 'Policy & publications', 'Children & privacy', 'General'];
+
+  var lastNewsItems = [];
+
+  function renderNewsSections(items) {
+    if (!newsSections) return;
+    newsSections.innerHTML = '';
+    if (!items || items.length === 0) {
+      newsSections.innerHTML = '<p class="news-empty">No news match the current filters. Try changing or clearing the filters.</p>';
+      return;
+    }
+    var bySource = {};
+    items.forEach(function (item) {
+      var src = item.sourceName || 'Other';
+      if (!bySource[src]) bySource[src] = [];
+      bySource[src].push(item);
+    });
+    var sourceOrder = ['European Data Protection Board (EDPB)', 'EDPB', 'ICO (UK)', 'European Commission', 'Council of Europe'];
+    var ordered = sourceOrder.filter(function (s) { return bySource[s] && bySource[s].length; });
+    Object.keys(bySource).forEach(function (s) { if (ordered.indexOf(s) === -1) ordered.push(s); });
+    ordered.forEach(function (sourceName) {
+      var sourceItems = bySource[sourceName];
+      sourceItems.sort(function (a, b) {
+        var da = a.date ? new Date(a.date).getTime() : 0;
+        var db = b.date ? new Date(b.date).getTime() : 0;
+        return db - da;
+      });
+      var summary = SOURCE_SUMMARIES[sourceName] || 'Updates and publications from this source. Each link goes to the original article.';
+      var section = document.createElement('section');
+      section.className = 'news-by-source';
+      var sectionId = 'news-source-' + sourceName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+      section.id = sectionId;
+      var firstItem = sourceItems[0];
+      var sourceUrl = firstItem && firstItem.sourceUrl ? firstItem.sourceUrl : '#';
+      var titleId = sectionId + '-title';
+      section.setAttribute('aria-labelledby', titleId);
+      section.innerHTML =
+        '<h4 class="news-source-heading" id="' + titleId + '"><a href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(sourceName) + '</a></h4>' +
+        '<p class="news-source-summary">' + escapeHtml(summary) + '</p>' +
+        '<ul class="news-list news-list-in-section" role="list"></ul>';
+      var ul = section.querySelector('.news-list');
+      sourceItems.forEach(function (item) {
+        var li = document.createElement('li');
+        li.className = 'news-card';
+        li.setAttribute('role', 'listitem');
+        var dateStr = item.date ? new Date(item.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+        var title = item.title || 'Untitled';
+        var url = item.url || '#';
+        var itemSourceUrl = item.sourceUrl || '#';
+        var topic = getTopicFromItem(item);
+        var paragraphs = getThreeParagraphSummary(item, sourceName);
+        var summaryHtml = '<div class="news-card-summary"><h6 class="news-card-summary-title">Summary</h6>' +
+          '<p class="news-card-summary-p">' + escapeHtml(paragraphs[0]) + '</p>' +
+          '<p class="news-card-summary-p">' + escapeHtml(paragraphs[1]) + '</p>' +
+          '<p class="news-card-summary-p">' + escapeHtml(paragraphs[2]) + '</p></div>';
+        li.innerHTML =
+          (topic && topic !== 'General' ? '<span class="news-topic-tag">' + escapeHtml(topic) + '</span>' : '') +
+          '<h5 class="news-card-title"><a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(title) + '</a></h5>' +
+          summaryHtml +
+          '<p class="news-card-meta">' +
+          '<a href="' + escapeHtml(itemSourceUrl) + '" target="_blank" rel="noopener" class="news-card-source">' + escapeHtml(sourceName) + '</a>' +
+          (dateStr ? ' <span class="news-card-date">' + escapeHtml(dateStr) + '</span>' : '') +
+          '</p>';
+        ul.appendChild(li);
+      });
+      newsSections.appendChild(section);
+    });
+  }
+
+  function applyNewsFilters() {
+    var sourceVal = newsFilterSource ? newsFilterSource.value : '';
+    var topicVal = newsFilterTopic ? newsFilterTopic.value : '';
+    var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
+    var filtered = items.filter(function (item) {
+      if (sourceVal && (item.sourceName || '') !== sourceVal) return false;
+      if (topicVal) {
+        var t = getTopicFromItem(item);
+        if (t !== topicVal) return false;
+      }
+      return true;
+    });
+    renderNewsSections(filtered);
+  }
+
+  function populateNewsFilters(items) {
+    if (!items || items.length === 0) return;
+    var sources = [];
+    var topicsSet = {};
+    items.forEach(function (item) {
+      var src = item.sourceName || 'Other';
+      if (sources.indexOf(src) === -1) sources.push(src);
+      var t = getTopicFromItem(item);
+      topicsSet[t] = true;
+    });
+    var sourceOrder = ['European Data Protection Board (EDPB)', 'EDPB', 'ICO (UK)', 'European Commission', 'Council of Europe'];
+    sources.sort(function (a, b) {
+      var ia = sourceOrder.indexOf(a);
+      var ib = sourceOrder.indexOf(b);
+      if (ia !== -1 && ib !== -1) return ia - ib;
+      if (ia !== -1) return -1;
+      if (ib !== -1) return 1;
+      return a.localeCompare(b);
+    });
+    if (newsFilterSource) {
+      var selSource = newsFilterSource.value;
+      newsFilterSource.innerHTML = '<option value="">All sources</option>';
+      sources.forEach(function (s) {
+        var opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        if (s === selSource) opt.selected = true;
+        newsFilterSource.appendChild(opt);
+      });
+    }
+    if (newsFilterTopic) {
+      var selTopic = newsFilterTopic.value;
+      newsFilterTopic.innerHTML = '<option value="">All topics</option>';
+      NEWS_TOPIC_ORDER.forEach(function (t) {
+        if (!topicsSet[t]) return;
+        var opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = t;
+        if (t === selTopic) opt.selected = true;
+        newsFilterTopic.appendChild(opt);
+      });
+    }
+  }
+
+  function getTopicFromItem(item) {
+    var t = ((item.title || '') + ' ' + (item.snippet || '')).toLowerCase();
+    if (/\b(right to erasure|erasure|article 17|deletion)\b/.test(t)) return 'Rights (erasure & access)';
+    if (/\b(ai|artificial intelligence|algorithm|digital)\b/.test(t)) return 'AI & digital';
+    if (/\b(fine|penalt|enforcement|sanction)\b/.test(t)) return 'Enforcement & fines';
+    if (/\b(guidance|guideline|recommendation|compliance|template)\b/.test(t)) return 'Guidance & compliance';
+    if (/\b(bcr|binding corporate|transfer|international)\b/.test(t)) return 'Transfers & BCR';
+    if (/\b(convention 108|coe|council of europe)\b/.test(t)) return 'International standards';
+    if (/\b(reform|policy|publication)\b/.test(t)) return 'Policy & publications';
+    if (/\b(children|child)\b/.test(t)) return 'Children & privacy';
+    return 'General';
+  }
+
+  function getThreeParagraphSummary(item, sourceName) {
+    var p = item.summaryParagraphs;
+    if (p && Array.isArray(p) && p.length >= 3) return [p[0], p[1], p[2]];
+    if (p && Array.isArray(p) && p.length >= 1) {
+      var first = p[0];
+      var second = p[1] || 'This update is from ' + sourceName + '. For the full story and official wording, open the link above.';
+      var third = p[2] || 'Relevant for GDPR compliance and data protection practice.';
+      return [first, second, third];
+    }
+    var intro = item.snippet || ('This item: ' + (item.title || 'Untitled') + '.');
+    return [
+      intro,
+      'This update is from ' + sourceName + '. For the full story and official wording, open the link above.',
+      'Relevant for GDPR compliance and data protection practice.'
+    ];
+  }
+
+  function loadNews() {
+    if (!newsFeedsList) return;
+    if (newsSections) newsSections.innerHTML = '';
+    if (newsList) newsList.innerHTML = '';
+    newsFeedsList.innerHTML = '<li class="news-empty">Loading news…</li>';
+    if (newsSections) newsSections.innerHTML = '<p class="news-empty">Loading…</p>';
+    get('/api/news')
+      .then(function (data) {
+        const feeds = data.newsFeeds || [];
+        const items = data.items || [];
+        newsFeedsList.innerHTML = '';
+        feeds.forEach(function (feed) {
+          const li = document.createElement('li');
+          li.innerHTML = '<a href="' + escapeHtml((feed.url || '')) + '" target="_blank" rel="noopener">' + escapeHtml(feed.name || '') + '</a>' +
+            (feed.description ? ' <span class="news-feed-desc">' + escapeHtml(feed.description) + '</span>' : '');
+          newsFeedsList.appendChild(li);
+        });
+        if (feeds.length === 0) {
+          newsFeedsList.innerHTML = '<li class="news-empty">No news feeds configured.</li>';
+        }
+        if (newsSections) {
+          newsSections.innerHTML = '';
+          if (items.length === 0) {
+            newsSections.innerHTML = '<p class="news-empty">No news items yet. Check the links above for the latest from each source.</p>';
+          } else {
+            lastNewsItems = items;
+            populateNewsFilters(items);
+            applyNewsFilters();
+          }
+        } else if (newsList) {
+          newsList.innerHTML = '';
+          if (items.length === 0) {
+            newsList.innerHTML = '<li class="news-empty">No news items yet. Check the links above for the latest from each source.</li>';
+          } else {
+            items.forEach(function (item) {
+              const li = document.createElement('li');
+              li.className = 'news-card';
+              li.setAttribute('role', 'listitem');
+              const dateStr = item.date ? new Date(item.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+              const title = item.title || 'Untitled';
+              const url = item.url || '#';
+              const sourceName = item.sourceName || 'Source';
+              const sourceUrl = item.sourceUrl || '#';
+              const paragraphs = getThreeParagraphSummary(item, sourceName);
+              const summaryHtml = '<div class="news-card-summary"><h6 class="news-card-summary-title">Summary</h6>' +
+                '<p class="news-card-summary-p">' + escapeHtml(paragraphs[0]) + '</p>' +
+                '<p class="news-card-summary-p">' + escapeHtml(paragraphs[1]) + '</p>' +
+                '<p class="news-card-summary-p">' + escapeHtml(paragraphs[2]) + '</p></div>';
+              li.innerHTML =
+                '<h4 class="news-card-title"><a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(title) + '</a></h4>' +
+                summaryHtml +
+                '<p class="news-card-meta">' +
+                '<a href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener" class="news-card-source">' + escapeHtml(sourceName) + '</a>' +
+                (dateStr ? ' <span class="news-card-date">' + escapeHtml(dateStr) + '</span>' : '') +
+                '</p>';
+              newsList.appendChild(li);
+            });
+          }
+        }
+      })
+      .catch(function () {
+        newsFeedsList.innerHTML = '<li class="news-empty">Could not load news.</li>';
+        if (newsSections) newsSections.innerHTML = '<p class="news-empty">News could not be loaded. Make sure the server is running and try again.</p>';
+        if (newsList) newsList.innerHTML = '';
+      });
+  }
+
   btnRefresh.addEventListener('click', function () {
     btnRefresh.disabled = true;
     btnRefresh.innerHTML = '<span class="btn-icon" aria-hidden="true">↻</span> Refreshing…';
@@ -78,16 +348,35 @@
     tab.addEventListener('click', function () {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', 'false'));
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      viewAsk.setAttribute('hidden', '');
+      document.querySelectorAll('.view').forEach(v => {
+        v.classList.remove('active');
+        v.setAttribute('hidden', '');
+      });
       this.classList.add('active');
       this.setAttribute('aria-selected', 'true');
       const viewId = 'view' + this.dataset.view.charAt(0).toUpperCase() + this.dataset.view.slice(1);
       const panel = document.getElementById(viewId);
-      panel.classList.add('active');
-      if (panel === viewAsk) panel.removeAttribute('hidden');
+        if (panel) {
+        panel.classList.add('active');
+        panel.removeAttribute('hidden');
+        if (panel === viewSources) loadSources();
+        if (panel === viewNews) loadNews();
+      }
     });
   });
+
+  const btnRefreshNews = document.getElementById('btnRefreshNews');
+  if (btnRefreshNews) btnRefreshNews.addEventListener('click', loadNews);
+
+  if (newsFilterSource) newsFilterSource.addEventListener('change', applyNewsFilters);
+  if (newsFilterTopic) newsFilterTopic.addEventListener('change', applyNewsFilters);
+  if (newsFilterClear) {
+    newsFilterClear.addEventListener('click', function () {
+      if (newsFilterSource) newsFilterSource.value = '';
+      if (newsFilterTopic) newsFilterTopic.value = '';
+      applyNewsFilters();
+    });
+  }
 
   function showSection(section) {
     browsePlaceholder.classList.add('hidden');

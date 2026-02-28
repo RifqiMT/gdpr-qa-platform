@@ -1,0 +1,144 @@
+{
+  "description": "GDPR and data protection news from credible sources. Each item links to the original article. Update this file or use a script to fetch from RSS/news pages.",
+  "newsFeeds": [
+    {
+      "name": "EDPB",
+      "url": "https://edpb.europa.eu/news_en",
+      "description": "European Data Protection Board news"
+    },
+    {
+      "name": "European Commission",
+      "url": "https://commission.europa.eu/news",
+      "description": "Commission news (filter by data protection)"
+    },
+    {
+      "name": "ICO (UK)",
+      "url": "https://ico.org.uk/news/",
+      "description": "ICO news and blogs"
+    },
+    {
+      "name": "Council of Europe",
+      "url": "https://www.coe.int/en/web/data-protection",
+      "description": "Data protection and Convention 108+"
+    }
+  ],
+  "items": [
+    {
+      "title": "EDPB identifies challenges hindering the full implementation of the right to erasure",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-identifies-challenges-hindering-full-implementation-right-erasure_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-01-01",
+      "snippet": "Coordinated enforcement on Article 17 GDPR with 32 DPAs.",
+      "summaryParagraphs": [
+        "Coordinated enforcement on Article 17 GDPR with 32 DPAs. The report describes common challenges faced by controllers when handling erasure requests.",
+        "This update is from European Data Protection Board (EDPB). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "EDPB and EDPS support streamlining AI Act implementation but call for stronger safeguards",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-and-edps-support-streamlining-ai-act-implementation-call-stronger-safeguards_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-01-01",
+      "snippet": "Joint statement on fundamental rights and high-risk AI systems.",
+      "summaryParagraphs": [
+        "Joint statement on fundamental rights and high-risk AI systems. The EDPB and EDPS support simplification of the AI Act but call for stronger safeguards to protect rights.",
+        "This update is from European Data Protection Board (EDPB). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "EDPB contributes to the LED evaluation and adopts recommendations on Processor BCR",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-contributes-led-evaluation-and-adopts-recommendations-application-processor-bcr_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-01-01",
+      "snippet": "Law Enforcement Directive and Binding Corporate Rules for processors.",
+      "summaryParagraphs": [
+        "Law Enforcement Directive and Binding Corporate Rules for processors. The EDPB has adopted recommendations on the application process for Processor BCRs.",
+        "This update is from European Data Protection Board (EDPB). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "ICO publishes new fining guidance",
+      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/03/ico-publishes-new-fining-guidance",
+      "sourceName": "ICO (UK)",
+      "sourceUrl": "https://ico.org.uk/",
+      "date": "2024-03-01",
+      "snippet": "How the ICO decides penalties and calculates fines under UK GDPR.",
+      "summaryParagraphs": [
+        "How the ICO decides penalties and calculates fines under UK GDPR. The guidance explains the legal framework and methodology so organisations can better understand enforcement risk.",
+        "This update is from ICO (UK). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "ICO 2024 – a year in review",
+      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/12/ico-2024-a-year-in-review",
+      "sourceName": "ICO (UK)",
+      "sourceUrl": "https://ico.org.uk/",
+      "date": "2024-12-01",
+      "snippet": "Data protection complaints, breach cases, and enforcement in 2024.",
+      "summaryParagraphs": [
+        "Data protection complaints, breach cases, and enforcement in 2024. The review summarises the ICO’s activity and key outcomes over the year.",
+        "This update is from ICO (UK). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "Our response to Google's policy change on fingerprinting",
+      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/12/our-response-to-google-s-policy-change-on-fingerprinting/",
+      "sourceName": "ICO (UK)",
+      "sourceUrl": "https://ico.org.uk/",
+      "date": "2024-12-01",
+      "snippet": "ICO stresses data protection law and consent still apply.",
+      "summaryParagraphs": [
+        "ICO stresses data protection law and consent still apply. The ICO has responded to Google’s policy change and reminded businesses that they must still comply with UK law.",
+        "This update is from ICO (UK). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "Reform of EU data protection rules",
+      "url": "https://commission.europa.eu/law/law-topic/data-protection/reform_en",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/law/law-topic/data-protection_en",
+      "date": "2024-01-01",
+      "snippet": "Overview of GDPR reform and implementation.",
+      "summaryParagraphs": [
+        "Overview of GDPR reform and implementation. The Commission’s page explains the reform objectives and how the new framework applies across the EU.",
+        "This update is from European Commission. For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "Publications on the General Data Protection Regulation (GDPR)",
+      "url": "https://commission.europa.eu/publications/publications-general-data-protection-regulation-gdpr_en",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/law/law-topic/data-protection_en",
+      "date": "2024-01-01",
+      "snippet": "Official Commission publications and reports on GDPR.",
+      "summaryParagraphs": [
+        "Official Commission publications and reports on GDPR. The page links to the Commission’s reports and other materials on how the regulation is applied.",
+        "This update is from European Commission. For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "Convention 108+ and modernisation",
+      "url": "https://www.coe.int/en/web/data-protection/convention108/amendments",
+      "sourceName": "Council of Europe",
+      "sourceUrl": "https://www.coe.int/en/web/data-protection",
+      "date": "2024-01-01",
+      "snippet": "Modernised Convention 108 for the protection of personal data.",
+      "summaryParagraphs": [
+        "Modernised Convention 108 for the protection of personal data. The amendments bring the Convention in line with current data processing and stronger rights.",
+        "This update is from Council of Europe. For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    }
+  ]
+}

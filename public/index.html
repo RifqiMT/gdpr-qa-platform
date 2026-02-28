@@ -28,6 +28,8 @@
   <nav class="tabs" role="tablist">
     <button type="button" class="tab active" data-view="browse" role="tab" aria-selected="true">Browse regulation</button>
     <button type="button" class="tab" data-view="ask" role="tab" aria-selected="false">Ask a question</button>
+    <button type="button" class="tab" data-view="sources" role="tab" aria-selected="false">Credible sources</button>
+    <button type="button" class="tab" data-view="news" role="tab" aria-selected="false">News</button>
   </nav>
 
   <main class="main">
@@ -121,10 +123,52 @@
         </div>
       </div>
     </section>
+
+    <section id="viewSources" class="view" role="tabpanel" hidden>
+      <div class="sources-layout">
+        <div class="sources-header">
+          <h2>Credible sources &amp; documents</h2>
+          <p class="sources-intro">Open documents and guidance from these organizations. Links open in a new tab.</p>
+        </div>
+        <div id="sourcesList" class="sources-grid" role="list"></div>
+      </div>
+    </section>
+
+    <section id="viewNews" class="view" role="tabpanel" hidden>
+      <div class="news-layout">
+        <div class="news-header">
+          <h2>GDPR &amp; data protection news</h2>
+          <p class="news-intro">News from credible sources (EDPB, ICO, European Commission, Council of Europe). Each item links to the original article.</p>
+          <button type="button" id="btnRefreshNews" class="btn btn-secondary btn-refresh-news">↻ Refresh news</button>
+        </div>
+        <div class="news-feeds-row">
+          <h3>News from sources</h3>
+          <ul id="newsFeedsList" class="news-feeds-list" role="list"></ul>
+        </div>
+        <div class="news-list-wrap" id="newsListWrap">
+          <h3>News by source and topic</h3>
+          <p class="news-list-intro">Below, news is grouped by credible source. Each section has a short summary in plain language and links to the original articles.</p>
+          <div class="news-filters" role="group" aria-label="Filter news">
+            <label for="newsFilterSource" class="news-filter-label">Source</label>
+            <select id="newsFilterSource" class="news-filter-select" aria-label="Filter by source">
+              <option value="">All sources</option>
+            </select>
+            <label for="newsFilterTopic" class="news-filter-label">Topic</label>
+            <select id="newsFilterTopic" class="news-filter-select" aria-label="Filter by topic">
+              <option value="">All topics</option>
+            </select>
+            <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm news-filter-clear">Clear filters</button>
+          </div>
+          <div id="newsSections" class="news-sections" role="region" aria-label="News by source"></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <p>Content from <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">gdpr-info.eu</a> and <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex (Regulation (EU) 2016/679)</a>. For reference only; verify with official sources.</p>
+    <p><strong>Primary sources (regulation text):</strong> <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex (Regulation (EU) 2016/679)</a></p>
+    <p><strong>Credible resources:</strong> <a href="https://edpb.europa.eu/" target="_blank" rel="noopener">EDPB</a> · <a href="https://commission.europa.eu/law/law-topic/data-protection_en" target="_blank" rel="noopener">European Commission</a> · <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance/" target="_blank" rel="noopener">ICO (UK)</a> · <a href="https://gdpr.eu/" target="_blank" rel="noopener">GDPR.eu</a> · <a href="https://www.coe.int/en/web/data-protection" target="_blank" rel="noopener">Council of Europe</a></p>
+    <p>For reference only; verify with official sources.</p>
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="app.js"></script>

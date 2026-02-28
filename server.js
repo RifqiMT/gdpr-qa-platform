@@ -4,12 +4,22 @@ const path = require('path');
 const fs = require('fs');
 const cron = require('node-cron');
 const { run: runScraper } = require('./scraper');
+const { crawlNews, withTimeout } = require('./news-crawler');
+
+const NEWS_CRAWL_TIMEOUT_MS = 30000;
+const DEFAULT_NEWS_FEEDS = [
+  { name: 'EDPB', url: 'https://edpb.europa.eu/news_en', description: 'European Data Protection Board news' },
+  { name: 'European Commission', url: 'https://commission.europa.eu/news', description: 'Commission news' },
+  { name: 'ICO (UK)', url: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/', description: 'ICO news and blogs' },
+  { name: 'Council of Europe', url: 'https://www.coe.int/en/web/data-protection', description: 'Data protection' }
+];
 
 const app = express();
 const PORT = process.env.PORT || 3847;
 const DATA_DIR = path.join(__dirname, 'data');
 const CONTENT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
 const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
+const NEWS_FILE = path.join(DATA_DIR, 'gdpr-news.json');
 
 app.use(cors());
 app.use(express.json());
@@ -33,10 +43,46 @@ app.get('/api/meta', (req, res) => {
   res.json({
     lastRefreshed: data.meta?.lastRefreshed ?? null,
     sources: data.meta?.sources ?? [
-      { name: 'GDPR-Info', url: 'https://gdpr-info.eu/' },
-      { name: 'EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng' }
+      { name: 'GDPR-Info', url: 'https://gdpr-info.eu/', description: 'Regulation text and structure.', documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }] },
+      { name: 'EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng', description: 'Official EU Regulation.', documents: [{ label: 'Regulation (EU) 2016/679', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng' }] },
+      { name: 'EDPB', url: 'https://edpb.europa.eu/', description: 'EU body – guidelines and consistency.', documents: [{ label: 'Guidelines', url: 'https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en' }] },
+      { name: 'European Commission', url: 'https://commission.europa.eu/law/law-topic/data-protection_en', description: 'Official Commission data protection.', documents: [{ label: 'Data protection', url: 'https://commission.europa.eu/law/law-topic/data-protection_en' }] },
+      { name: 'ICO (UK)', url: 'https://ico.org.uk/for-organisations/uk-gdpr-guidance/', description: 'UK GDPR guidance.', documents: [{ label: 'UK GDPR guidance', url: 'https://ico.org.uk/for-organisations/uk-gdpr-guidance/' }] },
+      { name: 'GDPR.eu', url: 'https://gdpr.eu/', description: 'Overview and resources.', documents: [{ label: 'GDPR overview', url: 'https://gdpr.eu/' }] },
+      { name: 'Council of Europe', url: 'https://www.coe.int/en/web/data-protection', description: 'Convention 108+ and standards.', documents: [{ label: 'Data protection', url: 'https://www.coe.int/en/web/data-protection' }] }
     ]
   });
+});
+
+app.get('/api/news', async (req, res) => {
+  let newsFeeds = DEFAULT_NEWS_FEEDS;
+  let staticItems = [];
+  try {
+    if (fs.existsSync(NEWS_FILE)) {
+      const raw = JSON.parse(fs.readFileSync(NEWS_FILE, 'utf-8'));
+      newsFeeds = (raw.newsFeeds && raw.newsFeeds.length) ? raw.newsFeeds : newsFeeds;
+      staticItems = raw.items || [];
+    }
+  } catch (_) {}
+
+  let items = staticItems;
+  try {
+    const crawled = await withTimeout(crawlNews(), NEWS_CRAWL_TIMEOUT_MS);
+    const byUrl = new Map();
+    crawled.forEach((item) => byUrl.set((item.url || '').toLowerCase().replace(/\/$/, ''), { ...item }));
+    staticItems.forEach((item) => {
+      const key = (item.url || '').toLowerCase().replace(/\/$/, '');
+      if (!byUrl.has(key)) byUrl.set(key, { ...item });
+    });
+    items = Array.from(byUrl.values()).sort((a, b) => {
+      const da = a.date ? new Date(a.date).getTime() : 0;
+      const db = b.date ? new Date(b.date).getTime() : 0;
+      return db - da;
+    }).slice(0, 60);
+  } catch (err) {
+    if (items.length === 0) items = staticItems;
+  }
+  res.json({ newsFeeds, items });
 });
 
 app.get('/api/categories', (req, res) => {

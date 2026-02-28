@@ -1,14 +1,251 @@
 {
   "meta": {
-    "lastRefreshed": "2026-02-28T11:32:51.460Z",
+    "lastRefreshed": "2026-02-28T12:51:36.577Z",
     "sources": [
       {
         "name": "GDPR-Info",
-        "url": "https://gdpr-info.eu/"
+        "url": "https://gdpr-info.eu/",
+        "description": "Unofficial but widely cited regulation text and structure.",
+        "documents": [
+          {
+            "label": "Full regulation",
+            "url": "https://gdpr-info.eu/"
+          },
+          {
+            "label": "Recitals",
+            "url": "https://gdpr-info.eu/recitals/"
+          },
+          {
+            "label": "Chapter I – General provisions",
+            "url": "https://gdpr-info.eu/chapter-1/"
+          },
+          {
+            "label": "Chapter II – Principles",
+            "url": "https://gdpr-info.eu/chapter-2/"
+          },
+          {
+            "label": "Chapter III – Rights of the data subject",
+            "url": "https://gdpr-info.eu/chapter-3/"
+          },
+          {
+            "label": "Chapter IV – Controller and processor",
+            "url": "https://gdpr-info.eu/chapter-4/"
+          },
+          {
+            "label": "Chapter V – Transfers",
+            "url": "https://gdpr-info.eu/chapter-5/"
+          },
+          {
+            "label": "Chapter VI – Supervisory authorities",
+            "url": "https://gdpr-info.eu/chapter-6/"
+          },
+          {
+            "label": "Chapter VII – Cooperation and consistency",
+            "url": "https://gdpr-info.eu/chapter-7/"
+          },
+          {
+            "label": "Chapter VIII – Remedies and penalties",
+            "url": "https://gdpr-info.eu/chapter-8/"
+          },
+          {
+            "label": "Chapter IX – Specific processing situations",
+            "url": "https://gdpr-info.eu/chapter-9/"
+          },
+          {
+            "label": "Chapter X – Delegated and implementing acts",
+            "url": "https://gdpr-info.eu/chapter-10/"
+          },
+          {
+            "label": "Chapter XI – Final provisions",
+            "url": "https://gdpr-info.eu/chapter-11/"
+          }
+        ]
       },
       {
-        "name": "EUR-Lex Official Journal",
-        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng"
+        "name": "EUR-Lex (Official Journal)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng",
+        "description": "Official EU publication of Regulation (EU) 2016/679.",
+        "documents": [
+          {
+            "label": "Regulation (EU) 2016/679 (Official Journal)",
+            "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng"
+          },
+          {
+            "label": "HTML version",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679"
+          },
+          {
+            "label": "PDF version",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32016R0679"
+          },
+          {
+            "label": "Consolidated text",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679"
+          }
+        ]
+      },
+      {
+        "name": "European Data Protection Board (EDPB)",
+        "url": "https://edpb.europa.eu/",
+        "description": "EU body for consistent application of GDPR; guidelines and recommendations.",
+        "documents": [
+          {
+            "label": "Home & news",
+            "url": "https://edpb.europa.eu/"
+          },
+          {
+            "label": "GDPR guidelines & recommendations",
+            "url": "https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en"
+          },
+          {
+            "label": "Document library",
+            "url": "https://edpb.europa.eu/our-work-tools/our-documents_en"
+          },
+          {
+            "label": "Guidelines (by type)",
+            "url": "https://edpb.europa.eu/our-work-tools/our-documents/publication-type/guidelines_en"
+          },
+          {
+            "label": "Recommendations",
+            "url": "https://edpb.europa.eu/our-work-tools/our-documents/publication-type/recommendations_en"
+          },
+          {
+            "label": "One-Stop-Shop",
+            "url": "https://edpb.europa.eu/about-edpb/about-edpb/one-stop-shop_en"
+          },
+          {
+            "label": "Binding decisions",
+            "url": "https://edpb.europa.eu/our-work-tools/consistency-findings/consistency-findings_en"
+          }
+        ]
+      },
+      {
+        "name": "European Commission",
+        "url": "https://commission.europa.eu/law/law-topic/data-protection_en",
+        "description": "Official Commission policy, law and implementation of data protection.",
+        "documents": [
+          {
+            "label": "Data protection (overview)",
+            "url": "https://commission.europa.eu/law/law-topic/data-protection_en"
+          },
+          {
+            "label": "Reform of EU data protection rules",
+            "url": "https://commission.europa.eu/law/law-topic/data-protection/reform_en"
+          },
+          {
+            "label": "Rules for businesses and organisations",
+            "url": "https://commission.europa.eu/law/law-topic/data-protection/reform/rules-business-and-organisations_en"
+          },
+          {
+            "label": "Principles of the GDPR",
+            "url": "https://commission.europa.eu/law/law-topic/data-protection/reform/rules-business-and-organisations/principles-gdpr_en"
+          },
+          {
+            "label": "Legal grounds for processing",
+            "url": "https://commission.europa.eu/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data_en"
+          },
+          {
+            "label": "Publications on the GDPR",
+            "url": "https://commission.europa.eu/publications/publications-general-data-protection-regulation-gdpr_en"
+          }
+        ]
+      },
+      {
+        "name": "ICO (UK)",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance/",
+        "description": "UK supervisory authority; UK GDPR and DPA 2018 guidance.",
+        "documents": [
+          {
+            "label": "UK GDPR guidance (hub)",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance/"
+          },
+          {
+            "label": "Guide to the GDPR",
+            "url": "https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/"
+          },
+          {
+            "label": "A–Z guidance index",
+            "url": "https://ico.org.uk/for-organisations/guidance-index/"
+          },
+          {
+            "label": "Individual rights",
+            "url": "https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/individual-rights/"
+          },
+          {
+            "label": "Right to be informed",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-be-informed"
+          },
+          {
+            "label": "Right of access",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/right-of-access"
+          },
+          {
+            "label": "Accountability and governance",
+            "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/"
+          },
+          {
+            "label": "Lawful basis",
+            "url": "https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/lawful-basis/"
+          },
+          {
+            "label": "Personal data breach",
+            "url": "https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/"
+          }
+        ]
+      },
+      {
+        "name": "GDPR.eu",
+        "url": "https://gdpr.eu/",
+        "description": "Readable overview and resources (by Proton).",
+        "documents": [
+          {
+            "label": "GDPR overview",
+            "url": "https://gdpr.eu/"
+          },
+          {
+            "label": "Checklist",
+            "url": "https://gdpr.eu/checklist/"
+          },
+          {
+            "label": "Privacy resources",
+            "url": "https://gdpr.eu/privacy-resources/"
+          },
+          {
+            "label": "GDPR key changes",
+            "url": "https://gdpr.eu/gdpr-key-changes/"
+          },
+          {
+            "label": "GDPR fines",
+            "url": "https://gdpr.eu/gdpr-fines/"
+          }
+        ]
+      },
+      {
+        "name": "Council of Europe",
+        "url": "https://www.coe.int/en/web/data-protection",
+        "description": "Convention 108+ and international data protection standards.",
+        "documents": [
+          {
+            "label": "Data protection (overview)",
+            "url": "https://www.coe.int/en/web/data-protection"
+          },
+          {
+            "label": "Convention 108+",
+            "url": "https://www.coe.int/en/web/data-protection/convention108"
+          },
+          {
+            "label": "Convention 108 – background",
+            "url": "https://www.coe.int/en/web/data-protection/convention108/background"
+          },
+          {
+            "label": "Convention 108 – amendments",
+            "url": "https://www.coe.int/en/web/data-protection/convention108/amendments"
+          },
+          {
+            "label": "Data Protection Day",
+            "url": "https://www.coe.int/en/web/portal/28-january-data-protection-day-factsheet"
+          }
+        ]
       }
     ]
   },
