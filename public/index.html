@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GDPR Q&A Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Text&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-top">
+        <h1 class="logo">GDPR Q&A Platform</h1>
+        <p class="tagline">General Data Protection Regulation (EU) 2016/679</p>
+      </div>
+      <div class="meta-row">
+        <span id="lastRefreshed" class="last-refreshed">Loading…</span>
+        <button type="button" id="btnRefresh" class="btn btn-primary" title="Refresh content from official sources">
+          <span class="btn-icon" aria-hidden="true">↻</span> Refresh sources
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button type="button" class="tab active" data-view="browse" role="tab" aria-selected="true">Browse regulation</button>
+    <button type="button" class="tab" data-view="ask" role="tab" aria-selected="false">Ask a question</button>
+  </nav>
+
+  <main class="main">
+    <section id="viewBrowse" class="view active" role="tabpanel">
+      <div class="browse-layout">
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-inner">
+            <h2 class="sidebar-title">Regulation structure</h2>
+            <nav class="nav-sections">
+              <div class="nav-section">
+                <a href="#" class="nav-link" data-open="recitals">
+                  <span class="nav-link-icon">R</span>
+                  <span class="nav-link-text">Recitals</span>
+                  <span class="nav-link-meta">1–173</span>
+                </a>
+                <p class="nav-desc">Preamble and context</p>
+              </div>
+              <div class="nav-section">
+                <a href="#" class="nav-link" data-open="chapters">
+                  <span class="nav-link-icon">C</span>
+                  <span class="nav-link-text">Chapters &amp; Articles</span>
+                  <span class="nav-link-meta">1–99</span>
+                </a>
+                <p class="nav-desc">11 chapters, binding provisions</p>
+              </div>
+            </nav>
+            <div id="chapterList" class="chapter-list"></div>
+          </div>
+        </aside>
+        <div class="content-panel">
+          <div class="detail-actions">
+            <button type="button" id="btnBack" class="btn-back hidden" aria-label="Back">← Back</button>
+            <button type="button" id="btnBackToQuestion" class="btn-back btn-back-to-question hidden" aria-label="Back to question">Back to question</button>
+            <button type="button" id="btnExportPdf" class="btn btn-export hidden" aria-label="Export as PDF">Export PDF</button>
+          </div>
+          <div id="browsePlaceholder" class="placeholder">
+            <div class="placeholder-content">
+              <div class="placeholder-icon">📋</div>
+              <p>Choose <strong>Recitals</strong> or <strong>Chapters &amp; Articles</strong> to read the full regulation. Every section links to the official sources.</p>
+            </div>
+          </div>
+          <div id="browseRecitals" class="browse-section hidden">
+            <div class="section-header">
+              <h2>Recitals</h2>
+              <p class="source-links">Official sources: <a href="https://gdpr-info.eu/recitals/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a></p>
+            </div>
+            <div id="recitalsList" class="doc-grid" role="list"></div>
+          </div>
+          <div id="browseChapters" class="browse-section hidden">
+            <div class="section-header">
+              <h2>Chapters &amp; Articles</h2>
+              <p class="source-links">Official sources: <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex</a></p>
+            </div>
+            <div id="chaptersList" class="chapters-grid" role="list"></div>
+          </div>
+          <div id="browseDetail" class="browse-section detail-view hidden">
+            <article id="detailContent" class="doc-content"></article>
+            <aside class="citations">
+              <h3>Citations &amp; official links</h3>
+              <ul id="citationLinks" class="citation-links"></ul>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewAsk" class="view" role="tabpanel" hidden>
+      <div class="ask-layout">
+        <div class="ask-box">
+          <label for="query">Ask anything about GDPR</label>
+          <div class="query-row">
+            <input type="text" id="query" placeholder="e.g. What is personal data? When is consent valid? Right to erasure..." autocomplete="off" aria-label="Search question">
+            <button type="button" id="btnAsk" class="btn btn-primary">Search</button>
+          </div>
+          <p class="hint">Results are based on the official Regulation text. Each result links to the original source.</p>
+        </div>
+        <div id="askResults" class="ask-results hidden">
+          <div class="ask-results-grid">
+            <div class="ask-results-left">
+              <div id="overallSummary" class="overall-summary-box hidden"></div>
+              <div id="resultsList" class="results-list" role="list"></div>
+            </div>
+            <aside class="ask-summary-panel" id="askSummaryPanel" aria-label="Summary in plain language">
+              <div id="askSummaryBox" class="summary-in-plain-language hidden">
+                <h3 class="summary-in-plain-language-title">Summary</h3>
+                <p class="summary-in-plain-language-hint">A concise overview based on the regulation text.</p>
+                <div id="askSummaryContent" class="summary-in-plain-language-content"></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Content from <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">gdpr-info.eu</a> and <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex (Regulation (EU) 2016/679)</a>. For reference only; verify with official sources.</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="app.js"></script>
+</body>
+</html>
