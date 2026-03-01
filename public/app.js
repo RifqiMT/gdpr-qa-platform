@@ -632,6 +632,34 @@
     askResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  /** Go to homepage: switch to Browse tab and show initial placeholder */
+  function goToHome() {
+    const browseTab = document.querySelector('.tab[data-view="browse"]');
+    if (browseTab && !browseTab.classList.contains('active')) {
+      browseTab.click();
+    }
+    browsePlaceholder.classList.remove('hidden');
+    browseRecitals.classList.add('hidden');
+    browseChapters.classList.add('hidden');
+    browseSources.classList.add('hidden');
+    browseDetail.classList.add('hidden');
+    btnBack.classList.add('hidden');
+    btnExportPdf.classList.add('hidden');
+    btnBackToQuestion.classList.add('hidden');
+    currentDoc = null;
+    lastListSection = null;
+    /* Reset sidebar "Regulation & sources" to original state: no chapter list */
+    if (chapterList) chapterList.innerHTML = '';
+  }
+
+  const logoLink = document.getElementById('logoLink');
+  if (logoLink) {
+    logoLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      goToHome();
+    });
+  }
+
   function loadRecitals() {
     get('/api/recitals').then(recitals => {
       recitalsList.innerHTML = '';

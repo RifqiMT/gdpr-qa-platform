@@ -23,6 +23,8 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
+**Documentation index:** For a concise checklist and links to all product docs, see [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md). Related: [docs/PRD.md](docs/PRD.md), [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md), [docs/USER_STORIES.md](docs/USER_STORIES.md).
+
 ---
 
 ## 1. Product overview
@@ -72,6 +74,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** and **
 
 ### 3.1 Browse regulation
 
+- **Homepage** — Clicking the **“GDPR Q&A Platform”** logo in the header goes to the **homepage**: the Browse tab is selected, the main content shows the initial placeholder (choose Recitals, Chapters & Articles, or Credible sources), and the sidebar **“Regulation & sources”** is reset to its original state (no chapter list loaded). This gives users a single, consistent “home” state.
 - **Sidebar** — Navigate by **Recitals** (1–173) or **Chapters & Articles** (11 chapters, Articles 1–99). Chapter list shows roman numerals, titles, and article ranges.
 - **Filter bar** — **Category** (chapter title), **Sub-category** (topic derived from article title/keywords, e.g. Consent, Right to erasure, Transfers, DPO), **Chapter**, and **Article**; each filter is on its own row for clarity. When a Category/Chapter is selected, Sub-category shows only topics that have at least one article in that chapter. **Clear filters** resets all. Layout is responsive: single column on small screens, two-column grid on larger screens.
 - **Recitals list** — Grid of recital cards; click to open full recital text in a detail view with formatted body and citation links.
@@ -168,7 +171,8 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** and **
 ### 4.7 Frontend (Browse flow)
 
 - Recitals / Chapters loaded from `/api/recitals`, `/api/chapters`, `/api/articles`. Chapters view builds `__chaptersData` (chapters, articles, articleTopics, topicIdsByChapter), populates Category, Sub-category, Chapter, Article dropdowns, and applies filters via `applyChaptersFilters()` (including topic filter). Section headers use `.chapters-group-heading` and `.chapters-group-meta` (centered). Chapter detail uses `.chapter-view-header` (centered horizontally and vertically with flexbox, min-height 140px).
-- Article/recital detail from `/api/articles/:number`, `/api/recitals/:number`; rendered with numbered points and recital refs (`formatRecitalRefs`). **Doc navigation**: `setupDocNav()` shows Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go” (`goToDocNumber`); keyboard Enter in number input triggers Go. PDF export via html2pdf.js on the current detail node.
+- **Homepage** — `goToHome()` (triggered by logo link click): switch to Browse tab if not already active; show `browsePlaceholder`, hide all browse sections (recitals, chapters, sources, detail); hide Back, Export PDF, Back to question; clear `currentDoc` and `lastListSection`; clear `chapterList.innerHTML` so the sidebar “Regulation & sources” shows only the original three nav items (Recitals, Chapters & Articles, Credible sources) with no chapter list below.
+- Article/recital detail from `/api/articles/:number`, `/api/recitals/:number`; rendered with numbered points and recital refs (`formatRecitalRefs`). **Doc navigation**: `updateDocNav()` shows Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go” (`goToDocNumber`); keyboard Enter in number input triggers Go. PDF export via html2pdf.js on the current detail node.
 - Tab switching: `data-view="browse"` | `data-view="ask"` | `data-view="sources"` | `data-view="news"`; views shown/hidden and `aria-selected` updated.
 
 ### 4.8 Frontend (Sources and News flow)
@@ -238,14 +242,19 @@ gdpr-qa-platform/
 ├── .env.example           # Optional env vars for LLM providers and PORT
 ├── .gitignore             # node_modules, .env, *.log, .DS_Store
 ├── README.md              # This file
+├── PRODUCT_DOCUMENTATION_STANDARD.md  # Documentation index and standard (README TOC, PRD, personas, stories)
+├── docs/
+│   ├── PRD.md             # Product Requirements Document
+│   ├── USER_PERSONAS.md   # User personas (Legal/Compliance, DPO, Consultant, etc.)
+│   └── USER_STORIES.md    # User stories by epic
 ├── data/
 │   ├── gdpr-structure.json   # Static: meta, categories, chapters (required for scraper)
 │   ├── gdpr-content.json     # Generated: recitals, articles, searchIndex, meta (after refresh)
 │   └── gdpr-news.json        # Optional: newsFeeds[], items[] (static; merged with crawl in API)
 └── public/
-    ├── index.html         # Single-page UI: header, tabs, filter bars, doc nav, footer
-    ├── styles.css         # Layout, filter-bar, chapter-view centering, chapters-group centering, responsive
-    └── app.js             # Browse (filters, sub-categories, doc nav); Ask (Relevant articles panel); Sources; News; PDF; View in app
+    ├── index.html         # Single-page UI: header (logo link), tabs, filter bars, doc nav, footer
+    ├── styles.css         # Layout, logo-link, filter-bar, chapter-view centering, responsive
+    └── app.js             # Browse (filters, sub-categories, doc nav, goToHome); Ask (Relevant articles panel); Sources; News; PDF; View in app
 ```
 
 ### Key source files
@@ -255,9 +264,9 @@ gdpr-qa-platform/
 | **server.js** | `loadContent`, REST API (meta, categories, chapters, articles, recitals, ask, summarize, refresh, news), `simpleSearch`, LLM providers, extractive `buildSummaryFromExcerpts`, cron, static serve, SPA fallback. Responses include `contentAsOf` where applicable. |
 | **scraper.js** | `fetchUrl`, `parseEurLexText` (recitals + articles from EUR-Lex), `buildSearchIndex` (dedupe by id), `mergeWithExisting` (by number, new overwrites), `run()`. |
 | **news-crawler.js** | `crawlNews()` (EDPB RSS, EDPB HTML, ICO HTML); `withTimeout`. Returns items with title, url, sourceName, sourceUrl, date, snippet. |
-| **public/index.html** | Markup: header, tabs, Browse (sidebar, recitals, chapters filter bar + articles grouped, detail + citations, doc nav, Back / Back to question / Export PDF), Ask (query input, askRelevantDocs, resultsList, askSummaryPanel), Sources, News (filters, newsSections), footer, html2pdf.js, app.js. |
-| **public/app.js** | Browse: loadRecitals, loadChapters (articleTopics, topicIdsByChapter), fillChaptersSubcategoryDropdown, applyChaptersFilters, ARTICLE_TOPICS, getArticleTopicIds; openRecital/openArticle; setupDocNav, goToDocNumber. Ask: doAsk, askRelevantDocs, buildClientSummary. Sources: loadSources. News: loadNews, populateNewsFilters, applyNewsFilters, renderNewsSections. PDF; View in app; Back to question. |
-| **public/styles.css** | Variables, layout, filter-bar (filter-field, filter-field-select), chapters-group heading/meta centering, chapter-view-header centering, doc-nav, ask results and askRelevantDocs, news/source cards, responsive and print. |
+| **public/index.html** | Markup: header (logo link to homepage), tabs, Browse (sidebar, recitals, chapters filter bar + articles grouped, detail + citations, doc nav, Back / Back to question / Export PDF), Ask (query input, askRelevantDocs, resultsList, askSummaryPanel), Sources, News (filters, newsSections), footer, html2pdf.js, app.js. |
+| **public/app.js** | Browse: loadRecitals, loadChapters (articleTopics, topicIdsByChapter), fillChaptersSubcategoryDropdown, applyChaptersFilters, ARTICLE_TOPICS, getArticleTopicIds; openRecital/openArticle; updateDocNav, goToDocNumber. **Homepage:** goToHome() (logo click), clear chapterList. Ask: doAsk, askRelevantDocs, buildClientSummary. Sources: loadSources. News: loadNews, populateNewsFilters, applyNewsFilters, renderNewsSections. PDF; View in app; Back to question. |
+| **public/styles.css** | Variables, layout, logo-link (inherit color, underline on hover), filter-bar (filter-field, filter-field-select), chapters-group heading/meta centering, chapter-view-header centering, doc-nav, ask results and askRelevantDocs, news/source cards, responsive and print. |
 | **data/gdpr-structure.json** | Static: meta.sources, categories, chapters[1–11] with number, roman, title, articleRange, sourceUrl, eurLexUrl. |
 | **data/gdpr-news.json** | Optional: newsFeeds[], items[] (title, url, sourceName, sourceUrl, date, snippet, optional summaryParagraphs[], optional topic). |
 | **.env.example** | Commented env vars: PORT (optional), OPENAI_*, ANTHROPIC_*, GOOGLE_GEMINI_*, GROQ_*, MISTRAL_*, OPENROUTER_*, LLM_PROVIDER. |

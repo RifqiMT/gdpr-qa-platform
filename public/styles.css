@@ -93,6 +93,15 @@ body {
   line-height: 1.2;
 }
 
+.logo-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.logo-link:hover {
+  text-decoration: underline;
+}
+
 .tagline {
   margin: 0.2rem 0 0;
   font-size: 0.8125rem;
