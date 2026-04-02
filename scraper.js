@@ -15,6 +15,15 @@ const EUR_LEX_HTML_URL = 'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?u
 const EUR_LEX_TXT_URL = 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679';
 const GDPR_INFO_BASE = 'https://gdpr-info.eu';
 const DATA_DIR = path.join(__dirname, 'data');
+
+/** Stored article/recital body max length. Env GDPR_MAX_ARTICLE_CHARS: omit or high number (default 500000); 0 or negative = no cap. */
+function capGdprBodyText(body) {
+  const raw = process.env.GDPR_MAX_ARTICLE_CHARS;
+  const max = raw === undefined || raw === '' ? 500000 : parseInt(raw, 10);
+  const s = String(body || '');
+  if (!Number.isFinite(max) || max <= 0) return s;
+  return s.length <= max ? s : s.slice(0, max);
+}
 const OUTPUT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
 const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
 
@@ -23,6 +32,205 @@ const FETCH_HEADERS = {
   'Cache-Control': 'no-cache',
   'Pragma': 'no-cache'
 };
+
+async function fetchText(url) {
+  if (axios) {
+    const resp = await axios.get(url, {
+      timeout: 60000,
+      responseType: 'text',
+      maxRedirects: 8,
+      decompress: true,
+      headers: {
+        ...FETCH_HEADERS,
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br'
+      },
+      validateStatus: () => true
+    });
+    const body = resp && typeof resp.data === 'string' ? resp.data : String(resp.data || '');
+    if (resp.status >= 400) {
+      const e = new Error(`HTTP ${resp.status}`);
+      e.response = { status: resp.status, statusText: resp.statusText, data: body };
+      throw e;
+    }
+    if (!body || body.trim().length === 0) throw new Error('Empty body');
+    return body;
+  }
+  return await fetchUrl(url);
+}
+
+function isEurLexWafPage(body) {
+  const t = String(body || '');
+  return /awsWafCookieDomainList|gokuProps|AWS WAF/i.test(t);
+}
+
+function cleanLines(text) {
+  const isJunkLine = (l) => {
+    const s = String(l || '').trim();
+    if (!s) return true;
+    if (/^skip to content$/i.test(s)) return true;
+    // GDPR-Info header/footer links sometimes appear as one combined line or split.
+    if (/imprint\s*\|\s*privacy policy\s*\|\s*liability/i.test(s)) return true;
+    if (/^imprint$/i.test(s)) return true;
+    if (/^privacy policy$/i.test(s)) return true;
+    if (/^liability$/i.test(s)) return true;
+    return false;
+  };
+  return String(text || '')
+    .replace(/\r/g, '')
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean)
+    .filter(l => !isJunkLine(l));
+}
+
+function extractGdprInfoArticleFromText(n, text, h1Title) {
+  const lines = cleanLines(text);
+  const titleLine = (h1Title && String(h1Title).trim()) || lines.find(l => /^Art\.\s*\d+\s*GDPR/i.test(l)) || `Art. ${n} GDPR`;
+  let title = String(titleLine)
+    .replace(/^Art\.\s*\d+\s*GDPR\s*[–-]\s*/i, '')
+    .replace(/\s*-\s*General Data Protection Regulation.*$/i, '')
+    .replace(/[←→]/g, '')
+    .trim();
+  if (!title) title = CANONICAL_ARTICLE_TITLES[n] || `Article ${n}`;
+
+  // Drop everything after "Suitable Recitals"
+  const cutIdx = lines.findIndex(l => /^Suitable Recitals/i.test(l));
+  const bodyLines = (cutIdx >= 0 ? lines.slice(0, cutIdx) : lines)
+    .filter(l => !/^Art\.\s*\d+\s*GDPR/i.test(l))
+    .filter(l => !/Table of contents|Report error|GDPR\s*$/i.test(l))
+    .filter(l => !/^(←|Art\.)/i.test(l));
+  const body = bodyLines.join('\n').trim();
+  return {
+    number: n,
+    title,
+    text: capGdprBodyText(body),
+    sourceUrl: `${GDPR_INFO_BASE}/art-${n}-gdpr/`,
+    eurLexUrl: EUR_LEX_TXT_URL
+  };
+}
+
+function extractGdprInfoRecitalFromText(n, text, h1Title) {
+  const lines = cleanLines(text);
+  // Extract unofficial title from first line like:
+  // "Recital 43 - Freely Given Consent - General Data Protection Regulation (GDPR)"
+  let title = '';
+  const h1 = String(h1Title || '').replace(/\s+/g, ' ').trim();
+  if (h1) {
+    // "Recital 1 - Data Protection as a Fundamental Right*"
+    title = h1
+      .replace(new RegExp(`^Recital\\s*${n}\\s*[-–—]?\\s*`, 'i'), '')
+      .replace(/\*\s*$/, '')
+      .trim();
+  }
+
+  const idx = lines.findIndex(l => new RegExp(`^Recital\\s*${n}\\b`, 'i').test(l));
+  const titleLine = idx >= 0 ? lines[idx] : (lines.find(l => /^Recital\s*\d+\b/i.test(l)) || '');
+  if (!title && titleLine) {
+    // Case A: "Recital 43 - Freely Given Consent - General ..."
+    let m = titleLine.match(/^Recital\s*(\d+)\s*-\s*(.*?)\s*-\s*General Data Protection Regulation/i);
+    if (m && parseInt(m[1], 10) === n) title = String(m[2] || '').trim();
+    // Case B: "Recital1 Data Protection as a Fundamental Right*"
+    if (!title) {
+      m = titleLine.match(/^Recital\s*(\d+)\s+(.*)$/i);
+      if (m && parseInt(m[1], 10) === n) title = String(m[2] || '').trim();
+    }
+    // Case C: header split across lines: "Recital1" then next line is the title
+    if (!title && idx >= 0 && idx + 1 < lines.length) {
+      const next = String(lines[idx + 1] || '').trim();
+      if (next && !/^\d/.test(next) && !/^All recitals$/i.test(next)) title = next.trim();
+    }
+    title = title.replace(/\*\s*$/, '').trim();
+  }
+
+  // Drop everything after the unofficial title note or navigation.
+  const cutIdx = lines.findIndex(l => /^\*\s*This title is an unofficial description\./i.test(l));
+  const trimmed = (cutIdx >= 0 ? lines.slice(0, cutIdx) : lines)
+    .filter(l => !/^Recital\s+\d+/i.test(l))
+    .filter(l => !/All recitals|Report error/i.test(l))
+    .filter(l => !/^(←|Recital)/i.test(l));
+  const body = trimmed.join('\n').trim();
+  return { number: n, title, text: capGdprBodyText(body) };
+}
+
+async function fetchGdprInfoDataset() {
+  if (!cheerio) throw new Error('cheerio not available');
+  const maxConcurrency = Math.max(1, parseInt(process.env.GDPR_INFO_CONCURRENCY || '6', 10));
+  const tasks = [];
+
+  for (let n = 1; n <= 99; n++) tasks.push({ kind: 'article', n, url: `${GDPR_INFO_BASE}/art-${n}-gdpr/` });
+  for (let n = 1; n <= 173; n++) tasks.push({ kind: 'recital', n, url: `${GDPR_INFO_BASE}/recitals/no-${n}/` });
+
+  const results = { articles: [], recitals: [] };
+  let idx = 0;
+
+  async function worker() {
+    while (idx < tasks.length) {
+      const t = tasks[idx++];
+      try {
+        const html = await fetchText(t.url);
+        const $ = cheerio.load(html);
+        // Read headings BEFORE stripping header/nav (they sometimes contain the h1).
+        const h1 = ($('h1').first().text() || '').replace(/\s+/g, ' ').trim();
+        $('script, style, noscript, svg, header, footer, nav, form, iframe').remove();
+        const text = ($('body').text() || $.text() || '').replace(/[ \t\r\f]+/g, ' ').replace(/\n+/g, '\n').trim();
+        if (t.kind === 'article') results.articles.push(extractGdprInfoArticleFromText(t.n, text, h1));
+        else results.recitals.push(extractGdprInfoRecitalFromText(t.n, text, h1));
+      } catch (_) {
+        // Skip failures; we will detect incomplete dataset by count.
+      }
+    }
+  }
+
+  const workers = Array.from({ length: maxConcurrency }, () => worker());
+  await Promise.all(workers);
+  results.articles.sort((a, b) => a.number - b.number);
+  results.recitals.sort((a, b) => a.number - b.number);
+  return results;
+}
+
+function sha256Hex(input) {
+  const crypto = require('crypto');
+  return crypto.createHash('sha256').update(String(input || ''), 'utf8').digest('hex');
+}
+
+function itemFingerprint(item) {
+  if (!item) return '';
+  const num = item.number != null ? String(item.number) : '';
+  const title = String(item.title || '');
+  const text = String(item.text || '');
+  return sha256Hex(`${num}\n${title}\n${text}`);
+}
+
+function diffByNumber(oldItems, newItems) {
+  const oldMap = new Map();
+  (oldItems || []).forEach((it) => {
+    if (it && it.number != null) oldMap.set(it.number, itemFingerprint(it));
+  });
+  const newMap = new Map();
+  (newItems || []).forEach((it) => {
+    if (it && it.number != null) newMap.set(it.number, itemFingerprint(it));
+  });
+
+  let changed = 0;
+  let added = 0;
+  let removed = 0;
+  for (const [num, fp] of newMap.entries()) {
+    if (!oldMap.has(num)) { added += 1; continue; }
+    if (oldMap.get(num) !== fp) changed += 1;
+  }
+  for (const num of oldMap.keys()) {
+    if (!newMap.has(num)) removed += 1;
+  }
+  return { changed, added, removed };
+}
+
+function computeDatasetHash(recitals, articles) {
+  const r = (recitals || []).map((x) => `${x.number}:${itemFingerprint({ number: x.number, title: x.title || '', text: x.text || '' })}`).join('|');
+  const a = (articles || []).map((x) => `${x.number}:${itemFingerprint({ number: x.number, title: x.title || '', text: x.text || '' })}`).join('|');
+  return sha256Hex(`recitals:${r}\narticles:${a}`);
+}
 
 // Official article titles (GDPR-Info / EUR-Lex). Used when extracted title is a fragment.
 const CANONICAL_ARTICLE_TITLES = {
@@ -149,7 +357,7 @@ function parseEurLexText(html) {
         const chapterIndex = chapterRanges.findIndex(([a, b]) => num >= a && num <= b);
         const chapter = chapterIndex >= 0 ? chapterIndex + 1 : 1;
         const textContent = body.length > 10
-          ? body.slice(0, 8000)
+          ? capGdprBodyText(body)
           : (body.length > 0 ? body : '(Text not extracted from source. Please see the official links below.)');
         seenArticle.set(num, {
           number: num,
@@ -174,11 +382,13 @@ function buildSearchIndex(recitals, articles, chapters) {
     const id = `recital-${r.number}`;
     if (seenId.has(id)) continue;
     seenId.add(id);
+    const recitalTitle = (r && r.title) ? String(r.title).trim() : '';
+    const fullTitle = recitalTitle ? `Recital (${r.number}) — ${recitalTitle}` : `Recital (${r.number})`;
     index.push({
       type: 'recital',
       id,
       number: r.number,
-      title: `Recital (${r.number})`,
+      title: fullTitle,
       text: r.text.slice(0, 2000),
       sourceUrl: 'https://gdpr-info.eu/recitals/',
       eurLexUrl: EUR_LEX_TXT_URL
@@ -230,31 +440,120 @@ async function run() {
 
   let newRecitals = [];
   let newArticles = [];
+  let extractedFrom = null; // 'eur-lex' | 'gdpr-info' | null
 
   try {
-    const url = axios ? EUR_LEX_HTML_URL : EUR_LEX_TXT_URL;
-    const raw = axios
-      ? (await axios.get(url, { timeout: 60000, responseType: 'text', headers: FETCH_HEADERS })).data
-      : await fetchUrl(url);
-    const parsed = parseEurLexText(raw);
-    newRecitals = parsed.recitals;
-    newArticles = parsed.articles;
+    const urlsToTry = [
+      // TXT tends to be less protected than the HTML renderer.
+      EUR_LEX_TXT_URL,
+      EUR_LEX_HTML_URL
+    ];
+
+    let lastErr = null;
+    for (const url of urlsToTry) {
+      try {
+        const raw = await fetchText(url);
+        if (isEurLexWafPage(raw)) throw new Error('Blocked by EUR-Lex WAF challenge page');
+
+        const parsed = parseEurLexText(raw);
+        newRecitals = parsed.recitals;
+        newArticles = parsed.articles;
+        if (newRecitals.length || newArticles.length) {
+          extractedFrom = 'eur-lex';
+          break;
+        }
+        lastErr = new Error('Parsed 0 items from EUR-Lex response');
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    if (!newRecitals.length && !newArticles.length && lastErr) throw lastErr;
   } catch (err) {
-    console.error('Fetch/parse EUR-Lex failed:', err.message);
+    console.error('Fetch/parse EUR-Lex failed:', err && err.message ? err.message : String(err));
+    try {
+      const status = err && err.response && err.response.status ? err.response.status : null;
+      const statusText = err && err.response && err.response.statusText ? err.response.statusText : null;
+      if (status) console.error('EUR-Lex status:', status, statusText || '');
+      const data = err && err.response && err.response.data ? err.response.data : null;
+      if (data) console.error('EUR-Lex error body (truncated):', String(data).slice(0, 600));
+    } catch (_) {}
   }
 
-  const { recitals, articles } = mergeWithExisting(existing, newRecitals, newArticles);
+  // Fallback ETL extractor if EUR-Lex is blocked (WAF).
+  if (!newRecitals.length && !newArticles.length) {
+    try {
+      const out = await fetchGdprInfoDataset();
+      if (out.articles.length >= 80 && out.recitals.length >= 140) {
+        // Enrich with chapter + EUR-Lex URL fields to match our schema expectations.
+        // We rely on existing chapter mapping by number ranges (same as parseEurLexText).
+        const chapterRanges = [
+          [1, 4], [5, 11], [12, 23], [24, 43], [44, 50], [51, 59], [60, 76], [77, 84], [85, 91], [92, 93], [94, 99]
+        ];
+        newArticles = out.articles.map((a) => {
+          const chapterIndex = chapterRanges.findIndex(([x, y]) => a.number >= x && a.number <= y);
+          const chapter = chapterIndex >= 0 ? chapterIndex + 1 : 1;
+          return { ...a, chapter };
+        });
+        newRecitals = out.recitals;
+        extractedFrom = 'gdpr-info';
+        console.log('ETL: used GDPR-Info fallback extractor. Recitals:', newRecitals.length, 'Articles:', newArticles.length);
+      } else {
+        console.log('ETL: GDPR-Info fallback extractor incomplete. Recitals:', out.recitals.length, 'Articles:', out.articles.length);
+      }
+    } catch (e) {
+      console.log('ETL: GDPR-Info fallback extractor failed:', e && e.message ? e.message : String(e));
+    }
+  }
+
+  const fetched = newRecitals.length > 0 || newArticles.length > 0;
+  const existingMeta = existing.meta || {};
+
+  // ETL approach:
+  // - Extract/transform always (attempted each run).
+  // - Load (overwrite OUTPUT_FILE) only if there is a significant difference vs existing dataset.
+  const baselineRecitals = Array.isArray(existing.recitals) ? existing.recitals : [];
+  const baselineArticles = Array.isArray(existing.articles) ? existing.articles : [];
+
+  const candidateRecitals = fetched ? newRecitals : [];
+  const candidateArticles = fetched ? newArticles : [];
+
+  const oldHash = existingMeta.datasetHash || computeDatasetHash(baselineRecitals, baselineArticles);
+  const newHash = fetched ? computeDatasetHash(candidateRecitals, candidateArticles) : oldHash;
+
+  const recitalDiff = fetched ? diffByNumber(baselineRecitals, candidateRecitals) : { changed: 0, added: 0, removed: 0 };
+  const articleDiff = fetched ? diffByNumber(baselineArticles, candidateArticles) : { changed: 0, added: 0, removed: 0 };
+  const changedItems = recitalDiff.changed + recitalDiff.added + recitalDiff.removed + articleDiff.changed + articleDiff.added + articleDiff.removed;
+  const totalItems = 173 + 99;
+  const changeRatio = totalItems ? (changedItems / totalItems) : 0;
+
+  // Load whenever extracted content differs from disk. Per-item thresholds hid real updates
+  // (e.g. one article body extended after raising GDPR_MAX_ARTICLE_CHARS).
+  const significant = fetched && newHash !== oldHash;
+
+  // "Load" step: only overwrite stored dataset when significant.
+  const recitals = significant ? candidateRecitals : baselineRecitals;
+  const articles = significant ? candidateArticles : baselineArticles;
   const searchIndex = buildSearchIndex(recitals, articles, structure.chapters);
 
-  const fetchedFromEurLex = newRecitals.length > 0 || newArticles.length > 0;
-  if (!fetchedFromEurLex) {
-    console.log('No new content from EUR-Lex; keeping existing data. Recitals:', recitals.length, 'Articles:', articles.length);
-  }
-
-  const existingMeta = existing.meta || {};
   const output = {
     meta: {
-      lastRefreshed: fetchedFromEurLex ? new Date().toISOString() : (existingMeta.lastRefreshed || null),
+      // lastChecked updates every time refresh runs (even if no content changes)
+      lastChecked: new Date().toISOString(),
+      // lastRefreshed only updates when we actually fetched new content from EUR-Lex
+      lastRefreshed: significant ? new Date().toISOString() : (existingMeta.lastRefreshed || null),
+      etl: {
+        extractedFrom: extractedFrom,
+        fetched: fetched,
+        significant,
+        datasetHash: significant ? newHash : (existingMeta.datasetHash || oldHash),
+        candidateHash: fetched ? newHash : null,
+        diff: {
+          recitals: recitalDiff,
+          articles: articleDiff,
+          changedItems,
+          changeRatio
+        }
+      },
       sources: structure.meta.sources
     },
     categories: structure.categories,
@@ -264,8 +563,18 @@ async function run() {
     searchIndex
   };
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf-8');
-  console.log('Refresh complete. Recitals:', recitals.length, 'Articles:', articles.length, 'Index entries:', searchIndex.length);
+  if (!fetched) {
+    console.log('ETL: extract failed (EUR-Lex blocked and fallback unavailable); keeping existing dataset. Recitals:', recitals.length, 'Articles:', articles.length);
+    // Still write meta.lastChecked and etl status so UI can reflect that refresh ran.
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf-8');
+  } else if (!significant) {
+    console.log('ETL: extracted from', extractedFrom, 'but change not significant; keeping existing "Content as of". Changed items:', changedItems, 'ratio:', changeRatio.toFixed(4));
+    // Write output so lastChecked/etl info is persisted, but keep lastRefreshed unchanged.
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf-8');
+  } else {
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf-8');
+    console.log('ETL: loaded new dataset from', extractedFrom, '. Recitals:', recitals.length, 'Articles:', articles.length, 'Index entries:', searchIndex.length, 'Changed items:', changedItems);
+  }
   return output;
 }
 

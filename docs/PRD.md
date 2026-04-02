@@ -13,7 +13,7 @@
 A web application for **browsing and searching** the full text of the General Data Protection Regulation (EU) 2016/679 with **citations and links** to official EU sources. It provides:
 
 - **Browse** — Recitals 1–173 and Articles 1–99 with topic-based filters (Category, Sub-category, Chapter, Article), document navigation (Prev/Next/Go), and PDF export.
-- **Ask** — Natural-language search over the regulation with verbatim answers, optional LLM-generated summaries grounded in the text, and a “Relevant articles & documents” panel with “View in app” links.
+- **Ask** — Natural-language questions answered via **`POST /api/answer`**: BM25 retrieval over the local corpus, optional live web snippets, synthesis with **Groq** (primary) or **Tavily** (fallback), or an **extractive** fallback if neither returns usable text. Answers use numbered citations `[S1]` mapped to regulation excerpts and optional web sources. Optional **industry / sector** framing (ISIC-aligned list) steers prompts. A **Relevant GDPR provisions** panel lists cited articles/recitals with “View in app.”
 - **Credible sources** — One tab listing official and widely cited organizations (GDPR-Info, EUR-Lex, EDPB, European Commission, ICO, GDPR.eu, Council of Europe) with direct document links.
 - **News** — GDPR and data protection updates from credible sources (EDPB, ICO, European Commission, Council of Europe), grouped by source with filters and three-paragraph summaries.
 
@@ -23,7 +23,7 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 
 - Single source of truth: all answer text from regulation content (EUR-Lex) stored and searchable locally.
 - Traceability: every answer and summary ties back to specific Articles or Recitals with links to GDPR-Info and EUR-Lex.
-- Reduced hallucination: verbatim answers plus optional LLM summaries constrained to provided text only.
+- Reduced unsourced claims: Ask answers are constrained to retrieved sources; LLM outputs require per-sentence `[Sn]` citations where enforced by prompts and repair passes.
 - Efficiency: browse by structure or ask in natural language; jump from Ask results to full article/recital in the app and back.
 - Credible news: one place for GDPR-related updates from defined supervisory and official sources.
 - No coding required: single Node.js server and browser.
@@ -70,11 +70,15 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| FR-A1 | User can enter a question and submit (button or Enter); results show verbatim regulation excerpts only. | Must |
-| FR-A2 | Results include “Relevant articles & documents” with “View in app” per provision. | Must |
-| FR-A3 | Summary panel shows extractive or LLM-generated summary (when API key set) grounded in the same text; fallback when no key or API failure. | Must |
+| FR-A1 | User can enter a question and submit (button or Enter); the app calls **`POST /api/answer`** and displays a synthesized answer grounded in retrieved sources (not raw concatenation only). | Must |
+| FR-A2 | Answer text exposes citation tokens `[S1]`, `[S2]`, … that map to regulation or web sources returned in the same response. | Must |
+| FR-A3 | Results include **Relevant GDPR provisions** (regulation sources) with “View in app” per article/recital. | Must |
 | FR-A4 | “View in app” switches to Browse tab and opens the corresponding article or recital; “Back to question” returns to Ask tab. | Must |
-| FR-A5 | Each new question clears previous results and summary; “Regulation text as of [date]” shown when available. | Must |
+| FR-A5 | Each new question clears previous answer and panels; **content as of** date shown when `contentAsOf` is available. | Must |
+| FR-A6 | User can optionally select an **industry / sector** (or General); the server resolves `industrySectorId` and applies sector lock-in rules in prompts when not General. | Should |
+| FR-A7 | Status UI indicates whether the answer used **Groq**, **Tavily**, or **extractive** fallback (`llm` metadata). | Should |
+| FR-A8 | **`POST /api/ask`** remains available for simple search-style results (legacy/programmatic); the Ask **tab** uses `/api/answer` only. | Must |
+| FR-A9 | **`POST /api/summarize`** remains available for excerpt-based summaries (multi-provider); optional for integrations—current Ask tab does not require it. | Should |
 
 ### 3.3 Credible sources and News
 
@@ -83,7 +87,7 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 | FR-S1 | User can open Credible sources tab and see all organizations with descriptions and document links (from /api/meta). | Must |
 | FR-S2 | User can open News tab and see news grouped by source with three-paragraph summaries and topic tags. | Must |
 | FR-S3 | User can filter News by Source and Topic; Clear filters resets both. | Must |
-| FR-S4 | User can click “Refresh news” to re-fetch /api/news. | Must |
+| FR-S4 | User can click “Refresh news” to call **`POST /api/news/refresh`** (persist merge to `gdpr-news.json`) and reload the list. | Must |
 
 ### 3.4 Content and refresh
 
@@ -92,6 +96,9 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 | FR-R1 | User can click “Refresh sources” to run scraper; regulation text updated; “Last refreshed” shown in header. | Must |
 | FR-R2 | Server may run optional daily refresh (cron 02:00 Europe/Brussels). | Should |
 | FR-R3 | If gdpr-content.json is missing on server start, initial scraper run is attempted. | Should |
+| FR-R4 | Server exposes **`GET /api/chapter-summaries`** and optional **`POST /api/chapter-summaries/regenerate`** (requires `GROQ_API_KEY`) for Chapter I–XI intro blurbs. | Should |
+| FR-R5 | **`GET /api/industry-sectors`** serves the sector list for the Ask combobox. | Should |
+| FR-R6 | Article and recital detail APIs return **`suitableRecitals`** / **`suitableArticles`** merged from editorial JSON and text-derived references (`gdpr-crossrefs.js`). | Should |
 
 ### 3.5 Homepage and navigation
 
@@ -119,7 +126,10 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 
 - **gdpr-structure.json:** meta, categories, chapters[] (number, roman, title, articleRange, sourceUrl, eurLexUrl). Required for scraper.
 - **gdpr-content.json:** meta (lastRefreshed, sources), categories, chapters[], recitals[] (number, text), articles[] (number, title, text, chapter), searchIndex[] (type, number, title, text, sourceUrl, eurLexUrl, chapterTitle). Generated by scraper.
-- **gdpr-news.json:** newsFeeds[] (name, url, description), items[] (title, url, sourceName, sourceUrl, date, snippet, optional summaryParagraphs[], topic). Optional; merged with crawled items in /api/news.
+- **gdpr-news.json:** newsFeeds[] (name, url, description), items[] (title, url, sourceName, sourceUrl, date, snippet, optional summaryParagraphs[], topic). Optional; merged with crawled items in `GET /api/news` and written on `POST /api/news/refresh`.
+- **article-suitable-recitals.json:** editorial map `articles` keyed by article number → recital numbers; copied to `public/` on `npm start` (`prestart`).
+- **chapter-summaries.json:** optional `{ summaries: { "1": "…", …, "11": "…" }, source, llm, generatedAt }`.
+- **industry-sectors.json:** sector definitions (`public/industry-sectors.json`).
 
 Full data flow: [README §4 – Logic and data flow](../README.md#4-logic-and-data-flow).
 
@@ -128,10 +138,10 @@ Full data flow: [README §4 – Logic and data flow](../README.md#4-logic-and-da
 ## 6. Success criteria
 
 - Users can browse Recitals and Chapters & Articles with filters and doc nav, and export current provision as PDF.
-- Users can ask questions and get verbatim answers plus optional summary; “View in app” and “Back to question” work correctly.
+- Users can ask questions and receive grounded answers with citations and relevant provisions; “View in app” and “Back to question” work correctly.
 - Users can open Credible sources and News; News filters and Refresh news work.
 - Users can go to homepage via logo and see initial Browse state with sidebar reset.
-- Refresh sources updates regulation text; last refreshed time shown. No unsourced claims in answers.
+- Refresh sources updates regulation text; last refreshed time shown. Answers remain tied to returned `sources` and citation ids.
 
 ---
 
@@ -149,5 +159,10 @@ Full data flow: [README §4 – Logic and data flow](../README.md#4-logic-and-da
 
 - Full product documentation: [README.md](../README.md)
 - Product documentation standard: [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)
+- Documentation hub: [docs/README.md](README.md)
 - User personas: [USER_PERSONAS.md](USER_PERSONAS.md)
 - User stories: [USER_STORIES.md](USER_STORIES.md)
+- Variables and relationships: [VARIABLES.md](VARIABLES.md)
+- API contracts: [API_CONTRACTS.md](API_CONTRACTS.md)
+- Guardrails: [GUARDRAILS.md](GUARDRAILS.md)
+- Changelog: [CHANGELOG.md](../CHANGELOG.md)

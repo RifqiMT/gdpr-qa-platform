@@ -17,8 +17,25 @@
         <p class="tagline">General Data Protection Regulation (EU) 2016/679</p>
       </div>
       <div class="meta-row">
-        <span id="lastRefreshed" class="last-refreshed">Loading…</span>
-        <button type="button" id="btnRefresh" class="btn btn-primary" title="Fetch the latest Regulation (EU) 2016/679 text from EUR-Lex">
+        <div class="freshness-tooltip-wrap" id="freshnessTooltipWrap">
+          <button
+            type="button"
+            id="btnFreshnessInfo"
+            class="btn-freshness-info"
+            aria-expanded="false"
+            aria-controls="freshnessTooltipPanel"
+            aria-label="EUR-Lex consolidated text: show content and check timestamps"
+          >
+            <svg class="btn-freshness-info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+          </button>
+          <div id="freshnessTooltipPanel" class="freshness-tooltip-panel" role="tooltip">
+            <div id="freshnessTooltipContent" class="freshness-tooltip-content">Loading…</div>
+          </div>
+        </div>
+        <button type="button" id="btnRefresh" class="btn btn-primary" title="Fetch the latest GDPR (Regulation EU 2016/679) text from EUR-Lex">
           <span class="btn-icon" aria-hidden="true">↻</span> Refresh sources
         </button>
       </div>
@@ -26,156 +43,329 @@
   </header>
 
   <nav class="tabs" role="tablist">
-    <button type="button" class="tab active" data-view="browse" role="tab" aria-selected="true">Browse regulation</button>
-    <button type="button" class="tab" data-view="ask" role="tab" aria-selected="false">Ask a question</button>
-    <button type="button" class="tab" data-view="sources" role="tab" aria-selected="false">Credible sources</button>
-    <button type="button" class="tab" data-view="news" role="tab" aria-selected="false">News</button>
+    <div class="tab-browse-cluster">
+      <button type="button" class="tab tab--browse-main active" id="tabBrowseMain" data-view="browse" role="tab" aria-selected="true" aria-haspopup="true" aria-expanded="false" aria-controls="viewBrowse browseRegMenu" title="Choose section: GDPR recitals or GDPR chapters &amp; articles">
+        Browse GDPR <span class="tab-browse-cue" aria-hidden="true">▾</span>
+      </button>
+      <div id="browseRegMenu" class="tab-browse-menu" role="menu" hidden aria-label="Browse GDPR sections">
+        <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="recitals">
+          <span class="tab-browse-menu-label">GDPR recitals</span>
+          <span class="tab-browse-menu-meta">1–173</span>
+        </button>
+        <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="chapters">
+          <span class="tab-browse-menu-label">GDPR chapters &amp; articles</span>
+          <span class="tab-browse-menu-meta">1–99</span>
+        </button>
+      </div>
+    </div>
+    <button type="button" class="tab" data-view="ask" role="tab" aria-selected="false" aria-controls="viewAsk">Ask a question</button>
+    <button type="button" class="tab" data-view="sources" role="tab" aria-selected="false" aria-controls="viewSources">Credible sources</button>
+    <button type="button" class="tab" data-view="news" role="tab" aria-selected="false" aria-controls="viewNews">News</button>
   </nav>
 
   <main class="main">
     <section id="viewBrowse" class="view active" role="tabpanel">
       <div class="browse-layout">
-        <aside class="sidebar" id="sidebar">
-          <div class="sidebar-inner">
-            <h2 class="sidebar-title">Regulation &amp; sources</h2>
-            <nav class="nav-sections">
-              <div class="nav-section">
-                <a href="#" class="nav-link" data-open="recitals">
-                  <span class="nav-link-icon">R</span>
-                  <span class="nav-link-text">Recitals</span>
-                  <span class="nav-link-meta">1–173</span>
-                </a>
-                <p class="nav-desc">Preamble and context (EUR-Lex, GDPR-Info)</p>
-              </div>
-              <div class="nav-section">
-                <a href="#" class="nav-link" data-open="chapters">
-                  <span class="nav-link-icon">C</span>
-                  <span class="nav-link-text">Chapters &amp; Articles</span>
-                  <span class="nav-link-meta">1–99</span>
-                </a>
-                <p class="nav-desc">11 chapters, binding provisions (EUR-Lex, GDPR-Info)</p>
-              </div>
-              <div class="nav-section">
-                <a href="#" class="nav-link" data-open="sources">
-                  <span class="nav-link-icon">S</span>
-                  <span class="nav-link-text">Credible sources</span>
-                  <span class="nav-link-meta">All</span>
-                </a>
-                <p class="nav-desc">EDPB, Commission, ICO, GDPR.eu, Council of Europe</p>
-              </div>
-            </nav>
-            <div id="chapterList" class="chapter-list"></div>
-          </div>
-        </aside>
         <div class="content-panel">
-          <div class="detail-actions">
-            <button type="button" id="btnBack" class="btn-back hidden" aria-label="Back">← Back</button>
-            <button type="button" id="btnBackToQuestion" class="btn-back btn-back-to-question hidden" aria-label="Back to question">Back to question</button>
-            <button type="button" id="btnExportPdf" class="btn btn-export hidden" aria-label="Export as PDF">Export PDF</button>
-          </div>
           <div id="browsePlaceholder" class="placeholder">
             <div class="placeholder-content">
               <div class="placeholder-icon">📋</div>
-              <p>Choose <strong>Recitals</strong> or <strong>Chapters &amp; Articles</strong> for the regulation text, or <strong>Credible sources</strong> for guidelines and documents from EDPB, European Commission, ICO, GDPR.eu, and Council of Europe.</p>
-              <p class="placeholder-hint">Regulation text is loaded from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>. Use <strong>Refresh sources</strong> in the header to fetch the latest.</p>
+              <p>Open <strong>Browse GDPR</strong> in the tab bar and click it again for the full menu—or jump straight in below.</p>
+              <div class="browse-quick-actions" role="group" aria-label="Open GDPR regulation sections">
+                <button type="button" id="browseQuickRecitals" class="btn btn-primary browse-quick-btn">
+                  <span class="browse-quick-btn-label">GDPR recitals</span>
+                  <span class="browse-quick-btn-meta">1–173</span>
+                </button>
+                <button type="button" id="browseQuickChapters" class="btn btn-secondary browse-quick-btn">
+                  <span class="browse-quick-btn-label">GDPR chapters &amp; articles</span>
+                  <span class="browse-quick-btn-meta">1–99</span>
+                </button>
+              </div>
+              <p class="placeholder-hint">GDPR text is loaded from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>. Use <strong>Refresh sources</strong> in the header to fetch the latest consolidated Regulation.</p>
             </div>
           </div>
-          <div id="browseRecitals" class="browse-section hidden">
-            <div class="section-header">
-              <h2>Recitals</h2>
+          <div id="browseRecitals" class="browse-section browse-recitals hidden">
+            <header class="recitals-header section-header" id="recitalsBrowserTop">
+              <h2>GDPR recitals</h2>
+              <p class="recitals-lead">GDPR recitals (1–173) explain the context and objectives of the Regulation. Search by number or keyword, then open a card for the consolidated text and related articles.</p>
               <p class="source-links">Official sources: <a href="https://gdpr-info.eu/recitals/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a></p>
-            </div>
-            <div id="recitalsList" class="doc-grid" role="list"></div>
+              <div class="recitals-toolbar" role="search">
+                <div class="recitals-search-wrap">
+                  <label for="recitalsSearch" class="visually-hidden">Search GDPR recitals by number or text</label>
+                  <svg class="recitals-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+                  <input type="search" id="recitalsSearch" class="recitals-search-input" placeholder="Search GDPR recitals by number (e.g. 58) or keywords…" autocomplete="off" spellcheck="false" />
+                </div>
+                <div class="recitals-toolbar-right">
+                  <p id="recitalsCount" class="recitals-count" aria-live="polite"></p>
+                  <button type="button" id="recitalsClearSearch" class="recitals-clear-btn hidden" aria-label="Clear search">Clear</button>
+                </div>
+              </div>
+            </header>
+            <div id="recitalsList" class="doc-grid recitals-grid" role="list"></div>
           </div>
-          <div id="browseChapters" class="browse-section hidden">
-            <div class="section-header">
-              <h2>Chapters &amp; Articles</h2>
+          <div id="browseChapters" class="browse-section browse-chapters hidden">
+            <header class="section-header chapters-browser-header">
+              <h2>GDPR chapters &amp; articles</h2>
+              <p class="chapters-browser-lead">All 99 GDPR articles are grouped by chapter. Filter by category, sub-topic, or article number—then open any card for the full legal text and cross-links.</p>
               <p class="source-links">Official sources: <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex</a></p>
-            </div>
-            <div class="filter-bar chapters-filters" role="group" aria-label="Filter documents by category, chapter, and article">
-              <div class="filter-field">
-                <label for="chaptersFilterCategory" class="filter-field-label">Category</label>
-                <select id="chaptersFilterCategory" class="filter-field-select" aria-label="Filter by topic category">
-                  <option value="">All categories</option>
-                </select>
+            </header>
+            <div class="filter-bar chapters-filters" role="group" aria-label="Filter GDPR documents by category, chapter, and article">
+              <p class="chapters-filters-hint" id="chaptersFiltersHint">Type to search or open the list to choose. Other filters narrow suggestions; typing searches the full set where helpful.</p>
+              <div class="filter-field filter-field--combobox">
+                <label for="chaptersFilterCategoryInput" class="filter-field-label">Category</label>
+                <div class="filter-combobox" data-chapters-filter="category">
+                  <div class="filter-combobox-control">
+                    <input type="text" id="chaptersFilterCategoryInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="chaptersFilterCategoryList" aria-autocomplete="list" placeholder="All GDPR categories" aria-label="Filter GDPR browse by topic category">
+                    <button type="button" class="filter-combobox-toggle" id="chaptersFilterCategoryToggle" tabindex="-1" aria-label="Open category list" aria-expanded="false" aria-controls="chaptersFilterCategoryList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
+                  </div>
+                  <ul id="chaptersFilterCategoryList" class="filter-combobox-list" role="listbox" hidden></ul>
+                  <select id="chaptersFilterCategory" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                    <option value="">All GDPR categories</option>
+                  </select>
+                </div>
               </div>
-              <div class="filter-field">
-                <label for="chaptersFilterSubcategory" class="filter-field-label">Sub-category</label>
-                <select id="chaptersFilterSubcategory" class="filter-field-select" aria-label="Filter by topic sub-category">
-                  <option value="">All sub-categories</option>
-                </select>
+              <div class="filter-field filter-field--combobox">
+                <label for="chaptersFilterSubcategoryInput" class="filter-field-label">Sub-category</label>
+                <div class="filter-combobox" data-chapters-filter="subcategory">
+                  <div class="filter-combobox-control">
+                    <input type="text" id="chaptersFilterSubcategoryInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="chaptersFilterSubcategoryList" aria-autocomplete="list" placeholder="All GDPR sub-categories" aria-label="Filter GDPR browse by topic sub-category">
+                    <button type="button" class="filter-combobox-toggle" id="chaptersFilterSubcategoryToggle" tabindex="-1" aria-label="Open sub-category list" aria-expanded="false" aria-controls="chaptersFilterSubcategoryList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
+                  </div>
+                  <ul id="chaptersFilterSubcategoryList" class="filter-combobox-list" role="listbox" hidden></ul>
+                  <select id="chaptersFilterSubcategory" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                    <option value="">All GDPR sub-categories</option>
+                  </select>
+                </div>
               </div>
-              <div class="filter-field">
-                <label for="chaptersFilterChapter" class="filter-field-label">Chapter</label>
-                <select id="chaptersFilterChapter" class="filter-field-select" aria-label="Filter by chapter">
-                  <option value="">All chapters</option>
-                </select>
+              <div class="filter-field filter-field--combobox">
+                <label for="chaptersFilterChapterInput" class="filter-field-label">Chapter</label>
+                <div class="filter-combobox" data-chapters-filter="chapter">
+                  <div class="filter-combobox-control">
+                    <input type="text" id="chaptersFilterChapterInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="chaptersFilterChapterList" aria-autocomplete="list" placeholder="All GDPR chapters" aria-label="Filter by GDPR chapter">
+                    <button type="button" class="filter-combobox-toggle" id="chaptersFilterChapterToggle" tabindex="-1" aria-label="Open chapter list" aria-expanded="false" aria-controls="chaptersFilterChapterList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
+                  </div>
+                  <ul id="chaptersFilterChapterList" class="filter-combobox-list" role="listbox" hidden></ul>
+                  <select id="chaptersFilterChapter" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                    <option value="">All GDPR chapters</option>
+                  </select>
+                </div>
               </div>
-              <div class="filter-field">
-                <label for="chaptersFilterArticle" class="filter-field-label">Article</label>
-                <select id="chaptersFilterArticle" class="filter-field-select" aria-label="Filter by article">
-                  <option value="">All articles</option>
-                </select>
+              <div class="filter-field filter-field--combobox">
+                <label for="chaptersFilterArticleInput" class="filter-field-label">Article</label>
+                <div class="filter-combobox" data-chapters-filter="article">
+                  <div class="filter-combobox-control">
+                    <input type="text" id="chaptersFilterArticleInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="chaptersFilterArticleList" aria-autocomplete="list" placeholder="All GDPR articles" aria-label="Filter by GDPR article number or title">
+                    <button type="button" class="filter-combobox-toggle" id="chaptersFilterArticleToggle" tabindex="-1" aria-label="Open article list" aria-expanded="false" aria-controls="chaptersFilterArticleList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
+                  </div>
+                  <ul id="chaptersFilterArticleList" class="filter-combobox-list" role="listbox" hidden></ul>
+                  <select id="chaptersFilterArticle" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                    <option value="">All GDPR articles</option>
+                  </select>
+                </div>
               </div>
               <div class="filter-actions">
                 <button type="button" id="chaptersFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear filters</button>
               </div>
             </div>
-            <div id="chaptersArticlesGrouped" class="chapters-articles-grouped" role="region" aria-label="Articles by chapter"></div>
-          </div>
-          <div id="browseSources" class="browse-section browse-sources-section hidden">
-            <div class="section-header">
-              <h2>Credible sources &amp; documents</h2>
-              <p class="source-links">Guidelines, guidance, and official documents from all credible sources. Links open in a new tab.</p>
-            </div>
-            <div id="browseSourcesList" class="sources-grid browse-sources-grid" role="list"></div>
+            <div id="chaptersArticlesGrouped" class="chapters-articles-grouped" role="region" aria-label="GDPR articles by chapter"></div>
           </div>
           <div id="browseDetail" class="browse-section detail-view hidden">
-            <nav id="docNav" class="doc-nav hidden" aria-label="Navigate to previous or next document">
-              <button type="button" id="docNavPrev" class="btn btn-secondary btn-doc-nav" aria-label="Previous document">← Previous</button>
-              <span id="docNavLabel" class="doc-nav-label" aria-live="polite"></span>
-              <div class="doc-nav-goto">
-                <label for="docNavNumber" class="doc-nav-goto-label">Go to</label>
-                <input type="number" id="docNavNumber" class="doc-nav-input" min="1" max="99" placeholder="No." aria-label="Document number">
-                <button type="button" id="docNavGo" class="btn btn-secondary btn-doc-nav btn-doc-nav-go">Go</button>
+            <div class="reader-chrome">
+              <div class="reader-chrome-toolbar">
+                <div class="reader-chrome-start" role="toolbar" aria-label="Document actions">
+                  <div class="detail-actions-left">
+                    <button type="button" id="btnBack" class="btn-back hidden" aria-label="Back">← Back</button>
+                    <button type="button" id="btnBackToQuestion" class="btn-back btn-back-to-question hidden" aria-label="Back to question">Back to question</button>
+                    <button type="button" id="btnBackFromCitation" class="btn-back btn-back-to-question hidden" aria-label="Back to previous document">Back to previous</button>
+                  </div>
+                </div>
+                <nav id="docNav" class="doc-nav hidden" aria-label="Navigate to previous or next GDPR article or recital">
+                  <button type="button" id="docNavPrev" class="btn btn-secondary btn-doc-nav btn-doc-nav--prev" aria-label="Previous GDPR document">← Previous</button>
+                  <div class="doc-nav-center">
+                    <span id="docNavLabel" class="doc-nav-label" aria-live="polite"></span>
+                    <span class="doc-nav-sep" aria-hidden="true"></span>
+                    <div class="doc-nav-goto doc-nav-goto--combobox">
+                      <label for="docNavNumber" class="doc-nav-goto-label">Go to</label>
+                      <div class="doc-nav-goto-input-wrap">
+                        <input type="search" id="docNavNumber" class="doc-nav-input doc-nav-input--search doc-nav-input--with-toggle" autocomplete="off" spellcheck="false" placeholder="No." role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="docNavSuggestList" inputmode="search" aria-label="GDPR article or recital number">
+                        <button type="button" class="doc-nav-list-toggle" id="docNavListToggle" aria-expanded="false" aria-controls="docNavSuggestList" title="Browse all GDPR articles or recitals in a list">
+                          <span class="doc-nav-list-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <ul id="docNavSuggestList" class="doc-nav-suggest" role="listbox" hidden aria-label="GDPR documents"></ul>
+                      </div>
+                      <button type="button" id="docNavGo" class="btn btn-doc-nav-go">Go</button>
+                    </div>
+                  </div>
+                  <button type="button" id="docNavNext" class="btn btn-secondary btn-doc-nav btn-doc-nav--next" aria-label="Next GDPR document">Next →</button>
+                </nav>
+                <div class="reader-chrome-end">
+                  <button type="button" id="btnExportPdf" class="btn btn-export btn-export--toolbar hidden" aria-label="Export as PDF" title="Opens the system print dialog — choose Save as PDF for a vector-quality document (no chopped lines)."><span class="btn-export-icon" aria-hidden="true">↓</span> Export PDF</button>
+                </div>
               </div>
-              <button type="button" id="docNavNext" class="btn btn-secondary btn-doc-nav" aria-label="Next document">Next →</button>
-            </nav>
-            <article id="detailContent" class="doc-content"></article>
-            <aside class="citations">
-              <h3>Citations &amp; official links</h3>
-              <ul id="citationLinks" class="citation-links"></ul>
+            </div>
+            <div id="readerScrollPort" class="reader-scroll-port">
+              <article id="detailContent" class="doc-content" tabindex="-1" aria-label="GDPR regulation text"></article>
+            </div>
+            <aside class="citations citations-sidebar" aria-label="Official links and cross-references">
+              <section class="citation-panel citation-panel--official citation-panel--collapsible" aria-labelledby="citationOfficialHeading">
+                <header class="citation-panel-header">
+                  <button type="button" class="citation-panel-toggle" id="citationOfficialTrigger" aria-expanded="false" aria-controls="citationOfficialBody" aria-label="Show or hide citations and official links">
+                    <span class="citation-panel-accent" aria-hidden="true"></span>
+                    <span class="citation-panel-toggle-text">
+                      <h3 id="citationOfficialHeading" class="citation-panel-title">
+                        Citations &amp; official links
+                        <span id="citationOfficialCount" class="citation-panel-badge is-empty" aria-label="0 official sources">0</span>
+                      </h3>
+                    </span>
+                    <span class="citation-panel-chevron" aria-hidden="true"></span>
+                  </button>
+                  <p class="citation-panel-lead">Authoritative sources and freshness of the consolidated GDPR text.</p>
+                </header>
+                <div class="citation-panel-body" id="citationOfficialBody" role="region" aria-labelledby="citationOfficialHeading">
+                  <ul id="citationLinks" class="citation-links citation-panel-list"></ul>
+                </div>
+              </section>
+              <section class="citation-panel citation-panel--articles citation-panel--collapsible" aria-labelledby="relatedArticlesHeading">
+                <header class="citation-panel-header">
+                  <button type="button" class="citation-panel-toggle" id="relatedArticlesTrigger" aria-expanded="false" aria-controls="relatedArticlesBody" aria-label="Show or hide related GDPR articles">
+                    <span class="citation-panel-accent" aria-hidden="true"></span>
+                    <span class="citation-panel-toggle-text">
+                      <h3 id="relatedArticlesHeading" class="citation-panel-title">
+                        Related GDPR articles
+                        <span id="relatedArticlesCount" class="citation-panel-badge is-empty" aria-label="0 related GDPR articles">0</span>
+                      </h3>
+                    </span>
+                    <span class="citation-panel-chevron" aria-hidden="true"></span>
+                  </button>
+                  <p class="citation-panel-lead">Mentioned in the text or suggested for this recital (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).</p>
+                </header>
+                <div class="citation-panel-body" id="relatedArticlesBody" role="region" aria-labelledby="relatedArticlesHeading">
+                  <ul id="relatedArticles" class="related-panel-list" role="list"></ul>
+                </div>
+              </section>
+              <section class="citation-panel citation-panel--recitals citation-panel--collapsible" aria-labelledby="relatedRecitalsHeading">
+                <header class="citation-panel-header">
+                  <button type="button" class="citation-panel-toggle" id="relatedRecitalsTrigger" aria-expanded="false" aria-controls="relatedRecitalsBody" aria-label="Show or hide related GDPR recitals">
+                    <span class="citation-panel-accent" aria-hidden="true"></span>
+                    <span class="citation-panel-toggle-text">
+                      <h3 id="relatedRecitalsHeading" class="citation-panel-title">
+                        Related GDPR recitals
+                        <span id="relatedRecitalsCount" class="citation-panel-badge is-empty" aria-label="0 related GDPR recitals">0</span>
+                      </h3>
+                    </span>
+                    <span class="citation-panel-chevron" aria-hidden="true"></span>
+                  </button>
+                  <p class="citation-panel-lead">Mentioned in the text or suggested for this article (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).</p>
+                </header>
+                <div class="citation-panel-body" id="relatedRecitalsBody" role="region" aria-labelledby="relatedRecitalsHeading">
+                  <ul id="relatedRecitals" class="related-panel-list" role="list"></ul>
+                </div>
+              </section>
             </aside>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="viewAsk" class="view" role="tabpanel" hidden>
+    <section id="viewAsk" class="view view-ask" role="tabpanel" hidden aria-labelledby="askHeading">
       <div class="ask-layout">
-        <div class="ask-box">
-          <label for="query">Ask anything about GDPR</label>
-          <div class="query-row">
-            <input type="text" id="query" placeholder="e.g. What is personal data? When is consent valid? Right to erasure..." autocomplete="off" aria-label="Search question">
-            <button type="button" id="btnAsk" class="btn btn-primary">Search</button>
+        <header class="ask-hero">
+          <h2 class="ask-title" id="askHeading">Ask about the GDPR</h2>
+          <p class="ask-lead">Get answers grounded in the official <strong>Regulation (EU) 2016/679</strong> text, augmented with curated web snippets and LLM synthesis—Groq when available, Tavily as a fallback.</p>
+          <ul class="ask-signals" role="list" aria-label="How each answer is composed">
+            <li class="ask-signal">
+              <span class="ask-signal-dot" aria-hidden="true"></span>
+              <span class="ask-signal-text">Local GDPR corpus &amp; EUR-Lex alignment</span>
+            </li>
+            <li class="ask-signal">
+              <span class="ask-signal-dot" aria-hidden="true"></span>
+              <span class="ask-signal-text">Live web context</span>
+            </li>
+            <li class="ask-signal">
+              <span class="ask-signal-dot" aria-hidden="true"></span>
+              <span class="ask-signal-text">Groq / Tavily models</span>
+            </li>
+          </ul>
+        </header>
+
+        <div class="ask-composer-card" id="askComposer">
+          <div class="ask-composer" role="search">
+            <label for="query" class="visually-hidden">Your GDPR question</label>
+            <div class="ask-field">
+              <svg class="ask-field-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input type="search" id="query" class="ask-field-input" placeholder="e.g. What counts as personal data? When is consent valid? Right to erasure…" autocomplete="off" enterkeyhint="search" inputmode="search" aria-label="Ask a GDPR question">
+            </div>
+            <button type="button" id="btnAsk" class="btn btn-primary ask-send" aria-busy="false">
+              <span class="ask-send-label">Ask</span>
+              <span class="ask-send-spinner" aria-hidden="true"></span>
+            </button>
           </div>
-          <p class="hint">Results use the official Regulation (EU) 2016/679 text from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>. Click <strong>Refresh sources</strong> in the header to load the latest consolidated text.</p>
+          <div class="ask-sector-row">
+            <label class="ask-sector-label" id="askIndustrySectorLabel" for="askIndustrySectorInput">Industry / sector (optional)</label>
+            <p class="ask-sector-explainer" id="askIndustrySectorDesc">
+              Sectors follow <strong>UN ISIC Rev.4</strong> (sections A–U), aligned with typical <strong>ILO</strong> industry groupings for labour-market statistics.
+              Pick <strong>General</strong> when you do not want sector-focused framing.
+            </p>
+            <div class="filter-combobox ask-sector-combobox" id="askSectorComboboxWrap">
+              <select id="askIndustrySector" class="visually-hidden" tabindex="-1" aria-hidden="true" aria-labelledby="askIndustrySectorLabel askIndustrySectorDesc">
+                <option value="GENERAL">General — no sector-specific framing</option>
+              </select>
+              <div class="filter-combobox-control">
+                <input type="text" id="askIndustrySectorInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="askIndustrySectorList" aria-autocomplete="list" placeholder="Search sectors or choose General…" aria-labelledby="askIndustrySectorLabel">
+                <button type="button" class="filter-combobox-toggle" id="askIndustrySectorToggle" tabindex="-1" aria-label="Open industry and sector list" aria-expanded="false" aria-controls="askIndustrySectorList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
+              </div>
+              <ul id="askIndustrySectorList" class="filter-combobox-list filter-combobox-list--ask-sector" role="listbox" hidden></ul>
+            </div>
+          </div>
+          <p class="ask-meta">Consolidated EU law text is loaded from your cache; use <strong>Refresh sources</strong> in the page header to pull the latest from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>.</p>
         </div>
         <div id="askResults" class="ask-results hidden">
           <div class="ask-results-grid">
             <div class="ask-results-left">
-              <div id="overallSummary" class="overall-summary-box hidden"></div>
-              <div id="resultsList" class="results-list" role="list"></div>
-            </div>
-            <aside class="ask-summary-panel" id="askSummaryPanel" aria-label="Summary in plain language">
-              <div id="askSummaryBox" class="summary-in-plain-language hidden">
-                <h3 class="summary-in-plain-language-title">Summary</h3>
-                <p class="summary-in-plain-language-hint">A concise overview based on the regulation text.</p>
-                <div id="askSummaryContent" class="summary-in-plain-language-content"></div>
+              <div id="askAnswerBox" class="answer-box answer-box--ask hidden" aria-label="Answer">
+                <div class="answer-box-toolbar">
+                  <div class="answer-box-heading-group">
+                    <span class="answer-box-icon-wrap" aria-hidden="true">
+                      <svg class="answer-box-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        <path d="M8 10h.01M12 10h.01M16 10h.01"/>
+                      </svg>
+                    </span>
+                    <div class="answer-box-heading-text">
+                      <h3 class="answer-box-title">Answer</h3>
+                      <p class="answer-box-subtitle">Grounded in regulation excerpts · follow the green <span class="answer-box-subtitle-cite">[S#]</span> chips to sources</p>
+                    </div>
+                  </div>
+                  <span id="askAnswerStatus" class="answer-status-chip" aria-live="polite"></span>
+                </div>
+                <div id="askAnswerLoading" class="ask-answer-loading" aria-hidden="true">
+                  <div class="ask-answer-loading-label">Composing your answer…</div>
+                  <div class="ask-answer-loading-bars" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+                <p id="askAnswerSectorLine" class="ask-answer-sector-line hidden" aria-live="polite"></p>
+                <div id="askAnswerContent" class="answer-box-content ask-answer-prose" tabindex="0"></div>
+                <div id="askAnswerCitations" class="answer-citations answer-citations--panel hidden" aria-label="Source citations"></div>
               </div>
-              <div id="askRelevantDocs" class="ask-relevant-docs hidden" aria-label="Relevant articles and documents">
-                <h3 class="ask-relevant-docs-title">Relevant articles &amp; documents</h3>
-                <p class="ask-relevant-docs-hint">Open in the app or on the official websites.</p>
+            </div>
+            <aside class="ask-summary-panel" id="askSummaryPanel" aria-label="Relevant GDPR provisions">
+              <div id="askRelevantDocs" class="ask-relevant-docs ask-relevant-docs--panel hidden" aria-label="Relevant GDPR provisions">
+                <div class="ask-relevant-docs-header">
+                  <span class="ask-relevant-docs-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="ask-relevant-docs-title">Relevant GDPR provisions</h3>
+                    <p class="ask-relevant-docs-hint">Articles and recitals behind this answer. For articles, related recitals from <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> appear below when available.</p>
+                  </div>
+                </div>
                 <ul id="askRelevantDocsList" class="ask-relevant-docs-list" role="list"></ul>
               </div>
             </aside>
@@ -186,28 +376,35 @@
 
     <section id="viewSources" class="view" role="tabpanel" hidden>
       <div class="sources-layout">
-        <div class="sources-header">
-          <h2>Credible sources &amp; documents</h2>
-          <p class="sources-intro">Open documents and guidance from these organizations. Links open in a new tab.</p>
-        </div>
+        <header class="sources-header">
+          <div class="sources-header-main">
+            <h2>GDPR: credible sources &amp; documents</h2>
+            <p class="sources-intro">Official and specialist GDPR and data-protection guidance. Every link opens in a new tab.</p>
+          </div>
+        </header>
         <div id="sourcesList" class="sources-grid" role="list"></div>
       </div>
     </section>
 
     <section id="viewNews" class="view" role="tabpanel" hidden>
       <div class="news-layout">
-        <div class="news-header">
-          <h2>GDPR &amp; data protection news</h2>
-          <p class="news-intro">News from credible sources (EDPB, ICO, European Commission, Council of Europe). Each item links to the original article.</p>
+        <header class="news-header">
+          <div class="news-header-main">
+            <h2>GDPR &amp; data protection news</h2>
+            <p class="news-intro">EDPB, ICO, European Commission, Council of Europe, and more — grouped by source with quick feed links.</p>
+          </div>
           <button type="button" id="btnRefreshNews" class="btn btn-secondary btn-refresh-news">↻ Refresh news</button>
-        </div>
-        <div class="news-feeds-row">
-          <h3>News from sources</h3>
-          <ul id="newsFeedsList" class="news-feeds-list" role="list"></ul>
-        </div>
-        <div class="news-list-wrap" id="newsListWrap">
-          <h3>News by source and topic</h3>
-          <p class="news-list-intro">Below, news is grouped by credible source. Each section has a short summary in plain language and links to the original articles.</p>
+        </header>
+        <div class="news-body">
+          <section class="news-feeds-row" aria-labelledby="newsFeedsHeading">
+            <h3 id="newsFeedsHeading" class="news-feeds-heading">Jump to a feed</h3>
+            <ul id="newsFeedsList" class="news-feeds-list" role="list"></ul>
+          </section>
+          <div class="news-list-wrap" id="newsListWrap">
+          <div class="news-list-wrap-header">
+            <h3>Browse by source &amp; topic</h3>
+            <p class="news-list-intro">Summaries in plain language; each card links to the original article.</p>
+          </div>
           <div class="filter-bar news-filters" role="group" aria-label="Filter news">
             <div class="filter-field">
               <label for="newsFilterSource" class="filter-field-label">Source</label>
@@ -226,17 +423,31 @@
             </div>
           </div>
           <div id="newsSections" class="news-sections" role="region" aria-label="News by source"></div>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <p><strong>Primary sources (regulation text):</strong> <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex (Regulation (EU) 2016/679)</a></p>
-    <p><strong>Credible resources:</strong> <a href="https://edpb.europa.eu/" target="_blank" rel="noopener">EDPB</a> · <a href="https://commission.europa.eu/law/law-topic/data-protection_en" target="_blank" rel="noopener">European Commission</a> · <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance/" target="_blank" rel="noopener">ICO (UK)</a> · <a href="https://gdpr.eu/" target="_blank" rel="noopener">GDPR.eu</a> · <a href="https://www.coe.int/en/web/data-protection" target="_blank" rel="noopener">Council of Europe</a></p>
-    <p>For reference only; verify with official sources.</p>
+  <div id="pdfPrintMount" class="pdf-print-mount" aria-hidden="true"></div>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <p class="footer-row">
+        <span class="footer-lead">
+          <strong>EU GDPR (2016/679):</strong>
+          <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener noreferrer">EUR-Lex</a>
+          <span class="footer-sep" aria-hidden="true">·</span>
+          <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer">GDPR-Info</a>
+        </span>
+        <span class="footer-sep footer-sep--major" aria-hidden="true">·</span>
+        <span class="footer-note">
+          Reference only — not legal advice. <strong>Refresh sources</strong> (header) updates GDPR text from EUR-Lex;
+          regulators &amp; guidance (EDPB, Commission, ICO, …) under <strong>Credible sources</strong>.
+        </span>
+      </p>
+    </div>
   </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="app.js"></script>
 </body>
 </html>

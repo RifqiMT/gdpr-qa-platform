@@ -1,0 +1,156 @@
+[
+  {
+    "id": "GENERAL",
+    "label": "General — no sector-specific framing",
+    "isicSection": null,
+    "searchTerms": "",
+    "framework": "Default: balanced GDPR Q&A without industry emphasis."
+  },
+  {
+    "id": "A",
+    "label": "A — Agriculture, forestry and fishing",
+    "isicSection": "A",
+    "searchTerms": "agriculture forestry fishing farming crops livestock aquaculture rural food primary sector",
+    "framework": "UN ISIC Rev.4 Section A; ILO-compatible primary-sector / rural employment groupings."
+  },
+  {
+    "id": "B",
+    "label": "B — Mining and quarrying",
+    "isicSection": "B",
+    "searchTerms": "mining quarrying extraction minerals oil gas natural resources site safety",
+    "framework": "UN ISIC Rev.4 Section B."
+  },
+  {
+    "id": "C",
+    "label": "C — Manufacturing",
+    "isicSection": "C",
+    "searchTerms": "manufacturing industry factory production supply chain industrial processing",
+    "framework": "UN ISIC Rev.4 Section C."
+  },
+  {
+    "id": "D",
+    "label": "D — Electricity, gas, steam and air conditioning supply",
+    "isicSection": "D",
+    "searchTerms": "energy utility electricity gas power grid critical infrastructure",
+    "framework": "UN ISIC Rev.4 Section D."
+  },
+  {
+    "id": "E",
+    "label": "E — Water supply; sewerage, waste management and remediation",
+    "isicSection": "E",
+    "searchTerms": "water waste sewage environmental remediation utilities municipal",
+    "framework": "UN ISIC Rev.4 Section E."
+  },
+  {
+    "id": "F",
+    "label": "F — Construction",
+    "isicSection": "F",
+    "searchTerms": "construction building civil engineering contractors site workers subcontractor",
+    "framework": "UN ISIC Rev.4 Section F."
+  },
+  {
+    "id": "G",
+    "label": "G — Wholesale and retail trade",
+    "isicSection": "G",
+    "searchTerms": "retail wholesale commerce e-commerce customer loyalty card payment POS shopper",
+    "framework": "UN ISIC Rev.4 Section G."
+  },
+  {
+    "id": "H",
+    "label": "H — Transportation and storage",
+    "isicSection": "H",
+    "searchTerms": "transport logistics shipping aviation rail road freight warehouse mobility passenger data",
+    "framework": "UN ISIC Rev.4 Section H."
+  },
+  {
+    "id": "I",
+    "label": "I — Accommodation and food service activities",
+    "isicSection": "I",
+    "searchTerms": "hospitality hotel restaurant catering tourism guest booking",
+    "framework": "UN ISIC Rev.4 Section I."
+  },
+  {
+    "id": "J",
+    "label": "J — Information and communication",
+    "isicSection": "J",
+    "searchTerms": "ICT software telecom internet publishing broadcasting digital services SaaS platform",
+    "framework": "UN ISIC Rev.4 Section J; strong overlap with online services under GDPR."
+  },
+  {
+    "id": "K",
+    "label": "K — Financial and insurance activities",
+    "isicSection": "K",
+    "searchTerms": "bank insurance fintech payment credit investment AML financial data",
+    "framework": "UN ISIC Rev.4 Section K; often intersects with sector-specific EU/EEA financial rules alongside GDPR."
+  },
+  {
+    "id": "L",
+    "label": "L — Real estate activities",
+    "isicSection": "L",
+    "searchTerms": "real estate property letting leasing facility management landlord tenant",
+    "framework": "UN ISIC Rev.4 Section L."
+  },
+  {
+    "id": "M",
+    "label": "M — Professional, scientific and technical activities",
+    "isicSection": "M",
+    "searchTerms": "consulting legal accounting engineering R&D technical services professional services",
+    "framework": "UN ISIC Rev.4 Section M."
+  },
+  {
+    "id": "N",
+    "label": "N — Administrative and support service activities",
+    "isicSection": "N",
+    "searchTerms": "outsourcing HR agency call center facilities employment activities support services",
+    "framework": "UN ISIC Rev.4 Section N; often involves processor / joint-controller scenarios."
+  },
+  {
+    "id": "O",
+    "label": "O — Public administration and defence; compulsory social security",
+    "isicSection": "O",
+    "searchTerms": "government public sector defence military law enforcement social security public authority",
+    "framework": "UN ISIC Rev.4 Section O; note Chapter 2 GDPR exclusions for purely public tasks in some Member States — still cite sources only."
+  },
+  {
+    "id": "P",
+    "label": "P — Education",
+    "isicSection": "P",
+    "searchTerms": "school university training students children pupil records edtech",
+    "framework": "UN ISIC Rev.4 Section P."
+  },
+  {
+    "id": "Q",
+    "label": "Q — Human health and social work activities",
+    "isicSection": "Q",
+    "searchTerms": "healthcare hospital clinic medical patient health data social care nursing GDPR health",
+    "framework": "UN ISIC Rev.4 Section Q; often overlaps with special-category data in GDPR."
+  },
+  {
+    "id": "R",
+    "label": "R — Arts, entertainment and recreation",
+    "isicSection": "R",
+    "searchTerms": "media sports culture gaming events entertainment creative industries",
+    "framework": "UN ISIC Rev.4 Section R."
+  },
+  {
+    "id": "S",
+    "label": "S — Other service activities",
+    "isicSection": "S",
+    "searchTerms": "personal services repair membership organisations miscellaneous services",
+    "framework": "UN ISIC Rev.4 Section S."
+  },
+  {
+    "id": "T",
+    "label": "T — Activities of households as employers; undifferentiated goods and services",
+    "isicSection": "T",
+    "searchTerms": "domestic employer household staff private employment",
+    "framework": "UN ISIC Rev.4 Section T."
+  },
+  {
+    "id": "U",
+    "label": "U — Activities of extraterritorial organisations and bodies",
+    "isicSection": "U",
+    "searchTerms": "international organisation embassy extraterritorial IO NGO treaty",
+    "framework": "UN ISIC Rev.4 Section U."
+  }
+]

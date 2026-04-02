@@ -1,16 +1,19 @@
 {
   "name": "gdpr-qa-platform",
   "version": "1.0.0",
-  "description": "GDPR Q&A Platform - Browse regulations and ask questions with citations",
+  "description": "GDPR Q&A Platform — browse Regulation (EU) 2016/679 with cross-links; Ask with BM25 + Groq/Tavily grounded answers; sector context; news and credible sources",
   "main": "server.js",
   "scripts": {
+    "prestart": "node -e \"const fs=require('fs'),p=require('path');const a=p.join('data','article-suitable-recitals.json'),b=p.join('public','article-suitable-recitals.json');try{if(fs.existsSync(a))fs.copyFileSync(a,b);}catch(e){}\"",
     "start": "node server.js",
-    "refresh": "node server.js --refresh-only"
+    "refresh": "node server.js --refresh-only",
+    "fetch-suitable-recitals": "node scripts/fetch-article-suitable-recitals.js"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",

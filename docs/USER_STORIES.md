@@ -2,7 +2,7 @@
 ## GDPR Q&A Platform
 
 Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
-Personas: Legal/Compliance, DPO, Consultant, General Professional, Stakeholder. See [USER_PERSONAS.md](USER_PERSONAS.md).
+Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Professional, Stakeholder. See [USER_PERSONAS.md](USER_PERSONAS.md).
 
 ---
 
@@ -24,11 +24,13 @@ Personas: Legal/Compliance, DPO, Consultant, General Professional, Stakeholder. 
 
 | ID | Story | Persona |
 |----|--------|---------|
-| US-A1 | As a **DPO**, I want to type a question and get verbatim regulation text as the answer so that I never cite unsourced or wrong content. | DPO |
-| US-A2 | As a **Consultant**, I want to see a short summary (extractive or LLM) next to the verbatim answer so that I can quickly explain to clients before diving into the full text. | Consultant |
-| US-A3 | As a **Legal/Compliance** user, I want a “Relevant articles & documents” list with “View in app” so that I can open the full provision in Browse without re-searching. | Legal/Compliance |
-| US-A4 | As a **General Professional**, I want each new question to clear previous results so that I only see the answer for the current question. | General Professional |
-| US-A5 | As a **DPO**, I want to see “Regulation text as of [date]” when available so that I know which consolidated version was used. | DPO |
+| US-A1 | As a **DPO**, I want to type a question and receive an answer that is **grounded in retrieved regulation (and optional web) sources** with `[S1]`-style citations so that I can trace every claim. | DPO |
+| US-A2 | As a **Consultant**, I want to see which **LLM path** was used (Groq, Tavily, or extractive) so that I can judge how much to rely on synthesis versus opening full text. | Consultant |
+| US-A3 | As a **Legal/Compliance** user, I want a **Relevant GDPR provisions** list with “View in app” so that I can open the full article or recital without re-searching. | Legal/Compliance |
+| US-A4 | As a **General Professional**, I want each new question to clear the previous answer and panels so that I only see output for the current question. | General Professional |
+| US-A5 | As a **DPO**, I want to see **content as of** / freshness information when available so that I know which consolidated version underlies the corpus. | DPO |
+| US-A6 | As an **Industry specialist**, I want to pick my **sector** in the Ask UI so that the answer explicitly reflects that industry’s context while staying within cited GDPR text. | Industry specialist |
+| US-A7 | As a **Legal/Compliance** user, I want citation chips in the answer to be **clickable** so that I can jump to the Article or Recital in Browse. | Legal/Compliance |
 
 ---
 
@@ -49,7 +51,7 @@ Personas: Legal/Compliance, DPO, Consultant, General Professional, Stakeholder. 
 | US-N2 | As a **Legal/Compliance** user, I want news grouped by source with a short summary per source so that I can scan by organization. | Legal/Compliance |
 | US-N3 | As a **DPO**, I want to filter news by Source and Topic so that I can focus on e.g. enforcement or guidance. | DPO |
 | US-N4 | As a **Consultant**, I want each news item to link to the original article so that I can read the full story on the publisher’s site. | Consultant |
-| US-N5 | As a **DPO**, I want to click “Refresh news” to re-fetch the latest items so that I get current updates. | DPO |
+| US-N5 | As a **DPO**, I want to click “Refresh news” to run a **server refresh** that merges crawled items and updates the cached news file so that I get durable, current updates. | DPO |
 
 ---
 
@@ -59,6 +61,7 @@ Personas: Legal/Compliance, DPO, Consultant, General Professional, Stakeholder. 
 |----|--------|---------|
 | US-R1 | As a **Legal/Compliance** user, I want to click “Refresh sources” to update the regulation text from EUR-Lex so that I work with the latest consolidated version. | Legal/Compliance |
 | US-R2 | As a **DPO**, I want to see “Last refreshed” in the header so that I know how current the content is. | DPO |
+| US-R3 | As a **Legal/Compliance** user, I want **chapter introduction blurbs** when browsing chapters so that I understand each chapter’s scope before opening articles. | Legal/Compliance |
 
 ---
 
@@ -90,9 +93,20 @@ Personas: Legal/Compliance, DPO, Consultant, General Professional, Stakeholder. 
 
 ---
 
+## Epic 9: Cross-references and corpus quality
+
+| ID | Story | Persona |
+|----|--------|---------|
+| US-X1 | As a **Legal/Compliance** user, I want **related recitals** suggested when I read an article so that I see interpretive context alongside binding text. | Legal/Compliance |
+| US-X2 | As a **Stakeholder**, I want **related articles** listed when I read a recital so that I can jump to operative provisions. | Stakeholder |
+
+---
+
 ## Reference
 
 - **Personas:** [USER_PERSONAS.md](USER_PERSONAS.md)  
 - **PRD:** [PRD.md](PRD.md)  
 - **Full documentation:** [README.md](../README.md)  
-- **Product documentation standard:** [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)
+- **Product documentation standard:** [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)  
+- **Variables & diagrams:** [VARIABLES.md](VARIABLES.md)  
+- **API contracts:** [API_CONTRACTS.md](API_CONTRACTS.md)

@@ -1,6 +1,6 @@
-# Product Documentation Standard
+# Product documentation standard
 
-This document defines the **product documentation standard** for the GDPR Q&A Platform. The full content for each section lives in [README.md](README.md) or in the linked docs. Use this as a checklist and index.
+This document defines the **product documentation standard** for the GDPR Q&A Platform. Use it as a **checklist and index** for product, design, compliance, and engineering stakeholders.
 
 ---
 
@@ -8,10 +8,20 @@ This document defines the **product documentation standard** for the GDPR Q&A Pl
 
 | Document | Purpose |
 |----------|---------|
-| [README.md](README.md) | Main product documentation: overview, benefits, features, logics, business/tech guidelines, tech stack, folder directory, API summary, configuration, limitations. |
-| [docs/PRD.md](docs/PRD.md) | Product Requirements Document: goals, user needs, functional/non-functional requirements, data model summary, success criteria, out of scope. |
-| [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | User personas: Legal/Compliance, Privacy Officer, DPO, Consultant, General Professional; goals, pain points, needs. |
-| [docs/USER_STORIES.md](docs/USER_STORIES.md) | User stories by epic (Browse, Ask, Sources, News, Refresh, Homepage, Export, Accessibility). |
+| [README.md](README.md) | Primary documentation: overview, benefits, features, logic, business/tech guidelines, tech stack, structure, API summary, configuration, disclaimer. |
+| [CHANGELOG.md](CHANGELOG.md) | Historical development log and release notes. |
+| [docs/README.md](docs/README.md) | Hub page listing all `docs/` files with short descriptions. |
+| [docs/PRD.md](docs/PRD.md) | Product Requirements Document: goals, requirements, data model, success criteria, out of scope. |
+| [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Personas, goals, pain points, and feature fit. |
+| [docs/USER_STORIES.md](docs/USER_STORIES.md) | User stories by epic (Browse, Ask, Sources, News, Refresh, Navigation, Export, Accessibility). |
+| [docs/VARIABLES.md](docs/VARIABLES.md) | Variable and field dictionary: names, definitions, formulas, locations, examples, relationship diagram. |
+| [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) | Product metrics and OKR examples for the product team. |
+| [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) | Visual design system: palette, typography, layout tokens, components, print/PDF. |
+| [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) | Enterprise traceability: business requirements ↔ PRD ↔ stories ↔ implementation ↔ verification. |
+| [docs/GUARDRAILS.md](docs/GUARDRAILS.md) | Business and technical guardrails and limitations. |
+| [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) | REST API contracts (request/response shapes). |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | High-level architecture and sequence flows. |
+| [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) | JSON ↔ scraper ↔ `app.js` reader contract; numbered paragraphs, citations, ETL verification. |
 
 ---
 
@@ -21,10 +31,10 @@ This document defines the **product documentation standard** for the GDPR Q&A Pl
 
 | Element | Description |
 |--------|--------------|
-| **Purpose** | Browse and search the full text of the General Data Protection Regulation (EU) 2016/679 with citations and links to official EU sources; optional LLM summaries; Credible sources tab; News from EDPB, ICO, Commission, Council of Europe. |
-| **Target users** | Legal, compliance, privacy professionals and anyone needing quick, sourced GDPR answers and updates. |
-| **Key concepts** | Recitals 1–173, Articles 1–99, Browse (sidebar, filters, doc nav), Ask (search, Relevant articles, Summary), Credible sources, News (by source/topic), Refresh sources, Homepage (logo link). |
-| **High-level flow** | Open app → Browse regulation or Ask a question → View in app from Ask → Credible sources / News → Refresh sources to update regulation text. |
+| **Purpose** | Browse and search Regulation (EU) 2016/679 (recitals and articles) with official links; **Ask** with BM25-grounded excerpts, optional web snippets, and Groq/Tavily synthesis; industry sector framing; Credible sources; curated news; PDF export. |
+| **Target users** | Legal, compliance, DPOs, consultants, and professionals who need traceable GDPR references. |
+| **Key concepts** | Corpus in `gdpr-content.json`, `POST /api/answer`, citation chips `[S1]`, crossrefs (`gdpr-crossrefs.js`), chapter summaries, news merge, EUR-Lex refresh. |
+| **High-level flow** | Open app → Browse or Ask → follow citations → optionally refresh content or news from authoritative sources. |
 
 ---
 
@@ -32,7 +42,7 @@ This document defines the **product documentation standard** for the GDPR Q&A Pl
 
 **Location:** [README §2 – Product benefits](README.md#2-product-benefits)
 
-Single source of truth, traceability to Articles/Recitals, reduced hallucination (verbatim + optional LLM constrained to text), data refresh without duplication, efficiency (browse or ask, jump to provision), offline-capable content after refresh, PDF export, topic-based drill-down, centered chapter headers, document navigation (Prev/Next/Go), Relevant articles & documents panel, news from credible sources with filters and three-paragraph summaries, Credible sources hub.
+Traceability to Articles/Recitals, reduced unsourced claims via grounding + citations, efficient browse/ask flows, optional sector-aware answers, credible news aggregation, offline-capable corpus after refresh, PDF export, topic filters, document navigation.
 
 ---
 
@@ -42,36 +52,31 @@ Single source of truth, traceability to Articles/Recitals, reduced hallucination
 
 | Area | Contents |
 |------|----------|
-| **Browse regulation** | Sidebar (Recitals, Chapters & Articles, Credible sources); filter bar (Category, Sub-category, Chapter, Article); recitals/chapters list; detail view with doc nav (Prev/Next/Go) and Export PDF; Back / Back to question; citations. |
-| **Ask a question** | Search input; results (Question/Answer block, Relevant articles & documents, result cards); Summary panel (LLM or extractive); View in app; content as of date. |
-| **Credible sources** | Sources tab with organizations and document links from `/api/meta`. |
-| **Content refresh** | Refresh sources button; daily cron (02:00 Europe/Brussels); optional initial refresh on start. |
-| **News** | News tab; grouping by source; three-paragraph summaries; topic tags; filters (Source, Topic); Refresh news. |
-| **Optional LLM summaries** | Provider order (Anthropic → OpenAI → Gemini → Groq → Mistral → OpenRouter); fallbacks (extractive / client-side). |
-| **Homepage** | Click “GDPR Q&A Platform” logo to go to homepage: Browse tab with initial placeholder; sidebar “Regulation & sources” reset (no chapter list). |
+| **Browse** | Recitals and chapters/articles; filters; detail reader; Prev/Next/Go; related articles/recitals; chapter intro blurbs; Export PDF. |
+| **Ask** | `POST /api/answer`; Groq primary; Tavily fallback; extractive fallback; optional web context; industry sector combobox; relevant provisions list; clickable `[Sn]` chips. |
+| **Sources & News** | `/api/meta` sources; news by source/topic; `POST /api/news/refresh`. |
+| **Refresh** | Regulation ETL; daily cron; optional chapter summary regeneration (Groq). |
 
 ---
 
-## 4. Logics (and data model)
+## 4. Logics and data model
 
-**Location:** [README §4 – Logic and data flow](README.md#4-logic-and-data-flow)
+**Location:** [README §4 – Logic and data flow](README.md#4-logic-and-data-flow) · [docs/VARIABLES.md](docs/VARIABLES.md)
 
 | Element | Description |
 |--------|--------------|
-| **Data files** | gdpr-structure.json (static structure); gdpr-content.json (recitals, articles, searchIndex, meta); gdpr-news.json (newsFeeds, items). |
-| **Scraper** | EUR-Lex fetch; parse recitals/articles; merge with existing by number (last wins); buildSearchIndex (dedupe by id). |
-| **Sub-categories** | ARTICLE_TOPICS in app.js; getArticleTopicIds; filter bar Category/Chapter synced; Sub-category filled from topics in selected chapter. |
-| **News crawler** | EDPB RSS/HTML, ICO HTML; timeout; merge in server with static items; dedupe by URL; sort by date; cap 60. |
-| **Search** | simpleSearch (tokenize, score title +2, top 25); /api/ask returns full-text excerpts; /api/summarize LLM or extractive. |
-| **Homepage** | goToHome(): switch to Browse tab, show placeholder, hide all browse sections, clear chapterList, hide Back/Export/Back to question. |
+| **Corpus** | `gdpr-content.json` from `scraper.js`; `searchIndex` for BM25 and legacy search. |
+| **Ask** | `buildLocalContext` (BM25, sector expansion), optional `fetchWebSnippets`, Groq/Tavily/extractive path. |
+| **Crossrefs** | `article-suitable-recitals.json` + recital text citation extraction (`gdpr-crossrefs.js`). |
+| **News** | Static JSON + crawler merge by URL; timeouts and caps via env. |
 
 ---
 
 ## 5. Business guidelines
 
-**Location:** [README §5 – Business guidelines](README.md#5-business-guidelines)
+**Location:** [README §5 – Business guidelines](README.md#5-business-guidelines) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md)
 
-Use for reference only; verify against EUR-Lex and GDPR-Info. No legal advice. Credible sources only for answers and news. Attribution in footer and UI; links to originals must remain.
+Reference only; no legal advice; verify on EUR-Lex and publisher sites; attribute sources.
 
 ---
 
@@ -79,18 +84,15 @@ Use for reference only; verify against EUR-Lex and GDPR-Info. No legal advice. C
 
 **Location:** [README §6 – Tech guidelines](README.md#6-tech-guidelines)
 
-| Element | Description |
-|--------|--------------|
-| **Tech stack** | Node.js ≥18, Express, CORS, scraper (axios/cheerio or https), news-crawler (axios, cheerio), vanilla HTML/CSS/JS, html2pdf.js, optional LLM (fetch only). |
-| **Technical guidelines** | No build step; data/ writable; gdpr-structure.json required for scraper; CORS enabled; cron optional; accessibility (tabs, aria, keyboard). |
+Node ≥18, Express, no frontend build, writable `data/`, CORS, optional LLM keys, accessibility patterns on tabs and filters.
 
 ---
 
-## 7. Tech stacks (summary)
+## 7. Tech stack (summary)
 
 **Location:** [README §7 – Tech stack](README.md#7-tech-stack)
 
-Runtime Node.js ≥18; backend Express, node-cron; scraping axios/cheerio; frontend HTML5, CSS3, vanilla JS; fonts DM Sans, DM Serif Text; PDF export html2pdf.js; optional LLM (OpenAI, Anthropic, Gemini, Groq, Mistral, OpenRouter); data JSON files in data/.
+Node.js, Express, node-cron, axios/cheerio (scraper and news), vanilla HTML/CSS/JS, DM Sans / DM Serif Text, html2pdf.js, Groq/Tavily/fetch-based LLM calls.
 
 ---
 
@@ -98,15 +100,13 @@ Runtime Node.js ≥18; backend Express, node-cron; scraping axios/cheerio; front
 
 | Element | Location |
 |--------|----------|
-| **Prerequisites and requirements** | README §2 (Users, Content, Deployment); Node ≥18, data/ writable. |
-| **Getting started** | README §11 – Quick start (install, npm start, open localhost:3847, Refresh sources). |
-| **Folder directory and file roles** | README §8 – Project structure (server.js, scraper.js, news-crawler.js, public/, data/, .env.example). |
-| **API reference** | README §9 – API reference (GET/POST routes: meta, news, categories, chapters, articles, recitals, ask, summarize, refresh). |
-| **Configuration** | README §10 – Environment variables (PORT, LLM keys, LLM_PROVIDER), Scripts (start, refresh). |
-| **Limitations and disclaimer** | README §12 – Reference only; verify with official sources; no legal advice. |
-| **PRD (requirements)** | [docs/PRD.md](docs/PRD.md) – Functional/non-functional requirements, success criteria, out of scope. |
-| **User personas** | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) – Personas with goals, pain points, needs. |
-| **User stories** | [docs/USER_STORIES.md](docs/USER_STORIES.md) – Stories by epic with persona and benefit. |
+| **Variables & metrics** | [docs/VARIABLES.md](docs/VARIABLES.md), [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) |
+| **Design** | [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) |
+| **Traceability** | [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) |
+| **API detail** | [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) |
+| **Architecture** | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
+| **Reader/ETL contract** | [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) |
 
 ---
 
@@ -125,4 +125,4 @@ Runtime Node.js ≥18; backend Express, node-cron; scraping axios/cheerio; front
 11. Quick start  
 12. License and disclaimer  
 
-**Related docs:** [README.md](README.md) · [PRD.md](docs/PRD.md) · [USER_PERSONAS.md](docs/USER_PERSONAS.md) · [USER_STORIES.md](docs/USER_STORIES.md)
+**Related:** [README.md](README.md) · [docs/PRD.md](docs/PRD.md) · [docs/README.md](docs/README.md)

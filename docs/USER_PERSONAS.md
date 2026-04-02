@@ -13,9 +13,9 @@ Personas represent primary users of the platform. They inform features, user sto
 | **Role** | In-house counsel or compliance officer; needs to check GDPR provisions and cite them accurately. |
 | **Goals** | Find the right Article or Recital quickly, get verbatim text for memos or policies, cite official sources (EUR-Lex, GDPR-Info), avoid unsourced or wrong interpretations. |
 | **Pain points** | Scrolling through long PDFs; unclear which version of the regulation is current; no single place to search and browse with citations. |
-| **Needs** | Browse by structure (Recitals, Chapters & Articles), filter by topic/chapter, ask natural-language questions and get sourced answers, export a provision as PDF, see “content as of” date. |
+| **Needs** | Browse by structure (Recitals, Chapters & Articles), filter by topic/chapter, ask natural-language questions with **traceable sources**, optional **sector framing** for industry-specific wording, export a provision as PDF, see “content as of” date. |
 | **Tech context** | Uses browser daily; comfortable with a local or internal server; may need to work offline after content is refreshed. |
-| **Relevant features** | Browse (sidebar, filters, doc nav), Ask (search, Relevant articles, View in app), Refresh sources, Export PDF, Credible sources, Homepage (logo). |
+| **Relevant features** | Browse (sidebar, filters, doc nav, related articles/recitals), Ask (search, citations, Relevant provisions, View in app), Refresh sources, Export PDF, Credible sources, Homepage (logo). |
 
 ---
 
@@ -27,9 +27,9 @@ Personas represent primary users of the platform. They inform features, user sto
 | **Role** | Data Protection Officer; answers internal and external questions about GDPR and tracks supervisory guidance. |
 | **Goals** | Answer “what does the regulation say?” with exact text and citations; stay updated on EDPB/ICO/Commission news; point colleagues to official sources. |
 | **Pain points** | Repeating the same lookups; ensuring answers are from the regulation, not third-party summaries; keeping up with news from multiple sites. |
-| **Needs** | Ask a question and get verbatim answer + optional summary; View in app to show full article/recital; News tab with filters by source/topic; Credible sources tab for quick links. |
+| **Needs** | Ask a question and get a **citation-grounded** answer (`[S1]`…), sector context when relevant, View in app to show full article/recital; News tab with filters by source/topic; Credible sources tab for quick links. |
 | **Tech context** | Uses internal or local deployment; may configure LLM key for summaries; needs traceability for audit. |
-| **Relevant features** | Ask (Question/Answer, Summary, Relevant articles & documents), News (by source, filters, three-paragraph summaries), Credible sources, Refresh sources. |
+| **Relevant features** | Ask (Answer + `[Sn]` citations, industry sector, Relevant GDPR provisions), News (by source, filters, three-paragraph summaries), Credible sources, Refresh sources. |
 
 ---
 
@@ -41,13 +41,27 @@ Personas represent primary users of the platform. They inform features, user sto
 | **Role** | External consultant advising clients on GDPR compliance and documentation. |
 | **Goals** | Prepare client-facing answers with exact regulation references; export a provision for appendices; avoid hallucination in any summary. |
 | **Pain points** | Generic tools give unsourced or wrong answers; copying from EUR-Lex is manual; need to show “as of” date. |
-| **Needs** | Ask with verbatim results and optional LLM summary (constrained to text); View in app and Export PDF; Credible sources for client handouts; clear attribution (EUR-Lex, GDPR-Info). |
+| **Needs** | Ask with **citation-grounded** results and traceable sources; View in app and Export PDF; Credible sources for client handouts; clear attribution (EUR-Lex, GDPR-Info). |
 | **Tech context** | Uses browser; may run app locally or on client server; cares about reproducibility of answers. |
-| **Relevant features** | Ask (verbatim + summary), View in app, Export PDF, content as of date, Credible sources, Refresh sources. |
+| **Relevant features** | Ask (grounded answer + citations), View in app, Export PDF, content as of date, Credible sources, Refresh sources. |
 
 ---
 
-## Persona 4: General Professional (Developer / Product / Policy)
+## Persona 4: Industry specialist (e.g. utilities, health, HR)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Riley (Industry specialist) |
+| **Role** | Privacy or compliance lead in a specific sector who needs GDPR explained in context of typical processing in that line of business. |
+| **Goals** | Obtain answers that **name the sector** and tie obligations to realistic processing scenarios without inventing non-GDPR duties. |
+| **Pain points** | Generic tools answer “organizations must…” without sector language; risk of over-interpreting guidance as statutory text. |
+| **Needs** | Industry/sector combobox on Ask; answers that stay within cited sources; links to full Articles/Recitals. |
+| **Tech context** | Same as other professional users; may run app on internal network with API keys managed by IT. |
+| **Relevant features** | Ask (sector selection, status chip for LLM path), Browse, Credible sources. |
+
+---
+
+## Persona 5: General Professional (Developer / Product / Policy)
 
 | Attribute | Description |
 |-----------|-------------|
@@ -61,7 +75,7 @@ Personas represent primary users of the platform. They inform features, user sto
 
 ---
 
-## Persona 5: Stakeholder / Reviewer (Read-heavy)
+## Persona 6: Stakeholder / Reviewer (Read-heavy)
 
 | Attribute | Description |
 |-----------|-------------|
@@ -79,10 +93,11 @@ Personas represent primary users of the platform. They inform features, user sto
 
 | Persona              | Primary use                    | Key features                                              |
 |----------------------|--------------------------------|-----------------------------------------------------------|
-| Legal / Compliance   | Look up provisions, cite       | Browse, Ask, filters, doc nav, Export PDF, Refresh         |
-| DPO                 | Answer questions, stay updated | Ask, Summary, Relevant articles, News, Credible sources    |
-| Consultant           | Client-facing, sourced answers | Ask, verbatim + summary, Export PDF, Credible sources      |
-| General Professional| Quick check                    | Ask, summary fallback, Browse, Credible sources, Homepage  |
+| Legal / Compliance   | Look up provisions, cite       | Browse, Ask + citations, filters, doc nav, Export PDF, Refresh |
+| DPO                 | Answer questions, stay updated | Ask, Relevant provisions, News, Credible sources           |
+| Consultant           | Client-facing, sourced answers | Ask, grounded answers, Export PDF, Credible sources       |
+| Industry specialist  | Sector-context Q&A             | Ask + sector, Browse, official links                      |
+| General Professional| Quick check                    | Ask, extractive/LLM paths, Browse, Credible sources, Homepage |
 | Stakeholder         | Verify references              | Browse, doc nav, citations, Export PDF, Credible sources  |
 
 For user stories derived from these personas, see [USER_STORIES.md](USER_STORIES.md). For full product documentation, see [README.md](../README.md).

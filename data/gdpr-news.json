@@ -24,17 +24,193 @@
   ],
   "items": [
     {
+      "title": "One-Stop-Shop case digest on the legal basis of \"legitimate interest\"",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/support-pool-experts-projects/one-stop-shop-case-digest-legal-basis_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-26",
+      "snippet": "Since the entry into force of the GDPR, Data Protection Authorities (DPAs) have closely cooperated to adopt a growing number of one-stop-shop (OSS) decisions on the legal basis of \"legitimate interest"
+    },
+    {
+      "title": "Daily News 26 / 03 / 2026",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/mex_26_732",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-26",
+      "snippet": "European Commission Daily news Brussels, 26 Mar 2026 Enforcement actions on the protection of minors under the Digital Services Act\r\nToday, the European Commission took two enforcement actions under t"
+    },
+    {
+      "title": "Commission investigates Snapchat's compliance with child protection rules under the Digital Services Act",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_723",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-25",
+      "snippet": "European Commission Press release Brussels, 26 Mar 2026 The European Commission has opened formal proceedings to investigate if Snapchat is ensuring a high level of safety, privacy and security for ch"
+    },
+    {
+      "title": "Commission preliminarily finds PornHub, Stripchat, XNXX and XVideos in breach of the Digital Services Act for allowing minors to access their services",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_722",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-25",
+      "snippet": "European Commission Press release Brussels, 26 Mar 2026 The European Commission preliminarily found Pornhub, Stripchat, XNXX and XVideos in breach of the Digital Services Act (DSA) for failing to prot"
+    },
+    {
+      "title": "EDPB conference on cross-regulatory cooperation: what we learned",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-conference-cross-regulatory-cooperation-what-we-learned_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-23",
+      "snippet": null
+    },
+    {
+      "title": "EDPB-EDPS Joint Opinion 4/2026 on the Proposal for a Cybersecurity Act 2 and the Proposal on amendments to the NIS 2 Directive",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/edpbedps-joint-opinion/edpb-edps-joint-opinion-42026-proposal_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-19",
+      "snippet": null
+    },
+    {
+      "title": "EDPB and EDPS support strengthening EU’s cybersecurity and easing compliance while protecting individuals’ personal data",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-and-edps-support-strengthening-eus-cybersecurity-and-easing-compliance-while_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-18",
+      "snippet": null
+    },
+    {
+      "title": "CEF 2026: EDPB launches coordinated enforcement action on transparency and information obligations under the GDPR",
+      "url": "https://edpb.europa.eu/news/news/2026/cef-2026-edpb-launches-coordinated-enforcement-action-transparency-and-information_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-18",
+      "snippet": null
+    },
+    {
+      "title": "EDPB letter to the European Commission on the privacy implications of recent proposed legislative changes regarding entry conditions to the United States for EEA citizens",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/letters/edpb-letter-european-commission-privacy-implications-recent_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-12",
+      "snippet": null
+    },
+    {
+      "title": "EDPB-EDPS Joint Opinion 3/2026 on the Proposal for a European Biotech Act",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/edpbedps-joint-opinion/edpb-edps-joint-opinion-32026-proposal-european_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-12",
+      "snippet": null
+    },
+    {
+      "title": "EDPB and EDPS support harmonisation of clinical trials under European Biotech Act, but call for specific safeguards for sensitive health data",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-and-edps-support-harmonisation-clinical-trials-under-european-biotech-act-call_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-11",
+      "snippet": null
+    },
+    {
+      "title": "Opinion 8/2026 on the draft decision of the Dutch Supervisory Authority regarding the Controller Binding Corporate Rules of the IBM Group",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/opinion-board-art-64/opinion-82026-draft-decision-dutch-supervisory_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-10",
+      "snippet": null
+    },
+    {
+      "title": "Opinion 7/2026 on the draft decision of the Dutch Supervisory Authority regarding the Controller Binding Corporate Rules of the BCD Travel Group",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/opinion-board-art-64/opinion-72026-draft-decision-dutch-supervisory_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-10",
+      "snippet": null
+    },
+    {
+      "title": "Stakeholder event on political advertising: agenda available now",
+      "url": "https://edpb.europa.eu/news/news/2026/stakeholder-event-political-advertising-agenda-available-now_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-05",
+      "snippet": null
+    },
+    {
+      "title": "Data brokers market study",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/support-pool-experts-projects/data-brokers-market-study_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-04",
+      "snippet": "The Data brokers market study provides a methodology to identify data brokers and presents a typology of data brokers, together with an analysis of their business models and an initial risk assessment"
+    },
+    {
+      "title": "Conference on cross-regulatory cooperation in the EU (17 March) - Programme available now",
+      "url": "https://edpb.europa.eu/news/news/2026/conference-cross-regulatory-cooperation-eu-17-march-programme-available-now_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-02",
+      "snippet": null
+    },
+    {
+      "title": "AI-generated imagery and protection of privacy: EDPB supports joint Global Privacy Assembly’s statement",
+      "url": "https://edpb.europa.eu/news/news/2026/ai-generated-imagery-and-protection-privacy-edpb-supports-joint-global-privacy_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-22",
+      "snippet": null
+    },
+    {
+      "title": "Coordinated Enforcement Action, implementation of the right to erasure by controllers",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/other/coordinated-enforcement-action-implementation-right-erasure_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-18",
+      "snippet": null
+    },
+    {
+      "title": "Report on stakeholder event on anonymisation and pseudonymisation of 12 December 2025",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/other/report-stakeholder-event-anonymisation-and-pseudonymisation-12_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-18",
+      "snippet": null
+    },
+    {
       "title": "EDPB identifies challenges hindering the full implementation of the right to erasure",
       "url": "https://edpb.europa.eu/news/news/2026/edpb-identifies-challenges-hindering-full-implementation-right-erasure_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
-      "date": "2026-01-01",
+      "date": "2026-02-17",
       "snippet": "Coordinated enforcement on Article 17 GDPR with 32 DPAs.",
       "summaryParagraphs": [
         "Coordinated enforcement on Article 17 GDPR with 32 DPAs. The report describes common challenges faced by controllers when handling erasure requests.",
         "This update is from European Data Protection Board (EDPB). For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ]
+    },
+    {
+      "title": "Reply to the civil society open letter in response on recent spyware abuse cases in the EU",
+      "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/letters/reply-civil-society-open-letter-response-recent-spyware-abuse_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-16",
+      "snippet": null
+    },
+    {
+      "title": "Making GDPR compliance easier through new initiatives: a key focus of the EDPB work programme 2026-2027",
+      "url": "https://edpb.europa.eu/news/news/2026/making-gdpr-compliance-easier-through-new-initiatives-key-focus-edpb-work-programme_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-12",
+      "snippet": null
+    },
+    {
+      "title": "EDPB work programme 2026-2027: easing compliance and strengthening cooperation across the evolving digital landscape",
+      "url": "https://edpb.europa.eu/news/news/2026/edpb-work-programme-2026-2027-easing-compliance-and-strengthening-cooperation-across_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-11",
+      "snippet": null
     },
     {
       "title": "EDPB and EDPS support streamlining AI Act implementation but call for stronger safeguards",
@@ -63,19 +239,6 @@
       ]
     },
     {
-      "title": "ICO publishes new fining guidance",
-      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/03/ico-publishes-new-fining-guidance",
-      "sourceName": "ICO (UK)",
-      "sourceUrl": "https://ico.org.uk/",
-      "date": "2024-03-01",
-      "snippet": "How the ICO decides penalties and calculates fines under UK GDPR.",
-      "summaryParagraphs": [
-        "How the ICO decides penalties and calculates fines under UK GDPR. The guidance explains the legal framework and methodology so organisations can better understand enforcement risk.",
-        "This update is from ICO (UK). For the full story and official wording, open the link above.",
-        "Relevant for GDPR compliance and data protection practice."
-      ]
-    },
-    {
       "title": "ICO 2024 – a year in review",
       "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/12/ico-2024-a-year-in-review",
       "sourceName": "ICO (UK)",
@@ -97,6 +260,19 @@
       "snippet": "ICO stresses data protection law and consent still apply.",
       "summaryParagraphs": [
         "ICO stresses data protection law and consent still apply. The ICO has responded to Google’s policy change and reminded businesses that they must still comply with UK law.",
+        "This update is from ICO (UK). For the full story and official wording, open the link above.",
+        "Relevant for GDPR compliance and data protection practice."
+      ]
+    },
+    {
+      "title": "ICO publishes new fining guidance",
+      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/03/ico-publishes-new-fining-guidance",
+      "sourceName": "ICO (UK)",
+      "sourceUrl": "https://ico.org.uk/",
+      "date": "2024-03-01",
+      "snippet": "How the ICO decides penalties and calculates fines under UK GDPR.",
+      "summaryParagraphs": [
+        "How the ICO decides penalties and calculates fines under UK GDPR. The guidance explains the legal framework and methodology so organisations can better understand enforcement risk.",
         "This update is from ICO (UK). For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ]

@@ -1,0 +1,18 @@
+{
+  "summaries": {
+    "1": "Chapter I frames what the GDPR protects and where it applies: the Regulation’s objectives and material and territorial scope, plus key definitions (including personal data and processing) that the rest of the text builds on.",
+    "2": "Chapter II sets out the core principles for processing personal data and the main grounds for lawfulness—including consent and other bases—alongside specific rules for children’s consent, special categories of data, and related carve-outs.",
+    "3": "Chapter III describes the transparency and information duties toward data subjects and their rights of access, rectification, erasure, restriction, portability, objection, and related modalities, including rules on automated decision-making.",
+    "4": "Chapter IV allocates responsibilities between controllers and processors: accountability tools (such as DPIAs and records), security and breach notification, DPOs, codes of conduct and certification, and obligations when using processors or joint arrangements.",
+    "5": "Chapter V governs transfers of personal data outside the EEA: the general rule, adequacy decisions, appropriate safeguard mechanisms (including BCRs), derogations, and cooperation on international enforcement.",
+    "6": "Chapter VI establishes independent supervisory authorities: their independence, powers, tasks, and lead-authority arrangements for cross-border processing.",
+    "7": "Chapter VII sets up cooperation and consistency among authorities, including the EDPB, consistency opinions, binding decisions, and urgency procedures where views diverge.",
+    "8": "Chapter VIII provides remedies for individuals—complaints, judicial review, representation—and rules on compensation, liability, and administrative fines and penalties.",
+    "9": "Chapter IX contains sector-specific and contextual provisions (e.g. freedom of expression, employment processing, archiving and research, churches) that qualify how standard rules apply in particular situations.",
+    "10": "Chapter X covers delegated and implementing EU acts that empower the Commission to adopt supplementary rules under defined procedures.",
+    "11": "Chapter XI contains final provisions: repeal of the old Directive, relationships with other instruments, reporting and review, and entry into force and application of the GDPR."
+  },
+  "source": "bundled",
+  "llm": false,
+  "generatedAt": null
+}
