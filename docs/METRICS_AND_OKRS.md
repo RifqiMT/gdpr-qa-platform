@@ -33,6 +33,14 @@ This document defines **product metrics** (what to measure in production or rese
 | **Error rate** | 4xx/5xx on critical routes: `/api/answer`, `/api/refresh`, `/api/news`. |
 | **Scraper failure rate** | Failed or no-significant-change runs from cron or manual refresh (from logs / `meta.etl`). |
 
+### 1.4 Document formatting and corpus integrity
+
+| Metric | Friendly name | Definition | Notes |
+|--------|---------------|------------|--------|
+| **formattingGuardrails.ok** | Guardrails pass flag | Share of **`POST /api/refresh`** responses where **`formattingGuardrails.ok === true`**. | **`false`** indicates §8 smoke warnings — inspect **`warnings[]`** and corpus (Art. 1, 4, 5, 89, recital 50, counts). |
+| **Guardrails warning count** | Validation warning volume | Count of strings in **`formattingGuardrails.warnings`** per refresh. | Trend upward after ETL changes signals regression. |
+| **Normalize-on-read consistency** | Read-path normalization active | Implicit: **`loadContent()`** always applies **`normalizeCorpus`**. | Spot-check: API body matches guardrail expectations after editing JSON manually. |
+
 ---
 
 ## 2. Technical operational metrics
@@ -71,6 +79,14 @@ This document defines **product metrics** (what to measure in production or rese
 | KR1 | News CTR to original articles ≥ X% (set from baseline). |
 | KR2 | &lt; 1% of news items with broken URLs in a weekly crawl audit. |
 | KR3 | Credible sources tab: all links in `/api/meta` return HTTP 200 or documented redirects. |
+
+### Objective O4: Regulation text stays structurally sound after every refresh.
+
+| Key result | Target (example) |
+|------------|------------------|
+| KR1 | ≥ 99% of production **`POST /api/refresh`** runs return **`formattingGuardrails.ok === true`**. |
+| KR2 | Zero skipped **`normalizeCorpus`** steps in code review for new ETL paths (audit checklist). |
+| KR3 | Manual spot-check of **Art. 4**, **Art. 6**, and **Art. 13** reader layout passes after each major scraper change. |
 
 ---
 

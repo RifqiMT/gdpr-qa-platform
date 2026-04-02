@@ -89,6 +89,20 @@ Personas represent primary users of the platform. They inform features, user sto
 
 ---
 
+## Persona 7: Engineering / DevOps
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Taylor (Engineering / DevOps) |
+| **Role** | Deploys and operates the app internally or for clients; owns configuration, refresh jobs, and observability. |
+| **Goals** | Keep the regulation corpus current and **formatting-consistent**; verify ETL and guardrails after upgrades; minimize stale in-memory state after refresh. |
+| **Pain points** | Silent hash-unchanged skips when operators expect a rewrite; unclear which primary source (**GDPR-Info** vs **EUR-Lex**) is active; long-running crawls without timeout visibility. |
+| **Needs** | Documented **environment variables** ([VARIABLES.md](VARIABLES.md)); **`POST /api/refresh`** returning **`formattingGuardrails`**; **`GDPR_FORCE_CORPUS_WRITE`** for forced writes; logs for cron and CLI **`npm run refresh`**. |
+| **Tech context** | Node ≥ 18, `.env` management, optional reverse proxy; reads **CHANGELOG** and **ARCHITECTURE** for upgrades. |
+| **Relevant features** | Refresh pipeline, **document formatting guardrails**, **`.env.example`**, **API contracts** for **/api/meta** and **/api/refresh**. |
+
+---
+
 ## Summary matrix
 
 | Persona              | Primary use                    | Key features                                              |
@@ -99,5 +113,6 @@ Personas represent primary users of the platform. They inform features, user sto
 | Industry specialist  | Sector-context Q&A             | Ask + sector, Browse, official links                      |
 | General Professional| Quick check                    | Ask, extractive/LLM paths, Browse, Credible sources, Homepage |
 | Stakeholder         | Verify references              | Browse, doc nav, citations, Export PDF, Credible sources  |
+| Engineering / DevOps | Operate ETL and config         | Refresh + guardrails, env vars, API meta, logs, changelog |
 
 For user stories derived from these personas, see [USER_STORIES.md](USER_STORIES.md). For full product documentation, see [README.md](../README.md).

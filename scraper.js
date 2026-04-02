@@ -65,6 +65,139 @@ function isEurLexWafPage(body) {
   return /awsWafCookieDomainList|gokuProps|AWS WAF/i.test(t);
 }
 
+/**
+ * Extract main article/recital text from GDPR-Info WordPress markup (matches gdpr-info.eu pages).
+ * Walks .entry-content in document order: <p> (with <br> splits), <ol>/<ul>/<li> (nested lists),
+ * footnote divs, etc. Articles 1, 5 and many others use <ol><li> only — a plain `find('p')` pass misses the body.
+ */
+function getGdprInfoEntryPlainText($, cheerioMod) {
+  const $entry = $('#content .entry-content, article .entry-content, .entry-content').first();
+  if (!$entry.length) {
+    return String($('body').text() || '')
+      .replace(/\r/g, '\n')
+      .replace(/[ \t\f]+/g, ' ')
+      .replace(/\n{2,}/g, '\n\n')
+      .trim();
+  }
+  const $clone = $entry.clone();
+  $clone.find('script, style, .sharedaddy, .wpcnt, .jp-relatedposts').remove();
+  $clone.find('.empfehlung-erwaegungsgruende, .page-navigation, .link-to-overview, .feedback, .title-disclaimer').remove();
+  $clone.find('a[href*="/recitals/no-"]').remove();
+  $clone.find('h2, h3').each(function () {
+    const $h = $(this);
+    if (/suitable\s+recitals/i.test($h.text())) {
+      $h.nextAll().remove();
+      $h.remove();
+    }
+  });
+
+  const blocks = [];
+
+  function pushLine(raw) {
+    const line = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (line && !/^←|^Report error$|^Table of contents$/i.test(line)) blocks.push(line);
+  }
+
+  function lineFromInnerHtml(html) {
+    const h = String(html || '').trim();
+    if (!h) return '';
+    return cheerioMod.load('<span>' + h + '</span>')('span').text().replace(/\s+/g, ' ').trim();
+  }
+
+  function processParagraph($p) {
+    const raw = $p.html() || '';
+    const brParts = raw.split(/<br\s*\/?>/i);
+    brParts.forEach((frag) => {
+      let f = String(frag || '');
+      // GDPR-Info recitals: <sup>1</sup>The … <sup>2</sup>In … — split into one stored line per clause (matches gdpr-info.eu).
+      const supToDigit = {
+        '¹': '1',
+        '\u00b9': '1',
+        '²': '2',
+        '\u00b2': '2',
+        '³': '3',
+        '\u00b3': '3'
+      };
+      f = f.replace(/<sup[^>]*>\s*([0-9]{1,2}|[¹²³\u00b9\u00b2\u00b3])\s*<\/sup>/gi, (_, num) => {
+        const ch = String(num);
+        const d = /^[0-9]+$/.test(ch) ? ch : supToDigit[ch] || '1';
+        return `\n\n${d}`;
+      });
+      f.split(/\n+/).forEach((chunk) => {
+        const line = lineFromInnerHtml(chunk);
+        if (line) pushLine(line);
+      });
+    });
+  }
+
+  function processList($list) {
+    $list.children('li').each(function () {
+      const $li = $(this);
+      const $nested = $li.children('ol, ul');
+      const $lead = $li.clone();
+      $lead.children('ol, ul').remove();
+      const leadText = lineFromInnerHtml($lead.html());
+      if (leadText) pushLine(leadText);
+      $nested.each(function () {
+        processList($(this));
+      });
+    });
+  }
+
+  function walkContainer($container) {
+    const children = $container.contents().toArray();
+    for (let i = 0; i < children.length; i++) {
+      const node = children[i];
+      if (node.type === 'text') {
+        const t = String(node.data || '').replace(/\s+/g, ' ').trim();
+        if (t) pushLine(t);
+        continue;
+      }
+      if (node.type !== 'tag') continue;
+      const name = (node.name || '').toLowerCase();
+      const $el = $(node);
+      if (name === 'p') {
+        processParagraph($el);
+      } else if (name === 'ol' || name === 'ul') {
+        processList($el);
+      } else if (name === 'div' || name === 'section' || name === 'article') {
+        walkContainer($el);
+      } else if (name === 'h1' || name === 'h2' || name === 'h3') {
+        continue;
+      } else if (name === 'table') {
+        pushLine($el.text().replace(/\s+/g, ' ').trim());
+      } else {
+        if ($el.find('p, ol, ul, table').length) walkContainer($el);
+        else {
+          const t = $el.text().replace(/\s+/g, ' ').trim();
+          if (t) pushLine(t);
+        }
+      }
+    }
+  }
+
+  walkContainer($clone);
+
+  if (blocks.length >= 1) {
+    return blocks.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+  let t = $clone.text().replace(/\r/g, '\n').replace(/[ \t\f]+/g, ' ').replace(/\n{2,}/g, '\n\n').trim();
+  return t;
+}
+
+/** Chapter ranges for Articles 1–99 (same as parseEurLexText). */
+const CHAPTER_RANGES = [
+  [1, 4], [5, 11], [12, 23], [24, 43], [44, 50], [51, 59], [60, 76], [77, 84], [85, 91], [92, 93], [94, 99]
+];
+
+function enrichArticlesWithChapter(articles) {
+  return (articles || []).map((a) => {
+    const chapterIndex = CHAPTER_RANGES.findIndex(([x, y]) => a.number >= x && a.number <= y);
+    const chapter = chapterIndex >= 0 ? chapterIndex + 1 : 1;
+    return { ...a, chapter };
+  });
+}
+
 function cleanLines(text) {
   const isJunkLine = (l) => {
     const s = String(l || '').trim();
@@ -101,7 +234,21 @@ function extractGdprInfoArticleFromText(n, text, h1Title) {
     .filter(l => !/^Art\.\s*\d+\s*GDPR/i.test(l))
     .filter(l => !/Table of contents|Report error|GDPR\s*$/i.test(l))
     .filter(l => !/^(←|Art\.)/i.test(l));
-  const body = bodyLines.join('\n').trim();
+  let body = bodyLines.join('\n').trim();
+  // EUR-Lex / mixed ETL sometimes repeats the heading twice on one line or as two opening lines.
+  if (title) {
+    const esc = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    body = body.replace(new RegExp('^(' + esc + ')\\s+\\1(?:\\s|$)', 'i'), '$1');
+    const splitBody = body.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    while (
+      splitBody.length >= 2 &&
+      splitBody[0].toLowerCase() === title.toLowerCase() &&
+      splitBody[1].toLowerCase() === title.toLowerCase()
+    ) {
+      splitBody.splice(1, 1);
+    }
+    body = splitBody.join('\n');
+  }
   return {
     number: n,
     title,
@@ -171,10 +318,9 @@ async function fetchGdprInfoDataset() {
       try {
         const html = await fetchText(t.url);
         const $ = cheerio.load(html);
-        // Read headings BEFORE stripping header/nav (they sometimes contain the h1).
-        const h1 = ($('h1').first().text() || '').replace(/\s+/g, ' ').trim();
+        const h1 = ($('h1.entry-title, h1').first().text() || '').replace(/\s+/g, ' ').trim();
         $('script, style, noscript, svg, header, footer, nav, form, iframe').remove();
-        const text = ($('body').text() || $.text() || '').replace(/[ \t\r\f]+/g, ' ').replace(/\n+/g, '\n').trim();
+        const text = getGdprInfoEntryPlainText($, cheerio);
         if (t.kind === 'article') results.articles.push(extractGdprInfoArticleFromText(t.n, text, h1));
         else results.recitals.push(extractGdprInfoRecitalFromText(t.n, text, h1));
       } catch (_) {
@@ -321,9 +467,7 @@ function parseEurLexText(html) {
 
   const articles = [];
   const seenArticle = new Map(); // number -> item (first occurrence wins: avoid cross-refs like "Article 5 thereof" overwriting real Art. 5)
-  const chapterRanges = [
-    [1, 4], [5, 11], [12, 23], [24, 43], [44, 50], [51, 59], [60, 76], [77, 84], [85, 91], [92, 93], [94, 99]
-  ];
+  const chapterRanges = CHAPTER_RANGES;
   // Match only article headings at line/document start; content runs until next such heading (in-text "Article 89" is not split)
   const articleRegex = /(?:^|\n)\s*Article\s+(\d+)\s*\n?([\s\S]*?)(?=\n\s*Article\s+\d+(?:\s|$)|$)/gi;
   let artMatch;
@@ -442,67 +586,131 @@ async function run() {
   let newArticles = [];
   let extractedFrom = null; // 'eur-lex' | 'gdpr-info' | null
 
-  try {
-    const urlsToTry = [
-      // TXT tends to be less protected than the HTML renderer.
-      EUR_LEX_TXT_URL,
-      EUR_LEX_HTML_URL
-    ];
+  const primary = (process.env.GDPR_ETL_PRIMARY || 'gdpr-info').trim().toLowerCase();
+  const minArt = Math.max(1, parseInt(process.env.MIN_GDPR_INFO_ARTICLES || '99', 10) || 99);
+  const minRec = Math.max(1, parseInt(process.env.MIN_GDPR_INFO_RECITALS || '173', 10) || 173);
 
+  /** One fetch of all GDPR-Info pages per run (avoid double crawl). */
+  let gdprInfoBundle = null;
+  async function getGdprInfoBundleOnce() {
+    if (!gdprInfoBundle) gdprInfoBundle = await fetchGdprInfoDataset();
+    return gdprInfoBundle;
+  }
+
+  async function tryEurLex() {
+    const urlsToTry = [EUR_LEX_TXT_URL, EUR_LEX_HTML_URL];
     let lastErr = null;
     for (const url of urlsToTry) {
       try {
         const raw = await fetchText(url);
         if (isEurLexWafPage(raw)) throw new Error('Blocked by EUR-Lex WAF challenge page');
-
         const parsed = parseEurLexText(raw);
-        newRecitals = parsed.recitals;
-        newArticles = parsed.articles;
-        if (newRecitals.length || newArticles.length) {
+        if (parsed.recitals.length || parsed.articles.length) {
+          newRecitals = parsed.recitals;
+          newArticles = parsed.articles;
           extractedFrom = 'eur-lex';
-          break;
+          return true;
         }
         lastErr = new Error('Parsed 0 items from EUR-Lex response');
       } catch (e) {
         lastErr = e;
       }
     }
-    if (!newRecitals.length && !newArticles.length && lastErr) throw lastErr;
-  } catch (err) {
-    console.error('Fetch/parse EUR-Lex failed:', err && err.message ? err.message : String(err));
-    try {
-      const status = err && err.response && err.response.status ? err.response.status : null;
-      const statusText = err && err.response && err.response.statusText ? err.response.statusText : null;
-      if (status) console.error('EUR-Lex status:', status, statusText || '');
-      const data = err && err.response && err.response.data ? err.response.data : null;
-      if (data) console.error('EUR-Lex error body (truncated):', String(data).slice(0, 600));
-    } catch (_) {}
+    if (lastErr) throw lastErr;
+    return false;
   }
 
-  // Fallback ETL extractor if EUR-Lex is blocked (WAF).
-  if (!newRecitals.length && !newArticles.length) {
-    try {
-      const out = await fetchGdprInfoDataset();
-      if (out.articles.length >= 80 && out.recitals.length >= 140) {
-        // Enrich with chapter + EUR-Lex URL fields to match our schema expectations.
-        // We rely on existing chapter mapping by number ranges (same as parseEurLexText).
-        const chapterRanges = [
-          [1, 4], [5, 11], [12, 23], [24, 43], [44, 50], [51, 59], [60, 76], [77, 84], [85, 91], [92, 93], [94, 99]
-        ];
-        newArticles = out.articles.map((a) => {
-          const chapterIndex = chapterRanges.findIndex(([x, y]) => a.number >= x && a.number <= y);
-          const chapter = chapterIndex >= 0 ? chapterIndex + 1 : 1;
-          return { ...a, chapter };
-        });
-        newRecitals = out.recitals;
-        extractedFrom = 'gdpr-info';
-        console.log('ETL: used GDPR-Info fallback extractor. Recitals:', newRecitals.length, 'Articles:', newArticles.length);
-      } else {
-        console.log('ETL: GDPR-Info fallback extractor incomplete. Recitals:', out.recitals.length, 'Articles:', out.articles.length);
+  try {
+    if (primary === 'gdpr-info') {
+      try {
+        const out = await getGdprInfoBundleOnce();
+        const arts = enrichArticlesWithChapter(out.articles);
+        if (arts.length >= minArt && out.recitals.length >= minRec) {
+          newArticles = arts;
+          newRecitals = out.recitals;
+          extractedFrom = 'gdpr-info';
+          console.log(
+            'ETL: primary source GDPR-Info (gdpr-info.eu), formatting aligned with official article/recital pages. Articles:',
+            newArticles.length,
+            'Recitals:',
+            newRecitals.length
+          );
+        } else {
+          console.log(
+            'ETL: GDPR-Info primary incomplete (articles:',
+            arts.length,
+            'recitals:',
+            out.recitals.length,
+            '— need >=',
+            minArt,
+            '/',
+            minRec + '); trying EUR-Lex…'
+          );
+        }
+      } catch (e) {
+        console.log('ETL: GDPR-Info primary failed:', e && e.message ? e.message : String(e));
       }
-    } catch (e) {
-      console.log('ETL: GDPR-Info fallback extractor failed:', e && e.message ? e.message : String(e));
+
+      if (!newRecitals.length && !newArticles.length) {
+        try {
+          await tryEurLex();
+        } catch (err) {
+          console.error('Fetch/parse EUR-Lex failed:', err && err.message ? err.message : String(err));
+          try {
+            const status = err && err.response && err.response.status ? err.response.status : null;
+            if (status) console.error('EUR-Lex status:', status);
+            const data = err && err.response && err.response.data ? err.response.data : null;
+            if (data) console.error('EUR-Lex error body (truncated):', String(data).slice(0, 600));
+          } catch (_) {}
+        }
+      }
+
+      if (!newRecitals.length && !newArticles.length) {
+        try {
+          const out = await getGdprInfoBundleOnce();
+          const arts = enrichArticlesWithChapter(out.articles);
+          if (arts.length >= 80 && out.recitals.length >= 140) {
+            newArticles = arts;
+            newRecitals = out.recitals;
+            extractedFrom = 'gdpr-info';
+            console.log('ETL: GDPR-Info relaxed fallback (≥80 articles, ≥140 recitals). Recitals:', newRecitals.length, 'Articles:', newArticles.length);
+          } else {
+            console.log('ETL: GDPR-Info relaxed fallback incomplete. Recitals:', out.recitals.length, 'Articles:', arts.length);
+          }
+        } catch (e) {
+          console.log('ETL: GDPR-Info relaxed fallback failed:', e && e.message ? e.message : String(e));
+        }
+      }
+    } else {
+      try {
+        await tryEurLex();
+      } catch (err) {
+        console.error('Fetch/parse EUR-Lex failed:', err && err.message ? err.message : String(err));
+        try {
+          const status = err && err.response && err.response.status ? err.response.status : null;
+          if (status) console.error('EUR-Lex status:', status);
+        } catch (_) {}
+      }
+
+      if (!newRecitals.length && !newArticles.length) {
+        try {
+          const out = await getGdprInfoBundleOnce();
+          const arts = enrichArticlesWithChapter(out.articles);
+          if (arts.length >= 80 && out.recitals.length >= 140) {
+            newArticles = arts;
+            newRecitals = out.recitals;
+            extractedFrom = 'gdpr-info';
+            console.log('ETL: used GDPR-Info fallback (EUR-Lex unavailable). Recitals:', newRecitals.length, 'Articles:', newArticles.length);
+          } else {
+            console.log('ETL: GDPR-Info fallback incomplete. Recitals:', out.recitals.length, 'Articles:', arts.length);
+          }
+        } catch (e) {
+          console.log('ETL: GDPR-Info fallback failed:', e && e.message ? e.message : String(e));
+        }
+      }
     }
+  } catch (err) {
+    console.error('ETL: unexpected orchestration error:', err && err.message ? err.message : String(err));
   }
 
   const fetched = newRecitals.length > 0 || newArticles.length > 0;
@@ -528,20 +736,45 @@ async function run() {
 
   // Load whenever extracted content differs from disk. Per-item thresholds hid real updates
   // (e.g. one article body extended after raising GDPR_MAX_ARTICLE_CHARS).
-  const significant = fetched && newHash !== oldHash;
+  const priorSource = existingMeta.etl && existingMeta.etl.extractedFrom;
+  const upgradeFromEurLexToGdprInfo =
+    fetched && extractedFrom === 'gdpr-info' && priorSource === 'eur-lex';
+  const forceCorpusWrite =
+    process.env.GDPR_FORCE_CORPUS_WRITE === '1' || process.env.GDPR_FORCE_RELOAD_CORPUS === '1';
+  const significant =
+    fetched && (newHash !== oldHash || upgradeFromEurLexToGdprInfo || forceCorpusWrite);
+  if (fetched && significant && (upgradeFromEurLexToGdprInfo || forceCorpusWrite) && newHash === oldHash) {
+    console.log(
+      'ETL: forcing corpus write (',
+      upgradeFromEurLexToGdprInfo ? 'EUR-Lex → GDPR-Info upgrade' : 'GDPR_FORCE_CORPUS_WRITE',
+      ').'
+    );
+  }
 
   // "Load" step: only overwrite stored dataset when significant.
-  const recitals = significant ? candidateRecitals : baselineRecitals;
-  const articles = significant ? candidateArticles : baselineArticles;
+  let recitals = significant ? candidateRecitals : baselineRecitals;
+  let articles = significant ? candidateArticles : baselineArticles;
+  // docs/DOCUMENT_FORMATTING_GUARDRAILS.md §1 — mandatory formatting bible: always normalize before index + write (every refresh path, every source).
+  const docFmt = require('./document-formatting-guardrails');
+  const normalized = docFmt.normalizeCorpus(recitals, articles);
+  recitals = normalized.recitals;
+  articles = normalized.articles;
+  console.log(
+    '[document-formatting-guardrails] refresh pipeline: normalizeCorpus applied; search index will be built from normalized articles/recitals.'
+  );
+  docFmt.logFormattingGuardrailsReport(recitals, articles);
   const searchIndex = buildSearchIndex(recitals, articles, structure.chapters);
 
   const output = {
     meta: {
       // lastChecked updates every time refresh runs (even if no content changes)
       lastChecked: new Date().toISOString(),
-      // lastRefreshed only updates when we actually fetched new content from EUR-Lex
+      // lastRefreshed only updates when the stored corpus changed significantly after ETL
       lastRefreshed: significant ? new Date().toISOString() : (existingMeta.lastRefreshed || null),
       etl: {
+        primaryRequested: primary,
+        minGdprInfoArticles: minArt,
+        minGdprInfoRecitals: minRec,
         extractedFrom: extractedFrom,
         fetched: fetched,
         significant,
@@ -582,4 +815,11 @@ if (require.main === module) {
   run().catch(err => { console.error(err); process.exit(1); });
 }
 
-module.exports = { run, fetchUrl, parseEurLexText, buildSearchIndex, mergeWithExisting };
+module.exports = {
+  run,
+  fetchUrl,
+  parseEurLexText,
+  buildSearchIndex,
+  mergeWithExisting,
+  getGdprInfoEntryPlainText
+};

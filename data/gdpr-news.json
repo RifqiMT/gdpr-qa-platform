@@ -24,12 +24,76 @@
   ],
   "items": [
     {
+      "title": "Press remarks by Commissioner Jørgensen at the informal meeting of EU Energy Ministers",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_767",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-31",
+      "snippet": "European Commission Speech Brussels, 31 Mar 2026 First of all let me thank the Cypriot Presidency and thank you Minister personally, thank you for agreeing to convene this extraordinary meeting. Now more than ..."
+    },
+    {
+      "title": "Keynote speech by Commissioner Hoekstra at a Parliamentary Hearing at the Italian Senate and the Chamber of Deputies",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_766",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-31",
+      "snippet": "European Commission Speech Rome, 31 Mar 2026 Gentili Onorevoli, Sono molto felice di essere nuovamente in Italia. Come alcuni di voi già sanno, ho un amore infinito per il vostro paese – specialmente per l..."
+    },
+    {
+      "title": "Commission opens formal State aid assessment of French support to new nuclear programme",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_744",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-30",
+      "snippet": "European Commission Press release Brussels, 31 Mar 2026 The European Commission has opened an in-depth investigation to assess whether public support that France plans to grant for the construction and operation of s..."
+    },
+    {
+      "title": "Commission approves €6 billion Italian State aid scheme for renewable hydrogen",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_738",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-29",
+      "snippet": "European Commission Press release Brussels, 30 Mar 2026 The European Commission has approved, under EU State aid rules, a €6 billion Italian scheme to support the production of renewable hydrogen for the transport an..."
+    },
+    {
+      "title": "Commission responds to cyber-attack on its Europa web platform",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_748",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-27",
+      "snippet": "European Commission Press release Brussels, 27 Mar 2026 On 24 March, the European Commission discovered a cyber-attack, which affected its cloud infrastructure hosting the Commission's web presence on the Europa.eu p..."
+    },
+    {
       "title": "One-Stop-Shop case digest on the legal basis of \"legitimate interest\"",
       "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/support-pool-experts-projects/one-stop-shop-case-digest-legal-basis_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-26",
-      "snippet": "Since the entry into force of the GDPR, Data Protection Authorities (DPAs) have closely cooperated to adopt a growing number of one-stop-shop (OSS) decisions on the legal basis of \"legitimate interest"
+      "snippet": "Since the entry into force of the GDPR, Data Protection Authorities (DPAs) have closely cooperated to adopt a growing number of one-stop-shop (OSS) decisions on the legal basis of \"legitimate interest\", as &nbsp;shown &nbsp;by &nbsp;the &nbsp;decisions &nbsp;on this matter available in the EDPB register . The OSS decisions assess and present a wide range of factual contexts. This case digest provides useful examples of how DPAs analyse controllers’ reliance on the legal basis"
+    },
+    {
+      "title": "Commission approves €144 million French State aid to support HyforSeeds in the production of hydrogen",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_718",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-26",
+      "snippet": "European Commission Press release Brussels, 27 Mar 2026 The European Commission has approved, under EU State aid rules, a €144 million French measure to support HyforSeeds to produce renewable and low-carbon hydrogen..."
+    },
+    {
+      "title": "Commission approves €500 million Luxembourgish cleantech manufacturing capacity State aid scheme",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_719",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-26",
+      "snippet": "European Commission Press release Brussels, 27 Mar 2026 The European Commission has approved a €500 million Luxembourgish scheme to support strategic investments that add clean technology (cleantech) manufacturing ca..."
+    },
+    {
+      "title": "Investigation by the Commission and consumer authorities find that one in three traders incorrectly display discounts online during Black Friday and Cyber Monday",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_734",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-26",
+      "snippet": "European Commission Press release Brussels, 26 Mar 2026 Today, the European Commission and consumer protection authorities from 23 Member States as well as Iceland and Norway, released the results of a screening (‘sweep') of online discounts during Black Friday and Cyber Monday sales."
     },
     {
       "title": "Daily News 26 / 03 / 2026",
@@ -37,7 +101,7 @@
       "sourceName": "European Commission",
       "sourceUrl": "https://commission.europa.eu/",
       "date": "2026-03-26",
-      "snippet": "European Commission Daily news Brussels, 26 Mar 2026 Enforcement actions on the protection of minors under the Digital Services Act\r\nToday, the European Commission took two enforcement actions under t"
+      "snippet": "European Commission Daily news Brussels, 26 Mar 2026 Enforcement actions on the protection of minors under the Digital Services Act Today, the European Commission took two enforcement actions under the Digital Ser..."
     },
     {
       "title": "Commission investigates Snapchat's compliance with child protection rules under the Digital Services Act",
@@ -45,7 +109,7 @@
       "sourceName": "European Commission",
       "sourceUrl": "https://commission.europa.eu/",
       "date": "2026-03-25",
-      "snippet": "European Commission Press release Brussels, 26 Mar 2026 The European Commission has opened formal proceedings to investigate if Snapchat is ensuring a high level of safety, privacy and security for ch"
+      "snippet": "European Commission Press release Brussels, 26 Mar 2026 The European Commission has opened formal proceedings to investigate if Snapchat is ensuring a high level of safety, privacy and security for children online, in compliance with the Digital Services Act (DSA)."
     },
     {
       "title": "Commission preliminarily finds PornHub, Stripchat, XNXX and XVideos in breach of the Digital Services Act for allowing minors to access their services",
@@ -53,7 +117,39 @@
       "sourceName": "European Commission",
       "sourceUrl": "https://commission.europa.eu/",
       "date": "2026-03-25",
-      "snippet": "European Commission Press release Brussels, 26 Mar 2026 The European Commission preliminarily found Pornhub, Stripchat, XNXX and XVideos in breach of the Digital Services Act (DSA) for failing to prot"
+      "snippet": "European Commission Press release Brussels, 26 Mar 2026 The European Commission preliminarily found Pornhub, Stripchat, XNXX and XVideos in breach of the Digital Services Act (DSA) for failing to protect minors from being exposed to pornographic content on their services."
+    },
+    {
+      "title": "Commission presents €115 million Programme for agile and rapid defence innovation (AGILE)",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_687",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-24",
+      "snippet": "European Commission Press release Brussels, 25 Mar 2026 The European Commission is presenting a new €115 million funding tool, AGILE, to bring disruptive defence technology from the lab to the field at record speed."
+    },
+    {
+      "title": "Factsheet: Programme for agile and rapid defence innovation (AGILE)",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/fs_26_688",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-24",
+      "snippet": "European Commission Factsheet Brussels, 25 Mar 2026 Factsheet: Programme for agile and rapid defence innovation (AGILE) Factsheet: Programme for agile and rapid defence innovation (AGILE)"
+    },
+    {
+      "title": "Opening Remarks by Commissioner McGrath at the Plenary Debate on the Directive on Combatting Corruption at the European Parliament",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_757",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-24",
+      "snippet": "European Commission Speech Brussels, 30 Mar 2026 Dear President, honourable Members, I am delighted to join you for today's debate on the Directive on combating corruption. The fight against corruption is an i..."
+    },
+    {
+      "title": "Remarks by Executive Vice-President Virkkunen and Commissioner Kubilius on a new financial instrument to support the European defence industry",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_712",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-24",
+      "snippet": "European Commission Speech Brussels, 25 Mar 2026 Executive Vice-President Virkkunen Today we adopted a proposal for a Regulation introducing a new financial instrument to support the European defence industry:..."
     },
     {
       "title": "EDPB conference on cross-regulatory cooperation: what we learned",
@@ -64,12 +160,44 @@
       "snippet": null
     },
     {
+      "title": "Speech by Commissioner McGrath on the Rule of Law Report to the Slovakian Parliament at the Slovakian National Council",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_759",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-23",
+      "snippet": "European Commission Speech Bratislava, 30 Mar 2026 Dear Chairs, Honourable Members of Parliament, Thank you for the invitation and opportunity to discuss with you the findings of the Commission's 2025 Rule of La..."
+    },
+    {
+      "title": "Commission approves €5 billion Danish State aid scheme to support offshore wind energy",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_655",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-22",
+      "snippet": "European Commission Press release Brussels, 23 Mar 2026 The European Commission has approved a €5 billion (DKK 37.6 billion) Danish scheme to support offshore wind energy in line with the objectives of the Clean Indu..."
+    },
+    {
+      "title": "Commission approves French State aid scheme  for production of renewable and low-carbon hydrogen",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_656",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-22",
+      "snippet": "European Commission Press release Brussels, 23 Mar 2026 The European Commission has approved, under EU State aid rules, a French scheme to support the production of renewable and low-carbon hydrogen in line with the ..."
+    },
+    {
       "title": "EDPB-EDPS Joint Opinion 4/2026 on the Proposal for a Cybersecurity Act 2 and the Proposal on amendments to the NIS 2 Directive",
       "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/edpbedps-joint-opinion/edpb-edps-joint-opinion-42026-proposal_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-19",
       "snippet": null
+    },
+    {
+      "title": "Opening remarks by Commissioner Várhelyi - Exchange of views on the Biotech Act with the European Parliament's SANTE-ITRE Committee",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_658",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-19",
+      "snippet": "European Commission Speech Brussels, 20 Mar 2026 Honourable Members,Thank you for the invitation to present the Biotech Act. As you know, biotechnology and pharmaceuticals are among Europe's most strategically..."
     },
     {
       "title": "EDPB and EDPS support strengthening EU’s cybersecurity and easing compliance while protecting individuals’ personal data",
@@ -85,6 +213,62 @@
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-18",
+      "snippet": null
+    },
+    {
+      "title": "Statement by President von der Leyen on EU Inc.",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_642",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-18",
+      "snippet": null
+    },
+    {
+      "title": "Remarks by Executive Vice-President Virkkunen and Commissioners Zaharieva and McGrath on EU Inc. and the 28th regime",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_643",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-18",
+      "snippet": null
+    },
+    {
+      "title": "Commission presents proposal for EU Inc. - unlocking the full potential of the Single Market for Europe's entrepreneurs",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_614",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-18",
+      "snippet": "Today, the European Commission presented its proposal for EU Inc., a new single set of corporate rules, building the cornerstone and starting point for the EU's 28th regime. EU Inc. is an optional, digital-by-default European corporate framework. It will make it easier for businesses to start, operate and grow across the EU – incentivising them to stay in Europe, and encourage those who once looked elsewhere to return."
+    },
+    {
+      "title": "Questions and answers on EU Inc.",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/qanda_26_615",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-18",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner McGrath on the Revised Victims' Rights Directive at the High-Level Meeting of the EU Victims' Rights Platform",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_682",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-17",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner McGrath on Data Protection and Digital Governance in Europe and Worldwide at the Forum Europe 15th Annual Data Protection and Privacy Conference",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_683",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-17",
+      "snippet": null
+    },
+    {
+      "title": "Commission adopts new State aid rules to boost the use of more sustainable ways of transport",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_604",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-16",
       "snippet": null
     },
     {
@@ -104,10 +288,26 @@
       "snippet": null
     },
     {
+      "title": "Keynote speech of the Executive Vice President Ribera at the 23rd International Conference on Competition (IKK)",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_602",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-12",
+      "snippet": "Executive Vice President Ribera delivered a keynote speech at the 23rd International Conference on Competition in Berlin"
+    },
+    {
       "title": "EDPB and EDPS support harmonisation of clinical trials under European Biotech Act, but call for specific safeguards for sensitive health data",
       "url": "https://edpb.europa.eu/news/news/2026/edpb-and-edps-support-harmonisation-clinical-trials-under-european-biotech-act-call_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-03-11",
+      "snippet": null
+    },
+    {
+      "title": "Commission approves €260 million Belgian State aid for carbon capture and storage project",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_583",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
       "date": "2026-03-11",
       "snippet": null
     },
@@ -128,6 +328,22 @@
       "snippet": null
     },
     {
+      "title": "Remarks by Commissioner McGrath Following the First EU Justice Ministers Meeting under the Cypriot Presidency",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_678",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-06",
+      "snippet": null
+    },
+    {
+      "title": "Commission approves €150 million Romanian State aid scheme for electricity storage",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_524",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-06",
+      "snippet": null
+    },
+    {
       "title": "Stakeholder event on political advertising: agenda available now",
       "url": "https://edpb.europa.eu/news/news/2026/stakeholder-event-political-advertising-agenda-available-now_en",
       "sourceName": "European Data Protection Board (EDPB)",
@@ -136,12 +352,60 @@
       "snippet": null
     },
     {
+      "title": "Commission holds first meeting of Special Panel on child safety online",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_540",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-05",
+      "snippet": "Today, European Commission President Ursula von der Leyen hosted the first meeting of the Special Panel on child safety online."
+    },
+    {
+      "title": "Commission's 2025 Safety Gate Report shows increased action against dangerous products and stronger consumer protection",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_537",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-05",
+      "snippet": "Today, the European Commission is presenting its annual report on Safety Gate, the European Rapid Alert System for dangerous non-food products. The Report provides an overview of dangerous products notified via the Safety Gate system in 2025 and the subsequent measures taken by national authorities to protect consumers."
+    },
+    {
+      "title": "Speech by Commissioner McGrath on the Results of the EU Rapid Alert System at the Safety Gate Media Event",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_671",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-05",
+      "snippet": null
+    },
+    {
+      "title": "Commission approves €200 million Spanish State aid for manufacturing capacity in the EV value chain",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_523",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-05",
+      "snippet": null
+    },
+    {
+      "title": "Conference Shaping the Future of EU Merger Control",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_575",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-05",
+      "snippet": "Closing remarks of the Executive Vice-President Ribera at the Implementation Dialogue on the impact of mergers on productivity, sustainability, and cost of living during the Conference \" Conference Shaping the Future of EU Merger Control \""
+    },
+    {
       "title": "Data brokers market study",
       "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/support-pool-experts-projects/data-brokers-market-study_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-04",
-      "snippet": "The Data brokers market study provides a methodology to identify data brokers and presents a typology of data brokers, together with an analysis of their business models and an initial risk assessment"
+      "snippet": "The Data brokers market study provides a methodology to identify data brokers and presents a typology of data brokers, together with an analysis of their business models and an initial risk assessment.&nbsp; In addition, the report provides an in-depth overview of a number of data brokers and providers identified in Belgium, ranked by type. Possible data brokers were assessed against the criteria outlined in the report. Overall, the study shows that the data broker and provid"
+    },
+    {
+      "title": "Commission registers European Citizens' Initiative calling for a European social media platform",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_522",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-03-04",
+      "snippet": null
     },
     {
       "title": "Conference on cross-regulatory cooperation in the EU (17 March) - Programme available now",
@@ -152,11 +416,107 @@
       "snippet": null
     },
     {
+      "title": "Commission opens in-depth State aid investigation into Romania's amended restructuring plan for CE Oltenia",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_440",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-27",
+      "snippet": null
+    },
+    {
+      "title": "Commission approves €1.1 billion French State aid scheme to support cleantech manufacturing capacity, in line with Clean Industrial Deal objectives",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_476",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-27",
+      "snippet": null
+    },
+    {
+      "title": "‘Roam Like at Home': Commission proposes to open negotiations to extend EU Roaming to the Western Balkans",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_474",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-25",
+      "snippet": "The European Commission has proposed to open negotiations with Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia to integrate them into the EU's ‘Roam Like at Home' regime."
+    },
+    {
+      "title": "Keynote speech by Commissioner Dombrovskis on the digital euro at Masters of Digital 2026",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_455",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-25",
+      "snippet": null
+    },
+    {
+      "title": "Opening remarks by Executive Vice-President Teresa Ribera at the signing ceremony of the EU – UK Competition Cooperation Agreement",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_473",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-25",
+      "snippet": null
+    },
+    {
+      "title": "EU and UK agree to cooperate closely on competition matters",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_454",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-25",
+      "snippet": null
+    },
+    {
+      "title": "Commission invites comments on draft new State aid General Block Exemption Regulation",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_453",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-25",
+      "snippet": null
+    },
+    {
+      "title": "Joint press release: EIB to provide financing under InvestEU to OQ Technology to develop satellite-to-smartphone connectivity",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_464",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-25",
+      "snippet": "The European Investment Bank will provide €25 million venture debt financing to Luxembourg-based satellite connectivity provider OQ Technology."
+    },
+    {
+      "title": "The new European Centre for Democratic Resilience starts its work",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_459",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-24",
+      "snippet": null
+    },
+    {
+      "title": "Commission approves €400 million Greek State aid scheme to support cleantech manufacturing capacity, contributing to Clean Industrial Deal objectives",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_449",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-24",
+      "snippet": null
+    },
+    {
       "title": "AI-generated imagery and protection of privacy: EDPB supports joint Global Privacy Assembly’s statement",
       "url": "https://edpb.europa.eu/news/news/2026/ai-generated-imagery-and-protection-privacy-edpb-supports-joint-global-privacy_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-22",
+      "snippet": null
+    },
+    {
+      "title": "Statement by Executive Vice-President Virkkunen and Commissioner McGrath ahead of the European Day for Victims of Crime",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_443",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-20",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner McGrath on Safeguarding Electoral Integrity at the OSCE Parliamentary Assembly Committee on Human Rights, Democracy & Humanitarian Questions",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_662",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-19",
       "snippet": null
     },
     {
@@ -189,11 +549,43 @@
       ]
     },
     {
+      "title": "Commission launches investigation into Shein under the Digital Services Act",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_420",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-17",
+      "snippet": "Today, the European Commission has opened formal proceedings against Shein, under the Digital Services Act."
+    },
+    {
       "title": "Reply to the civil society open letter in response on recent spyware abuse cases in the EU",
       "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/letters/reply-civil-society-open-letter-response-recent-spyware-abuse_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-16",
+      "snippet": null
+    },
+    {
+      "title": "Commission closes antitrust investigation following the withdrawal by Edwards Lifesciences of its disputed company policy",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_412",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-16",
+      "snippet": null
+    },
+    {
+      "title": "Commission approves €1.04 billion Danish State aid scheme to support landowner climate projects*",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_384",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-13",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner McGrath on Promoting Innovation and Entrepreneurship in Europe at this Critical Time Globally at the Scale Ireland Regional Start Up Summit",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_665",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-13",
       "snippet": null
     },
     {
@@ -213,11 +605,195 @@
       "snippet": null
     },
     {
-      "title": "EDPB and EDPS support streamlining AI Act implementation but call for stronger safeguards",
+      "title": "Commission presents action plan to counter drone threats",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_364",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-11",
+      "snippet": "The European Commission today presented its Action Plan to counter the increasing threats posed by drones to EU security."
+    },
+    {
+      "title": "Remarks by Executive Vice-President Virkkunen and Commissioners Brunner and Tzitzikostas on the action plan on drone security and counter-drone security",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_369",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-11",
+      "snippet": null
+    },
+    {
+      "title": "Factsheet: Action plan on drone security and counter-drone security",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/fs_26_365",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-11",
+      "snippet": null
+    },
+    {
+      "title": "Remarks by Commissioner McGrath at the plenary debate on the rule of law, fundamental rights, and misuse of EU funds in Slovakia",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_393",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-11",
+      "snippet": null
+    },
+    {
+      "title": "Digital Omnibus: EDPB and EDPS support simplification and competitiveness while raising key concerns",
+      "url": "https://edpb.europa.eu/news/news/2026/digital-omnibus-edpb-and-edps-support-simplification-and-competitiveness-while_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-10",
+      "snippet": null
+    },
+    {
+      "title": "Remarks by Executive Vice-President Virkkunen and Commissioner Micallef on the action plan against cyberbullying",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_336",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-10",
+      "snippet": null
+    },
+    {
+      "title": "Commission launches Action Plan Against Cyberbullying to protect young people online",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_332",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-10",
+      "snippet": "The European Commission's Action Plan Against Cyberbullying aims to protect the mental health of children and teens online in the EU."
+    },
+    {
+      "title": "Factsheet: Action plan against cyberbullying",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/fs_26_363",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-10",
+      "snippet": null
+    },
+    {
+      "title": "EU invests €700 million in newly opened NanoIC, Europe's largest Chips Act pilot line",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_329",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-09",
+      "snippet": "The European Union has launched its largest Chips Act pilot line, NanoIC, at IMEC Leuven, a major milestone for European semiconductor development and manufacturing."
+    },
+    {
+      "title": "Commission notifies Meta of possible interim measures to reverse exclusion of third-party AI assistants from WhatsApp",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_310",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-09",
+      "snippet": null
+    },
+    {
+      "title": "Commission responds to cyber-attack on its central mobile infrastructure",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_342",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-06",
+      "snippet": null
+    },
+    {
+      "title": "Commission preliminarily finds TikTok's addictive design in breach of the Digital Services Act",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_312",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-06",
+      "snippet": "Today, the European Commission preliminarily found TikTok in breach of the Digital Services Act for its addictive design."
+    },
+    {
+      "title": "Speech by Commissioner McGrath at Forum Europa",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_319",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-05",
+      "snippet": null
+    },
+    {
+      "title": "Commission increases submarine cable security with €347 million investment and new toolbox",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_327",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-02-05",
+      "snippet": "Submarine data cables, carrying 99% of intercontinental internet traffic, are essential for modern life and the European economy."
+    },
+    {
+      "title": "Register now for our conference on cross-regulatory cooperation in the EU (17 March)",
+      "url": "https://edpb.europa.eu/news/news/2026/register-now-our-conference-cross-regulatory-cooperation-eu-17-march_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-02-02",
+      "snippet": null
+    },
+    {
+      "title": "Stakeholder event on political advertising: express your interest",
+      "url": "https://edpb.europa.eu/news/news/2026/stakeholder-event-political-advertising-express-your-interest_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-01-28",
+      "snippet": null
+    },
+    {
+      "title": "Data Protection Day 2026: keeping children’s personal data safe online",
+      "url": "https://edpb.europa.eu/news/news/2026/data-protection-day-2026-keeping-childrens-personal-data-safe-online_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2026-01-27",
+      "snippet": null
+    },
+    {
+      "title": "The EU and Brazil conclude agreements to create the biggest area of free and safe data flows in the world",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_229",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-27",
+      "snippet": "Today, the European Commission and Brazil adopted mutual adequacy decisions, confirming that their levels of data protection are comparable. Recognising the high data protection standards that protect consumers and citizens on both sides, these agreements now allow businesses, public authorities and researchers to freely exchange data between the EU and Brazil."
+    },
+    {
+      "title": "Statement by President von der Leyen with President Costa and Indian Prime Minister Modi",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_210",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-27",
+      "snippet": "Thank you very much for the exceptional hospitality. It was such an honour for us to be your chief guests at the Republic Day celebrations yesterday. This is a memory I will carry for a lifetime. Because the sense of communion was so powerful. People filled the streets, united in the pride and joy of belonging to the Indian nation. And rightfully so. India has risen. And Europe is truly glad about it. Because when India succeeds, the world is more stable, more prosperous, and"
+    },
+    {
+      "title": "Statement by President von der Leyen ahead of International Holocaust Remembrance Day",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_204",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-26",
+      "snippet": null
+    },
+    {
+      "title": "Remarks by Commissioner McGrath at the plenary debate on the 28th Regime",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_341",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-26",
+      "snippet": null
+    },
+    {
+      "title": "Commission investigates Grok and X's recommender systems under the Digital Services Act",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_203",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-26",
+      "snippet": "The European Commission has launched a new formal investigation against X under the Digital Services Act (DSA)."
+    },
+    {
+      "title": "EU supports digital connectivity with simpler and harmonised rules in Digital Networks Act",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_107",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-21",
+      "snippet": "The European Commission proposed the Digital Networks Act (DNA) to modernise, simplify and harmonise EU rules on connectivity networks."
+    },
+    {
+      "title": "EDPB and EDPS support streamlining AI Act implementation but call for stronger safeguards to protect fundamental rights",
       "url": "https://edpb.europa.eu/news/news/2026/edpb-and-edps-support-streamlining-ai-act-implementation-call-stronger-safeguards_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
-      "date": "2026-01-01",
+      "date": "2026-01-20",
       "snippet": "Joint statement on fundamental rights and high-risk AI systems.",
       "summaryParagraphs": [
         "Joint statement on fundamental rights and high-risk AI systems. The EDPB and EDPS support simplification of the AI Act but call for stronger safeguards to protect rights.",
@@ -226,17 +802,457 @@
       ]
     },
     {
-      "title": "EDPB contributes to the LED evaluation and adopts recommendations on Processor BCR",
+      "title": "Commission strengthens EU cybersecurity resilience and capabilities",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_105",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-20",
+      "snippet": "Europe faces daily cyber and hybrid attacks on essential services and democratic institutions, carried out by sophisticated state and criminal groups. The European Commission has today proposed a new cybersecurity package to further strengthen the EU's cybersecurity resilience and capabilities in the face of these growing threats."
+    },
+    {
+      "title": "Remarks by Executive Vice-President Virkkunen on the Cybersecurity Package",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_152",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-20",
+      "snippet": null
+    },
+    {
+      "title": "Factsheet: New Cybersecurity Package",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/fs_26_106",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2026-01-20",
+      "snippet": null
+    },
+    {
+      "title": "EDPB contributes to the LED evaluation and adopts recommendations on the application for Processor BCR",
       "url": "https://edpb.europa.eu/news/news/2026/edpb-contributes-led-evaluation-and-adopts-recommendations-application-processor-bcr_en",
       "sourceName": "European Data Protection Board (EDPB)",
       "sourceUrl": "https://edpb.europa.eu/",
-      "date": "2026-01-01",
+      "date": "2026-01-18",
       "snippet": "Law Enforcement Directive and Binding Corporate Rules for processors.",
       "summaryParagraphs": [
         "Law Enforcement Directive and Binding Corporate Rules for processors. The EDPB has adopted recommendations on the application process for Processor BCRs.",
         "This update is from European Data Protection Board (EDPB). For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ]
+    },
+    {
+      "title": "Commission celebrates winners of fourth edition of EU Product Safety Award",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_3010",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-12-10",
+      "snippet": null
+    },
+    {
+      "title": "EDPB gives recommendations to make online shopping more respectful of users’ privacy, discusses the Digital Omnibus proposal and appoints new Deputy Chair",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-gives-recommendations-make-online-shopping-more-respectful-users-privacy_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-12-03",
+      "snippet": null
+    },
+    {
+      "title": "Commission welcomes political agreement on revised rules protecting travellers and helping package travel organisers",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2907",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-12-03",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner McGrath on \"Consumer policy in a changing world: 2030 vision for the EU\" at BEUC Annual Conference 2025",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_25_3145",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-12-03",
+      "snippet": null
+    },
+    {
+      "title": "Strengthening data protection worldwide: EDPB meets with the countries and organisation with an adequacy decision",
+      "url": "https://edpb.europa.eu/news/news/2025/strengthening-data-protection-worldwide-edpb-meets-countries-and-organisation_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-12-02",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner McGrath at the Annual Conference of the European Policy Centre",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_25_2968",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-12-02",
+      "snippet": null
+    },
+    {
+      "title": "Support the EDPB’s work as an expert",
+      "url": "https://edpb.europa.eu/news/news/2025/support-edpbs-work-expert_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-11-27",
+      "snippet": null
+    },
+    {
+      "title": "Remarks by Commissioner McGrath on the 2030 Consumer Agenda",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_25_2751",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-11-19",
+      "snippet": null
+    },
+    {
+      "title": "Commission presents 2030 Consumer Agenda to strengthen consumer protection, competitiveness, and sustainable growth",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2730",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-11-19",
+      "snippet": "The European Commission has adopted the 2030 Consumer Agenda, a strategic plan for EU consumer policy for the next five years. With 450 million consumers in the single market, who contribute to over 51% of the EU's GDP through household spending, consumers play an essential role in the engine room of our economy."
+    },
+    {
+      "title": "Simpler EU digital rules and new digital wallets to save billions for businesses and boost innovation*",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2718",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-11-19",
+      "snippet": "Europe's businesses, from factories to start-ups, will spend less time on administrative work and compliance and more time innovating and scaling-up, thanks to the European Commission's new digital package."
+    },
+    {
+      "title": "Remarks by Executive Vice-President Virkkunen, Commissioner Dombrovskis and Commissioner McGrath on the digital simplification package",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_25_2732",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-11-19",
+      "snippet": null
+    },
+    {
+      "title": "Factsheet: Digital Package",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/fs_25_2719",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-11-19",
+      "snippet": null
+    },
+    {
+      "title": "Stakeholder event on anonymisation and pseudonymisation: express your interest",
+      "url": "https://edpb.europa.eu/news/news/2025/stakeholder-event-anonymisation-and-pseudonymisation-express-your-interest_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-11-16",
+      "snippet": null
+    },
+    {
+      "title": "Twenty-one European airlines agree to modify their practices regarding environmental claims following dialogue with the Commission and national consumer protection authorities",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2608",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-11-06",
+      "snippet": null
+    },
+    {
+      "title": "Help make GDPR compliance easy for organisations: what templates would be helpful for you? Provide your feedback",
+      "url": "https://edpb.europa.eu/news/news/2025/help-make-gdpr-compliance-easy-organisations-what-templates-would-be-helpful-you_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-11-04",
+      "snippet": null
+    },
+    {
+      "title": "Draft adequacy decision for Brazil: EDPB adopts opinion",
+      "url": "https://edpb.europa.eu/news/news/2025/draft-adequacy-decision-brazil-edpb-adopts-opinion_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-11-04",
+      "snippet": null
+    },
+    {
+      "title": "Draft UK adequacy decisions: EDPB adopts opinions",
+      "url": "https://edpb.europa.eu/news/news/2025/draft-uk-adequacy-decisions-edpb-adopts-opinions_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-10-19",
+      "snippet": null
+    },
+    {
+      "title": "Coordinated Enforcement Framework: EDPB selects topic for 2026",
+      "url": "https://edpb.europa.eu/news/news/2025/coordinated-enforcement-framework-edpb-selects-topic-2026_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-10-13",
+      "snippet": null
+    },
+    {
+      "title": "Strengthening Schengen security and preventing irregular migration: EU Entry Exit System enters into operation",
+      "url": "https://edpb.europa.eu/news/news/2025/strengthening-schengen-security-and-preventing-irregular-migration-eu-entry-exit_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-10-09",
+      "snippet": null
+    },
+    {
+      "title": "DMA and GDPR: EDPB and European Commission endorse joint guidelines to clarify common touchpoints",
+      "url": "https://edpb.europa.eu/news/news/2025/dma-and-gdpr-edpb-and-european-commission-endorse-joint-guidelines-clarify-common_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-10-08",
+      "snippet": null
+    },
+    {
+      "title": "Anonymisation and pseudonymisation: take part in the stakeholder event",
+      "url": "https://edpb.europa.eu/news/news/2025/anonymisation-and-pseudonymisation-take-part-stakeholder-event_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-10-08",
+      "snippet": null
+    },
+    {
+      "title": "Interplay between the DSA and the GDPR: EDPB adopts guidelines",
+      "url": "https://edpb.europa.eu/news/news/2025/interplay-between-dsa-and-gdpr-edpb-adopts-guidelines_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-09-11",
+      "snippet": null
+    },
+    {
+      "title": "More online travel agencies commit to refund within 14 days for cancelled flights, following a dialogue with the Commission and consumer authorities",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_1934",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-07-31",
+      "snippet": "Following a dialogue with the European Commission and the Consumer Protection Cooperation (CPC) Network of national consumer authorities, Expedia and Lastminute.com have committed to better inform consumers of their rights and ensure they receive ticket refunds within 14 days in case of a flight cancellation by the airline."
+    },
+    {
+      "title": "Targeted modifications of the GDPR: EDPB & EDPS welcome simplification of record keeping obligations and request further clarifications",
+      "url": "https://edpb.europa.eu/news/news/2025/targeted-modifications-gdpr-edpb-edps-welcome-simplification-record-keeping_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-07-08",
+      "snippet": null
+    },
+    {
+      "title": "Irish Supervisory Authority fines TikTok €530 million and orders corrective measures following Inquiry into transfers of EEA User Data to China",
+      "url": "https://edpb.europa.eu/news/news/2025/irish-supervisory-authority-fines-tiktok-eu530-million-and-orders-corrective_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-07-03",
+      "snippet": null
+    },
+    {
+      "title": "The Helsinki Statement on enhanced clarity, support and engagement",
+      "url": "https://edpb.europa.eu/news/news/2025/helsinki-statement-enhanced-clarity-support-and-engagement_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-07-02",
+      "snippet": null
+    },
+    {
+      "title": "JOINT DECLARATION of Executive Vice-President of the European Commission Henna Virkkunen and Members of the European Parliament",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_25_1653",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-06-23",
+      "snippet": "Delivering an open, inclusive and human-centric digital future | Internet Governance Forum | 23-27 June 2025, Oslo"
+    },
+    {
+      "title": "EDPB publishes final version of guidelines on data transfers to third country authorities and SPE training material on AI and data protection",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-publishes-final-version-guidelines-data-transfers-third-country-authorities-and_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-06-04",
+      "snippet": null
+    },
+    {
+      "title": "Commission and national authorities urge SHEIN to respect EU consumer protection laws",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_1331",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-05-26",
+      "snippet": "Today, following a coordinated investigation at European level, the Consumer Protection Cooperation (CPC) Network of national consumer authorities and the European Commission notified the online marketplace and e-retailer SHEIN of a number of practices on its platform that infringe EU consumer law."
+    },
+    {
+      "title": "Simplification of record-keeping obligation: EDPB and EDPS adopt letter to EU Commission",
+      "url": "https://edpb.europa.eu/news/news/2025/simplification-record-keeping-obligation-edpb-and-edps-adopt-letter-eu-commission_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-05-07",
+      "snippet": null
+    },
+    {
+      "title": "European Patent Organisation and extension of adequacy decisions for the UK: EDPB adopts opinions",
+      "url": "https://edpb.europa.eu/news/news/2025/european-patent-organisation-and-extension-adequacy-decisions-uk-edpb-adopts_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-05-05",
+      "snippet": null
+    },
+    {
+      "title": "Europe Day 2025: come and visit us!",
+      "url": "https://edpb.europa.eu/news/news/2025/europe-day-2025-come-and-visit-us_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-05-04",
+      "snippet": null
+    },
+    {
+      "title": "EDPB annual report 2024: protecting personal data in a changing landscape",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-annual-report-2024-protecting-personal-data-changing-landscape_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-04-22",
+      "snippet": null
+    },
+    {
+      "title": "List of dangerous products notified in Commission's Safety Gate 2024 sets the path for increased consumer protection",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_1064",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-04-16",
+      "snippet": "Today, the European Commission has unveiled its annual report on Safety Gate, the European Rapid Alert System for dangerous non-food products. The report presents an overview of dangerous products notified in the Safety Gate in 2024."
+    },
+    {
+      "title": "EDPB adopts guidelines on processing personal data through blockchains and is ready to cooperate with AI office on guidelines on AI Act and EU data protection law",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-adopts-guidelines-processing-personal-data-through-blockchains-and-ready_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-04-13",
+      "snippet": null
+    },
+    {
+      "title": "Commission to invest €1.3 billion in artificial intelligence, cybersecurity and digital skills",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_907",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-03-28",
+      "snippet": "The Commission will allocate €1.3 billion for the deployment of critical technologies that are strategically important for the future of Europe and the continent's tech sovereignty through the Digital Europe Programme (DIGITAL) work programme for 2025 to 2027 adopted today."
+    },
+    {
+      "title": "Commission and national authorities take action to protect children from harmful practices in video games",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_831",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-03-21",
+      "snippet": "Coordinated by the European Commission, the Consumer Protection Cooperation Network (CPC) has launched an enforcement action against Star Stable Entertainment AB to ensure a safer, more transparent experience for players of the Star Stable Online game."
+    },
+    {
+      "title": "New data shows strong levels of consumer trust, but online threats persist",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_762",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-03-14",
+      "snippet": "Ahead of tomorrow's World Consumer Rights Day, the Commission has published the 2025 Consumer Conditions Scoreboard, which shows that 68% of European consumers feel confident about the safety of the products that they buy, with 70% trusting that their consumer rights are respected by traders."
+    },
+    {
+      "title": "EDPB adopts statement on the implementation of the PNR directive",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-adopts-statement-implementation-pnr-directive_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-03-13",
+      "snippet": null
+    },
+    {
+      "title": "Investigation by the Commission and national consumer authorities finds that nearly half of second-hand online traders fail to correctly inform consumers of their return rights",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_25_706",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-03-07",
+      "snippet": "Today, the European Commission and national consumer protection authorities of 25 Member States as well as Iceland and Norway released the results of a screening (‘sweep') of online traders selling second-hand goods, such as clothes, electronic equipment or toys."
+    },
+    {
+      "title": "CEF 2025: Launch of coordinated enforcement on the right to erasure",
+      "url": "https://edpb.europa.eu/news/news/2025/cef-2025-launch-coordinated-enforcement-right-erasure_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-03-04",
+      "snippet": null
+    },
+    {
+      "title": "EDPB publishes CSC biannual report and work programme 2025-2026",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-publishes-csc-biannual-report-and-work-programme-2025-2026_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-02-12",
+      "snippet": null
+    },
+    {
+      "title": "EDPB adopts statement on age assurance, creates a task force on AI enforcement and gives recommendations to WADA",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-adopts-statement-age-assurance-creates-task-force-ai-enforcement-and-gives_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-02-11",
+      "snippet": null
+    },
+    {
+      "title": "Stay in control of your personal data. Happy Data Protection day 2025!",
+      "url": "https://edpb.europa.eu/news/news/2025/stay-control-your-personal-data-happy-data-protection-day-2025_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-01-27",
+      "snippet": null
+    },
+    {
+      "title": "Data scraping: French Supervisory Authority fined KASPR €240 000",
+      "url": "https://edpb.europa.eu/news/news/2025/data-scraping-french-supervisory-authority-fined-kaspr-eu240-000_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-01-22",
+      "snippet": null
+    },
+    {
+      "title": "Speech by Commissioner Šuica at the European Parliament plenary on Uniting Europe against actors hostile to the EU",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_25_450",
+      "sourceName": "European Commission",
+      "sourceUrl": "https://commission.europa.eu/",
+      "date": "2025-01-22",
+      "snippet": null
+    },
+    {
+      "title": "CEF 2024: EDPB identifies challenges to the full implementation of the right of access",
+      "url": "https://edpb.europa.eu/news/news/2025/cef-2024-edpb-identifies-challenges-full-implementation-right-access_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-01-19",
+      "snippet": null
+    },
+    {
+      "title": "EDPB adopts pseudonymisation guidelines and paves the way to improve cooperation with competition authorities",
+      "url": "https://edpb.europa.eu/news/news/2025/edpb-adopts-pseudonymisation-guidelines-and-paves-way-improve-cooperation_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-01-16",
+      "snippet": null
+    },
+    {
+      "title": "Data scraping: French SA fined KASPR €200 000",
+      "url": "https://edpb.europa.eu/news/news/2025/data-scraping-french-sa-fined-kaspr-eu200-000_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2025-01-08",
+      "snippet": null
+    },
+    {
+      "title": "EDPB opinion on AI models: GDPR principles support responsible AI",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-opinion-ai-models-gdpr-principles-support-responsible-ai_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-12-17",
+      "snippet": null
+    },
+    {
+      "title": "EDPB calls for coherence of digital legislation with the GDPR",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-calls-coherence-digital-legislation-gdpr_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-12-03",
+      "snippet": null
+    },
+    {
+      "title": "EDPB clarifies rules for data sharing with third country authorities and approves EU Data Protection Seal certification",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-clarifies-rules-data-sharing-third-country-authorities-and-approves-eu-data_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-12-02",
+      "snippet": null
     },
     {
       "title": "ICO 2024 – a year in review",
@@ -263,6 +1279,222 @@
         "This update is from ICO (UK). For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ]
+    },
+    {
+      "title": "The French SA fines COSMOSPACE EUR 250,000 and TELEMAQUE EUR 150,000",
+      "url": "https://edpb.europa.eu/news/news/2024/french-sa-fines-cosmospace-eur-250000-and-telemaque-eur-150000_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-11-19",
+      "snippet": null
+    },
+    {
+      "title": "EDPB adopts its first report under the EU-U.S. Data Privacy Framework and a statement on the recommendations on access to data for law enforcement",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-adopts-its-first-report-under-eu-us-data-privacy-framework-and-statement_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-11-04",
+      "snippet": null
+    },
+    {
+      "title": "EDPB stakeholder event AI models",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-stakeholder-event-ai-models_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-11-04",
+      "snippet": null
+    },
+    {
+      "title": "EDPB meets with adequate countries",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-meets-adequate-countries_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-10-14",
+      "snippet": null
+    },
+    {
+      "title": "Stakeholder event on ‘AI models’: express your interest to participate",
+      "url": "https://edpb.europa.eu/news/news/2024/stakeholder-event-ai-models-express-your-interest-participate_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-10-14",
+      "snippet": null
+    },
+    {
+      "title": "Join the stakeholder event on EDPB opinion on ‘AI models’",
+      "url": "https://edpb.europa.eu/news/news/2024/join-stakeholder-event-edpb-opinion-ai-models_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-10-10",
+      "snippet": null
+    },
+    {
+      "title": "CEF 2025: EDPB selects topic for next year’s Coordinated Action",
+      "url": "https://edpb.europa.eu/news/news/2024/cef-2025-edpb-selects-topic-next-years-coordinated-action_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-10-09",
+      "snippet": null
+    },
+    {
+      "title": "EDPB adopts Opinion on processors, Guidelines on legitimate interest, Statement on draft regulation for GDPR enforcement, and work programme 2024-2025",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-adopts-opinion-processors-guidelines-legitimate-interest-statement-draft_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-10-08",
+      "snippet": null
+    },
+    {
+      "title": "Express your interest to take part in the EDPB stakeholder event on upcoming guidelines on ‘Consent or Pay’",
+      "url": "https://edpb.europa.eu/news/news/2024/express-your-interest-take-part-edpb-stakeholder-event-upcoming-guidelines-consent_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-09-11",
+      "snippet": null
+    },
+    {
+      "title": "EDPB to work together with European Commission to develop guidance on interplay GDPR and DMA",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-work-together-european-commission-develop-guidance-interplay-gdpr-and-dma_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-09-09",
+      "snippet": null
+    },
+    {
+      "title": "Take part in the EDPB stakeholder event on upcoming guidelines on ‘Consent or Pay’",
+      "url": "https://edpb.europa.eu/news/news/2024/take-part-edpb-stakeholder-event-upcoming-guidelines-consent-or-pay_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-09-04",
+      "snippet": null
+    },
+    {
+      "title": "Belgian SA rejects a complaint against an online telephone directory",
+      "url": "https://edpb.europa.eu/news/news/2024/belgian-sa-rejects-complaint-against-online-telephone-directory_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-08-25",
+      "snippet": null
+    },
+    {
+      "title": "Dutch SA imposes a fine of 290 million euro on Uber because of transfers of drivers' data to the US",
+      "url": "https://edpb.europa.eu/news/news/2024/dutch-sa-imposes-fine-290-million-euro-uber-because-transfers-drivers-data-us_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-08-25",
+      "snippet": null
+    },
+    {
+      "title": "Lithuanian SA: fine of  € 2 385 276 on Vinted, UAB (company)",
+      "url": "https://edpb.europa.eu/news/news/2024/lithuanian-sa-fine-eu-2-385-276-vinted-uab-company_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-07-25",
+      "snippet": null
+    },
+    {
+      "title": "EDPB adopts statement on DPAs role in AI Act framework, EU-U.S. Data Privacy Framework FAQ and new European Data Protection Seal",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-adopts-statement-dpas-role-ai-act-framework-eu-us-data-privacy-framework-faq_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-07-16",
+      "snippet": null
+    },
+    {
+      "title": "Coordinated Supervision Committee appoints new coordinator",
+      "url": "https://edpb.europa.eu/news/news/2024/coordinated-supervision-committee-appoints-new-coordinator_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-07-01",
+      "snippet": null
+    },
+    {
+      "title": "Zdravko Vukić elected new Deputy Chair of the European Data Protection Board",
+      "url": "https://edpb.europa.eu/news/news/2024/zdravko-vukic-elected-new-deputy-chair-european-data-protection-board_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-06-18",
+      "snippet": null
+    },
+    {
+      "title": "Facial recognition at airports: individuals should have maximum control over biometric data",
+      "url": "https://edpb.europa.eu/news/news/2024/facial-recognition-airports-individuals-should-have-maximum-control-over-biometric_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-05-23",
+      "snippet": null
+    },
+    {
+      "title": "EDPB launches French and German versions of its Data Protection Guide for small business",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-launches-french-and-german-versions-its-data-protection-guide-small-business_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-05-16",
+      "snippet": null
+    },
+    {
+      "title": "Czech SA imposed fine of 13.9 million EUR for infringement of Art. 6 and Art. 13 of GDPR",
+      "url": "https://edpb.europa.eu/news/news/2024/czech-sa-imposed-fine-139-million-eur-infringement-art-6-and-art-13-gdpr_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-05-01",
+      "snippet": null
+    },
+    {
+      "title": "Europe Day 2024",
+      "url": "https://edpb.europa.eu/news/news/2024/europe-day-2024_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-04-29",
+      "snippet": null
+    },
+    {
+      "title": "EDPB Annual Report 2023: Safeguarding individuals’ digital rights",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-annual-report-2023-safeguarding-individuals-digital-rights_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-04-22",
+      "snippet": null
+    },
+    {
+      "title": "EDPB sets out priorities for 2024-2027 and clarifies implementation DPF redress mechanisms",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-sets-out-priorities-2024-2027-and-clarifies-implementation-dpf-redress_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-04-17",
+      "snippet": null
+    },
+    {
+      "title": "EDPB: ‘Consent or Pay’ models should offer real choice",
+      "url": "https://edpb.europa.eu/news/news/2024/edpb-consent-or-pay-models-should-offer-real-choice_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-04-16",
+      "snippet": null
+    },
+    {
+      "title": "Commercial prospecting: French SA fined HUBSIDE.STORE €525,000",
+      "url": "https://edpb.europa.eu/news/news/2024/commercial-prospecting-french-sa-fined-hubsidestore-eu525000_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-04-14",
+      "snippet": null
+    },
+    {
+      "title": "CSC elects 2nd Deputy Coordinator",
+      "url": "https://edpb.europa.eu/news/news/2024/csc-elects-2nd-deputy-coordinator_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-04-09",
+      "snippet": null
+    },
+    {
+      "title": "Failure of an airline company to inform the data subject of completion of erasure request, failure of transparency obligations",
+      "url": "https://edpb.europa.eu/news/news/2024/failure-airline-company-inform-data-subject-completion-erasure-request-failure_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": "2024-03-11",
+      "snippet": null
     },
     {
       "title": "ICO publishes new fining guidance",

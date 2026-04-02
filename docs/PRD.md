@@ -1,8 +1,8 @@
 # Product Requirements Document (PRD)  
 ## GDPR Q&A Platform
 
-**Version:** 1.0  
-**Last updated:** Aligned with README and product documentation standard.
+**Version:** 1.1  
+**Last updated:** Aligned with README, product documentation standard v1.1, and mandatory document-formatting refresh pipeline.
 
 ---
 
@@ -21,7 +21,7 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 
 ### 1.2 Goals
 
-- Single source of truth: all answer text from regulation content (EUR-Lex) stored and searchable locally.
+- Single source of truth: Ask answers are grounded in the **local regulation corpus** (default extraction **GDPR-Info**, optional **EUR-Lex** primary via configuration); corpus is normalized on every refresh and on every API load per **document formatting guardrails**.
 - Traceability: every answer and summary ties back to specific Articles or Recitals with links to GDPR-Info and EUR-Lex.
 - Reduced unsourced claims: Ask answers are constrained to retrieved sources; LLM outputs require per-sentence `[Sn]` citations where enforced by prompts and repair passes.
 - Efficiency: browse by structure or ask in natural language; jump from Ask results to full article/recital in the app and back.
@@ -33,6 +33,7 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 - Legal and compliance professionals checking GDPR provisions.
 - Data Protection Officers (DPOs) and privacy officers needing quick references and citations.
 - Consultants and advisors preparing client-facing answers with official sources.
+- Engineering and operations staff deploying the app, configuring ETL, and monitoring refresh health.
 - Anyone needing to verify or cite the regulation text (e.g. developers, product managers).
 
 ---
@@ -93,12 +94,14 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| FR-R1 | User can click “Refresh sources” to run scraper; regulation text updated; “Last refreshed” shown in header. | Must |
-| FR-R2 | Server may run optional daily refresh (cron 02:00 Europe/Brussels). | Should |
-| FR-R3 | If gdpr-content.json is missing on server start, initial scraper run is attempted. | Should |
-| FR-R4 | Server exposes **`GET /api/chapter-summaries`** and optional **`POST /api/chapter-summaries/regenerate`** (requires `GROQ_API_KEY`) for Chapter I–XI intro blurbs. | Should |
+| FR-R1 | User can click “Refresh sources” to run ETL; regulation text updated; “Content as of” / freshness shown in the UI. | Must |
+| FR-R2 | Server may run optional daily refresh (cron 02:00 Europe/Brussels) using the same pipeline as the button. | Should |
+| FR-R3 | If **`gdpr-content.json`** is missing on server start, an initial ETL run is attempted and the in-memory corpus is reloaded. | Should |
+| FR-R4 | Server exposes **`GET /api/chapter-summaries`** and optional **`POST /api/chapter-summaries/regenerate`** (requires **`GROQ_API_KEY`**) for Chapter I–XI intro blurbs. | Should |
 | FR-R5 | **`GET /api/industry-sectors`** serves the sector list for the Ask combobox. | Should |
-| FR-R6 | Article and recital detail APIs return **`suitableRecitals`** / **`suitableArticles`** merged from editorial JSON and text-derived references (`gdpr-crossrefs.js`). | Should |
+| FR-R6 | Article and recital detail APIs return **`suitableRecitals`** / **`suitableArticles`** merged from editorial JSON and text-derived references (**`gdpr-crossrefs.js`**). | Should |
+| FR-R7 | Every regulation refresh **must** run **`normalizeCorpus`** from **`document-formatting-guardrails.js`** before **`buildSearchIndex`** and before every write of **`gdpr-content.json`**; **`POST /api/refresh`** returns **`formattingGuardrails`** (validation + warnings). | Must |
+| FR-R8 | After a successful refresh, the server **invalidates** the regulation content cache and **reloads** **`loadContent()`**; the client **reloads** meta, chapter list, recital list, credible sources, and re-opens the current article/recital when applicable. | Must |
 
 ### 3.5 Homepage and navigation
 
@@ -119,13 +122,14 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 | NFR-4 | CORS enabled; suitable for same-origin or controlled cross-origin use. | Must |
 | NFR-5 | Accessibility: semantic HTML, ARIA for tabs/panels/filters, keyboard support (e.g. Enter in doc nav number). | Should |
 | NFR-6 | LLM summaries optional; no secrets in repo; env vars for API keys (see README §10). | Must |
+| NFR-7 | Document formatting behavior is governed by **[DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)**; new ETL or write paths must not skip **`normalizeCorpus`**. | Must |
 
 ---
 
 ## 5. Data model (summary)
 
 - **gdpr-structure.json:** meta, categories, chapters[] (number, roman, title, articleRange, sourceUrl, eurLexUrl). Required for scraper.
-- **gdpr-content.json:** meta (lastRefreshed, sources), categories, chapters[], recitals[] (number, text), articles[] (number, title, text, chapter), searchIndex[] (type, number, title, text, sourceUrl, eurLexUrl, chapterTitle). Generated by scraper.
+- **gdpr-content.json:** **meta** (**lastRefreshed**, **lastChecked**, **etl**, **datasetHash**, **sources**, …), **categories**, **chapters[]**, **recitals[]**, **articles[]**, **searchIndex[]**. Produced by **`scraper.js`** after **`normalizeCorpus`** and **`buildSearchIndex`**.
 - **gdpr-news.json:** newsFeeds[] (name, url, description), items[] (title, url, sourceName, sourceUrl, date, snippet, optional summaryParagraphs[], topic). Optional; merged with crawled items in `GET /api/news` and written on `POST /api/news/refresh`.
 - **article-suitable-recitals.json:** editorial map `articles` keyed by article number → recital numbers; copied to `public/` on `npm start` (`prestart`).
 - **chapter-summaries.json:** optional `{ summaries: { "1": "…", …, "11": "…" }, source, llm, generatedAt }`.
@@ -141,7 +145,7 @@ Full data flow: [README §4 – Logic and data flow](../README.md#4-logic-and-da
 - Users can ask questions and receive grounded answers with citations and relevant provisions; “View in app” and “Back to question” work correctly.
 - Users can open Credible sources and News; News filters and Refresh news work.
 - Users can go to homepage via logo and see initial Browse state with sidebar reset.
-- Refresh sources updates regulation text; last refreshed time shown. Answers remain tied to returned `sources` and citation ids.
+- Refresh sources updates regulation text; freshness metadata shown; **formatting guardrails** run and are observable via API; Browse/Ask use normalized corpus. Answers remain tied to returned **`sources`** and citation ids.
 
 ---
 

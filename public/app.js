@@ -741,20 +741,39 @@
     post('/api/refresh')
       .then((data) => {
         if (data.success) {
-          setMeta({ lastRefreshed: data.lastRefreshed, lastChecked: data.lastChecked });
-          if (data.message && freshnessContentEl) {
-            var etl = document.createElement('p');
-            etl.className = 'freshness-tooltip-etl';
-            etl.textContent = data.message;
-            freshnessContentEl.appendChild(etl);
+          // DOCUMENT_FORMATTING_GUARDRAILS — server already ran normalizeCorpus + validate; reload UI from fresh API/cache.
+          if (data.formattingGuardrails && Array.isArray(data.formattingGuardrails.warnings)) {
+            data.formattingGuardrails.warnings.forEach(function (w) {
+              console.warn('[GDPR document formatting guardrails]', w);
+            });
           }
+          get('/api/meta')
+            .then(function (meta) {
+              setMeta(meta);
+              if (data.message && freshnessContentEl) {
+                var etl = document.createElement('p');
+                etl.className = 'freshness-tooltip-etl';
+                etl.textContent = data.message;
+                freshnessContentEl.appendChild(etl);
+              }
+            })
+            .catch(function () {
+              setMeta({ lastRefreshed: data.lastRefreshed, lastChecked: data.lastChecked });
+              if (data.message && freshnessContentEl) {
+                var etl2 = document.createElement('p');
+                etl2.className = 'freshness-tooltip-etl';
+                etl2.textContent = data.message;
+                freshnessContentEl.appendChild(etl2);
+              }
+            });
+          loadChapters();
+          loadRecitals();
+          loadSources();
+          if (currentDoc && currentDoc.type === 'article') openArticle(currentDoc.number);
+          else if (currentDoc && currentDoc.type === 'recital') openRecital(currentDoc.number);
         }
         btnRefresh.innerHTML = '<span class="btn-icon" aria-hidden="true">↻</span> Refresh sources';
         btnRefresh.disabled = false;
-        if (data.success) {
-          if (!browseRecitals.classList.contains('hidden')) loadRecitals();
-          if (!browseChapters.classList.contains('hidden')) loadChapters();
-        }
       })
       .catch(() => {
         btnRefresh.innerHTML = '<span class="btn-icon" aria-hidden="true">↻</span> Refresh sources';
@@ -2763,7 +2782,9 @@
             } else {
               bodyHtml =
                 '<div class="article-point point-plain"><span class="point-text">' +
-                injectRegulationCitationLinks(formatRecitalRefs(formatInlineFootnotes(escapeHtml(textToParse)))) +
+                injectRegulationCitationLinks(
+                  formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(textToParse)))
+                ) +
                 '</span></div>';
             }
           }
@@ -3895,6 +3916,15 @@
     return t;
   }
 
+  /** Article reader only: drop “(Recital N)” / “[Recital N]” before escape (recitals have dedicated documents). */
+  function stripParentheticalRecitalsFromArticlePlain(text) {
+    var t = String(text || '');
+    t = t.replace(/\(\s*Recital\s+\d{1,3}\s*\)/gi, ' ');
+    t = t.replace(/\[\s*Recital\s+\d{1,3}\s*\]/gi, ' ');
+    t = t.replace(/[ \t]{2,}/g, ' ');
+    return t.trim();
+  }
+
   /** Line starts only (preserve mid-sentence “Art. 6(1)”-style refs). */
   function stripCompoundEnumerationAtLineStarts(raw) {
     return String(raw || '')
@@ -3920,18 +3950,28 @@
   }
 
   function renderLetterListFromLines(lines) {
-    var items = (lines || []).map(function (l) { return normalizeEitherAlternativeLine(l); }).filter(Boolean);
+    var merged = mergeOrphanDigitParenLines(mergeOrphanParenLetterLines(lines || []));
+    var items = merged.map(function (l) { return normalizeEitherAlternativeLine(l); }).filter(Boolean);
     if (items.length < 2) return null;
     var lis = items.map(function (txt, idx) {
       var marker = String.fromCharCode(97 + idx); // a,b,c
-      var safe = injectRegulationCitationLinks(formatRecitalRefs(formatInlineFootnotes(escapeHtml(txt))));
+      var safe = injectRegulationCitationLinks(
+        formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(txt)))
+      );
       return '<li><span class="li-marker">(' + marker + ')</span><span class="li-text">' + safe + '</span></li>';
     }).join('');
     return '<ul class="letter-list">' + lis + '</ul>';
   }
 
-  /** One escaped + footnoted + recital-ref line (no newlines). */
+  /** One escaped + footnoted line for article bodies (no “Recital N” chrome — see fmtRecitalLine). */
   function fmtArticleLine(raw) {
+    var t = stripParentheticalRecitalsFromArticlePlain(String(raw || '').trim());
+    t = stripCompoundEnumerationAtLineStarts(t);
+    return injectRegulationCitationLinks(formatInlineFootnotes(escapeHtml(t)));
+  }
+
+  /** Recital documents: same as article line plus optional recital-ref line breaks for cross-refs. */
+  function fmtRecitalLine(raw) {
     var t = stripCompoundEnumerationAtLineStarts(String(raw || '').trim());
     return injectRegulationCitationLinks(formatRecitalRefs(formatInlineFootnotes(escapeHtml(t))));
   }
@@ -4159,18 +4199,9 @@
       .map(function (p) {
         var parts = splitInlineNumberedClauses(p);
         if (parts.length > 1) {
-          var lis = parts
-            .map(function (part) {
-              return (
-                '<li class="doc-bullet-item"><span class="li-text">' + fmtArticleLine(part) + '</span></li>'
-              );
-            })
-            .join('');
-          return (
-            '<div class="recital-block"><ul class="doc-bullet-list recital-clause-list">' + lis + '</ul></div>'
-          );
+          return '<div class="recital-block">' + renderDocBulletList(parts, 'recital-clause-list') + '</div>';
         }
-        return '<p>' + fmtArticleLine(p) + '</p>';
+        return '<p>' + fmtRecitalLine(p) + '</p>';
       })
       .join('');
   }
@@ -4289,6 +4320,61 @@
     return blocks;
   }
 
+  /**
+   * EUR-Lex / GDPR-Info ETL often emits “(a)” on its own line with the clause body on the next line.
+   * Join those so `looksLikeExplicitParenLetterLines` and letter lists match gdpr-info.eu layout.
+   */
+  function mergeOrphanParenLetterLines(lines) {
+    var arr = (lines || []).map(function (l) {
+      return String(l);
+    });
+    var out = [];
+    for (var i = 0; i < arr.length; i++) {
+      var t = arr[i].trim();
+      var m = t.match(/^\(([a-z])\)\s*$/i);
+      if (m) {
+        var j = i + 1;
+        while (j < arr.length && !String(arr[j]).trim()) j++;
+        if (j < arr.length) {
+          var next = String(arr[j]).trim();
+          if (next && !/^\(([a-z])\)\s*$/i.test(next)) {
+            out.push('(' + m[1].toLowerCase() + ') ' + next);
+            i = j;
+            continue;
+          }
+        }
+      }
+      out.push(arr[i]);
+    }
+    return out;
+  }
+
+  /** EUR-Lex-style “(1)” / “(2)” on their own line before the clause body. */
+  function mergeOrphanDigitParenLines(lines) {
+    var arr = (lines || []).map(function (l) {
+      return String(l);
+    });
+    var out = [];
+    for (var i = 0; i < arr.length; i++) {
+      var t = arr[i].trim();
+      var m = t.match(/^\((\d{1,2})\)\s*$/);
+      if (m) {
+        var j = i + 1;
+        while (j < arr.length && !String(arr[j]).trim()) j++;
+        if (j < arr.length) {
+          var next = String(arr[j]).trim();
+          if (next && !/^\((\d{1,2})\)\s*$/.test(next)) {
+            out.push('(' + m[1] + ') ' + next);
+            i = j;
+            continue;
+          }
+        }
+      }
+      out.push(arr[i]);
+    }
+    return out;
+  }
+
   /** Lines explicitly marked “(a) … (b) …” at line start (after trim). */
   function looksLikeExplicitParenLetterLines(lines) {
     if (lines.length < 2) return false;
@@ -4324,12 +4410,18 @@
     return stripNestedEnumerationMarkersFromLine(line);
   }
 
-  function renderDocBulletList(lines) {
-    var lis = lines.map(function (line) {
+  function renderDocBulletList(lines, extraListClass) {
+    var merged = mergeOrphanDigitParenLines(mergeOrphanParenLetterLines((lines || []).slice()));
+    if (merged.length >= 2 && looksLikeExplicitParenLetterLines(merged.map(function (l) { return String(l).trim(); }))) {
+      return renderExplicitParenLetterLines(merged.map(function (l) { return String(l).trim(); }));
+    }
+    var fmtLine = extraListClass === 'recital-clause-list' ? fmtRecitalLine : fmtArticleLine;
+    var lis = merged.map(function (line) {
       var cleaned = stripDuplicateEnumerationPrefix(line);
-      return '<li class="doc-bullet-item"><span class="li-text">' + fmtArticleLine(cleaned) + '</span></li>';
+      return '<li class="doc-bullet-item"><span class="li-text">' + fmtLine(cleaned) + '</span></li>';
     }).join('');
-    return '<ul class="doc-bullet-list">' + lis + '</ul>';
+    var listCls = 'doc-bullet-list' + (extraListClass ? ' ' + extraListClass : '');
+    return '<ul class="' + listCls + '">' + lis + '</ul>';
   }
 
   /** Short semicolon-separated policy lines (Art. 23(1) safeguards) — not Art. 49 transfer conditions. */
@@ -4379,6 +4471,9 @@
       return renderDocBulletList(lines);
     }
     if (!rest.length) return '';
+    rest = mergeOrphanDigitParenLines(mergeOrphanParenLetterLines(rest.slice())).map(function (l) {
+      return String(l).trim();
+    }).filter(Boolean);
     if (looksLikeExplicitParenLetterLines(rest)) return renderExplicitParenLetterLines(rest);
     var segTail = String(lastSeg || '').trim();
     /* Art. 2(2) / Art. 3(2): bullets so nested 1. 2. 3. is not confused with main article numbering */
@@ -4624,7 +4719,7 @@
       footnoteHtml =
         '<p class="art-footnote">' +
         injectRegulationCitationLinks(
-          formatRecitalRefs(formatInlineFootnotes(escapeHtml(footnoteParts.join('\n'))))
+          formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(footnoteParts.join('\n'))))
         ).replace(/\n+/g, '<br>') +
         '</p>';
     }
@@ -4757,7 +4852,7 @@
     var introHtml = '';
     if (introParts.length) {
       var introEsc = injectRegulationCitationLinks(
-        formatRecitalRefs(formatInlineFootnotes(escapeHtml(introParts.join('\n\n'))))
+        formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(introParts.join('\n\n'))))
       );
       introHtml = '<div class="prose"><p class="art-intro">' + introEsc.replace(/\n+/g, '<br>') + '</p></div>';
     }

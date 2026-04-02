@@ -40,6 +40,19 @@ The application ships a **single light theme** (no dark-mode token set in code a
 
 **Background atmosphere:** `body` uses layered radial gradients (teal and indigo at low opacity) plus a vertical linear gradient for depth (`public/styles.css` near `body {`).
 
+**Semantic colors:** Success-oriented states use **`--success`** (`#059669`). Destructive or error **states** rely on component classes (e.g. **`.docs-browser-loading--error`**, **`.freshness-tooltip-error`**) rather than a global `--danger` token; keep new error UI consistent with those patterns.
+
+---
+
+## 2.1 Responsive breakpoints and layout density
+
+| Breakpoint | Typical width | Effect (representative) |
+|------------|---------------|-------------------------|
+| **Default** | &lt; 640px | Tighter **`--main-vertical-pad`**, larger footer reserve, reading pane **`min(62dvh, …)`**. |
+| **640px+** | Small tablet | Slightly larger **`--reading-toolbar-gap`**. |
+| **900px+** | Desktop | **`--content-pad`** 2rem, **`--main-vertical-pad`** increased; reading pane **`min(70dvh, …)`**; chapter filter grid may use two columns (see **`.filter-bar`** in CSS). |
+| **1600px+** | Wide | **`--content-pad`** 2.5rem. |
+
 ---
 
 ## 3. Typography

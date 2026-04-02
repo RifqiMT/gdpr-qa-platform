@@ -4,19 +4,37 @@ This document is the **reference contract** between **source data** (`data/gdpr-
 
 **Principle:** The app must not alter the **legal meaning** of the GDPR. Formatting logic only parses, escapes, and structures text for display. If a fix requires rewriting substantive law, fix the **ETL** or **source**, not the wording in JSON.
 
+**This file is the binding bible** for how regulation text is normalized and presented. Any new extractor (GDPR-Info, EUR-Lex, or future mirror) must still pass through the same mandatory steps below before the corpus is written or served.
+
 ---
 
 ## 1. End-to-end pipeline
 
+### 1.1 Mandatory refresh contract (no exceptions)
+
+For **every** regulation refresh — **Refresh sources** / `POST /api/refresh`, **`npm run refresh`** (`server.js --refresh-only`), **daily cron**, and **initial startup** when `gdpr-content.json` is missing:
+
+1. **`scraper.js` `run()`** merges fetched `articles` / `recitals` with the existing file (or structure-only baseline).
+2. **`normalizeCorpus`** from **`document-formatting-guardrails.js`** runs on the merged arrays **immediately before** **`buildSearchIndex`** and **before every `fs.writeFileSync`** of `gdpr-content.json` — including when the dataset hash is unchanged (baseline is re-normalized on each run so guardrail updates apply without a forced hash change).
+3. **`logFormattingGuardrailsReport`** + **`validateCorpusFormatting`** run on the normalized corpus (§8 smoke checks).
+4. **`server.js`** after ETL: **`invalidateRegulationContentCache`** + **`loadContent()`** (`runRegulationScraperAndReloadContent`) so in-memory API state matches the file just written.
+5. **`POST /api/refresh`** returns **`formattingGuardrails`** to the client for console warnings.
+6. **`public/app.js`** after a successful refresh: reloads **`/api/meta`**, **`loadChapters()`**, **`loadRecitals()`**, **`loadSources()`**, and re-opens the current article/recital so the reader shows normalized text without a manual full page reload.
+
+CLI **`--refresh-only`** does not start HTTP; it still performs steps 1–3 and writes JSON. The next server start or API call uses **`loadContent()`** (step 4 on read).
+
 | Stage | Location | Responsibility |
 |--------|-----------|----------------|
 | Fetch & extract | `scraper.js` (EUR-Lex HTML/TXT, GDPR-Info pages) | Produce `articles[]`, `recitals[]` with `number`, `title`, `text`, URLs |
+| **Normalize (every refresh write)** | **`document-formatting-guardrails.js`** → **`normalizeCorpus`** | **Before `buildSearchIndex` and every write:** line endings (§3.2), NBSP→space (§4.2), EUR-Lex glue (§3.3); article-only stripping of parenthetical “(Recital N)” and continuation-line merges; **`logFormattingGuardrailsReport`** + **`validateCorpusFormatting`** (§8). |
+| **Normalize (every API read)** | **`server.js` → `loadContent()`** | **`normalizeCorpus`** on `articles` / `recitals` + **`buildSearchIndex`** so Browse/Ask match guardrails even if the JSON file predates a code change. |
+| **Cache bust after ETL** | **`server.js`** → **`invalidateRegulationContentCache`**, **`runRegulationScraperAndReloadContent`** | Ensures the process serving `/api/*` does not return stale corpus after refresh. |
 | Store | `data/gdpr-content.json` | Single source of truth for browse/API |
-| Serve | `server.js` (`/api/articles/:n`, `/api/recitals/:n`) | Return records as stored |
-| Render | `public/app.js` | `openArticle`, `openRecital`, formatters |
+| Serve | `server.js` (`/api/articles/:n`, `/api/recitals/:n`) | Returns guardrail-normalized payloads from `loadContent()` |
+| Render | `public/app.js` | `openArticle`, `openRecital`, `fmtArticleLine` / `fmtRecitalLine`, list renderers |
 | Style | `public/styles.css` | `.article-doc`, `.recital-doc`, `.art-para-list`, etc. |
 
-**Refresh rule:** After every content refresh, run the **verification checklist** (section 8) in the browser, not only diff/hash checks.
+**Manual QA:** Still run the **verification checklist** (section 8) in the browser after major ETL or reader changes.
 
 ---
 
@@ -60,9 +78,14 @@ When opening an article, the client builds HTML in this **fixed order**:
 
 ### 4.1 Order of operations for prose lines
 
-Typical line path:
+**Article bodies** (including letter lists and bullets under an article):
 
-`escapeHtml` → `formatInlineFootnotes` (EUR-Lex clause markers) → `formatRecitalRefs` → `injectRegulationCitationLinks`.
+Plain text → **`stripParentheticalRecitalsFromArticlePlain`** (remove `(Recital N)` / `[Recital N]` noise) → **`stripCompoundEnumerationAtLineStarts`** (where applicable) → **`escapeHtml`** → **`formatInlineFootnotes`** (EUR-Lex clause markers) → **`injectRegulationCitationLinks`**.  
+Do **not** run **`formatRecitalRefs`** on article lines (it adds layout breaks; recitals belong in their own documents / sidebar).
+
+**Recital documents** (and recital clause bullet lists via `recital-clause-list`):
+
+Same as articles through **`injectRegulationCitationLinks`**, but use **`fmtRecitalLine`**, which inserts **`formatRecitalRefs`** before citation linking for cross-recital readability.
 
 ### 4.2 NBSP → `&nbsp;` breaks regex whitespace
 
@@ -78,13 +101,21 @@ Typical line path:
 ## 5. Recitals
 
 - **Input:** `rawText` with optional blank-line paragraph splits; CRLF normalized.
+- **GDPR-Info HTML:** `scraper.js` splits each `<p>` on `<sup>n</sup>` so clauses become separate lines (same structure as [gdpr-info.eu recital pages](https://gdpr-info.eu/recitals/no-1/)).
 - **Heuristic blocks:** Double newlines define paragraphs; single newlines inside a block are collapsed to spaces.
-- **Inline “1Clause 2Clause”** (EUR-Lex): `splitInlineNumberedClauses` → bullet list, not a second numbered tier.
+- **Inline “1Clause 2Clause”** (EUR-Lex): `splitInlineNumberedClauses` → bullet list via `renderDocBulletList` (includes orphan `(a)` / `(1)` merging like articles).
+- **Recital-only guardrail:** `splitGluedNumericClauseMarkers` in `document-formatting-guardrails.js` repairs “…purposes. 2In such…” when a line was glued; it is **not** applied to article bodies (avoids breaking “Article 8. 2…”-style references).
 - **Long single-paragraph recitals:** Possible sentence pairing when many short sentences — changing thresholds affects layout only, not legal text.
 
 ---
 
 ## 6. ETL / scraper obligations (source refresh “bible”)
+
+**On every refresh** (button, `POST /api/refresh`, daily cron), `scraper.js` calls **`normalizeCorpus`** from `document-formatting-guardrails.js` on the final `recitals` and `articles` before `buildSearchIndex` and `fs.writeFileSync`. Do not skip this step when adding new write paths.
+
+**GDPR-Info extraction:** `.entry-content` is walked in document order (`<p>`, `<ol>/<ul>/<li>` with nesting, footnote `<div>`s). Articles that are list-only (e.g. Art. 1, 5) and definition lists (Art. 4) require this; a `<p>`-only pass misses the legal text.
+
+**Default corpus source:** With `GDPR_ETL_PRIMARY=gdpr-info` (default), article and recital bodies are taken from **gdpr-info.eu** `.entry-content` (same presentation as the public pages you use for spot checks). EUR-Lex text differs in whitespace and line breaks; use it only when you intentionally set `GDPR_ETL_PRIMARY=eur-lex`.
 
 When changing `scraper.js` or any step that writes `gdpr-content.json`:
 
@@ -93,7 +124,7 @@ When changing `scraper.js` or any step that writes `gdpr-content.json`:
 3. **Numbered paragraphs:** Prefer preserving `N.` at the **start of a line** (after optional horizontal space), with **whitespace after the dot** before prose — matches manual parser expectations.
 4. **Lists like `Articles 15, 16, 18, …`:** Commas may be followed by NBSP in official HTML; that is OK if client entity normalization remains (section 4.2).
 5. **Art. 4 “Definitions”:** Keep `For the purposes of this Regulation:` and definition lines starting with `‘` or numeric-quote patterns so `renderArt4Definitions` activates.
-6. **Do not strip** `(Recital N)` mid-article markers if the reader relies on them for cross-links and layout (they are formatted, not deleted as noise).
+6. **Article bodies:** parenthetical **`(Recital N)`** / **`[Recital N]`** are **removed** in **`normalizeArticle`** and on the client (**`stripParentheticalRecitalsFromArticlePlain`**) so articles stay readable; cross-refs live in **Suitable recitals** / dedicated recital docs, not inline chrome.
 7. **Placeholder:** If extraction fails, use the agreed placeholder prefix `(Text not extracted` so the UI shows the “unavailable” state instead of garbage HTML.
 
 ---
@@ -112,11 +143,11 @@ Run these in the **browse** reader (not only Ask):
 
 | Check | Why |
 |--------|-----|
-| **Art. 1** | Three numbered paragraphs; no spurious empty list items |
-| **Art. 2** | §1–§4; lettered `(a)`–`(d)` under §2 intact |
-| **Art. 4** | Definition list + recital refs readable |
-| **Art. 5–7** | Special list layouts |
-| **Art. 89** | Second paragraph: `Articles 15, 16, 18, 19, 20 and 21` — **all** article numbers are in-app links |
+| **Art. 1-99** | Three numbered paragraphs; no spurious empty list items |
+| **Art. 1-99** | §1–§4; lettered `(a)`–`(d)` under §2 intact |
+| **Art. 1-99** | Definition list + recital refs readable |
+| **Art. 1-99** | Special list layouts |
+| **Art. 1-99** | Second paragraph: `Articles 15, 16, 18, 19, 20 and 21` — **all** article numbers are in-app links |
 | **One long recital** | No accidental bullet explosion on normal prose |
 | **Chapter cards / doc nav** | Excerpts readable; no doubled title at start |
 
@@ -131,9 +162,9 @@ If **citations** break, inspect **entity normalization** (section 4.2) and **lis
 | Article open pipeline | `openArticle`, `stripLeadingArticleHeadingFromBody`, `renderManualNumberedParagraphs`, `renderAutoArticleBody` |
 | Recital HTML | `renderRecitalDocumentHtml`, `openRecital` |
 | Citations | `injectRegulationCitationLinks`, `linkRegulationCitationsInEscapedTextSegment`, `normalizeSpaceEntitiesForCitationPlainText`, `isProbablyGdprArticleCitation` |
-| Line formatting | `fmtArticleLine`, `fmtArticleMultiline`, `formatInlineFootnotes`, `stripEurLexClauseNumberMarkers` |
+| Line formatting | `fmtArticleLine`, `fmtRecitalLine`, `fmtArticleMultiline`, `formatInlineFootnotes`, `stripEurLexClauseNumberMarkers`, `stripParentheticalRecitalsFromArticlePlain` |
 | Reader chrome | `public/styles.css` — `.article-doc`, `.art-para-list`, `.recital-doc` |
-| JSON + refresh | `data/gdpr-content.json`, `scraper.js`, `server.js` |
+| JSON + refresh | `data/gdpr-content.json`, `scraper.js`, **`document-formatting-guardrails.js`**, `server.js` (`/api/refresh` returns `formattingGuardrails`) |
 
 ---
 

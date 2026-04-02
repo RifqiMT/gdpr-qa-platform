@@ -58,10 +58,13 @@ Enterprise-style traceability links **business intent** → **requirements** →
 
 | BR-ID | Business requirement | PRD | Story | Implementation | Verification |
 |-------|---------------------|-----|-------|----------------|--------------|
-| BR-R-01 | Manual refresh of regulation | FR-R1 | US-R1 | `POST /api/refresh`, `scraper.js` | `gdpr-content.json` updates `lastRefreshed` |
-| BR-R-02 | Scheduled refresh | FR-R2 | US-R2 | `node-cron` in `server.js` | Log “Daily GDPR content refresh” |
-| BR-R-03 | Initial refresh if no cache | FR-R3 | — | `server.listen` callback | First start without JSON triggers scrape |
+| BR-R-01 | Manual refresh of regulation | FR-R1 | US-R1 | `POST /api/refresh`, `scraper.js` | `gdpr-content.json` updates; `meta.etl` reflects run |
+| BR-R-02 | Scheduled refresh | FR-R2 | US-R2 | `node-cron` → `runRegulationScraperAndReloadContent` in `server.js` | Log “Daily GDPR content refresh completed.” |
+| BR-R-03 | Initial refresh if no cache | FR-R3 | — | `server.listen` callback | First start without JSON triggers ETL + `loadContent` |
 | BR-R-04 | Chapter summaries | FR-R4 | US-R3 | `chapter-summaries.json`, `GET /api/chapter-summaries`, `POST /api/chapter-summaries/regenerate` | API returns 11 chapters |
+| BR-R-05 | Document formatting on every write | FR-R7 | US-R4 | `document-formatting-guardrails.js` `normalizeCorpus` in `scraper.js` | `formattingGuardrails` on refresh; console report |
+| BR-R-06 | Server cache coherent after ETL | FR-R8 | US-R5 | `invalidateRegulationContentCache`, `runRegulationScraperAndReloadContent` | `GET /api/articles/1` matches disk after refresh |
+| BR-R-07 | Optional force write | — | US-R6 | `GDPR_FORCE_CORPUS_WRITE` / `GDPR_FORCE_RELOAD_CORPUS` | Hash unchanged still writes when env set |
 
 ---
 
@@ -72,7 +75,16 @@ Enterprise-style traceability links **business intent** → **requirements** →
 | BR-NF-01 | Node ≥18, no build step | NFR-1–3 | — | `package.json`, `public/*` static | `npm start` only |
 | BR-NF-02 | Accessibility for tabs and filters | NFR-5 | US-U1, US-U2 | ARIA on `index.html`, keyboard handlers | axe / manual keyboard pass |
 | BR-NF-03 | No legal advice positioning | Out of scope + README | — | Footer disclaimer | Copy present |
-| BR-NF-04 | Document formatting contract | — | — | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) | Post-refresh checklist |
+| BR-NF-04 | Document formatting contract | NFR-7 | US-R4 | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md), `document-formatting-guardrails.js` | Post-refresh checklist + `formattingGuardrails.ok` |
+
+---
+
+## Documentation and configuration
+
+| BR-ID | Business requirement | PRD | Story | Implementation | Verification |
+|-------|---------------------|-----|-------|----------------|--------------|
+| BR-D-01 | Central variable dictionary with relationships | — | US-D1 | [VARIABLES.md](VARIABLES.md), [.env.example](../.env.example) | New env var documented in §1 + README §10 |
+| BR-D-02 | Enterprise traceability for releases | — | US-D2 | [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md) | Matrix row exists for each Must requirement |
 
 ---
 

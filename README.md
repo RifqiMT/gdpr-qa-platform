@@ -4,7 +4,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.0.0   | ≥ 18 | Browse GDPR with filters and cross-links; **Ask** via BM25 + Groq/Tavily grounded answers with `[S1]` citations; optional industry sector; News (merge + refresh); Credible sources; chapter summaries; PDF export. |
+| 1.0.0   | ≥ 18 | Browse GDPR with filters and cross-links; **Ask** via BM25 + Groq/Tavily grounded answers with `[S1]` citations; optional industry sector; News (merge + refresh); Credible sources; chapter summaries; PDF export. **Product documentation standard v1.1** (see [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
 
 ---
 
@@ -25,9 +25,9 @@
 
 **Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) · [docs/README.md](docs/README.md) (full doc map).
 
-**Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) (data dictionary + relationship diagram) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [CHANGELOG.md](CHANGELOG.md).
+**Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) (data dictionary + relationship diagrams) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [CHANGELOG.md](CHANGELOG.md).
 
-**Source refresh & reader formatting:** [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) — contract between `gdpr-content.json`, `scraper.js`, and `public/app.js`.
+**Source refresh & reader formatting:** [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) — contract between `gdpr-content.json`, `scraper.js`, `document-formatting-guardrails.js`, and `public/app.js`. **Refresh sources** always runs server-side guardrail normalization before writing the corpus.
 
 ---
 
@@ -39,7 +39,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 |--------|-------------|
 | **Purpose** | Reference and Q&A over the GDPR using credible, official text only; plus curated news from supervisory bodies and official sources. |
 | **Users** | Legal, compliance, privacy professionals and anyone needing quick, sourced GDPR answers and updates. |
-| **Content** | **GDPR** recitals 1–173 and articles 1–99 from EUR-Lex, with structure and links from GDPR-Info; news from EDPB, ICO, European Commission, Council of Europe. |
+| **Content** | **GDPR** recitals 1–173 and articles 1–99: default corpus from **GDPR-Info** (paragraph structure aligned with [gdpr-info.eu](https://gdpr-info.eu/)); optional **EUR-Lex** primary via env; official links in-app; news from EDPB, ICO, European Commission, Council of Europe. |
 | **Deployment** | Single Node.js server; default port **3847** (`PORT` env). |
 
 ### Knowledge sources (credible organizations)
@@ -106,9 +106,12 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 ### 3.4 Content and regulation refresh
 
-- **Refresh sources** — Button triggers `POST /api/refresh`: fetches the latest regulation from EUR-Lex, parses recitals and articles, merges with existing data (no duplicates), builds the search index, and writes `data/gdpr-content.json`. Header shows last refreshed time.
-- **Daily refresh** — Optional cron at 02:00 Europe/Brussels to re-run the scraper.
-- **Credible sources** — Primary regulation text: [GDPR-Info](https://gdpr-info.eu/) and [EUR-Lex – Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng). Additional credible resources linked in the Sources tab and footer; also in `/api/meta`.
+- **Refresh sources** — Button triggers **`POST /api/refresh`**, which runs **`scraper.js`** ETL, then **`document-formatting-guardrails.js`** **`normalizeCorpus`** on every write path, **`validateCorpusFormatting`** (returns **`formattingGuardrails`** to the client), **`buildSearchIndex`**, and **`fs.writeFileSync`** for **`data/gdpr-content.json`**. The server then calls **`invalidateRegulationContentCache`** and **`loadContent()`** so APIs serve the file just written. The client reloads **`/api/meta`**, chapter and recital lists, credible sources, and re-opens the current document. See [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) §1.1.
+- **Primary source** — Default **`GDPR_ETL_PRIMARY=gdpr-info`** (per-page fetch from gdpr-info.eu). Set **`GDPR_ETL_PRIMARY=eur-lex`** to prefer the official consolidated EUR-Lex parser first (GDPR-Info remains fallback when needed).
+- **Force write** — **`GDPR_FORCE_CORPUS_WRITE=1`** (or **`GDPR_FORCE_RELOAD_CORPUS=1`**) forces a disk write on the next refresh even if the dataset hash is unchanged (e.g. after guardrail code changes).
+- **Daily refresh** — Optional cron at **02:00 Europe/Brussels** uses the same pipeline as the button (**`runRegulationScraperAndReloadContent`**).
+- **CLI refresh** — **`npm run refresh`** runs **`node server.js --refresh-only`** (ETL + write + guardrails; no HTTP server).
+- **Credible sources** — Primary regulation text: [GDPR-Info](https://gdpr-info.eu/) and [EUR-Lex – Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng). Additional credible resources linked in the Sources tab and footer; also in **`/api/meta`**.
 
 ### 3.5 News (GDPR from credible sources)
 
@@ -138,11 +141,14 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 ### 4.2 Scraper (`scraper.js`)
 
-- Fetches EUR-Lex HTML (or TXT fallback), strips scripts/styles/nav, normalizes text.
+- **Primary source (default):** **GDPR-Info** (`GDPR_ETL_PRIMARY=gdpr-info`) — fetches each article `https://gdpr-info.eu/art-N-gdpr/` and recital `https://gdpr-info.eu/recitals/no-N/` so stored text matches the **same paragraph and line structure** as those pages (see `.entry-content` extraction with `<p>` / `<br>` splitting). This avoids EUR-Lex-only whitespace bugs in the reader.
+- **Alternate:** Set `GDPR_ETL_PRIMARY=eur-lex` to prefer the official EUR-Lex consolidated HTML/TXT parser (`parseEurLexText`) first; GDPR-Info is still used as fallback if EUR-Lex fails or returns an empty parse.
+- Fetches EUR-Lex HTML (or TXT fallback) when that path is selected, strips scripts/styles/nav, normalizes text.
 - **Recitals** — Splits on “(Recital N)”, extracts body, keeps numbers 1–173. Uses a **Map** keyed by number so the **last occurrence wins** (no duplicates).
 - **Articles** — Splits on “Article N”, extracts title and body, maps to chapters via fixed article ranges, caps body length. Uses a **Map** keyed by number so the **last occurrence wins** (no duplicates).
 - **Merge with existing** — If `gdpr-content.json` exists, it is loaded and merged with newly fetched recitals/articles by number. For each number, the **newly fetched data overwrites** the existing one; numbers only in the existing file are kept. Result: one entry per recital/article number, with latest data from the refresh.
-- **Search index** — Built from the merged recitals and articles; deduplicated by `id` (e.g. `recital-5`, `article-5`) so the index has no duplicate entries.
+- **Document formatting guardrails** — Before `buildSearchIndex` and every write to `gdpr-content.json`, `document-formatting-guardrails.js` normalizes line endings, NBSP/narrow NBSP to ASCII space, and EUR-Lex “glue” patterns (same rules as the reader’s citation linker). It logs **`logFormattingGuardrailsReport`** and runs §8 smoke checks (counts, Articles 1 / 4 / 89). See [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md).
+- **Search index** — Built from the normalized recitals and articles; deduplicated by `id` (e.g. `recital-5`, `article-5`) so the index has no duplicate entries.
 - **Exports** — `run`, `fetchUrl`, `parseEurLexText`, `buildSearchIndex`, `mergeWithExisting`.
 
 ### 4.3 Sub-categories (topics) and Chapters filter (frontend)
@@ -160,12 +166,13 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 ### 4.5 Server (`server.js`)
 
-- **loadContent()** — Reads `gdpr-content.json` if present, else `gdpr-structure.json`; fallback to empty structures.
+- **loadContent()** — Reads **`gdpr-content.json`** if present (mtime-cached), applies **`normalizeCorpus`** and rebuilds **`searchIndex`** in memory so Browse/Ask match [DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) even if the file predates a code change; else falls back to **`gdpr-structure.json`** or empty structures.
+- **invalidateRegulationContentCache()** / **runRegulationScraperAndReloadContent()** — After ETL, clears the in-memory corpus cache and reloads from disk (**`POST /api/refresh`**, daily cron, initial missing-file refresh).
 - **Cross-references** — `gdpr-crossrefs.js`: build map of recitals citing articles; merge with `article-suitable-recitals.json` for `suitableRecitals` / `suitableArticles` on article and recital GET routes.
 - **BM25** — `buildBm25Searcher` over `searchIndex` for `buildLocalContext` (Ask). Legacy **`simpleSearch`** still powers **`POST /api/ask`**.
 - **`POST /api/answer`** — Composes local + optional web sources, calls Groq with `buildAnswerPrompt`, optional sector enforcement and citation repair passes, then Tavily, then `buildSummaryFromExcerpts` extractive fallback.
 - **`POST /api/summarize`** — Multi-provider LLM + extractive fallback (see §3.6).
-- **Refresh** — `POST /api/refresh` runs scraper; chapter summaries: `GET/POST /api/chapter-summaries*`.
+- **Refresh** — **`POST /api/refresh`** runs **`runRegulationScraperAndReloadContent()`** (scraper + cache bust + **`loadContent`**); returns **`formattingGuardrails`**. Chapter summaries: **`GET` / `POST /api/chapter-summaries*`**.
 - **Industry sectors** — `GET /api/industry-sectors` reads `public/industry-sectors.json` (cached).
 
 ### 4.6 Frontend (Ask flow)
@@ -180,7 +187,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 - Recitals / Chapters loaded from `/api/recitals`, `/api/chapters`, `/api/articles`. Chapters view builds `__chaptersData` (chapters, articles, articleTopics, topicIdsByChapter), populates Category, Sub-category, Chapter, Article dropdowns, and applies filters via `applyChaptersFilters()` (including topic filter). Section headers use `.chapters-group-heading` and `.chapters-group-meta` (centered). Chapter detail uses `.chapter-view-header` (centered horizontally and vertically with flexbox, min-height 140px).
 - **Homepage** — `goToHome()` (triggered by logo link click): switch to Browse tab if not already active; show `browsePlaceholder`, hide all browse sections (recitals, chapters, sources, detail); hide Back, Export PDF, Back to question; clear `currentDoc` and `lastListSection`; clear `chapterList.innerHTML` so the sidebar “Regulation & sources” shows only the original three nav items (Recitals, Chapters & Articles, Credible sources) with no chapter list below.
-- Article/recital detail from `/api/articles/:number`, `/api/recitals/:number`; rendered with numbered points and recital refs (`formatRecitalRefs`). **Doc navigation**: `updateDocNav()` shows Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go” (`goToDocNumber`); keyboard Enter in number input triggers Go. PDF export via html2pdf.js on the current detail node.
+- Article/recital detail from **`/api/articles/:number`**, **`/api/recitals/:number`**; articles use **`fmtArticleLine`** (citations + footnote stripping; parenthetical “(Recital N)” removed); recital bodies use **`fmtRecitalLine`** where cross-recital refs are highlighted. **Doc navigation**: **`updateDocNav()`** shows Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go” (**`goToDocNumber`**); Enter in the number input triggers Go. PDF export via **html2pdf.js** on the current detail node.
 - Tab switching: `data-view="browse"` | `data-view="ask"` | `data-view="sources"` | `data-view="news"`; views shown/hidden and `aria-selected` updated.
 
 ### 4.8 Frontend (Sources and News flow)
@@ -242,8 +249,9 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 ```
 gdpr-qa-platform/
-├── server.js                 # Express: APIs, BM25 context, Groq/Tavily Ask, summarize, refresh, news, chapter summaries, cron, static + SPA fallback
+├── server.js                 # Express: APIs, BM25 context, Groq/Tavily Ask, summarize, refresh (runRegulationScraperAndReloadContent), news, chapter summaries, cron, static + SPA fallback
 ├── scraper.js                # EUR-Lex ETL → gdpr-content.json
+├── document-formatting-guardrails.js  # Corpus normalization + validation on every refresh (see docs/DOCUMENT_FORMATTING_GUARDRAILS.md)
 ├── news-crawler.js           # News crawl; used by GET/POST news routes
 ├── gdpr-crossrefs.js         # Article↔recital suitability helpers
 ├── package.json              # prestart, start, refresh, fetch-suitable-recitals
@@ -276,7 +284,8 @@ gdpr-qa-platform/
 |------|----------------|
 | **server.js** | `loadContent`; BM25 (`buildBm25Searcher`, `buildLocalContext`); `POST /api/answer` (Groq, Tavily, extractive); `POST /api/ask`, `POST /api/summarize`; article/recital routes with `suitableRecitals` / `suitableArticles`; chapter summaries; industry sectors; news merge/refresh; cron; static. |
 | **gdpr-crossrefs.js** | `buildRecitalsCitingArticlesMap`, `mergedSuitableRecitalsForArticle`, `mergedSuitableArticlesForRecital`. |
-| **scraper.js** | EUR-Lex fetch/parse, merge, `buildSearchIndex`, write `gdpr-content.json`. |
+| **scraper.js** | EUR-Lex fetch/parse, merge, **`document-formatting-guardrails.js`** normalization, `buildSearchIndex`, write `gdpr-content.json`. |
+| **document-formatting-guardrails.js** | On every refresh: line endings, NBSP→space, EUR-Lex glue fixes; validation report (Art. 1, 4, 89, counts). |
 | **news-crawler.js** | `crawlNews`, `withTimeout`, URL normalization for dedupe. |
 | **public/app.js** | Browse (filters, doc nav, cross-links, chapter summaries); **Ask:** `doAsk` → `/api/answer`; Sources; News + refresh; PDF; homepage. |
 | **public/styles.css** | Design tokens, layout, reader, Ask citation chips, news/sources, print/PDF hooks. |
@@ -305,7 +314,7 @@ gdpr-qa-platform/
 | POST | `/api/answer` | Body: `{ query, includeWeb?, industrySectorId? }`. Grounded answer + `sources` + `llm` metadata |
 | POST | `/api/ask` | Body: `{ query }`. Legacy simple search, top 25 full-text hits |
 | POST | `/api/summarize` | Body: `{ query, excerpts[] }`. LLM/extractive summary (integrations) |
-| POST | `/api/refresh` | Run scraper |
+| POST | `/api/refresh` | Run ETL + **normalizeCorpus** + write JSON + reload server cache; returns **`formattingGuardrails`** |
 | GET | `/article-suitable-recitals.json` | Editorial suitable-recitals map (from `data/`) |
 | GET | `*` (non-file) | SPA fallback → `public/index.html` |
 
@@ -327,6 +336,12 @@ Static files under `public/` are served by Express.
 | `WEB_MAX_RESULTS` | Max DuckDuckGo HTML results parsed (default `4`). |
 | `WEB_MAX_PAGES` | Max pages to fetch for excerpts (default `3`). |
 | `WEB_SNIPPET_CHARS` | Max chars per web excerpt (default `1400`). |
+| `GDPR_ETL_PRIMARY` | `gdpr-info` (default) or `eur-lex` — which source fills `gdpr-content.json` on refresh first. |
+| `MIN_GDPR_INFO_ARTICLES` | Minimum article count to accept GDPR-Info as primary (default `99`). |
+| `MIN_GDPR_INFO_RECITALS` | Minimum recital count to accept GDPR-Info as primary (default `173`). |
+| `GDPR_MAX_ARTICLE_CHARS` | Optional cap on stored article/recital body length (`scraper.js`; `0` or unset = no cap). |
+| `GDPR_INFO_CONCURRENCY` | Parallel GDPR-Info fetches (default `6`). |
+| `GDPR_FORCE_CORPUS_WRITE` / `GDPR_FORCE_RELOAD_CORPUS` | Set to `1` to force writing `gdpr-content.json` on next refresh even if hash unchanged. |
 | `OPENAI_API_KEY` | OpenAI API key for summaries |
 | `OPENAI_MODEL` | Optional; default `gpt-4o-mini` |
 | `ANTHROPIC_API_KEY` | Anthropic API key |
@@ -346,6 +361,7 @@ Static files under `public/` are served by Express.
 | `OPENROUTER_MODEL` | Optional; default `anthropic/claude-3.5-sonnet` |
 | `OPENROUTER_REFERRER` | Optional referrer for OpenRouter |
 | `LLM_PROVIDER` | Force single provider: `openai`, `anthropic`, `gemini`, `groq`, `mistral`, `openrouter` |
+| `OPENROUTER_REFERRER` | HTTP Referer sent to OpenRouter (default `http://localhost:3847`; set in production). |
 
 Copy `.env.example` to `.env` and set keys as needed. When multiple keys are set and `LLM_PROVIDER` is not set, the server tries Anthropic first, then OpenAI, then the rest.
 

@@ -8,6 +8,19 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ### Documentation
 
+- **Comprehensive documentation audit (product standard v1.1):** Rewrote and expanded **[docs/VARIABLES.md](docs/VARIABLES.md)** with full environment-variable tables (including **`GDPR_MAX_ARTICLE_CHARS`**, **`GDPR_INFO_CONCURRENCY`**, **`GDPR_FORCE_*`**, **`OPENROUTER_REFERRER`**), refresh API fields, and **two** Mermaid relationship diagrams (data flow + configuration dependencies).
+- Updated **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)** to v1.1 with governance rules and an authoritative documentation index.
+- Refreshed **[README.md](README.md)** for the mandatory **document formatting** refresh pipeline, **`runRegulationScraperAndReloadContent`**, default **GDPR-Info** corpus, client reload after refresh, and extended configuration table.
+- **PRD v1.1:** Added **FR-R7**, **FR-R8**, **NFR-7**; clarified data model and success criteria for guardrails and post-refresh coherence.
+- **Personas & stories:** Added **Engineering / DevOps** persona; new stories **US-R4–US-R6** for guardrails, UI reload, and force write.
+- **Metrics:** New **§1.4** (formatting/corpus integrity) and **OKR O4**; **TRACEABILITY_MATRIX** rows **BR-R-05**–**BR-R-07** and updated **BR-NF-04**.
+- **Design:** **DESIGN_GUIDELINES** §2.1 responsive breakpoints; semantic/error color note.
+- **API / architecture:** **`POST /api/refresh`** sample JSON; regulation refresh sequence diagram in **ARCHITECTURE.md**.
+- **Hub:** **[docs/README.md](docs/README.md)** reading order and expanded map; **GUARDRAILS** §8 documentation guardrails; **`.env.example`** extended for new ETL and OpenRouter variables.
+- **New:** **[docs/GLOSSARY.md](docs/GLOSSARY.md)** for acronyms and product terms.
+
+### Earlier unreleased notes
+
 - Added enterprise product documentation set: `docs/VARIABLES.md`, `docs/METRICS_AND_OKRS.md`, `docs/DESIGN_GUIDELINES.md`, `docs/TRACEABILITY_MATRIX.md`, `docs/GUARDRAILS.md`, `docs/API_CONTRACTS.md`, `docs/ARCHITECTURE.md`, `docs/README.md`.
 - Expanded `PRODUCT_DOCUMENTATION_STANDARD.md` and root `README.md` to reflect current Ask (`POST /api/answer`), BM25 retrieval, industry sectors, Groq/Tavily, chapter summaries, and news APIs.
 

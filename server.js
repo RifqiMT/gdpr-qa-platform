@@ -19,7 +19,7 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
-const { run: runScraper } = require('./scraper');
+const { run: runScraper, buildSearchIndex } = require('./scraper');
 const { crawlNews, withTimeout, normalizeNewsUrlKey } = require('./news-crawler');
 const {
   buildRecitalsCitingArticlesMap,
@@ -48,6 +48,21 @@ const PORT = process.env.PORT || 3847;
 const DATA_DIR = path.join(__dirname, 'data');
 const CONTENT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
 const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
+
+/** In-memory cache invalidated by gdpr-content.json mtime. Always apply guardrails + rebuild search index so the API matches DOCUMENT_FORMATTING_GUARDRAILS even if the file was never re-fetched from GDPR-Info. */
+let contentLoadCache = { mtimeMs: null, data: null };
+
+/** After regulation ETL (`runScraper`), clear cache and reload so APIs/Ask use the file just written (see docs/DOCUMENT_FORMATTING_GUARDRAILS.md §1). */
+function invalidateRegulationContentCache() {
+  contentLoadCache = { mtimeMs: null, data: null };
+}
+
+/** @returns {Promise<object>} Normalized corpus + meta from `loadContent()` after ETL write. */
+async function runRegulationScraperAndReloadContent() {
+  await runScraper();
+  invalidateRegulationContentCache();
+  return loadContent();
+}
 const NEWS_FILE = path.join(DATA_DIR, 'gdpr-news.json');
 const ARTICLE_SUITABLE_RECITALS_FILE = path.join(DATA_DIR, 'article-suitable-recitals.json');
 const CHAPTER_SUMMARIES_FILE = path.join(DATA_DIR, 'chapter-summaries.json');
@@ -192,9 +207,28 @@ app.get('/article-suitable-recitals.json', (req, res) => {
 function loadContent() {
   try {
     if (fs.existsSync(CONTENT_FILE)) {
-      return JSON.parse(fs.readFileSync(CONTENT_FILE, 'utf-8'));
+      const st = fs.statSync(CONTENT_FILE);
+      if (contentLoadCache.data && contentLoadCache.mtimeMs === st.mtimeMs) {
+        return contentLoadCache.data;
+      }
+      const raw = JSON.parse(fs.readFileSync(CONTENT_FILE, 'utf-8'));
+      const { normalizeCorpus } = require('./document-formatting-guardrails');
+      const norm = normalizeCorpus(raw.recitals || [], raw.articles || []);
+      raw.recitals = norm.recitals;
+      raw.articles = norm.articles;
+      if (Array.isArray(raw.chapters) && raw.chapters.length) {
+        try {
+          raw.searchIndex = buildSearchIndex(raw.recitals, raw.articles, raw.chapters);
+        } catch (e) {
+          console.warn('[loadContent] searchIndex rebuild failed:', e && e.message ? e.message : String(e));
+        }
+      }
+      contentLoadCache = { mtimeMs: st.mtimeMs, data: raw };
+      return raw;
     }
-  } catch (_) {}
+  } catch (e) {
+    console.warn('loadContent:', e && e.message ? e.message : String(e));
+  }
   try {
     return JSON.parse(fs.readFileSync(STRUCTURE_FILE, 'utf-8'));
   } catch (_) {
@@ -1780,13 +1814,15 @@ app.post('/api/summarize', async (req, res) => {
 
 app.post('/api/refresh', async (req, res) => {
   try {
-    await runScraper();
-    const data = loadContent();
+    const data = await runRegulationScraperAndReloadContent();
+    const { validateCorpusFormatting } = require('./document-formatting-guardrails');
+    const formattingGuardrails = validateCorpusFormatting(data.recitals || [], data.articles || []);
     res.json({
       success: true,
       lastChecked: data.meta?.lastChecked ?? null,
       lastRefreshed: data.meta?.lastRefreshed,
       etl: data.meta?.etl ?? null,
+      formattingGuardrails,
       message: (data.meta?.etl?.fetched && data.meta?.etl?.significant)
         ? `Sources refreshed successfully (significant changes loaded from ${data.meta?.etl?.extractedFrom || 'source'}).`
         : (data.meta?.etl?.fetched
@@ -1807,7 +1843,7 @@ app.get('*', (req, res) => {
 
 cron.schedule('0 2 * * *', async () => {
   try {
-    await runScraper();
+    await runRegulationScraperAndReloadContent();
     console.log('Daily GDPR content refresh completed.');
   } catch (e) {
     console.error('Daily refresh failed:', e.message);
@@ -1832,7 +1868,7 @@ if (process.argv.includes('--refresh-only')) {
     if (!fs.existsSync(CONTENT_FILE)) {
       console.log('No cached content found. Running initial refresh...');
       try {
-        await runScraper();
+        await runRegulationScraperAndReloadContent();
       } catch (e) {
         console.log('Initial refresh failed. Using structure only. Use "Refresh sources" in the app to retry.');
       }

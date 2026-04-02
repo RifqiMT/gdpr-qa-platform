@@ -37,8 +37,9 @@ Guardrails define **technical and business limitations** so the team ships safel
 |----|-----------|--------|
 | TG-E01 | **`gdpr-structure.json` required** for scraper runs. | Without structure, refresh may fail or produce incomplete navigation. |
 | TG-E02 | **Merge rule:** New scrape overwrites by article/recital **number**; dedupe search index by **id**. | Documented in README; changing merge semantics needs migration notes. |
-| TG-E03 | **Formatting contract** between JSON and reader is strict. | See [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md). |
+| TG-E03 | **Formatting contract** between JSON and reader is strict. | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) is the **binding bible** for every source and refresh path. |
 | TG-E04 | **Cron** runs in server timezone `Europe/Brussels`. | Varies if host TZ differs; document for ops. |
+| TG-E05 | **Every regulation refresh** runs **`normalizeCorpus`** (guardrails) before index + disk write; **`runRegulationScraperAndReloadContent`** clears the corpus cache and reloads; the **Refresh sources** button reloads meta, chapters, recitals, and sources in the client. | Do not add a write path that skips `document-formatting-guardrails.js` or serves stale JSON after ETL. |
 
 ---
 
@@ -81,9 +82,19 @@ Guardrails define **technical and business limitations** so the team ships safel
 
 ---
 
+## 8. Documentation and knowledge management
+
+| Id | Guardrail | Detail |
+|----|-----------|--------|
+| DG-DOC-01 | **Docs follow the product documentation standard** | [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) lists authoritative files; avoid duplicating legal or config guidance in conflicting places. |
+| DG-DOC-02 | **Variable and API changes stay synchronized** | New env vars or response fields require updates to [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md), [README.md §10](../README.md#10-configuration), and [.env.example](../.env.example) when user-visible. |
+
+---
+
 ## References
 
 - [README.md §5 Business guidelines](../README.md#5-business-guidelines)  
 - [README.md §12 License and disclaimer](../README.md#12-license-and-disclaimer)  
 - [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)  
-- [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md)
+- [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md)  
+- [docs/README.md](README.md) — documentation hub and reading order

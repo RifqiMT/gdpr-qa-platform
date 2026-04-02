@@ -59,9 +59,12 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 
 | ID | Story | Persona |
 |----|--------|---------|
-| US-R1 | As a **Legal/Compliance** user, I want to click “Refresh sources” to update the regulation text from EUR-Lex so that I work with the latest consolidated version. | Legal/Compliance |
-| US-R2 | As a **DPO**, I want to see “Last refreshed” in the header so that I know how current the content is. | DPO |
+| US-R1 | As a **Legal/Compliance** user, I want to click **“Refresh sources”** to run ETL (default **GDPR-Info**, or **EUR-Lex** when configured) so that I work with an up-to-date consolidated corpus. | Legal/Compliance |
+| US-R2 | As a **DPO**, I want to see **content as of** / **last checked** freshness metadata so that I know how current the regulation text is. | DPO |
 | US-R3 | As a **Legal/Compliance** user, I want **chapter introduction blurbs** when browsing chapters so that I understand each chapter’s scope before opening articles. | Legal/Compliance |
+| US-R4 | As **Engineering / DevOps**, I want every refresh to run **document formatting guardrails** and return **`formattingGuardrails`** so that I can confirm validation in logs or API responses. | Engineering / DevOps |
+| US-R5 | As a **Legal/Compliance** user, I want the app to **reload** browse lists and the open document after refresh so that I see normalized text without a full browser reload. | Legal/Compliance |
+| US-R6 | As **Engineering / DevOps**, I want **`GDPR_FORCE_CORPUS_WRITE`** to force a disk write when hashes match so that guardrail-only updates still persist. | Engineering / DevOps |
 
 ---
 
@@ -102,6 +105,15 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 
 ---
 
+## Epic 10: Documentation and compliance artifacts
+
+| ID | Story | Persona |
+|----|--------|---------|
+| US-D1 | As **Engineering / DevOps**, I want a single **variables** document with formulas and examples so that I can configure deployments without reading the entire codebase. | Engineering / DevOps |
+| US-D2 | As a **product owner**, I want a **traceability matrix** linking business requirements to PRD ids and code so that audits and release reviews are efficient. | Product (proxy) |
+
+---
+
 ## Reference
 
 - **Personas:** [USER_PERSONAS.md](USER_PERSONAS.md)  
@@ -109,4 +121,5 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 - **Full documentation:** [README.md](../README.md)  
 - **Product documentation standard:** [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)  
 - **Variables & diagrams:** [VARIABLES.md](VARIABLES.md)  
-- **API contracts:** [API_CONTRACTS.md](API_CONTRACTS.md)
+- **API contracts:** [API_CONTRACTS.md](API_CONTRACTS.md)  
+- **Traceability:** [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)

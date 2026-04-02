@@ -156,7 +156,37 @@ Runs full crawl, merges, writes `gdpr-news.json` (up to internal `storeCap`), re
 
 ### `POST /api/refresh`
 
-Runs `scraper.js` ETL. Returns `success`, `lastRefreshed`, `lastChecked`, `etl`, `message`. **500** on throw.
+Runs **`scraper.js`** ETL end-to-end: merge → **`normalizeCorpus`** (**`document-formatting-guardrails.js`**) → **`buildSearchIndex`** → write **`gdpr-content.json`**. Then **`invalidateRegulationContentCache`** and **`loadContent()`** so the running process serves the new file.
+
+**Response (success):**
+
+```json
+{
+  "success": true,
+  "lastRefreshed": "2026-04-03T12:00:00.000Z",
+  "lastChecked": "2026-04-03T12:00:05.000Z",
+  "etl": {
+    "primaryRequested": "gdpr-info",
+    "extractedFrom": "gdpr-info",
+    "fetched": true,
+    "significant": true,
+    "datasetHash": "…",
+    "diff": { "recitals": {}, "articles": {}, "changedItems": 0, "changeRatio": 0 }
+  },
+  "formattingGuardrails": {
+    "ok": true,
+    "checks": [
+      { "id": "recitals-count", "ok": true, "detail": "recitals=173" },
+      { "id": "articles-count", "ok": true, "detail": "articles=99" }
+    ],
+    "warnings": []
+  },
+  "message": "Sources refreshed successfully (significant changes loaded from gdpr-info)."
+}
+```
+
+- **`formattingGuardrails`**: output of **`validateCorpusFormatting`** (§8 smoke tests — see [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)). The client may **`console.warn`** each entry in **`warnings`**.  
+- **500** on uncaught exception.
 
 ---
 

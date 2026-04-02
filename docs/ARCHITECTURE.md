@@ -29,10 +29,34 @@ flowchart LR
 |-------|------------|----------------|
 | **Client** | `public/index.html`, `public/app.js`, `public/styles.css` | Tabs, browse reader, Ask composer, news/sources UI, PDF export |
 | **API** | `server.js` | REST endpoints, content load, BM25 retrieval, LLM orchestration, news merge |
-| **ETL** | `scraper.js` | Fetch and parse regulation → `gdpr-content.json` |
+| **ETL** | `scraper.js` + **`document-formatting-guardrails.js`** | Fetch and parse regulation → **`normalizeCorpus`** → **`buildSearchIndex`** → **`gdpr-content.json`** |
 | **News** | `news-crawler.js` | Fetch listings → items merged in server |
 | **Crossrefs** | `gdpr-crossrefs.js` | Article↔recital suitability and citation extraction |
 | **Data** | `data/*.json`, `public/industry-sectors.json` | Corpus, news cache, chapter summaries, sectors |
+
+---
+
+## Regulation refresh pipeline (sequence)
+
+```mermaid
+sequenceDiagram
+  participant UI as Browser
+  participant S as server.js
+  participant SCR as scraper.js
+  participant DF as document-formatting-guardrails
+  participant FS as File system
+
+  UI->>S: POST /api/refresh
+  S->>SCR: run() ETL merge + fetch
+  SCR->>DF: normalizeCorpus(recitals, articles)
+  DF-->>SCR: normalized arrays
+  SCR->>SCR: buildSearchIndex
+  SCR->>FS: write gdpr-content.json
+  SCR-->>S: output meta
+  S->>S: invalidateRegulationContentCache
+  S->>S: loadContent() reload + normalize on read
+  S-->>UI: JSON success + formattingGuardrails
+```
 
 ---
 
