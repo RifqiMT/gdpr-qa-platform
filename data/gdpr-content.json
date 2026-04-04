@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastChecked": "2026-04-02T23:17:11.573Z",
-    "lastRefreshed": "2026-04-02T23:17:11.573Z",
+    "lastChecked": "2026-04-04T18:03:53.431Z",
+    "lastRefreshed": "2026-04-04T18:03:53.431Z",
     "etl": {
       "primaryRequested": "gdpr-info",
       "minGdprInfoArticles": 99,
@@ -13,17 +13,17 @@
       "candidateHash": "37fd6ee85eed0e33465f4af7d600ee55c2d40de5b33fe7592a068a1b14e99de6",
       "diff": {
         "recitals": {
-          "changed": 173,
+          "changed": 142,
           "added": 0,
           "removed": 0
         },
         "articles": {
-          "changed": 99,
+          "changed": 0,
           "added": 0,
           "removed": 0
         },
-        "changedItems": 272,
-        "changeRatio": 1
+        "changedItems": 142,
+        "changeRatio": 0.5220588235294118
       }
     },
     "sources": [
@@ -141,6 +141,25 @@
           {
             "label": "Binding decisions",
             "url": "https://edpb.europa.eu/our-work-tools/consistency-findings/consistency-findings_en"
+          }
+        ]
+      },
+      {
+        "name": "European Data Protection Supervisor (EDPS)",
+        "url": "https://www.edps.europa.eu/",
+        "description": "Independent EU authority supervising processing of personal data by EU institutions and bodies (Regulation 2018/1725); cooperates with the EDPB.",
+        "documents": [
+          {
+            "label": "Press & news",
+            "url": "https://www.edps.europa.eu/press-publications/press-news_en"
+          },
+          {
+            "label": "Our work",
+            "url": "https://www.edps.europa.eu/data-protection/our-work_en"
+          },
+          {
+            "label": "Legislation & case-law",
+            "url": "https://www.edps.europa.eu/data-protection/legislation_en"
           }
         ]
       },

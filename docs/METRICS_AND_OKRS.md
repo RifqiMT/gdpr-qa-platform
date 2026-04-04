@@ -22,6 +22,8 @@ This document defines **product metrics** (what to measure in production or rese
 | **Browse depth** | Average number of article/recital detail views per session after a filter or search. | Higher may indicate research tasks; combine with time-on-task. |
 | **Refresh adoption** | Share of deployments or sessions where `meta.lastRefreshed` is within N days of “today.” | Stale corpus hurts trust; drive “Refresh sources” UX. |
 | **News engagement** | Click-through rate from in-app news cards to external publisher URLs. | Validates news value without hosting content. |
+| **News duplicate density** | Before/after dedupe: ratio of raw merged rows to rows after **`dedupeNewsItemsConsolidated`** (server log or one-off script). | Should trend **low** after crawl fixes; client **`news-dedupe.js`** is a safety net—large gaps imply server/JSON drift. |
+| **News API cache bypass** | Share of `GET /api/news` responses whose **`Cache-Control`** includes **`no-store`** (monitoring or spot-check). | Confirms users see post-refresh merges without aggressive HTTP caching. |
 | **Sector usage** | Share of Ask requests with `industrySectorId !== 'GENERAL'`. | Informs sector list quality and prompt tuning. |
 | **Time to first answer** | p50/p95 latency of `POST /api/answer` end-to-end. | Dominated by LLM and web fetches; track regressions after deploys. |
 
@@ -79,6 +81,7 @@ This document defines **product metrics** (what to measure in production or rese
 | KR1 | News CTR to original articles ≥ X% (set from baseline). |
 | KR2 | &lt; 1% of news items with broken URLs in a weekly crawl audit. |
 | KR3 | Credible sources tab: all links in `/api/meta` return HTTP 200 or documented redirects. |
+| KR4 | Duplicate news cards: **&lt; 1%** of rendered items are removable duplicates under manual audit of a fixed weekly sample (after dedupe). |
 
 ### Objective O4: Regulation text stays structurally sound after every refresh.
 

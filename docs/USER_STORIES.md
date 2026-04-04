@@ -52,6 +52,9 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 | US-N3 | As a **DPO**, I want to filter news by Source and Topic so that I can focus on e.g. enforcement or guidance. | DPO |
 | US-N4 | As a **Consultant**, I want each news item to link to the original article so that I can read the full story on the publisher’s site. | Consultant |
 | US-N5 | As a **DPO**, I want to click “Refresh news” to run a **server refresh** that merges crawled items and updates the cached news file so that I get durable, current updates. | DPO |
+| US-N6 | As a **Legal/Compliance** user, I want **duplicate stories** (same item linked from different URLs) **collapsed into one card** so that my scan list is not noisy. | Legal/Compliance |
+| US-N7 | As a **DPO**, I want **Quick filters** to appear in the **sidebar when I scroll** past the main news filters (on desktop) so that I can change source/topic without scrolling back up. | DPO |
+| US-N8 | As a **Consultant**, I want to **collapse “Official site & RSS”** when I need more room in the sidebar, with my choice remembered for the session. | Consultant |
 
 ---
 

@@ -3,6 +3,7 @@
     "id": "GENERAL",
     "label": "General — no sector-specific framing",
     "isicSection": null,
+    "isicDivision": null,
     "searchTerms": "",
     "framework": "Default: balanced GDPR Q&A without industry emphasis."
   },
@@ -10,147 +11,872 @@
     "id": "A",
     "label": "A — Agriculture, forestry and fishing",
     "isicSection": "A",
+    "isicDivision": null,
     "searchTerms": "agriculture forestry fishing farming crops livestock aquaculture rural food primary sector",
-    "framework": "UN ISIC Rev.4 Section A; ILO-compatible primary-sector / rural employment groupings."
+    "framework": "UN ISIC Rev.4 Section A (divisions 01–03); ILO-compatible primary-sector / rural employment groupings."
   },
   {
     "id": "B",
     "label": "B — Mining and quarrying",
     "isicSection": "B",
+    "isicDivision": null,
     "searchTerms": "mining quarrying extraction minerals oil gas natural resources site safety",
-    "framework": "UN ISIC Rev.4 Section B."
+    "framework": "UN ISIC Rev.4 Section B (divisions 05–09)."
   },
   {
     "id": "C",
     "label": "C — Manufacturing",
     "isicSection": "C",
+    "isicDivision": null,
     "searchTerms": "manufacturing industry factory production supply chain industrial processing",
-    "framework": "UN ISIC Rev.4 Section C."
+    "framework": "UN ISIC Rev.4 Section C (divisions 10–33)."
   },
   {
     "id": "D",
     "label": "D — Electricity, gas, steam and air conditioning supply",
     "isicSection": "D",
+    "isicDivision": null,
     "searchTerms": "energy utility electricity gas power grid critical infrastructure",
-    "framework": "UN ISIC Rev.4 Section D."
+    "framework": "UN ISIC Rev.4 Section D (division 35)."
   },
   {
     "id": "E",
     "label": "E — Water supply; sewerage, waste management and remediation",
     "isicSection": "E",
+    "isicDivision": null,
     "searchTerms": "water waste sewage environmental remediation utilities municipal",
-    "framework": "UN ISIC Rev.4 Section E."
+    "framework": "UN ISIC Rev.4 Section E (divisions 36–39)."
   },
   {
     "id": "F",
     "label": "F — Construction",
     "isicSection": "F",
+    "isicDivision": null,
     "searchTerms": "construction building civil engineering contractors site workers subcontractor",
-    "framework": "UN ISIC Rev.4 Section F."
+    "framework": "UN ISIC Rev.4 Section F (divisions 41–43)."
   },
   {
     "id": "G",
     "label": "G — Wholesale and retail trade",
     "isicSection": "G",
+    "isicDivision": null,
     "searchTerms": "retail wholesale commerce e-commerce customer loyalty card payment POS shopper",
-    "framework": "UN ISIC Rev.4 Section G."
+    "framework": "UN ISIC Rev.4 Section G (divisions 45–47)."
   },
   {
     "id": "H",
     "label": "H — Transportation and storage",
     "isicSection": "H",
+    "isicDivision": null,
     "searchTerms": "transport logistics shipping aviation rail road freight warehouse mobility passenger data",
-    "framework": "UN ISIC Rev.4 Section H."
+    "framework": "UN ISIC Rev.4 Section H (divisions 49–53)."
   },
   {
     "id": "I",
     "label": "I — Accommodation and food service activities",
     "isicSection": "I",
+    "isicDivision": null,
     "searchTerms": "hospitality hotel restaurant catering tourism guest booking",
-    "framework": "UN ISIC Rev.4 Section I."
+    "framework": "UN ISIC Rev.4 Section I (divisions 55–56)."
   },
   {
     "id": "J",
     "label": "J — Information and communication",
     "isicSection": "J",
+    "isicDivision": null,
     "searchTerms": "ICT software telecom internet publishing broadcasting digital services SaaS platform",
-    "framework": "UN ISIC Rev.4 Section J; strong overlap with online services under GDPR."
+    "framework": "UN ISIC Rev.4 Section J (divisions 58–63); strong overlap with online services under GDPR."
   },
   {
     "id": "K",
     "label": "K — Financial and insurance activities",
     "isicSection": "K",
+    "isicDivision": null,
     "searchTerms": "bank insurance fintech payment credit investment AML financial data",
-    "framework": "UN ISIC Rev.4 Section K; often intersects with sector-specific EU/EEA financial rules alongside GDPR."
+    "framework": "UN ISIC Rev.4 Section K (divisions 64–66); intersects with sector-specific EU/EEA financial rules alongside GDPR."
   },
   {
     "id": "L",
     "label": "L — Real estate activities",
     "isicSection": "L",
+    "isicDivision": null,
     "searchTerms": "real estate property letting leasing facility management landlord tenant",
-    "framework": "UN ISIC Rev.4 Section L."
+    "framework": "UN ISIC Rev.4 Section L (division 68)."
   },
   {
     "id": "M",
     "label": "M — Professional, scientific and technical activities",
     "isicSection": "M",
+    "isicDivision": null,
     "searchTerms": "consulting legal accounting engineering R&D technical services professional services",
-    "framework": "UN ISIC Rev.4 Section M."
+    "framework": "UN ISIC Rev.4 Section M (divisions 69–75)."
   },
   {
     "id": "N",
     "label": "N — Administrative and support service activities",
     "isicSection": "N",
+    "isicDivision": null,
     "searchTerms": "outsourcing HR agency call center facilities employment activities support services",
-    "framework": "UN ISIC Rev.4 Section N; often involves processor / joint-controller scenarios."
+    "framework": "UN ISIC Rev.4 Section N (divisions 77–82); often involves processor / joint-controller scenarios."
   },
   {
     "id": "O",
     "label": "O — Public administration and defence; compulsory social security",
     "isicSection": "O",
+    "isicDivision": null,
     "searchTerms": "government public sector defence military law enforcement social security public authority",
-    "framework": "UN ISIC Rev.4 Section O; note Chapter 2 GDPR exclusions for purely public tasks in some Member States — still cite sources only."
+    "framework": "UN ISIC Rev.4 Section O (division 84); Chapter 2 GDPR exclusions for purely public tasks may apply in some Member States — cite sources only."
   },
   {
     "id": "P",
     "label": "P — Education",
     "isicSection": "P",
+    "isicDivision": null,
     "searchTerms": "school university training students children pupil records edtech",
-    "framework": "UN ISIC Rev.4 Section P."
+    "framework": "UN ISIC Rev.4 Section P (division 85)."
   },
   {
     "id": "Q",
     "label": "Q — Human health and social work activities",
     "isicSection": "Q",
+    "isicDivision": null,
     "searchTerms": "healthcare hospital clinic medical patient health data social care nursing GDPR health",
-    "framework": "UN ISIC Rev.4 Section Q; often overlaps with special-category data in GDPR."
+    "framework": "UN ISIC Rev.4 Section Q (divisions 86–88); often overlaps with special-category data in GDPR."
   },
   {
     "id": "R",
     "label": "R — Arts, entertainment and recreation",
     "isicSection": "R",
+    "isicDivision": null,
     "searchTerms": "media sports culture gaming events entertainment creative industries",
-    "framework": "UN ISIC Rev.4 Section R."
+    "framework": "UN ISIC Rev.4 Section R (divisions 90–93)."
   },
   {
     "id": "S",
     "label": "S — Other service activities",
     "isicSection": "S",
+    "isicDivision": null,
     "searchTerms": "personal services repair membership organisations miscellaneous services",
-    "framework": "UN ISIC Rev.4 Section S."
+    "framework": "UN ISIC Rev.4 Section S (divisions 94–96)."
   },
   {
     "id": "T",
     "label": "T — Activities of households as employers; undifferentiated goods and services",
     "isicSection": "T",
+    "isicDivision": null,
     "searchTerms": "domestic employer household staff private employment",
-    "framework": "UN ISIC Rev.4 Section T."
+    "framework": "UN ISIC Rev.4 Section T (divisions 97–98)."
   },
   {
     "id": "U",
     "label": "U — Activities of extraterritorial organisations and bodies",
     "isicSection": "U",
+    "isicDivision": null,
     "searchTerms": "international organisation embassy extraterritorial IO NGO treaty",
-    "framework": "UN ISIC Rev.4 Section U."
+    "framework": "UN ISIC Rev.4 Section U (division 99)."
+  },
+  {
+    "id": "ISIC-01",
+    "label": "01 — Crop and animal production, hunting and related service activities",
+    "isicSection": "A",
+    "isicDivision": "01",
+    "searchTerms": "isic 01 division 1 section A personal data processing crop animal production hunting related service activities",
+    "framework": "UN ISIC Rev.4 Division 01 (Section A); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-02",
+    "label": "02 — Forestry and logging",
+    "isicSection": "A",
+    "isicDivision": "02",
+    "searchTerms": "isic 02 division 2 section A personal data processing forestry logging",
+    "framework": "UN ISIC Rev.4 Division 02 (Section A); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-03",
+    "label": "03 — Fishing and aquaculture",
+    "isicSection": "A",
+    "isicDivision": "03",
+    "searchTerms": "isic 03 division 3 section A personal data processing fishing aquaculture",
+    "framework": "UN ISIC Rev.4 Division 03 (Section A); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-05",
+    "label": "05 — Mining of coal and lignite",
+    "isicSection": "B",
+    "isicDivision": "05",
+    "searchTerms": "isic 05 division 5 section B personal data processing mining coal lignite",
+    "framework": "UN ISIC Rev.4 Division 05 (Section B); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-06",
+    "label": "06 — Extraction of crude petroleum and natural gas",
+    "isicSection": "B",
+    "isicDivision": "06",
+    "searchTerms": "isic 06 division 6 section B personal data processing extraction crude petroleum natural",
+    "framework": "UN ISIC Rev.4 Division 06 (Section B); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-07",
+    "label": "07 — Mining of metal ores",
+    "isicSection": "B",
+    "isicDivision": "07",
+    "searchTerms": "isic 07 division 7 section B personal data processing mining metal ores",
+    "framework": "UN ISIC Rev.4 Division 07 (Section B); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-08",
+    "label": "08 — Other mining and quarrying",
+    "isicSection": "B",
+    "isicDivision": "08",
+    "searchTerms": "isic 08 division 8 section B personal data processing other mining quarrying",
+    "framework": "UN ISIC Rev.4 Division 08 (Section B); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-09",
+    "label": "09 — Mining support service activities",
+    "isicSection": "B",
+    "isicDivision": "09",
+    "searchTerms": "isic 09 division 9 section B personal data processing mining support service activities",
+    "framework": "UN ISIC Rev.4 Division 09 (Section B); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-10",
+    "label": "10 — Manufacture of food products",
+    "isicSection": "C",
+    "isicDivision": "10",
+    "searchTerms": "isic 10 division 10 section C personal data processing manufacture food products",
+    "framework": "UN ISIC Rev.4 Division 10 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-11",
+    "label": "11 — Manufacture of beverages",
+    "isicSection": "C",
+    "isicDivision": "11",
+    "searchTerms": "isic 11 division 11 section C personal data processing manufacture beverages",
+    "framework": "UN ISIC Rev.4 Division 11 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-12",
+    "label": "12 — Manufacture of tobacco products",
+    "isicSection": "C",
+    "isicDivision": "12",
+    "searchTerms": "isic 12 division 12 section C personal data processing manufacture tobacco products",
+    "framework": "UN ISIC Rev.4 Division 12 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-13",
+    "label": "13 — Manufacture of textiles",
+    "isicSection": "C",
+    "isicDivision": "13",
+    "searchTerms": "isic 13 division 13 section C personal data processing manufacture textiles",
+    "framework": "UN ISIC Rev.4 Division 13 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-14",
+    "label": "14 — Manufacture of wearing apparel",
+    "isicSection": "C",
+    "isicDivision": "14",
+    "searchTerms": "isic 14 division 14 section C personal data processing manufacture wearing apparel",
+    "framework": "UN ISIC Rev.4 Division 14 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-15",
+    "label": "15 — Manufacture of leather and related products",
+    "isicSection": "C",
+    "isicDivision": "15",
+    "searchTerms": "isic 15 division 15 section C personal data processing manufacture leather related products",
+    "framework": "UN ISIC Rev.4 Division 15 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-16",
+    "label": "16 — Manufacture of wood and of products of wood and cork, except furniture",
+    "isicSection": "C",
+    "isicDivision": "16",
+    "searchTerms": "isic 16 division 16 section C personal data processing manufacture wood products wood cork except furniture",
+    "framework": "UN ISIC Rev.4 Division 16 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-17",
+    "label": "17 — Manufacture of paper and paper products",
+    "isicSection": "C",
+    "isicDivision": "17",
+    "searchTerms": "isic 17 division 17 section C personal data processing manufacture paper paper products",
+    "framework": "UN ISIC Rev.4 Division 17 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-18",
+    "label": "18 — Printing and reproduction of recorded media",
+    "isicSection": "C",
+    "isicDivision": "18",
+    "searchTerms": "isic 18 division 18 section C personal data processing printing reproduction recorded media",
+    "framework": "UN ISIC Rev.4 Division 18 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-19",
+    "label": "19 — Manufacture of coke and refined petroleum products",
+    "isicSection": "C",
+    "isicDivision": "19",
+    "searchTerms": "isic 19 division 19 section C personal data processing manufacture coke refined petroleum products",
+    "framework": "UN ISIC Rev.4 Division 19 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-20",
+    "label": "20 — Manufacture of chemicals and chemical products",
+    "isicSection": "C",
+    "isicDivision": "20",
+    "searchTerms": "isic 20 division 20 section C personal data processing manufacture chemicals chemical products",
+    "framework": "UN ISIC Rev.4 Division 20 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-21",
+    "label": "21 — Manufacture of basic pharmaceutical products and pharmaceutical preparations",
+    "isicSection": "C",
+    "isicDivision": "21",
+    "searchTerms": "isic 21 division 21 section C personal data processing manufacture basic pharmaceutical products pharmaceutical preparations",
+    "framework": "UN ISIC Rev.4 Division 21 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-22",
+    "label": "22 — Manufacture of rubber and plastic products",
+    "isicSection": "C",
+    "isicDivision": "22",
+    "searchTerms": "isic 22 division 22 section C personal data processing manufacture rubber plastic products",
+    "framework": "UN ISIC Rev.4 Division 22 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-23",
+    "label": "23 — Manufacture of other non-metallic mineral products",
+    "isicSection": "C",
+    "isicDivision": "23",
+    "searchTerms": "isic 23 division 23 section C personal data processing manufacture other metallic mineral products",
+    "framework": "UN ISIC Rev.4 Division 23 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-24",
+    "label": "24 — Manufacture of basic metals",
+    "isicSection": "C",
+    "isicDivision": "24",
+    "searchTerms": "isic 24 division 24 section C personal data processing manufacture basic metals",
+    "framework": "UN ISIC Rev.4 Division 24 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-25",
+    "label": "25 — Manufacture of fabricated metal products, except machinery and equipment",
+    "isicSection": "C",
+    "isicDivision": "25",
+    "searchTerms": "isic 25 division 25 section C personal data processing manufacture fabricated metal products except machinery equipment",
+    "framework": "UN ISIC Rev.4 Division 25 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-26",
+    "label": "26 — Manufacture of computer, electronic and optical products",
+    "isicSection": "C",
+    "isicDivision": "26",
+    "searchTerms": "isic 26 division 26 section C personal data processing manufacture computer electronic optical products",
+    "framework": "UN ISIC Rev.4 Division 26 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-27",
+    "label": "27 — Manufacture of electrical equipment",
+    "isicSection": "C",
+    "isicDivision": "27",
+    "searchTerms": "isic 27 division 27 section C personal data processing manufacture electrical equipment",
+    "framework": "UN ISIC Rev.4 Division 27 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-28",
+    "label": "28 — Manufacture of machinery and equipment n.e.c.",
+    "isicSection": "C",
+    "isicDivision": "28",
+    "searchTerms": "isic 28 division 28 section C personal data processing manufacture machinery equipment",
+    "framework": "UN ISIC Rev.4 Division 28 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-29",
+    "label": "29 — Manufacture of motor vehicles, trailers and semi-trailers",
+    "isicSection": "C",
+    "isicDivision": "29",
+    "searchTerms": "isic 29 division 29 section C personal data processing manufacture motor vehicles trailers semi trailers",
+    "framework": "UN ISIC Rev.4 Division 29 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-30",
+    "label": "30 — Manufacture of other transport equipment",
+    "isicSection": "C",
+    "isicDivision": "30",
+    "searchTerms": "isic 30 division 30 section C personal data processing manufacture other transport equipment",
+    "framework": "UN ISIC Rev.4 Division 30 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-31",
+    "label": "31 — Manufacture of furniture",
+    "isicSection": "C",
+    "isicDivision": "31",
+    "searchTerms": "isic 31 division 31 section C personal data processing manufacture furniture",
+    "framework": "UN ISIC Rev.4 Division 31 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-32",
+    "label": "32 — Other manufacturing",
+    "isicSection": "C",
+    "isicDivision": "32",
+    "searchTerms": "isic 32 division 32 section C personal data processing other manufacturing",
+    "framework": "UN ISIC Rev.4 Division 32 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-33",
+    "label": "33 — Repair and installation of machinery and equipment",
+    "isicSection": "C",
+    "isicDivision": "33",
+    "searchTerms": "isic 33 division 33 section C personal data processing repair installation machinery equipment",
+    "framework": "UN ISIC Rev.4 Division 33 (Section C); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-35",
+    "label": "35 — Electricity, gas, steam and air conditioning supply",
+    "isicSection": "D",
+    "isicDivision": "35",
+    "searchTerms": "isic 35 division 35 section D personal data processing electricity steam conditioning supply",
+    "framework": "UN ISIC Rev.4 Division 35 (Section D); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-36",
+    "label": "36 — Water collection, treatment and supply",
+    "isicSection": "E",
+    "isicDivision": "36",
+    "searchTerms": "isic 36 division 36 section E personal data processing water collection treatment supply",
+    "framework": "UN ISIC Rev.4 Division 36 (Section E); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-37",
+    "label": "37 — Sewerage",
+    "isicSection": "E",
+    "isicDivision": "37",
+    "searchTerms": "isic 37 division 37 section E personal data processing sewerage",
+    "framework": "UN ISIC Rev.4 Division 37 (Section E); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-38",
+    "label": "38 — Waste collection, treatment and disposal activities; materials recovery",
+    "isicSection": "E",
+    "isicDivision": "38",
+    "searchTerms": "isic 38 division 38 section E personal data processing waste collection treatment disposal activities materials recovery",
+    "framework": "UN ISIC Rev.4 Division 38 (Section E); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-39",
+    "label": "39 — Remediation activities and other waste management service activities",
+    "isicSection": "E",
+    "isicDivision": "39",
+    "searchTerms": "isic 39 division 39 section E personal data processing remediation activities other waste management service activities",
+    "framework": "UN ISIC Rev.4 Division 39 (Section E); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-41",
+    "label": "41 — Construction of buildings",
+    "isicSection": "F",
+    "isicDivision": "41",
+    "searchTerms": "isic 41 division 41 section F personal data processing construction buildings",
+    "framework": "UN ISIC Rev.4 Division 41 (Section F); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-42",
+    "label": "42 — Civil engineering",
+    "isicSection": "F",
+    "isicDivision": "42",
+    "searchTerms": "isic 42 division 42 section F personal data processing civil engineering",
+    "framework": "UN ISIC Rev.4 Division 42 (Section F); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-43",
+    "label": "43 — Specialised construction activities",
+    "isicSection": "F",
+    "isicDivision": "43",
+    "searchTerms": "isic 43 division 43 section F personal data processing specialised construction activities",
+    "framework": "UN ISIC Rev.4 Division 43 (Section F); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-45",
+    "label": "45 — Wholesale and retail trade and repair of motor vehicles and motorcycles",
+    "isicSection": "G",
+    "isicDivision": "45",
+    "searchTerms": "isic 45 division 45 section G personal data processing wholesale retail trade repair motor vehicles motorcycles",
+    "framework": "UN ISIC Rev.4 Division 45 (Section G); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-46",
+    "label": "46 — Wholesale trade, except of motor vehicles and motorcycles",
+    "isicSection": "G",
+    "isicDivision": "46",
+    "searchTerms": "isic 46 division 46 section G personal data processing wholesale trade except motor vehicles motorcycles",
+    "framework": "UN ISIC Rev.4 Division 46 (Section G); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-47",
+    "label": "47 — Retail trade, except of motor vehicles and motorcycles",
+    "isicSection": "G",
+    "isicDivision": "47",
+    "searchTerms": "isic 47 division 47 section G personal data processing retail trade except motor vehicles motorcycles",
+    "framework": "UN ISIC Rev.4 Division 47 (Section G); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-49",
+    "label": "49 — Land transport and transport via pipelines",
+    "isicSection": "H",
+    "isicDivision": "49",
+    "searchTerms": "isic 49 division 49 section H personal data processing land transport transport pipelines",
+    "framework": "UN ISIC Rev.4 Division 49 (Section H); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-50",
+    "label": "50 — Water transport",
+    "isicSection": "H",
+    "isicDivision": "50",
+    "searchTerms": "isic 50 division 50 section H personal data processing water transport",
+    "framework": "UN ISIC Rev.4 Division 50 (Section H); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-51",
+    "label": "51 — Air transport",
+    "isicSection": "H",
+    "isicDivision": "51",
+    "searchTerms": "isic 51 division 51 section H personal data processing transport",
+    "framework": "UN ISIC Rev.4 Division 51 (Section H); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-52",
+    "label": "52 — Warehousing and support activities for transportation",
+    "isicSection": "H",
+    "isicDivision": "52",
+    "searchTerms": "isic 52 division 52 section H personal data processing warehousing support activities transportation",
+    "framework": "UN ISIC Rev.4 Division 52 (Section H); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-53",
+    "label": "53 — Postal and courier activities",
+    "isicSection": "H",
+    "isicDivision": "53",
+    "searchTerms": "isic 53 division 53 section H personal data processing postal courier activities",
+    "framework": "UN ISIC Rev.4 Division 53 (Section H); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-55",
+    "label": "55 — Accommodation",
+    "isicSection": "I",
+    "isicDivision": "55",
+    "searchTerms": "isic 55 division 55 section I personal data processing accommodation",
+    "framework": "UN ISIC Rev.4 Division 55 (Section I); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-56",
+    "label": "56 — Food and beverage service activities",
+    "isicSection": "I",
+    "isicDivision": "56",
+    "searchTerms": "isic 56 division 56 section I personal data processing food beverage service activities",
+    "framework": "UN ISIC Rev.4 Division 56 (Section I); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-58",
+    "label": "58 — Publishing activities",
+    "isicSection": "J",
+    "isicDivision": "58",
+    "searchTerms": "isic 58 division 58 section J personal data processing publishing activities",
+    "framework": "UN ISIC Rev.4 Division 58 (Section J); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-59",
+    "label": "59 — Motion picture, video and television programme production, sound recording and music publishing",
+    "isicSection": "J",
+    "isicDivision": "59",
+    "searchTerms": "isic 59 division 59 section J personal data processing motion picture video television programme production sound recording music publishing",
+    "framework": "UN ISIC Rev.4 Division 59 (Section J); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-60",
+    "label": "60 — Programming and broadcasting activities",
+    "isicSection": "J",
+    "isicDivision": "60",
+    "searchTerms": "isic 60 division 60 section J personal data processing programming broadcasting activities",
+    "framework": "UN ISIC Rev.4 Division 60 (Section J); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-61",
+    "label": "61 — Telecommunications",
+    "isicSection": "J",
+    "isicDivision": "61",
+    "searchTerms": "isic 61 division 61 section J personal data processing telecommunications",
+    "framework": "UN ISIC Rev.4 Division 61 (Section J); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-62",
+    "label": "62 — Computer programming, consultancy and related activities",
+    "isicSection": "J",
+    "isicDivision": "62",
+    "searchTerms": "isic 62 division 62 section J personal data processing computer programming consultancy related activities",
+    "framework": "UN ISIC Rev.4 Division 62 (Section J); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-63",
+    "label": "63 — Information service activities and other information service activities",
+    "isicSection": "J",
+    "isicDivision": "63",
+    "searchTerms": "isic 63 division 63 section J personal data processing information service activities other information service activities",
+    "framework": "UN ISIC Rev.4 Division 63 (Section J); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-64",
+    "label": "64 — Financial service activities, except insurance and pension funding",
+    "isicSection": "K",
+    "isicDivision": "64",
+    "searchTerms": "isic 64 division 64 section K personal data processing financial service activities except insurance pension funding",
+    "framework": "UN ISIC Rev.4 Division 64 (Section K); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-65",
+    "label": "65 — Insurance, reinsurance and pension funding, except compulsory social security",
+    "isicSection": "K",
+    "isicDivision": "65",
+    "searchTerms": "isic 65 division 65 section K personal data processing insurance reinsurance pension funding except compulsory social security",
+    "framework": "UN ISIC Rev.4 Division 65 (Section K); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-66",
+    "label": "66 — Activities auxiliary to financial services and insurance activities",
+    "isicSection": "K",
+    "isicDivision": "66",
+    "searchTerms": "isic 66 division 66 section K personal data processing activities auxiliary financial services insurance activities",
+    "framework": "UN ISIC Rev.4 Division 66 (Section K); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-68",
+    "label": "68 — Real estate activities",
+    "isicSection": "L",
+    "isicDivision": "68",
+    "searchTerms": "isic 68 division 68 section L personal data processing real estate activities",
+    "framework": "UN ISIC Rev.4 Division 68 (Section L); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-69",
+    "label": "69 — Legal and accounting activities",
+    "isicSection": "M",
+    "isicDivision": "69",
+    "searchTerms": "isic 69 division 69 section M personal data processing legal accounting activities",
+    "framework": "UN ISIC Rev.4 Division 69 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-70",
+    "label": "70 — Activities of head offices; management consultancy activities",
+    "isicSection": "M",
+    "isicDivision": "70",
+    "searchTerms": "isic 70 division 70 section M personal data processing activities head offices management consultancy activities",
+    "framework": "UN ISIC Rev.4 Division 70 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-71",
+    "label": "71 — Architectural and engineering activities; technical testing and analysis",
+    "isicSection": "M",
+    "isicDivision": "71",
+    "searchTerms": "isic 71 division 71 section M personal data processing architectural engineering activities technical testing analysis",
+    "framework": "UN ISIC Rev.4 Division 71 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-72",
+    "label": "72 — Scientific research and development",
+    "isicSection": "M",
+    "isicDivision": "72",
+    "searchTerms": "isic 72 division 72 section M personal data processing scientific research development",
+    "framework": "UN ISIC Rev.4 Division 72 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-73",
+    "label": "73 — Advertising and market research",
+    "isicSection": "M",
+    "isicDivision": "73",
+    "searchTerms": "isic 73 division 73 section M personal data processing advertising market research",
+    "framework": "UN ISIC Rev.4 Division 73 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-74",
+    "label": "74 — Other professional, scientific and technical activities",
+    "isicSection": "M",
+    "isicDivision": "74",
+    "searchTerms": "isic 74 division 74 section M personal data processing other professional scientific technical activities",
+    "framework": "UN ISIC Rev.4 Division 74 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-75",
+    "label": "75 — Veterinary activities",
+    "isicSection": "M",
+    "isicDivision": "75",
+    "searchTerms": "isic 75 division 75 section M personal data processing veterinary activities",
+    "framework": "UN ISIC Rev.4 Division 75 (Section M); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-77",
+    "label": "77 — Rental and leasing activities",
+    "isicSection": "N",
+    "isicDivision": "77",
+    "searchTerms": "isic 77 division 77 section N personal data processing rental leasing activities",
+    "framework": "UN ISIC Rev.4 Division 77 (Section N); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-78",
+    "label": "78 — Employment activities",
+    "isicSection": "N",
+    "isicDivision": "78",
+    "searchTerms": "isic 78 division 78 section N personal data processing employment activities",
+    "framework": "UN ISIC Rev.4 Division 78 (Section N); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-79",
+    "label": "79 — Travel agency, tour operator reservation service and related activities",
+    "isicSection": "N",
+    "isicDivision": "79",
+    "searchTerms": "isic 79 division 79 section N personal data processing travel agency tour operator reservation service related activities",
+    "framework": "UN ISIC Rev.4 Division 79 (Section N); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-80",
+    "label": "80 — Security and investigation activities",
+    "isicSection": "N",
+    "isicDivision": "80",
+    "searchTerms": "isic 80 division 80 section N personal data processing security investigation activities",
+    "framework": "UN ISIC Rev.4 Division 80 (Section N); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-81",
+    "label": "81 — Services to buildings and landscape activities",
+    "isicSection": "N",
+    "isicDivision": "81",
+    "searchTerms": "isic 81 division 81 section N personal data processing services buildings landscape activities",
+    "framework": "UN ISIC Rev.4 Division 81 (Section N); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-82",
+    "label": "82 — Office administrative, office support and other business support activities",
+    "isicSection": "N",
+    "isicDivision": "82",
+    "searchTerms": "isic 82 division 82 section N personal data processing office administrative office support other business support activities",
+    "framework": "UN ISIC Rev.4 Division 82 (Section N); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-84",
+    "label": "84 — Public administration and defence; compulsory social security",
+    "isicSection": "O",
+    "isicDivision": "84",
+    "searchTerms": "isic 84 division 84 section O personal data processing public administration defence compulsory social security",
+    "framework": "UN ISIC Rev.4 Division 84 (Section O); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-85",
+    "label": "85 — Education",
+    "isicSection": "P",
+    "isicDivision": "85",
+    "searchTerms": "isic 85 division 85 section P personal data processing education",
+    "framework": "UN ISIC Rev.4 Division 85 (Section P); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-86",
+    "label": "86 — Human health activities",
+    "isicSection": "Q",
+    "isicDivision": "86",
+    "searchTerms": "isic 86 division 86 section Q personal data processing human health activities",
+    "framework": "UN ISIC Rev.4 Division 86 (Section Q); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-87",
+    "label": "87 — Residential care activities",
+    "isicSection": "Q",
+    "isicDivision": "87",
+    "searchTerms": "isic 87 division 87 section Q personal data processing residential care activities",
+    "framework": "UN ISIC Rev.4 Division 87 (Section Q); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-88",
+    "label": "88 — Social work activities without accommodation",
+    "isicSection": "Q",
+    "isicDivision": "88",
+    "searchTerms": "isic 88 division 88 section Q personal data processing social work activities without accommodation",
+    "framework": "UN ISIC Rev.4 Division 88 (Section Q); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-90",
+    "label": "90 — Creative, arts and entertainment activities",
+    "isicSection": "R",
+    "isicDivision": "90",
+    "searchTerms": "isic 90 division 90 section R personal data processing creative arts entertainment activities",
+    "framework": "UN ISIC Rev.4 Division 90 (Section R); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-91",
+    "label": "91 — Libraries, archives, museums and other cultural activities",
+    "isicSection": "R",
+    "isicDivision": "91",
+    "searchTerms": "isic 91 division 91 section R personal data processing libraries archives museums other cultural activities",
+    "framework": "UN ISIC Rev.4 Division 91 (Section R); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-92",
+    "label": "92 — Gambling and betting activities",
+    "isicSection": "R",
+    "isicDivision": "92",
+    "searchTerms": "isic 92 division 92 section R personal data processing gambling betting activities",
+    "framework": "UN ISIC Rev.4 Division 92 (Section R); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-93",
+    "label": "93 — Sports activities and amusement and recreation activities",
+    "isicSection": "R",
+    "isicDivision": "93",
+    "searchTerms": "isic 93 division 93 section R personal data processing sports activities amusement recreation activities",
+    "framework": "UN ISIC Rev.4 Division 93 (Section R); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-94",
+    "label": "94 — Activities of membership organisations",
+    "isicSection": "S",
+    "isicDivision": "94",
+    "searchTerms": "isic 94 division 94 section S personal data processing activities membership organisations",
+    "framework": "UN ISIC Rev.4 Division 94 (Section S); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-95",
+    "label": "95 — Repair of computers and personal and household goods",
+    "isicSection": "S",
+    "isicDivision": "95",
+    "searchTerms": "isic 95 division 95 section S personal data processing repair computers personal household goods",
+    "framework": "UN ISIC Rev.4 Division 95 (Section S); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-96",
+    "label": "96 — Other personal service activities",
+    "isicSection": "S",
+    "isicDivision": "96",
+    "searchTerms": "isic 96 division 96 section S personal data processing other personal service activities",
+    "framework": "UN ISIC Rev.4 Division 96 (Section S); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-97",
+    "label": "97 — Activities of households as employers of domestic personnel",
+    "isicSection": "T",
+    "isicDivision": "97",
+    "searchTerms": "isic 97 division 97 section T personal data processing activities households employers domestic personnel",
+    "framework": "UN ISIC Rev.4 Division 97 (Section T); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-98",
+    "label": "98 — Undifferentiated goods- and services-producing activities of private households for own use",
+    "isicSection": "T",
+    "isicDivision": "98",
+    "searchTerms": "isic 98 division 98 section T personal data processing undifferentiated goods services producing activities private households",
+    "framework": "UN ISIC Rev.4 Division 98 (Section T); ILO-compatible industry detail."
+  },
+  {
+    "id": "ISIC-99",
+    "label": "99 — Activities of extraterritorial organisations and bodies",
+    "isicSection": "U",
+    "isicDivision": "99",
+    "searchTerms": "isic 99 division 99 section U personal data processing activities extraterritorial organisations bodies",
+    "framework": "UN ISIC Rev.4 Division 99 (Section U); ILO-compatible industry detail."
   }
 ]

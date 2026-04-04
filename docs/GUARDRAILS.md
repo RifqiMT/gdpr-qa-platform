@@ -50,6 +50,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-N01 | Crawlers depend on **external HTML/RSS**; selectors may break. | Fallback: static `gdpr-news.json` items. |
 | TG-N02 | **Timeouts** (`NEWS_CRAWL_TIMEOUT_MS`, `NEWS_REFRESH_TIMEOUT_MS`) truncate slow crawls. | Partial results OK by design. |
 | TG-N03 | **Storage cap** on refresh write (`storeCap` ≥ `NEWS_MERGE_CAP`) limits file growth. | Adjust env if ops need longer history. |
+| TG-N04 | **Deduplication contract** — Server and client both apply **`dedupeNewsItemsConsolidated`** / **`dedupeNewsItemsClient`** (from **`news-dedupe.js`**). Changing merge rules in **`news-crawler.js`** without updating **`public/news-dedupe.js`** can reintroduce visual duplicates for users on mixed deployments. | Treat the two files as a **paired change** in review. |
+| TG-N05 | **`GET /api/news`** intentionally sets **no-store** cache headers. | Do not “optimize” with long `max-age` without product sign-off—stale news lists erode trust. |
 
 ---
 
@@ -60,6 +62,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-F01 | **Vanilla JS** — no framework-enforced CSP or bundler; still avoid inline untrusted HTML in Ask except escaped model output. | `escapeHtml` + controlled chips. |
 | TG-F02 | **Accessibility** — Maintaining ARIA tab pattern is mandatory for WCAG-oriented orgs. | Regressions affect procurement. |
 | TG-F03 | **PDF export** depends on **html2pdf.js** CDN — offline/air-gapped installs need vendoring. | Document for enterprise deployment. |
+| TG-F04 | **News sidebar chrome** uses **`sessionStorage`** for collapse prefs — not shared across browsers or devices; clearing site data resets layout. | Expected; document for support. |
 
 ---
 

@@ -1,5 +1,15 @@
 (function () {
-  const API = '';
+  const API = (function () {
+    try {
+      var el = document.querySelector('meta[name="gdpr-api-base"]');
+      var v = el && el.getAttribute('content');
+      if (v && typeof v === 'string') {
+        v = v.trim().replace(/\/$/, '');
+        if (v) return v;
+      }
+    } catch (e) {}
+    return '';
+  })();
 
   function get(url) {
     return fetch(API + url).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
@@ -11,6 +21,70 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     }).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
+  }
+
+  /**
+   * News attachments API returns JSON. Proxies sometimes omit Content-Type; static hosts return HTML.
+   * Do not rely on Content-Type — detect HTML by body, then JSON.parse. POST first, GET fallback.
+   */
+  function parseAttachmentsApiBody(status, text) {
+    var trimmed = String(text || '').trim();
+    if (
+      /^\s*<!DOCTYPE\b/i.test(trimmed) ||
+      /^\s*<\s*html[\s>]/i.test(trimmed) ||
+      /^\s*<\s*head[\s>]/i.test(trimmed)
+    ) {
+      throw new Error(
+        'Attachments need the Node API. Open the app from the same host as the server (e.g. run npm start and use http://localhost:3847). ' +
+          'If the UI is on another domain, set <meta name="gdpr-api-base" content="https://your-api-origin"> in index.html. ' +
+          'Static file / preview-only hosting cannot run this feature.'
+      );
+    }
+    var j;
+    try {
+      j = JSON.parse(trimmed);
+    } catch (parseErr) {
+      throw new Error(
+        'Could not read the attachments response. Restart or redeploy the server (npm start), or try again in a moment.'
+      );
+    }
+    if (status >= 400 || (j && j.ok === false)) {
+      throw new Error((j && j.error) || 'Request failed (' + status + ')');
+    }
+    return j;
+  }
+
+  function fetchArticleAttachments(articleUrl) {
+    var u = String(articleUrl || '').trim();
+    if (!u) return Promise.reject(new Error('Missing article URL.'));
+
+    var base = API + '/api/news/article-attachments';
+    var initPost = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain, */*'
+      },
+      body: JSON.stringify({ url: u })
+    };
+    var initGet = {
+      method: 'GET',
+      headers: { Accept: 'application/json, text/plain, */*' }
+    };
+
+    function tryRequest(method) {
+      var reqUrl = method === 'GET' ? base + '?url=' + encodeURIComponent(u) : base;
+      var init = method === 'GET' ? initGet : initPost;
+      return fetch(reqUrl, init).then(function (r) {
+        return r.text().then(function (text) {
+          return parseAttachmentsApiBody(r.status, text);
+        });
+      });
+    }
+
+    return tryRequest('POST').catch(function () {
+      return tryRequest('GET');
+    });
   }
 
   /** GDPR-Info-style article → recitals map (bundled JSON); used if API omits suitableRecitals (stale server). */
@@ -72,10 +146,34 @@
   const sourcesList = document.getElementById('sourcesList');
   const newsList = document.getElementById('newsList');
   const newsFeedsList = document.getElementById('newsFeedsList');
+  const newsFeedsAsideTop = document.getElementById('newsFeedsAsideTop');
+  const newsFeedsSectionToggle = document.getElementById('newsFeedsSectionToggle');
   const newsSections = document.getElementById('newsSections');
   const newsFilterSource = document.getElementById('newsFilterSource');
   const newsFilterTopic = document.getElementById('newsFilterTopic');
   const newsFilterClear = document.getElementById('newsFilterClear');
+  const newsSearchInput = document.getElementById('newsSearchInput');
+  const newsSearchClear = document.getElementById('newsSearchClear');
+  const newsResultStatus = document.getElementById('newsResultStatus');
+  const newsTocNav = document.getElementById('newsTocNav');
+  const newsTocList = document.getElementById('newsTocList');
+  const btnRefreshNews = document.getElementById('btnRefreshNews');
+  const newsControlsPanel = document.getElementById('newsControlsPanel');
+  const newsSidebarFilters = document.getElementById('newsSidebarFilters');
+  const newsSidebarFiltersCard = document.getElementById('newsSidebarFiltersCard');
+  const newsSidebarFiltersToggle = document.getElementById('newsSidebarFiltersToggle');
+  const newsSidebarFiltersBadge = document.getElementById('newsSidebarFiltersBadge');
+  const newsSearchInputAside = document.getElementById('newsSearchInputAside');
+  const newsSearchClearAside = document.getElementById('newsSearchClearAside');
+  const newsFilterSourceAside = document.getElementById('newsFilterSourceAside');
+  const newsFilterTopicAside = document.getElementById('newsFilterTopicAside');
+  const newsFilterClearAside = document.getElementById('newsFilterClearAside');
+  const newsResultStatusAside = document.getElementById('newsResultStatusAside');
+  var newsToolbarDockObserver = null;
+  const newsAttachmentsDialog = document.getElementById('newsAttachmentsDialog');
+  const newsAttachmentsDialogArticle = document.getElementById('newsAttachmentsDialogArticle');
+  const newsAttachmentsDialogBody = document.getElementById('newsAttachmentsDialogBody');
+  const newsAttachmentsDialogClose = document.getElementById('newsAttachmentsDialogClose');
   const browsePlaceholder = document.getElementById('browsePlaceholder');
   const browseRecitals = document.getElementById('browseRecitals');
   const browseChapters = document.getElementById('browseChapters');
@@ -436,20 +534,423 @@
   var SOURCE_SUMMARIES = {
     'European Data Protection Board (EDPB)': 'EU-level guidance, opinions, and enforcement news. Covers how national supervisors apply GDPR and coordinate across the EU.',
     'EDPB': 'EU-level guidance, opinions, and enforcement news from the European Data Protection Board and national data protection authorities.',
+    'European Data Protection Supervisor (EDPS)':
+      'EU institutional data protection: how the EDPS supervises processing by EU institutions and bodies, and coordinates with the EDPB on consistency.',
+    'EDPS': 'Press, blogs, and updates from the European Data Protection Supervisor on EU institutions, Regulation 2018/1725, and cooperation with the EDPB.',
     'ICO (UK)': 'UK regulator updates: enforcement actions, fines, guidance under UK GDPR, and how the ICO interprets data protection law.',
     'European Commission': 'Official EU policy, reform, and publications on data protection and the GDPR from the European Commission.',
     'Council of Europe': 'International data protection standards and updates on Convention 108+ (protection of personal data).'
   };
 
-  var NEWS_TOPIC_ORDER = ['Rights (erasure & access)', 'AI & digital', 'Enforcement & fines', 'Guidance & compliance', 'Transfers & BCR', 'International standards', 'Policy & publications', 'Children & privacy', 'General'];
+  /** Catch-all: same cards as before “General” — tag hidden to reduce noise. */
+  var NEWS_TOPIC_OTHER = 'Other GDPR & privacy topics';
+  /** Shown for European Commission items that did not match a narrower bucket (still GDPR-filtered at crawl). */
+  var NEWS_TOPIC_COMMISSION_DP = 'EU Commission: GDPR & data protection';
+  /** EU institutions / Regulation 2018/1725 / EDPS–EDPB cooperation when source is EDPS and text did not match a narrower tag. */
+  var NEWS_TOPIC_EDPS = 'EDPS: EU institutions & data protection';
+  var NEWS_TOPIC_ORDER = [
+    'Rights (erasure & access)',
+    'AI & digital',
+    'Enforcement & fines',
+    'Guidance & compliance',
+    'Transfers & BCR',
+    'International standards',
+    'Policy & publications',
+    'Children & privacy',
+    NEWS_TOPIC_EDPS,
+    NEWS_TOPIC_COMMISSION_DP,
+    NEWS_TOPIC_OTHER
+  ];
+
+  /** Preferred order for grouping news sections and filter dropdowns. */
+  var NEWS_SOURCE_DISPLAY_ORDER = [
+    'European Data Protection Board (EDPB)',
+    'EDPB',
+    'European Data Protection Supervisor (EDPS)',
+    'EDPS',
+    'ICO (UK)',
+    'European Commission',
+    'Council of Europe'
+  ];
 
   var lastNewsItems = [];
+  /** url -> attachment count (0 = hide button); null = scan error (show button); undefined = not scanned yet (hide until ready, then show if beyond batch cap). */
+  var newsAttachmentCountsByUrl = Object.create(null);
+  var newsAttachmentsSummaryReady = false;
+  var newsAttachmentsSummaryFailed = false;
+  var newsAttachmentsSummaryRequestSeq = 0;
+
+  function shouldShowNewsAttachmentsButton(url) {
+    if (!url || url === '#') return false;
+    if (newsAttachmentsSummaryFailed) return true;
+    if (!newsAttachmentsSummaryReady) return false;
+    var c = newsAttachmentCountsByUrl[url];
+    if (c === null) return true;
+    if (typeof c === 'number') return c > 0;
+    return true;
+  }
+
+  function buildNewsCardAttachmentsBlock(url, title) {
+    if (!shouldShowNewsAttachmentsButton(url)) return '';
+    return (
+      '<div class="news-card-actions">' +
+      '<button type="button" class="btn btn-secondary btn-sm btn-news-attachments" data-article-url="' +
+      escapeHtml(url) +
+      '" data-article-title="' +
+      escapeHtml(title) +
+      '" aria-label="Review downloadable files linked from this article">Attachments</button>' +
+      '</div>'
+    );
+  }
+
+  var NEWS_CARD_EXTERNAL_ICON_SVG =
+    '<svg class="news-card-external-svg" width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function newsCardFormatDate(item) {
+    var raw = item && item.date;
+    if (!raw) return { display: '', iso: '' };
+    var d = new Date(raw);
+    if (isNaN(d.getTime())) return { display: '', iso: '' };
+    return {
+      iso: d.toISOString().slice(0, 10),
+      display: d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+    };
+  }
+
+  /**
+   * Shared news card DOM (section list + legacy flat list). Structured for scanability: meta row → title
+   * (with external-link cue) → summary → footer (source + attachments).
+   */
+  function buildNewsCardMarkupHtml(item, headingTag) {
+    var tag = headingTag || 'h5';
+    var title = item.title || 'Untitled';
+    var url = item.url || '#';
+    var itemSourceUrl = item.sourceUrl || '#';
+    var sourceName = item.sourceName || 'Source';
+    var df = newsCardFormatDate(item);
+    var topic = getTopicFromItem(item);
+    var summaryHtml = buildNewsCardSummaryHtml(item);
+    var showTopic = topic && topic !== NEWS_TOPIC_OTHER;
+    var headerHtml = '';
+    if (df.display || showTopic) {
+      headerHtml =
+        '<div class="news-card-header-row">' +
+        (df.display
+          ? '<time class="news-card-time" datetime="' + escapeHtml(df.iso) + '">' + escapeHtml(df.display) + '</time>'
+          : '') +
+        (showTopic ? '<span class="news-topic-tag">' + escapeHtml(topic) + '</span>' : '') +
+        '</div>';
+    }
+    return (
+      '<div class="news-card-inner">' +
+      headerHtml +
+      '<' +
+      tag +
+      ' class="news-card-title">' +
+      '<a class="news-card-title-link" href="' +
+      escapeHtml(url) +
+      '" target="_blank" rel="noopener noreferrer">' +
+      '<span class="news-card-title-text">' +
+      escapeHtml(title) +
+      '</span>' +
+      NEWS_CARD_EXTERNAL_ICON_SVG +
+      '<span class="visually-hidden"> Opens in a new tab</span>' +
+      '</a></' +
+      tag +
+      '>' +
+      summaryHtml +
+      '<footer class="news-card-footer">' +
+      '<a href="' +
+      escapeHtml(itemSourceUrl) +
+      '" target="_blank" rel="noopener noreferrer" class="news-card-source">' +
+      escapeHtml(sourceName) +
+      '<span class="visually-hidden"> (opens in new tab)</span>' +
+      '</a>' +
+      buildNewsCardAttachmentsBlock(url, title) +
+      '</footer></div>'
+    );
+  }
+
+  function scheduleNewsAttachmentsSummaryForItems(items) {
+    newsAttachmentsSummaryReady = false;
+    newsAttachmentsSummaryFailed = false;
+    newsAttachmentCountsByUrl = Object.create(null);
+    var seq = ++newsAttachmentsSummaryRequestSeq;
+    applyNewsFilters();
+
+    if (!items || items.length === 0) {
+      newsAttachmentsSummaryReady = true;
+      applyNewsFilters();
+      return;
+    }
+    var urls = [];
+    var seen = Object.create(null);
+    for (var i = 0; i < items.length; i++) {
+      var u = items[i] && items[i].url;
+      if (!u || u === '#' || seen[u]) continue;
+      seen[u] = true;
+      urls.push(u);
+      if (urls.length >= 48) break;
+    }
+    if (!urls.length) {
+      newsAttachmentsSummaryReady = true;
+      applyNewsFilters();
+      return;
+    }
+    fetch(API + '/api/news/attachments-summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/plain, */*' },
+      body: JSON.stringify({ urls: urls })
+    })
+      .then(function (r) {
+        return r.text().then(function (text) {
+          if (seq !== newsAttachmentsSummaryRequestSeq) return;
+          try {
+            var data = parseAttachmentsApiBody(r.status, text);
+            newsAttachmentsSummaryReady = true;
+            newsAttachmentsSummaryFailed = false;
+            (data.items || []).forEach(function (row) {
+              if (row && row.url != null) {
+                if (row.count === null || row.count === undefined) {
+                  newsAttachmentCountsByUrl[row.url] = null;
+                } else {
+                  newsAttachmentCountsByUrl[row.url] = Number(row.count);
+                }
+              }
+            });
+          } catch (err) {
+            newsAttachmentsSummaryFailed = true;
+            newsAttachmentsSummaryReady = true;
+          }
+          applyNewsFilters();
+        });
+      })
+      .catch(function () {
+        if (seq !== newsAttachmentsSummaryRequestSeq) return;
+        newsAttachmentsSummaryFailed = true;
+        newsAttachmentsSummaryReady = true;
+        applyNewsFilters();
+      });
+  }
+
+  function newsSectionIdFromSource(sourceName) {
+    return 'news-source-' + String(sourceName || '').replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+  }
+
+  function getOrderedSourcesFromItems(items) {
+    if (!items || !items.length) return [];
+    var seen = Object.create(null);
+    items.forEach(function (item) {
+      var src = item.sourceName || 'Other';
+      seen[src] = true;
+    });
+    var ordered = NEWS_SOURCE_DISPLAY_ORDER.filter(function (s) {
+      return seen[s];
+    });
+    Object.keys(seen).forEach(function (s) {
+      if (ordered.indexOf(s) === -1) ordered.push(s);
+    });
+    return ordered;
+  }
+
+  /** Lowercase blob for client-side search (title, snippet, summary paragraphs). */
+  function getNewsSearchBlob(item) {
+    var chunks = [item.title || '', item.snippet || ''];
+    var p = item.summaryParagraphs;
+    if (p && Array.isArray(p)) {
+      for (var i = 0; i < p.length; i++) {
+        var seg = String(p[i] || '').trim();
+        if (seg) chunks.push(seg);
+      }
+    }
+    return chunks.join(' ').toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  function renderNewsToc(orderedSourceNames) {
+    if (!newsTocNav || !newsTocList) return;
+    if (!orderedSourceNames || orderedSourceNames.length < 2) {
+      newsTocNav.hidden = true;
+      newsTocList.innerHTML = '';
+      return;
+    }
+    newsTocNav.hidden = false;
+    newsTocList.innerHTML = orderedSourceNames
+      .map(function (name) {
+        var id = newsSectionIdFromSource(name);
+        return (
+          '<li role="listitem"><a href="#' +
+          escapeHtml(id) +
+          '">' +
+          escapeHtml(name) +
+          '</a></li>'
+        );
+      })
+      .join('');
+  }
+
+  function syncNewsSearchClearVisible() {
+    var has = newsSearchInput && newsSearchInput.value.trim();
+    if (newsSearchClear) newsSearchClear.classList.toggle('hidden', !has);
+    var hasAside = newsSearchInputAside && newsSearchInputAside.value.trim();
+    if (newsSearchClearAside) newsSearchClearAside.classList.toggle('hidden', !hasAside);
+  }
+
+  function syncAllAsideFromMain() {
+    if (newsFilterSourceAside && newsFilterSource) {
+      newsFilterSourceAside.innerHTML = newsFilterSource.innerHTML;
+      newsFilterSourceAside.value = newsFilterSource.value;
+    }
+    if (newsFilterTopicAside && newsFilterTopic) {
+      newsFilterTopicAside.innerHTML = newsFilterTopic.innerHTML;
+      newsFilterTopicAside.value = newsFilterTopic.value;
+    }
+    if (newsSearchInputAside && newsSearchInput) {
+      newsSearchInputAside.value = newsSearchInput.value;
+    }
+    syncNewsSearchClearVisible();
+  }
+
+  function isNewsSidebarDockAllowed() {
+    return typeof window.matchMedia !== 'undefined' && window.matchMedia('(min-width: 1100px)').matches;
+  }
+
+  function setNewsSidebarFiltersDockVisible(show) {
+    var body = document.querySelector('.news-body');
+    var layout = document.querySelector('.news-layout');
+    if (!newsSidebarFilters || !body || !layout) return;
+    if (!isNewsSidebarDockAllowed()) {
+      newsSidebarFilters.hidden = true;
+      newsSidebarFilters.setAttribute('aria-hidden', 'true');
+      body.classList.remove('news-body--sidebar-filters-visible');
+      layout.classList.remove('news-layout--sidebar-filters-active');
+      return;
+    }
+    if (show) {
+      newsSidebarFilters.removeAttribute('hidden');
+      newsSidebarFilters.setAttribute('aria-hidden', 'false');
+      syncAllAsideFromMain();
+      initNewsSidebarExpandableToolbarOnce();
+      applyNewsSidebarCollapsedPreference();
+      updateNewsSidebarToolbarChrome();
+      body.classList.add('news-body--sidebar-filters-visible');
+      layout.classList.add('news-layout--sidebar-filters-active');
+    } else {
+      newsSidebarFilters.hidden = true;
+      newsSidebarFilters.setAttribute('aria-hidden', 'true');
+      body.classList.remove('news-body--sidebar-filters-visible');
+      layout.classList.remove('news-layout--sidebar-filters-active');
+    }
+  }
+
+  function teardownNewsToolbarDock() {
+    if (newsToolbarDockObserver) {
+      newsToolbarDockObserver.disconnect();
+      newsToolbarDockObserver = null;
+    }
+    setNewsSidebarFiltersDockVisible(false);
+  }
+
+  function applyNewsSidebarCollapsedPreference() {
+    if (!newsSidebarFiltersCard || !newsSidebarFiltersToggle) return;
+    var collapsed = false;
+    try {
+      collapsed = sessionStorage.getItem('gdpr_news_sidebar_collapsed') === '1';
+    } catch (err) {
+      collapsed = false;
+    }
+    newsSidebarFiltersCard.classList.toggle('news-sidebar-filters-card--collapsed', collapsed);
+    newsSidebarFiltersToggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
+
+  function updateNewsSidebarToolbarChrome() {
+    var badge = newsSidebarFiltersBadge || document.getElementById('newsSidebarFiltersBadge');
+    var toggleBtn = newsSidebarFiltersToggle || document.getElementById('newsSidebarFiltersToggle');
+    var n = 0;
+    if (newsSearchInput && newsSearchInput.value.trim()) n += 1;
+    if (newsFilterSource && newsFilterSource.value) n += 1;
+    if (newsFilterTopic && newsFilterTopic.value) n += 1;
+    if (badge) {
+      badge.textContent = String(n);
+      badge.classList.toggle('hidden', n === 0);
+    }
+    if (toggleBtn) {
+      var label =
+        n > 0
+          ? 'Quick filters — ' + n + ' active. Click to expand or collapse.'
+          : 'Quick filters. Click to expand or collapse the filter panel.';
+      toggleBtn.setAttribute('aria-label', label);
+    }
+  }
+
+  function initNewsSidebarExpandableToolbarOnce() {
+    var toggle = newsSidebarFiltersToggle || document.getElementById('newsSidebarFiltersToggle');
+    var card = newsSidebarFiltersCard || document.getElementById('newsSidebarFiltersCard');
+    if (!toggle || !card || toggle.getAttribute('data-expandable-bound') === '1') return;
+    toggle.setAttribute('data-expandable-bound', '1');
+    toggle.addEventListener('click', function () {
+      var nowCollapsed = card.classList.toggle('news-sidebar-filters-card--collapsed');
+      toggle.setAttribute('aria-expanded', nowCollapsed ? 'false' : 'true');
+      try {
+        if (nowCollapsed) sessionStorage.setItem('gdpr_news_sidebar_collapsed', '1');
+        else sessionStorage.removeItem('gdpr_news_sidebar_collapsed');
+      } catch (err) {}
+      updateNewsSidebarToolbarChrome();
+    });
+  }
+
+  function initNewsToolbarDockObserver() {
+    var main = document.querySelector('.main');
+    if (!newsControlsPanel || !main || typeof IntersectionObserver === 'undefined') return;
+    teardownNewsToolbarDock();
+    newsToolbarDockObserver = new IntersectionObserver(
+      function (entries) {
+        var vis = viewNews && viewNews.classList.contains('active') && !viewNews.hasAttribute('hidden');
+        if (!vis) {
+          setNewsSidebarFiltersDockVisible(false);
+          return;
+        }
+        var e = entries[0];
+        var toolbarOff = e && !e.isIntersecting;
+        setNewsSidebarFiltersDockVisible(!!toolbarOff && isNewsSidebarDockAllowed());
+      },
+      { root: main, rootMargin: '0px 0px -8px 0px', threshold: 0 }
+    );
+    newsToolbarDockObserver.observe(newsControlsPanel);
+  }
+
+  function updateNewsResultStatus(displayedCount, loadedCount, queryTrimmed) {
+    var loaded = typeof loadedCount === 'number' ? loadedCount : 0;
+    var shown = typeof displayedCount === 'number' ? displayedCount : 0;
+    var q = queryTrimmed || '';
+    var msg = '';
+    if (loaded === 0 && shown === 0) {
+      msg = '';
+    } else if (shown === 0 && loaded > 0) {
+      msg =
+        'No articles match your filters or search. Try clearing all or using different keywords.';
+    } else {
+      var head = q
+        ? 'Showing ' + shown + (shown === 1 ? ' article' : ' articles') + ' matching your search'
+        : 'Showing ' + shown + (shown === 1 ? ' article' : ' articles');
+      msg = loaded !== shown ? head + ' (' + loaded + ' loaded in total).' : head + '.';
+    }
+    if (newsResultStatus) newsResultStatus.textContent = msg;
+    if (newsResultStatusAside) newsResultStatusAside.textContent = msg;
+  }
+
+  function setNewsRefreshBusy(busy) {
+    if (!btnRefreshNews) return;
+    btnRefreshNews.disabled = !!busy;
+    btnRefreshNews.setAttribute('aria-busy', busy ? 'true' : 'false');
+    btnRefreshNews.classList.toggle('is-loading', !!busy);
+  }
 
   function renderNewsSections(items) {
     if (!newsSections) return;
     newsSections.innerHTML = '';
     if (!items || items.length === 0) {
-      newsSections.innerHTML = '<p class="news-empty">No news match the current filters. Try changing or clearing the filters.</p>';
+      newsSections.innerHTML =
+        '<p class="news-empty">No articles match the current filters or search. Use <strong>Clear all</strong> or adjust your criteria.</p>';
       return;
     }
     var bySource = {};
@@ -458,9 +959,7 @@
       if (!bySource[src]) bySource[src] = [];
       bySource[src].push(item);
     });
-    var sourceOrder = ['European Data Protection Board (EDPB)', 'EDPB', 'ICO (UK)', 'European Commission', 'Council of Europe'];
-    var ordered = sourceOrder.filter(function (s) { return bySource[s] && bySource[s].length; });
-    Object.keys(bySource).forEach(function (s) { if (ordered.indexOf(s) === -1) ordered.push(s); });
+    var ordered = getOrderedSourcesFromItems(items);
     ordered.forEach(function (sourceName) {
       var sourceItems = bySource[sourceName];
       sourceItems.sort(function (a, b) {
@@ -471,14 +970,14 @@
       var summary = SOURCE_SUMMARIES[sourceName] || 'Updates and publications from this source. Each link goes to the original article.';
       var section = document.createElement('section');
       section.className = 'news-by-source';
-      var sectionId = 'news-source-' + sourceName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+      var sectionId = newsSectionIdFromSource(sourceName);
       section.id = sectionId;
       var firstItem = sourceItems[0];
       var sourceUrl = firstItem && firstItem.sourceUrl ? firstItem.sourceUrl : '#';
       var titleId = sectionId + '-title';
       section.setAttribute('aria-labelledby', titleId);
       section.innerHTML =
-        '<h4 class="news-source-heading" id="' + titleId + '"><a href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(sourceName) + '</a></h4>' +
+        '<h4 class="news-source-heading" id="' + titleId + '"><a href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(sourceName) + '</a></h4>' +
         '<p class="news-source-summary">' + escapeHtml(summary) + '</p>' +
         '<ul class="news-list news-list-in-section" role="list"></ul>';
       var ul = section.querySelector('.news-list');
@@ -486,21 +985,9 @@
         var li = document.createElement('li');
         li.className = 'news-card';
         li.setAttribute('role', 'listitem');
-        var dateStr = item.date ? new Date(item.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
-        var title = item.title || 'Untitled';
-        var url = item.url || '#';
-        var itemSourceUrl = item.sourceUrl || '#';
-        var topic = getTopicFromItem(item);
         var summaryHtml = buildNewsCardSummaryHtml(item);
         if (!summaryHtml) li.classList.add('news-card--no-summary');
-        li.innerHTML =
-          (topic && topic !== 'General' ? '<span class="news-topic-tag">' + escapeHtml(topic) + '</span>' : '') +
-          '<h5 class="news-card-title"><a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(title) + '</a></h5>' +
-          summaryHtml +
-          '<p class="news-card-meta">' +
-          '<a href="' + escapeHtml(itemSourceUrl) + '" target="_blank" rel="noopener" class="news-card-source">' + escapeHtml(sourceName) + '</a>' +
-          (dateStr ? ' <span class="news-card-date">' + escapeHtml(dateStr) + '</span>' : '') +
-          '</p>';
+        li.innerHTML = buildNewsCardMarkupHtml(item, 'h5');
         ul.appendChild(li);
       });
       newsSections.appendChild(section);
@@ -510,6 +997,7 @@
   function applyNewsFilters() {
     var sourceVal = newsFilterSource ? newsFilterSource.value : '';
     var topicVal = newsFilterTopic ? newsFilterTopic.value : '';
+    var q = newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : '';
     var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
     var filtered = items.filter(function (item) {
       if (sourceVal && (item.sourceName || '') !== sourceVal) return false;
@@ -517,9 +1005,15 @@
         var t = getTopicFromItem(item);
         if (t !== topicVal) return false;
       }
+      if (q && getNewsSearchBlob(item).indexOf(q) === -1) return false;
       return true;
     });
     renderNewsSections(filtered);
+    renderNewsToc(getOrderedSourcesFromItems(filtered));
+    updateNewsResultStatus(filtered.length, items.length, q);
+    syncNewsSearchClearVisible();
+    syncAllAsideFromMain();
+    updateNewsSidebarToolbarChrome();
   }
 
   function populateNewsFilters(items) {
@@ -532,10 +1026,9 @@
       var t = getTopicFromItem(item);
       topicsSet[t] = true;
     });
-    var sourceOrder = ['European Data Protection Board (EDPB)', 'EDPB', 'ICO (UK)', 'European Commission', 'Council of Europe'];
     sources.sort(function (a, b) {
-      var ia = sourceOrder.indexOf(a);
-      var ib = sourceOrder.indexOf(b);
+      var ia = NEWS_SOURCE_DISPLAY_ORDER.indexOf(a);
+      var ib = NEWS_SOURCE_DISPLAY_ORDER.indexOf(b);
       if (ia !== -1 && ib !== -1) return ia - ib;
       if (ia !== -1) return -1;
       if (ib !== -1) return 1;
@@ -564,19 +1057,50 @@
         newsFilterTopic.appendChild(opt);
       });
     }
+    syncAllAsideFromMain();
   }
 
   function getTopicFromItem(item) {
     var t = ((item.title || '') + ' ' + (item.snippet || '')).toLowerCase();
-    if (/\b(right to erasure|erasure|article 17|deletion)\b/.test(t)) return 'Rights (erasure & access)';
-    if (/\b(ai|artificial intelligence|algorithm|digital)\b/.test(t)) return 'AI & digital';
-    if (/\b(fine|penalt|enforcement|sanction)\b/.test(t)) return 'Enforcement & fines';
-    if (/\b(guidance|guideline|recommendation|compliance|template)\b/.test(t)) return 'Guidance & compliance';
-    if (/\b(bcr|binding corporate|transfer|international)\b/.test(t)) return 'Transfers & BCR';
+    var src = (item.sourceName || '').trim();
+    if (/\b(right to erasure|erasure|article 17|deletion|right of access|right to access)\b/.test(t)) {
+      return 'Rights (erasure & access)';
+    }
+    if (/\b(ai|artificial intelligence|algorithm|machine learning)\b/.test(t)) return 'AI & digital';
+    if (/\bdigital\b/.test(t) && /\b(data|privacy|personal|gdpr|platform|service)\b/.test(t)) return 'AI & digital';
+    if (
+      /\b(fine|penalt|enforcement|sanction|infringement|reasoned opinion|formal notice|breach of\b)/.test(t)
+    ) {
+      return 'Enforcement & fines';
+    }
+    if (/\b(guidance|guideline|recommendation|compliance|template|best practice)\b/.test(t)) {
+      return 'Guidance & compliance';
+    }
+    if (
+      /\b(bcr|binding corporate|standard contractual|scc\b|adequacy|data transfer|transfers of personal|third countr|schrems|data privacy framework|privacy shield)\b/.test(
+        t
+      )
+    ) {
+      return 'Transfers & BCR';
+    }
+    if (/\b(international|cross-border)\b/.test(t) && /\b(data|personal|privacy|transfer|gdpr)\b/.test(t)) {
+      return 'Transfers & BCR';
+    }
     if (/\b(convention 108|coe|council of europe)\b/.test(t)) return 'International standards';
-    if (/\b(reform|policy|publication)\b/.test(t)) return 'Policy & publications';
+    if (
+      /\b(reform|policy|publication|legislative proposal|initiative|commission adopts|statement on|report on|consultation|call for evidence|q ?& ?a on)\b/.test(
+        t
+      )
+    ) {
+      return 'Policy & publications';
+    }
+    if (/\b(children|child|minor)\b/.test(t) && /\b(privacy|data|personal|online|gdpr)\b/.test(t)) {
+      return 'Children & privacy';
+    }
     if (/\b(children|child)\b/.test(t)) return 'Children & privacy';
-    return 'General';
+    if (src === 'European Data Protection Supervisor (EDPS)' || src === 'EDPS') return NEWS_TOPIC_EDPS;
+    if (src === 'European Commission') return NEWS_TOPIC_COMMISSION_DP;
+    return NEWS_TOPIC_OTHER;
   }
 
   function isNewsSummaryBoilerplate(s) {
@@ -588,6 +1112,32 @@
       /^For the full story\b/i.test(t) ||
       /^Open the link above\b/i.test(t)
     );
+  }
+
+  /**
+   * Feeds often repeat the headline and CMS bylines (e.g. EDPS: title + author + duplicate datelines)
+   * before the real lead. Strip that noise so the card shows one readable summary line.
+   */
+  function tidyNewsSnippetForCard(snippet, title) {
+    var s = String(snippet || '').trim().replace(/\s+/g, ' ');
+    var tit = String(title || '').trim();
+    if (tit.length >= 12) {
+      var low = s.toLowerCase();
+      var tlow = tit.toLowerCase().replace(/\s+/g, ' ');
+      if (low.indexOf(tlow) === 0) {
+        s = s.slice(tit.length).trim();
+        s = s.replace(/^[\s:–\-—.|]+/, '').trim();
+      }
+    }
+    var reLine =
+      /^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,\s*\d{1,2}\/\d{1,2}\/\d{4}\s*-\s*\d{1,2}:\d{2}\s*/i;
+    var guard = 0;
+    while (reLine.test(s) && guard < 4) {
+      s = s.replace(reLine, '').trim();
+      guard += 1;
+    }
+    s = s.replace(/^\s*\b[A-Za-z][\w.-]{0,40}\b\s+(?=Mon|Tue|Wed|Thu|Fri|Sat|Sun)/i, '').trim();
+    return s;
   }
 
   /** One short line for the card — real content only (source/date stay in the footer). */
@@ -605,7 +1155,7 @@
     var combined = parts.join(' ');
     if (combined.length > 300) combined = combined.slice(0, 297).trim() + '…';
     if (combined) return combined;
-    var sn = String(item.snippet || '').trim().replace(/\s+/g, ' ');
+    var sn = tidyNewsSnippetForCard(String(item.snippet || '').trim().replace(/\s+/g, ' '), item.title);
     if (sn) {
       if (sn.length > 300) return sn.slice(0, 297).trim() + '…';
       return sn;
@@ -619,9 +1169,86 @@
     return '<p class="news-card-snippet">' + escapeHtml(text) + '</p>';
   }
 
+  function closeNewsAttachmentsDialog() {
+    if (!newsAttachmentsDialog) return;
+    if (typeof newsAttachmentsDialog.close === 'function') {
+      newsAttachmentsDialog.close();
+    } else {
+      newsAttachmentsDialog.removeAttribute('open');
+    }
+  }
+
+  function openNewsAttachmentsReview(articleUrl, articleTitle) {
+    if (!newsAttachmentsDialog || !newsAttachmentsDialogBody) return;
+    if (!articleUrl || articleUrl === '#') return;
+    if (typeof newsAttachmentsDialog.showModal === 'function') {
+      newsAttachmentsDialog.showModal();
+    } else {
+      newsAttachmentsDialog.setAttribute('open', '');
+    }
+    if (newsAttachmentsDialogArticle) {
+      newsAttachmentsDialogArticle.textContent = articleTitle || articleUrl;
+    }
+    if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
+      newsAttachmentsDialogBody.innerHTML =
+        '<p class="news-attachments-error">Attachments need an HTTP server. From the project folder run <code>npm start</code> and open <code>http://localhost:3847</code> (do not open <code>index.html</code> as a file).</p>';
+      return;
+    }
+    newsAttachmentsDialogBody.innerHTML = '<p class="news-attachments-loading">Loading attachments…</p>';
+    fetchArticleAttachments(articleUrl)
+      .then(function (data) {
+        if (!data.attachments || data.attachments.length === 0) {
+          newsAttachmentsDialogBody.innerHTML =
+            '<p class="news-attachments-empty">No downloadable files were detected on this page (PDF, Word, Excel, etc.). You can still read the full article on the regulator site.</p>';
+          if (newsAttachmentsSummaryReady && articleUrl && articleUrl !== '#') {
+            newsAttachmentCountsByUrl[articleUrl] = 0;
+            applyNewsFilters();
+          }
+          return;
+        }
+        var ul = document.createElement('ul');
+        ul.className = 'news-attachments-list';
+        ul.setAttribute('role', 'list');
+        data.attachments.forEach(function (att) {
+          var li = document.createElement('li');
+          li.className = 'news-attachments-item';
+          li.setAttribute('role', 'listitem');
+          var kind = String(att.kind || 'file').toUpperCase();
+          var safeUrl = String(att.url || '');
+          var safeLabel = String(att.label || safeUrl);
+          li.innerHTML =
+            '<span class="news-attachments-kind">' +
+            escapeHtml(kind) +
+            '</span>' +
+            '<span class="news-attachments-label">' +
+            escapeHtml(safeLabel) +
+            '</span>' +
+            '<a class="btn btn-secondary btn-sm news-attachments-open" href="' +
+            escapeHtml(safeUrl) +
+            '" target="_blank" rel="noopener noreferrer">Open</a>';
+          ul.appendChild(li);
+        });
+        newsAttachmentsDialogBody.innerHTML = '';
+        newsAttachmentsDialogBody.appendChild(ul);
+      })
+      .catch(function (err) {
+        newsAttachmentsDialogBody.innerHTML =
+          '<p class="news-attachments-error">' + escapeHtml(String(err.message || err)) + '</p>';
+      });
+  }
+
+  function dedupeNewsItemsClient(raw) {
+    var arr = Array.isArray(raw) ? raw : [];
+    var g = typeof window !== 'undefined' && window.GDPR_NEWS_DEDUPE;
+    if (g && typeof g.dedupeNewsItemsConsolidated === 'function') {
+      return g.dedupeNewsItemsConsolidated(arr);
+    }
+    return arr.slice();
+  }
+
   function renderNewsPayload(data) {
     const feeds = data.newsFeeds || [];
-    const items = data.items || [];
+    const items = dedupeNewsItemsClient(data.items || []);
     newsFeedsList.innerHTML = '';
     feeds.forEach(function (feed) {
       const li = document.createElement('li');
@@ -640,12 +1267,26 @@
     if (newsSections) {
       newsSections.innerHTML = '';
       if (items.length === 0) {
+        lastNewsItems = [];
+        scheduleNewsAttachmentsSummaryForItems([]);
+        if (newsTocNav) {
+          newsTocNav.hidden = true;
+          if (newsTocList) newsTocList.innerHTML = '';
+        }
+        if (newsResultStatus) newsResultStatus.textContent = '';
+        if (newsResultStatusAside) newsResultStatusAside.textContent = '';
+        if (newsSearchInput) newsSearchInput.value = '';
+        if (newsSearchInputAside) newsSearchInputAside.value = '';
+        syncNewsSearchClearVisible();
+        teardownNewsToolbarDock();
         newsSections.innerHTML =
-          '<p class="news-empty">No news items yet. Check the links above for the latest from each source.</p>';
+          '<p class="news-empty">No news items yet. Use the feed links on the left to browse each site, or tap <strong>Refresh all sources</strong>.</p>';
       } else {
         lastNewsItems = items;
         populateNewsFilters(items);
         applyNewsFilters();
+        scheduleNewsAttachmentsSummaryForItems(items);
+        initNewsToolbarDockObserver();
       }
     } else if (newsList) {
       newsList.innerHTML = '';
@@ -657,49 +1298,38 @@
           const li = document.createElement('li');
           li.className = 'news-card';
           li.setAttribute('role', 'listitem');
-          const dateStr = item.date
-            ? new Date(item.date).toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-              })
-            : '';
-          const title = item.title || 'Untitled';
-          const url = item.url || '#';
-          const sourceName = item.sourceName || 'Source';
-          const sourceUrl = item.sourceUrl || '#';
           const summaryHtml = buildNewsCardSummaryHtml(item);
           if (!summaryHtml) li.classList.add('news-card--no-summary');
-          li.innerHTML =
-            '<h4 class="news-card-title"><a href="' +
-            escapeHtml(url) +
-            '" target="_blank" rel="noopener">' +
-            escapeHtml(title) +
-            '</a></h4>' +
-            summaryHtml +
-            '<p class="news-card-meta">' +
-            '<a href="' +
-            escapeHtml(sourceUrl) +
-            '" target="_blank" rel="noopener" class="news-card-source">' +
-            escapeHtml(sourceName) +
-            '</a>' +
-            (dateStr ? ' <span class="news-card-date">' + escapeHtml(dateStr) + '</span>' : '') +
-            '</p>';
+          li.innerHTML = buildNewsCardMarkupHtml(item, 'h4');
           newsList.appendChild(li);
         });
       }
     }
+    applyNewsFeedsSectionCollapsedPreference();
   }
 
   function loadNews() {
     if (!newsFeedsList) return;
+    teardownNewsToolbarDock();
+    setNewsRefreshBusy(true);
     if (newsSections) newsSections.innerHTML = '';
     if (newsList) newsList.innerHTML = '';
+    if (newsResultStatus) newsResultStatus.textContent = 'Loading…';
+    if (newsTocNav) {
+      newsTocNav.hidden = true;
+      if (newsTocList) newsTocList.innerHTML = '';
+    }
     newsFeedsList.innerHTML = '<li class="news-empty">Loading news…</li>';
     if (newsSections) newsSections.innerHTML = '<p class="news-empty">Loading…</p>';
     get('/api/news')
-      .then(renderNewsPayload)
+      .then(function (data) {
+        setNewsRefreshBusy(false);
+        renderNewsPayload(data);
+      })
       .catch(function () {
+        setNewsRefreshBusy(false);
+        teardownNewsToolbarDock();
+        if (newsResultStatus) newsResultStatus.textContent = '';
         newsFeedsList.innerHTML = '<li class="news-empty">Could not load news.</li>';
         if (newsSections) {
           newsSections.innerHTML =
@@ -711,12 +1341,22 @@
 
   function refreshNewsFromAllSources() {
     if (!newsFeedsList) return;
+    teardownNewsToolbarDock();
+    setNewsRefreshBusy(true);
     if (newsSections) newsSections.innerHTML = '';
     if (newsList) newsList.innerHTML = '';
+    if (newsResultStatus) newsResultStatus.textContent = 'Refreshing feeds…';
+    if (newsTocNav) {
+      newsTocNav.hidden = true;
+      if (newsTocList) newsTocList.innerHTML = '';
+    }
     newsFeedsList.innerHTML = '<li class="news-empty">Refreshing all sources…</li>';
-    if (newsSections) newsSections.innerHTML = '<p class="news-empty">Fetching EDPB, ICO, Commission, CoE…</p>';
+    if (newsSections) {
+      newsSections.innerHTML = '<p class="news-empty">Fetching EDPB, EDPS, ICO, Commission, CoE…</p>';
+    }
     post('/api/news/refresh')
       .then(function (data) {
+        setNewsRefreshBusy(false);
         renderNewsPayload(data);
         if (data && data.ok === false && data.error) {
           const note = document.createElement('li');
@@ -726,6 +1366,9 @@
         }
       })
       .catch(function () {
+        setNewsRefreshBusy(false);
+        teardownNewsToolbarDock();
+        if (newsResultStatus) newsResultStatus.textContent = '';
         newsFeedsList.innerHTML = '<li class="news-empty">Could not refresh news.</li>';
         if (newsSections) {
           newsSections.innerHTML =
@@ -904,6 +1547,7 @@
       this.setAttribute('aria-selected', 'true');
       const viewId = 'view' + this.dataset.view.charAt(0).toUpperCase() + this.dataset.view.slice(1);
       const panel = document.getElementById(viewId);
+      if (panel !== viewNews) teardownNewsToolbarDock();
       if (panel) {
         panel.classList.add('active');
         panel.removeAttribute('hidden');
@@ -975,16 +1619,128 @@
     }
   });
 
-  const btnRefreshNews = document.getElementById('btnRefreshNews');
   if (btnRefreshNews) btnRefreshNews.addEventListener('click', refreshNewsFromAllSources);
 
   if (newsFilterSource) newsFilterSource.addEventListener('change', applyNewsFilters);
   if (newsFilterTopic) newsFilterTopic.addEventListener('change', applyNewsFilters);
+  if (newsSearchInput) {
+    newsSearchInput.addEventListener('input', applyNewsFilters);
+    newsSearchInput.addEventListener('search', function () {
+      applyNewsFilters();
+    });
+  }
+  if (newsSearchClear) {
+    newsSearchClear.addEventListener('click', function () {
+      if (newsSearchInput) newsSearchInput.value = '';
+      if (newsSearchInput) newsSearchInput.focus();
+      applyNewsFilters();
+    });
+  }
   if (newsFilterClear) {
     newsFilterClear.addEventListener('click', function () {
       if (newsFilterSource) newsFilterSource.value = '';
       if (newsFilterTopic) newsFilterTopic.value = '';
+      if (newsSearchInput) newsSearchInput.value = '';
       applyNewsFilters();
+    });
+  }
+
+  function syncMainFromAsideAndApply() {
+    if (newsSearchInput && newsSearchInputAside) {
+      newsSearchInput.value = newsSearchInputAside.value;
+    }
+    if (newsFilterSource && newsFilterSourceAside) {
+      newsFilterSource.value = newsFilterSourceAside.value;
+    }
+    if (newsFilterTopic && newsFilterTopicAside) {
+      newsFilterTopic.value = newsFilterTopicAside.value;
+    }
+    applyNewsFilters();
+  }
+
+  if (newsFilterSourceAside) {
+    newsFilterSourceAside.addEventListener('change', syncMainFromAsideAndApply);
+  }
+  if (newsFilterTopicAside) {
+    newsFilterTopicAside.addEventListener('change', syncMainFromAsideAndApply);
+  }
+  if (newsSearchInputAside) {
+    newsSearchInputAside.addEventListener('input', syncMainFromAsideAndApply);
+    newsSearchInputAside.addEventListener('search', syncMainFromAsideAndApply);
+  }
+  if (newsSearchClearAside) {
+    newsSearchClearAside.addEventListener('click', function () {
+      if (newsSearchInputAside) newsSearchInputAside.value = '';
+      if (newsSearchInput) newsSearchInput.value = '';
+      if (newsSearchInputAside) newsSearchInputAside.focus();
+      applyNewsFilters();
+    });
+  }
+  if (newsFilterClearAside) {
+    newsFilterClearAside.addEventListener('click', function () {
+      if (newsFilterSource) newsFilterSource.value = '';
+      if (newsFilterTopic) newsFilterTopic.value = '';
+      if (newsSearchInput) newsSearchInput.value = '';
+      if (newsSearchInputAside) newsSearchInputAside.value = '';
+      applyNewsFilters();
+    });
+  }
+
+  window.addEventListener('resize', function () {
+    if (!isNewsSidebarDockAllowed()) setNewsSidebarFiltersDockVisible(false);
+  });
+
+  initNewsSidebarExpandableToolbarOnce();
+
+  function applyNewsFeedsSectionCollapsedPreference() {
+    var top = newsFeedsAsideTop || document.getElementById('newsFeedsAsideTop');
+    var toggle = newsFeedsSectionToggle || document.getElementById('newsFeedsSectionToggle');
+    if (!top || !toggle) return;
+    var collapsed = false;
+    try {
+      collapsed = sessionStorage.getItem('gdpr_news_feeds_section_collapsed') === '1';
+    } catch (err) {
+      collapsed = false;
+    }
+    top.classList.toggle('news-feeds-aside-top--collapsed', collapsed);
+    toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
+
+  function initNewsFeedsSectionExpandableOnce() {
+    var top = newsFeedsAsideTop || document.getElementById('newsFeedsAsideTop');
+    var toggle = newsFeedsSectionToggle || document.getElementById('newsFeedsSectionToggle');
+    if (!top || !toggle || toggle.getAttribute('data-feeds-section-bound') === '1') return;
+    toggle.setAttribute('data-feeds-section-bound', '1');
+    toggle.addEventListener('click', function () {
+      var nowCollapsed = top.classList.toggle('news-feeds-aside-top--collapsed');
+      toggle.setAttribute('aria-expanded', nowCollapsed ? 'false' : 'true');
+      try {
+        if (nowCollapsed) sessionStorage.setItem('gdpr_news_feeds_section_collapsed', '1');
+        else sessionStorage.removeItem('gdpr_news_feeds_section_collapsed');
+      } catch (err) {}
+    });
+  }
+
+  initNewsFeedsSectionExpandableOnce();
+
+  function onNewsAttachmentsButtonClick(e) {
+    var btn = e.target && e.target.closest && e.target.closest('.btn-news-attachments');
+    if (!btn) return;
+    var container = newsSections && newsSections.contains(btn) ? newsSections : newsList;
+    if (!container || !container.contains(btn)) return;
+    e.preventDefault();
+    var u = btn.getAttribute('data-article-url');
+    var t = btn.getAttribute('data-article-title') || '';
+    openNewsAttachmentsReview(u, t);
+  }
+  if (newsSections) newsSections.addEventListener('click', onNewsAttachmentsButtonClick);
+  if (newsList) newsList.addEventListener('click', onNewsAttachmentsButtonClick);
+  if (newsAttachmentsDialogClose) {
+    newsAttachmentsDialogClose.addEventListener('click', closeNewsAttachmentsDialog);
+  }
+  if (newsAttachmentsDialog) {
+    newsAttachmentsDialog.addEventListener('click', function (e) {
+      if (e.target === newsAttachmentsDialog) closeNewsAttachmentsDialog();
     });
   }
 
@@ -2124,6 +2880,7 @@
         id: 'GENERAL',
         label: 'General — no sector-specific framing',
         isicSection: null,
+        isicDivision: null,
         searchTerms: '',
         framework: 'Default: balanced GDPR Q&A without industry emphasis.'
       }
@@ -2133,6 +2890,7 @@
         id: r[0],
         label: r[1],
         isicSection: r[0],
+        isicDivision: null,
         searchTerms: r[2],
         framework: 'UN ISIC Rev.4 Section ' + r[0] + '; ILO-compatible industry grouping.'
       });
@@ -2192,7 +2950,7 @@
           return x.id === 'GENERAL';
         });
         input.value = g ? g.label : '';
-        input.placeholder = 'Search sectors (ISIC A–U) or General…';
+        input.placeholder = 'Search ISIC sections A–U, divisions 01–99, or General…';
 
         var activeIndex = -1;
         var open = false;
@@ -2211,7 +2969,11 @@
           return sectors.filter(function (s) {
             if ((s.label || '').toLowerCase().indexOf(t) !== -1) return true;
             if (String(s.id).toLowerCase().indexOf(t) !== -1) return true;
+            if (s.isicDivision != null && String(s.isicDivision).toLowerCase().indexOf(t) !== -1) {
+              return true;
+            }
             if (s.searchTerms && s.searchTerms.toLowerCase().indexOf(t) !== -1) return true;
+            if (s.framework && s.framework.toLowerCase().indexOf(t) !== -1) return true;
             return false;
           });
         }
@@ -5015,7 +5777,10 @@
           var is = ans && ans.industrySector;
           if (is && is.id && String(is.id).toUpperCase() !== 'GENERAL' && is.label) {
             askAnswerSectorLine.textContent =
-              'Sector context for this answer: ' + String(is.label).trim() + '.';
+              'Sector context for this answer: ' +
+              String(is.label).trim() +
+              (is.isicDivision ? ' (ISIC Rev.4 division ' + String(is.isicDivision).trim() + ')' : '') +
+              '.';
             askAnswerSectorLine.classList.remove('hidden');
           } else {
             askAnswerSectorLine.textContent = '';

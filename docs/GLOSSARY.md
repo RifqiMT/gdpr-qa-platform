@@ -20,6 +20,7 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **PRD** | Product Requirements Document — [PRD.md](PRD.md). |
 | **Tavily** | Third-party search-and-answer API used as **fallback** when Groq does not return usable Ask output. |
 | **TG / BG / DG** | Prefixes for guardrail ids in [GUARDRAILS.md](GUARDRAILS.md): **technical**, **business**, **data/privacy/documentation**. |
+| **News deduplication (consolidated)** | Two-pass merge in **`news-crawler.js`** / **`server.js`**: (1) normalized URL key, (2) semantic key (source + date + title fingerprint) with **`mergeNewsDuplicate`**; mirrored in the browser by **`public/news-dedupe.js`** as **`GDPR_NEWS_DEDUPE`**. |
 
 ---
 

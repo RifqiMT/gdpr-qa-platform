@@ -20,17 +20,31 @@ const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
 const { run: runScraper, buildSearchIndex } = require('./scraper');
-const { crawlNews, withTimeout, normalizeNewsUrlKey } = require('./news-crawler');
+const newsCrawlerPath = require.resolve('./news-crawler');
+const { withTimeout, normalizeNewsUrlKey, dedupeNewsItemsConsolidated } = require('./news-crawler');
+
+/** Reload `news-crawler.js` from disk so refresh picks up code changes without restarting the server. */
+function runCrawlNews() {
+  delete require.cache[newsCrawlerPath];
+  return require('./news-crawler').crawlNews();
+}
+const { fetchNewsArticleAttachments } = require('./news-article-attachments');
 const {
   buildRecitalsCitingArticlesMap,
   mergedSuitableRecitalsForArticle,
   mergedSuitableArticlesForRecital
 } = require('./gdpr-crossrefs');
 
-const NEWS_CRAWL_TIMEOUT_MS = parseInt(process.env.NEWS_CRAWL_TIMEOUT_MS || '75000', 10);
-const NEWS_REFRESH_TIMEOUT_MS = parseInt(process.env.NEWS_REFRESH_TIMEOUT_MS || '120000', 10);
+/** Optional: `GET /api/news?live=1` runs a live crawl with this budget (default 90s). */
+const NEWS_CRAWL_TIMEOUT_MS = parseInt(process.env.NEWS_CRAWL_TIMEOUT_MS || '90000', 10);
+/** “Refresh all sources” / POST /api/news/refresh — must cover ICO API + parallel sitemap enrichment. */
+const NEWS_REFRESH_TIMEOUT_MS = parseInt(process.env.NEWS_REFRESH_TIMEOUT_MS || '180000', 10);
 /** Max items returned / stored after merging static file + live crawl (all configured sources). */
 const NEWS_MERGE_CAP = parseInt(process.env.NEWS_MERGE_CAP || '520', 10);
+const NEWS_ATTACHMENTS_CACHE_TTL_MS = parseInt(process.env.NEWS_ATTACHMENTS_CACHE_TTL_MS || '900000', 10);
+const NEWS_ATTACHMENTS_CACHE_MAX = parseInt(process.env.NEWS_ATTACHMENTS_CACHE_MAX || '150', 10);
+/** @type {Map<string, { ts: number, payload: { url: string, attachments: object[] } }>} */
+const newsArticleAttachmentsCache = new Map();
 const WEB_TIMEOUT_MS = parseInt(process.env.WEB_TIMEOUT_MS || '12000', 10);
 const WEB_MAX_RESULTS = parseInt(process.env.WEB_MAX_RESULTS || '4', 10);
 const WEB_MAX_PAGES = parseInt(process.env.WEB_MAX_PAGES || '3', 10);
@@ -38,10 +52,29 @@ const WEB_SNIPPET_CHARS = parseInt(process.env.WEB_SNIPPET_CHARS || '1400', 10);
 
 const DEFAULT_NEWS_FEEDS = [
   { name: 'EDPB', url: 'https://edpb.europa.eu/news_en', description: 'European Data Protection Board news' },
+  {
+    name: 'EDPS',
+    url: 'https://www.edps.europa.eu/press-publications/press-news_en',
+    description: 'European Data Protection Supervisor — press, news, and blog'
+  },
   { name: 'European Commission', url: 'https://commission.europa.eu/news', description: 'Commission news' },
   { name: 'ICO (UK)', url: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/', description: 'ICO news and blogs' },
   { name: 'Council of Europe', url: 'https://www.coe.int/en/web/data-protection', description: 'Data protection' }
 ];
+
+/** Append any new default feeds (e.g. EDPS) when `gdpr-news.json` has an older `newsFeeds` list. */
+function mergeNewsFeedsWithDefaults(stored) {
+  const base =
+    stored && Array.isArray(stored) && stored.length > 0 ? stored.slice() : DEFAULT_NEWS_FEEDS.slice();
+  const urls = new Set(base.map((f) => f && f.url).filter(Boolean));
+  for (const d of DEFAULT_NEWS_FEEDS) {
+    if (d && d.url && !urls.has(d.url)) {
+      base.push({ ...d });
+      urls.add(d.url);
+    }
+  }
+  return base.length ? base : DEFAULT_NEWS_FEEDS.slice();
+}
 
 const app = express();
 const PORT = process.env.PORT || 3847;
@@ -254,6 +287,15 @@ app.get('/api/meta', (req, res) => {
       { name: 'GDPR-Info', url: 'https://gdpr-info.eu/', description: 'Regulation text and structure.', documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }] },
       { name: 'EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng', description: 'Official EU Regulation.', documents: [{ label: 'Regulation (EU) 2016/679', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng' }] },
       { name: 'EDPB', url: 'https://edpb.europa.eu/', description: 'EU body – guidelines and consistency.', documents: [{ label: 'Guidelines', url: 'https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en' }] },
+      {
+        name: 'EDPS',
+        url: 'https://www.edps.europa.eu/',
+        description: 'Supervises personal data processing by EU institutions and bodies.',
+        documents: [
+          { label: 'Press & news', url: 'https://www.edps.europa.eu/press-publications/press-news_en' },
+          { label: 'Our work', url: 'https://www.edps.europa.eu/data-protection/our-work_en' }
+        ]
+      },
       { name: 'European Commission', url: 'https://commission.europa.eu/law/law-topic/data-protection_en', description: 'Official Commission data protection.', documents: [{ label: 'Data protection', url: 'https://commission.europa.eu/law/law-topic/data-protection_en' }] },
       { name: 'ICO (UK)', url: 'https://ico.org.uk/for-organisations/uk-gdpr-guidance/', description: 'UK GDPR guidance.', documents: [{ label: 'UK GDPR guidance', url: 'https://ico.org.uk/for-organisations/uk-gdpr-guidance/' }] },
       { name: 'GDPR.eu', url: 'https://gdpr.eu/', description: 'Overview and resources.', documents: [{ label: 'GDPR overview', url: 'https://gdpr.eu/' }] },
@@ -296,11 +338,12 @@ function mergeNewsItems(staticItems, crawledItems) {
       });
     }
   }
-  return Array.from(map.values()).sort((a, b) => {
+  const merged = Array.from(map.values()).sort((a, b) => {
     const da = a.date ? new Date(a.date).getTime() : 0;
     const db = b.date ? new Date(b.date).getTime() : 0;
     return db - da;
   });
+  return dedupeNewsItemsConsolidated(merged);
 }
 
 function readNewsFilePayload() {
@@ -310,7 +353,7 @@ function readNewsFilePayload() {
   try {
     if (fs.existsSync(NEWS_FILE)) {
       const raw = JSON.parse(fs.readFileSync(NEWS_FILE, 'utf-8'));
-      newsFeeds = raw.newsFeeds && raw.newsFeeds.length ? raw.newsFeeds : newsFeeds;
+      newsFeeds = mergeNewsFeedsWithDefaults(raw.newsFeeds);
       staticItems = raw.items || [];
       description = raw.description || '';
     }
@@ -320,23 +363,143 @@ function readNewsFilePayload() {
   return { newsFeeds, staticItems, description };
 }
 
+/**
+ * News list: served from `data/gdpr-news.json` for a fast, reliable response.
+ * A live crawl on every page load often exceeded `NEWS_CRAWL_TIMEOUT_MS`, so the API fell back to
+ * the static file only — users kept seeing ~3 ICO rows from the bundled JSON. Use **Refresh all sources**
+ * (`POST /api/news/refresh`) to re-crawl and persist. Optional: `GET /api/news?live=1` merges a live crawl.
+ */
 app.get('/api/news', async (req, res) => {
   const { newsFeeds, staticItems } = readNewsFilePayload();
-  let items = staticItems;
-  try {
-    const crawled = await withTimeout(crawlNews(), NEWS_CRAWL_TIMEOUT_MS);
-    items = mergeNewsItems(staticItems, crawled).slice(0, NEWS_MERGE_CAP);
-  } catch (err) {
-    items = staticItems.slice(0, NEWS_MERGE_CAP);
+  let items = dedupeNewsItemsConsolidated(staticItems).slice(0, NEWS_MERGE_CAP);
+  if (String(req.query.live || '') === '1') {
+    try {
+      const crawled = await withTimeout(runCrawlNews(), NEWS_CRAWL_TIMEOUT_MS);
+      items = mergeNewsItems(staticItems, crawled).slice(0, NEWS_MERGE_CAP);
+    } catch (err) {
+      console.warn('GET /api/news live crawl:', err.message || err);
+    }
   }
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
   res.json({ newsFeeds, items });
+});
+
+/**
+ * Load attachment list for one article URL; uses shared cache with single-item API.
+ * @param {string} decoded
+ * @param {{ timeout?: number }} [opts]
+ */
+async function resolveArticleAttachmentsPayload(decoded, opts) {
+  const timeout = opts && opts.timeout != null ? opts.timeout : 20000;
+  const trimmed = String(decoded || '').trim();
+  if (!trimmed || trimmed.length > 2048) {
+    const e = new Error(trimmed ? 'URL too long.' : 'Invalid URL');
+    e.code = 'BAD_URL';
+    throw e;
+  }
+  const cacheKey = normalizeNewsUrlKey(trimmed);
+  const hit = newsArticleAttachmentsCache.get(cacheKey);
+  if (hit && Date.now() - hit.ts < NEWS_ATTACHMENTS_CACHE_TTL_MS) {
+    return { ...hit.payload, cached: true };
+  }
+  const result = await fetchNewsArticleAttachments(trimmed, { timeout });
+  if (newsArticleAttachmentsCache.size >= NEWS_ATTACHMENTS_CACHE_MAX) {
+    const first = newsArticleAttachmentsCache.keys().next().value;
+    if (first != null) newsArticleAttachmentsCache.delete(first);
+  }
+  newsArticleAttachmentsCache.set(cacheKey, { ts: Date.now(), payload: result });
+  return { ...result, cached: false };
+}
+
+/**
+ * Discover downloadable files linked from an allowlisted news article (PDF, Office, etc.).
+ * Use POST JSON `{ "url": "https://..." }` (preferred — avoids proxy/query limits) or GET `?url=`.
+ * Cached briefly to avoid hammering regulator sites.
+ */
+async function handleNewsArticleAttachments(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+  const raw =
+    req.method === 'POST' && req.body && typeof req.body.url === 'string'
+      ? req.body.url
+      : typeof req.query.url === 'string'
+        ? req.query.url
+        : null;
+  if (!raw || typeof raw !== 'string') {
+    return res.status(400).json({
+      ok: false,
+      error: 'Missing url. Send POST JSON { "url": "https://..." } or GET ?url=…'
+    });
+  }
+  try {
+    const payload = await resolveArticleAttachmentsPayload(raw.trim(), { timeout: 20000 });
+    const { cached, ...rest } = payload;
+    res.json({ ok: true, cached, ...rest });
+  } catch (e) {
+    const code = e && e.code;
+    if (code === 'NOT_ALLOWED') {
+      return res.status(403).json({
+        ok: false,
+        error: 'This URL is not from an allowed news source.'
+      });
+    }
+    if (code === 'BAD_URL') {
+      return res.status(400).json({ ok: false, error: e.message || 'Invalid URL.' });
+    }
+    console.warn('/api/news/article-attachments:', e.message || e);
+    res.status(502).json({
+      ok: false,
+      error: 'Could not fetch or parse the article page. The site may be slow or blocking automated requests.'
+    });
+  }
+}
+
+app.get('/api/news/article-attachments', handleNewsArticleAttachments);
+app.post('/api/news/article-attachments', handleNewsArticleAttachments);
+
+/** Batch attachment counts for many news URLs (deduped, capped) — used to hide per-card Attachments when count is 0. */
+app.post('/api/news/attachments-summary', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  const arr = req.body && req.body.urls;
+  if (!Array.isArray(arr)) {
+    return res.status(400).json({ ok: false, error: 'Request JSON must include urls: string[].' });
+  }
+  const seenNorm = new Set();
+  const urls = [];
+  for (const u of arr) {
+    const s = String(u || '').trim();
+    if (!s.startsWith('http')) continue;
+    const k = normalizeNewsUrlKey(s);
+    if (!k || seenNorm.has(k)) continue;
+    seenNorm.add(k);
+    urls.push(s);
+    if (urls.length >= 48) break;
+  }
+  const items = [];
+  const concurrency = 6;
+  const batchTimeout = 10000;
+  for (let i = 0; i < urls.length; i += concurrency) {
+    const slice = urls.slice(i, i + concurrency);
+    const part = await Promise.all(
+      slice.map(async (url) => {
+        try {
+          const payload = await resolveArticleAttachmentsPayload(url, { timeout: batchTimeout });
+          return { url, count: Array.isArray(payload.attachments) ? payload.attachments.length : 0 };
+        } catch {
+          return { url, count: null };
+        }
+      })
+    );
+    items.push(...part);
+  }
+  res.json({ ok: true, items });
 });
 
 /** Full crawl from all sources, merge with existing JSON, write cache, return fresh list (used by “Refresh news”). */
 app.post('/api/news/refresh', async (req, res) => {
   const { newsFeeds, staticItems, description } = readNewsFilePayload();
   try {
-    const crawled = await withTimeout(crawlNews(), NEWS_REFRESH_TIMEOUT_MS);
+    const crawled = await withTimeout(runCrawlNews(), NEWS_REFRESH_TIMEOUT_MS);
     const merged = mergeNewsItems(staticItems, crawled);
     const storeCap = Math.max(NEWS_MERGE_CAP, 650);
     const payload = {
@@ -586,14 +749,20 @@ function chunkExcerpt(text, maxChars) {
 }
 
 let industrySectorsCache = null;
+let industrySectorsFileMtimeMs = null;
 function loadIndustrySectorsList() {
-  if (industrySectorsCache) return industrySectorsCache;
   try {
+    const st = fs.statSync(INDUSTRY_SECTORS_FILE);
+    if (industrySectorsCache != null && industrySectorsFileMtimeMs === st.mtimeMs) {
+      return industrySectorsCache;
+    }
+    industrySectorsFileMtimeMs = st.mtimeMs;
     const raw = fs.readFileSync(INDUSTRY_SECTORS_FILE, 'utf8');
     const j = JSON.parse(raw);
     industrySectorsCache = Array.isArray(j) && j.length ? j : null;
   } catch (_) {
     industrySectorsCache = null;
+    industrySectorsFileMtimeMs = null;
   }
   if (!industrySectorsCache) {
     industrySectorsCache = [
@@ -601,6 +770,7 @@ function loadIndustrySectorsList() {
         id: 'GENERAL',
         label: 'General — no sector-specific framing',
         isicSection: null,
+        isicDivision: null,
         searchTerms: '',
         framework: ''
       }
@@ -615,12 +785,15 @@ function resolveIndustrySector(rawId) {
   return list.find((x) => x.id === sid) || list.find((x) => x.id === 'GENERAL') || list[0];
 }
 
-/** Text after section letter and dash, e.g. "Electricity, gas, steam…" — used for mandatory verbatim mention. */
+/** Text after section/division code and dash, e.g. "Electricity, gas, steam…" — used for mandatory verbatim mention. */
 function sectorLabelFocusPhrase(sector) {
   if (!sector || sector.id === 'GENERAL') return '';
   const lab = String(sector.label || '').trim();
-  const m = lab.match(/^[A-Z]\s*[—–-]\s*(.+)$/i);
-  return (m ? m[1] : lab).trim() || lab;
+  let m = lab.match(/^[A-Z]\s*[—–-]\s*(.+)$/i);
+  if (m) return m[1].trim();
+  m = lab.match(/^\d{2}\s*[—–-]\s*(.+)$/);
+  if (m) return m[1].trim();
+  return lab.trim() || lab;
 }
 
 /** Keywords to detect whether the model actually referenced the sector (not just "the industry"). */
@@ -659,13 +832,22 @@ function formatSectorUserBlock(sector) {
   if (!sector || sector.id === 'GENERAL') return '';
   const fw = sector.framework ? `\nClassification: ${sector.framework}` : '';
   const focus = sectorLabelFocusPhrase(sector);
-  const isic = sector.isicSection != null && String(sector.isicSection).trim()
-    ? String(sector.isicSection).trim().toUpperCase()
-    : String(sector.id || '').toUpperCase();
+  const sec =
+    sector.isicSection != null && String(sector.isicSection).trim()
+      ? String(sector.isicSection).trim().toUpperCase()
+      : '';
+  const div = sector.isicDivision != null && String(sector.isicDivision).trim()
+    ? String(sector.isicDivision).trim().padStart(2, '0')
+    : '';
+  const isicLine = div
+    ? `ISIC Rev.4 division: ${div} (Section ${sec || '—'})`
+    : sec
+      ? `ISIC Rev.4 section: ${sec}`
+      : `ISIC Rev.4: ${String(sector.id || '').toUpperCase()}`;
   return (
     'SELECTED INDUSTRY / SECTOR (the user chose this in the UI; your answer must reflect it — see system rules):\n' +
     `Full label: ${sector.label}\n` +
-    `ISIC Rev.4 section: ${isic}\n` +
+    `${isicLine}\n` +
     `Verbatim phrase you MUST use at least once in the body (copy exactly): ${focus}${fw}\n\n`
   );
 }
@@ -1571,7 +1753,10 @@ app.post('/api/answer', async (req, res) => {
     industrySector: {
       id: sector.id,
       label: sector.label,
-      isicSection: sector.isicSection ?? null
+      isicSection: sector.isicSection ?? null,
+      isicDivision: sector.isicDivision != null && String(sector.isicDivision).trim()
+        ? String(sector.isicDivision).trim().padStart(2, '0')
+        : null
     },
     llm,
     answer,
@@ -1870,6 +2055,9 @@ if (process.argv.includes('--refresh-only')) {
       tavilyOk
         ? 'Ask (LLM): Tavily fallback enabled (TAVILY_API_KEY loaded; used if Groq fails).'
         : 'Ask (LLM): Tavily fallback off — set TAVILY_API_KEY to use Tavily search+answer when Groq is unavailable.'
+    );
+    console.log(
+      'News attachments: POST+GET /api/news/article-attachments; batch counts POST /api/news/attachments-summary (restart after pull if Attachments returns HTML).'
     );
     if (!fs.existsSync(CONTENT_FILE)) {
       console.log('No cached content found. Running initial refresh...');

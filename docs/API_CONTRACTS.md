@@ -132,7 +132,11 @@ Uses `LLM_PROVIDER` and available keys; falls back to extractive summary.
 ### `GET /api/news`
 
 **Response:** `{ "newsFeeds": [ … ], "items": [ … ] }`  
-Merges `data/gdpr-news.json` with live crawl within timeout; caps at `NEWS_MERGE_CAP`.
+Merges `data/gdpr-news.json` with live crawl within **`NEWS_CRAWL_TIMEOUT_MS`** (when live crawl runs); results pass through **`dedupeNewsItemsConsolidated`**; caps at **`NEWS_MERGE_CAP`**.
+
+**Caching:** Success responses set **`Cache-Control: no-store, no-cache, must-revalidate`** and **`Pragma: no-cache`** so browsers and intermediaries do not treat merged news as a long-lived cache entry.
+
+**Query:** Optional **`?live=1`** (or truthy `live`) triggers a bounded live crawl merge on the read path (same timeout as above).
 
 ### `POST /api/news/refresh`
 

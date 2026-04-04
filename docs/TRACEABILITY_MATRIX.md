@@ -51,6 +51,10 @@ Enterprise-style traceability links **business intent** → **requirements** →
 | BR-N-02 | Filter by source and topic | FR-S3 | US-N3 | `populateNewsFilters`, `applyNewsFilters` | Filters narrow cards |
 | BR-N-03 | Refresh news persists merge | FR-S4 | US-N5 | `POST /api/news/refresh` | File updated; UI reloads |
 | BR-N-04 | Original article traceability | FR-S2 | US-N4 | Card title links to publisher URL | External link opens |
+| BR-N-05 | Duplicate-free news list | FR-S5 | US-N6 | `dedupeNewsItemsConsolidated` in `news-crawler.js` / `server.js`; `dedupeNewsItemsClient` + `public/news-dedupe.js` | Same story under two URLs shows once after load |
+| BR-N-06 | Usable filters while scrolling (desktop) | FR-S7 | US-N7 | `IntersectionObserver` on `#newsControlsPanel`, `news-controls-panel--dock-visible`, sidebar Quick filters sync | Scroll past toolbar; sidebar filters still work and match main |
+| BR-N-07 | Fresh news API payload | FR-S6 | — | `GET /api/news` sets `Cache-Control: no-store, no-cache, must-revalidate`, `Pragma: no-cache` | Response headers in DevTools; hard refresh not required for merge changes |
+| BR-N-08 | Compact sidebar feed list | FR-S8 | US-N8 | `#newsFeedsSectionToggle`, `newsFeedsSectionPanel`, `gdpr_news_feeds_section_collapsed` | Collapse feeds; state survives tab switch within session |
 
 ---
 

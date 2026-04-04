@@ -1,7 +1,7 @@
 # Product documentation standard  
 ## GDPR Q&A Platform
 
-**Version:** 1.1  
+**Version:** 1.2  
 **Status:** Active — this document is the **governance checklist** for product, design, compliance, engineering, and operations stakeholders.
 
 **Scope:** All material under **`gdpr-qa-platform/`** that describes what the product is, how it behaves, how it is configured, and how it is verified.
@@ -60,7 +60,7 @@ Traceability to Articles/Recitals, grounded answers with citations, efficient br
 |------|------------|
 | **Browse** | Recitals and chapters/articles; filters; reader; Prev/Next/Go; related articles/recitals; chapter intros; Export PDF; homepage via logo. |
 | **Ask** | **`POST /api/answer`**; Groq → Tavily → extractive; optional web; industry sector; relevant provisions; **`[Sn]`** chips. |
-| **Sources & News** | **`/api/meta`** sources; news by source/topic; **`POST /api/news/refresh`**. |
+| **Sources & News** | **`/api/meta`** sources; News by source/topic with **URL + semantic deduplication** (server + **`news-dedupe.js`** client mirror); expandable **Official site & RSS** and **Quick filters** dock (desktop); **`GET /api/news`** with **`no-store`** cache; **`POST /api/news/refresh`**. |
 | **Refresh** | Regulation ETL with **document formatting guardrails**; server cache reload; client meta/lists/doc reopen; daily cron; CLI **`npm run refresh`**. |
 
 ---
@@ -74,7 +74,7 @@ Traceability to Articles/Recitals, grounded answers with citations, efficient br
 | **Corpus** | **`gdpr-content.json`** from **`scraper.js`**; always passed through **`document-formatting-guardrails.js`** before index build and disk write; **`loadContent()`** re-normalizes on read. |
 | **Ask** | **`buildLocalContext`** (BM25, sector expansion), optional **`fetchWebSnippets`**, Groq/Tavily/extractive path. |
 | **Crossrefs** | **`article-suitable-recitals.json`** + recital text citation extraction. |
-| **News** | Static JSON + crawler merge by URL; timeouts and caps via env. |
+| **News** | Static JSON + crawler **`mergeNewsItems`** → **`dedupeNewsItemsConsolidated`** (URL key, then source+date+title fingerprint); client **`dedupeNewsItemsClient`**; timeouts/caps via **`NEWS_*`** env; optional **`?live=1`** on read path. |
 
 ---
 

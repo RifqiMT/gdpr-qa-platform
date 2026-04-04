@@ -30,8 +30,8 @@
 | `GDPR_INFO_CONCURRENCY` | GDPR-Info fetch parallelism | Number of concurrent HTTP workers when fetching article and recital pages. | `max(1, parseInt(env \|\| '6', 10))`. | `scraper.js` → `fetchGdprInfoDataset` | `6` |
 | `GDPR_FORCE_CORPUS_WRITE` | Force corpus disk write | When **`1`**, the next ETL run **writes** `gdpr-content.json` even if the content hash matches the previous file (recovery, guardrail-only updates). | Equality check to **`1`**. | `scraper.js` → `forceCorpusWrite` | `1` |
 | `GDPR_FORCE_RELOAD_CORPUS` | Force reload flag (alias) | Same effect as **`GDPR_FORCE_CORPUS_WRITE`** for operators who prefer this name. | Equality check to **`1`**. | `scraper.js` | `1` |
-| `NEWS_CRAWL_TIMEOUT_MS` | News read-path crawl budget | Maximum milliseconds to wait for a live crawl during **`GET /api/news`** before returning merged static + partial crawl. | `parseInt(env \|\| '75000', 10)`. | `server.js` | `75000` |
-| `NEWS_REFRESH_TIMEOUT_MS` | News refresh-path crawl budget | Maximum wait for **`POST /api/news/refresh`**. | `parseInt(env \|\| '120000', 10)`. | `server.js` | `120000` |
+| `NEWS_CRAWL_TIMEOUT_MS` | News read-path crawl budget | Maximum milliseconds to wait for a live crawl during **`GET /api/news`** before returning merged static + partial crawl. | `parseInt(env \|\| '90000', 10)`. | `server.js` | `90000` |
+| `NEWS_REFRESH_TIMEOUT_MS` | News refresh-path crawl budget | Maximum wait for **`POST /api/news/refresh`**. | `parseInt(env \|\| '180000', 10)`. | `server.js` | `180000` |
 | `NEWS_MERGE_CAP` | Merged news list cap (response) | Upper bound on item count returned to the client after merge (static + crawl). | `parseInt(env \|\| '520', 10)`. | `server.js` → news routes | `520` |
 | `WEB_TIMEOUT_MS` | External HTTP timeout (Ask web context) | Timeout for DuckDuckGo HTML fetch and per-page excerpt retrieval. | `parseInt(env \|\| '12000', 10)`. | `server.js` → web helpers | `12000` |
 | `WEB_MAX_RESULTS` | DuckDuckGo result rows | Maximum HTML result rows parsed from DuckDuckGo for Ask. | `parseInt(env \|\| '4', 10)`. | `server.js` | `4` |
@@ -126,18 +126,25 @@
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `newsFeeds[]` | News feed registry | Named crawl entry points and UI “jump to feed” list. | Merged with server defaults when empty. | News tab | EDPB, ICO, … |
-| `items[]` | News item collection | Cached and/or static items merged with live crawl. | Deduped by **normalized URL**; sorted by **`date`** descending; capped. | `GET /api/news`, **`POST /api/news/refresh`** | `{ title, url, sourceName, … }` |
+| `newsFeeds[]` | News feed registry | Named crawl entry points and UI “jump to feed” list. | Merged with server defaults when empty; rendered inside **expandable** “Official site & RSS”. | News tab, `news-crawler.js` | EDPB, ICO, … |
+| `items[]` | News item collection | Cached and/or static items merged with live crawl. | After merge: **`dedupeNewsItemsConsolidated`** (URL key → semantic key); sorted by **`date`** descending; capped by **`NEWS_MERGE_CAP`**; topic filter via **`newsItemMatchesApprovedTopic`**. | `GET /api/news`, **`POST /api/news/refresh`**, `renderNewsPayload` | `{ title, url, sourceName, sourceUrl, date, snippet, … }` |
+| `items[].commissionPolicyAreas` | Commission policy tags | Optional thematic labels from Commission Press Corner API when present. | Array of strings on applicable Commission items. | `news-crawler.js`, News card meta | `["Artificial intelligence", …]` |
+| `normalizeNewsUrlKey(url)` | URL dedupe key | Stable string for first-pass duplicate detection. | Implemented in **`news-crawler.js`**; mirrored for parity in **`news-dedupe.js`**. | Merge + dedupe | Lowercased host/path, tracking params stripped |
+| Semantic dedupe key | Story fingerprint | Second-pass collapse when publishers use multiple URLs for one article. | **`sourceName` + `date` (day) + normalized title hash** (see **`dedupeNewsItemsConsolidated`**). | `news-crawler.js`, `news-dedupe.js` | Collapses EDPS stub vs publications URL |
+| `mergeNewsDuplicate(a, b)` | Richer row wins | When two rows share a semantic key, merge fields and prefer canonical URL / longer snippet. | Heuristic scoring in **`news-crawler.js`** (duplicated in client module). | Server + client dedupe | Single merged card in UI |
 
 ---
 
-## 8. Frontend taxonomy (`public/app.js`)
+## 8. Frontend taxonomy (`public/app.js` and browser persistence)
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `ARTICLE_TOPICS` | Sub-category topic taxonomy | Topic ids with keyword lists for chapter filters. | **`getArticleTopicIds`** scans title + excerpt. | Chapters filter UI | `{ id: 'consent', label: 'Consent', keywords: […] }` |
 | `CANONICAL_ARTICLE_TITLES` | Canonical article title map | Fallback short titles when scraped titles are noisy. | Map keyed by article number. | Article headers, Ask aside | Art. **17** title |
 | `CHAPTER_SUMMARY_FALLBACK` | Client-side chapter blurbs | Mirrors server fallback when API unavailable. | Static strings **1–11**. | Chapter cards | Same as server **`FALLBACK_CHAPTER_SUMMARIES`** |
+| `gdpr_news_sidebar_collapsed` | Quick filters expanded state (session) | Remembers whether the **sidebar Quick filters** card body is collapsed. | **`sessionStorage`** string **`"1"`** = collapsed; read/write in **`applyNewsSidebarToolbarCollapsedPreference`**. | News tab, desktop dock | User collapses Quick filters → `"1"` |
+| `gdpr_news_feeds_section_collapsed` | Official site & RSS expanded state (session) | Remembers whether the feed list panel is hidden. | **`sessionStorage`** string **`"1"`** = collapsed. | `#newsFeedsSectionToggle`, `renderNewsPayload` | User hides feed list → `"1"` |
+| `GDPR_NEWS_DEDUPE` | Client dedupe namespace | Exposes **`dedupeNewsItemsConsolidated`** / **`dedupeNewsItemsClient`** aligned with server. | Loaded from **`news-dedupe.js`** before **`app.js`**. | `public/index.html` script order | `window.GDPR_NEWS_DEDUPE.dedupeNewsItemsClient(items)` |
 
 ---
 
@@ -167,13 +174,20 @@ flowchart TB
     GROQ[Groq / Tavily / extractive]
     CRAWL[news-crawler]
     MERGE[mergeNewsItems]
+    NDEDUP[dedupeNewsItemsConsolidated]
     DOCFMT[document-formatting-guardrails.js]
+  end
+
+  subgraph newsClient [News client]
+    RENDER[renderNewsPayload]
+    CDEDUP[dedupeNewsItemsClient news-dedupe.js]
   end
 
   subgraph outputs [Outputs]
     BROWSE[Browse APIs + UI]
     ASK[POST /api/answer]
     NEWSOUT[GET /api/news]
+    NEWSUI[News tab UI]
     META[GET /api/meta]
   end
 
@@ -196,7 +210,11 @@ flowchart TB
   SECTORS --> GROQ
   NEWSFILE --> MERGE
   CRAWL --> MERGE
-  MERGE --> NEWSOUT
+  MERGE --> NDEDUP
+  NDEDUP --> NEWSOUT
+  NEWSOUT --> RENDER
+  RENDER --> CDEDUP
+  CDEDUP --> NEWSUI
   LOAD --> META
 ```
 
@@ -256,11 +274,29 @@ flowchart LR
   LLM -.->|POST /api/summarize| summarizePath
 ```
 
+### 9.3 News deduplication (URL + semantic)
+
+Consolidated dedupe is a **paired** server and client behavior; keep **`news-crawler.js`** and **`public/news-dedupe.js`** in sync when changing rules.
+
+```mermaid
+flowchart LR
+  RAW[Raw merged items]
+  URL[normalizeNewsUrlKey pass]
+  SEM[Semantic key: source + date + title]
+  MERGE[mergeNewsDuplicate]
+  OUT[Sorted capped list]
+
+  RAW --> URL
+  URL --> SEM
+  SEM --> MERGE
+  MERGE --> OUT
+```
+
 ---
 
 ## 10. Maintenance checklist
 
-1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem.
+1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together.
 2. **JSON shape change** (regulation or news): Update **§2** / **§7**, **[PRD.md](PRD.md)**, and **[DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)** or news merge notes as appropriate.
 3. **New API field:** Update **[API_CONTRACTS.md](API_CONTRACTS.md)** and this dictionary.
 4. **Release:** Bump **`package.json`** version and **[CHANGELOG.md](../CHANGELOG.md)**; align **“Last updated”** notes in **[PRD.md](PRD.md)** when requirements change materially.

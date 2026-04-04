@@ -123,8 +123,21 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | **Doc reader** | `.reader-chrome`, `.doc-nav`, `.doc-content` | Prev/Next/Go; article/recital typography inside `.article-doc` / `.recital-doc`. |
 | **Citation panels** | `.citation-panel`, `.citation-panel-toggle`, `.citation-panel-badge` | Collapsible aside sections. |
 | **Ask answer** | `.answer-box`, `.citation-chip`, `.ask-answer-prose` | `[Sn]` chips link in-app for regulation, external for web. |
-| **News** | `.news-card`, `.news-sections`, `.filter-bar.news-filters` | Source/topic filters. |
+| **News** | `.news-card`, `.news-sections`, `.filter-bar.news-filters` | Source/topic filters; main **`#newsControlsPanel`** is **not sticky**—it scrolls with content to avoid overlapping cards. |
 | **Sources** | `.sources-grid`, `.source-card` | Grid of credible organizations. |
+
+---
+
+## 7.1 News layout (two-column desktop)
+
+| Element | Class / id hooks (representative) | Notes |
+|---------|-----------------------------------|--------|
+| **Articles region** | `.news-articles-region`, `.news-sections` | Primary scroll column for grouped cards. |
+| **Main filters** | `#newsControlsPanel`, `.news-controls-panel`, `.filter-bar.news-filters` | Search, Source, Topic, Clear; lives above the article list. |
+| **Quick filters (sidebar dock)** | `#newsSidebarToolbar`, `.news-sidebar-toolbar`, `.news-sidebar-toolbar__toggle`, `.news-sidebar-toolbar__badge` | Shown when **`#newsControlsPanel`** leaves the **`.main`** viewport (**≥ ~1100px**); mirrors main controls; **expand/collapse** with **`sessionStorage`** key **`gdpr_news_sidebar_collapsed`**. |
+| **Official site & RSS** | `#newsFeedsAsideTop`, `#newsFeedsSectionToggle`, `#newsFeedsSectionPanel`, `.news-feeds-aside-top--collapsed` | Expandable feed list; **`sessionStorage`** **`gdpr_news_feeds_section_collapsed`**. |
+
+**Motion:** Chevron rotation and panel open/close use **`--transition`**; **`prefers-reduced-motion: reduce`** shortens motion per global rules.
 
 ---
 

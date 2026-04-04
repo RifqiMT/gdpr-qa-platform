@@ -28,10 +28,10 @@ This directory contains **professional product, design, and engineering document
 
 | Document | Description |
 |----------|-------------|
-| [PRD.md](PRD.md) | Product requirements: goals, functional/non-functional requirements, data model, success criteria, out of scope (**v1.1**). |
+| [PRD.md](PRD.md) | Product requirements: goals, functional/non-functional requirements, data model, success criteria, out of scope (**v1.2**). |
 | [USER_PERSONAS.md](USER_PERSONAS.md) | Six user personas plus **Engineering / DevOps**. |
 | [USER_STORIES.md](USER_STORIES.md) | User stories by epic, aligned with PRD and traceability matrix. |
-| [VARIABLES.md](VARIABLES.md) | **Comprehensive** data dictionary: technical name, friendly name, definition, formula, location, example; **two** relationship diagrams. |
+| [VARIABLES.md](VARIABLES.md) | **Comprehensive** data dictionary: technical name, friendly name, definition, formula, location, example; Mermaid charts (core flow, configuration, **news deduplication**). |
 | [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md) | Product metrics, operational metrics, **document formatting** metrics, example OKRs (**O1–O4**). |
 | [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Design principles, **light theme palette**, typography, spacing, motion, **responsive breakpoints**, components, print/PDF. |
 | [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md) | Business requirements ↔ PRD ↔ stories ↔ code ↔ verification. |
@@ -48,7 +48,7 @@ This directory contains **professional product, design, and engineering document
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Main product documentation (single source for operators). |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.1** and checklist. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.2** and checklist. |
 | [../CHANGELOG.md](../CHANGELOG.md) | Release and change history ([Keep a Changelog](https://keepachangelog.com/)). |
 | [../.env.example](../.env.example) | Environment variable template (no secrets). |
 

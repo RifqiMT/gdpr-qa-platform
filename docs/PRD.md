@@ -1,8 +1,8 @@
 # Product Requirements Document (PRD)  
 ## GDPR Q&A Platform
 
-**Version:** 1.1  
-**Last updated:** Aligned with README, product documentation standard v1.1, and mandatory document-formatting refresh pipeline.
+**Version:** 1.2  
+**Last updated:** Aligned with README, product documentation standard v1.2, mandatory document-formatting refresh pipeline, and consolidated News deduplication + News UI chrome (Quick filters dock, expandable feeds).
 
 ---
 
@@ -15,7 +15,7 @@ A web application for **browsing and searching** the full text of the General Da
 - **Browse** — Recitals 1–173 and Articles 1–99 with topic-based filters (Category, Sub-category, Chapter, Article), document navigation (Prev/Next/Go), and PDF export.
 - **Ask** — Natural-language questions answered via **`POST /api/answer`**: BM25 retrieval over the local corpus, optional live web snippets, synthesis with **Groq** (primary) or **Tavily** (fallback), or an **extractive** fallback if neither returns usable text. Answers use numbered citations `[S1]` mapped to regulation excerpts and optional web sources. Optional **industry / sector** framing (ISIC-aligned list) steers prompts. A **Relevant GDPR provisions** panel lists cited articles/recitals with “View in app.”
 - **Credible sources** — One tab listing official and widely cited organizations (GDPR-Info, EUR-Lex, EDPB, European Commission, ICO, GDPR.eu, Council of Europe) with direct document links.
-- **News** — GDPR and data protection updates from credible sources (EDPB, ICO, European Commission, Council of Europe), grouped by source with filters and three-paragraph summaries.
+- **News** — GDPR and data protection updates from credible sources (EDPB, ICO, European Commission, Council of Europe), grouped by source with filters and card snippets; **deduplicated** so the same story under alternate URLs does not appear twice (server **`dedupeNewsItemsConsolidated`** plus client **`news-dedupe.js`** mirror). Main filter toolbar stays in **document flow** (no sticky overlap with cards). On wide viewports, when that toolbar scrolls out of the main column, a **Quick filters** card in the left column mirrors search/source/topic and remembers expand/collapse in **`sessionStorage`**. The **Official site & RSS** block is similarly expandable. **`GET /api/news`** uses cache-disabling headers so browsers do not serve stale merged JSON.
 
 Target: legal, compliance, and privacy professionals (and anyone) who need quick, sourced GDPR answers and updates without unsourced claims.
 
@@ -89,6 +89,10 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 | FR-S2 | User can open News tab and see news grouped by source with three-paragraph summaries and topic tags. | Must |
 | FR-S3 | User can filter News by Source and Topic; Clear filters resets both. | Must |
 | FR-S4 | User can click “Refresh news” to call **`POST /api/news/refresh`** (persist merge to `gdpr-news.json`) and reload the list. | Must |
+| FR-S5 | News items returned to the client are **deduplicated** after merge: normalized URL key first, then semantic merge by source + publication date + title fingerprint; **`mergeNewsDuplicate`** prefers canonical URLs and richer snippets when collapsing rows. | Must |
+| FR-S6 | **`GET /api/news`** responses include **`Cache-Control: no-store, no-cache, must-revalidate`** and **`Pragma: no-cache`** so user agents do not treat merged news as a long-lived cache entry. | Must |
+| FR-S7 | **Desktop (≥ ~1100px):** When the primary news filter panel leaves the main column viewport, a **Quick filters** region in the sidebar shows the same controls (search, source, topic, reset), stays in sync with the main panel, supports expand/collapse, and persists preference in **`sessionStorage`**. | Should |
+| FR-S8 | The **Official site & RSS** feed list is **expandable/collapsible** with **`sessionStorage`** persistence so users can reclaim vertical space. | Should |
 
 ### 3.4 Content and refresh
 
@@ -130,7 +134,7 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 
 - **gdpr-structure.json:** meta, categories, chapters[] (number, roman, title, articleRange, sourceUrl, eurLexUrl). Required for scraper.
 - **gdpr-content.json:** **meta** (**lastRefreshed**, **lastChecked**, **etl**, **datasetHash**, **sources**, …), **categories**, **chapters[]**, **recitals[]**, **articles[]**, **searchIndex[]**. Produced by **`scraper.js`** after **`normalizeCorpus`** and **`buildSearchIndex`**.
-- **gdpr-news.json:** newsFeeds[] (name, url, description), items[] (title, url, sourceName, sourceUrl, date, snippet, optional summaryParagraphs[], topic). Optional; merged with crawled items in `GET /api/news` and written on `POST /api/news/refresh`.
+- **gdpr-news.json:** newsFeeds[] (name, url, description), items[] (title, url, sourceName, sourceUrl, date, snippet, optional summaryParagraphs[], optional **commissionPolicyAreas**[], topic). Optional; merged with crawled items, then passed through **`dedupeNewsItemsConsolidated`** on **`GET /api/news`** and after **`mergeNewsItems`** on refresh; written on **`POST /api/news/refresh`**. The browser loads **`public/news-dedupe.js`** and runs **`dedupeNewsItemsClient`** on render as a safety net against older payloads.
 - **article-suitable-recitals.json:** editorial map `articles` keyed by article number → recital numbers; copied to `public/` on `npm start` (`prestart`).
 - **chapter-summaries.json:** optional `{ summaries: { "1": "…", …, "11": "…" }, source, llm, generatedAt }`.
 - **industry-sectors.json:** sector definitions (`public/industry-sectors.json`).
@@ -143,7 +147,7 @@ Full data flow: [README §4 – Logic and data flow](../README.md#4-logic-and-da
 
 - Users can browse Recitals and Chapters & Articles with filters and doc nav, and export current provision as PDF.
 - Users can ask questions and receive grounded answers with citations and relevant provisions; “View in app” and “Back to question” work correctly.
-- Users can open Credible sources and News; News filters and Refresh news work.
+- Users can open Credible sources and News; News filters and Refresh news work; duplicate stories (alternate URLs) do not clutter the list; wide-layout users can use Quick filters when the main toolbar scrolls away; feed list can be collapsed.
 - Users can go to homepage via logo and see initial Browse state with sidebar reset.
 - Refresh sources updates regulation text; freshness metadata shown; **formatting guardrails** run and are observable via API; Browse/Ask use normalized corpus. Answers remain tied to returned **`sources`** and citation ids.
 

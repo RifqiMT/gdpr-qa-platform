@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Optional: full origin if the UI is hosted separately from the Node API (e.g. content="https://my-api.onrender.com") -->
+  <meta name="gdpr-api-base" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GDPR Q&A Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -306,15 +308,15 @@
           <div class="ask-sector-row">
             <label class="ask-sector-label" id="askIndustrySectorLabel" for="askIndustrySectorInput">Industry / sector (optional)</label>
             <p class="ask-sector-explainer" id="askIndustrySectorDesc">
-              Sectors follow <strong>UN ISIC Rev.4</strong> (sections A–U), aligned with typical <strong>ILO</strong> industry groupings for labour-market statistics.
-              Pick <strong>General</strong> when you do not want sector-focused framing.
+              Sectors follow <strong>UN ISIC Rev.4</strong>: all <strong>sections A–U</strong> plus every official <strong>division (01–99)</strong>, consistent with <strong>ILO</strong> industry statistics and national accounts.
+              Search by name, division code (e.g. <strong>62</strong>, <strong>ISIC-62</strong>), or keywords. Pick <strong>General</strong> when you do not want sector-focused framing.
             </p>
             <div class="filter-combobox ask-sector-combobox" id="askSectorComboboxWrap">
               <select id="askIndustrySector" class="visually-hidden" tabindex="-1" aria-hidden="true" aria-labelledby="askIndustrySectorLabel askIndustrySectorDesc">
                 <option value="GENERAL">General — no sector-specific framing</option>
               </select>
               <div class="filter-combobox-control">
-                <input type="text" id="askIndustrySectorInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="askIndustrySectorList" aria-autocomplete="list" placeholder="Search sectors or choose General…" aria-labelledby="askIndustrySectorLabel">
+                <input type="text" id="askIndustrySectorInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="askIndustrySectorList" aria-autocomplete="list" placeholder="Search section, division 01–99, or General…" aria-labelledby="askIndustrySectorLabel">
                 <button type="button" class="filter-combobox-toggle" id="askIndustrySectorToggle" tabindex="-1" aria-label="Open industry and sector list" aria-expanded="false" aria-controls="askIndustrySectorList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
               </div>
               <ul id="askIndustrySectorList" class="filter-combobox-list filter-combobox-list--ask-sector" role="listbox" hidden></ul>
@@ -388,41 +390,184 @@
 
     <section id="viewNews" class="view" role="tabpanel" hidden>
       <div class="news-layout">
-        <header class="news-header">
-          <div class="news-header-main">
-            <h2>GDPR &amp; data protection news</h2>
-            <p class="news-intro">EDPB, ICO, European Commission, Council of Europe, and more — grouped by source with quick feed links.</p>
+        <a href="#newsSections" class="news-skip-link">Skip to news list</a>
+        <header class="news-hero">
+          <p class="news-eyebrow">Regulators &amp; EU institutions</p>
+          <div class="news-hero-grid">
+            <div class="news-hero-main">
+              <h2>GDPR &amp; data protection news</h2>
+              <p class="news-intro">Curated headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds. Each card uses a clear reading order—date and topic, headline, summary, then source and attachments—so you can scan quickly and open the full article when you need it.</p>
+            </div>
+            <div class="news-hero-aside">
+              <button type="button" id="btnRefreshNews" class="btn btn-primary btn-refresh-news" aria-describedby="newsRefreshHint">
+                <span class="btn-refresh-icon" aria-hidden="true">↻</span>
+                <span class="btn-refresh-label">Refresh all sources</span>
+              </button>
+              <p id="newsRefreshHint" class="news-hero-hint">Pulls the latest items from each feed (may take a few seconds).</p>
+            </div>
           </div>
-          <button type="button" id="btnRefreshNews" class="btn btn-secondary btn-refresh-news">↻ Refresh news</button>
         </header>
         <div class="news-body">
-          <section class="news-feeds-row" aria-labelledby="newsFeedsHeading">
-            <h3 id="newsFeedsHeading" class="news-feeds-heading">Jump to a feed</h3>
-            <ul id="newsFeedsList" class="news-feeds-list" role="list"></ul>
-          </section>
-          <div class="news-list-wrap" id="newsListWrap">
-          <div class="news-list-wrap-header">
-            <h3>Browse by source &amp; topic</h3>
-            <p class="news-list-intro">Summaries in plain language; each card links to the original article.</p>
-          </div>
-          <div class="filter-bar news-filters" role="group" aria-label="Filter news">
-            <div class="filter-field">
-              <label for="newsFilterSource" class="filter-field-label">Source</label>
-              <select id="newsFilterSource" class="filter-field-select" aria-label="Filter by source">
-                <option value="">All sources</option>
-              </select>
+          <aside class="news-feeds-aside" aria-labelledby="newsFeedsHeading">
+            <div class="news-feeds-aside-top" id="newsFeedsAsideTop">
+              <button
+                type="button"
+                id="newsFeedsSectionToggle"
+                class="news-feeds-section-toggle"
+                aria-expanded="true"
+                aria-controls="newsFeedsSectionPanel"
+                aria-labelledby="newsFeedsHeading"
+              >
+                <span id="newsFeedsHeading" class="news-feeds-heading">Official site &amp; RSS</span>
+                <svg
+                  class="news-feeds-section-chevron"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div
+                id="newsFeedsSectionPanel"
+                class="news-feeds-section-panel"
+                role="region"
+                aria-labelledby="newsFeedsHeading"
+              >
+                <div class="news-feeds-section-panel-inner">
+                  <p class="news-feeds-lead">Jump straight to a regulator’s news hub or feed page.</p>
+                  <ul id="newsFeedsList" class="news-feeds-list" role="list"></ul>
+                </div>
+              </div>
             </div>
-            <div class="filter-field">
-              <label for="newsFilterTopic" class="filter-field-label">Topic</label>
-              <select id="newsFilterTopic" class="filter-field-select" aria-label="Filter by topic">
-                <option value="">All topics</option>
-              </select>
+            <div
+              id="newsSidebarFilters"
+              class="news-sidebar-filters"
+              hidden
+              aria-hidden="true"
+            >
+              <div class="news-sidebar-filters-card" id="newsSidebarFiltersCard">
+                <button
+                  type="button"
+                  id="newsSidebarFiltersToggle"
+                  class="news-sidebar-filters-toggle"
+                  aria-expanded="true"
+                  aria-controls="newsSidebarFiltersPanel"
+                >
+                  <span class="news-sidebar-filters-toggle-leading" aria-hidden="true">
+                    <svg class="news-sidebar-filters-toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                    </svg>
+                  </span>
+                  <span class="news-sidebar-filters-toggle-copy">
+                    <span class="news-sidebar-filters-toggle-title" id="newsSidebarFiltersLabel">Quick filters</span>
+                    <span class="news-sidebar-filters-toggle-sub">Refine without scrolling back to the top</span>
+                  </span>
+                  <span class="news-sidebar-filters-badge hidden" id="newsSidebarFiltersBadge" aria-hidden="true">0</span>
+                  <svg class="news-sidebar-filters-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div
+                  id="newsSidebarFiltersPanel"
+                  class="news-sidebar-filters-panel"
+                  role="region"
+                  aria-labelledby="newsSidebarFiltersLabel"
+                >
+                  <div class="news-sidebar-filters-panel-inner">
+                    <div class="news-sidebar-filters-fields" role="group" aria-label="Filter news articles">
+                      <div class="news-sidebar-field">
+                        <label for="newsSearchInputAside" class="news-sidebar-filters-label">Search</label>
+                        <div class="news-sidebar-search-wrap">
+                          <svg class="news-sidebar-search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                          </svg>
+                          <input
+                            type="search"
+                            id="newsSearchInputAside"
+                            class="news-sidebar-search-input"
+                            placeholder="Headlines &amp; summaries…"
+                            autocomplete="off"
+                            spellcheck="false"
+                            aria-label="Search news headlines and summaries"
+                          />
+                          <button type="button" id="newsSearchClearAside" class="news-sidebar-search-clear hidden" aria-label="Clear search">Clear</button>
+                        </div>
+                      </div>
+                      <div class="news-sidebar-field">
+                        <label for="newsFilterSourceAside" class="news-sidebar-filters-label">Source</label>
+                        <div class="news-sidebar-select-wrap">
+                          <select id="newsFilterSourceAside" class="news-sidebar-select" aria-label="Filter by news source">
+                            <option value="">All sources</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="news-sidebar-field">
+                        <label for="newsFilterTopicAside" class="news-sidebar-filters-label">Topic</label>
+                        <div class="news-sidebar-select-wrap">
+                          <select id="newsFilterTopicAside" class="news-sidebar-select" aria-label="Filter by topic tag">
+                            <option value="">All topics</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button type="button" id="newsFilterClearAside" class="news-sidebar-clear-btn">
+                        <span class="news-sidebar-clear-btn-text">Reset filters</span>
+                      </button>
+                      <p id="newsResultStatusAside" class="news-sidebar-result-status" aria-live="polite"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="filter-actions">
-              <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear filters</button>
+          </aside>
+          <div class="news-main" id="newsMainPanel">
+            <div class="news-controls-panel" id="newsControlsPanel">
+              <div class="news-toolbar" role="region" aria-label="Search and filter news">
+                <div class="news-search-wrap">
+                  <label for="newsSearchInput" class="visually-hidden">Search news by title or keywords</label>
+                  <svg class="news-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+                  <input type="search" id="newsSearchInput" class="news-search-input" placeholder="Search headlines and summaries…" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-describedby="newsSearchHint" />
+                  <button type="button" id="newsSearchClear" class="news-search-clear hidden" aria-label="Clear search">Clear</button>
+                </div>
+                <p id="newsSearchHint" class="news-toolbar-hint">Filters and search work together. Use <strong>Clear all</strong> to reset.</p>
+                <div class="filter-bar news-filters" role="group" aria-label="Filter news by source and topic">
+                  <div class="filter-field">
+                    <label for="newsFilterSource" class="filter-field-label">Source</label>
+                    <select id="newsFilterSource" class="filter-field-select" aria-label="Filter by news source">
+                      <option value="">All sources</option>
+                    </select>
+                  </div>
+                  <div class="filter-field">
+                    <label for="newsFilterTopic" class="filter-field-label">Topic</label>
+                    <select id="newsFilterTopic" class="filter-field-select" aria-label="Filter by topic tag">
+                      <option value="">All topics</option>
+                    </select>
+                  </div>
+                  <div class="filter-actions">
+                    <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear all</button>
+                  </div>
+                </div>
+                <p id="newsResultStatus" class="news-result-status" aria-live="polite"></p>
+              </div>
             </div>
-          </div>
-          <div id="newsSections" class="news-sections" role="region" aria-label="News by source"></div>
+            <div class="news-articles-region">
+              <div class="news-list-wrap-header">
+                <h3 id="newsBrowseHeading" class="news-browse-title">Articles by source</h3>
+                <p class="news-list-intro">Publication dates use your locale when the feed includes them. Topic tags group themes; summaries stay within a comfortable line length for reading.</p>
+              </div>
+              <nav class="news-toc" id="newsTocNav" aria-labelledby="newsTocHeading" hidden>
+                <span class="news-toc-heading" id="newsTocHeading">On this page</span>
+                <ul class="news-toc-list" id="newsTocList" role="list"></ul>
+              </nav>
+              <div id="newsSections" class="news-sections" role="region" aria-labelledby="newsBrowseHeading" tabindex="-1"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -430,6 +575,17 @@
   </main>
 
   <div id="pdfPrintMount" class="pdf-print-mount" aria-hidden="true"></div>
+
+  <dialog id="newsAttachmentsDialog" class="news-attachments-dialog" aria-labelledby="newsAttachmentsDialogTitle">
+    <div class="news-attachments-dialog-inner">
+      <header class="news-attachments-dialog-header">
+        <h3 id="newsAttachmentsDialogTitle">Article attachments</h3>
+        <button type="button" id="newsAttachmentsDialogClose" class="btn btn-secondary news-attachments-dialog-close" aria-label="Close">&times;</button>
+      </header>
+      <p class="news-attachments-dialog-article" id="newsAttachmentsDialogArticle"></p>
+      <div id="newsAttachmentsDialogBody" class="news-attachments-dialog-body"></div>
+    </div>
+  </dialog>
 
   <footer class="footer" role="contentinfo">
     <div class="footer-inner">
@@ -448,6 +604,7 @@
       </p>
     </div>
   </footer>
+  <script src="news-dedupe.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
