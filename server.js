@@ -45,6 +45,7 @@ const DEFAULT_NEWS_FEEDS = [
 
 const app = express();
 const PORT = process.env.PORT || 3847;
+const HOST = process.env.HOST || '0.0.0.0';
 const DATA_DIR = path.join(__dirname, 'data');
 const CONTENT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
 const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
@@ -1855,10 +1856,10 @@ if (process.argv.includes('--refresh-only')) {
     .then(() => process.exit(0))
     .catch((e) => { console.error(e); process.exit(1); });
 } else {
-  const server = app.listen(PORT, async () => {
+  const server = app.listen(PORT, HOST, async () => {
     const groqOk = Boolean((process.env.GROQ_API_KEY || '').trim());
     const tavilyOk = Boolean((process.env.TAVILY_API_KEY || '').trim());
-    console.log(`GDPR Q&A Platform running at http://localhost:${PORT}`);
+    console.log(`GDPR Q&A Platform listening on ${HOST}:${PORT}`);
     console.log(groqOk ? 'Ask (LLM): Groq enabled (GROQ_API_KEY loaded).' : 'Ask (LLM): Groq disabled — set GROQ_API_KEY in .env and restart the server.');
     console.log(
       tavilyOk

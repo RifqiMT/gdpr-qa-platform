@@ -1,0 +1,15 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# After push: Dashboard → New → Blueprint → connect this repo, or paste this file.
+
+services:
+  - type: web
+    name: gdpr-qa-platform
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # Add in dashboard (Secrets): GROQ_API_KEY, TAVILY_API_KEY, OPENROUTER_REFERRER (your public URL), etc.
