@@ -197,6 +197,11 @@ function getEditorialSuitableRecitalsByArticle() {
 app.use(cors());
 app.use(express.json());
 
+/** Fast liveness probe for platforms (e.g. Render health checks). */
+app.get('/health', (req, res) => {
+  res.status(200).type('text/plain').send('ok');
+});
+
 app.get('/article-suitable-recitals.json', (req, res) => {
   res.type('application/json');
   if (!fs.existsSync(ARTICLE_SUITABLE_RECITALS_FILE)) {
