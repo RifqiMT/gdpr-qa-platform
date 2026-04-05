@@ -10,11 +10,12 @@ This directory contains **professional product, design, and engineering document
 | Step | Document | Why read it |
 |------|----------|-------------|
 | 1 | [../README.md](../README.md) | Product overview, features, configuration, quick start. |
-| 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation governance and full index. |
+| 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation governance and full index (**v1.3**). |
 | 3 | [PRD.md](PRD.md) | Formal requirements and scope. |
 | 4 | [USER_PERSONAS.md](USER_PERSONAS.md) / [USER_STORIES.md](USER_STORIES.md) | Who uses the product and verifiable stories. |
 | 5 | [ARCHITECTURE.md](ARCHITECTURE.md) / [API_CONTRACTS.md](API_CONTRACTS.md) | System shape and REST contracts. |
-| 6 | [VARIABLES.md](VARIABLES.md) | Environment variables, JSON fields, **mermaid relationship charts**. |
+| 6 | [VARIABLES.md](VARIABLES.md) | Environment variables, JSON fields, **mermaid relationship charts** (including news topic assignment). |
+| 6b | [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md) | Sample JSON for corpus, news, Ask, and refresh responses. |
 | 7 | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) | **Binding** ETL ↔ JSON ↔ reader contract. |
 | 8 | [GUARDRAILS.md](GUARDRAILS.md) | Business and technical limitations. |
 | 9 | [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Visual system for UI work. |
@@ -28,7 +29,7 @@ This directory contains **professional product, design, and engineering document
 
 | Document | Description |
 |----------|-------------|
-| [PRD.md](PRD.md) | Product requirements: goals, functional/non-functional requirements, data model, success criteria, out of scope (**v1.2**). |
+| [PRD.md](PRD.md) | Product requirements: goals, functional/non-functional requirements, data model, success criteria, out of scope (**v1.3**). |
 | [USER_PERSONAS.md](USER_PERSONAS.md) | Six user personas plus **Engineering / DevOps**. |
 | [USER_STORIES.md](USER_STORIES.md) | User stories by epic, aligned with PRD and traceability matrix. |
 | [VARIABLES.md](VARIABLES.md) | **Comprehensive** data dictionary: technical name, friendly name, definition, formula, location, example; Mermaid charts (core flow, configuration, **news deduplication**). |
@@ -48,7 +49,7 @@ This directory contains **professional product, design, and engineering document
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Main product documentation (single source for operators). |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.2** and checklist. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.3** and checklist. |
 | [../CHANGELOG.md](../CHANGELOG.md) | Release and change history ([Keep a Changelog](https://keepachangelog.com/)). |
 | [../.env.example](../.env.example) | Environment variable template (no secrets). |
 

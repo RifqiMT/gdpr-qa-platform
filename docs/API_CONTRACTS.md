@@ -74,7 +74,16 @@ Static file route to `data/article-suitable-recitals.json` (editorial map). **40
 
 ### `GET /api/industry-sectors`
 
-Returns array of sector objects: `id`, `label`, `isicSection`, `searchTerms`, `framework` (see `public/industry-sectors.json`).
+When **`public/industry-sector-tree.json`** is present and valid, returns:
+
+```json
+{
+  "sectors": [ { "id", "label", "isicSection", "isicDivision", "searchTerms", "framework" } ],
+  "tree": { "schemaVersion", "industries": [ { "id", "label", "sections": ["A", …] } ], "sectorGroups": { "C": [ { "id", "label", "divisionIds": ["ISIC-10", …] } ], … } }
+}
+```
+
+Otherwise returns a **plain array** of sector objects (same shape as `sectors[]` above) for backward compatibility. Static **`GET /industry-sector-tree.json`** is also available for the Ask UI when the API returns only the array.
 
 ---
 
@@ -131,8 +140,9 @@ Uses `LLM_PROVIDER` and available keys; falls back to extractive summary.
 
 ### `GET /api/news`
 
-**Response:** `{ "newsFeeds": [ … ], "items": [ … ] }`  
-Merges `data/gdpr-news.json` with live crawl within **`NEWS_CRAWL_TIMEOUT_MS`** (when live crawl runs); results pass through **`dedupeNewsItemsConsolidated`**; caps at **`NEWS_MERGE_CAP`**.
+**Response:** `{ "newsFeeds": [ … ], "items": [ … ], "topicTaxonomy": { "groups": [ { "category", "topics": [ { "label" } ] } ], "fallbackTopic" } }`  
+Each item includes **`topic`** and **`topicCategory`** (from **`news-topics.js`**) after server-side annotation. **`topicTaxonomy`** drives News tab topic **optgroups**.  
+Merges `data/gdpr-news.json` with live crawl within **`NEWS_CRAWL_TIMEOUT_MS`** (when live crawl runs); results pass through **`dedupeNewsItemsConsolidated`**; caps at **`NEWS_MERGE_CAP`** (default **1600**). Crawl depth is further bounded inside **`news-crawler.js`** and optional **`NEWS_MAX_*`** / **`NEWS_COMMISSION_*`** env vars (see [VARIABLES.md](VARIABLES.md)).
 
 **Caching:** Success responses set **`Cache-Control: no-store, no-cache, must-revalidate`** and **`Pragma: no-cache`** so browsers and intermediaries do not treat merged news as a long-lived cache entry.
 
@@ -147,12 +157,13 @@ Runs full crawl, merges, writes `gdpr-news.json` (up to internal `storeCap`), re
   "ok": true,
   "newsFeeds": [ ],
   "items": [ ],
+  "topicTaxonomy": { "groups": [ ], "fallbackTopic": "Other GDPR & data protection topics" },
   "mergedTotal": 0,
   "stored": 0
 }
 ```
 
-- **`ok: false`** still **200** with `error` string and best-effort `items` on crawl failure.
+- **`ok: false`** still **200** with `error` string and best-effort `items` (with topics) plus **`topicTaxonomy`** on crawl failure.
 
 ---
 

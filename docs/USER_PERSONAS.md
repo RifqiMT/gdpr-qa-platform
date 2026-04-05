@@ -27,9 +27,9 @@ Personas represent primary users of the platform. They inform features, user sto
 | **Role** | Data Protection Officer; answers internal and external questions about GDPR and tracks supervisory guidance. |
 | **Goals** | Answer “what does the regulation say?” with exact text and citations; stay updated on EDPB/ICO/Commission news; point colleagues to official sources. |
 | **Pain points** | Repeating the same lookups; ensuring answers are from the regulation, not third-party summaries; keeping up with news from multiple sites. |
-| **Needs** | Ask a question and get a **citation-grounded** answer (`[S1]`…), sector context when relevant, View in app to show full article/recital; News tab with filters by source/topic; Credible sources tab for quick links. |
+| **Needs** | Ask a question and get a **citation-grounded** answer (`[S1]`…), sector context when relevant, View in app to show full article/recital; News tab with filters by **source** and **topic** (taxonomy from **`news-topics.js`**) across EDPB, EDPS, ICO, CNIL (English), Commission, and CoE; Credible sources tab for quick links. |
 | **Tech context** | Uses internal or local deployment; may configure LLM key for summaries; needs traceability for audit. |
-| **Relevant features** | Ask (Answer + `[Sn]` citations, industry sector, Relevant GDPR provisions), News (by source, filters, three-paragraph summaries), Credible sources, Refresh sources. |
+| **Relevant features** | Ask (Answer + `[Sn]` citations, industry sector, Relevant GDPR provisions), News (multi-authority crawl, topic tags, by-source grouping, three-paragraph summaries), Credible sources, Refresh sources. |
 
 ---
 
@@ -97,7 +97,7 @@ Personas represent primary users of the platform. They inform features, user sto
 | **Role** | Deploys and operates the app internally or for clients; owns configuration, refresh jobs, and observability. |
 | **Goals** | Keep the regulation corpus current and **formatting-consistent**; verify ETL and guardrails after upgrades; minimize stale in-memory state after refresh. |
 | **Pain points** | Silent hash-unchanged skips when operators expect a rewrite; unclear which primary source (**GDPR-Info** vs **EUR-Lex**) is active; long-running crawls without timeout visibility. |
-| **Needs** | Documented **environment variables** ([VARIABLES.md](VARIABLES.md)); **`POST /api/refresh`** returning **`formattingGuardrails`**; **`GDPR_FORCE_CORPUS_WRITE`** for forced writes; logs for cron and CLI **`npm run refresh`**. |
+| **Needs** | Documented **environment variables** ([VARIABLES.md](VARIABLES.md)) including **news** timeouts, **`NEWS_MERGE_CAP`**, and optional **`NEWS_MAX_*` / `NEWS_COMMISSION_*`** crawl tuners; **`POST /api/refresh`** returning **`formattingGuardrails`**; **`GDPR_FORCE_CORPUS_WRITE`** for forced writes; logs for cron and CLI **`npm run refresh`**. |
 | **Tech context** | Node ≥ 18, `.env` management, optional reverse proxy; reads **CHANGELOG** and **ARCHITECTURE** for upgrades. |
 | **Relevant features** | Refresh pipeline, **document formatting guardrails**, **`.env.example`**, **API contracts** for **/api/meta** and **/api/refresh**. |
 
@@ -108,7 +108,7 @@ Personas represent primary users of the platform. They inform features, user sto
 | Persona              | Primary use                    | Key features                                              |
 |----------------------|--------------------------------|-----------------------------------------------------------|
 | Legal / Compliance   | Look up provisions, cite       | Browse, Ask + citations, filters, doc nav, Export PDF, Refresh |
-| DPO                 | Answer questions, stay updated | Ask, Relevant provisions, News, Credible sources           |
+| DPO                 | Answer questions, stay updated | Ask, Relevant provisions, News (multi-source + topics), Credible sources |
 | Consultant           | Client-facing, sourced answers | Ask, grounded answers, Export PDF, Credible sources       |
 | Industry specialist  | Sector-context Q&A             | Ask + sector, Browse, official links                      |
 | General Professional| Quick check                    | Ask, extractive/LLM paths, Browse, Credible sources, Homepage |

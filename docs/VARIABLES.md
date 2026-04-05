@@ -23,6 +23,7 @@
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `PORT` | HTTP listen port | TCP port bound by the Express process. | Integer string; default **`3847`** when unset. | `server.js` → `app.listen` | `3847` |
+| `HOST` | HTTP bind address | Network interface the server listens on. | Default **`0.0.0.0`** (all interfaces) when unset. | `server.js` → `app.listen` | `127.0.0.1` |
 | `GDPR_ETL_PRIMARY` | Regulation corpus source (primary) | Decides which extractor runs first on **Refresh sources** / ETL. | Case-insensitive: **`gdpr-info`** (default) or **`eur-lex`**. | `scraper.js` → `run()` | `gdpr-info` |
 | `MIN_GDPR_INFO_ARTICLES` | Minimum article count (GDPR-Info acceptance) | Lower bound of parsed articles required to treat GDPR-Info as a successful primary pull. | `parseInt(env \|\| '99', 10)`; minimum **1**. | `scraper.js` | `99` |
 | `MIN_GDPR_INFO_RECITALS` | Minimum recital count (GDPR-Info acceptance) | Same for recitals (full Regulation = 173). | `parseInt(env \|\| '173', 10)`; minimum **1**. | `scraper.js` | `173` |
@@ -32,7 +33,15 @@
 | `GDPR_FORCE_RELOAD_CORPUS` | Force reload flag (alias) | Same effect as **`GDPR_FORCE_CORPUS_WRITE`** for operators who prefer this name. | Equality check to **`1`**. | `scraper.js` | `1` |
 | `NEWS_CRAWL_TIMEOUT_MS` | News read-path crawl budget | Maximum milliseconds to wait for a live crawl during **`GET /api/news`** before returning merged static + partial crawl. | `parseInt(env \|\| '90000', 10)`. | `server.js` | `90000` |
 | `NEWS_REFRESH_TIMEOUT_MS` | News refresh-path crawl budget | Maximum wait for **`POST /api/news/refresh`**. | `parseInt(env \|\| '180000', 10)`. | `server.js` | `180000` |
-| `NEWS_MERGE_CAP` | Merged news list cap (response) | Upper bound on item count returned to the client after merge (static + crawl). | `parseInt(env \|\| '520', 10)`. | `server.js` → news routes | `520` |
+| `NEWS_MERGE_CAP` | Merged news list cap (response) | Upper bound on item count returned to the client after merge and dedupe (static + crawl). | `parseInt(env \|\| '1600', 10)`. | `server.js` → news routes | `1600` |
+| `NEWS_ATTACHMENTS_CACHE_TTL_MS` | Article attachments cache lifetime | How long (ms) to reuse a cached **`POST /api/news/article-attachments`** result per URL. | `parseInt(env \|\| '900000', 10)`. | `server.js` → attachments helper | `900000` |
+| `NEWS_ATTACHMENTS_CACHE_MAX` | Article attachments cache size | Maximum in-memory cache entries for attachment scans. | `parseInt(env \|\| '150', 10)`. | `server.js` | `150` |
+| `NEWS_MAX_EDPB_PAGES` | EDPB news HTML depth | Maximum paginated listing pages to fetch from **`edpb.europa.eu/news_en`**. | Clamped **`[12, 80]`**; `parseInt(env \|\| '56', 10)`. | `news-crawler.js` → `crawlEdpbHtml` | `56` |
+| `NEWS_MAX_ICO_SEARCH_PAGES` | ICO search pagination depth | Maximum Umbraco search pages for ICO news URLs. | Clamped **`[10, 64]`**; `parseInt(env \|\| '44', 10)`. | `news-crawler.js` → `crawlIco` | `44` |
+| `NEWS_MAX_ICO_SITEMAP_FETCHES` | ICO sitemap enrichment cap | Maximum follow-up fetches when enriching from sitemap. | Clamped **`[50, 450]`**; `parseInt(env \|\| '280', 10)`. | `news-crawler.js` | `280` |
+| `NEWS_MAX_HTML_LINKS_PER_SOURCE` | HTML harvest limit per source | Ceiling on links collected from ICO/CoE-style HTML listings. | Clamped **`[120, 900]`**; `parseInt(env \|\| '480', 10)`. | `news-crawler.js` | `480` |
+| `NEWS_COMMISSION_RSS_CONCURRENCY` | Commission RSS/API parallelism | Batch size for parallel Commission RSS fetches and chunked search calls. | Clamped **`[2, 10]`**; `parseInt(env \|\| '6', 10)`. | `news-crawler.js` | `6` |
+| `NEWS_COMMISSION_RSS_PAGE_SIZE` | Commission RSS page size | `pagesize` query parameter for Press Corner RSS (clamped in code). | Clamped **`[20, 100]`**; `parseInt(env \|\| '100', 10)`. | `news-crawler.js` | `100` |
 | `WEB_TIMEOUT_MS` | External HTTP timeout (Ask web context) | Timeout for DuckDuckGo HTML fetch and per-page excerpt retrieval. | `parseInt(env \|\| '12000', 10)`. | `server.js` → web helpers | `12000` |
 | `WEB_MAX_RESULTS` | DuckDuckGo result rows | Maximum HTML result rows parsed from DuckDuckGo for Ask. | `parseInt(env \|\| '4', 10)`. | `server.js` | `4` |
 | `WEB_MAX_PAGES` | Web excerpt page fetches | How many hit URLs are fetched for text excerpts. | `parseInt(env \|\| '3', 10)`. | `server.js` | `3` |
@@ -128,7 +137,7 @@
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `newsFeeds[]` | News feed registry | Named crawl entry points and UI “jump to feed” list. | Merged with server defaults when empty; rendered inside **expandable** “Official site & RSS”. | News tab, `news-crawler.js` | EDPB, ICO, … |
 | `items[]` | News item collection | Cached and/or static items merged with live crawl. | After merge: **`dedupeNewsItemsConsolidated`** (URL key → semantic key); sorted by **`date`** descending; capped by **`NEWS_MERGE_CAP`**; topic filter via **`newsItemMatchesApprovedTopic`**. | `GET /api/news`, **`POST /api/news/refresh`**, `renderNewsPayload` | `{ title, url, sourceName, sourceUrl, date, snippet, … }` |
-| `items[].commissionPolicyAreas` | Commission policy tags | Optional thematic labels from Commission Press Corner API when present. | Array of strings on applicable Commission items. | `news-crawler.js`, News card meta | `["Artificial intelligence", …]` |
+| `items[].commissionPolicyAreas` | Commission policy area codes | Optional Press Corner **policy area codes** (RSS categories and/or search bucket codes) used for trusted-detail gating and merge. | Array of uppercase strings (e.g. **`DIGAG`**, **`JFRC`**). | `news-crawler.js`, `newsItemMatchesApprovedTopic`, News card meta | `["DIGAG","CYBER"]` |
 | `normalizeNewsUrlKey(url)` | URL dedupe key | Stable string for first-pass duplicate detection. | Implemented in **`news-crawler.js`**; mirrored for parity in **`news-dedupe.js`**. | Merge + dedupe | Lowercased host/path, tracking params stripped |
 | Semantic dedupe key | Story fingerprint | Second-pass collapse when publishers use multiple URLs for one article. | **`sourceName` + `date` (day) + normalized title hash** (see **`dedupeNewsItemsConsolidated`**). | `news-crawler.js`, `news-dedupe.js` | Collapses EDPS stub vs publications URL |
 | `mergeNewsDuplicate(a, b)` | Richer row wins | When two rows share a semantic key, merge fields and prefer canonical URL / longer snippet. | Heuristic scoring in **`news-crawler.js`** (duplicated in client module). | Server + client dedupe | Single merged card in UI |
@@ -244,6 +253,7 @@ flowchart LR
   subgraph news [News]
     NCT[NEWS_*_TIMEOUT_MS]
     NMC[NEWS_MERGE_CAP]
+    NDEPTH[NEWS_MAX_* + NEWS_COMMISSION_*]
     NC[news-crawler]
   end
 
@@ -271,8 +281,11 @@ flowchart LR
   TV --> ANS
   NCT --> NC
   NMC --> NC
+  NDEPTH --> NC
   LLM -.->|POST /api/summarize| summarizePath
 ```
+
+**Note:** **`NEWS_ATTACHMENTS_*`** variables configure the in-memory cache for **`/api/news/article-attachments`** and related batch summary routes in **`server.js`** (they do not change crawler behavior).
 
 ### 9.3 News deduplication (URL + semantic)
 
@@ -292,11 +305,24 @@ flowchart LR
   MERGE --> OUT
 ```
 
+### 9.4 News topic assignment (post-gate)
+
+After **`crawlNews`** returns a deduplicated list, each row passes **`newsItemMatchesApprovedTopic`** (which may use **`newsBlobMatchesTopicAnchor`** from **`news-topics.js`** as a supplemental relevance pass). Surviving rows receive **`topic`** and **`topicCategory`** via **`assignNewsTopicFields`** before the API serializes them.
+
+```mermaid
+flowchart LR
+  CRAWL[crawlNews + dedupe]
+  GATE[newsItemMatchesApprovedTopic]
+  ASSIGN[assignNewsTopicFields]
+  API[GET/POST /api/news]
+  CRAWL --> GATE --> ASSIGN --> API
+```
+
 ---
 
 ## 10. Maintenance checklist
 
-1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together.
+1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together. **Commission / multi-feed crawl changes:** review **[GUARDRAILS.md](GUARDRAILS.md) TG-N06** and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** news rows.
 2. **JSON shape change** (regulation or news): Update **§2** / **§7**, **[PRD.md](PRD.md)**, and **[DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)** or news merge notes as appropriate.
 3. **New API field:** Update **[API_CONTRACTS.md](API_CONTRACTS.md)** and this dictionary.
 4. **Release:** Bump **`package.json`** version and **[CHANGELOG.md](../CHANGELOG.md)**; align **“Last updated”** notes in **[PRD.md](PRD.md)** when requirements change materially.

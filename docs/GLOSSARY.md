@@ -8,7 +8,9 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **BM25** | Best Matching 25 — a probabilistic ranking function used to score regulation excerpts against the user’s Ask query (`server.js`). |
 | **Corpus** | The full set of regulation texts and index rows loaded from **`gdpr-content.json`** (and normalized via **`document-formatting-guardrails.js`**). |
 | **DPO** | Data Protection Officer — persona target; not a software component. |
+| **CNIL** | Commission nationale de l’informatique et des libertés (France) — included in News via the **English** RSS feed (`cnil.fr/en/…`). |
 | **EDPB** | European Data Protection Board — credible source for guidelines and news feeds. |
+| **EDPS** | European Data Protection Supervisor — EU institutional data protection; News via **`feed/news_en`**. |
 | **ETL** | Extract, transform, load — in this product, fetching regulation HTML/TXT, parsing, merging, normalizing, and writing **`gdpr-content.json`**. |
 | **EUR-Lex** | Official EU law database; canonical legal publication of Regulation (EU) 2016/679. |
 | **GDPR** | General Data Protection Regulation — Regulation (EU) 2016/679. |
@@ -21,6 +23,7 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **Tavily** | Third-party search-and-answer API used as **fallback** when Groq does not return usable Ask output. |
 | **TG / BG / DG** | Prefixes for guardrail ids in [GUARDRAILS.md](GUARDRAILS.md): **technical**, **business**, **data/privacy/documentation**. |
 | **News deduplication (consolidated)** | Two-pass merge in **`news-crawler.js`** / **`server.js`**: (1) normalized URL key, (2) semantic key (source + date + title fingerprint) with **`mergeNewsDuplicate`**; mirrored in the browser by **`public/news-dedupe.js`** as **`GDPR_NEWS_DEDUPE`**. |
+| **news-topics.js** | Server module: topic **taxonomy**, **`classifyNewsItemTopic`**, **`assignNewsTopicFields`**, **`getTopicTaxonomyForClient`**, and **`newsBlobMatchesTopicAnchor`** (supplemental gate inside **`newsItemMatchesApprovedTopic`**). |
 
 ---
 

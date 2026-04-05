@@ -52,6 +52,9 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-N03 | **Storage cap** on refresh write (`storeCap` ≥ `NEWS_MERGE_CAP`) limits file growth. | Adjust env if ops need longer history. |
 | TG-N04 | **Deduplication contract** — Server and client both apply **`dedupeNewsItemsConsolidated`** / **`dedupeNewsItemsClient`** (from **`news-dedupe.js`**). Changing merge rules in **`news-crawler.js`** without updating **`public/news-dedupe.js`** can reintroduce visual duplicates for users on mixed deployments. | Treat the two files as a **paired change** in review. |
 | TG-N05 | **`GET /api/news`** intentionally sets **no-store** cache headers. | Do not “optimize” with long `max-age` without product sign-off—stale news lists erode trust. |
+| TG-N06 | **Commission Press Corner** ingestion uses **many RSS and API calls** (general + per-policy feeds + search buckets). Raising concurrency or page counts increases **429/timeout** risk and refresh duration. | Treat **`NEWS_COMMISSION_RSS_CONCURRENCY`** and **`NEWS_REFRESH_TIMEOUT_MS`** as paired operational knobs. |
+| TG-N07 | **New publishers** (e.g. CNIL EN RSS) depend on **feed stability** and **robots/network** policy of third-party sites. | Monitor crawl logs; expect **empty sections** when feeds move or block automated clients. |
+| TG-N08 | **`HOST`** defaults to **`0.0.0.0`** — the process may be reachable from all interfaces unless firewalled. | For laptops or shared networks, bind **`127.0.0.1`** or place behind a reverse proxy. |
 
 ---
 

@@ -55,6 +55,9 @@ Enterprise-style traceability links **business intent** → **requirements** →
 | BR-N-06 | Usable filters while scrolling (desktop) | FR-S7 | US-N7 | `IntersectionObserver` on `#newsControlsPanel`, `news-controls-panel--dock-visible`, sidebar Quick filters sync | Scroll past toolbar; sidebar filters still work and match main |
 | BR-N-07 | Fresh news API payload | FR-S6 | — | `GET /api/news` sets `Cache-Control: no-store, no-cache, must-revalidate`, `Pragma: no-cache` | Response headers in DevTools; hard refresh not required for merge changes |
 | BR-N-08 | Compact sidebar feed list | FR-S8 | US-N8 | `#newsFeedsSectionToggle`, `newsFeedsSectionPanel`, `gdpr_news_feeds_section_collapsed` | Collapse feeds; state survives tab switch within session |
+| BR-N-09 | Broad supervisory and official news coverage | FR-S2 (rev) | US-N1 | `news-crawler.js` (`crawlNews`, `crawlCnilEnglishRss`, `crawlCommissionPress`, EDPS/EDPB/ICO/CoE paths), `news-topics.js` | After **Refresh news**, sections appear for configured sources; CNIL items use `cnil.fr/en/` URLs when feed lists articles |
+| BR-N-10 | Topic labels on news cards | FR-S2 | US-N3 | `news-topics.js` (`assignNewsTopicFields`, `getTopicTaxonomyForClient`), `GET /api/news` `topicTaxonomy` | Topic filter optgroups match taxonomy; cards show non-fallback topic when classified |
+| BR-N-11 | Operator-tunable news volume | FR-S9 | US-N9 | `news-crawler.js` (`NEWS_MAX_*`, `NEWS_COMMISSION_*`), `server.js` (`NEWS_MERGE_CAP`, `storeCap`) | Changing env changes crawl depth or API cap without code edit |
 
 ---
 

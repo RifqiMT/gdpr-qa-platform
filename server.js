@@ -21,7 +21,13 @@ const cors = require('cors');
 const cron = require('node-cron');
 const { run: runScraper, buildSearchIndex } = require('./scraper');
 const newsCrawlerPath = require.resolve('./news-crawler');
-const { withTimeout, normalizeNewsUrlKey, dedupeNewsItemsConsolidated } = require('./news-crawler');
+const {
+  withTimeout,
+  normalizeNewsUrlKey,
+  dedupeNewsItemsConsolidated,
+  sanitizeNewsItemDates
+} = require('./news-crawler');
+const { assignNewsTopicFields, getTopicTaxonomyForClient } = require('./news-topics');
 
 /** Reload `news-crawler.js` from disk so refresh picks up code changes without restarting the server. */
 function runCrawlNews() {
@@ -40,7 +46,7 @@ const NEWS_CRAWL_TIMEOUT_MS = parseInt(process.env.NEWS_CRAWL_TIMEOUT_MS || '900
 /** “Refresh all sources” / POST /api/news/refresh — must cover ICO API + parallel sitemap enrichment. */
 const NEWS_REFRESH_TIMEOUT_MS = parseInt(process.env.NEWS_REFRESH_TIMEOUT_MS || '180000', 10);
 /** Max items returned / stored after merging static file + live crawl (all configured sources). */
-const NEWS_MERGE_CAP = parseInt(process.env.NEWS_MERGE_CAP || '520', 10);
+const NEWS_MERGE_CAP = parseInt(process.env.NEWS_MERGE_CAP || '1600', 10);
 const NEWS_ATTACHMENTS_CACHE_TTL_MS = parseInt(process.env.NEWS_ATTACHMENTS_CACHE_TTL_MS || '900000', 10);
 const NEWS_ATTACHMENTS_CACHE_MAX = parseInt(process.env.NEWS_ATTACHMENTS_CACHE_MAX || '150', 10);
 /** @type {Map<string, { ts: number, payload: { url: string, attachments: object[] } }>} */
@@ -101,6 +107,35 @@ const NEWS_FILE = path.join(DATA_DIR, 'gdpr-news.json');
 const ARTICLE_SUITABLE_RECITALS_FILE = path.join(DATA_DIR, 'article-suitable-recitals.json');
 const CHAPTER_SUMMARIES_FILE = path.join(DATA_DIR, 'chapter-summaries.json');
 const INDUSTRY_SECTORS_FILE = path.join(__dirname, 'public', 'industry-sectors.json');
+const INDUSTRY_SECTOR_TREE_FILE = path.join(__dirname, 'public', 'industry-sector-tree.json');
+
+let industrySectorTreeCache = null;
+let industrySectorTreeMtimeMs = null;
+
+/** ISIC Rev.4 decision tree for Ask (industry → section → division group → division). */
+function loadIndustrySectorTree() {
+  try {
+    if (!fs.existsSync(INDUSTRY_SECTOR_TREE_FILE)) {
+      industrySectorTreeCache = null;
+      industrySectorTreeMtimeMs = null;
+      return null;
+    }
+    const st = fs.statSync(INDUSTRY_SECTOR_TREE_FILE);
+    if (industrySectorTreeCache != null && industrySectorTreeMtimeMs === st.mtimeMs) {
+      return industrySectorTreeCache;
+    }
+    industrySectorTreeMtimeMs = st.mtimeMs;
+    const j = JSON.parse(fs.readFileSync(INDUSTRY_SECTOR_TREE_FILE, 'utf8'));
+    if (j && Array.isArray(j.industries) && j.sectorGroups && typeof j.sectorGroups === 'object') {
+      industrySectorTreeCache = j;
+      return industrySectorTreeCache;
+    }
+  } catch (e) {
+    console.warn('loadIndustrySectorTree:', e.message);
+  }
+  industrySectorTreeCache = null;
+  return null;
+}
 
 /** Inline fallback if chapter-summaries.json is missing or invalid (mirrors bundled file). */
 const FALLBACK_CHAPTER_SUMMARIES = {
@@ -230,7 +265,7 @@ function getEditorialSuitableRecitalsByArticle() {
 app.use(cors());
 app.use(express.json());
 
-/** Fast liveness probe for platforms (e.g. Render health checks). */
+/** Fast liveness probe for load balancers and monitoring. */
 app.get('/health', (req, res) => {
   res.status(200).type('text/plain').send('ok');
 });
@@ -346,6 +381,15 @@ function mergeNewsItems(staticItems, crawledItems) {
   return dedupeNewsItemsConsolidated(merged);
 }
 
+function finalizeNewsListItem(it) {
+  return assignNewsTopicFields(sanitizeNewsItemDates(it));
+}
+
+function annotateNewsItemsWithTopics(items) {
+  const list = Array.isArray(items) ? items : [];
+  return list.map((it) => finalizeNewsListItem(it));
+}
+
 function readNewsFilePayload() {
   let newsFeeds = DEFAULT_NEWS_FEEDS;
   let staticItems = [];
@@ -380,9 +424,10 @@ app.get('/api/news', async (req, res) => {
       console.warn('GET /api/news live crawl:', err.message || err);
     }
   }
+  items = annotateNewsItemsWithTopics(items);
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.setHeader('Pragma', 'no-cache');
-  res.json({ newsFeeds, items });
+  res.json({ newsFeeds, items, topicTaxonomy: getTopicTaxonomyForClient() });
 });
 
 /**
@@ -501,23 +546,26 @@ app.post('/api/news/refresh', async (req, res) => {
   try {
     const crawled = await withTimeout(runCrawlNews(), NEWS_REFRESH_TIMEOUT_MS);
     const merged = mergeNewsItems(staticItems, crawled);
-    const storeCap = Math.max(NEWS_MERGE_CAP, 650);
+    const storeCap = Math.max(NEWS_MERGE_CAP + 400, 2000);
+    const storedItems = merged.slice(0, storeCap).map((it) => finalizeNewsListItem(it));
     const payload = {
       description:
         description ||
         'GDPR and data protection news from credible sources. Each item links to the original article. Use Refresh news to re-fetch all feeds.',
       newsFeeds,
-      items: merged.slice(0, storeCap)
+      items: storedItems
     };
     try {
       fs.writeFileSync(NEWS_FILE, JSON.stringify(payload, null, 2), 'utf8');
     } catch (w) {
       console.warn('NEWS_FILE write failed:', w.message);
     }
+    const outItems = storedItems.slice(0, NEWS_MERGE_CAP);
     res.json({
       ok: true,
       newsFeeds,
-      items: merged.slice(0, NEWS_MERGE_CAP),
+      items: outItems,
+      topicTaxonomy: getTopicTaxonomyForClient(),
       mergedTotal: merged.length,
       stored: Math.min(merged.length, storeCap)
     });
@@ -528,7 +576,8 @@ app.post('/api/news/refresh', async (req, res) => {
       ok: false,
       error: String(e.message || e),
       newsFeeds,
-      items: merged.slice(0, NEWS_MERGE_CAP),
+      items: annotateNewsItemsWithTopics(merged.slice(0, NEWS_MERGE_CAP)),
+      topicTaxonomy: getTopicTaxonomyForClient(),
       mergedTotal: merged.length
     });
   }
@@ -827,11 +876,27 @@ function answerNamesSelectedSector(answerText, sector) {
   return hits.length >= need;
 }
 
-/** User-message prefix: ISIC Rev.4–style sector; ILO-compatible groupings per industry-sectors.json. */
+/** Short thematic keywords from sector.searchTerms for prompts (BM25-style anchors, not a second law). */
+function sectorThematicAnchorsLine(sector) {
+  if (!sector || sector.id === 'GENERAL') return '';
+  const parts = tokenize(String(sector.searchTerms || '')).filter((t) => t.length > 3);
+  const uniq = [];
+  const seen = new Set();
+  for (const p of parts) {
+    if (seen.has(p)) continue;
+    seen.add(p);
+    uniq.push(p);
+    if (uniq.length >= 10) break;
+  }
+  return uniq.length ? uniq.join(', ') : '';
+}
+
+/** User-message prefix: ISIC Rev.4–style sector; customization + reliability instructions for filtered Ask. */
 function formatSectorUserBlock(sector) {
   if (!sector || sector.id === 'GENERAL') return '';
   const fw = sector.framework ? `\nClassification: ${sector.framework}` : '';
   const focus = sectorLabelFocusPhrase(sector);
+  const anchors = sectorThematicAnchorsLine(sector);
   const sec =
     sector.isicSection != null && String(sector.isicSection).trim()
       ? String(sector.isicSection).trim().toUpperCase()
@@ -844,11 +909,19 @@ function formatSectorUserBlock(sector) {
     : sec
       ? `ISIC Rev.4 section: ${sec}`
       : `ISIC Rev.4: ${String(sector.id || '').toUpperCase()}`;
+  const anchorLine = anchors
+    ? `Thematic anchors (weave naturally where they fit the sources — do not invent duties): ${anchors}\n`
+    : '';
   return (
-    'SELECTED INDUSTRY / SECTOR (the user chose this in the UI; your answer must reflect it — see system rules):\n' +
+    'SELECTED INDUSTRY / SECTOR (the user chose this filter; customize the whole answer — see system rules):\n' +
     `Full label: ${sector.label}\n` +
     `${isicLine}\n` +
-    `Verbatim phrase you MUST use at least once in the body (copy exactly): ${focus}${fw}\n\n`
+    `Verbatim phrase you MUST use at least once in the body (copy exactly): ${focus}${fw}\n` +
+    `${anchorLine}` +
+    'RELEVANCE & RELIABILITY:\n' +
+    '- Write as guidance for controllers/processors in THIS line of business, not generic "any organization".\n' +
+    '- After each main GDPR point, add one short clause tying it to typical processing in this sector (e.g. customers, employees, visitors, subscribers) only where the cited sources give a fair basis — no invented sector-specific statutes.\n' +
+    '- If the excerpts are generic GDPR text only, say that briefly, then still explain how those duties apply to typical activities in this sector at a high level, without new legal claims.\n\n'
   );
 }
 
@@ -859,15 +932,25 @@ function buildLocalContext(data, query, sector) {
     sector && sector.id !== 'GENERAL' && String(sector.searchTerms || '').trim()
       ? `${query} ${sector.searchTerms}`.trim()
       : query;
+  if (sector && sector.id !== 'GENERAL') {
+    const fp = sectorLabelFocusPhrase(sector);
+    if (fp && fp.length > 5) {
+      const fpTok = tokenize(fp)
+        .filter((t) => t.length > 4)
+        .slice(0, 8)
+        .join(' ');
+      if (fpTok) searchQuery = `${searchQuery} ${fpTok}`.trim();
+    }
+  }
   if ((!sector || sector.id === 'GENERAL') && querySeemsLaypersonExplain(query)) {
     searchQuery =
       `${query} personal data definition principles lawfulness fairness transparency rights data subject controller processing`.trim();
   }
-  let top = search(searchQuery, 36);
+  let top = search(searchQuery, 40);
   top = filterScoredResultsForAskQuery(top, query);
   if (sector && sector.id !== 'GENERAL' && String(sector.searchTerms || '').trim()) {
-    const sectorQ = `${sector.searchTerms} controller processor personal data security breach processing activities`.trim();
-    const extra = search(sectorQ, 16);
+    const sectorQ = `${sector.searchTerms} controller processor personal data security breach processing activities lawfulness transparency`.trim();
+    const extra = search(sectorQ, 22);
     const seen = new Set(top.map((r) => `${r.type}-${r.number}`));
     for (const r of extra) {
       const k = `${r.type}-${r.number}`;
@@ -888,10 +971,13 @@ function buildLocalContext(data, query, sector) {
 
   // Prefer Articles for "what must/should" type questions; use Recitals as context.
   // If user explicitly asks for recitals, flip priority.
-  const maxTotal = 10;
+  const maxTotal = sector && sector.id !== 'GENERAL' ? 11 : 10;
   let articleTarget = wantsRecitals ? 3 : 7;
   let recitalTarget = wantsRecitals ? 7 : 3;
-  if (querySeemsLaypersonExplain(query) && !wantsRecitals) {
+  if (sector && sector.id !== 'GENERAL' && !wantsRecitals) {
+    articleTarget = Math.min(8, articleTarget + 1);
+  }
+  if (querySeemsLaypersonExplain(query) && !wantsRecitals && (!sector || sector.id === 'GENERAL')) {
     articleTarget = 5;
     recitalTarget = 5;
   }
@@ -1063,9 +1149,10 @@ function buildSummaryFromExcerpts(query, excerpts, sector) {
   if (!core) return `See ${label} in the regulation text on the left.`;
   const otherSources = excerpts.slice(1, 3).map(ex => ex.type === 'recital' ? `Recital ${ex.number}` : `Article ${ex.number}`);
   const sourceLine = otherSources.length ? `Source: ${label} (see also ${otherSources.join(', ')}).` : `Source: ${label}.`;
+  const focus = sector && sector.id !== 'GENERAL' ? sectorLabelFocusPhrase(sector) : '';
   const sectorPrefix =
     sector && sector.id !== 'GENERAL'
-      ? `Sector: ${sector.label}. GDPR applies to personal data processing in that sector as elsewhere; from the retrieved text: `
+      ? `Filtered context: ${sector.label}${focus ? ` (${focus})` : ''}. Interpret the following strictly as GDPR obligations that would apply to typical personal-data processing in this line of business; it is extractive summary only, not tailored legal advice. From the retrieved text: `
       : '';
   return `${sectorPrefix}${core} ${sourceLine}`;
 }
@@ -1208,21 +1295,23 @@ function buildAnswerPrompt(query, sources, sector) {
   const sectorLockHeader =
     sector && sector.id !== 'GENERAL'
       ? `
-SECTOR LOCK-IN (highest priority; do not ignore):
-- The user selected this exact sector label: "${sector.label}"
-- You MUST include this exact phrase verbatim at least once in your answer (copy/paste spelling): "${focusPhrase}"
-- Forbidden: answering with only vague phrases like "the industry", "this sector", or "organizations" without first using that exact phrase.
-- After naming it, relate every main point to data processing that utilities, firms, or employers in that line of business commonly handle, only as far as the sources allow.
+SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
+- Selected label: "${sector.label}"
+- You MUST include this exact phrase verbatim at least once (copy/paste spelling): "${focusPhrase}"
+- Forbidden: a generic essay that could apply to any industry — every paragraph must clearly speak to this line of business.
+- Forbidden: vague openers like "the industry", "this sector", or "organizations" alone without first using the exact phrase above.
+- Reliability: tie illustrations to the cited GDPR text only; do not invent sector-specific laws (e.g. banking/health acts) unless a source snippet names them.
+- After the opening, most substantive sentences should include a brief sector hook (who typically processes what, or which relationship — controller/processor/data subject) grounded in the sources, not free speculation.
 `
       : '';
 
   const sectorRule =
     sector && sector.id !== 'GENERAL'
       ? `
-7) Follow SECTOR LOCK-IN above. Sentence 1 or 2 must contain the exact phrase "${focusPhrase}" (verbatim).
-8) Name the sector again later (paraphrase allowed) so the analysis clearly applies to that selection, not a generic company.
-9) Ground every legal point in the sources. You may add short, generic illustrations for "${focusPhrase}" (billing, smart metering, customer portals, workforce, subcontractors, emergency contact data, etc.) only as applications of the cited GDPR text — never as new statutory duties.
-10) If sources are generic GDPR only, say so briefly, but still keep "${focusPhrase}" in the opening and explain how those duties bite on typical controllers/processors in that sector.${metricsExtra}`
+7) Follow SECTOR FILTER — LOCK-IN. Sentence 1 or 2 must contain "${focusPhrase}" verbatim.
+8) Re-state the sector context at least once later (paraphrase of the label or anchors is OK) so the answer cannot be read as generic compliance advice.
+9) Ground every legal point in the sources. Illustrations (e.g. customer accounts, HR files, access logs) are allowed only as plain-language applications of the cited GDPR duties — never as new statutory obligations.
+10) If the provided excerpts are generic GDPR only, say so in one short sentence, then still map those duties to typical processing in "${focusPhrase}" without adding rules not in the sources.${metricsExtra}`
       : '';
 
   const layperson = querySeemsLaypersonExplain(query);
@@ -1268,7 +1357,7 @@ Sources:
 ${numbered}
 
 Write the best possible answer grounded in the sources. Remember: every sentence must end with citations like [S1].
-${sector && sector.id !== 'GENERAL' ? 'When a sector block appears above, sentence 1 or 2 must contain the mandatory verbatim phrase and the analysis must read as advice for that sector, not generic GDPR only.' : 'Industry/sector is General: one continuous answer only — no second "For …" block for businesses, healthcare, or other roles; no horizontal rule dividers between invented sections; stay concise and citation-grounded.'}`;
+${sector && sector.id !== 'GENERAL' ? 'The user applied a sector filter: your answer must be customized for that selection — opening with the mandatory verbatim phrase, then sustained relevance (sector hooks per system rules), and no pretend expertise about other laws unless sourced.' : 'Industry/sector is General: one continuous answer only — no second "For …" block for businesses, healthcare, or other roles; no horizontal rule dividers between invented sections; stay concise and citation-grounded.'}`;
 
   return { systemPrompt, userPrompt };
 }
@@ -1335,8 +1424,8 @@ async function answerWithGroq(query, sources, sector) {
   let maxTok = 950;
   let temp = 0.12;
   if (sector && sector.id !== 'GENERAL') {
-    maxTok = 1100;
-    temp = 0.2;
+    maxTok = 1150;
+    temp = 0.1;
   } else if (querySeemsLaypersonExplain(query)) {
     maxTok = 700;
     temp = 0.06;
@@ -1425,10 +1514,20 @@ async function answerWithTavily(query, sector) {
   const key = (process.env.TAVILY_API_KEY || '').trim();
   if (!key) return null;
 
-  const tavilyQuery =
-    sector && sector.id !== 'GENERAL'
-      ? `${query} (GDPR; sector context: ${sector.label})`
-      : query;
+  let tavilyQuery = query;
+  if (sector && sector.id !== 'GENERAL') {
+    const focus = sectorLabelFocusPhrase(sector);
+    const st = String(sector.searchTerms || '').trim();
+    const stShort = st
+      ? tokenize(st)
+          .filter((t) => t.length > 4)
+          .slice(0, 5)
+          .join(' ')
+      : '';
+    tavilyQuery = `${query} EU GDPR personal data processing; sector: ${sector.label}`;
+    if (focus) tavilyQuery += `; context: ${focus}`;
+    if (stShort) tavilyQuery += `; keywords: ${stShort}`;
+  }
 
   try {
     const searchDepthEnv = (process.env.TAVILY_SEARCH_DEPTH || 'advanced').trim().toLowerCase();
@@ -1516,10 +1615,11 @@ async function enforceSectorMentionGroq(query, sources, draftAnswer, sector) {
   if (!focus) return null;
   const numbered = formatNumberedSourcesForAsk(sources);
   const focusJson = JSON.stringify(focus);
-  const systemPrompt = `You rewrite a GDPR answer that did NOT properly name the user's selected sector.
+  const systemPrompt = `You rewrite a GDPR answer that did NOT properly match the user's selected sector filter.
 The new answer MUST contain this exact substring (verbatim, same spelling and punctuation): ${focusJson}
 Place it in sentence 1 or 2. Do not replace it with vague words like "the industry" alone.
-Keep claims grounded in the sources only; do not invent legal duties. Every sentence MUST end with [S1], [S2], etc.
+Customize the full reply for that line of business: most sentences should include a short clause linking the cited GDPR point to typical processing in that sector, only where the sources support it.
+Do not invent non-GDPR sector statutes. Keep claims grounded in the sources only. Every sentence MUST end with [S1], [S2], etc.
 End with one line: "Used sources: [S#], ..." listing only ids you cited.`;
   const userPrompt = `${formatSectorUserBlock(sector)}Question: ${query}
 
@@ -1536,8 +1636,8 @@ Rewrite the full answer.`;
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
     ],
-    1100,
-    0.12
+    1150,
+    0.08
   );
   return out ? out.content : null;
 }
@@ -1586,7 +1686,7 @@ async function repairAnswerWithGroq(query, sources, badAnswer, sector) {
   const sectorRepairRule =
     sector && sector.id !== 'GENERAL'
       ? `
-5) Sector selected: ${sector.label}. The rewrite MUST include this exact phrase verbatim at least once: ${JSON.stringify(focusNeed)} (sentence 1 or 2 preferred). Connect cited GDPR points to that sector; do not add obligations not in the sources.`
+5) Sector filter active: ${sector.label}. The rewrite MUST include this exact phrase verbatim at least once: ${JSON.stringify(focusNeed)} (sentence 1 or 2 preferred). Keep the answer customized for that line of business — brief sector hooks per substantive sentence where sources allow; no invented sector laws; do not add obligations not in the sources.`
       : '';
 
   const generalRepairRule =
@@ -1628,7 +1728,10 @@ Rewrite the answer to comply with the rules.`;
 }
 
 app.get('/api/industry-sectors', (req, res) => {
-  res.json(loadIndustrySectorsList());
+  const sectors = loadIndustrySectorsList();
+  const tree = loadIndustrySectorTree();
+  if (tree) return res.json({ sectors, tree });
+  res.json(sectors);
 });
 
 app.post('/api/answer', async (req, res) => {
@@ -1641,10 +1744,14 @@ app.post('/api/answer', async (req, res) => {
     : true;
 
   const sector = resolveIndustrySector(req.body?.industrySectorId);
-  const webQuery =
-    sector && sector.id !== 'GENERAL' && String(sector.searchTerms || '').trim()
-      ? `${query} ${sector.searchTerms}`.trim()
-      : query;
+  let webQuery = query;
+  if (sector && sector.id !== 'GENERAL') {
+    const parts = [query];
+    if (String(sector.searchTerms || '').trim()) parts.push(sector.searchTerms);
+    const fp = sectorLabelFocusPhrase(sector);
+    if (fp && fp.length > 4) parts.push(fp);
+    webQuery = parts.join(' ').trim();
+  }
 
   const localSources = buildLocalContext(data, query, sector);
   let webSources = [];

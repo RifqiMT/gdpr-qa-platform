@@ -8,7 +8,7 @@ flowchart LR
   user[User browser]
   app[GDPR Q&A Platform Node Express]
   eurlex[EUR-Lex GDPR-Info]
-  news[Publisher sites EDPB ICO etc]
+  news[Publisher sites EDPB EDPS ICO CNIL Commission CoE]
   groq[Groq API]
   tavily[Tavily API]
   ddg[DuckDuckGo HTML]
@@ -30,7 +30,7 @@ flowchart LR
 | **Client** | `public/index.html`, `public/app.js`, `public/news-dedupe.js`, `public/styles.css` | Tabs, browse reader, Ask composer, News (dedupe client, Quick filters dock, expandable feeds), Sources, PDF export |
 | **API** | `server.js` | REST endpoints, content load, BM25 retrieval, LLM orchestration, news merge |
 | **ETL** | `scraper.js` + **`document-formatting-guardrails.js`** | Fetch and parse regulation → **`normalizeCorpus`** → **`buildSearchIndex`** → **`gdpr-content.json`** |
-| **News** | `news-crawler.js`, `server.js` (`dedupeNewsItemsConsolidated`, merge routes), `public/news-dedupe.js` | Fetch listings → merge → **consolidated dedupe** → API + client mirror |
+| **News** | `news-crawler.js`, `news-topics.js`, `server.js` (merge, dedupe, routes), `public/news-dedupe.js` | Parallel fetches (RSS/HTML/API) → relevance gate → topic assignment → merge → **consolidated dedupe** → API + client mirror |
 | **Crossrefs** | `gdpr-crossrefs.js` | Article↔recital suitability and citation extraction |
 | **Data** | `data/*.json`, `public/industry-sectors.json` | Corpus, news cache, chapter summaries, sectors |
 

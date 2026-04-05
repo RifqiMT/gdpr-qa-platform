@@ -47,7 +47,7 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 
 | ID | Story | Persona |
 |----|--------|---------|
-| US-N1 | As a **DPO**, I want a News tab with GDPR/data protection updates from EDPB, ICO, European Commission, and Council of Europe so that I have one place to stay updated. | DPO |
+| US-N1 | As a **DPO**, I want a News tab with GDPR/data protection updates from **EDPB, EDPS, ICO, CNIL (English), European Commission,** and **Council of Europe** so that I have one place to stay updated. | DPO |
 | US-N2 | As a **Legal/Compliance** user, I want news grouped by source with a short summary per source so that I can scan by organization. | Legal/Compliance |
 | US-N3 | As a **DPO**, I want to filter news by Source and Topic so that I can focus on e.g. enforcement or guidance. | DPO |
 | US-N4 | As a **Consultant**, I want each news item to link to the original article so that I can read the full story on the publisher’s site. | Consultant |
@@ -55,6 +55,7 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 | US-N6 | As a **Legal/Compliance** user, I want **duplicate stories** (same item linked from different URLs) **collapsed into one card** so that my scan list is not noisy. | Legal/Compliance |
 | US-N7 | As a **DPO**, I want **Quick filters** to appear in the **sidebar when I scroll** past the main news filters (on desktop) so that I can change source/topic without scrolling back up. | DPO |
 | US-N8 | As a **Consultant**, I want to **collapse “Official site & RSS”** when I need more room in the sidebar, with my choice remembered for the session. | Consultant |
+| US-N9 | As **Engineering / DevOps**, I want to **tune news crawl depth and merge caps** via documented **`NEWS_*`** environment variables so that we can balance freshness, runtime, and API payload size without forking the crawler. | Engineering / DevOps |
 
 ---
 
@@ -124,5 +125,6 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 - **Full documentation:** [README.md](../README.md)  
 - **Product documentation standard:** [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)  
 - **Variables & diagrams:** [VARIABLES.md](VARIABLES.md)  
+- **Sample JSON:** [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md)  
 - **API contracts:** [API_CONTRACTS.md](API_CONTRACTS.md)  
 - **Traceability:** [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)

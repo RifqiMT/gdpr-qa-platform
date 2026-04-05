@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "description": "UN ISIC Rev.4–aligned decision tree for Ask: macro industry → ISIC section → division group → division (sub-sector). Leaves map to ids in industry-sectors.json.",
+  "industries": [
+    {
+      "id": "IND_AGRI_UTIL",
+      "label": "Agriculture, mining & utilities",
+      "sections": ["A", "B", "D", "E"]
+    },
+    {
+      "id": "IND_BUILT_TRADE",
+      "label": "Construction, trade, transport & storage",
+      "sections": ["F", "G", "H"]
+    },
+    {
+      "id": "IND_HOSPITALITY",
+      "label": "Accommodation & food service",
+      "sections": ["I"]
+    },
+    {
+      "id": "IND_ICT",
+      "label": "Information & communication",
+      "sections": ["J"]
+    },
+    {
+      "id": "IND_FIN_PROPERTY",
+      "label": "Financial, insurance & real estate",
+      "sections": ["K", "L"]
+    },
+    {
+      "id": "IND_PROF_SUPPORT",
+      "label": "Professional, scientific & administrative services",
+      "sections": ["M", "N"]
+    },
+    {
+      "id": "IND_PUBLIC_SOCIAL",
+      "label": "Public sector, education & human health",
+      "sections": ["O", "P", "Q"]
+    },
+    {
+      "id": "IND_CREATIVE_OTHER",
+      "label": "Arts, other services, households & international",
+      "sections": ["R", "S", "T", "U"]
+    }
+  ],
+  "sectorGroups": {
+    "A": [
+      {
+        "id": "A-01",
+        "label": "Crop & animal production, hunting & related services",
+        "divisionIds": ["ISIC-01"]
+      },
+      {
+        "id": "A-02",
+        "label": "Forestry & logging",
+        "divisionIds": ["ISIC-02"]
+      },
+      {
+        "id": "A-03",
+        "label": "Fishing & aquaculture",
+        "divisionIds": ["ISIC-03"]
+      }
+    ],
+    "B": [
+      {
+        "id": "B-05-06",
+        "label": "Coal, lignite & hydrocarbon extraction",
+        "divisionIds": ["ISIC-05", "ISIC-06"]
+      },
+      {
+        "id": "B-07-08",
+        "label": "Metal ores & other mining / quarrying",
+        "divisionIds": ["ISIC-07", "ISIC-08"]
+      },
+      {
+        "id": "B-09",
+        "label": "Mining support service activities",
+        "divisionIds": ["ISIC-09"]
+      }
+    ],
+    "C": [
+      {
+        "id": "C-10-12",
+        "label": "Food, beverages & tobacco products",
+        "divisionIds": ["ISIC-10", "ISIC-11", "ISIC-12"]
+      },
+      {
+        "id": "C-13-15",
+        "label": "Textiles, apparel & leather",
+        "divisionIds": ["ISIC-13", "ISIC-14", "ISIC-15"]
+      },
+      {
+        "id": "C-16-18",
+        "label": "Wood, paper, printing & recorded media",
+        "divisionIds": ["ISIC-16", "ISIC-17", "ISIC-18"]
+      },
+      {
+        "id": "C-19-23",
+        "label": "Coke, chemicals, pharmaceuticals, rubber, plastics & non-metallic minerals",
+        "divisionIds": ["ISIC-19", "ISIC-20", "ISIC-21", "ISIC-22", "ISIC-23"]
+      },
+      {
+        "id": "C-24-25",
+        "label": "Basic metals & fabricated metal products",
+        "divisionIds": ["ISIC-24", "ISIC-25"]
+      },
+      {
+        "id": "C-26-28",
+        "label": "Computer, electronic, electrical & general machinery",
+        "divisionIds": ["ISIC-26", "ISIC-27", "ISIC-28"]
+      },
+      {
+        "id": "C-29-30",
+        "label": "Motor vehicles & other transport equipment",
+        "divisionIds": ["ISIC-29", "ISIC-30"]
+      },
+      {
+        "id": "C-31-33",
+        "label": "Furniture, other manufacturing & machinery repair/installation",
+        "divisionIds": ["ISIC-31", "ISIC-32", "ISIC-33"]
+      }
+    ],
+    "D": [
+      {
+        "id": "D-35",
+        "label": "Electricity, gas, steam & air conditioning supply",
+        "divisionIds": ["ISIC-35"]
+      }
+    ],
+    "E": [
+      {
+        "id": "E-36-37",
+        "label": "Water supply & sewerage",
+        "divisionIds": ["ISIC-36", "ISIC-37"]
+      },
+      {
+        "id": "E-38-39",
+        "label": "Waste, materials recovery & remediation",
+        "divisionIds": ["ISIC-38", "ISIC-39"]
+      }
+    ],
+    "F": [
+      {
+        "id": "F-41",
+        "label": "Construction of buildings",
+        "divisionIds": ["ISIC-41"]
+      },
+      {
+        "id": "F-42",
+        "label": "Civil engineering",
+        "divisionIds": ["ISIC-42"]
+      },
+      {
+        "id": "F-43",
+        "label": "Specialised construction activities",
+        "divisionIds": ["ISIC-43"]
+      }
+    ],
+    "G": [
+      {
+        "id": "G-45",
+        "label": "Motor trade & vehicle repair",
+        "divisionIds": ["ISIC-45"]
+      },
+      {
+        "id": "G-46",
+        "label": "Wholesale trade (excl. vehicles)",
+        "divisionIds": ["ISIC-46"]
+      },
+      {
+        "id": "G-47",
+        "label": "Retail trade (excl. vehicles)",
+        "divisionIds": ["ISIC-47"]
+      }
+    ],
+    "H": [
+      {
+        "id": "H-49",
+        "label": "Land transport & pipelines",
+        "divisionIds": ["ISIC-49"]
+      },
+      {
+        "id": "H-50-51",
+        "label": "Water & air transport",
+        "divisionIds": ["ISIC-50", "ISIC-51"]
+      },
+      {
+        "id": "H-52-53",
+        "label": "Warehousing, transport support & postal/courier",
+        "divisionIds": ["ISIC-52", "ISIC-53"]
+      }
+    ],
+    "I": [
+      {
+        "id": "I-55",
+        "label": "Accommodation",
+        "divisionIds": ["ISIC-55"]
+      },
+      {
+        "id": "I-56",
+        "label": "Food & beverage service",
+        "divisionIds": ["ISIC-56"]
+      }
+    ],
+    "J": [
+      {
+        "id": "J-58-60",
+        "label": "Publishing, audiovisual & broadcasting",
+        "divisionIds": ["ISIC-58", "ISIC-59", "ISIC-60"]
+      },
+      {
+        "id": "J-61",
+        "label": "Telecommunications",
+        "divisionIds": ["ISIC-61"]
+      },
+      {
+        "id": "J-62-63",
+        "label": "IT, computer programming & information services",
+        "divisionIds": ["ISIC-62", "ISIC-63"]
+      }
+    ],
+    "K": [
+      {
+        "id": "K-64",
+        "label": "Financial service activities (excl. insurance/pension)",
+        "divisionIds": ["ISIC-64"]
+      },
+      {
+        "id": "K-65-66",
+        "label": "Insurance, reinsurance & pension funding (excl. social security)",
+        "divisionIds": ["ISIC-65", "ISIC-66"]
+      }
+    ],
+    "L": [
+      {
+        "id": "L-68",
+        "label": "Real estate activities",
+        "divisionIds": ["ISIC-68"]
+      }
+    ],
+    "M": [
+      {
+        "id": "M-69-71",
+        "label": "Legal, accounting, architecture, engineering & technical consulting",
+        "divisionIds": ["ISIC-69", "ISIC-70", "ISIC-71"]
+      },
+      {
+        "id": "M-72",
+        "label": "Scientific research & development",
+        "divisionIds": ["ISIC-72"]
+      },
+      {
+        "id": "M-73-75",
+        "label": "Advertising, design, veterinary & other professional/technical",
+        "divisionIds": ["ISIC-73", "ISIC-74", "ISIC-75"]
+      }
+    ],
+    "N": [
+      {
+        "id": "N-77-79",
+        "label": "Rental, employment & travel agency / tour operations",
+        "divisionIds": ["ISIC-77", "ISIC-78", "ISIC-79"]
+      },
+      {
+        "id": "N-80-82",
+        "label": "Security, facilities, office admin & other business support",
+        "divisionIds": ["ISIC-80", "ISIC-81", "ISIC-82"]
+      }
+    ],
+    "O": [
+      {
+        "id": "O-84",
+        "label": "Public administration, defence & compulsory social security",
+        "divisionIds": ["ISIC-84"]
+      }
+    ],
+    "P": [
+      {
+        "id": "P-85",
+        "label": "Education",
+        "divisionIds": ["ISIC-85"]
+      }
+    ],
+    "Q": [
+      {
+        "id": "Q-86",
+        "label": "Human health activities",
+        "divisionIds": ["ISIC-86"]
+      },
+      {
+        "id": "Q-87-88",
+        "label": "Residential care & social work (without accommodation)",
+        "divisionIds": ["ISIC-87", "ISIC-88"]
+      }
+    ],
+    "R": [
+      {
+        "id": "R-90-92",
+        "label": "Creative arts, libraries, museums & gambling/betting",
+        "divisionIds": ["ISIC-90", "ISIC-91", "ISIC-92"]
+      },
+      {
+        "id": "R-93",
+        "label": "Sports, amusement & recreation",
+        "divisionIds": ["ISIC-93"]
+      }
+    ],
+    "S": [
+      {
+        "id": "S-94-96",
+        "label": "Membership organisations, repair & other personal services",
+        "divisionIds": ["ISIC-94", "ISIC-95", "ISIC-96"]
+      }
+    ],
+    "T": [
+      {
+        "id": "T-97-98",
+        "label": "Households as employers & undifferentiated goods/services",
+        "divisionIds": ["ISIC-97", "ISIC-98"]
+      }
+    ],
+    "U": [
+      {
+        "id": "U-99",
+        "label": "Extraterritorial organisations & bodies",
+        "divisionIds": ["ISIC-99"]
+      }
+    ]
+  }
+}

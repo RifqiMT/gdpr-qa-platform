@@ -1,26 +1,65 @@
 /**
  * Crawl GDPR / data protection / digital-policy news from credible sources.
- * EDPB (RSS + parallel paginated news HTML), EDPS (RSS), ICO (Umbraco /api/search + sitemap),
- * Commission Press Corner (RSS + thematic API; policy areas preserved for topic gate), CoE (RSS + HTML, Referer).
+ * EDPB (RSS + parallel paginated news HTML), EDPS (RSS), CNIL English RSS, ICO (Umbraco /api/search + sitemap),
+ * Commission Press Corner (general + per-policy RSS + thematic API; policy areas for topic gate), CoE (RSS + HTML, Referer).
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
+const {
+  assignNewsTopicFields,
+  mergeNewsItemTopicFields,
+  newsBlobMatchesTopicAnchor
+} = require('./news-topics');
 
 const CRAWL_TIMEOUT_MS = 25000;
 /** Max items to collect per HTML listing source (ICO, CoE link harvest). */
-const MAX_PER_HTML_SOURCE = 220;
-/** EDPB news listing is paginated (?page=); stop after this many pages or when a batch adds no new URLs. */
-const MAX_EDPB_NEWS_PAGES = 24;
+const MAX_PER_HTML_SOURCE = Math.min(
+  900,
+  Math.max(120, parseInt(process.env.NEWS_MAX_HTML_LINKS_PER_SOURCE || '480', 10) || 480)
+);
+/** EDPB news listing is paginated (?page=); stop after this many pages or when batches add no new URLs. */
+const MAX_EDPB_NEWS_PAGES = Math.min(80, Math.max(12, parseInt(process.env.NEWS_MAX_EDPB_PAGES || '56', 10) || 56));
 /** Parallel EDPB listing fetches (page indices fetched together; reduces crawl wall time). */
 const EDPB_NEWS_PAGE_CONCURRENCY = 5;
-/** Commission press RSS returns at most 100 items; `page` does not paginate — use search API for depth. */
-const COMMISSION_RSS_PAGE_SIZE = 100;
-/** Thematic search buckets (press corner API); each returns up to ~20 items; combined they cover far more than RSS alone. */
-const COMMISSION_SEARCH_POLICY_CODES = ['DIGAG', 'JFRC', 'CONSUMPOL', 'COMPETY', 'RESINSC', 'CYBER', 'TECH'];
-/** Policy codes we treat as GDPR-relevant enough to keep Press Corner items after ingest (see `newsItemMatchesApprovedTopic`). */
+/** Commission press RSS returns up to `pagesize` items per request. */
+const COMMISSION_RSS_PAGE_SIZE = Math.min(
+  100,
+  Math.max(20, parseInt(process.env.NEWS_COMMISSION_RSS_PAGE_SIZE || '100', 10) || 100)
+);
+/**
+ * Commission Press Corner policy-area buckets (RSS + search). Broader than GDPR-only codes —
+ * `newsItemMatchesApprovedTopic` still filters body text; trusted set keeps detail URLs from being dropped.
+ */
+const COMMISSION_POLICY_AREA_CODES = [
+  'DIGAG',
+  'JFRC',
+  'CONSUMPOL',
+  'COMPETY',
+  'RESINSC',
+  'CYBER',
+  'TECH',
+  'JUST',
+  'EMPL',
+  'HOME',
+  'EDUC',
+  'SANT',
+  'ENV',
+  'ENER',
+  'TRADE',
+  'FISC',
+  'REGIO',
+  'AGRI',
+  'NEAR'
+];
+/** Parallel Commission RSS fetches (avoid hammering presscorner). */
+const COMMISSION_RSS_CONCURRENCY = Math.min(
+  10,
+  Math.max(2, parseInt(process.env.NEWS_COMMISSION_RSS_CONCURRENCY || '6', 10) || 6)
+);
+/** Policy codes trusted for Commission press-corner detail URLs (must cover `COMMISSION_POLICY_AREA_CODES`). */
 const COMMISSION_PRESS_TRUSTED_POLICY_CODES = new Set(
-  COMMISSION_SEARCH_POLICY_CODES.map((c) => String(c).toUpperCase())
+  COMMISSION_POLICY_AREA_CODES.map((c) => String(c).toUpperCase())
 );
 /** Max snippet length stored per item (description / content:encoded / Atom summary). */
 const SNIPPET_MAX_LEN = 480;
@@ -33,8 +72,11 @@ const ICO_NEWS_PAGE = 'https://ico.org.uk/about-the-ico/media-centre/news-and-bl
 /** Umbraco filter root for “News, blogs and speeches” (see `data-node-id` on #filter-page-container). */
 const ICO_NEWS_FILTER_ROOT_PAGE_ID = 2816;
 const ICO_SEARCH_API = 'https://ico.org.uk/api/search';
-/** ICO search returns ~25 per page; cap pages to bound crawl time (356 items ≈ 15 pages as of 2026). */
-const MAX_ICO_SEARCH_PAGES = 24;
+/** ICO search returns ~25 per page; cap pages to bound crawl time. */
+const MAX_ICO_SEARCH_PAGES = Math.min(
+  64,
+  Math.max(10, parseInt(process.env.NEWS_MAX_ICO_SEARCH_PAGES || '44', 10) || 44)
+);
 const ICO_NEWS_PAGE_P2 = 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/?page=1';
 const ICO_NEWS_PAGES_EXTRA = [
   'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/?page=2',
@@ -230,6 +272,43 @@ async function crawlEdpsRss() {
   return items;
 }
 
+const CNIL_EN_RSS = 'https://www.cnil.fr/en/rss.xml';
+
+async function crawlCnilEnglishRss() {
+  const sourceName = 'CNIL (France)';
+  const sourceUrl = 'https://www.cnil.fr/en';
+  const items = [];
+  try {
+    const { data } = await axios.get(CNIL_EN_RSS, {
+      timeout: CRAWL_TIMEOUT_MS,
+      headers: { ...BROWSER_HEADERS, ...RSS_REQUEST_HEADERS },
+      responseType: 'text'
+    });
+    const $ = cheerio.load(data, { xmlMode: true });
+    $('item').each((_, el) => {
+      const $el = $(el);
+      const title = ($el.find('title').first().text() || '').trim();
+      let link = ($el.find('link').first().text() || '').trim();
+      if (!link && $el.find('link').length) link = $el.find('link').first().attr('href') || '';
+      link = String(link || '').trim();
+      const pubDate = $el.find('pubDate').text() || $el.find('dc\\:date').text() || '';
+      if (!title || !link) return;
+      const lower = link.toLowerCase();
+      if (/\/rss\.xml$/i.test(lower) || /^https?:\/\/www\.cnil\.fr\/en\/?$/i.test(lower)) return;
+      let date = null;
+      if (pubDate) {
+        const d = new Date(pubDate);
+        if (!isNaN(d.getTime())) date = d.toISOString().slice(0, 10);
+      }
+      const snippet = bestSnippetFromRssItem($, $el);
+      items.push({ title, url: link, sourceName, sourceUrl, date, snippet: snippet || null });
+    });
+  } catch (err) {
+    console.warn('News RSS (CNIL):', err.message || err);
+  }
+  return items;
+}
+
 function freedomOfInformationOnlyWithoutDpContext(b) {
   const blob = String(b || '')
     .toLowerCase()
@@ -246,8 +325,8 @@ function freedomOfInformationOnlyWithoutDpContext(b) {
 
 /**
  * Single gate for all news sources: keep items that tie to GDPR / personal data / privacy protection
- * (and close combinations). Hub-scoped crawls (EDPB, EDPS, ICO news hub, Commission thematic Press Corner
- * buckets, CoE data-protection) are trusted after the global FOI-only exclusion.
+ * (and close combinations). Hub-scoped crawls (EDPB, EDPS, CNIL /en/, ICO news hub, Commission Press Corner
+ * policy buckets, CoE data-protection) are trusted after the global FOI-only exclusion.
  */
 function newsItemMatchesApprovedTopic(item) {
   const title = String(item.title || '');
@@ -260,6 +339,7 @@ function newsItemMatchesApprovedTopic(item) {
 
   if (/edpb\.europa\.eu/i.test(url)) return true;
   if (/edps\.europa\.eu/i.test(url)) return true;
+  if (/cnil\.fr\/en\//i.test(url)) return true;
 
   if (/coe\.int/i.test(url)) {
     const u = url.toLowerCase();
@@ -353,6 +433,8 @@ function newsItemMatchesApprovedTopic(item) {
     }
   }
 
+  if (newsBlobMatchesTopicAnchor(b)) return true;
+
   return false;
 }
 
@@ -382,21 +464,37 @@ function mergeCommissionPolicyAreas(a, b) {
   return out.size ? [...out] : undefined;
 }
 
-async function fetchCommissionPressRssBatch() {
-  const url = `${COMMISSION_PRESS_RSS_BASE}?pagesize=${COMMISSION_RSS_PAGE_SIZE}&page=0`;
+function mergeCommissionPressItemIntoMap(byRef, item) {
+  if (!item || !item.title || !item.url) return;
+  const k = normalizeNewsUrlKey(item.url);
+  if (!k) return;
+  const existing = byRef.get(k);
+  if (!existing) {
+    byRef.set(k, { ...item });
+    return;
+  }
+  byRef.set(k, {
+    ...existing,
+    snippet: pickRicherNewsSnippet(existing.snippet, item.snippet),
+    date: existing.date || item.date,
+    title: (existing.title || '').length >= (item.title || '').length ? existing.title : item.title,
+    commissionPolicyAreas: mergeCommissionPolicyAreas(existing.commissionPolicyAreas, item.commissionPolicyAreas)
+  });
+}
+
+function parseCommissionPressRssItems(data, opts) {
+  const sourceName = opts && opts.sourceName;
+  const sourceUrl = opts && opts.sourceUrl;
+  const defaultPolicyCode = opts && opts.defaultPolicyCode;
   const items = [];
   try {
-    const { data } = await axios.get(url, {
-      timeout: CRAWL_TIMEOUT_MS,
-      headers: { ...BROWSER_HEADERS, ...RSS_REQUEST_HEADERS },
-      responseType: 'text'
-    });
     const $ = cheerio.load(data, { xmlMode: true });
     $('item').each((_, el) => {
       const $el = $(el);
       const title = ($el.find('title').first().text() || '').trim();
       let link = ($el.find('link').first().text() || '').trim();
       if (!link && $el.find('link').length) link = $el.find('link').first().attr('href') || '';
+      link = String(link || '').trim();
       const pubDate = $el.find('pubDate').text();
       if (!title || !link) return;
       let date = null;
@@ -412,21 +510,75 @@ async function fetchCommissionPressRssBatch() {
           if (x) commissionPolicyAreas.push(x);
         });
       });
+      if (defaultPolicyCode) {
+        const up = String(defaultPolicyCode).toUpperCase().trim();
+        if (up && !commissionPolicyAreas.includes(up)) commissionPolicyAreas.push(up);
+      }
       const snippet = bestSnippetFromRssItem($, $el);
       items.push({
         title,
         url: link,
-        sourceName: 'European Commission',
-        sourceUrl: 'https://commission.europa.eu/',
+        sourceName,
+        sourceUrl,
         date,
         snippet: snippet || null,
-        commissionPolicyAreas
+        commissionPolicyAreas: commissionPolicyAreas.length ? commissionPolicyAreas : undefined
       });
     });
   } catch (err) {
-    console.warn('News RSS (Commission):', err.message || err);
+    console.warn('News RSS (Commission parse):', err.message || err);
   }
   return items;
+}
+
+async function fetchCommissionPressRssXml(url) {
+  const { data } = await axios.get(url, {
+    timeout: CRAWL_TIMEOUT_MS,
+    headers: { ...BROWSER_HEADERS, ...RSS_REQUEST_HEADERS },
+    responseType: 'text'
+  });
+  return data;
+}
+
+async function fetchCommissionPolicyRssAll() {
+  const sourceName = 'European Commission';
+  const sourceUrl = 'https://commission.europa.eu/';
+  const out = [];
+  const generalUrl = `${COMMISSION_PRESS_RSS_BASE}?pagesize=${COMMISSION_RSS_PAGE_SIZE}&page=0`;
+  try {
+    const xml = await fetchCommissionPressRssXml(generalUrl);
+    out.push(...parseCommissionPressRssItems(xml, { sourceName, sourceUrl }));
+  } catch (err) {
+    console.warn('News RSS (Commission general):', err.message || err);
+  }
+  for (let i = 0; i < COMMISSION_POLICY_AREA_CODES.length; i += COMMISSION_RSS_CONCURRENCY) {
+    const chunk = COMMISSION_POLICY_AREA_CODES.slice(i, i + COMMISSION_RSS_CONCURRENCY);
+    const chunkResults = await Promise.all(
+      chunk.map(async (code) => {
+        const url = `${COMMISSION_PRESS_RSS_BASE}?policyAreaCodes=${encodeURIComponent(code)}&pagesize=${COMMISSION_RSS_PAGE_SIZE}&page=0`;
+        try {
+          const xml = await fetchCommissionPressRssXml(url);
+          return parseCommissionPressRssItems(xml, { sourceName, sourceUrl, defaultPolicyCode: code });
+        } catch (err) {
+          console.warn('News RSS (Commission ' + code + '):', err.message || err);
+          return [];
+        }
+      })
+    );
+    for (const arr of chunkResults) out.push(...arr);
+  }
+  return out;
+}
+
+async function fetchAllCommissionPolicySearches() {
+  const conc = Math.min(8, Math.max(2, COMMISSION_RSS_CONCURRENCY));
+  const all = [];
+  for (let i = 0; i < COMMISSION_POLICY_AREA_CODES.length; i += conc) {
+    const slice = COMMISSION_POLICY_AREA_CODES.slice(i, i + conc);
+    const batch = await Promise.all(slice.map((c) => fetchCommissionPressPolicySearch(c)));
+    all.push(...batch);
+  }
+  return all;
 }
 
 async function fetchCommissionPressPolicySearch(code) {
@@ -446,18 +598,14 @@ async function fetchCommissionPressPolicySearch(code) {
 }
 
 async function crawlCommissionPress() {
-  const [rssBatch, ...searchBatches] = await Promise.all([
-    fetchCommissionPressRssBatch(),
-    ...COMMISSION_SEARCH_POLICY_CODES.map((c) => fetchCommissionPressPolicySearch(c))
+  const [rssItems, searchBatches] = await Promise.all([
+    fetchCommissionPolicyRssAll(),
+    fetchAllCommissionPolicySearches()
   ]);
 
   const byRef = new Map();
-
-  for (const item of rssBatch) {
-    if (!item.title || !item.url) continue;
-    const k = normalizeNewsUrlKey(item.url);
-    if (!k) continue;
-    byRef.set(k, { ...item });
+  for (const item of rssItems) {
+    mergeCommissionPressItemIntoMap(byRef, item);
   }
 
   const seenRefCodes = new Set();
@@ -486,22 +634,7 @@ async function crawlCommissionPress() {
         snippet: lead || null,
         commissionPolicyAreas: [upper]
       };
-      const k = normalizeNewsUrlKey(item.url);
-      if (!k) continue;
-      const existing = byRef.get(k);
-      if (!existing) {
-        byRef.set(k, item);
-      } else {
-        byRef.set(k, {
-          ...existing,
-          snippet: existing.snippet || item.snippet,
-          date: existing.date || item.date,
-          commissionPolicyAreas: mergeCommissionPolicyAreas(
-            existing.commissionPolicyAreas,
-            item.commissionPolicyAreas
-          )
-        });
-      }
+      mergeCommissionPressItemIntoMap(byRef, item);
     }
   }
 
@@ -546,6 +679,7 @@ async function crawlEdpbHtml() {
   const sourceName = 'European Data Protection Board (EDPB)';
   const sourceUrl = 'https://edpb.europa.eu/';
   const byKey = new Map();
+  let emptyStreak = 0;
   for (let batchStart = 0; batchStart < MAX_EDPB_NEWS_PAGES; batchStart += EDPB_NEWS_PAGE_CONCURRENCY) {
     const slice = [];
     for (let p = batchStart; p < Math.min(batchStart + EDPB_NEWS_PAGE_CONCURRENCY, MAX_EDPB_NEWS_PAGES); p++) {
@@ -576,7 +710,12 @@ async function crawlEdpbHtml() {
         batchNew += 1;
       }
     }
-    if (batchNew === 0) break;
+    if (batchNew === 0) {
+      emptyStreak += 1;
+      if (emptyStreak >= 2) break;
+    } else {
+      emptyStreak = 0;
+    }
   }
   return Array.from(byKey.values());
 }
@@ -683,7 +822,10 @@ async function crawlIcoFromSearchApiMergedOrders(sourceName, sourceUrl) {
 
 const ICO_SITEMAP_URL = 'https://ico.org.uk/sitemap.xml';
 /** Cap HTML meta fetches for sitemap URLs missing from the ICO search API (parallel batches). */
-const MAX_ICO_SITEMAP_ENRICH_FETCHES = 80;
+const MAX_ICO_SITEMAP_ENRICH_FETCHES = Math.min(
+  450,
+  Math.max(50, parseInt(process.env.NEWS_MAX_ICO_SITEMAP_FETCHES || '280', 10) || 280)
+);
 /** Concurrent ICO article page fetches (wall-clock); avoids blowing server crawl timeouts. */
 const ICO_SITEMAP_ENRICH_CONCURRENCY = 10;
 
@@ -993,8 +1135,51 @@ function mergeNewsDuplicate(existing, incoming) {
     commissionPolicyAreas: mergeCommissionPolicyAreas(
       existing.commissionPolicyAreas,
       incoming.commissionPolicyAreas
-    )
+    ),
+    ...mergeNewsItemTopicFields(existing, incoming)
   };
+}
+
+/**
+ * ICO news URLs use `/news-and-blogs/YYYY/MM/…` — treat that as canonical month (and year) when
+ * `createdDateTime` or page meta disagrees (fixes wrong month in merged JSON).
+ */
+function normalizeIcoBlogDate(item) {
+  if (!item || typeof item !== 'object') return item;
+  const u = String(item.url || '');
+  const pathMatch = u.match(
+    /ico\.org\.uk\/about-the-ico\/media-centre\/news-and-blogs\/(\d{4})\/(\d{2})\//i
+  );
+  if (!pathMatch) return item;
+  const py = pathMatch[1];
+  const pm = pathMatch[2];
+  let day = '01';
+  const em = item.date ? /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(item.date).trim()) : null;
+  if (em && em[1] === py && em[2] === pm && em[3]) {
+    day = em[3];
+  }
+  const next = `${py}-${pm}-${day}`;
+  if (String(item.date || '').trim() === next) return item;
+  return { ...item, date: next };
+}
+
+/** Drop calendar dates more than ~2 days ahead of “now” (bad CMS or parsing). */
+function clampImpossibleFutureNewsDate(item) {
+  if (!item || !item.date) return item;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(item.date).trim());
+  if (!m) return item;
+  const y = parseInt(m[1], 10);
+  const mo = parseInt(m[2], 10) - 1;
+  const d = parseInt(m[3], 10);
+  const noonLocal = new Date(y, mo, d, 12, 0, 0, 0).getTime();
+  const limit = Date.now() + 2 * 86400000;
+  if (noonLocal <= limit) return item;
+  return { ...item, date: null };
+}
+
+function sanitizeNewsItemDates(item) {
+  if (!item || typeof item !== 'object') return item;
+  return clampImpossibleFutureNewsDate(normalizeIcoBlogDate({ ...item }));
 }
 
 /**
@@ -1052,18 +1237,21 @@ function dedupeNewsItemsConsolidated(items) {
 }
 
 async function crawlNews() {
-  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems] = await Promise.all([
-    crawlEdpbRss(),
-    crawlEdpbHtml(),
-    crawlEdpsRss(),
-    crawlIco(),
-    crawlCommissionPress(),
-    crawlCouncilOfEurope()
-  ]);
+  const [edpbRssItems, edpbHtmlItems, edpsRssItems, cnilItems, icoItems, commissionItems, coeItems] =
+    await Promise.all([
+      crawlEdpbRss(),
+      crawlEdpbHtml(),
+      crawlEdpsRss(),
+      crawlCnilEnglishRss(),
+      crawlIco(),
+      crawlCommissionPress(),
+      crawlCouncilOfEurope()
+    ]);
   const combined = [
     ...edpbRssItems,
     ...edpbHtmlItems,
     ...edpsRssItems,
+    ...cnilItems,
     ...icoItems,
     ...commissionItems,
     ...coeItems
@@ -1086,7 +1274,10 @@ async function crawlNews() {
     const db = b.date ? new Date(b.date).getTime() : 0;
     return db - da;
   });
-  return deduped.filter(newsItemMatchesApprovedTopic);
+  return deduped
+    .filter(newsItemMatchesApprovedTopic)
+    .map(sanitizeNewsItemDates)
+    .map(assignNewsTopicFields);
 }
 
 function withTimeout(promise, ms) {
@@ -1101,6 +1292,7 @@ module.exports = {
   crawlEdpbRss,
   crawlEdpbHtml,
   crawlEdpsRss,
+  crawlCnilEnglishRss,
   crawlIco,
   crawlCommissionPress,
   crawlCouncilOfEurope,
@@ -1110,5 +1302,6 @@ module.exports = {
   dedupeNewsItemsConsolidated,
   newsItemMatchesApprovedTopic,
   commissionPressItemRelevant,
-  commissionPressTextRelevant
+  commissionPressTextRelevant,
+  sanitizeNewsItemDates
 };

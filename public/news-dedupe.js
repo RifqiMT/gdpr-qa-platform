@@ -64,10 +64,25 @@
     return sa || null;
   }
 
+  var NEWS_TOPIC_FALLBACK_DEDUPE = 'Other GDPR & data protection topics';
+
+  function mergeNewsItemTopicFieldsClient(ex, inc) {
+    var et = String((ex && ex.topic) || '').trim();
+    var it = String((inc && inc.topic) || '').trim();
+    var ec = String((ex && ex.topicCategory) || '').trim();
+    var ic = String((inc && inc.topicCategory) || '').trim();
+    var fb = NEWS_TOPIC_FALLBACK_DEDUPE;
+    var topic =
+      it && it !== fb ? it : et && et !== fb ? et : it || et || fb;
+    var topicCategory =
+      topic === it && ic ? ic : topic === et && ec ? ec : ic || ec || '';
+    return { topic: topic, topicCategory: topicCategory };
+  }
+
   function mergeNewsDuplicate(existing, incoming) {
     var ex = existing;
     var inc = incoming;
-    return Object.assign({}, ex, inc, {
+    var merged = Object.assign({}, ex, inc, {
       title: (ex.title || '').length >= (inc.title || '').length ? ex.title : inc.title,
       url: pickPreferredNewsUrl(ex.url, inc.url),
       sourceName: ex.sourceName || inc.sourceName,
@@ -79,6 +94,10 @@
         inc.commissionPolicyAreas
       )
     });
+    var tf = mergeNewsItemTopicFieldsClient(ex, inc);
+    merged.topic = tf.topic;
+    merged.topicCategory = tf.topicCategory;
+    return merged;
   }
 
   function normalizeNewsTitleFingerprint(title) {

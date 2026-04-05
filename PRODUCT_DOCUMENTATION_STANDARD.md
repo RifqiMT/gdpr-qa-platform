@@ -1,7 +1,7 @@
 # Product documentation standard  
 ## GDPR Q&A Platform
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Status:** Active — this document is the **governance checklist** for product, design, compliance, engineering, and operations stakeholders.
 
 **Scope:** All material under **`gdpr-qa-platform/`** that describes what the product is, how it behaves, how it is configured, and how it is verified.
@@ -19,6 +19,7 @@
 | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX, content | Personas, goals, pain points, feature fit. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA, engineering | User stories by epic, traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, DevOps, support | Data dictionary: env vars, JSON fields, Ask/refresh variables, **relationship diagrams** (data flow + configuration). |
+| [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) | Engineering, integrators | **Sample JSON** shapes for corpus meta, news items, and Ask responses (illustrative, non-exhaustive). |
 | [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) | Product leadership | Product metrics and example OKRs. |
 | [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) | Design, frontend | Visual system: palette, typography, layout tokens, components, responsive breakpoints, print/PDF. |
 | [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) | Quality, compliance-oriented orgs | Business requirements ↔ PRD ↔ stories ↔ implementation ↔ verification. |
@@ -74,7 +75,7 @@ Traceability to Articles/Recitals, grounded answers with citations, efficient br
 | **Corpus** | **`gdpr-content.json`** from **`scraper.js`**; always passed through **`document-formatting-guardrails.js`** before index build and disk write; **`loadContent()`** re-normalizes on read. |
 | **Ask** | **`buildLocalContext`** (BM25, sector expansion), optional **`fetchWebSnippets`**, Groq/Tavily/extractive path. |
 | **Crossrefs** | **`article-suitable-recitals.json`** + recital text citation extraction. |
-| **News** | Static JSON + crawler **`mergeNewsItems`** → **`dedupeNewsItemsConsolidated`** (URL key, then source+date+title fingerprint); client **`dedupeNewsItemsClient`**; timeouts/caps via **`NEWS_*`** env; optional **`?live=1`** on read path. |
+| **News** | Static JSON + **`news-crawler.js`** (EDPB RSS/HTML, EDPS RSS, CNIL English RSS, ICO search/sitemap/HTML, Commission general + per-policy RSS + Press Corner API, CoE) → **`mergeNewsItems`** → **`dedupeNewsItemsConsolidated`**; topic fields via **`news-topics.js`**; client **`dedupeNewsItemsClient`**; server timeouts/caps via **`NEWS_*`** env (including optional crawl-depth overrides in the crawler); optional **`?live=1`** on read path. |
 
 ---
 

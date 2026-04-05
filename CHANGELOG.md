@@ -8,17 +8,12 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ### Documentation
 
-- **Product documentation standard v1.2 / News pipeline:** Brought **[README.md](README.md)**, **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)**, **[docs/PRD.md](docs/PRD.md)** (v1.2), **[docs/USER_STORIES.md](docs/USER_STORIES.md)**, **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)**, **[docs/API_CONTRACTS.md](docs/API_CONTRACTS.md)**, **[docs/VARIABLES.md](docs/VARIABLES.md)** (timeouts **90000** / **180000** ms defaults, news fields, **`sessionStorage`** keys, **§9.3** dedupe diagram), **[docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md)**, **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)** (News layout §7.1), **[docs/GUARDRAILS.md](docs/GUARDRAILS.md)**, **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, **[docs/GLOSSARY.md](docs/GLOSSARY.md)**, and **[docs/README.md](docs/README.md)** in line with **consolidated news deduplication** (`news-crawler.js` / `server.js` + **`public/news-dedupe.js`**), **non-sticky** main news filters, **Quick filters** sidebar dock and **expandable feeds** block (session-persisted), and **`Cache-Control: no-store`** on **`GET /api/news`**.
-- **Comprehensive documentation audit (product standard v1.1):** Rewrote and expanded **[docs/VARIABLES.md](docs/VARIABLES.md)** with full environment-variable tables (including **`GDPR_MAX_ARTICLE_CHARS`**, **`GDPR_INFO_CONCURRENCY`**, **`GDPR_FORCE_*`**, **`OPENROUTER_REFERRER`**), refresh API fields, and **two** Mermaid relationship diagrams (data flow + configuration dependencies).
-- Updated **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)** to v1.1 with governance rules and an authoritative documentation index.
-- Refreshed **[README.md](README.md)** for the mandatory **document formatting** refresh pipeline, **`runRegulationScraperAndReloadContent`**, default **GDPR-Info** corpus, client reload after refresh, and extended configuration table.
-- **PRD v1.1:** Added **FR-R7**, **FR-R8**, **NFR-7**; clarified data model and success criteria for guardrails and post-refresh coherence.
-- **Personas & stories:** Added **Engineering / DevOps** persona; new stories **US-R4–US-R6** for guardrails, UI reload, and force write.
-- **Metrics:** New **§1.4** (formatting/corpus integrity) and **OKR O4**; **TRACEABILITY_MATRIX** rows **BR-R-05**–**BR-R-07** and updated **BR-NF-04**.
-- **Design:** **DESIGN_GUIDELINES** §2.1 responsive breakpoints; semantic/error color note.
-- **API / architecture:** **`POST /api/refresh`** sample JSON; regulation refresh sequence diagram in **ARCHITECTURE.md**.
-- **Hub:** **[docs/README.md](docs/README.md)** reading order and expanded map; **GUARDRAILS** §8 documentation guardrails; **`.env.example`** extended for new ETL and OpenRouter variables.
-- **New:** **[docs/GLOSSARY.md](docs/GLOSSARY.md)** for acronyms and product terms.
+- **Product documentation audit (standard v1.3):** Bumped **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)** to **v1.3**; aligned **[README.md](README.md)** (version blurb, configuration table: **`HOST`**, **`NEWS_ATTACHMENTS_*`**, **`NEWS_MAX_*`**, **`NEWS_COMMISSION_*`**, corrected default news timeouts **90000** / **180000** ms, duplicate env row removed, disclaimer sources); expanded **[docs/VARIABLES.md](docs/VARIABLES.md)** (defaults for **`NEWS_MERGE_CAP`**, attachments cache, crawler tuning vars, **`commissionPolicyAreas`** semantics, **§9.4** topic-assignment diagram); new **[docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md)**; updated **[docs/PRD.md](docs/PRD.md)** (**v1.3**, **FR-S9**, news data model and purpose); **[docs/USER_PERSONAS.md](docs/USER_PERSONAS.md)**, **[docs/USER_STORIES.md](docs/USER_STORIES.md)** (**US-N9**); **[docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md)** (news count and refresh duration); **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)** (`.news-topic-tag`); **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)** (**BR-N-09**–**BR-N-11**); **[docs/GUARDRAILS.md](docs/GUARDRAILS.md)** (**TG-N06**–**TG-N08**); **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**; **[docs/GLOSSARY.md](docs/GLOSSARY.md)**; **[docs/README.md](docs/README.md)** hub.
+- **Earlier iterations (still reflected in repo history):** v1.2 news UI + dedupe docs; v1.1 variables/PRD guardrails expansion; initial enterprise doc set under `docs/`.
+
+### Removed
+
+- **Docker / Render web porting artifacts:** Removed **`Dockerfile`**, **`.dockerignore`**, and **`render.yaml`**. The **`GET /health`** route remains for any generic liveness checks.
 
 ### Earlier unreleased notes
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Optional: full origin if the UI is hosted separately from the Node API (e.g. content="https://my-api.onrender.com") -->
+  <!-- Optional: full origin if the UI is hosted separately from the Node API (e.g. content="https://api.example.com") -->
   <meta name="gdpr-api-base" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GDPR Q&A Platform</title>
@@ -305,21 +305,20 @@
               <span class="ask-send-spinner" aria-hidden="true"></span>
             </button>
           </div>
-          <div class="ask-sector-row">
-            <label class="ask-sector-label" id="askIndustrySectorLabel" for="askIndustrySectorInput">Industry / sector (optional)</label>
+          <div class="ask-sector-row" role="group" aria-labelledby="askIndustrySectorLabel">
+            <p class="ask-sector-label" id="askIndustrySectorLabel">Industry &amp; sector (optional)</p>
             <p class="ask-sector-explainer" id="askIndustrySectorDesc">
-              Sectors follow <strong>UN ISIC Rev.4</strong>: all <strong>sections A–U</strong> plus every official <strong>division (01–99)</strong>, consistent with <strong>ILO</strong> industry statistics and national accounts.
-              Search by name, division code (e.g. <strong>62</strong>, <strong>ISIC-62</strong>), or keywords. Pick <strong>General</strong> when you do not want sector-focused framing.
+              Choose <strong>General</strong> for balanced GDPR answers, or <strong>expand a macro industry</strong>, then an <strong>ISIC section</strong>, and pick <strong>Whole ISIC section</strong> or a <strong>division</strong> (short labels under each section). <strong>Type in the box</strong> to search the full path, codes, and keywords — the menu switches to a flat list while you search.
             </p>
             <div class="filter-combobox ask-sector-combobox" id="askSectorComboboxWrap">
               <select id="askIndustrySector" class="visually-hidden" tabindex="-1" aria-hidden="true" aria-labelledby="askIndustrySectorLabel askIndustrySectorDesc">
                 <option value="GENERAL">General — no sector-specific framing</option>
               </select>
               <div class="filter-combobox-control">
-                <input type="text" id="askIndustrySectorInput" class="filter-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="askIndustrySectorList" aria-autocomplete="list" placeholder="Search section, division 01–99, or General…" aria-labelledby="askIndustrySectorLabel">
+                <input type="text" id="askIndustrySectorInput" class="filter-combobox-input ask-sector-combobox-input" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="askIndustrySectorList" aria-autocomplete="list" placeholder="Browse groups or type to search paths &amp; codes…" aria-labelledby="askIndustrySectorLabel">
                 <button type="button" class="filter-combobox-toggle" id="askIndustrySectorToggle" tabindex="-1" aria-label="Open industry and sector list" aria-expanded="false" aria-controls="askIndustrySectorList"><span class="filter-combobox-toggle-icon" aria-hidden="true"></span></button>
               </div>
-              <ul id="askIndustrySectorList" class="filter-combobox-list filter-combobox-list--ask-sector" role="listbox" hidden></ul>
+              <div id="askIndustrySectorList" class="filter-combobox-list filter-combobox-list--ask-sector" role="listbox" hidden></div>
             </div>
           </div>
           <p class="ask-meta">Consolidated EU law text is loaded from your cache; use <strong>Refresh sources</strong> in the page header to pull the latest from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>.</p>
@@ -396,7 +395,7 @@
           <div class="news-hero-grid">
             <div class="news-hero-main">
               <h2>GDPR &amp; data protection news</h2>
-              <p class="news-intro">Curated headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds. Each card uses a clear reading order—date and topic, headline, summary, then source and attachments—so you can scan quickly and open the full article when you need it.</p>
+              <p class="news-intro">Headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds—grouped by source, tagged by theme, with optional file attachments when the page links any.</p>
             </div>
             <div class="news-hero-aside">
               <button type="button" id="btnRefreshNews" class="btn btn-primary btn-refresh-news" aria-describedby="newsRefreshHint">
@@ -512,7 +511,7 @@
                       <div class="news-sidebar-field">
                         <label for="newsFilterTopicAside" class="news-sidebar-filters-label">Topic</label>
                         <div class="news-sidebar-select-wrap">
-                          <select id="newsFilterTopicAside" class="news-sidebar-select" aria-label="Filter by topic tag">
+                          <select id="newsFilterTopicAside" class="news-sidebar-select" aria-label="Filter by topic tag" aria-describedby="newsTopicFilterHint">
                             <option value="">All topics</option>
                           </select>
                         </div>
@@ -546,7 +545,7 @@
                   </div>
                   <div class="filter-field">
                     <label for="newsFilterTopic" class="filter-field-label">Topic</label>
-                    <select id="newsFilterTopic" class="filter-field-select" aria-label="Filter by topic tag">
+                    <select id="newsFilterTopic" class="filter-field-select" aria-label="Filter by GDPR topic area" aria-describedby="newsTopicFilterHint">
                       <option value="">All topics</option>
                     </select>
                   </div>
@@ -554,13 +553,16 @@
                     <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear all</button>
                   </div>
                 </div>
+                <p id="newsTopicFilterHint" class="news-topic-filter-hint">
+                  Topics are grouped by area (Core Rights, Data Transfers, …)—the same labels as the tag on each card.
+                </p>
                 <p id="newsResultStatus" class="news-result-status" aria-live="polite"></p>
               </div>
             </div>
             <div class="news-articles-region">
               <div class="news-list-wrap-header">
                 <h3 id="newsBrowseHeading" class="news-browse-title">Articles by source</h3>
-                <p class="news-list-intro">Publication dates use your locale when the feed includes them. Topic tags group themes; summaries stay within a comfortable line length for reading.</p>
+                <p class="news-list-intro">Dates show in your locale when the feed provides them. Collapse a source block to save space; use the table of contents when several sources are listed.</p>
               </div>
               <nav class="news-toc" id="newsTocNav" aria-labelledby="newsTocHeading" hidden>
                 <span class="news-toc-heading" id="newsTocHeading">On this page</span>

@@ -538,29 +538,14 @@
       'EU institutional data protection: how the EDPS supervises processing by EU institutions and bodies, and coordinates with the EDPB on consistency.',
     'EDPS': 'Press, blogs, and updates from the European Data Protection Supervisor on EU institutions, Regulation 2018/1725, and cooperation with the EDPB.',
     'ICO (UK)': 'UK regulator updates: enforcement actions, fines, guidance under UK GDPR, and how the ICO interprets data protection law.',
+    'CNIL (France)':
+      'French DPA news in English: CNIL guidance, enforcement, and GDPR-related positions from the national supervisory authority.',
     'European Commission': 'Official EU policy, reform, and publications on data protection and the GDPR from the European Commission.',
     'Council of Europe': 'International data protection standards and updates on Convention 108+ (protection of personal data).'
   };
 
-  /** Catch-all: same cards as before “General” — tag hidden to reduce noise. */
-  var NEWS_TOPIC_OTHER = 'Other GDPR & privacy topics';
-  /** Shown for European Commission items that did not match a narrower bucket (still GDPR-filtered at crawl). */
-  var NEWS_TOPIC_COMMISSION_DP = 'EU Commission: GDPR & data protection';
-  /** EU institutions / Regulation 2018/1725 / EDPS–EDPB cooperation when source is EDPS and text did not match a narrower tag. */
-  var NEWS_TOPIC_EDPS = 'EDPS: EU institutions & data protection';
-  var NEWS_TOPIC_ORDER = [
-    'Rights (erasure & access)',
-    'AI & digital',
-    'Enforcement & fines',
-    'Guidance & compliance',
-    'Transfers & BCR',
-    'International standards',
-    'Policy & publications',
-    'Children & privacy',
-    NEWS_TOPIC_EDPS,
-    NEWS_TOPIC_COMMISSION_DP,
-    NEWS_TOPIC_OTHER
-  ];
+  /** Catch-all leaf topic; must match `NEWS_TOPIC_FALLBACK` in `news-topics.js`. */
+  var NEWS_TOPIC_FALLBACK = 'Other GDPR & data protection topics';
 
   /** Preferred order for grouping news sections and filter dropdowns. */
   var NEWS_SOURCE_DISPLAY_ORDER = [
@@ -569,11 +554,14 @@
     'European Data Protection Supervisor (EDPS)',
     'EDPS',
     'ICO (UK)',
+    'CNIL (France)',
     'European Commission',
     'Council of Europe'
   ];
 
   var lastNewsItems = [];
+  /** From GET /api/news `topicTaxonomy` — optgroup labels + topic list (mirrors server `news-topics.js`). */
+  var lastNewsTopicTaxonomy = null;
   /** url -> attachment count (0 = hide button); null = scan error (show button); undefined = not scanned yet (hide until ready, then show if beyond batch cap). */
   var newsAttachmentCountsByUrl = Object.create(null);
   var newsAttachmentsSummaryReady = false;
@@ -606,13 +594,34 @@
   var NEWS_CARD_EXTERNAL_ICON_SVG =
     '<svg class="news-card-external-svg" width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+  /** `YYYY-MM-DD` as local calendar date (avoids UTC midnight shifting the displayed day). */
+  function parseNewsDateOnlyLocal(raw) {
+    var s = String(raw || '').trim();
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    if (!m) {
+      var d = new Date(s);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    var y = parseInt(m[1], 10);
+    var mo = parseInt(m[2], 10) - 1;
+    var day = parseInt(m[3], 10);
+    var dt = new Date(y, mo, day, 12, 0, 0, 0);
+    if (dt.getFullYear() !== y || dt.getMonth() !== mo || dt.getDate() !== day) return null;
+    return dt;
+  }
+
+  function newsItemSortTime(item) {
+    var d = parseNewsDateOnlyLocal(item && item.date);
+    return d ? d.getTime() : 0;
+  }
+
   function newsCardFormatDate(item) {
-    var raw = item && item.date;
-    if (!raw) return { display: '', iso: '' };
-    var d = new Date(raw);
-    if (isNaN(d.getTime())) return { display: '', iso: '' };
+    var d = parseNewsDateOnlyLocal(item && item.date);
+    if (!d) return { display: '', iso: '' };
+    var iso =
+      d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
     return {
-      iso: d.toISOString().slice(0, 10),
+      iso: iso,
       display: d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
     };
   }
@@ -630,7 +639,7 @@
     var df = newsCardFormatDate(item);
     var topic = getTopicFromItem(item);
     var summaryHtml = buildNewsCardSummaryHtml(item);
-    var showTopic = topic && topic !== NEWS_TOPIC_OTHER;
+    var showTopic = topic && topic !== NEWS_TOPIC_FALLBACK;
     var headerHtml = '';
     if (df.display || showTopic) {
       headerHtml =
@@ -963,24 +972,63 @@
     ordered.forEach(function (sourceName) {
       var sourceItems = bySource[sourceName];
       sourceItems.sort(function (a, b) {
-        var da = a.date ? new Date(a.date).getTime() : 0;
-        var db = b.date ? new Date(b.date).getTime() : 0;
-        return db - da;
+        return newsItemSortTime(b) - newsItemSortTime(a);
       });
       var summary = SOURCE_SUMMARIES[sourceName] || 'Updates and publications from this source. Each link goes to the original article.';
-      var section = document.createElement('section');
-      section.className = 'news-by-source';
       var sectionId = newsSectionIdFromSource(sourceName);
-      section.id = sectionId;
       var firstItem = sourceItems[0];
       var sourceUrl = firstItem && firstItem.sourceUrl ? firstItem.sourceUrl : '#';
       var titleId = sectionId + '-title';
-      section.setAttribute('aria-labelledby', titleId);
-      section.innerHTML =
-        '<h4 class="news-source-heading" id="' + titleId + '"><a href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(sourceName) + '</a></h4>' +
-        '<p class="news-source-summary">' + escapeHtml(summary) + '</p>' +
-        '<ul class="news-list news-list-in-section" role="list"></ul>';
-      var ul = section.querySelector('.news-list');
+      var panelId = sectionId + '-panel';
+
+      var wrap = document.createElement('section');
+      wrap.className = 'news-by-source-wrap';
+      wrap.id = sectionId;
+      wrap.setAttribute('aria-labelledby', titleId);
+
+      var details = document.createElement('details');
+      details.className = 'news-by-source';
+      details.open = true;
+
+      var summaryEl = document.createElement('summary');
+      summaryEl.className = 'news-source-details-summary';
+      summaryEl.id = titleId;
+      summaryEl.setAttribute('aria-controls', panelId);
+      summaryEl.innerHTML =
+        '<span class="news-source-details-summary-row">' +
+        '<span class="news-source-chevron" aria-hidden="true"></span>' +
+        '<span class="news-source-name-text">' +
+        escapeHtml(sourceName) +
+        '</span>' +
+        '<span class="news-source-article-count">' +
+        escapeHtml(String(sourceItems.length)) +
+        '</span></span>';
+
+      var body = document.createElement('div');
+      body.className = 'news-source-details-body';
+      body.id = panelId;
+
+      var pDesc = document.createElement('p');
+      pDesc.className = 'news-source-summary';
+      pDesc.textContent = summary;
+      body.appendChild(pDesc);
+
+      if (sourceUrl && sourceUrl !== '#') {
+        var pHub = document.createElement('p');
+        pHub.className = 'news-source-hub-line';
+        var aHub = document.createElement('a');
+        aHub.className = 'news-source-hub-link';
+        aHub.href = sourceUrl;
+        aHub.target = '_blank';
+        aHub.rel = 'noopener noreferrer';
+        aHub.textContent = 'Open regulator news hub';
+        pHub.appendChild(aHub);
+        body.appendChild(pHub);
+      }
+
+      var ul = document.createElement('ul');
+      ul.className = 'news-list news-list-in-section';
+      ul.setAttribute('role', 'list');
       sourceItems.forEach(function (item) {
         var li = document.createElement('li');
         li.className = 'news-card';
@@ -990,7 +1038,12 @@
         li.innerHTML = buildNewsCardMarkupHtml(item, 'h5');
         ul.appendChild(li);
       });
-      newsSections.appendChild(section);
+      body.appendChild(ul);
+
+      details.appendChild(summaryEl);
+      details.appendChild(body);
+      wrap.appendChild(details);
+      newsSections.appendChild(wrap);
     });
   }
 
@@ -1017,7 +1070,7 @@
   }
 
   function populateNewsFilters(items) {
-    if (!items || items.length === 0) return;
+    items = Array.isArray(items) ? items : [];
     var sources = [];
     var topicsSet = {};
     items.forEach(function (item) {
@@ -1048,59 +1101,42 @@
     if (newsFilterTopic) {
       var selTopic = newsFilterTopic.value;
       newsFilterTopic.innerHTML = '<option value="">All topics</option>';
-      NEWS_TOPIC_ORDER.forEach(function (t) {
-        if (!topicsSet[t]) return;
-        var opt = document.createElement('option');
-        opt.value = t;
-        opt.textContent = t;
-        if (t === selTopic) opt.selected = true;
-        newsFilterTopic.appendChild(opt);
-      });
+      if (lastNewsTopicTaxonomy && lastNewsTopicTaxonomy.groups && lastNewsTopicTaxonomy.groups.length) {
+        lastNewsTopicTaxonomy.groups.forEach(function (g) {
+          var og = document.createElement('optgroup');
+          og.label = g.category || 'Topics';
+          (g.topics || []).forEach(function (t) {
+            var lab = t.label || '';
+            if (!lab) return;
+            var opt = document.createElement('option');
+            opt.value = lab;
+            opt.textContent = lab;
+            if (lab === selTopic) opt.selected = true;
+            og.appendChild(opt);
+          });
+          if (og.childNodes.length) newsFilterTopic.appendChild(og);
+        });
+      } else {
+        var topicsArr = Object.keys(topicsSet).sort(function (a, b) {
+          if (a === NEWS_TOPIC_FALLBACK) return 1;
+          if (b === NEWS_TOPIC_FALLBACK) return -1;
+          return a.localeCompare(b);
+        });
+        topicsArr.forEach(function (t) {
+          var opt = document.createElement('option');
+          opt.value = t;
+          opt.textContent = t;
+          if (t === selTopic) opt.selected = true;
+          newsFilterTopic.appendChild(opt);
+        });
+      }
     }
     syncAllAsideFromMain();
   }
 
   function getTopicFromItem(item) {
-    var t = ((item.title || '') + ' ' + (item.snippet || '')).toLowerCase();
-    var src = (item.sourceName || '').trim();
-    if (/\b(right to erasure|erasure|article 17|deletion|right of access|right to access)\b/.test(t)) {
-      return 'Rights (erasure & access)';
-    }
-    if (/\b(ai|artificial intelligence|algorithm|machine learning)\b/.test(t)) return 'AI & digital';
-    if (/\bdigital\b/.test(t) && /\b(data|privacy|personal|gdpr|platform|service)\b/.test(t)) return 'AI & digital';
-    if (
-      /\b(fine|penalt|enforcement|sanction|infringement|reasoned opinion|formal notice|breach of\b)/.test(t)
-    ) {
-      return 'Enforcement & fines';
-    }
-    if (/\b(guidance|guideline|recommendation|compliance|template|best practice)\b/.test(t)) {
-      return 'Guidance & compliance';
-    }
-    if (
-      /\b(bcr|binding corporate|standard contractual|scc\b|adequacy|data transfer|transfers of personal|third countr|schrems|data privacy framework|privacy shield)\b/.test(
-        t
-      )
-    ) {
-      return 'Transfers & BCR';
-    }
-    if (/\b(international|cross-border)\b/.test(t) && /\b(data|personal|privacy|transfer|gdpr)\b/.test(t)) {
-      return 'Transfers & BCR';
-    }
-    if (/\b(convention 108|coe|council of europe)\b/.test(t)) return 'International standards';
-    if (
-      /\b(reform|policy|publication|legislative proposal|initiative|commission adopts|statement on|report on|consultation|call for evidence|q ?& ?a on)\b/.test(
-        t
-      )
-    ) {
-      return 'Policy & publications';
-    }
-    if (/\b(children|child|minor)\b/.test(t) && /\b(privacy|data|personal|online|gdpr)\b/.test(t)) {
-      return 'Children & privacy';
-    }
-    if (/\b(children|child)\b/.test(t)) return 'Children & privacy';
-    if (src === 'European Data Protection Supervisor (EDPS)' || src === 'EDPS') return NEWS_TOPIC_EDPS;
-    if (src === 'European Commission') return NEWS_TOPIC_COMMISSION_DP;
-    return NEWS_TOPIC_OTHER;
+    if (item && item.topic) return String(item.topic).trim();
+    return NEWS_TOPIC_FALLBACK;
   }
 
   function isNewsSummaryBoilerplate(s) {
@@ -1199,7 +1235,10 @@
       .then(function (data) {
         if (!data.attachments || data.attachments.length === 0) {
           newsAttachmentsDialogBody.innerHTML =
-            '<p class="news-attachments-empty">No downloadable files were detected on this page (PDF, Word, Excel, etc.). You can still read the full article on the regulator site.</p>';
+            '<p class="news-attachments-empty">No PDF or Office files were linked from this page — many press items are web-only.</p>' +
+            '<p class="news-attachments-empty-actions"><a class="btn btn-primary btn-sm" href="' +
+            escapeHtml(articleUrl) +
+            '" target="_blank" rel="noopener noreferrer">Open full article</a></p>';
           if (newsAttachmentsSummaryReady && articleUrl && articleUrl !== '#') {
             newsAttachmentCountsByUrl[articleUrl] = 0;
             applyNewsFilters();
@@ -1247,6 +1286,7 @@
   }
 
   function renderNewsPayload(data) {
+    lastNewsTopicTaxonomy = data.topicTaxonomy || null;
     const feeds = data.newsFeeds || [];
     const items = dedupeNewsItemsClient(data.items || []);
     newsFeedsList.innerHTML = '';
@@ -1281,6 +1321,7 @@
         teardownNewsToolbarDock();
         newsSections.innerHTML =
           '<p class="news-empty">No news items yet. Use the feed links on the left to browse each site, or tap <strong>Refresh all sources</strong>.</p>';
+        populateNewsFilters([]);
       } else {
         lastNewsItems = items;
         populateNewsFilters(items);
@@ -2842,10 +2883,28 @@
     );
   }
 
-  function normalizeIndustrySectorsPayload(data) {
-    if (Array.isArray(data) && data.length) return data;
-    if (data && typeof data === 'object' && Array.isArray(data.sectors) && data.sectors.length) return data.sectors;
+  function normalizeIndustrySectorsResponse(data) {
+    if (Array.isArray(data) && data.length) return { sectors: data, tree: null };
+    if (data && typeof data === 'object' && Array.isArray(data.sectors) && data.sectors.length) {
+      var tr = data.tree;
+      if (tr && Array.isArray(tr.industries) && tr.sectorGroups && typeof tr.sectorGroups === 'object') {
+        return { sectors: data.sectors, tree: tr };
+      }
+      return { sectors: data.sectors, tree: null };
+    }
     return null;
+  }
+
+  function attachIndustrySectorTreeJson(pack) {
+    if (!pack || pack.tree) return Promise.resolve(pack);
+    return fetch(API + '/industry-sector-tree.json', { credentials: 'same-origin' })
+      .then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+      .then(function (tree) {
+        if (tree && tree.industries && tree.sectorGroups) return { sectors: pack.sectors, tree: tree };
+        return pack;
+      });
   }
 
   var builtInIsicSectorsCache = null;
@@ -2902,10 +2961,10 @@
   function loadIndustrySectorsForAsk() {
     if (industrySectorsForAskPromise) return industrySectorsForAskPromise;
     industrySectorsForAskPromise = get('/api/industry-sectors')
-      .then(normalizeIndustrySectorsPayload)
-      .then(function (arr) {
-        if (!arr || !arr.length) throw new Error('empty industry sectors from API');
-        return arr;
+      .then(normalizeIndustrySectorsResponse)
+      .then(function (pack) {
+        if (!pack || !pack.sectors.length) throw new Error('empty industry sectors from API');
+        return attachIndustrySectorTreeJson(pack);
       })
       .catch(function () {
         return fetch(API + '/industry-sectors.json', { credentials: 'same-origin' })
@@ -2913,194 +2972,735 @@
             if (!r.ok) throw new Error('industry-sectors.json not available');
             return r.json();
           })
-          .then(normalizeIndustrySectorsPayload)
-          .then(function (arr) {
-            if (!arr || !arr.length) throw new Error('empty industry-sectors.json');
-            return arr;
+          .then(normalizeIndustrySectorsResponse)
+          .then(function (pack) {
+            if (!pack || !pack.sectors.length) throw new Error('empty industry-sectors.json');
+            return attachIndustrySectorTreeJson(pack);
           });
       })
       .catch(function () {
-        return getBuiltInIsicSectorFallback();
+        return { sectors: getBuiltInIsicSectorFallback(), tree: null };
       });
     return industrySectorsForAskPromise;
   }
 
-  function initAskIndustrySectorCombobox() {
+  /** Breadcrumb separator for single-list ISIC picker (Unicode single right-pointing angle quotation mark). */
+  var ASK_SECTOR_PATH_SEP = ' \u203a ';
+
+  /**
+   * Flat rows for Ask combobox: same ids as server (GENERAL, A–U, ISIC-xx), label = full path when tree exists.
+   */
+  function buildHierarchicalAskSectorRows(sectors, tree) {
+    var byId = {};
+    sectors.forEach(function (s) {
+      byId[s.id] = s;
+    });
+    var sep = ASK_SECTOR_PATH_SEP;
+    var rows = [];
+    var gen = byId.GENERAL;
+    rows.push({
+      id: 'GENERAL',
+      label: gen ? gen.label : 'General — no sector-specific framing',
+      isicDivision: null,
+      searchBlob:
+        'general no sector ' +
+        (gen && gen.label ? gen.label : '') +
+        ' ' +
+        (gen && gen.searchTerms ? gen.searchTerms : '')
+    });
+    (tree.industries || []).forEach(function (ind) {
+      var indLabel = String(ind.label || '').trim();
+      (ind.sections || []).forEach(function (letter) {
+        var sectionRow = byId[letter];
+        if (!sectionRow) return;
+        var secLabel = String(sectionRow.label || '').trim();
+        var wholeLabel = indLabel + sep + secLabel + sep + 'Whole ISIC section';
+        rows.push({
+          id: letter,
+          label: wholeLabel,
+          isicDivision: null,
+          searchBlob: [
+            wholeLabel,
+            letter,
+            secLabel,
+            indLabel,
+            sectionRow.searchTerms || '',
+            sectionRow.framework || ''
+          ].join(' ')
+        });
+        var groups = tree.sectorGroups[letter];
+        if (!groups) return;
+        groups.forEach(function (g) {
+          var gLabel = String(g.label || '').trim();
+          (g.divisionIds || []).forEach(function (did) {
+            var divRow = byId[did];
+            if (!divRow) return;
+            var pathLabel = indLabel + sep + secLabel + sep + gLabel + sep + String(divRow.label || '').trim();
+            rows.push({
+              id: did,
+              label: pathLabel,
+              isicDivision: divRow.isicDivision,
+              searchBlob: [
+                pathLabel,
+                did,
+                gLabel,
+                divRow.searchTerms || '',
+                divRow.framework || '',
+                indLabel,
+                secLabel
+              ].join(' ')
+            });
+          });
+        });
+      });
+    });
+    return rows;
+  }
+
+  function sectorRowsFromFlatSectors(sectors) {
+    return sectors.map(function (s) {
+      return {
+        id: s.id,
+        label: s.label,
+        isicDivision: s.isicDivision,
+        searchBlob: [
+          s.label,
+          s.id,
+          s.isicDivision != null ? String(s.isicDivision) : '',
+          s.searchTerms || '',
+          s.framework || ''
+        ].join(' ')
+      };
+    });
+  }
+
+  /**
+   * Grouped expandable list + search-to-flat. Same sector ids as server.
+   */
+  function bindAskIndustrySectorGroupedCombobox(sectors, tree) {
     var select = document.getElementById('askIndustrySector');
     var input = document.getElementById('askIndustrySectorInput');
     var list = document.getElementById('askIndustrySectorList');
     var toggle = document.getElementById('askIndustrySectorToggle');
     if (!select || !input || !list || !toggle) return;
     if (list.dataset.askSectorComboReady === '1') return;
+    if (!Array.isArray(sectors) || sectors.length === 0) sectors = getBuiltInIsicSectorFallback();
+    var flatRows = buildHierarchicalAskSectorRows(sectors, tree);
+    if (!flatRows.length) return;
 
-    loadIndustrySectorsForAsk().then(function (sectors) {
-      if (list.dataset.askSectorComboReady === '1') return;
-      if (!Array.isArray(sectors) || sectors.length === 0) sectors = getBuiltInIsicSectorFallback();
-      list.dataset.askSectorComboReady = '1';
+    list.dataset.askSectorComboReady = '1';
+    list.dataset.askSectorGrouped = '1';
 
-        select.innerHTML = '';
-        sectors.forEach(function (s) {
-          var o = document.createElement('option');
-          o.value = s.id;
-          o.textContent = s.label;
-          select.appendChild(o);
-        });
-        select.value = 'GENERAL';
-        var g = sectors.find(function (x) {
-          return x.id === 'GENERAL';
-        });
-        input.value = g ? g.label : '';
-        input.placeholder = 'Search ISIC sections A–U, divisions 01–99, or General…';
+    var byId = {};
+    sectors.forEach(function (s) {
+      byId[s.id] = s;
+    });
 
-        var activeIndex = -1;
-        var open = false;
-        var debounceTimer = null;
+    var expandedMacros = new Set();
+    var expandedSections = new Set();
+    var activeIndex = -1;
+    var open = false;
+    var debounceTimer = null;
+    var optIdSeq = 0;
 
-        function setOpen(on) {
-          open = on;
-          list.hidden = !on;
-          input.setAttribute('aria-expanded', on ? 'true' : 'false');
-          toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
-        }
+    select.innerHTML = '';
+    flatRows.forEach(function (r) {
+      var o = document.createElement('option');
+      o.value = r.id;
+      o.textContent = r.label;
+      select.appendChild(o);
+    });
+    select.value = 'GENERAL';
+    var genRow = flatRows.find(function (x) {
+      return x.id === 'GENERAL';
+    });
+    input.value = genRow ? genRow.label : '';
+    input.placeholder = 'Browse groups (arrow) or type to search…';
 
-        function filterOpts(q) {
-          var t = (q || '').trim().toLowerCase();
-          if (!t) return sectors.slice();
-          return sectors.filter(function (s) {
-            if ((s.label || '').toLowerCase().indexOf(t) !== -1) return true;
-            if (String(s.id).toLowerCase().indexOf(t) !== -1) return true;
-            if (s.isicDivision != null && String(s.isicDivision).toLowerCase().indexOf(t) !== -1) {
-              return true;
-            }
-            if (s.searchTerms && s.searchTerms.toLowerCase().indexOf(t) !== -1) return true;
-            if (s.framework && s.framework.toLowerCase().indexOf(t) !== -1) return true;
-            return false;
-          });
-        }
+    function selectedRowLabel() {
+      var r = flatRows.find(function (x) {
+        return x.id === select.value;
+      });
+      return r ? r.label : '';
+    }
 
-        function renderList() {
-          var opts = filterOpts(input.value);
-          list.innerHTML = '';
-          activeIndex = -1;
-          if (!opts.length) {
-            var li0 = document.createElement('li');
-            li0.className = 'filter-combobox-option filter-combobox-option--hint';
-            li0.setAttribute('role', 'presentation');
-            li0.textContent = 'No matches';
-            list.appendChild(li0);
-            return;
-          }
-          opts.forEach(function (opt, i) {
-            var li = document.createElement('li');
-            li.setAttribute('role', 'option');
-            li.id = 'askIndustrySectorList-opt-' + i;
-            li.className = 'filter-combobox-option';
-            li.setAttribute('data-value', opt.id);
-            li.textContent = opt.label;
-            li.addEventListener('mousedown', function (e) {
-              e.preventDefault();
-              pick(opt.id, opt.label);
-            });
-            list.appendChild(li);
-          });
-        }
+    function isSearchMode() {
+      var q = (input.value || '').trim();
+      if (q === '') return false;
+      return q !== selectedRowLabel();
+    }
 
-        function pick(value, label) {
-          select.value = value;
-          input.value = label;
-          setOpen(false);
-          activeIndex = -1;
-          select.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-
-        function highlight(idx) {
-          var items = list.querySelectorAll('[role="option"]');
-          items.forEach(function (el, j) {
-            el.classList.toggle('filter-combobox-option--active', j === idx);
-          });
-          activeIndex = idx;
-          if (idx >= 0 && items[idx]) {
-            input.setAttribute('aria-activedescendant', items[idx].id);
-          } else {
-            input.removeAttribute('aria-activedescendant');
-          }
-        }
-
-        function openList() {
-          renderList();
-          setOpen(true);
-          var items = list.querySelectorAll('[role="option"]');
-          var sel = select.value;
-          var start = 0;
-          for (var s = 0; s < items.length; s++) {
-            if (items[s].getAttribute('data-value') === sel) {
-              start = s;
+    function expandAncestorsForSelectedId(sid) {
+      expandedMacros.clear();
+      expandedSections.clear();
+      if (!sid || sid === 'GENERAL') return;
+      var letter = null;
+      if (/^[A-U]$/.test(sid)) letter = sid;
+      else {
+        for (var L in tree.sectorGroups) {
+          if (!Object.prototype.hasOwnProperty.call(tree.sectorGroups, L)) continue;
+          var grps = tree.sectorGroups[L];
+          for (var gi = 0; gi < grps.length; gi++) {
+            if ((grps[gi].divisionIds || []).indexOf(sid) !== -1) {
+              letter = L;
               break;
             }
           }
-          highlight(items.length ? start : -1);
+          if (letter) break;
         }
-
-        function syncFromSelect() {
-          var s = sectors.find(function (x) {
-            return x.id === select.value;
-          });
-          input.value = s ? s.label : '';
+      }
+      if (!letter) return;
+      (tree.industries || []).forEach(function (ind) {
+        if ((ind.sections || []).indexOf(letter) !== -1) {
+          expandedMacros.add(ind.id);
+          expandedSections.add(ind.id + ':' + letter);
         }
+      });
+    }
 
-        toggle.addEventListener('click', function (e) {
+    function setOpen(on) {
+      open = on;
+      list.hidden = !on;
+      input.setAttribute('aria-expanded', on ? 'true' : 'false');
+      toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+    }
+
+    function filterFlat(q) {
+      var t = (q || '').trim().toLowerCase();
+      if (!t) return flatRows.slice();
+      return flatRows.filter(function (r) {
+        if ((r.label || '').toLowerCase().indexOf(t) !== -1) return true;
+        if (String(r.id).toLowerCase().indexOf(t) !== -1) return true;
+        if (r.isicDivision != null && String(r.isicDivision).toLowerCase().indexOf(t) !== -1) return true;
+        if ((r.searchBlob || '').toLowerCase().indexOf(t) !== -1) return true;
+        return false;
+      });
+    }
+
+    function nextOptId() {
+      optIdSeq += 1;
+      return 'askIndustrySectorOpt-' + optIdSeq;
+    }
+
+    function makeOptionEl(fullLabel, shortLabel, value) {
+      var el = document.createElement('div');
+      el.setAttribute('role', 'option');
+      el.id = nextOptId();
+      el.className = 'filter-combobox-option ask-sector-leaf';
+      el.setAttribute('data-value', value);
+      el.setAttribute('data-full-label', fullLabel);
+      el.textContent = shortLabel;
+      el.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        pick(value, fullLabel);
+      });
+      return el;
+    }
+
+    function makeMacroExpandRow(indId, indLabel) {
+      var el = document.createElement('div');
+      el.setAttribute('role', 'option');
+      el.id = nextOptId();
+      el.className =
+        'filter-combobox-option ask-sector-expand-row ask-sector-expand-row--macro';
+      el.setAttribute('aria-expanded', expandedMacros.has(indId) ? 'true' : 'false');
+      el.setAttribute('data-expand-macro', indId);
+      var iconM = document.createElement('span');
+      iconM.className = 'ask-sector-expand-icon';
+      iconM.setAttribute('aria-hidden', 'true');
+      el.appendChild(iconM);
+      el.appendChild(document.createTextNode(indLabel));
+      el.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        toggleMacro(indId);
+      });
+      return el;
+    }
+
+    function makeSectionExpandRow(secKey, secLabel) {
+      var el = document.createElement('div');
+      el.setAttribute('role', 'option');
+      el.id = nextOptId();
+      el.className =
+        'filter-combobox-option ask-sector-expand-row ask-sector-expand-row--section';
+      el.setAttribute('aria-expanded', expandedSections.has(secKey) ? 'true' : 'false');
+      el.setAttribute('data-expand-section', secKey);
+      var iconS = document.createElement('span');
+      iconS.className = 'ask-sector-expand-icon';
+      iconS.setAttribute('aria-hidden', 'true');
+      el.appendChild(iconS);
+      el.appendChild(document.createTextNode(secLabel));
+      el.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        toggleSection(secKey);
+      });
+      return el;
+    }
+
+    function toggleMacro(indId) {
+      if (expandedMacros.has(indId)) expandedMacros.delete(indId);
+      else expandedMacros.add(indId);
+      renderGrouped();
+      if (open) {
+        var vis = visibleOptions();
+        var idx = vis.findIndex(function (el) {
+          return el.getAttribute('data-expand-macro') === indId;
+        });
+        highlight(idx >= 0 ? idx : 0);
+      }
+    }
+
+    function toggleSection(secKey) {
+      if (expandedSections.has(secKey)) expandedSections.delete(secKey);
+      else expandedSections.add(secKey);
+      renderGrouped();
+      if (open) {
+        var vis = visibleOptions();
+        var idx = vis.findIndex(function (el) {
+          return el.getAttribute('data-expand-section') === secKey;
+        });
+        highlight(idx >= 0 ? idx : 0);
+      }
+    }
+
+    function visibleOptions() {
+      return Array.from(list.querySelectorAll('[role="option"]')).filter(function (el) {
+        if (el.classList.contains('filter-combobox-option--hint')) return false;
+        var n = el.parentElement;
+        while (n && n !== list) {
+          if (n.classList && n.classList.contains('hidden')) return false;
+          n = n.parentElement;
+        }
+        return true;
+      });
+    }
+
+    function renderFlatFiltered() {
+      list.classList.remove('filter-combobox-list--ask-sector-grouped');
+      optIdSeq = 0;
+      var opts = filterFlat(input.value);
+      list.innerHTML = '';
+      activeIndex = -1;
+      if (!opts.length) {
+        var h = document.createElement('div');
+        h.className = 'filter-combobox-option filter-combobox-option--hint';
+        h.setAttribute('role', 'presentation');
+        h.textContent = 'No matches';
+        list.appendChild(h);
+        return;
+      }
+      opts.forEach(function (opt) {
+        var el = makeOptionEl(opt.label, opt.label, opt.id);
+        el.classList.add('filter-combobox-option--ask-sector-path');
+        list.appendChild(el);
+      });
+    }
+
+    function renderGrouped() {
+      list.classList.add('filter-combobox-list--ask-sector-grouped');
+      optIdSeq = 0;
+      list.innerHTML = '';
+      activeIndex = -1;
+      var sep = ASK_SECTOR_PATH_SEP;
+
+      var gRow = flatRows.find(function (x) {
+        return x.id === 'GENERAL';
+      });
+      if (gRow) {
+        var gEl = makeOptionEl(gRow.label, gRow.label, 'GENERAL');
+        gEl.classList.add('ask-sector-leaf--general');
+        list.appendChild(gEl);
+      }
+
+      (tree.industries || []).forEach(function (ind) {
+        var indId = ind.id;
+        var indLabel = String(ind.label || '').trim();
+        var macroWrap = document.createElement('div');
+        macroWrap.className = 'ask-sector-macro';
+        macroWrap.setAttribute('role', 'presentation');
+
+        var macroExpand = makeMacroExpandRow(indId, indLabel);
+
+        var macroPanel = document.createElement('div');
+        macroPanel.className = 'ask-sector-expand-panel';
+        if (!expandedMacros.has(indId)) macroPanel.classList.add('hidden');
+
+        (ind.sections || []).forEach(function (letter) {
+          var sectionRow = byId[letter];
+          if (!sectionRow) return;
+          var secKey = indId + ':' + letter;
+          var secLabel = String(sectionRow.label || '').trim();
+          var secWrap = document.createElement('div');
+          secWrap.className = 'ask-sector-section';
+          secWrap.setAttribute('role', 'presentation');
+
+          var secExpand = makeSectionExpandRow(secKey, secLabel);
+
+          var secPanel = document.createElement('div');
+          secPanel.className = 'ask-sector-expand-panel ask-sector-expand-panel--section';
+          if (!expandedSections.has(secKey)) secPanel.classList.add('hidden');
+
+          var wholeFull = indLabel + sep + secLabel + sep + 'Whole ISIC section';
+          secPanel.appendChild(
+            makeOptionEl(wholeFull, 'Whole ISIC section (broader framing)', letter)
+          );
+
+          var groups = tree.sectorGroups[letter];
+          if (groups) {
+            groups.forEach(function (g) {
+              (g.divisionIds || []).forEach(function (did) {
+                var divRow = byId[did];
+                if (!divRow) return;
+                var gLabel = String(g.label || '').trim();
+                var divShort = String(divRow.label || '').trim();
+                var full = indLabel + sep + secLabel + sep + gLabel + sep + divShort;
+                secPanel.appendChild(makeOptionEl(full, divShort, did));
+              });
+            });
+          }
+
+          secWrap.appendChild(secExpand);
+          secWrap.appendChild(secPanel);
+          macroPanel.appendChild(secWrap);
+        });
+
+        macroWrap.appendChild(macroExpand);
+        macroWrap.appendChild(macroPanel);
+        list.appendChild(macroWrap);
+      });
+    }
+
+    function renderList() {
+      if (isSearchMode()) {
+        renderFlatFiltered();
+      } else {
+        expandAncestorsForSelectedId(select.value);
+        renderGrouped();
+      }
+    }
+
+    function pick(value, fullLabel) {
+      select.value = value;
+      input.value = fullLabel;
+      setOpen(false);
+      activeIndex = -1;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function highlight(idx) {
+      var items = visibleOptions();
+      items.forEach(function (el, j) {
+        el.classList.toggle('filter-combobox-option--active', j === idx);
+      });
+      activeIndex = idx;
+      if (idx >= 0 && items[idx]) {
+        input.setAttribute('aria-activedescendant', items[idx].id);
+      } else {
+        input.removeAttribute('aria-activedescendant');
+      }
+    }
+
+    function openList() {
+      renderList();
+      setOpen(true);
+      var items = visibleOptions();
+      var sel = select.value;
+      var start = 0;
+      for (var s = 0; s < items.length; s++) {
+        if (items[s].getAttribute('data-value') === sel) {
+          start = s;
+          break;
+        }
+      }
+      highlight(items.length ? start : -1);
+    }
+
+    function syncFromSelect() {
+      var r = flatRows.find(function (x) {
+        return x.id === select.value;
+      });
+      input.value = r ? r.label : '';
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (open) setOpen(false);
+      else openList();
+    });
+
+    input.addEventListener('focus', function () {
+      syncFromSelect();
+    });
+
+    input.addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        if (open) renderList();
+        else openList();
+      }, 90);
+    });
+
+    input.addEventListener('keydown', function (e) {
+      var items = visibleOptions();
+      if (e.key === 'Escape') {
+        setOpen(false);
+        syncFromSelect();
+        return;
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!open) openList();
+        else if (items.length) {
+          highlight(Math.min(activeIndex + 1, items.length - 1));
+        }
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!open) openList();
+        else if (items.length) {
+          highlight(Math.max(activeIndex - 1, 0));
+        }
+        return;
+      }
+      if (e.key === 'Enter') {
+        if (open && activeIndex >= 0 && items[activeIndex]) {
           e.preventDefault();
-          if (open) setOpen(false);
-          else openList();
-        });
-
-        input.addEventListener('focus', function () {
-          syncFromSelect();
-        });
-
-        input.addEventListener('input', function () {
-          clearTimeout(debounceTimer);
-          debounceTimer = setTimeout(function () {
-            if (open) renderList();
-            else openList();
-          }, 90);
-        });
-
-        input.addEventListener('keydown', function (e) {
-          var items = list.querySelectorAll('[role="option"]');
-          if (e.key === 'Escape') {
-            setOpen(false);
-            syncFromSelect();
+          var el = items[activeIndex];
+          var exM = el.getAttribute('data-expand-macro');
+          var exS = el.getAttribute('data-expand-section');
+          if (exM) {
+            toggleMacro(exM);
             return;
           }
-          if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (!open) openList();
-            else highlight(Math.min(activeIndex + 1, items.length - 1));
+          if (exS) {
+            toggleSection(exS);
             return;
           }
-          if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            if (!open) openList();
-            else highlight(Math.max(activeIndex - 1, 0));
-            return;
-          }
-          if (e.key === 'Enter') {
-            if (open && activeIndex >= 0 && items[activeIndex]) {
-              e.preventDefault();
-              var el = items[activeIndex];
-              pick(el.getAttribute('data-value'), el.textContent);
-            }
-            return;
-          }
-          if (e.key === 'Tab') setOpen(false);
-        });
+          pick(el.getAttribute('data-value'), el.getAttribute('data-full-label') || el.textContent);
+        }
+        return;
+      }
+      if (e.key === 'Tab') setOpen(false);
+    });
 
-        document.addEventListener('click', function (e) {
-          if (!open) return;
-          var wrap = document.getElementById('askSectorComboboxWrap');
-          if (wrap && !wrap.contains(e.target)) setOpen(false);
+    document.addEventListener('click', function (e) {
+      if (!open) return;
+      var wrap = document.getElementById('askSectorComboboxWrap');
+      if (wrap && !wrap.contains(e.target)) setOpen(false);
+    });
+  }
+
+  /**
+   * One searchable combobox: rows are { id, label, isicDivision?, searchBlob }.
+   */
+  function bindAskIndustrySectorComboboxRows(rows, placeholder) {
+    var select = document.getElementById('askIndustrySector');
+    var input = document.getElementById('askIndustrySectorInput');
+    var list = document.getElementById('askIndustrySectorList');
+    var toggle = document.getElementById('askIndustrySectorToggle');
+    if (!select || !input || !list || !toggle) return;
+    if (list.dataset.askSectorComboReady === '1') return;
+    if (!Array.isArray(rows) || rows.length === 0) return;
+    list.dataset.askSectorComboReady = '1';
+
+    select.innerHTML = '';
+    rows.forEach(function (r) {
+      var o = document.createElement('option');
+      o.value = r.id;
+      o.textContent = r.label;
+      select.appendChild(o);
+    });
+    select.value = 'GENERAL';
+    var g = rows.find(function (x) {
+      return x.id === 'GENERAL';
+    });
+    input.value = g ? g.label : '';
+    if (placeholder) input.placeholder = placeholder;
+
+    var activeIndex = -1;
+    var open = false;
+    var debounceTimer = null;
+
+    function setOpen(on) {
+      open = on;
+      list.hidden = !on;
+      input.setAttribute('aria-expanded', on ? 'true' : 'false');
+      toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+    }
+
+    function filterOpts(q) {
+      var t = (q || '').trim().toLowerCase();
+      if (!t) return rows.slice();
+      return rows.filter(function (r) {
+        if ((r.label || '').toLowerCase().indexOf(t) !== -1) return true;
+        if (String(r.id).toLowerCase().indexOf(t) !== -1) return true;
+        if (r.isicDivision != null && String(r.isicDivision).toLowerCase().indexOf(t) !== -1) return true;
+        if ((r.searchBlob || '').toLowerCase().indexOf(t) !== -1) return true;
+        return false;
+      });
+    }
+
+    function renderList() {
+      var opts = filterOpts(input.value);
+      list.innerHTML = '';
+      activeIndex = -1;
+      if (!opts.length) {
+        var hint = document.createElement('div');
+        hint.className = 'filter-combobox-option filter-combobox-option--hint';
+        hint.setAttribute('role', 'presentation');
+        hint.textContent = 'No matches';
+        list.appendChild(hint);
+        return;
+      }
+      opts.forEach(function (opt, i) {
+        var row = document.createElement('div');
+        row.setAttribute('role', 'option');
+        row.id = 'askIndustrySectorList-opt-' + i;
+        row.className = 'filter-combobox-option filter-combobox-option--ask-sector-path';
+        row.setAttribute('data-value', opt.id);
+        row.setAttribute('data-full-label', opt.label);
+        row.textContent = opt.label;
+        row.addEventListener('mousedown', function (e) {
+          e.preventDefault();
+          pick(opt.id, opt.label);
         });
+        list.appendChild(row);
+      });
+    }
+
+    function pick(value, label) {
+      select.value = value;
+      input.value = label;
+      setOpen(false);
+      activeIndex = -1;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function highlight(idx) {
+      var items = list.querySelectorAll('[role="option"]');
+      items.forEach(function (el, j) {
+        el.classList.toggle('filter-combobox-option--active', j === idx);
+      });
+      activeIndex = idx;
+      if (idx >= 0 && items[idx]) {
+        input.setAttribute('aria-activedescendant', items[idx].id);
+      } else {
+        input.removeAttribute('aria-activedescendant');
+      }
+    }
+
+    function openList() {
+      renderList();
+      setOpen(true);
+      var items = list.querySelectorAll('[role="option"]');
+      var sel = select.value;
+      var start = 0;
+      for (var s = 0; s < items.length; s++) {
+        if (items[s].getAttribute('data-value') === sel) {
+          start = s;
+          break;
+        }
+      }
+      highlight(items.length ? start : -1);
+    }
+
+    function syncFromSelect() {
+      var s = rows.find(function (x) {
+        return x.id === select.value;
+      });
+      input.value = s ? s.label : '';
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (open) setOpen(false);
+      else openList();
+    });
+
+    input.addEventListener('focus', function () {
+      syncFromSelect();
+    });
+
+    input.addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        if (open) renderList();
+        else openList();
+      }, 90);
+    });
+
+    input.addEventListener('keydown', function (e) {
+      var items = list.querySelectorAll('[role="option"]');
+      if (e.key === 'Escape') {
+        setOpen(false);
+        syncFromSelect();
+        return;
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!open) openList();
+        else highlight(Math.min(activeIndex + 1, items.length - 1));
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!open) openList();
+        else highlight(Math.max(activeIndex - 1, 0));
+        return;
+      }
+      if (e.key === 'Enter') {
+        if (open && activeIndex >= 0 && items[activeIndex]) {
+          e.preventDefault();
+          var el = items[activeIndex];
+          pick(
+            el.getAttribute('data-value'),
+            el.getAttribute('data-full-label') || el.textContent
+          );
+        }
+        return;
+      }
+      if (e.key === 'Tab') setOpen(false);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!open) return;
+      var wrap = document.getElementById('askSectorComboboxWrap');
+      if (wrap && !wrap.contains(e.target)) setOpen(false);
+    });
+  }
+
+  function initAskIndustrySectorComboboxLegacy(sectors) {
+    if (!Array.isArray(sectors) || sectors.length === 0) sectors = getBuiltInIsicSectorFallback();
+    var rows = sectorRowsFromFlatSectors(sectors);
+    bindAskIndustrySectorComboboxRows(
+      rows,
+      'Search ISIC sections A–U, divisions 01–99, or General…'
+    );
+  }
+
+  function initAskIndustrySectorHierarchicalCombobox(sectors, tree) {
+    if (!Array.isArray(sectors) || sectors.length === 0) sectors = getBuiltInIsicSectorFallback();
+    bindAskIndustrySectorGroupedCombobox(sectors, tree);
+  }
+
+  function initAskIndustrySectorCombobox() {
+    var select = document.getElementById('askIndustrySector');
+    var list = document.getElementById('askIndustrySectorList');
+    if (!select) return;
+    if (list && list.dataset.askSectorComboReady === '1') return;
+
+    loadIndustrySectorsForAsk().then(function (pack) {
+      if (list && list.dataset.askSectorComboReady === '1') return;
+      var sectors = pack && pack.sectors ? pack.sectors : [];
+      var tree = pack && pack.tree ? pack.tree : null;
+      if (!Array.isArray(sectors) || sectors.length === 0) sectors = getBuiltInIsicSectorFallback();
+
+      if (tree && Array.isArray(tree.industries) && tree.sectorGroups && typeof tree.sectorGroups === 'object') {
+        initAskIndustrySectorHierarchicalCombobox(sectors, tree);
+      } else {
+        initAskIndustrySectorComboboxLegacy(sectors);
+      }
     });
   }
 
