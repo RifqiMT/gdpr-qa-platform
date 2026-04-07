@@ -47,7 +47,7 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 
 | ID | Story | Persona |
 |----|--------|---------|
-| US-N1 | As a **DPO**, I want a News tab with GDPR/data protection updates from **EDPB, EDPS, ICO, CNIL (English), European Commission,** and **Council of Europe** so that I have one place to stay updated. | DPO |
+| US-N1 | As a **DPO**, I want a News tab with GDPR/data protection updates from **EDPB, EDPS, ICO (UK), European Commission,** and **Council of Europe** so that I have one place to stay updated. | DPO |
 | US-N2 | As a **Legal/Compliance** user, I want news grouped by source with a short summary per source so that I can scan by organization. | Legal/Compliance |
 | US-N3 | As a **DPO**, I want to filter news by Source and Topic so that I can focus on e.g. enforcement or guidance. | DPO |
 | US-N4 | As a **Consultant**, I want each news item to link to the original article so that I can read the full story on the publisher’s site. | Consultant |
@@ -56,6 +56,8 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 | US-N7 | As a **DPO**, I want **Quick filters** to appear in the **sidebar when I scroll** past the main news filters (on desktop) so that I can change source/topic without scrolling back up. | DPO |
 | US-N8 | As a **Consultant**, I want to **collapse “Official site & RSS”** when I need more room in the sidebar, with my choice remembered for the session. | Consultant |
 | US-N9 | As **Engineering / DevOps**, I want to **tune news crawl depth and merge caps** via documented **`NEWS_*`** environment variables so that we can balance freshness, runtime, and API payload size without forking the crawler. | Engineering / DevOps |
+| US-N10 | As a **Legal/Compliance** user, I want to switch between a **By source** view and an **All sources** chronological feed so that I can scan either by organization or by time. | Legal/Compliance |
+| US-N11 | As a **DPO**, I want the **Attachments** action to appear only when a news article page actually links downloadable files so that the UI stays clean and predictable. | DPO |
 
 ---
 

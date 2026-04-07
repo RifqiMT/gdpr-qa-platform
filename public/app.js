@@ -538,14 +538,18 @@
       'EU institutional data protection: how the EDPS supervises processing by EU institutions and bodies, and coordinates with the EDPB on consistency.',
     'EDPS': 'Press, blogs, and updates from the European Data Protection Supervisor on EU institutions, Regulation 2018/1725, and cooperation with the EDPB.',
     'ICO (UK)': 'UK regulator updates: enforcement actions, fines, guidance under UK GDPR, and how the ICO interprets data protection law.',
-    'CNIL (France)':
-      'French DPA news in English: CNIL guidance, enforcement, and GDPR-related positions from the national supervisory authority.',
     'European Commission': 'Official EU policy, reform, and publications on data protection and the GDPR from the European Commission.',
     'Council of Europe': 'International data protection standards and updates on Convention 108+ (protection of personal data).'
   };
 
   /** Catch-all leaf topic; must match `NEWS_TOPIC_FALLBACK` in `news-topics.js`. */
   var NEWS_TOPIC_FALLBACK = 'Other GDPR & data protection topics';
+
+  /**
+   * `<option value>` prefix for “whole topic group” rows in the News topic filter.
+   * Value is prefix + category name from `topicTaxonomy.groups[].category` (see `news-topics.js`).
+   */
+  var NEWS_TOPIC_GROUP_VALUE_PREFIX = '__news_topic_group__:';
 
   /** Preferred order for grouping news sections and filter dropdowns. */
   var NEWS_SOURCE_DISPLAY_ORDER = [
@@ -554,28 +558,69 @@
     'European Data Protection Supervisor (EDPS)',
     'EDPS',
     'ICO (UK)',
-    'CNIL (France)',
     'European Commission',
     'Council of Europe'
   ];
 
   var lastNewsItems = [];
+  /** Per-source and per-topic leaf counts for the loaded corpus (`lastNewsItems`); drives filter badges. */
+  var lastNewsFilterCounts = {
+    source: {},
+    topicLeaf: {},
+    allSourcesRow: 0,
+    allTopicsRow: 0,
+    total: 0
+  };
   /** From GET /api/news `topicTaxonomy` — optgroup labels + topic list (mirrors server `news-topics.js`). */
   var lastNewsTopicTaxonomy = null;
-  /** url -> attachment count (0 = hide button); null = scan error (show button); undefined = not scanned yet (hide until ready, then show if beyond batch cap). */
+  /** url -> count from POST /api/news/attachments-summary (0, or null on per-URL scan error). Undefined = not in capped batch. */
   var newsAttachmentCountsByUrl = Object.create(null);
   var newsAttachmentsSummaryReady = false;
   var newsAttachmentsSummaryFailed = false;
   var newsAttachmentsSummaryRequestSeq = 0;
 
+  var newsBrowseHeading = document.getElementById('newsBrowseHeading');
+  var newsViewBySourceBtn = document.getElementById('newsViewBySourceBtn');
+  var newsViewAllBtn = document.getElementById('newsViewAllBtn');
+  var NEWS_VIEW_MODE_KEY = 'gdpr_news_view_mode';
+  var newsViewMode = 'by_source';
+
+  (function restoreNewsViewMode() {
+    try {
+      var v = sessionStorage.getItem(NEWS_VIEW_MODE_KEY);
+      if (v === 'all') newsViewMode = 'all';
+    } catch (err) {}
+  })();
+
+  function syncNewsViewToggleUi() {
+    var bySource = newsViewMode !== 'all';
+    if (newsViewBySourceBtn) newsViewBySourceBtn.setAttribute('aria-pressed', bySource ? 'true' : 'false');
+    if (newsViewAllBtn) newsViewAllBtn.setAttribute('aria-pressed', bySource ? 'false' : 'true');
+    if (newsBrowseHeading) newsBrowseHeading.textContent = bySource ? 'Articles by source' : 'All articles';
+    if (newsTocNav) newsTocNav.hidden = !bySource;
+  }
+
+  function setNewsViewMode(mode) {
+    var m = mode === 'all' ? 'all' : 'by_source';
+    if (newsViewMode === m) return;
+    newsViewMode = m;
+    try {
+      sessionStorage.setItem(NEWS_VIEW_MODE_KEY, newsViewMode === 'all' ? 'all' : 'by_source');
+    } catch (err) {}
+    closeAllNewsFilterDropdowns();
+    applyNewsFilters();
+  }
+
+  /**
+   * Attachments control only when we know this article page links at least one allowed file (PDF/Office, etc.).
+   * Hidden while the batch summary loads; hidden on batch failure, scan errors, or URLs past the client batch cap.
+   */
   function shouldShowNewsAttachmentsButton(url) {
     if (!url || url === '#') return false;
-    if (newsAttachmentsSummaryFailed) return true;
     if (!newsAttachmentsSummaryReady) return false;
+    if (newsAttachmentsSummaryFailed) return false;
     var c = newsAttachmentCountsByUrl[url];
-    if (c === null) return true;
-    if (typeof c === 'number') return c > 0;
-    return true;
+    return typeof c === 'number' && c > 0;
   }
 
   function buildNewsCardAttachmentsBlock(url, title) {
@@ -699,7 +744,8 @@
       if (!u || u === '#' || seen[u]) continue;
       seen[u] = true;
       urls.push(u);
-      if (urls.length >= 48) break;
+      /* Batch cap must match server POST /api/news/attachments-summary. */
+      if (urls.length >= 96) break;
     }
     if (!urls.length) {
       newsAttachmentsSummaryReady = true;
@@ -775,6 +821,36 @@
     return chunks.join(' ').toLowerCase().replace(/\s+/g, ' ');
   }
 
+  /** When `topicVal` is a group prefix, returns a set of leaf labels; otherwise `null` (leaf or “all”). */
+  function buildTopicAllowedLeafSetFromTopicVal(topicVal) {
+    if (!topicVal || topicVal.indexOf(NEWS_TOPIC_GROUP_VALUE_PREFIX) !== 0) return null;
+    var gcat = topicVal.slice(NEWS_TOPIC_GROUP_VALUE_PREFIX.length);
+    var labels = getAllowedLeafTopicsForNewsGroup(gcat);
+    if (!labels) return Object.create(null);
+    var set = Object.create(null);
+    labels.forEach(function (lab) {
+      set[lab] = true;
+    });
+    return set;
+  }
+
+  function itemMatchesTopicFilter(topicVal, item, allowedLeafSet) {
+    if (!topicVal) return true;
+    var t = getTopicFromItem(item);
+    if (allowedLeafSet) return !!allowedLeafSet[t];
+    return t === topicVal;
+  }
+
+  function itemMatchesSourceFilter(sourceVal, item) {
+    if (!sourceVal) return true;
+    return (item.sourceName || '') === sourceVal;
+  }
+
+  function itemMatchesNewsSearch(q, item) {
+    if (!q) return true;
+    return getNewsSearchBlob(item).indexOf(q) !== -1;
+  }
+
   function renderNewsToc(orderedSourceNames) {
     if (!newsTocNav || !newsTocList) return;
     if (!orderedSourceNames || orderedSourceNames.length < 2) {
@@ -804,7 +880,7 @@
     if (newsSearchClearAside) newsSearchClearAside.classList.toggle('hidden', !hasAside);
   }
 
-  function syncAllAsideFromMain() {
+  function copyNewsFilterSelectsMainToAside() {
     if (newsFilterSourceAside && newsFilterSource) {
       newsFilterSourceAside.innerHTML = newsFilterSource.innerHTML;
       newsFilterSourceAside.value = newsFilterSource.value;
@@ -813,10 +889,522 @@
       newsFilterTopicAside.innerHTML = newsFilterTopic.innerHTML;
       newsFilterTopicAside.value = newsFilterTopic.value;
     }
+  }
+
+  function syncAllAsideFromMain() {
+    copyNewsFilterSelectsMainToAside();
     if (newsSearchInputAside && newsSearchInput) {
       newsSearchInputAside.value = newsSearchInput.value;
     }
     syncNewsSearchClearVisible();
+  }
+
+  function refreshNewsFilterDropdownsUi() {
+    rebuildAllNewsFilterPanels();
+    syncAllNewsFilterTriggersAndSelection();
+  }
+
+  function markNewsFilterOptionSelected(panelEl, selectValue) {
+    if (!panelEl) return;
+    var sel = selectValue === undefined || selectValue === null ? '' : String(selectValue);
+    var buttons = panelEl.querySelectorAll('[data-news-filter-value]');
+    for (var b = 0; b < buttons.length; b++) {
+      var btn = buttons[b];
+      var v = btn.getAttribute('data-news-filter-value');
+      if (v === null || v === undefined) v = '';
+      var match = String(v) === sel;
+      btn.setAttribute('aria-selected', match ? 'true' : 'false');
+      btn.classList.toggle('news-filter-option--selected', match);
+    }
+  }
+
+  /** Counts per source when topic + search match the current filter (source dimension ignored). */
+  function computeNewsSourceCountsForFilterContext(items, topicVal, q) {
+    var allowedLeafSet = buildTopicAllowedLeafSetFromTopicVal(topicVal);
+    var perSource = Object.create(null);
+    var allSourcesRow = 0;
+    (items || []).forEach(function (item) {
+      if (!itemMatchesTopicFilter(topicVal, item, allowedLeafSet)) return;
+      if (!itemMatchesNewsSearch(q, item)) return;
+      allSourcesRow++;
+      var src = String(item.sourceName || 'Other').trim() || 'Other';
+      perSource[src] = (perSource[src] || 0) + 1;
+    });
+    return { perSource: perSource, allSourcesRow: allSourcesRow };
+  }
+
+  /** Per–topic-tag counts when source + search match (topic dimension ignored). */
+  function computeNewsTopicCountsForFilterContext(items, sourceVal, q) {
+    var topicLeaf = Object.create(null);
+    var allTopicsRow = 0;
+    (items || []).forEach(function (item) {
+      if (!itemMatchesSourceFilter(sourceVal, item)) return;
+      if (!itemMatchesNewsSearch(q, item)) return;
+      allTopicsRow++;
+      var t = getTopicFromItem(item);
+      topicLeaf[t] = (topicLeaf[t] || 0) + 1;
+    });
+    return { topicLeaf: topicLeaf, allTopicsRow: allTopicsRow };
+  }
+
+  function sumLeafTopicCounts(leafLabels, topicLeafCounts) {
+    var n = 0;
+    if (!leafLabels || !topicLeafCounts) return 0;
+    for (var i = 0; i < leafLabels.length; i++) {
+      n += topicLeafCounts[leafLabels[i]] || 0;
+    }
+    return n;
+  }
+
+  function makeNewsFilterOptionButton(opts) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('role', 'option');
+    btn.className = opts.className;
+    var val = opts.value;
+    if (val === undefined || val === null) val = '';
+    btn.setAttribute('data-news-filter-value', val);
+    var labelSpan = document.createElement('span');
+    labelSpan.className = 'news-filter-option-label';
+    labelSpan.textContent = opts.labelText;
+    var countSpan = document.createElement('span');
+    countSpan.className = 'news-filter-option-count';
+    var c = typeof opts.count === 'number' ? opts.count : 0;
+    countSpan.textContent = String(c);
+    countSpan.setAttribute('aria-hidden', 'true');
+    btn.appendChild(labelSpan);
+    btn.appendChild(countSpan);
+    btn.setAttribute(
+      'aria-label',
+      opts.labelText + ', ' + c + (c === 1 ? ' article' : ' articles')
+    );
+    return btn;
+  }
+
+  function getNewsFilterOptionLabel(btn) {
+    if (!btn) return '';
+    var span = btn.querySelector && btn.querySelector('.news-filter-option-label');
+    return String((span && span.textContent) || btn.textContent || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+  }
+
+  function ensureNewsFilterPanelSearch(selectEl, panelEl) {
+    if (!selectEl || !panelEl) return;
+    // Panels are rebuilt often (panelEl.innerHTML=''), so we must check for the actual node,
+    // not a sticky flag on the panel element.
+    if (panelEl.querySelector && panelEl.querySelector('.news-filter-search-input')) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'news-filter-search';
+    var input = document.createElement('input');
+    input.type = 'search';
+    input.className = 'news-filter-search-input';
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+    input.placeholder = /Topic/i.test(selectEl.id || '') ? 'Search topics…' : 'Search sources…';
+    input.setAttribute('aria-label', input.placeholder.replace(/…$/, ''));
+    wrap.appendChild(input);
+
+    // Insert above all options.
+    if (panelEl.firstChild) panelEl.insertBefore(wrap, panelEl.firstChild);
+    else panelEl.appendChild(wrap);
+
+    function applyFilter() {
+      var q = String(input.value || '')
+        .toLowerCase()
+        .trim();
+      var isTopic = /Topic/i.test(selectEl.id || '');
+
+      if (!q) {
+        // Reset: show everything.
+        panelEl.querySelectorAll('[data-news-filter-value]').forEach(function (btn) {
+          btn.hidden = false;
+        });
+        if (isTopic) {
+          panelEl.querySelectorAll('.news-filter-topic-section').forEach(function (sec) {
+            sec.hidden = false;
+            sec.querySelectorAll('[data-news-filter-value]').forEach(function (btn) {
+              btn.hidden = false;
+            });
+          });
+        }
+        return;
+      }
+
+      if (!isTopic) {
+        panelEl.querySelectorAll('[data-news-filter-value]').forEach(function (btn) {
+          var lab = getNewsFilterOptionLabel(btn);
+          btn.hidden = lab.indexOf(q) === -1;
+        });
+        return;
+      }
+
+      // Topic panel: keep group wrappers readable while filtering.
+      panelEl.querySelectorAll('.news-filter-topic-section').forEach(function (sec) {
+        var head = sec.querySelector('.news-filter-option--group');
+        var headLabel = getNewsFilterOptionLabel(head);
+        var leafWrap = sec.querySelector('.news-filter-topic-leaves');
+        var any = false;
+
+        if (head && headLabel.indexOf(q) !== -1) {
+          // If group title matches, show group + all leaves.
+          sec.hidden = false;
+          head.hidden = false;
+          if (leafWrap) {
+            leafWrap.querySelectorAll('[data-news-filter-value]').forEach(function (btn) {
+              btn.hidden = false;
+            });
+          }
+          return;
+        }
+
+        if (leafWrap) {
+          leafWrap.querySelectorAll('[data-news-filter-value]').forEach(function (btn) {
+            var lab = getNewsFilterOptionLabel(btn);
+            var show = lab.indexOf(q) !== -1;
+            btn.hidden = !show;
+            if (show) any = true;
+          });
+        }
+
+        // Show group header only when it has visible leaves.
+        if (head) head.hidden = !any;
+        sec.hidden = !any;
+      });
+
+      // Flat topic items (outside groups) + "All topics" row.
+      panelEl.querySelectorAll('.news-filter-option--all, .news-filter-option--flat').forEach(function (btn) {
+        var lab = getNewsFilterOptionLabel(btn);
+        btn.hidden = lab.indexOf(q) === -1;
+      });
+    }
+
+    input.addEventListener('input', applyFilter);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        input.value = '';
+        applyFilter();
+        e.stopPropagation();
+        return;
+      }
+      if (e.key !== 'Enter') return;
+      // Select first visible option (excluding the search field itself).
+      var first = null;
+      panelEl.querySelectorAll('[data-news-filter-value]').forEach(function (btn) {
+        if (first) return;
+        if (btn.hidden) return;
+        first = btn;
+      });
+      if (first) {
+        first.click();
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+  }
+
+  function updateNewsFilterTriggerForSelect(selectEl, triggerEl) {
+    if (!selectEl || !triggerEl) return;
+    var span = triggerEl.querySelector('.news-filter-trigger-text');
+    if (!span) return;
+    var isTopic = /Topic/i.test(selectEl.id || '');
+    var fmt = function (base, n) {
+      var num = typeof n === 'number' ? n : 0;
+      return base + ' (' + num + ')';
+    };
+    if (!isTopic) {
+      var srcOpt = selectEl.options[selectEl.selectedIndex];
+      var baseSrc = srcOpt ? String(srcOpt.textContent || '').trim() : 'All sources';
+      var cntSrc =
+        !srcOpt || !srcOpt.value
+          ? lastNewsFilterCounts.allSourcesRow
+          : lastNewsFilterCounts.source[srcOpt.value] || 0;
+      span.textContent = fmt(baseSrc, cntSrc);
+      return;
+    }
+    var opt = selectEl.options[selectEl.selectedIndex];
+    if (!opt || !opt.value) {
+      span.textContent = fmt('All topics', lastNewsFilterCounts.allTopicsRow);
+      return;
+    }
+    var base = '';
+    var cntTopic = 0;
+    if (opt.value.indexOf(NEWS_TOPIC_GROUP_VALUE_PREFIX) === 0) {
+      base = String(opt.textContent || '').trim();
+      var gcat = opt.value.slice(NEWS_TOPIC_GROUP_VALUE_PREFIX.length);
+      var glabels = getAllowedLeafTopicsForNewsGroup(gcat);
+      cntTopic = sumLeafTopicCounts(glabels, lastNewsFilterCounts.topicLeaf);
+    } else {
+      base = String(opt.textContent || '')
+        .replace(/^\s*[·•]\s*/, '')
+        .trim();
+      cntTopic = lastNewsFilterCounts.topicLeaf[opt.value] || 0;
+    }
+    span.textContent = fmt(base, cntTopic);
+  }
+
+  function buildSourceFilterPanel(selectEl, panelEl, sourceCountCtx) {
+    if (!selectEl || !panelEl) return;
+    if (!sourceCountCtx) {
+      sourceCountCtx = computeNewsSourceCountsForFilterContext(
+        lastNewsItems,
+        newsFilterTopic ? newsFilterTopic.value : '',
+        newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : ''
+      );
+    }
+    panelEl.innerHTML = '';
+    ensureNewsFilterPanelSearch(selectEl, panelEl);
+    var opts = selectEl.querySelectorAll('option');
+    for (var i = 0; i < opts.length; i++) {
+      var o = opts[i];
+      var cnt = o.value === '' ? sourceCountCtx.allSourcesRow : sourceCountCtx.perSource[o.value] || 0;
+      // Hide 0-count rows to avoid a long list of irrelevant sources.
+      // Always keep the active selection visible so users can change/clear it.
+      if (o.value !== '' && cnt === 0 && selectEl.value !== o.value) continue;
+      var btn = makeNewsFilterOptionButton({
+        className: 'news-filter-option' + (o.value === '' ? ' news-filter-option--all' : ''),
+        value: o.value,
+        labelText: String(o.textContent || '').trim(),
+        count: cnt
+      });
+      panelEl.appendChild(btn);
+    }
+    markNewsFilterOptionSelected(panelEl, selectEl.value);
+  }
+
+  function parseTopicSelectStructure(selectEl) {
+    var opts = selectEl.querySelectorAll('option');
+    var sections = [];
+    var i = 1;
+    while (i < opts.length) {
+      var o = opts[i];
+      var v = o.value;
+      if (v.indexOf(NEWS_TOPIC_GROUP_VALUE_PREFIX) === 0) {
+        var sec = { title: String(o.textContent || '').trim(), value: v, items: [] };
+        i++;
+        while (i < opts.length && opts[i].value.indexOf(NEWS_TOPIC_GROUP_VALUE_PREFIX) !== 0) {
+          var leaf = opts[i];
+          var leafLabel = String(leaf.textContent || '')
+            .replace(/^\s*[·•]\s*/, '')
+            .trim();
+          sec.items.push({ value: leaf.value, label: leafLabel || String(leaf.textContent || '').trim() });
+          i++;
+        }
+        sections.push({ type: 'group', data: sec });
+      } else {
+        sections.push({ type: 'item', value: o.value, label: String(o.textContent || '').trim() });
+        i++;
+      }
+    }
+    return sections;
+  }
+
+  function buildTopicFilterPanel(selectEl, panelEl, topicLeafCounts, allTopicsRowCount) {
+    if (!selectEl || !panelEl) return;
+    if (!topicLeafCounts || typeof allTopicsRowCount !== 'number') {
+      var tctx = computeNewsTopicCountsForFilterContext(
+        lastNewsItems,
+        newsFilterSource ? newsFilterSource.value : '',
+        newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : ''
+      );
+      topicLeafCounts = tctx.topicLeaf;
+      allTopicsRowCount = tctx.allTopicsRow;
+    }
+    panelEl.innerHTML = '';
+    ensureNewsFilterPanelSearch(selectEl, panelEl);
+    var allOpt = selectEl.querySelector('option[value=""]');
+    var allBtn = makeNewsFilterOptionButton({
+      className: 'news-filter-option news-filter-option--all',
+      value: '',
+      labelText: allOpt ? String(allOpt.textContent || '').trim() : 'All topics',
+      count: allTopicsRowCount
+    });
+    panelEl.appendChild(allBtn);
+
+    var sections = parseTopicSelectStructure(selectEl);
+    for (var s = 0; s < sections.length; s++) {
+      var sec = sections[s];
+      if (sec.type === 'group') {
+        var wrap = document.createElement('div');
+        wrap.className = 'news-filter-topic-section';
+        var leafVals = sec.data.items.map(function (it) {
+          return it.value;
+        });
+        var groupCnt = sumLeafTopicCounts(leafVals, topicLeafCounts);
+        var activeVal = selectEl.value;
+        var activeIsGroup = activeVal && activeVal.indexOf(NEWS_TOPIC_GROUP_VALUE_PREFIX) === 0;
+        var activeInThisGroup =
+          activeIsGroup && activeVal === sec.data.value
+            ? true
+            : sec.data.items.some(function (it) {
+                return it.value === activeVal;
+              });
+        // Drop whole groups that have no matching items in the current context.
+        // Keep active group/leaf visible even if count hits 0 (e.g. when combined with search).
+        if (groupCnt === 0 && !activeInThisGroup) continue;
+        var head = makeNewsFilterOptionButton({
+          className: 'news-filter-option news-filter-option--group',
+          value: sec.data.value,
+          labelText: sec.data.title,
+          count: groupCnt
+        });
+        wrap.appendChild(head);
+        var leaves = document.createElement('div');
+        leaves.className = 'news-filter-topic-leaves';
+        for (var j = 0; j < sec.data.items.length; j++) {
+          var it = sec.data.items[j];
+          var leafCnt = topicLeafCounts[it.value] || 0;
+          if (leafCnt === 0 && activeVal !== it.value) continue;
+          var leafBtn = makeNewsFilterOptionButton({
+            className: 'news-filter-option news-filter-option--leaf',
+            value: it.value,
+            labelText: it.label,
+            count: leafCnt
+          });
+          leaves.appendChild(leafBtn);
+        }
+        // If all leaves were filtered out (only possible when active group kept, but no leaves match),
+        // keep the group header only.
+        if (!leaves.childNodes || leaves.childNodes.length === 0) {
+          // still show wrap with header
+        } else {
+          wrap.appendChild(leaves);
+        }
+        panelEl.appendChild(wrap);
+      } else {
+        var flatCnt = topicLeafCounts[sec.value] || 0;
+        if (flatCnt === 0 && selectEl.value !== sec.value) continue;
+        var flatBtn = makeNewsFilterOptionButton({
+          className: 'news-filter-option news-filter-option--flat',
+          value: sec.value,
+          labelText: sec.label,
+          count: flatCnt
+        });
+        panelEl.appendChild(flatBtn);
+      }
+    }
+    markNewsFilterOptionSelected(panelEl, selectEl.value);
+  }
+
+  function rebuildAllNewsFilterPanels() {
+    var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
+    var topicVal = newsFilterTopic ? newsFilterTopic.value : '';
+    var sourceVal = newsFilterSource ? newsFilterSource.value : '';
+    var q = newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : '';
+    var srcAgg = computeNewsSourceCountsForFilterContext(items, topicVal, q);
+    var topicAgg = computeNewsTopicCountsForFilterContext(items, sourceVal, q);
+    lastNewsFilterCounts = {
+      source: srcAgg.perSource,
+      topicLeaf: topicAgg.topicLeaf,
+      allSourcesRow: srcAgg.allSourcesRow,
+      allTopicsRow: topicAgg.allTopicsRow,
+      total: items.length
+    };
+    var pairs = [
+      [newsFilterSource, document.getElementById('newsFilterSourcePanel')],
+      [newsFilterTopic, document.getElementById('newsFilterTopicPanel')],
+      [newsFilterSourceAside, document.getElementById('newsFilterSourceAsidePanel')],
+      [newsFilterTopicAside, document.getElementById('newsFilterTopicAsidePanel')]
+    ];
+    for (var p = 0; p < pairs.length; p++) {
+      var sel = pairs[p][0];
+      var pan = pairs[p][1];
+      if (!sel || !pan) continue;
+      if (/Topic/i.test(sel.id || '')) {
+        buildTopicFilterPanel(sel, pan, topicAgg.topicLeaf, topicAgg.allTopicsRow);
+      } else {
+        buildSourceFilterPanel(sel, pan, srcAgg);
+      }
+    }
+  }
+
+  function syncAllNewsFilterTriggersAndSelection() {
+    var m = [
+      [newsFilterSource, document.getElementById('newsFilterSourceTrigger'), document.getElementById('newsFilterSourcePanel')],
+      [newsFilterTopic, document.getElementById('newsFilterTopicTrigger'), document.getElementById('newsFilterTopicPanel')],
+      [newsFilterSourceAside, document.getElementById('newsFilterSourceAsideTrigger'), document.getElementById('newsFilterSourceAsidePanel')],
+      [newsFilterTopicAside, document.getElementById('newsFilterTopicAsideTrigger'), document.getElementById('newsFilterTopicAsidePanel')]
+    ];
+    for (var i = 0; i < m.length; i++) {
+      var sel = m[i][0];
+      var trig = m[i][1];
+      var pan = m[i][2];
+      if (!sel || !trig) continue;
+      updateNewsFilterTriggerForSelect(sel, trig);
+      if (pan) markNewsFilterOptionSelected(pan, sel.value);
+    }
+  }
+
+  function closeAllNewsFilterDropdowns() {
+    document.querySelectorAll('.news-filter-dropdown').forEach(function (dd) {
+      dd.classList.remove('news-filter-dropdown--open');
+    });
+    document.querySelectorAll('.news-filter-dropdown .news-filter-trigger').forEach(function (t) {
+      if (t.getAttribute('aria-expanded') !== 'true') return;
+      t.setAttribute('aria-expanded', 'false');
+      var id = t.getAttribute('aria-controls');
+      if (id) {
+        var p = document.getElementById(id);
+        if (p) p.hidden = true;
+      }
+    });
+  }
+
+  var newsFilterDropdownUiBound = false;
+  function initNewsFilterDropdownUiOnce() {
+    if (newsFilterDropdownUiBound) return;
+    newsFilterDropdownUiBound = true;
+    document.addEventListener(
+      'mousedown',
+      function (e) {
+        if (e.target.closest && e.target.closest('.news-filter-dropdown')) return;
+        closeAllNewsFilterDropdowns();
+      },
+      true
+    );
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      closeAllNewsFilterDropdowns();
+    });
+    document.querySelectorAll('.news-filter-dropdown').forEach(function (dd) {
+      var trigger = dd.querySelector('.news-filter-trigger');
+      var panel = dd.querySelector('.news-filter-panel');
+      var select = dd.querySelector('select');
+      if (!trigger || !panel || !select) return;
+      trigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var wasOpen = trigger.getAttribute('aria-expanded') === 'true';
+        closeAllNewsFilterDropdowns();
+        if (!wasOpen) {
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.hidden = false;
+          dd.classList.add('news-filter-dropdown--open');
+          // Focus the in-panel search field when available.
+          var search = panel.querySelector && panel.querySelector('.news-filter-search-input');
+          if (search && typeof search.focus === 'function') {
+            try {
+              search.focus({ preventScroll: true });
+            } catch (err) {
+              search.focus();
+            }
+          }
+        }
+      });
+      panel.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-news-filter-value]');
+        if (!btn || !panel.contains(btn)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var val = btn.getAttribute('data-news-filter-value');
+        if (val === null || val === undefined) val = '';
+        if (select.value !== val) select.value = val;
+        closeAllNewsFilterDropdowns();
+        if (/Aside$/i.test(select.id || '')) syncMainFromAsideAndApply();
+        else applyNewsFilters();
+      });
+    });
   }
 
   function isNewsSidebarDockAllowed() {
@@ -838,6 +1426,7 @@
       newsSidebarFilters.removeAttribute('hidden');
       newsSidebarFilters.setAttribute('aria-hidden', 'false');
       syncAllAsideFromMain();
+      refreshNewsFilterDropdownsUi();
       initNewsSidebarExpandableToolbarOnce();
       applyNewsSidebarCollapsedPreference();
       updateNewsSidebarToolbarChrome();
@@ -1047,25 +1636,112 @@
     });
   }
 
+  function renderNewsAllCards(items) {
+    if (!newsSections) return;
+    newsSections.innerHTML = '';
+    if (!items || items.length === 0) {
+      newsSections.innerHTML =
+        '<p class="news-empty">No articles match the current filters or search. Use <strong>Clear all</strong> or adjust your criteria.</p>';
+      return;
+    }
+    var copy = items.slice();
+    copy.sort(function (a, b) {
+      return newsItemSortTime(b) - newsItemSortTime(a);
+    });
+
+    // Keep UI consistent with “By source”: same chrome + count header, but one combined section.
+    var wrap = document.createElement('section');
+    wrap.className = 'news-by-source-wrap';
+    wrap.id = 'news-all';
+
+    var details = document.createElement('details');
+    details.className = 'news-by-source';
+    details.open = true;
+
+    var titleId = 'news-all-title';
+    var panelId = 'news-all-panel';
+    var summaryEl = document.createElement('summary');
+    summaryEl.className = 'news-source-details-summary';
+    summaryEl.id = titleId;
+    summaryEl.setAttribute('aria-controls', panelId);
+    summaryEl.innerHTML =
+      '<span class="news-source-details-summary-row">' +
+      '<span class="news-source-chevron" aria-hidden="true"></span>' +
+      '<span class="news-source-name-text">All sources</span>' +
+      '<span class="news-source-article-count">' +
+      escapeHtml(String(copy.length)) +
+      '</span></span>';
+
+    var body = document.createElement('div');
+    body.className = 'news-source-details-body';
+    body.id = panelId;
+
+    var pDesc = document.createElement('p');
+    pDesc.className = 'news-source-summary';
+    pDesc.textContent =
+      'A single chronological feed blending all configured sources. Use Source / Topic filters to narrow, and open any card to read the original publication.';
+    body.appendChild(pDesc);
+
+    var ul = document.createElement('ul');
+    ul.className = 'news-list news-list-in-section';
+    ul.setAttribute('role', 'list');
+    copy.forEach(function (item) {
+      var li = document.createElement('li');
+      li.className = 'news-card';
+      li.setAttribute('role', 'listitem');
+      var summaryHtml = buildNewsCardSummaryHtml(item);
+      if (!summaryHtml) li.classList.add('news-card--no-summary');
+      li.innerHTML = buildNewsCardMarkupHtml(item, 'h5');
+      ul.appendChild(li);
+    });
+    body.appendChild(ul);
+
+    details.appendChild(summaryEl);
+    details.appendChild(body);
+    wrap.appendChild(details);
+    newsSections.appendChild(wrap);
+  }
+
+  function getAllowedLeafTopicsForNewsGroup(category) {
+    if (!lastNewsTopicTaxonomy || !lastNewsTopicTaxonomy.groups) return null;
+    var cat = String(category || '').trim();
+    for (var gi = 0; gi < lastNewsTopicTaxonomy.groups.length; gi++) {
+      var g = lastNewsTopicTaxonomy.groups[gi];
+      if (String(g.category || '').trim() !== cat) continue;
+      var out = [];
+      (g.topics || []).forEach(function (t) {
+        var lab = String((t && t.label) || '').trim();
+        if (lab) out.push(lab);
+      });
+      return out;
+    }
+    return null;
+  }
+
   function applyNewsFilters() {
     var sourceVal = newsFilterSource ? newsFilterSource.value : '';
     var topicVal = newsFilterTopic ? newsFilterTopic.value : '';
     var q = newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : '';
     var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
+    var allowedLeafSet = buildTopicAllowedLeafSetFromTopicVal(topicVal);
     var filtered = items.filter(function (item) {
-      if (sourceVal && (item.sourceName || '') !== sourceVal) return false;
-      if (topicVal) {
-        var t = getTopicFromItem(item);
-        if (t !== topicVal) return false;
-      }
-      if (q && getNewsSearchBlob(item).indexOf(q) === -1) return false;
+      if (!itemMatchesSourceFilter(sourceVal, item)) return false;
+      if (!itemMatchesTopicFilter(topicVal, item, allowedLeafSet)) return false;
+      if (!itemMatchesNewsSearch(q, item)) return false;
       return true;
     });
-    renderNewsSections(filtered);
-    renderNewsToc(getOrderedSourcesFromItems(filtered));
+    syncNewsViewToggleUi();
+    if (newsViewMode === 'all') {
+      renderNewsAllCards(filtered);
+      renderNewsToc([]);
+    } else {
+      renderNewsSections(filtered);
+      renderNewsToc(getOrderedSourcesFromItems(filtered));
+    }
     updateNewsResultStatus(filtered.length, items.length, q);
     syncNewsSearchClearVisible();
     syncAllAsideFromMain();
+    refreshNewsFilterDropdownsUi();
     updateNewsSidebarToolbarChrome();
   }
 
@@ -1102,19 +1778,31 @@
       var selTopic = newsFilterTopic.value;
       newsFilterTopic.innerHTML = '<option value="">All topics</option>';
       if (lastNewsTopicTaxonomy && lastNewsTopicTaxonomy.groups && lastNewsTopicTaxonomy.groups.length) {
+        /** No `<optgroup>`: native group labels are not selectable, which duplicated “Core Rights” + “All in…”. Flat list: category row selects all leaves; leaves are indented for hierarchy. */
+        var leafIndent = '    \u00B7 ';
         lastNewsTopicTaxonomy.groups.forEach(function (g) {
-          var og = document.createElement('optgroup');
-          og.label = g.category || 'Topics';
+          var cat = String(g.category || '').trim() || 'Topics';
+          var leafRows = [];
           (g.topics || []).forEach(function (t) {
-            var lab = t.label || '';
+            var lab = String((t && t.label) || '').trim();
             if (!lab) return;
+            leafRows.push(lab);
+          });
+          if (leafRows.length === 0) return;
+          if (leafRows.length > 1) {
+            var optGroup = document.createElement('option');
+            optGroup.value = NEWS_TOPIC_GROUP_VALUE_PREFIX + cat;
+            optGroup.textContent = cat;
+            if (optGroup.value === selTopic) optGroup.selected = true;
+            newsFilterTopic.appendChild(optGroup);
+          }
+          leafRows.forEach(function (lab) {
             var opt = document.createElement('option');
             opt.value = lab;
-            opt.textContent = lab;
+            opt.textContent = leafRows.length > 1 ? leafIndent + lab : lab;
             if (lab === selTopic) opt.selected = true;
-            og.appendChild(opt);
+            newsFilterTopic.appendChild(opt);
           });
-          if (og.childNodes.length) newsFilterTopic.appendChild(og);
         });
       } else {
         var topicsArr = Object.keys(topicsSet).sort(function (a, b) {
@@ -1322,6 +2010,7 @@
         newsSections.innerHTML =
           '<p class="news-empty">No news items yet. Use the feed links on the left to browse each site, or tap <strong>Refresh all sources</strong>.</p>';
         populateNewsFilters([]);
+        refreshNewsFilterDropdownsUi();
       } else {
         lastNewsItems = items;
         populateNewsFilters(items);
@@ -1662,6 +2351,8 @@
 
   if (btnRefreshNews) btnRefreshNews.addEventListener('click', refreshNewsFromAllSources);
 
+  initNewsFilterDropdownUiOnce();
+
   if (newsFilterSource) newsFilterSource.addEventListener('change', applyNewsFilters);
   if (newsFilterTopic) newsFilterTopic.addEventListener('change', applyNewsFilters);
   if (newsSearchInput) {
@@ -1683,6 +2374,17 @@
       if (newsFilterTopic) newsFilterTopic.value = '';
       if (newsSearchInput) newsSearchInput.value = '';
       applyNewsFilters();
+    });
+  }
+
+  if (newsViewBySourceBtn) {
+    newsViewBySourceBtn.addEventListener('click', function () {
+      setNewsViewMode('by_source');
+    });
+  }
+  if (newsViewAllBtn) {
+    newsViewAllBtn.addEventListener('click', function () {
+      setNewsViewMode('all');
     });
   }
 

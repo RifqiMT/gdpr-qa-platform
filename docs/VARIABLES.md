@@ -33,15 +33,21 @@
 | `GDPR_FORCE_RELOAD_CORPUS` | Force reload flag (alias) | Same effect as **`GDPR_FORCE_CORPUS_WRITE`** for operators who prefer this name. | Equality check to **`1`**. | `scraper.js` | `1` |
 | `NEWS_CRAWL_TIMEOUT_MS` | News read-path crawl budget | Maximum milliseconds to wait for a live crawl during **`GET /api/news`** before returning merged static + partial crawl. | `parseInt(env \|\| '90000', 10)`. | `server.js` | `90000` |
 | `NEWS_REFRESH_TIMEOUT_MS` | News refresh-path crawl budget | Maximum wait for **`POST /api/news/refresh`**. | `parseInt(env \|\| '180000', 10)`. | `server.js` | `180000` |
-| `NEWS_MERGE_CAP` | Merged news list cap (response) | Upper bound on item count returned to the client after merge and dedupe (static + crawl). | `parseInt(env \|\| '1600', 10)`. | `server.js` → news routes | `1600` |
 | `NEWS_ATTACHMENTS_CACHE_TTL_MS` | Article attachments cache lifetime | How long (ms) to reuse a cached **`POST /api/news/article-attachments`** result per URL. | `parseInt(env \|\| '900000', 10)`. | `server.js` → attachments helper | `900000` |
 | `NEWS_ATTACHMENTS_CACHE_MAX` | Article attachments cache size | Maximum in-memory cache entries for attachment scans. | `parseInt(env \|\| '150', 10)`. | `server.js` | `150` |
 | `NEWS_MAX_EDPB_PAGES` | EDPB news HTML depth | Maximum paginated listing pages to fetch from **`edpb.europa.eu/news_en`**. | Clamped **`[12, 80]`**; `parseInt(env \|\| '56', 10)`. | `news-crawler.js` → `crawlEdpbHtml` | `56` |
-| `NEWS_MAX_ICO_SEARCH_PAGES` | ICO search pagination depth | Maximum Umbraco search pages for ICO news URLs. | Clamped **`[10, 64]`**; `parseInt(env \|\| '44', 10)`. | `news-crawler.js` → `crawlIco` | `44` |
+| `NEWS_MERGE_CAP` | Merged news list cap (response) | Upper bound on item count returned to the client after merge and dedupe (static + crawl). | `parseInt(env \|\| '6000', 10)`. | `server.js` → news routes | `6000` |
+| `NEWS_FROM_YEAR` | News earliest year (best-effort) | Attempt to keep news items from this year onward when a source exposes historical pages (source-dependent). | Integer year; default **`2015`**. | `news-crawler.js` | `2015` |
+| `NEWS_MAX_ICO_SEARCH_PAGES` | ICO search pagination depth | Maximum Umbraco search pages for ICO news URLs. | Clamped **`[10, 64]`**; `parseInt(env \|\| '64', 10)`. | `news-crawler.js` → `crawlIco` | `64` |
 | `NEWS_MAX_ICO_SITEMAP_FETCHES` | ICO sitemap enrichment cap | Maximum follow-up fetches when enriching from sitemap. | Clamped **`[50, 450]`**; `parseInt(env \|\| '280', 10)`. | `news-crawler.js` | `280` |
 | `NEWS_MAX_HTML_LINKS_PER_SOURCE` | HTML harvest limit per source | Ceiling on links collected from ICO/CoE-style HTML listings. | Clamped **`[120, 900]`**; `parseInt(env \|\| '480', 10)`. | `news-crawler.js` | `480` |
 | `NEWS_COMMISSION_RSS_CONCURRENCY` | Commission RSS/API parallelism | Batch size for parallel Commission RSS fetches and chunked search calls. | Clamped **`[2, 10]`**; `parseInt(env \|\| '6', 10)`. | `news-crawler.js` | `6` |
 | `NEWS_COMMISSION_RSS_PAGE_SIZE` | Commission RSS page size | `pagesize` query parameter for Press Corner RSS (clamped in code). | Clamped **`[20, 100]`**; `parseInt(env \|\| '100', 10)`. | `news-crawler.js` | `100` |
+| `NEWS_TOPIC_ENRICH_ENABLE` | Topic enrichment toggle | Enables a bounded “fill missing/under-covered topics” enrichment pass using official site searches where available. | Default **`1`**; set to **`0`** to disable. | `news-crawler.js` → enrichment helpers | `1` |
+| `NEWS_TOPIC_ENRICH_MAX_TOPICS` | Max topics to enrich | Limits how many leaf topics are targeted per run (starts with lowest coverage). | Integer; default **`36`**; clamped in code. | `news-crawler.js` | `36` |
+| `NEWS_TOPIC_ENRICH_TARGET_PER_TOPIC` | Target items per topic | Desired minimum items per leaf topic (best-effort; depends on upstream sources). | Integer; default **`10`**; clamped **`[1, 25]`**. | `news-crawler.js` | `10` |
+| `NEWS_TOPIC_ENRICH_CONCURRENCY` | Enrichment concurrency | Parallelism for topic enrichment queries. | Default **`4`**; clamped **`[1, 8]`**. | `news-crawler.js` | `4` |
+| `NEWS_TOPIC_ENRICH_MAX_QUERIES` | Enrichment query budget | Upper bound on approximate external queries during enrichment (safety valve). | Default **`220`**; clamped. | `news-crawler.js` | `220` |
 | `WEB_TIMEOUT_MS` | External HTTP timeout (Ask web context) | Timeout for DuckDuckGo HTML fetch and per-page excerpt retrieval. | `parseInt(env \|\| '12000', 10)`. | `server.js` → web helpers | `12000` |
 | `WEB_MAX_RESULTS` | DuckDuckGo result rows | Maximum HTML result rows parsed from DuckDuckGo for Ask. | `parseInt(env \|\| '4', 10)`. | `server.js` | `4` |
 | `WEB_MAX_PAGES` | Web excerpt page fetches | How many hit URLs are fetched for text excerpts. | `parseInt(env \|\| '3', 10)`. | `server.js` | `3` |
@@ -76,7 +82,7 @@
 | `meta.lastChecked` | Last ETL execution time | When the scraper last completed a run, including “no hash change” runs. | ISO string; always updated on refresh attempt. | `GET /api/meta`, freshness UI | ISO datetime |
 | `meta.etl` | ETL diagnostics blob | Structured metadata: primary source requested, fetch outcome, hashes, diff counts. | Populated by `scraper.js` `run()`. | `GET /api/meta`, refresh toast message | `{ "extractedFrom": "gdpr-info", "fetched": true, … }` |
 | `meta.datasetHash` | Corpus fingerprint | SHA-256–based hash over normalized recital/article payloads for change detection. | `computeDatasetHash` in `scraper.js`. | Internal ETL | *(64-char hex)* |
-| `meta.sources` | Credible sources catalog | Organizations and document links for the **Credible sources** tab. | Array of `{ name, url, description, documents[] }`. | `GET /api/meta` | EDPB, EUR-Lex, … |
+| `meta.sources` | Credible sources catalog | Organizations and document links for the **Credible sources** tab; maintained in **`gdpr-structure.json`** and copied into **`gdpr-content.json`** on regulation refresh. | Array of `{ name, url, description, documents[] }`. | `GET /api/meta`, **`/api/meta` fallback** reads structure at server start if absent. | GDPR-Info, EUR-Lex, EDPB, EDPS, Commission, ICO (UK), GDPR.eu, CoE |
 | `articles[]` | Article records | Full text and metadata for Articles **1–99**. | `number`, `title`, `text`, `chapter`, `sourceUrl`, `eurLexUrl`, … | Browse, APIs, BM25 index | Article **17** |
 | `recitals[]` | Recital records | Full text for Recitals **1–173**. | `number`, `title?`, `text`, URLs | Browse, APIs | Recital **50** |
 | `searchIndex[]` | Retrieval index rows | Denormalized rows for BM25 and legacy search. | Built after **`normalizeCorpus`**; deduplicated by **`id`**. | `buildBm25Searcher`, `POST /api/ask` | `{ "id": "article-5", … }` |
@@ -153,6 +159,7 @@
 | `CHAPTER_SUMMARY_FALLBACK` | Client-side chapter blurbs | Mirrors server fallback when API unavailable. | Static strings **1–11**. | Chapter cards | Same as server **`FALLBACK_CHAPTER_SUMMARIES`** |
 | `gdpr_news_sidebar_collapsed` | Quick filters expanded state (session) | Remembers whether the **sidebar Quick filters** card body is collapsed. | **`sessionStorage`** string **`"1"`** = collapsed; read/write in **`applyNewsSidebarToolbarCollapsedPreference`**. | News tab, desktop dock | User collapses Quick filters → `"1"` |
 | `gdpr_news_feeds_section_collapsed` | Official site & RSS expanded state (session) | Remembers whether the feed list panel is hidden. | **`sessionStorage`** string **`"1"`** = collapsed. | `#newsFeedsSectionToggle`, `renderNewsPayload` | User hides feed list → `"1"` |
+| `gdpr_news_view_mode` | News layout mode (session) | Remembers whether News is grouped **by source** or shown as a single combined list (**All**). | `sessionStorage`: **`"by_source"`** or **`"all"`**. | News tab toolbar toggle (`public/index.html`, `public/app.js`) | `"all"` |
 | `GDPR_NEWS_DEDUPE` | Client dedupe namespace | Exposes **`dedupeNewsItemsConsolidated`** / **`dedupeNewsItemsClient`** aligned with server. | Loaded from **`news-dedupe.js`** before **`app.js`**. | `public/index.html` script order | `window.GDPR_NEWS_DEDUPE.dedupeNewsItemsClient(items)` |
 
 ---

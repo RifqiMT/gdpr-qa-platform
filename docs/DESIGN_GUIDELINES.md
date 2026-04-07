@@ -123,7 +123,7 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | **Doc reader** | `.reader-chrome`, `.doc-nav`, `.doc-content` | Prev/Next/Go; article/recital typography inside `.article-doc` / `.recital-doc`. |
 | **Citation panels** | `.citation-panel`, `.citation-panel-toggle`, `.citation-panel-badge` | Collapsible aside sections. |
 | **Ask answer** | `.answer-box`, `.citation-chip`, `.ask-answer-prose` | `[Sn]` chips link in-app for regulation, external for web. |
-| **News** | `.news-card`, `.news-sections`, `.filter-bar.news-filters`, `.news-topic-tag` | Source/topic filters; **topic** chip on cards (**`.news-topic-tag`**); main **`#newsControlsPanel`** is **not sticky**—it scrolls with content to avoid overlapping cards. |
+| **News** | `.news-card`, `.news-sections`, `.filter-bar.news-filters`, `.news-topic-tag`, `.news-view-toggle` | Source/topic filters; **topic** chip on cards (**`.news-topic-tag`**); main **`#newsControlsPanel`** is **not sticky**—it scrolls with content to avoid overlapping cards. A segmented view toggle (**By source** / **All**) uses `.news-view-toggle` and keeps layout consistent across modes. |
 | **Sources** | `.sources-grid`, `.source-card` | Grid of credible organizations. |
 
 ---

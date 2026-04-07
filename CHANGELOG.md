@@ -6,9 +6,18 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ## [Unreleased]
 
+### Changed
+
+- **News & Credible sources scope:** Removed **CNIL** and other **country-based** national DPA feeds from News and **`meta.sources`**; **ICO (UK)** remains the only national supervisory authority in-app. See **BG-07** in [docs/GUARDRAILS.md](docs/GUARDRAILS.md).
+- **News UI:** Added a segmented **view toggle** to switch between **By source** and a blended **All sources** chronological feed (newest-first), keeping card chrome consistent across both views.
+- **News UI:** Filter dropdown panels now include in-panel **search** to quickly narrow Source and Topic options.
+- **News UI:** **Attachments** action is displayed **only when** the batch summary confirms at least one downloadable file for the article URL.
+- **News ingestion:** Increased default `NEWS_MERGE_CAP` to **6000** to retain more historical items in the API response.
+- **News ingestion:** Added bounded topic enrichment knobs (`NEWS_TOPIC_ENRICH_*`) and `NEWS_FROM_YEAR` (best-effort) to improve coverage without uncontrolled crawl expansion.
+
 ### Documentation
 
-- **Product documentation audit (standard v1.3):** Bumped **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)** to **v1.3**; aligned **[README.md](README.md)** (version blurb, configuration table: **`HOST`**, **`NEWS_ATTACHMENTS_*`**, **`NEWS_MAX_*`**, **`NEWS_COMMISSION_*`**, corrected default news timeouts **90000** / **180000** ms, duplicate env row removed, disclaimer sources); expanded **[docs/VARIABLES.md](docs/VARIABLES.md)** (defaults for **`NEWS_MERGE_CAP`**, attachments cache, crawler tuning vars, **`commissionPolicyAreas`** semantics, **§9.4** topic-assignment diagram); new **[docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md)**; updated **[docs/PRD.md](docs/PRD.md)** (**v1.3**, **FR-S9**, news data model and purpose); **[docs/USER_PERSONAS.md](docs/USER_PERSONAS.md)**, **[docs/USER_STORIES.md](docs/USER_STORIES.md)** (**US-N9**); **[docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md)** (news count and refresh duration); **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)** (`.news-topic-tag`); **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)** (**BR-N-09**–**BR-N-11**); **[docs/GUARDRAILS.md](docs/GUARDRAILS.md)** (**TG-N06**–**TG-N08**); **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**; **[docs/GLOSSARY.md](docs/GLOSSARY.md)**; **[docs/README.md](docs/README.md)** hub.
+- **Product documentation audit (standard v1.4):** Updated **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)** to **v1.4**; aligned **[README.md](README.md)**, **[docs/PRD.md](docs/PRD.md)**, **[docs/API_CONTRACTS.md](docs/API_CONTRACTS.md)**, **[docs/VARIABLES.md](docs/VARIABLES.md)**, **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)**, **[docs/USER_STORIES.md](docs/USER_STORIES.md)**, and **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)** with the latest News UI (view toggle, searchable filters, attachments visibility) and updated `NEWS_*` defaults and enrichment knobs.
 - **Earlier iterations (still reflected in repo history):** v1.2 news UI + dedupe docs; v1.1 variables/PRD guardrails expansion; initial enterprise doc set under `docs/`.
 
 ### Removed

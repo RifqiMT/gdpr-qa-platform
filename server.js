@@ -46,7 +46,7 @@ const NEWS_CRAWL_TIMEOUT_MS = parseInt(process.env.NEWS_CRAWL_TIMEOUT_MS || '900
 /** “Refresh all sources” / POST /api/news/refresh — must cover ICO API + parallel sitemap enrichment. */
 const NEWS_REFRESH_TIMEOUT_MS = parseInt(process.env.NEWS_REFRESH_TIMEOUT_MS || '180000', 10);
 /** Max items returned / stored after merging static file + live crawl (all configured sources). */
-const NEWS_MERGE_CAP = parseInt(process.env.NEWS_MERGE_CAP || '1600', 10);
+const NEWS_MERGE_CAP = parseInt(process.env.NEWS_MERGE_CAP || '6000', 10);
 const NEWS_ATTACHMENTS_CACHE_TTL_MS = parseInt(process.env.NEWS_ATTACHMENTS_CACHE_TTL_MS || '900000', 10);
 const NEWS_ATTACHMENTS_CACHE_MAX = parseInt(process.env.NEWS_ATTACHMENTS_CACHE_MAX || '150', 10);
 /** @type {Map<string, { ts: number, payload: { url: string, attachments: object[] } }>} */
@@ -88,6 +88,17 @@ const HOST = process.env.HOST || '0.0.0.0';
 const DATA_DIR = path.join(__dirname, 'data');
 const CONTENT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
 const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
+
+/** Credible Sources when `gdpr-content.json` omits `meta.sources` — single source of truth: `gdpr-structure.json`. */
+let defaultCredibleSourcesFallback = null;
+try {
+  const st = JSON.parse(fs.readFileSync(STRUCTURE_FILE, 'utf-8'));
+  if (Array.isArray(st.meta?.sources) && st.meta.sources.length) {
+    defaultCredibleSourcesFallback = st.meta.sources;
+  }
+} catch (e) {
+  console.warn('Could not load credible sources from gdpr-structure.json:', e && e.message ? e.message : e);
+}
 
 /** In-memory cache invalidated by gdpr-content.json mtime. Always apply guardrails + rebuild search index so the API matches DOCUMENT_FORMATTING_GUARDRAILS even if the file was never re-fetched from GDPR-Info. */
 let contentLoadCache = { mtimeMs: null, data: null };
@@ -318,24 +329,12 @@ app.get('/api/meta', (req, res) => {
     etl: data.meta?.etl ?? null,
     askGroqConfigured: Boolean((process.env.GROQ_API_KEY || '').trim()),
     askTavilyConfigured: Boolean((process.env.TAVILY_API_KEY || '').trim()),
-    sources: data.meta?.sources ?? [
-      { name: 'GDPR-Info', url: 'https://gdpr-info.eu/', description: 'Regulation text and structure.', documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }] },
-      { name: 'EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng', description: 'Official EU Regulation.', documents: [{ label: 'Regulation (EU) 2016/679', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng' }] },
-      { name: 'EDPB', url: 'https://edpb.europa.eu/', description: 'EU body – guidelines and consistency.', documents: [{ label: 'Guidelines', url: 'https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en' }] },
-      {
-        name: 'EDPS',
-        url: 'https://www.edps.europa.eu/',
-        description: 'Supervises personal data processing by EU institutions and bodies.',
-        documents: [
-          { label: 'Press & news', url: 'https://www.edps.europa.eu/press-publications/press-news_en' },
-          { label: 'Our work', url: 'https://www.edps.europa.eu/data-protection/our-work_en' }
-        ]
-      },
-      { name: 'European Commission', url: 'https://commission.europa.eu/law/law-topic/data-protection_en', description: 'Official Commission data protection.', documents: [{ label: 'Data protection', url: 'https://commission.europa.eu/law/law-topic/data-protection_en' }] },
-      { name: 'ICO (UK)', url: 'https://ico.org.uk/for-organisations/uk-gdpr-guidance/', description: 'UK GDPR guidance.', documents: [{ label: 'UK GDPR guidance', url: 'https://ico.org.uk/for-organisations/uk-gdpr-guidance/' }] },
-      { name: 'GDPR.eu', url: 'https://gdpr.eu/', description: 'Overview and resources.', documents: [{ label: 'GDPR overview', url: 'https://gdpr.eu/' }] },
-      { name: 'Council of Europe', url: 'https://www.coe.int/en/web/data-protection', description: 'Convention 108+ and standards.', documents: [{ label: 'Data protection', url: 'https://www.coe.int/en/web/data-protection' }] }
-    ]
+    sources: data.meta?.sources ??
+      defaultCredibleSourcesFallback ?? [
+        { name: 'GDPR-Info', url: 'https://gdpr-info.eu/', description: 'Regulation text and structure.', documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }] },
+        { name: 'EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng', description: 'Official EU Regulation.', documents: [{ label: 'Regulation (EU) 2016/679', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng' }] },
+        { name: 'EDPB', url: 'https://edpb.europa.eu/', description: 'EU body – guidelines and consistency.', documents: [{ label: 'Guidelines', url: 'https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en' }] }
+      ]
   });
 });
 
@@ -518,7 +517,8 @@ app.post('/api/news/attachments-summary', async (req, res) => {
     if (!k || seenNorm.has(k)) continue;
     seenNorm.add(k);
     urls.push(s);
-    if (urls.length >= 48) break;
+    /* Keep in sync with client `scheduleNewsAttachmentsSummaryForItems` URL cap. */
+    if (urls.length >= 96) break;
   }
   const items = [];
   const concurrency = 6;

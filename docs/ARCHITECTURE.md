@@ -8,7 +8,7 @@ flowchart LR
   user[User browser]
   app[GDPR Q&A Platform Node Express]
   eurlex[EUR-Lex GDPR-Info]
-  news[Publisher sites EDPB EDPS ICO CNIL Commission CoE]
+  news[Publisher sites EDPB EDPS ICO Commission CoE]
   groq[Groq API]
   tavily[Tavily API]
   ddg[DuckDuckGo HTML]

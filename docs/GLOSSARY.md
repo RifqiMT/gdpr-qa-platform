@@ -8,7 +8,6 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **BM25** | Best Matching 25 — a probabilistic ranking function used to score regulation excerpts against the user’s Ask query (`server.js`). |
 | **Corpus** | The full set of regulation texts and index rows loaded from **`gdpr-content.json`** (and normalized via **`document-formatting-guardrails.js`**). |
 | **DPO** | Data Protection Officer — persona target; not a software component. |
-| **CNIL** | Commission nationale de l’informatique et des libertés (France) — included in News via the **English** RSS feed (`cnil.fr/en/…`). |
 | **EDPB** | European Data Protection Board — credible source for guidelines and news feeds. |
 | **EDPS** | European Data Protection Supervisor — EU institutional data protection; News via **`feed/news_en`**. |
 | **ETL** | Extract, transform, load — in this product, fetching regulation HTML/TXT, parsing, merging, normalizing, and writing **`gdpr-content.json`**. |

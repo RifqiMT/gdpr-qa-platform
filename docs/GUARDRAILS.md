@@ -15,6 +15,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | BG-04 | **LLM outputs are probabilistic.** Even with grounding prompts, models can mis-cite or omit qualifiers. | Mitigated by citations, repair passes, and extractive fallback—not eliminated. |
 | BG-05 | **Sector framing is illustrative.** Industry selection steers language toward typical processing; it does not replace sector-specific law (employment health data, utilities regulation, etc.). | GDPR is horizontal; other laws may apply. |
 | BG-06 | **No warranty on completeness.** The corpus covers Regulation (EU) 2016/679 as loaded; guidelines, national implementations, and case law are out of scope unless linked as external sources. | Product is a workspace, not a registry of all law. |
+| BG-07 | **National supervisory authorities (country-specific)** are **not** ingested for News or Credible sources, except **ICO (UK)** — EU-level bodies (EDPB, EDPS, Commission, CoE) remain included. | Keeps scope aligned with pan-EU reference use; avoids duplicating every MS DPA. |
 
 ---
 
@@ -53,7 +54,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-N04 | **Deduplication contract** — Server and client both apply **`dedupeNewsItemsConsolidated`** / **`dedupeNewsItemsClient`** (from **`news-dedupe.js`**). Changing merge rules in **`news-crawler.js`** without updating **`public/news-dedupe.js`** can reintroduce visual duplicates for users on mixed deployments. | Treat the two files as a **paired change** in review. |
 | TG-N05 | **`GET /api/news`** intentionally sets **no-store** cache headers. | Do not “optimize” with long `max-age` without product sign-off—stale news lists erode trust. |
 | TG-N06 | **Commission Press Corner** ingestion uses **many RSS and API calls** (general + per-policy feeds + search buckets). Raising concurrency or page counts increases **429/timeout** risk and refresh duration. | Treat **`NEWS_COMMISSION_RSS_CONCURRENCY`** and **`NEWS_REFRESH_TIMEOUT_MS`** as paired operational knobs. |
-| TG-N07 | **New publishers** (e.g. CNIL EN RSS) depend on **feed stability** and **robots/network** policy of third-party sites. | Monitor crawl logs; expect **empty sections** when feeds move or block automated clients. |
+| TG-N07 | **Third-party RSS/HTML** (EDPB, EDPS, ICO, Commission, CoE) depend on **feed stability** and **robots/network** policy of publisher sites. | Monitor crawl logs; expect **empty sections** when feeds move or block automated clients. |
 | TG-N08 | **`HOST`** defaults to **`0.0.0.0`** — the process may be reachable from all interfaces unless firewalled. | For laptops or shared networks, bind **`127.0.0.1`** or place behind a reverse proxy. |
 
 ---

@@ -2,7 +2,7 @@
 ## GDPR Q&A Platform
 
 **Version:** 1.3  
-**Last updated:** 2026-04 — Aligned with product documentation standard **v1.3**, expanded **News** ingestion (EDPB, EDPS, CNIL English RSS, ICO, European Commission multi-feed Press Corner, Council of Europe), **`news-topics.js`** classification, configurable **`NEWS_*`** crawl and merge caps, and existing News UI (Quick filters dock, expandable feeds, client dedupe mirror).
+**Last updated:** 2026-04 — Aligned with product documentation standard **v1.3**, expanded **News** ingestion (EDPB, EDPS, ICO, European Commission multi-feed Press Corner, Council of Europe), **`news-topics.js`** classification, configurable **`NEWS_*`** crawl and merge caps, and existing News UI (Quick filters dock, expandable feeds, client dedupe mirror).
 
 ---
 
@@ -15,7 +15,7 @@ A web application for **browsing and searching** the full text of the General Da
 - **Browse** — Recitals 1–173 and Articles 1–99 with topic-based filters (Category, Sub-category, Chapter, Article), document navigation (Prev/Next/Go), and PDF export.
 - **Ask** — Natural-language questions answered via **`POST /api/answer`**: BM25 retrieval over the local corpus, optional live web snippets, synthesis with **Groq** (primary) or **Tavily** (fallback), or an **extractive** fallback if neither returns usable text. Answers use numbered citations `[S1]` mapped to regulation excerpts and optional web sources. Optional **industry / sector** framing (ISIC-aligned list) steers prompts. A **Relevant GDPR provisions** panel lists cited articles/recitals with “View in app.”
 - **Credible sources** — One tab listing official and widely cited organizations (GDPR-Info, EUR-Lex, EDPB, EDPS, European Commission, ICO, GDPR.eu, Council of Europe) with direct document links.
-- **News** — GDPR and data protection updates from **EDPB** (RSS + HTML listings), **EDPS** (RSS), **CNIL** (English RSS), **ICO** (search + sitemap + HTML), **European Commission** Press Corner (general + per-policy RSS and API, merged), and **Council of Europe** (RSS/HTML when available). Items are grouped by **source** with **topic** tags (**`news-topics.js`**), filters, and card snippets; **deduplicated** (server **`dedupeNewsItemsConsolidated`** plus client **`news-dedupe.js`**). Main filter toolbar stays in **document flow**. On wide viewports, a **Quick filters** sidebar dock mirrors controls and persists expand/collapse in **`sessionStorage`**; **Official site & RSS** is similarly expandable. **`GET /api/news`** uses **no-store** cache headers. List size is capped by **`NEWS_MERGE_CAP`** (default **1600**); optional **`NEWS_MAX_*`** / **`NEWS_COMMISSION_*`** env vars tune crawl depth (see [VARIABLES.md](VARIABLES.md)).
+- **News** — GDPR and data protection updates from **EDPB** (RSS + HTML listings), **EDPS** (RSS), **ICO** (UK) (search + sitemap + HTML), **European Commission** Press Corner (general + per-policy RSS and API, merged), and **Council of Europe** (RSS/HTML when available). Other national DPAs are out of scope except **ICO**. Items are grouped by **source** with **topic** tags (**`news-topics.js`**), filters, and card snippets; **deduplicated** (server **`dedupeNewsItemsConsolidated`** plus client **`news-dedupe.js`**). Main filter toolbar stays in **document flow**. On wide viewports, a **Quick filters** sidebar dock mirrors controls and persists expand/collapse in **`sessionStorage`**; **Official site & RSS** is similarly expandable. Users can toggle between **By source** and a blended **All** view (single chronological list across sources). **`GET /api/news`** uses **no-store** cache headers. List size is capped by **`NEWS_MERGE_CAP`** (default **6000**); optional **`NEWS_MAX_*`** / **`NEWS_COMMISSION_*`** and topic enrichment knobs tune crawl depth and coverage (see [VARIABLES.md](VARIABLES.md)).
 
 Target: legal, compliance, and privacy professionals (and anyone) who need quick, sourced GDPR answers and updates without unsourced claims.
 
@@ -46,7 +46,7 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 | Ask questions in natural language | Ask tab with search; results show verbatim text and “View in app” to open the provision. |
 | Get a concise summary without reading full text | Optional LLM summary (or extractive/client fallback) constrained to regulation text only. |
 | Verify and cite official sources | Every view links to GDPR-Info and EUR-Lex; content as of date shown where applicable. |
-| Stay updated on GDPR/news | News tab from EDPB, EDPS, ICO, CNIL (EN), Commission, Council of Europe with filters, topics, and summaries. |
+| Stay updated on GDPR/news | News tab from EDPB, EDPS, ICO, Commission, Council of Europe with filters, topics, and summaries. |
 | Access key documents from one place | Credible sources tab with direct links to guidelines and official pages. |
 | Return to a clean starting view | Homepage: click logo to go to Browse tab with initial placeholder and sidebar reset. |
 | Export a provision for offline use | Export current article or recital as PDF from Browse detail view. |
@@ -148,7 +148,7 @@ Full data flow: [README §4 – Logic and data flow](../README.md#4-logic-and-da
 
 - Users can browse Recitals and Chapters & Articles with filters and doc nav, and export current provision as PDF.
 - Users can ask questions and receive grounded answers with citations and relevant provisions; “View in app” and “Back to question” work correctly.
-- Users can open Credible sources and News; News filters and Refresh news work; duplicate stories (alternate URLs) do not clutter the list; wide-layout users can use Quick filters when the main toolbar scrolls away; feed list can be collapsed; **News** reflects the current multi-source crawler (including EDPS, CNIL EN, and Commission multi-feed) and respects **`NEWS_MERGE_CAP`** on API responses.
+- Users can open Credible sources and News; News filters and Refresh news work; duplicate stories (alternate URLs) do not clutter the list; wide-layout users can use Quick filters when the main toolbar scrolls away; feed list can be collapsed; **News** reflects the current multi-source crawler (including EDPS and Commission multi-feed) and respects **`NEWS_MERGE_CAP`** on API responses.
 - Users can go to homepage via logo and see initial Browse state with sidebar reset.
 - Refresh sources updates regulation text; freshness metadata shown; **formatting guardrails** run and are observable via API; Browse/Ask use normalized corpus. Answers remain tied to returned **`sources`** and citation ids.
 

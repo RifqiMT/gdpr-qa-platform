@@ -501,19 +501,41 @@
                         </div>
                       </div>
                       <div class="news-sidebar-field">
-                        <label for="newsFilterSourceAside" class="news-sidebar-filters-label">Source</label>
-                        <div class="news-sidebar-select-wrap">
-                          <select id="newsFilterSourceAside" class="news-sidebar-select" aria-label="Filter by news source">
-                            <option value="">All sources</option>
-                          </select>
+                        <label for="newsFilterSourceAsideTrigger" class="news-sidebar-filters-label" id="newsFilterSourceAsideLabel">Source</label>
+                        <div class="news-filter-dropdown news-filter-dropdown--sidebar" id="newsFilterSourceAsideDropdown">
+                          <select id="newsFilterSourceAside" class="visually-hidden" tabindex="-1" aria-hidden="true"></select>
+                          <button
+                            type="button"
+                            id="newsFilterSourceAsideTrigger"
+                            class="news-filter-trigger news-filter-trigger--sidebar"
+                            aria-haspopup="listbox"
+                            aria-expanded="false"
+                            aria-labelledby="newsFilterSourceAsideLabel"
+                            aria-controls="newsFilterSourceAsidePanel"
+                          >
+                            <span class="news-filter-trigger-text">All sources</span>
+                            <svg class="news-filter-trigger-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                          </button>
+                          <div id="newsFilterSourceAsidePanel" class="news-filter-panel news-filter-panel--source" role="listbox" hidden></div>
                         </div>
                       </div>
                       <div class="news-sidebar-field">
-                        <label for="newsFilterTopicAside" class="news-sidebar-filters-label">Topic</label>
-                        <div class="news-sidebar-select-wrap">
-                          <select id="newsFilterTopicAside" class="news-sidebar-select" aria-label="Filter by topic tag" aria-describedby="newsTopicFilterHint">
-                            <option value="">All topics</option>
-                          </select>
+                        <label for="newsFilterTopicAsideTrigger" class="news-sidebar-filters-label" id="newsFilterTopicAsideLabel">Topic</label>
+                        <div class="news-filter-dropdown news-filter-dropdown--sidebar" id="newsFilterTopicAsideDropdown">
+                          <select id="newsFilterTopicAside" class="visually-hidden" tabindex="-1" aria-hidden="true"></select>
+                          <button
+                            type="button"
+                            id="newsFilterTopicAsideTrigger"
+                            class="news-filter-trigger news-filter-trigger--sidebar"
+                            aria-haspopup="listbox"
+                            aria-expanded="false"
+                            aria-labelledby="newsFilterTopicAsideLabel"
+                            aria-controls="newsFilterTopicAsidePanel"
+                          >
+                            <span class="news-filter-trigger-text">All topics</span>
+                            <svg class="news-filter-trigger-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                          </button>
+                          <div id="newsFilterTopicAsidePanel" class="news-filter-panel news-filter-panel--topic" role="listbox" hidden></div>
                         </div>
                       </div>
                       <button type="button" id="newsFilterClearAside" class="news-sidebar-clear-btn">
@@ -537,24 +559,64 @@
                 </div>
                 <p id="newsSearchHint" class="news-toolbar-hint">Filters and search work together. Use <strong>Clear all</strong> to reset.</p>
                 <div class="filter-bar news-filters" role="group" aria-label="Filter news by source and topic">
-                  <div class="filter-field">
-                    <label for="newsFilterSource" class="filter-field-label">Source</label>
-                    <select id="newsFilterSource" class="filter-field-select" aria-label="Filter by news source">
-                      <option value="">All sources</option>
-                    </select>
+                  <div class="filter-field filter-field--news">
+                    <label for="newsFilterSourceTrigger" class="filter-field-label" id="newsFilterSourceLabel">Source</label>
+                    <div class="news-filter-dropdown" id="newsFilterSourceDropdown">
+                      <select id="newsFilterSource" class="visually-hidden" tabindex="-1" aria-hidden="true"></select>
+                      <button
+                        type="button"
+                        id="newsFilterSourceTrigger"
+                        class="news-filter-trigger"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-labelledby="newsFilterSourceLabel"
+                        aria-controls="newsFilterSourcePanel"
+                      >
+                        <span class="news-filter-trigger-text">All sources</span>
+                        <svg class="news-filter-trigger-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                      <div id="newsFilterSourcePanel" class="news-filter-panel news-filter-panel--source" role="listbox" hidden></div>
+                    </div>
                   </div>
-                  <div class="filter-field">
-                    <label for="newsFilterTopic" class="filter-field-label">Topic</label>
-                    <select id="newsFilterTopic" class="filter-field-select" aria-label="Filter by GDPR topic area" aria-describedby="newsTopicFilterHint">
-                      <option value="">All topics</option>
-                    </select>
+                  <div class="filter-field filter-field--news">
+                    <label for="newsFilterTopicTrigger" class="filter-field-label" id="newsFilterTopicLabel">Topic</label>
+                    <div class="news-filter-dropdown" id="newsFilterTopicDropdown">
+                      <select id="newsFilterTopic" class="visually-hidden" tabindex="-1" aria-hidden="true"></select>
+                      <button
+                        type="button"
+                        id="newsFilterTopicTrigger"
+                        class="news-filter-trigger"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-labelledby="newsFilterTopicLabel"
+                        aria-controls="newsFilterTopicPanel"
+                      >
+                        <span class="news-filter-trigger-text">All topics</span>
+                        <svg class="news-filter-trigger-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                      <div id="newsFilterTopicPanel" class="news-filter-panel news-filter-panel--topic" role="listbox" hidden></div>
+                    </div>
                   </div>
                   <div class="filter-actions">
                     <button type="button" id="newsFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear all</button>
                   </div>
+                  <div class="news-view-toggle" role="group" aria-label="News layout">
+                    <button type="button" id="newsViewBySourceBtn" class="news-view-toggle-btn" aria-pressed="true" aria-label="Group articles by source">
+                      <svg class="news-view-toggle-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 4h7v7H4z"/><path d="M13 4h7v4h-7z"/><path d="M13 10h7v10h-7z"/><path d="M4 13h7v7H4z"/>
+                      </svg>
+                      <span class="news-view-toggle-text">By source</span>
+                    </button>
+                    <button type="button" id="newsViewAllBtn" class="news-view-toggle-btn" aria-pressed="false" aria-label="Show one combined list of all articles">
+                      <svg class="news-view-toggle-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>
+                      </svg>
+                      <span class="news-view-toggle-text">All</span>
+                    </button>
+                  </div>
                 </div>
                 <p id="newsTopicFilterHint" class="news-topic-filter-hint">
-                  Topics are grouped by area (Core Rights, Data Transfers, …)—the same labels as the tag on each card.
+                  Open <strong>Topic</strong> to pick an area (includes all subtopics) or a specific subtopic—labels match the tag on each card.
                 </p>
                 <p id="newsResultStatus" class="news-result-status" aria-live="polite"></p>
               </div>

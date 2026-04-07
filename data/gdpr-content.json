@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastChecked": "2026-04-05T00:00:03.229Z",
-    "lastRefreshed": "2026-04-05T00:00:03.229Z",
+    "lastChecked": "2026-04-07T00:00:03.197Z",
+    "lastRefreshed": "2026-04-07T00:00:03.197Z",
     "etl": {
       "primaryRequested": "gdpr-info",
       "minGdprInfoArticles": 99,
@@ -119,6 +119,14 @@
             "url": "https://edpb.europa.eu/"
           },
           {
+            "label": "Publications & news (RSS)",
+            "url": "https://edpb.europa.eu/feed/publications_en"
+          },
+          {
+            "label": "News listing",
+            "url": "https://edpb.europa.eu/news_en"
+          },
+          {
             "label": "GDPR guidelines & recommendations",
             "url": "https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en"
           },
@@ -145,6 +153,29 @@
         ]
       },
       {
+        "name": "European Data Protection Supervisor (EDPS)",
+        "url": "https://www.edps.europa.eu/",
+        "description": "Independent EU authority supervising personal data processing by EU institutions and bodies; works with the EDPB on consistency.",
+        "documents": [
+          {
+            "label": "Home",
+            "url": "https://www.edps.europa.eu/"
+          },
+          {
+            "label": "News (English RSS)",
+            "url": "https://www.edps.europa.eu/feed/news_en"
+          },
+          {
+            "label": "Press & publications",
+            "url": "https://www.edps.europa.eu/press-publications/press-news_en"
+          },
+          {
+            "label": "Data protection – our work",
+            "url": "https://www.edps.europa.eu/data-protection/our-work_en"
+          }
+        ]
+      },
+      {
         "name": "European Commission",
         "url": "https://commission.europa.eu/law/law-topic/data-protection_en",
         "description": "Official Commission policy, law and implementation of data protection.",
@@ -152,6 +183,10 @@
           {
             "label": "Data protection (overview)",
             "url": "https://commission.europa.eu/law/law-topic/data-protection_en"
+          },
+          {
+            "label": "Press Corner (press releases)",
+            "url": "https://ec.europa.eu/commission/presscorner/home/en"
           },
           {
             "label": "Reform of EU data protection rules",
@@ -183,6 +218,10 @@
           {
             "label": "UK GDPR guidance (hub)",
             "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance/"
+          },
+          {
+            "label": "News, blogs & speeches",
+            "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/"
           },
           {
             "label": "Guide to the GDPR",

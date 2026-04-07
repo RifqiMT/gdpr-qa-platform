@@ -1,6 +1,6 @@
 /**
  * Crawl GDPR / data protection / digital-policy news from credible sources.
- * EDPB (RSS + parallel paginated news HTML), EDPS (RSS), CNIL English RSS, ICO (Umbraco /api/search + sitemap),
+ * EDPB (RSS + parallel paginated news HTML), EDPS (RSS), ICO (Umbraco /api/search + sitemap),
  * Commission Press Corner (general + per-policy RSS + thematic API; policy areas for topic gate), CoE (RSS + HTML, Referer).
  */
 
@@ -9,7 +9,9 @@ const cheerio = require('cheerio');
 const {
   assignNewsTopicFields,
   mergeNewsItemTopicFields,
-  newsBlobMatchesTopicAnchor
+  newsBlobMatchesTopicAnchor,
+  getFlatTopicLabelsInOrder,
+  NEWS_TOPIC_FALLBACK
 } = require('./news-topics');
 
 const CRAWL_TIMEOUT_MS = 25000;
@@ -27,6 +29,17 @@ const COMMISSION_RSS_PAGE_SIZE = Math.min(
   100,
   Math.max(20, parseInt(process.env.NEWS_COMMISSION_RSS_PAGE_SIZE || '100', 10) || 100)
 );
+/**
+ * Commission RSS pagination depth (page=0..N).
+ * Note: Presscorner RSS appears to ignore paging parameters (returns same newest slice); we detect and stop early.
+ */
+const COMMISSION_RSS_MAX_PAGES = Math.min(
+  250,
+  Math.max(2, parseInt(process.env.NEWS_COMMISSION_RSS_MAX_PAGES || '10', 10) || 10)
+);
+/** Earliest year to keep when crawling historical pages. */
+const NEWS_FROM_YEAR = Math.min(2100, Math.max(1995, parseInt(process.env.NEWS_FROM_YEAR || '2015', 10) || 2015));
+const NEWS_FROM_DATE_ISO = `${NEWS_FROM_YEAR}-01-01`;
 /**
  * Commission Press Corner policy-area buckets (RSS + search). Broader than GDPR-only codes —
  * `newsItemMatchesApprovedTopic` still filters body text; trusted set keeps detail URLs from being dropped.
@@ -64,10 +77,46 @@ const COMMISSION_PRESS_TRUSTED_POLICY_CODES = new Set(
 /** Max snippet length stored per item (description / content:encoded / Atom summary). */
 const SNIPPET_MAX_LEN = 480;
 
+/** Topic-enrichment: try to reduce empty topics by running limited site searches. */
+const TOPIC_ENRICH_MAX_TOPICS = Math.min(
+  120,
+  Math.max(0, parseInt(process.env.NEWS_TOPIC_ENRICH_MAX_TOPICS || '36', 10) || 36)
+);
+const TOPIC_ENRICH_CONCURRENCY = Math.min(
+  8,
+  Math.max(1, parseInt(process.env.NEWS_TOPIC_ENRICH_CONCURRENCY || '4', 10) || 4)
+);
+const TOPIC_ENRICH_ENABLE = String(process.env.NEWS_TOPIC_ENRICH_ENABLE || '1').trim() !== '0';
+const TOPIC_ENRICH_TARGET_PER_TOPIC = Math.min(
+  25,
+  Math.max(1, parseInt(process.env.NEWS_TOPIC_ENRICH_TARGET_PER_TOPIC || '10', 10) || 10)
+);
+const TOPIC_ENRICH_MAX_QUERIES = Math.min(
+  900,
+  Math.max(12, parseInt(process.env.NEWS_TOPIC_ENRICH_MAX_QUERIES || '220', 10) || 220)
+);
+
+/** Extra queries to improve recall for topics whose label is rarely used verbatim in headlines. */
+const TOPIC_QUERY_EXPANSIONS = {
+  'Data portability': ['article 20', 'portable format'],
+  'Restrictions on rights': ['restriction of processing', 'article 18'],
+  'Biometric data and identifiers': ['biometric', 'fingerprint', 'facial biometric'],
+  'Processing records': ['records of processing', 'article 30'],
+  'Territorial applicability': ['territorial scope', 'article 3', 'extraterritorial'],
+  'Cloud services and outsourcing': ['subprocessor', 'outsourcing', 'cloud provider'],
+  'Connected vehicles and mobility': ['connected vehicle', 'vehicle data'],
+  'Deceptive design patterns': ['dark patterns', 'deceptive design'],
+  'Cybersecurity certifications': ['security certification', 'iso 27001', 'iso 27701'],
+  'Location data handling': ['geolocation', 'location tracking', 'location data'],
+  'International data protection cooperation': ['global privacy assembly', 'cross-border cooperation', 'international cooperation']
+};
+
 const EDPB_RSS = 'https://edpb.europa.eu/feed/publications_en';
 const EDPB_NEWS_PAGE = 'https://edpb.europa.eu/news_en';
+const EDPB_SEARCH_PAGE = 'https://edpb.europa.eu/search?search_api_fulltext=';
 /** EDPS aggregated news RSS (press, blog, events digest on site). */
 const EDPS_NEWS_RSS = 'https://www.edps.europa.eu/feed/news_en';
+const EDPS_SEARCH_PAGE = 'https://www.edps.europa.eu/search?search_api_fulltext=';
 const ICO_NEWS_PAGE = 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/';
 /** Umbraco filter root for “News, blogs and speeches” (see `data-node-id` on #filter-page-container). */
 const ICO_NEWS_FILTER_ROOT_PAGE_ID = 2816;
@@ -75,7 +124,7 @@ const ICO_SEARCH_API = 'https://ico.org.uk/api/search';
 /** ICO search returns ~25 per page; cap pages to bound crawl time. */
 const MAX_ICO_SEARCH_PAGES = Math.min(
   64,
-  Math.max(10, parseInt(process.env.NEWS_MAX_ICO_SEARCH_PAGES || '44', 10) || 44)
+  Math.max(10, parseInt(process.env.NEWS_MAX_ICO_SEARCH_PAGES || '64', 10) || 64)
 );
 const ICO_NEWS_PAGE_P2 = 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/?page=1';
 const ICO_NEWS_PAGES_EXTRA = [
@@ -115,6 +164,46 @@ function bestSnippetFromRssItem($, $el) {
         : fromDesc || fromEncoded;
   const t = pick.slice(0, SNIPPET_MAX_LEN);
   return t || null;
+}
+
+function normalizeTopicQuery(label) {
+  const raw = String(label || '').trim();
+  if (!raw) return '';
+  // Remove UI bullets and punctuation; keep useful acronyms (DPIA, SCC, etc.).
+  return raw
+    .replace(/^\s*[·•]\s*/, '')
+    .replace(/[()]/g, ' ')
+    .replace(/&/g, ' and ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 80);
+}
+
+function computeTopicCounts(items) {
+  const counts = Object.create(null);
+  (items || []).forEach((it) => {
+    const t = String((it && it.topic) || '').trim() || NEWS_TOPIC_FALLBACK;
+    counts[t] = (counts[t] || 0) + 1;
+  });
+  return counts;
+}
+
+function newsItemRelevanceBlob(it) {
+  const title = it && it.title ? String(it.title) : '';
+  const snippet = it && it.snippet ? String(it.snippet) : '';
+  const url = it && it.url ? String(it.url) : '';
+  return `${title} ${snippet} ${url}`.toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function hasDpAnchorForEnrichment(normalizedBlob) {
+  const b = String(normalizedBlob || '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!b) return false;
+  return /\b(gdpr|data protection|personal data|privacy|data subject|supervisory authorit|information commissioner|\bedpb\b|\bedps\b|\bico\b)\b/.test(
+    b
+  );
 }
 
 /** RSS/Atom endpoints often behave better with a browser-like UA and XML Accept (avoids empty or blocked responses). */
@@ -272,43 +361,6 @@ async function crawlEdpsRss() {
   return items;
 }
 
-const CNIL_EN_RSS = 'https://www.cnil.fr/en/rss.xml';
-
-async function crawlCnilEnglishRss() {
-  const sourceName = 'CNIL (France)';
-  const sourceUrl = 'https://www.cnil.fr/en';
-  const items = [];
-  try {
-    const { data } = await axios.get(CNIL_EN_RSS, {
-      timeout: CRAWL_TIMEOUT_MS,
-      headers: { ...BROWSER_HEADERS, ...RSS_REQUEST_HEADERS },
-      responseType: 'text'
-    });
-    const $ = cheerio.load(data, { xmlMode: true });
-    $('item').each((_, el) => {
-      const $el = $(el);
-      const title = ($el.find('title').first().text() || '').trim();
-      let link = ($el.find('link').first().text() || '').trim();
-      if (!link && $el.find('link').length) link = $el.find('link').first().attr('href') || '';
-      link = String(link || '').trim();
-      const pubDate = $el.find('pubDate').text() || $el.find('dc\\:date').text() || '';
-      if (!title || !link) return;
-      const lower = link.toLowerCase();
-      if (/\/rss\.xml$/i.test(lower) || /^https?:\/\/www\.cnil\.fr\/en\/?$/i.test(lower)) return;
-      let date = null;
-      if (pubDate) {
-        const d = new Date(pubDate);
-        if (!isNaN(d.getTime())) date = d.toISOString().slice(0, 10);
-      }
-      const snippet = bestSnippetFromRssItem($, $el);
-      items.push({ title, url: link, sourceName, sourceUrl, date, snippet: snippet || null });
-    });
-  } catch (err) {
-    console.warn('News RSS (CNIL):', err.message || err);
-  }
-  return items;
-}
-
 function freedomOfInformationOnlyWithoutDpContext(b) {
   const blob = String(b || '')
     .toLowerCase()
@@ -325,7 +377,7 @@ function freedomOfInformationOnlyWithoutDpContext(b) {
 
 /**
  * Single gate for all news sources: keep items that tie to GDPR / personal data / privacy protection
- * (and close combinations). Hub-scoped crawls (EDPB, EDPS, CNIL /en/, ICO news hub, Commission Press Corner
+ * (and close combinations). Hub-scoped crawls (EDPB, EDPS, ICO news hub, Commission Press Corner
  * policy buckets, CoE data-protection) are trusted after the global FOI-only exclusion.
  */
 function newsItemMatchesApprovedTopic(item) {
@@ -339,7 +391,6 @@ function newsItemMatchesApprovedTopic(item) {
 
   if (/edpb\.europa\.eu/i.test(url)) return true;
   if (/edps\.europa\.eu/i.test(url)) return true;
-  if (/cnil\.fr\/en\//i.test(url)) return true;
 
   if (/coe\.int/i.test(url)) {
     const u = url.toLowerCase();
@@ -531,6 +582,22 @@ function parseCommissionPressRssItems(data, opts) {
   return items;
 }
 
+function isOnOrAfterFromYear(dateIso) {
+  const d = String(dateIso || '').trim();
+  if (!d) return true;
+  return d >= NEWS_FROM_DATE_ISO;
+}
+
+function oldestIsoDate(items) {
+  let oldest = null;
+  for (const it of items || []) {
+    const d = it && it.date ? String(it.date) : '';
+    if (!d) continue;
+    if (!oldest || d < oldest) oldest = d;
+  }
+  return oldest;
+}
+
 async function fetchCommissionPressRssXml(url) {
   const { data } = await axios.get(url, {
     timeout: CRAWL_TIMEOUT_MS,
@@ -540,25 +607,73 @@ async function fetchCommissionPressRssXml(url) {
   return data;
 }
 
+async function fetchCommissionRssPaged(opts) {
+  const sourceName = opts && opts.sourceName;
+  const sourceUrl = opts && opts.sourceUrl;
+  const policyCode = opts && opts.policyCode;
+  const maxPages = opts && opts.maxPages != null ? opts.maxPages : COMMISSION_RSS_MAX_PAGES;
+  const out = [];
+  const seen = new Set();
+  let prevFirstKey = '';
+  for (let page = 0; page < maxPages; page++) {
+    const url =
+      `${COMMISSION_PRESS_RSS_BASE}?` +
+      (policyCode ? `policyAreaCodes=${encodeURIComponent(policyCode)}&` : '') +
+      `pagesize=${COMMISSION_RSS_PAGE_SIZE}&page=${page}`;
+    let xml = '';
+    try {
+      xml = await fetchCommissionPressRssXml(url);
+    } catch (err) {
+      console.warn('News RSS (Commission paged' + (policyCode ? ' ' + policyCode : '') + ' p' + page + '):', err.message || err);
+      break;
+    }
+    const batch = parseCommissionPressRssItems(xml, {
+      sourceName,
+      sourceUrl,
+      defaultPolicyCode: policyCode || undefined
+    });
+    if (!batch.length) break;
+    // If the feed ignores paging, pages will repeat. Detect by first item key.
+    const first = batch[0] && batch[0].url ? normalizeNewsUrlKey(batch[0].url) : '';
+    if (page > 0 && first && prevFirstKey && first === prevFirstKey) break;
+    if (first) prevFirstKey = first;
+    let batchNew = 0;
+    for (const it of batch) {
+      const k = normalizeNewsUrlKey(it.url);
+      if (!k || seen.has(k)) continue;
+      seen.add(k);
+      // Keep items from NEWS_FROM_YEAR onward.
+      if (!isOnOrAfterFromYear(it.date)) continue;
+      out.push(it);
+      batchNew += 1;
+    }
+    if (page > 0 && batchNew === 0) break;
+    const oldest = oldestIsoDate(batch);
+    if (oldest && !isOnOrAfterFromYear(oldest)) {
+      // We've crossed the from-year boundary; stop fetching older pages.
+      break;
+    }
+  }
+  return out;
+}
+
 async function fetchCommissionPolicyRssAll() {
   const sourceName = 'European Commission';
   const sourceUrl = 'https://commission.europa.eu/';
   const out = [];
-  const generalUrl = `${COMMISSION_PRESS_RSS_BASE}?pagesize=${COMMISSION_RSS_PAGE_SIZE}&page=0`;
-  try {
-    const xml = await fetchCommissionPressRssXml(generalUrl);
-    out.push(...parseCommissionPressRssItems(xml, { sourceName, sourceUrl }));
-  } catch (err) {
-    console.warn('News RSS (Commission general):', err.message || err);
-  }
+  // General feed supports pagination — use it to reach back to NEWS_FROM_YEAR.
+  out.push(...(await fetchCommissionRssPaged({ sourceName, sourceUrl, maxPages: COMMISSION_RSS_MAX_PAGES })));
   for (let i = 0; i < COMMISSION_POLICY_AREA_CODES.length; i += COMMISSION_RSS_CONCURRENCY) {
     const chunk = COMMISSION_POLICY_AREA_CODES.slice(i, i + COMMISSION_RSS_CONCURRENCY);
     const chunkResults = await Promise.all(
       chunk.map(async (code) => {
+        // Policy feeds are additional signals; fetch only first page to avoid an explosion of requests.
         const url = `${COMMISSION_PRESS_RSS_BASE}?policyAreaCodes=${encodeURIComponent(code)}&pagesize=${COMMISSION_RSS_PAGE_SIZE}&page=0`;
         try {
           const xml = await fetchCommissionPressRssXml(url);
-          return parseCommissionPressRssItems(xml, { sourceName, sourceUrl, defaultPolicyCode: code });
+          return parseCommissionPressRssItems(xml, { sourceName, sourceUrl, defaultPolicyCode: code }).filter((it) =>
+            isOnOrAfterFromYear(it.date)
+          );
         } catch (err) {
           console.warn('News RSS (Commission ' + code + '):', err.message || err);
           return [];
@@ -718,6 +833,252 @@ async function crawlEdpbHtml() {
     }
   }
   return Array.from(byKey.values());
+}
+
+function extractLinksFromGenericSearchHtml($, baseHost, sourceName, sourceUrl) {
+  const out = [];
+  const seen = new Set();
+  $('a[href]').each((_, el) => {
+    let href = ($(el).attr('href') || '').trim();
+    if (!href) return;
+    if (href.startsWith('/')) href = baseHost.replace(/\/$/, '') + href;
+    if (!/^https?:\/\//i.test(href)) return;
+    if (!href.toLowerCase().includes(baseHost.replace(/^https?:\/\//i, '').toLowerCase())) return;
+    href = href.split('#')[0];
+    const k = normalizeNewsUrlKey(href);
+    if (!k || seen.has(k)) return;
+    const title = stripTagsAndCollapse($(el).text() || '').trim();
+    if (!title || title.length < 10) return;
+    // Avoid nav/footer junk in search pages.
+    if (/privacy policy|cookies|accessibility|contact|search/i.test(title) && title.length < 40) return;
+    seen.add(k);
+    out.push({ title, url: href, sourceName, sourceUrl, date: null, snippet: null });
+  });
+  return out;
+}
+
+async function crawlEdpbSearch(query) {
+  const q = normalizeTopicQuery(query);
+  if (!q) return [];
+  const sourceName = 'European Data Protection Board (EDPB)';
+  const sourceUrl = 'https://edpb.europa.eu/';
+  const url = EDPB_SEARCH_PAGE + encodeURIComponent(q);
+  try {
+    const { data } = await axios.get(url, {
+      timeout: Math.min(CRAWL_TIMEOUT_MS, 15000),
+      headers: BROWSER_HEADERS,
+      responseType: 'text'
+    });
+    const $ = cheerio.load(data);
+    // Prefer “news” and “publications” style links; fallback to generic.
+    const found = [];
+    const seen = new Set();
+    const selectors = [
+      'a[href*="/news/news/"]',
+      'a[href*="/publications/"]',
+      'a[href*="/our-work-tools/"]',
+      'h3 a[href], h4 a[href]'
+    ];
+    selectors.forEach((sel) => {
+      $(sel).each((_, el) => {
+        const $a = $(el);
+        let href = ($a.attr('href') || '').trim();
+        if (!href) return;
+        if (href.startsWith('/')) href = 'https://edpb.europa.eu' + href;
+        if (!/^https?:\/\//i.test(href)) return;
+        href = href.split('#')[0];
+        const k = normalizeNewsUrlKey(href);
+        if (!k || seen.has(k)) return;
+        const title = stripTagsAndCollapse($a.text() || '').trim();
+        if (!title || title.length < 10) return;
+        const $row = $a.closest('.views-row, article, li, .search-results, .view-content');
+        let snippet = null;
+        if ($row && $row.length) {
+          let raw = stripTagsAndCollapse($row.text() || '');
+          if (raw && title && raw.toLowerCase().indexOf(title.toLowerCase()) === 0) {
+            raw = raw.slice(title.length).trim();
+          }
+          raw = raw.replace(/\s+/g, ' ').trim();
+          if (raw.length >= 40) snippet = raw.slice(0, SNIPPET_MAX_LEN);
+        }
+        seen.add(k);
+        found.push({ title, url: href, sourceName, sourceUrl, date: null, snippet: snippet || null });
+      });
+    });
+    if (found.length) return found.slice(0, 120);
+    return extractLinksFromGenericSearchHtml($, 'https://edpb.europa.eu', sourceName, sourceUrl).slice(0, 120);
+  } catch (err) {
+    console.warn('News crawler (EDPB search ' + q + '):', err.message || err);
+    return [];
+  }
+}
+
+async function crawlEdpsSearch(query) {
+  const q = normalizeTopicQuery(query);
+  if (!q) return [];
+  const sourceName = 'European Data Protection Supervisor (EDPS)';
+  const sourceUrl = 'https://www.edps.europa.eu/';
+  const url = EDPS_SEARCH_PAGE + encodeURIComponent(q);
+  try {
+    const { data } = await axios.get(url, {
+      timeout: Math.min(CRAWL_TIMEOUT_MS, 15000),
+      headers: BROWSER_HEADERS,
+      responseType: 'text'
+    });
+    const $ = cheerio.load(data);
+    // EDPS search markup varies; extract useful internal links and filter paths.
+    const raw = extractLinksFromGenericSearchHtml($, 'https://www.edps.europa.eu', sourceName, sourceUrl).map(
+      (it) => {
+        // Best-effort: grab surrounding text for snippet so keyword inference can work.
+        try {
+          const $a = $(`a[href="${it.url.replace(/"/g, '\\"')}"]`).first();
+          const $row = $a && $a.length ? $a.closest('article, li, .views-row, .search-results, .view-content') : null;
+          if ($row && $row.length) {
+            let raw = stripTagsAndCollapse($row.text() || '');
+            if (raw && it.title && raw.toLowerCase().indexOf(String(it.title).toLowerCase()) === 0) {
+              raw = raw.slice(String(it.title).length).trim();
+            }
+            raw = raw.replace(/\s+/g, ' ').trim();
+            if (raw.length >= 40) return { ...it, snippet: raw.slice(0, SNIPPET_MAX_LEN) };
+          }
+        } catch {}
+        return it;
+      }
+    );
+    const keep = raw.filter((it) => {
+      const u = String(it.url || '').toLowerCase();
+      return (
+        u.includes('/press-publications/') ||
+        u.includes('/data-protection/') ||
+        u.includes('/our-work/') ||
+        u.includes('/news/') ||
+        u.includes('/blog/')
+      );
+    });
+    return (keep.length ? keep : raw).slice(0, 120);
+  } catch (err) {
+    console.warn('News crawler (EDPS search ' + q + '):', err.message || err);
+    return [];
+  }
+}
+
+async function crawlIcoSearchQuery(query) {
+  // ICO's public /api/search currently blocks keyworded requests (403) in many environments.
+  // We already crawl the full ICO hub via /api/search (without searchTerm) + sitemap enrichment,
+  // so topic enrichment skips ICO to avoid noisy failures and unnecessary load.
+  return [];
+}
+
+async function fetchCommissionPressQuerySearch(query) {
+  const q = normalizeTopicQuery(query);
+  if (!q) return [];
+  const url =
+    'https://ec.europa.eu/commission/presscorner/api/search?language=en&documentTypeIds=1&rows=100&query=' +
+    encodeURIComponent(q);
+  try {
+    const { data } = await axios.get(url, {
+      timeout: Math.min(CRAWL_TIMEOUT_MS, 15000),
+      headers: { ...BROWSER_HEADERS, Accept: 'application/json' }
+    });
+    const resources = data && Array.isArray(data.docuLanguageListResources) ? data.docuLanguageListResources : [];
+    const byRef = new Map();
+    const seenRef = new Set();
+    for (const r of resources) {
+      const ref = (r.refCode || '').trim();
+      if (!ref || seenRef.has(ref)) continue;
+      seenRef.add(ref);
+      const url = commissionDetailUrlFromRefCode(ref);
+      if (!url) continue;
+      const title = (r.title || '').trim();
+      if (!title) continue;
+      const lead = stripTagsAndCollapse(r.leadText || '').slice(0, SNIPPET_MAX_LEN);
+      let date = null;
+      if (r.eventDate) {
+        const d = new Date(r.eventDate);
+        if (!isNaN(d.getTime())) date = d.toISOString().slice(0, 10);
+      }
+      const item = {
+        title,
+        url,
+        sourceName: 'European Commission',
+        sourceUrl: 'https://commission.europa.eu/',
+        date,
+        snippet: lead || null
+      };
+      mergeCommissionPressItemIntoMap(byRef, item);
+    }
+    return Array.from(byRef.values());
+  } catch (err) {
+    console.warn('News API (Commission query ' + q + '):', err.message || err);
+    return [];
+  }
+}
+
+async function enrichMissingTopicsViaSearch(itemsAlready) {
+  if (!TOPIC_ENRICH_ENABLE || TOPIC_ENRICH_MAX_TOPICS <= 0) return [];
+  const labels = getFlatTopicLabelsInOrder().filter((t) => t && t !== NEWS_TOPIC_FALLBACK);
+  const counts = computeTopicCounts(itemsAlready);
+  // We aim to *fill up to* TOPIC_ENRICH_TARGET_PER_TOPIC per leaf, not just avoid zeros.
+  const deficits = labels
+    .map((t) => ({ t, n: counts[t] || 0 }))
+    .filter((x) => x.n < TOPIC_ENRICH_TARGET_PER_TOPIC)
+    .sort((a, b) => a.n - b.n);
+  if (!deficits.length) return [];
+  const wanted = deficits.slice(0, TOPIC_ENRICH_MAX_TOPICS).map((x) => x.t);
+
+  const enriched = [];
+  let queryBudgetUsed = 0;
+  for (let i = 0; i < wanted.length; i += TOPIC_ENRICH_CONCURRENCY) {
+    const slice = wanted.slice(i, i + TOPIC_ENRICH_CONCURRENCY);
+    const batch = await Promise.all(
+      slice.map(async (topicLabel) => {
+        if (queryBudgetUsed >= TOPIC_ENRICH_MAX_QUERIES) return [];
+        const baseQ = normalizeTopicQuery(topicLabel);
+        const extra = TOPIC_QUERY_EXPANSIONS[topicLabel] || [];
+        const queries = [baseQ, ...extra.map((x) => normalizeTopicQuery(x))].filter(Boolean);
+        // Bound per-topic work: base label + at most 2 expansions.
+        const qSlice = queries.slice(0, 3);
+        const all = [];
+        for (const q of qSlice) {
+          if (queryBudgetUsed >= TOPIC_ENRICH_MAX_QUERIES) break;
+          queryBudgetUsed += 3; // approx: EDPB + EDPS + Commission (ICO skipped)
+          const [edpb, edps, ico, comm] = await Promise.all([
+            crawlEdpbSearch(q),
+            crawlEdpsSearch(q),
+            crawlIcoSearchQuery(q),
+            fetchCommissionPressQuerySearch(q)
+          ]);
+          all.push(...edpb, ...edps, ...ico, ...comm);
+        }
+        return all;
+      })
+    );
+    batch.forEach((arr) => enriched.push(...arr));
+    if (queryBudgetUsed >= TOPIC_ENRICH_MAX_QUERIES) break;
+  }
+
+  // Gate: keep only items that are clearly DP-related for our taxonomy (avoid polluting corpus).
+  const gated = [];
+  for (const it of enriched) {
+    const norm = newsItemRelevanceBlob(it);
+    if (!newsItemMatchesApprovedTopic({ ...it, snippet: it.snippet || null })) continue;
+    // Use a simpler anchor check for enrichment; topic assignment is decided by classifier.
+    if (!hasDpAnchorForEnrichment(norm)) continue;
+    gated.push(it);
+  }
+  // Classify and then keep items that actually help fill under-covered topics.
+  const wantNow = computeTopicCounts(itemsAlready);
+  const out = [];
+  for (const raw of gated) {
+    const classified = assignNewsTopicFields(raw);
+    const t = String((classified && classified.topic) || '').trim();
+    if (!t || t === NEWS_TOPIC_FALLBACK) continue;
+    const cur = wantNow[t] || 0;
+    if (cur >= TOPIC_ENRICH_TARGET_PER_TOPIC) continue;
+    wantNow[t] = cur + 1;
+    out.push(classified);
+  }
+  return out;
 }
 
 function pushIcoNewsLinks($, items, sourceName, sourceUrl) {
@@ -1237,21 +1598,18 @@ function dedupeNewsItemsConsolidated(items) {
 }
 
 async function crawlNews() {
-  const [edpbRssItems, edpbHtmlItems, edpsRssItems, cnilItems, icoItems, commissionItems, coeItems] =
-    await Promise.all([
-      crawlEdpbRss(),
-      crawlEdpbHtml(),
-      crawlEdpsRss(),
-      crawlCnilEnglishRss(),
-      crawlIco(),
-      crawlCommissionPress(),
-      crawlCouncilOfEurope()
-    ]);
+  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems] = await Promise.all([
+    crawlEdpbRss(),
+    crawlEdpbHtml(),
+    crawlEdpsRss(),
+    crawlIco(),
+    crawlCommissionPress(),
+    crawlCouncilOfEurope()
+  ]);
   const combined = [
     ...edpbRssItems,
     ...edpbHtmlItems,
     ...edpsRssItems,
-    ...cnilItems,
     ...icoItems,
     ...commissionItems,
     ...coeItems
@@ -1274,10 +1632,34 @@ async function crawlNews() {
     const db = b.date ? new Date(b.date).getTime() : 0;
     return db - da;
   });
-  return deduped
-    .filter(newsItemMatchesApprovedTopic)
-    .map(sanitizeNewsItemDates)
-    .map(assignNewsTopicFields);
+  let base = deduped.filter(newsItemMatchesApprovedTopic).map(sanitizeNewsItemDates).map(assignNewsTopicFields);
+
+  // Enrich by running a bounded set of topical searches (EDPB/EDPS/ICO/Commission support keyword search).
+  // This is intentionally conservative: only fill missing topics, capped by env vars, and re-gated by taxonomy anchor.
+  try {
+    const extra = await enrichMissingTopicsViaSearch(base);
+    if (extra && extra.length) {
+      extra.forEach((item) => {
+        if (!item.title || !item.url) return;
+        const key = normalizeNewsUrlKey(item.url);
+        if (!key) return;
+        const prev = byKey.get(key);
+        if (!prev) byKey.set(key, { ...item });
+        else byKey.set(key, mergeNewsDuplicate(prev, item));
+      });
+      const again = dedupeNewsItemsConsolidated(Array.from(byKey.values()));
+      again.sort((a, b) => {
+        const da = a.date ? new Date(a.date).getTime() : 0;
+        const db = b.date ? new Date(b.date).getTime() : 0;
+        return db - da;
+      });
+      base = again.filter(newsItemMatchesApprovedTopic).map(sanitizeNewsItemDates).map(assignNewsTopicFields);
+    }
+  } catch (err) {
+    console.warn('News crawler (topic enrichment):', err.message || err);
+  }
+
+  return base;
 }
 
 function withTimeout(promise, ms) {
@@ -1292,7 +1674,6 @@ module.exports = {
   crawlEdpbRss,
   crawlEdpbHtml,
   crawlEdpsRss,
-  crawlCnilEnglishRss,
   crawlIco,
   crawlCommissionPress,
   crawlCouncilOfEurope,

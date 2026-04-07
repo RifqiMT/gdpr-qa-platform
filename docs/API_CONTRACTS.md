@@ -31,6 +31,8 @@ Content type: JSON for all `/api/*` routes unless noted.
 }
 ```
 
+**`sources`:** Populated from **`gdpr-content.json`** → **`meta.sources`** (written on regulation refresh from **`gdpr-structure.json`**). If missing, the server uses **`data/gdpr-structure.json`** → **`meta.sources`** at startup; if that fails, a minimal three-entry emergency list applies. Intended to stay aligned with **News** crawler publishers (e.g. EDPB/EDPS RSS, ICO news hub, Commission Press Corner). National DPAs other than **ICO (UK)** are not listed.
+
 ### `GET /api/categories`
 
 Returns `categories` array from loaded content.
@@ -142,7 +144,7 @@ Uses `LLM_PROVIDER` and available keys; falls back to extractive summary.
 
 **Response:** `{ "newsFeeds": [ … ], "items": [ … ], "topicTaxonomy": { "groups": [ { "category", "topics": [ { "label" } ] } ], "fallbackTopic" } }`  
 Each item includes **`topic`** and **`topicCategory`** (from **`news-topics.js`**) after server-side annotation. **`topicTaxonomy`** drives News tab topic **optgroups**.  
-Merges `data/gdpr-news.json` with live crawl within **`NEWS_CRAWL_TIMEOUT_MS`** (when live crawl runs); results pass through **`dedupeNewsItemsConsolidated`**; caps at **`NEWS_MERGE_CAP`** (default **1600**). Crawl depth is further bounded inside **`news-crawler.js`** and optional **`NEWS_MAX_*`** / **`NEWS_COMMISSION_*`** env vars (see [VARIABLES.md](VARIABLES.md)).
+Merges `data/gdpr-news.json` with live crawl within **`NEWS_CRAWL_TIMEOUT_MS`** (when live crawl runs); results pass through **`dedupeNewsItemsConsolidated`**; caps at **`NEWS_MERGE_CAP`** (default **6000**). Crawl depth is further bounded inside **`news-crawler.js`** and optional **`NEWS_MAX_*`** / **`NEWS_COMMISSION_*`** / topic-enrichment env vars (see [VARIABLES.md](VARIABLES.md)).
 
 **Caching:** Success responses set **`Cache-Control: no-store, no-cache, must-revalidate`** and **`Pragma: no-cache`** so browsers and intermediaries do not treat merged news as a long-lived cache entry.
 

@@ -27,7 +27,7 @@ Personas represent primary users of the platform. They inform features, user sto
 | **Role** | Data Protection Officer; answers internal and external questions about GDPR and tracks supervisory guidance. |
 | **Goals** | Answer “what does the regulation say?” with exact text and citations; stay updated on EDPB/ICO/Commission news; point colleagues to official sources. |
 | **Pain points** | Repeating the same lookups; ensuring answers are from the regulation, not third-party summaries; keeping up with news from multiple sites. |
-| **Needs** | Ask a question and get a **citation-grounded** answer (`[S1]`…), sector context when relevant, View in app to show full article/recital; News tab with filters by **source** and **topic** (taxonomy from **`news-topics.js`**) across EDPB, EDPS, ICO, CNIL (English), Commission, and CoE; Credible sources tab for quick links. |
+| **Needs** | Ask a question and get a **citation-grounded** answer (`[S1]`…), sector context when relevant, View in app to show full article/recital; News tab with filters by **source** and **topic** (taxonomy from **`news-topics.js`**) across EDPB, EDPS, ICO (UK), Commission, and CoE; Credible sources tab for quick links. |
 | **Tech context** | Uses internal or local deployment; may configure LLM key for summaries; needs traceability for audit. |
 | **Relevant features** | Ask (Answer + `[Sn]` citations, industry sector, Relevant GDPR provisions), News (multi-authority crawl, topic tags, by-source grouping, three-paragraph summaries), Credible sources, Refresh sources. |
 

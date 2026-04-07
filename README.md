@@ -4,7 +4,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.0.0   | ≥ 18 | Browse GDPR with filters and cross-links; **Ask** via BM25 + Groq/Tavily grounded answers with `[S1]` citations; optional industry sector; **News** (multi-source crawl including EDPS, CNIL EN, deep Commission RSS/API, ICO; server + client deduplication; expandable Quick filters dock; collapsible “Official site & RSS”); Credible sources; chapter summaries; PDF export. **Product documentation standard v1.3** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
+| 1.0.0   | ≥ 18 | Browse GDPR with filters and cross-links; **Ask** via BM25 + Groq/Tavily grounded answers with `[S1]` citations; optional industry sector; **News** (multi-source crawl including EDPS, deep Commission RSS/API, ICO; server + client deduplication; expandable Quick filters dock; collapsible “Official site & RSS”); Credible sources; chapter summaries; PDF export. **Product documentation standard v1.3** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
 
 ---
 
@@ -39,7 +39,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 |--------|-------------|
 | **Purpose** | Reference and Q&A over the GDPR using credible, official text only; plus curated news from supervisory bodies and official sources. |
 | **Users** | Legal, compliance, privacy professionals and anyone needing quick, sourced GDPR answers and updates. |
-| **Content** | **GDPR** recitals 1–173 and articles 1–99: default corpus from **GDPR-Info** (paragraph structure aligned with [gdpr-info.eu](https://gdpr-info.eu/)); optional **EUR-Lex** primary via env; official links in-app; news from EDPB, EDPS, ICO, CNIL (English RSS), European Commission, Council of Europe. |
+| **Content** | **GDPR** recitals 1–173 and articles 1–99: default corpus from **GDPR-Info** (paragraph structure aligned with [gdpr-info.eu](https://gdpr-info.eu/)); optional **EUR-Lex** primary via env; official links in-app; news from EDPB, EDPS, ICO (UK), European Commission, Council of Europe. |
 | **Deployment** | Single Node.js server; default port **3847** (`PORT` env). |
 
 ### Knowledge sources (credible organizations)
@@ -49,6 +49,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 | **GDPR-Info** | [gdpr-info.eu](https://gdpr-info.eu/) | Regulation text and structure (unofficial, widely cited) |
 | **EUR-Lex** | [Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng) | Official EU publication of the Regulation |
 | **EDPB** | [edpb.europa.eu](https://edpb.europa.eu/) | European Data Protection Board – guidelines and consistency |
+| **EDPS** | [edps.europa.eu](https://www.edps.europa.eu/) | European Data Protection Supervisor – EU institutions and bodies |
 | **European Commission** | [Data protection](https://commission.europa.eu/law/law-topic/data-protection_en) | Official Commission policy and legal overview |
 | **ICO (UK)** | [UK GDPR guidance](https://ico.org.uk/for-organisations/uk-gdpr-guidance/) | UK supervisory authority guidance |
 | **GDPR.eu** | [gdpr.eu](https://gdpr.eu/) | Readable overview and resources (Proton) |
@@ -71,7 +72,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 - **Relevant GDPR provisions** — Ask results list regulation sources cited for the answer, with “View in app” links and clickable `[Sn]` chips in the answer body.
 - **Sector-aware Ask** — Optional industry/sector filter expands BM25/web/Tavily context, adds **customization + reliability** instructions in prompts (verbatim sector phrase, sustained sector hooks per sentence, no invented sector statutes), slightly lower LLM temperature, stronger sector repair passes, and a sector-framed extractive fallback.
 - **Cross-references** — Articles show merged “suitable” recitals (editorial map + recitals that cite the article); recitals show related articles.
-- **News from credible sources** — One place to see GDPR-related updates from EDPB, EDPS, ICO, CNIL (English feed), European Commission, and Council of Europe, with summaries and filters by source and topic. The crawler uses deeper pagination and broader Commission policy RSS/API buckets so **Refresh news** can load many more items than a single RSS page (still capped by `NEWS_MERGE_CAP`, default 1600).
+- **News from credible sources** — One place to see GDPR-related updates from EDPB, EDPS, ICO (UK), European Commission, and Council of Europe, with summaries and filters by source and topic. Users can switch between **By source** and a blended **All** view (single chronological list across sources). **Refresh news** can load many more items than a single RSS page (still capped by `NEWS_MERGE_CAP`, default 6000).
 - **Credible sources hub** — One tab listing all official and widely cited sources with direct links to key documents (EDPB guidelines, ICO guidance, Commission pages, etc.).
 
 ---
@@ -102,7 +103,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 ### 3.3 Credible sources
 
-- **Sources tab** — Lists all credible organizations (GDPR-Info, EUR-Lex, EDPB, EDPS, European Commission, ICO, GDPR.eu, Council of Europe) with short descriptions and direct links to key documents (guidelines, recitals, chapters, Commission pages, ICO guidance, etc.). Data comes from `GET /api/meta` (sources array).
+- **Sources tab** — Lists credible organizations from **`meta.sources`** in **`gdpr-content.json`** (copied from **`gdpr-structure.json`** on each regulation refresh): GDPR-Info, EUR-Lex, EDPB, EDPS, European Commission, ICO (UK), GDPR.eu, Council of Europe — with descriptions and document links (RSS, Press Corner, news hubs where the same feeds power the **News** tab). If the corpus omits `meta.sources`, the server falls back to **`gdpr-structure.json`**. Data is served by **`GET /api/meta`** (`sources` array).
 
 ### 3.4 Content and regulation refresh
 
@@ -116,14 +117,14 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 ### 3.5 News (GDPR from credible sources)
 
 - **News tab** — Highlights GDPR and data protection news from credible sources. Each item links to the **original article** on the publisher’s site (traceable to source).
-- **Grouping** — News is grouped **by source** (EDPB, EDPS, ICO, CNIL, European Commission, Council of Europe). Each section has a short plain-language summary describing that source’s role.
+- **Grouping** — News is grouped **by source** (EDPB, EDPS, ICO, European Commission, Council of Europe). Each section has a short plain-language summary describing that source’s role.
 - **Three-paragraph summaries** — Each news card shows a **Summary** block with three paragraphs: (1) high-level summary of the item, (2) attribution to the source and link to full article, (3) relevance (e.g. GDPR compliance). Uses `summaryParagraphs` from data when present, otherwise built from snippet/title and standard sentences.
 - **Topic tags** — Items get a **`topic`** (and **`topicCategory`**) from **`news-topics.js`**: grouped areas such as **Core Rights**, **AI and Emerging Tech**, **Data Transfers**, **Enforcement and Compliance**, **Processing Concepts**, **Sector-Specific Areas**, **Cybersecurity**, and **Oversight Areas**, each with specific leaf labels (e.g. Standard contractual clauses, DPIA, Lead authority processes). Classification uses title, snippet, and URL. The catch‑all **Other GDPR & data protection topics** is hidden on cards to reduce noise. The taxonomy also acts as a **supplemental relevance anchor** in **`newsItemMatchesApprovedTopic`** (with a data-protection context check) so niche phrasing from existing feeds can still pass the gate.
 - **Filters** — **Source** dropdown (All sources / per-source) and **Topic** dropdown with **optgroups** mirroring those categories (All topics / per leaf topic). **Clear filters** resets both and re-applies so all items are shown. Filtering is client-side on the last loaded list (no extra network request). The main filter card sits **above** the article list in normal document flow (no sticky overlap with cards).
 - **Desktop scroll affordance (≥1100px)** — When the main filter toolbar scrolls out of the **`.main`** viewport, a **Quick filters** card appears in the **left column** under “Official site & RSS”: expandable header (chevron), active-filter **badge**, search + source + topic + reset, synced with the main controls. **Session** remembers collapsed/expanded state (`sessionStorage`). **Official site & RSS** is also **expandable/collapsible** (same session persistence) to save vertical space in the sidebar.
 - **Deduplication** — **`news-crawler.js`** merges items by normalized URL, then by **semantic key** (source + date + normalized title fingerprint) so the same story under different URLs (e.g. EDPS news stub vs publications URL) collapses to one row. **`server.js`** runs **`dedupeNewsItemsConsolidated`** on `GET /api/news` and after **`mergeNewsItems`**. **`public/news-dedupe.js`** mirrors that logic in the browser so the UI stays clean even if an older server binary or cached JSON still contained duplicates.
 - **Refresh news** — Button calls **`POST /api/news/refresh`**, which crawls sources, merges with existing JSON, writes `data/gdpr-news.json` (subject to internal storage cap), then reloads the UI from the response.
-- **Data** — `data/gdpr-news.json`: `newsFeeds[]` and `items[]` (title, url, sourceName, sourceUrl, date, snippet, optional `summaryParagraphs[]`, optional `commissionPolicyAreas`, optional **`topic`** / **`topicCategory`** after refresh). Server merges static items with crawled items from `news-crawler.js`; **URL + semantic dedupe**, sorted by date, capped by `NEWS_MERGE_CAP` (response) and a higher cap when persisting on refresh. If file is missing, default feeds apply.
+- **Data** — `data/gdpr-news.json`: `newsFeeds[]` and `items[]` (title, url, sourceName, sourceUrl, date, snippet, optional `summaryParagraphs[]`, optional `commissionPolicyAreas`, optional **`topic`** / **`topicCategory`** after refresh). Server merges static items with crawled items from `news-crawler.js`; **URL + semantic dedupe**, sorted by date, capped by `NEWS_MERGE_CAP` (response) and a higher cap when persisting on refresh. If file is missing, default feeds apply. Optional topic-enrichment is bounded by `NEWS_TOPIC_ENRICH_*` and is **best-effort** (source-dependent).
 - **API** — `GET /api/news` returns `{ newsFeeds, items, topicTaxonomy }` with **`Cache-Control: no-store, no-cache, must-revalidate`** and **`Pragma: no-cache`** to reduce stale JSON in browsers; optional query **`?live=1`** merges a live crawl within `NEWS_CRAWL_TIMEOUT_MS`. `POST /api/news/refresh` returns merged items, **`topicTaxonomy`**, and persistence metadata. **Attachments** calls `POST /api/news/article-attachments` with JSON `{ "url": "<article URL>" }` and **falls back to** `GET ?url=` if POST fails (older proxies / hosts). **`POST /api/news/attachments-summary`** with `{ "urls": [ … ] }` returns `{ items: [{ url, count }] }` (deduped, capped) so the UI can **hide the Attachments button** when `count === 0`. Load the UI from the **same origin** as `server.js` (`npm start`, e.g. port 3847), or set **`<meta name="gdpr-api-base" content="https://your-api-host">`** in `index.html` when the static UI and API are on different origins (CORS is enabled on the server).
 
 ### 3.6 Optional LLM summaries (`POST /api/summarize`)
@@ -162,7 +163,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 ### 4.4 News crawler (`news-crawler.js`)
 
-- **Sources** — EDPB RSS, EDPB paginated news HTML, **EDPS news RSS** (`feed/news_en`) with URL resolution from feed HTML, **CNIL English RSS** (`cnil.fr/en/rss.xml`), ICO (**Umbraco search API** + sitemap gap fill + HTML fallback), Commission **general + per-policy** press RSS (batched) + thematic Press Corner API, CoE RSS/HTML (subject to site availability). Optional env vars tune depth (see `.env.example`).
+- **Sources** — EDPB RSS, EDPB paginated news HTML, **EDPS news RSS** (`feed/news_en`) with URL resolution from feed HTML, ICO (**Umbraco search API** + sitemap gap fill + HTML fallback), Commission **general + per-policy** press RSS (batched) + thematic Press Corner API, CoE RSS/HTML (subject to site availability). Optional env vars tune depth (see `.env.example`). National DPAs other than **ICO (UK)** are intentionally excluded from News and Credible sources.
 - **Output** — Items with `title`, `url`, `sourceName`, `sourceUrl`, `date`, `snippet`, optional **`commissionPolicyAreas`**, and **`topic` / `topicCategory`** from **`news-topics.js`**. **`dedupeNewsItemsConsolidated`**: first pass by **`normalizeNewsUrlKey`**, second pass by **source + date + title fingerprint**; **`mergeNewsDuplicate`** prefers canonical URLs (e.g. EDPS publications path over `/press-news/news/` stub) and richer snippets, and merges topic fields. Sorted by date descending; filtered by **`newsItemMatchesApprovedTopic`** (includes optional **topic-taxonomy anchor** pass).
 - **Merge in server** — `readNewsFilePayload` + **`dedupeNewsItemsConsolidated`** on every **`GET /api/news`**; **`mergeNewsItems`** (static + crawl) ends with the same dedupe. `POST /api/news/refresh` uses **`NEWS_REFRESH_TIMEOUT_MS`**, writes merged items to disk (higher internal cap), returns fresh list.
 
@@ -203,7 +204,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 
 - **Use for reference only** — The platform is a convenience tool. For legal certainty, always verify against the official [EUR-Lex](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng) and [GDPR-Info](https://gdpr-info.eu/) sources.
 - **No legal advice** — The app does not provide legal advice. Users are responsible for their own interpretation and compliance.
-- **Credible sources only** — Answer text is limited to the regulation content from EUR-Lex; LLM summaries are constrained to that same text to avoid hallucination. News is limited to defined credible sources (EDPB, EDPS, ICO, CNIL English site, European Commission, Council of Europe).
+- **Credible sources only** — Answer text is limited to the regulation content from EUR-Lex; LLM summaries are constrained to that same text to avoid hallucination. News is limited to defined credible sources (EDPB, EDPS, ICO (UK), European Commission, Council of Europe); other national supervisory authorities are excluded except ICO.
 - **Attribution** — Footer and UI attribute content to gdpr-info.eu and EUR-Lex; links must remain so users can check originals. News items always link to the original article on the publisher’s site.
 
 ---
@@ -339,7 +340,7 @@ Static files under `public/` are served by Express.
 | `HOST` | Bind address (default: `0.0.0.0`). |
 | `NEWS_CRAWL_TIMEOUT_MS` | Timeout for crawl during `GET /api/news` (default `90000`). |
 | `NEWS_REFRESH_TIMEOUT_MS` | Timeout for `POST /api/news/refresh` (default `180000`). |
-| `NEWS_MERGE_CAP` | Max items returned from merged news list after dedupe (default `1600`). |
+| `NEWS_MERGE_CAP` | Max items returned from merged news list after dedupe (default `6000`). |
 | `NEWS_ATTACHMENTS_CACHE_TTL_MS` | TTL for cached HTML attachment scans (default `900000`). |
 | `NEWS_ATTACHMENTS_CACHE_MAX` | Max entries in the attachments cache (default `150`). |
 | `NEWS_MAX_EDPB_PAGES` | Max EDPB news listing pages to crawl (optional; see `news-crawler.js`). |
@@ -409,4 +410,4 @@ Copy `.env.example` to `.env` and set keys as needed. When multiple keys are set
 
 ## 12. License and disclaimer
 
-This project is for **reference only**. The GDPR text is from the official EU sources. Always verify against [gdpr-info.eu](https://gdpr-info.eu/), [EUR-Lex (Regulation (EU) 2016/679)](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng), and other credible resources (EDPB, EDPS, European Commission, ICO, CNIL, Council of Europe). The maintainers do not provide legal advice.
+This project is for **reference only**. The GDPR text is from the official EU sources. Always verify against [gdpr-info.eu](https://gdpr-info.eu/), [EUR-Lex (Regulation (EU) 2016/679)](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng), and other credible resources (EDPB, EDPS, European Commission, ICO, Council of Europe). The maintainers do not provide legal advice.

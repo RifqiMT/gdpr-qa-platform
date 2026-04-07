@@ -29,14 +29,14 @@
   ],
   "items": [
     {
-      "title": "Désigner un délégué à la protection des données (DPO) ou modifier une désignation",
-      "url": "https://www.cnil.fr/fr/designation-dpo",
-      "sourceName": "CNIL (France)",
-      "sourceUrl": "https://www.cnil.fr/en",
-      "date": "2026-04-03",
-      "snippet": "Avant de désigner en ligne votre délégué à la protection des données, vérifiez qu'il dispose du statut, des compétences et des moyens nécessaires à l’exercice de ses missions.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "title": "One click too many? 75% of parents fear their kids aren't making safe choices online",
+      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/04/one-click-too-many-75-of-parents-fear-their-kids-arent-making-safe-choices-online/",
+      "sourceName": "ICO (UK)",
+      "sourceUrl": "https://ico.org.uk/",
+      "date": "2026-04-02",
+      "snippet": "Quarter of primary aged children have shared their real name online - yet a fifth of parents and carers have never spoken to them about online privacy. Our new campaign Switched on to privacy helps parents have the same frank conversations about online privacy as they do about stranger danger and road safety",
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Commission evaluation of the EU tobacco control framework highlights progress and emerging public health challenges",
@@ -44,7 +44,7 @@
       "sourceName": "European Commission",
       "sourceUrl": "https://commission.europa.eu/",
       "date": "2026-04-01",
-      "snippet": "European Commission Press release Brussels, 02 Apr 2026 The European Commission has today published its evaluation of the EU tobacco control framework. It assesses the effectiveness, efficiency and relevance of the Tobacco Products Directive and Tobacco Advertising Directive in protecting public health and ensuring the smooth functioning of the internal market.",
+      "snippet": "European Commission Press release Brussels, 07 Apr 2026 The European Commission has today published its evaluation of the EU tobacco control framework. It assesses the effectiveness, efficiency and relevance of the Tobacco Products Directive and Tobacco Advertising Directive in protecting public health and ensuring the smooth functioning of the internal market.",
       "commissionPolicyAreas": [
         "HEALTHPOL",
         "DIGAG",
@@ -137,6 +137,16 @@
       "topicCategory": "General"
     },
     {
+      "title": "Our helpline is unavailable - Livechat still operating",
+      "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/04/our-helpline-is-unavailable-livechat-still-operating",
+      "sourceName": "ICO (UK)",
+      "sourceUrl": "https://ico.org.uk/",
+      "date": "2026-04-01",
+      "snippet": null,
+      "topic": "Other GDPR & data protection topics",
+      "topicCategory": "General"
+    },
+    {
       "title": "ICO helpline will be closed",
       "url": "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/04/ico-helpline-will-be-closed",
       "sourceName": "ICO (UK)",
@@ -153,8 +163,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-03-31",
       "snippet": "A new taskforce will tackle poor handling of motor finance claims by some claims management companies (CMCs) and law firms, after the Financial Conduct Authority (FCA), Solicitors Regulation Authority (SRA), Information Commissioner’s Office (ICO) and Advertising Standards Authority (ASA) agreed to join up their efforts.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Here’s what jobseekers need to know about automated recruitment decisions",
@@ -163,8 +173,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-03-31",
       "snippet": "From helping managers to review CVs to scoring online assessments, more employers than ever are turning to automation and AI in recruitment.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Employment and HR data",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Questions and answers on the EU ETS Market Stability Reserve",
@@ -464,8 +474,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-03-30",
       "snippet": "New blog post: Prior consultations, zero surprises ileanjoh Mon, 03/30/2026 - 14:39 Mon, 03/30/2026 - 12:00 In his latest blog post, Supervisor Wojciech Wiewiórowski discusses prior consultations between EU law and justice authorities and the EDPS. These checks are required when planned data processing operations are likely to result in a high risk to individuals’ rights and freedoms. 1 Read the blog post",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Automated decisions can streamline the hiring process – with the right safeguards in place",
@@ -1389,8 +1399,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-03-25",
       "snippet": "New episode is out! miriam Wed, 03/25/2026 - 17:56 Thu, 03/26/2026 - 12:00 Newsletter Digest brings you a wealth of information in audio format. Today, we are focusing on three key developments shaping the future of data protection in Europe. 1 Have a listen today!",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Birmingham-based pendant alarm company fined £100,000 for making unsolicited marketing calls",
@@ -1409,8 +1419,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-03-25",
       "snippet": "We have published a joint statement with Ofcom about the main areas of interaction between online safety and data protection as they relate to age assurance.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Commission investigates Snapchat's compliance with child protection rules under the Digital Services Act",
@@ -2454,8 +2464,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-23",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Speech by President von der Leyen at the Australian Parliament",
@@ -3203,8 +3213,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-19",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "High-Level Debate: “From Omnibus to Opportunity: Driving Data Protection and Innovation”",
@@ -3213,8 +3223,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-03-19",
       "snippet": "High-Level Debate: “From Omnibus to Opportunity: Driving Data Protection and Innovation” iraskval Thu, 03/19/2026 - 16:54 Fri, 03/20/2026 - 12:00 On 8 June 2026, the European Data Protection Supervisor (EDPS), the German Federal Commissioner for Data Protection and Freedom of Information ( BfDI ), and the Bavarian Data Protection Commissioner ( BayLfD ) are organising a high‑level debate on the European Commission’s Omnibus proposals and their implications for the General Dat",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB-EDPS Joint Opinion on the Proposal for a Cybersecurity Act 2 and the Proposal on amendments to the NIS 2 Directive",
@@ -3223,8 +3233,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-03-19",
       "snippet": "EDPB-EDPS Joint Opinion on the Proposal for a Cybersecurity Act 2 and the Proposal on amendments to the NIS 2 Directive ileanjoh Thu, 03/19/2026 - 12:30 Thu, 03/19/2026 - 12:00 On 18 March 2026, the EDPB and the EDPS adopted a Joint Opinion on the European Commission’s proposal for a Cybersecurity Act 2 (CSA2) and the proposal on amendments to the Network and Information Security 2 (NIS2) Directive. The EDPB and the EDPS support strengthening EU’s cybersecurity and easing com",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Commission partially greenlights Malta's fourth payment request for €51,5 million under NextGenerationEU",
@@ -3408,8 +3418,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "CEF 2026: EDPB launches coordinated enforcement action on transparency and information obligations under the GDPR",
@@ -3418,8 +3428,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Coordinated enforcement and supervisory cooperation",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Statement by President von der Leyen on EU Inc.",
@@ -3552,8 +3562,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-03-13",
       "snippet": "Latest EDPS Newsletter out now ileanjoh Fri, 03/13/2026 - 10:41 Tue, 03/17/2026 - 12:00 After a very busy start to 2026 indeed, we have a bumper newsletter for you. Catch up on everything from our joint opinions issued with the European Data Protection Board, new rules to protect the independence of EU data protection officers, blog posts from the Supervisor on a range of topics, a look back at some big events, and more! Read on 0",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB letter to the European Commission on the privacy implications of recent proposed legislative changes regarding entry conditions to the United States for EEA citizens",
@@ -3562,8 +3572,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-12",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB-EDPS Joint Opinion 3/2026 on the Proposal for a European Biotech Act",
@@ -3572,8 +3582,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-12",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Keynote speech of the Executive Vice President Ribera at the 23rd International Conference on Competition (IKK)",
@@ -3605,8 +3615,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-03-11",
       "snippet": "EDPB-EDPS joint opinion on European Biotech Act proposal ileanjoh Wed, 03/11/2026 - 14:09 Thu, 03/12/2026 - 12:00 On 10 March 2026, the European Data Protection Board (EDPB) and the European Data Protection Supervisor (EDPS) adopted a joint opinion on the European Commission's proposal for a European Biotech Act. The two organisations support harmonisation of clinical trials, but call for specific safeguards for sensitive health data. Read the press release Read the joint opi",
-      "topic": "Health data in research",
-      "topicCategory": "Sector-Specific Areas"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Open letter issued to tech firms to strengthen age checks and protect children’s data",
@@ -3615,8 +3625,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-03-11",
       "snippet": "The Information Commissioner’s Office (ICO) has today published an open letter to social media and video‑sharing platforms operating in the UK, calling on them to strengthen age assurance measures so young children can’t access services that are not designed for them.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Police Scotland fined £66k and reprimanded following serious data mishandling",
@@ -3720,8 +3730,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-05",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Commission holds first meeting of Special Panel on child safety online",
@@ -3808,8 +3818,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-04",
       "snippet": "The Data brokers market study provides a methodology to identify data brokers and presents a typology of data brokers, together with an analysis of their business models and an initial risk assessment.&nbsp; In addition, the report provides an in-depth overview of a number of data brokers and providers identified in Belgium, ranked by type. Possible data brokers were assessed against the criteria outlined in the report. Overall, the study shows that the data broker and provid",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Commission registers European Citizens' Initiative calling for a European social media platform",
@@ -3821,8 +3831,8 @@
       "commissionPolicyAreas": [
         "JFRC"
       ],
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Online platforms and social media",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Speech by Commissioner Zaharieva at STOA high-level conference Academic Freedom in Support of Democracy",
@@ -3854,8 +3864,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-03-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Opening speech by President von der Leyen at the European Ocean Days",
@@ -3903,8 +3913,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-02-25",
       "snippet": "The Information Commissioner gives the keynote speech.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "‘Roam Like at Home': Commission proposes to open negotiations to extend EU Roaming to the Western Balkans",
@@ -3991,8 +4001,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-02-24",
       "snippet": "Our investigation found Reddit, Inc. (Reddit) used children’s personal information unlawfully",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "The new European Centre for Democratic Resilience starts its work",
@@ -4070,8 +4080,8 @@
       "sourceUrl": "https://www.edps.europa.eu/",
       "date": "2026-02-19",
       "snippet": "Data takes flight: Navigating privacy at the airport lisa Thu, 02/19/2026 - 08:23 Thu, 02/19/2026 - 12:00 On 12 February 2026, the European Data Protection Supervisor (EDPS) and the European Data Protection Board (EDPB) Trainees&nbsp;organised the conference&nbsp;Data takes flight: Navigating privacy at the airport. The conference focused on what happens to personal data when travelling by air and encouraged a critical&nbsp;and informed discussion about data protection, secur",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO wins Court of Appeal case in DSG Retail ruling",
@@ -4151,8 +4161,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Our response to letter of 9 February 2026 from MPs on Tattle Life",
@@ -4210,8 +4220,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-12",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB work programme 2026-2027: easing compliance and strengthening cooperation across the evolving digital landscape",
@@ -4220,8 +4230,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Commission presents action plan to counter drone threats",
@@ -4282,8 +4292,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-10",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "GDPR reform and legislative developments",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Remarks by Executive Vice-President Virkkunen and Commissioner Micallef on the action plan against cyberbullying",
@@ -4409,8 +4419,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-02-04",
       "snippet": "The next phase of the Data (Use and Access) Act (DUAA) implementation has commenced today, 5 February 2026",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Imgur owner MediaLab fined over children’s privacy failures",
@@ -4439,8 +4449,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-02-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "GP surgery reprimanded after excessive medical history of terminally ill patient sent to insurer",
@@ -4469,8 +4479,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-02-01",
       "snippet": "We welcome a guilty verdict in a trial related to the unlawful accessing and obtaining of people’s personal information from vehicle repair garages to generate potential leads for personal injury claims.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Stakeholder event on political advertising: express your interest",
@@ -4479,8 +4489,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-01-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Data Protection Day 2026: keeping children’s personal data safe online",
@@ -4489,8 +4499,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2026-01-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "The EU and Brazil conclude agreements to create the biggest area of free and safe data flows in the world",
@@ -4666,8 +4676,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-01-07",
       "snippet": "The ICO and His Majesty’s Government have today (8 January) signed an important Memorandum of Understanding (MOU) which sets out government’s commitment to raise data protection standards.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "AI’ll get that! Agentic commerce could signal the dawn of personal shopping ‘AI-gents’",
@@ -4676,8 +4686,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2026-01-07",
       "snippet": "Our new report highlights the ways agentic AI could transform our lives from digital personal assistants to shopping agents.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Statement in response to Grok AI on X",
@@ -4742,8 +4752,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-12-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Direct marketing and communications",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Commission invests €14 billion through Horizon Europe to boost global research and innovation leadership*",
@@ -4791,8 +4801,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-12-08",
       "snippet": "ICO launches ‘Better Records Together’ campaign with new resources to support both people with care experience and the organisations handling their records",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Statement on the National Physical Laboratory facial recognition technology report",
@@ -4811,8 +4821,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-12-04",
       "snippet": "The Information Commissioner’s Office (ICO) has provided an update on its action to tackle cookie compliance, which has brought the vast majority of the UK’s most used websites into compliance with rules on the use of advertising cookies.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB gives recommendations to make online shopping more respectful of users’ privacy, discusses the Digital Omnibus proposal and appoints new Deputy Chair",
@@ -4821,8 +4831,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-12-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Post Office reprimanded over Horizon IT scandal victims' ‘entirely preventable’ data breach",
@@ -4910,8 +4920,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-11-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Keynote address by President von der Leyen at the commemorative symposium for Professor Schwartz",
@@ -5057,8 +5067,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-11-04",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Draft adequacy decision for Brazil: EDPB adopts opinion",
@@ -5077,8 +5087,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-10-30",
       "snippet": "We are calling for views on new guidance setting out how we approach investigations and take enforcement action.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "£200,000 fine for sole trader who sent nearly one million spam texts",
@@ -5107,8 +5117,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-10-20",
       "snippet": "This summer, I wrote to the Cabinet Office, insisting that the government must go further and faster to ensure Whitehall, and the wider public sector put their practices in order.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Draft UK adequacy decisions: EDPB adopts opinions",
@@ -5127,8 +5137,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-10-15",
       "snippet": "Today we've launched a consultation on its approach to how charities can use new rules that allow greater use of electronic marketing when engaging with supporters.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Direct marketing and communications",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Capita fined £14m for data breach affecting over 6m people",
@@ -5147,8 +5157,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-10-14",
       "snippet": "Kia ora koutou, hello and welcome to the ICO’s annual conference, the Data Protection Practitioners’ Conference.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Coordinated Enforcement Framework: EDPB selects topic for 2026",
@@ -5157,8 +5167,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-10-13",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Coordinated enforcement and supervisory cooperation",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Strengthening Schengen security and preventing irregular migration: EU Entry Exit System enters into operation",
@@ -5167,8 +5177,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-10-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "DMA and GDPR: EDPB and European Commission endorse joint guidelines to clarify common touchpoints",
@@ -5177,8 +5187,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-10-08",
       "snippet": null,
-      "topic": "Legislative proposals",
-      "topicCategory": "Oversight Areas"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Anonymisation and pseudonymisation: take part in the stakeholder event",
@@ -5197,8 +5207,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-10-08",
       "snippet": "The Upper Tribunal (UT) has handed down its judgment in the UK Information Commissioner’s appeal against the First-tier Tribunal (FTT) decision on Clearview AI Inc (Clearview).",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Statement: Update on Imgur investigation",
@@ -5207,8 +5217,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-09-30",
       "snippet": "We are aware of reports that the social media platform Imgur is currently not available in the UK. Imgur's decision to restrict access in the UK is a commercial decision taken by the company.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "ICO statement on changes to Meta advertising model",
@@ -5217,8 +5227,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-09-26",
       "snippet": "Following the ICO's engagement with Meta about how it uses personal information for its advertising model, we welcome Meta's decision to ask users for consent to use their personal information to target them with ads.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "FOI in action: advocating for transparency and driving change this ‘Universal Access to Information Day’",
@@ -5257,8 +5267,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-09-17",
       "snippet": "With cyber attacks regularly in the news, we are reminding businesses to check they have the appropriate security measures in place to protect personal information.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Security processing measures",
+      "topicCategory": "Cybersecurity"
     },
     {
       "title": "Interplay between the DSA and the GDPR: EDPB adopts guidelines",
@@ -5267,8 +5277,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-09-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Insider threat of students leading to increasing number of cyber attacks in schools",
@@ -5297,8 +5307,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-09-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Complaints and complaint handling",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Fact vs fiction: ICO debunks myths on storage and access technologies",
@@ -5420,8 +5430,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-07-08",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "GDPR reform and legislative developments",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO welcomes Tribunal ruling on preliminary issue raised by TikTok in its appeal of 2023 penalty",
@@ -5440,8 +5450,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-07-07",
       "snippet": "We are calling for views on a new enforcement approach that could unlock privacy-preserving alternatives to the dominant adtech business model.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Ad tech and online advertising",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Irish Supervisory Authority fines TikTok €530 million and orders corrective measures following Inquiry into transfers of EEA User Data to China",
@@ -5450,8 +5460,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-07-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "The Helsinki Statement on enhanced clarity, support and engagement",
@@ -5460,8 +5470,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-07-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "JOINT DECLARATION of Executive Vice-President of the European Commission Henna Virkkunen and Members of the European Parliament",
@@ -5483,8 +5493,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-06-18",
       "snippet": "The Data (Use and Access) Act 2025 (DUAA) has now received Royal Assent.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "23andMe fined £2.31 million for failing to protect UK users’ genetic data",
@@ -5503,8 +5513,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-06-13",
       "snippet": "We are calling on all manufacturers and developers of smart products to prioritise people’s privacy with new guidance published today.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Your household smart products must respect your privacy – including your air fryer",
@@ -5523,8 +5533,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-06-05",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "John Edwards speaks at ICO’s event with the AI APPG in Parliament",
@@ -5563,8 +5573,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-06-01",
       "snippet": "From AI to digital ID, data-driven technologies are transforming financial services. And how we harness these technologies is key to delivering the Government’s mission on growth.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Reprimand issued to Greater Manchester Police over CCTV failings",
@@ -5586,8 +5596,8 @@
       "commissionPolicyAreas": [
         "CONSUMPOL"
       ],
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Coordinated enforcement and supervisory cooperation",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "London council reprimanded for exposing personal details of 6,528 people for almost two years",
@@ -5596,8 +5606,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-05-21",
       "snippet": "We have reprimanded the London Borough of Hammersmith and Fulham (the council) after it left exposed the personal information of 6,528 people for almost two years.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Sole trader fined £50,000 after making over 194,000 unlawful marketing calls",
@@ -5616,8 +5626,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-05-07",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "GDPR reform and legislative developments",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Patent Organisation and extension of adequacy decisions for the UK: EDPB adopts opinions",
@@ -5636,8 +5646,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-05-04",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Statement on cyber incidents impacting retailers",
@@ -5656,8 +5666,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-05-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO consultation on the draft updated guidance on encryption",
@@ -5666,8 +5676,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-05-01",
       "snippet": "The Information Commissioner's Office (ICO) is consulting on draft updated guidance on encryption.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Statement on British Library’s 2023 ransomware attack",
@@ -5676,8 +5686,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-04-30",
       "snippet": "In October 2023, the British Library reported a ransomware attack to us, which escalated because of the lack of multi-factor authentication on an administrator account.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Security processing measures",
+      "topicCategory": "Cybersecurity"
     },
     {
       "title": "Compensation company fined £90,000 for unlawful marketing calls",
@@ -5696,8 +5706,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-04-22",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "The local elections and my personal data - what should I expect?",
@@ -5706,8 +5716,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-04-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "List of dangerous products notified in Commission's Safety Gate 2024 sets the path for increased consumer protection",
@@ -5749,8 +5759,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-04-03",
       "snippet": "It’s 1984 and nestled away on Charles Street, Manchester, the Information Commissioner’s Office (ICO) has been founded - responsible for overseeing a new law to uphold people’s privacy rights when sharing their personal information.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Registration is now open for DPPC 2025",
@@ -5779,8 +5789,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-04-01",
       "snippet": "More can be done by the financial services sector when dealing with children’s data.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Statement from the ICO on data protection complaint response times",
@@ -5789,8 +5799,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-04-01",
       "snippet": "\"Anyone who has felt the need to make a complaint to us deserves a timely response. Our current response times are not where we want them to be, and we know how frustrating this is for people who are asking for our help.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Complaints and complaint handling",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Transparency must be the default position for water companies",
@@ -5842,8 +5852,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-03-24",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Statement on O'Carroll vs Meta",
@@ -5908,8 +5918,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-03-13",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "John Edwards speaks at IAPP's Data Protection Intensive UK 2025",
@@ -5918,8 +5928,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-03-12",
       "snippet": "Hello and thank you for having me at IAPP London. I’ve seen that Sir Chris Bryant is also speaking here today. I was grateful to Chris for speaking at our much smaller event last November – what came through to me there, as it does now, is his understanding of how privacy and data protection affects people. The positives and the harms.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Investigation by the Commission and national consumer authorities finds that nearly half of second-hand online traders fail to correctly inform consumers of their return rights",
@@ -5951,8 +5961,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-02-26",
       "snippet": "Reprimands issued to Glasgow City Council and City of Edinburgh Council for failing to respond to requests for personal information on time",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB publishes CSC biannual report and work programme 2025-2026",
@@ -5961,8 +5971,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-02-12",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts statement on age assurance, creates a task force on AI enforcement and gives recommendations to WADA",
@@ -5971,8 +5981,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-02-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Information Commissioner’s updated response to the Data (Use and Access) (DUA) Bill",
@@ -5981,8 +5991,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-02-11",
       "snippet": "The Information Commissioner’s comments on the amendments that have been made in the House of Lords and on some key areas of the debate.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Direct marketing advice generator makes it easy for organisations to comply with the law",
@@ -5991,8 +6001,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-02-05",
       "snippet": "We have launched a free online tool to help organisations ensure their direct marketing activities comply with UK law – namely the Privacy and Electronic Communication Regulations (PECR), and the UK GDPR. By using the direct marketing advice generator, small organisations will get reliable compliance advice, tailored to their own direct marketing activities, in minutes.",
-      "topic": "Electronic communications privacy",
-      "topicCategory": "Sector-Specific Areas"
+      "topic": "Direct marketing and communications",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Investigations announced into how social media and video sharing platforms use UK children’s personal information",
@@ -6001,8 +6011,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-02-01",
       "snippet": "ICO investigating how TikTok uses 13–17-year-olds' personal information to make recommendations to them .",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Protecting children’s data in a digital world",
@@ -6011,8 +6021,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-02-01",
       "snippet": "Part of parenting is educating and preparing your child for daily life, from showing them how to cross the road safely to teaching them stranger danger.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Debunking data protection myths about AI",
@@ -6021,8 +6031,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-01-30",
       "snippet": "From unlocking medical breakthroughs to revolutionising public services in the UK, AI has huge potential to transform our lives for the better. Across the economy, businesses seem excited about investing in AI to drive growth and innovation, while the tech is inspiring vibrant discussions amongst policymakers and the public alike.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO takes action to tackle cookie compliance across the UK’s top 1,000 websites",
@@ -6041,8 +6051,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2025-01-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO response to government on economic growth",
@@ -6051,8 +6061,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-01-24",
       "snippet": "The Prime Minister, the Chancellor, and the Business Secretary wrote to the Information Commissioner (along with 16 other regulators) at the end of December asking for proposals to boost business confidence, improve the investment climate, and foster sustainable economic growth.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Our strategy for levelling the playing field for online tracking in 2025",
@@ -6144,8 +6154,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-01-06",
       "snippet": "We’re encouraging entrepreneurs to think about data protection as they make plans to launch their new business ventures this January, ahead of the new tax year.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "New year, new you - 2025 is the year to tighten up your data privacy",
@@ -6154,8 +6164,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2025-01-02",
       "snippet": "This is the year to get your data privacy right. Here are some simple steps to tighten up your security and avoid becoming one of our statistics for 2025.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "14 million people don’t know how to erase their data from an old device",
@@ -6164,8 +6174,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-12-19",
       "snippet": "New figures reveal that three in 10 UK adults (29%) don’t know how to wipe their personal information from an old device or tech product.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Our response to Google’s policy change on fingerprinting",
@@ -6174,8 +6184,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-12-19",
       "snippet": "ICO stresses data protection law and consent still apply.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General",
+      "topic": "Biometric data and identifiers",
+      "topicCategory": "AI and Emerging Tech",
       "summaryParagraphs": [
         "ICO stresses data protection law and consent still apply. The ICO has responded to Google’s policy change and reminded businesses that they must still comply with UK law.",
         "This update is from ICO (UK). For the full story and official wording, open the link above.",
@@ -6189,8 +6199,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-12-19",
       "snippet": "We are calling on all water companies to proactively publish information relating to sewage discharges each month.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB opinion on AI models: GDPR principles support responsible AI",
@@ -6229,8 +6239,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-12-13",
       "snippet": "A motor insurance worker who unlawfully accessed personal information has been handed a suspended prison sentence after an investigation by the Information Commissioner’s Office.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Court of Appeal rejects appeal against UK Information Commissioner’s monetary penalty notice",
@@ -6269,8 +6279,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-12-09",
       "snippet": "The Information Commissioner has set out the outcome of his two-year trial of a new approach to regulating public sector organisations. His review notes the positive impact this has had in protecting personal data and highlighting some key challenges going forward. Considering the evidence, he has decided to continue with the public sector approach and keep it under review for the foreseeable future.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB calls for coherence of digital legislation with the GDPR",
@@ -6279,8 +6289,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-12-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB clarifies rules for data sharing with third country authorities and approves EU Data Protection Seal certification",
@@ -6289,8 +6299,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-12-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO 2024 – a year in review",
@@ -6299,8 +6309,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-12-01",
       "snippet": "Data protection complaints, breach cases, and enforcement in 2024.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General",
+      "topic": "Complaints and complaint handling",
+      "topicCategory": "Enforcement and Compliance",
       "summaryParagraphs": [
         "Data protection complaints, breach cases, and enforcement in 2024. The review summarises the ICO’s activity and key outcomes over the year.",
         "This update is from ICO (UK). For the full story and official wording, open the link above.",
@@ -6324,8 +6334,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-22",
       "snippet": "We are calling on organisations to share personal information responsibly to protect their customers from scams and fraud.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "The French SA fines COSMOSPACE EUR 250,000 and TELEMAQUE EUR 150,000",
@@ -6334,8 +6344,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-11-19",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Our lives, our privacy: the 40 items that shaped 40 years of privacy rights",
@@ -6344,8 +6354,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-19",
       "snippet": "We are marking our 40th anniversary by launching a digital exhibition telling the story of the most important moments in privacy and information rights over the past four decades.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Using Privacy Enhancing Technologies (PETs) to unlock value from data responsibly",
@@ -6354,8 +6364,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-15",
       "snippet": "On Thursday 7 November, DSIT’s Responsible Technology Adoption (RTA) Unit and the Information Commissioner’s Office (ICO) published the Privacy Enhancing Technologies (PETs) Cost-Benefit Awareness Tool.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Joint statement from the FCA, ICO and TPR for retail investment firms and pension providers",
@@ -6364,8 +6374,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-15",
       "snippet": "Data protection and effective communications to consumers in relation to retail investments and pensions.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "NEW data protection code of conduct launched for UK private investigators",
@@ -6384,8 +6394,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-07",
       "snippet": "New report highlights how genomics could one day determine insurance quotes, solve crimes, tailor support in schools and create fitness plans",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Empowering young people to learn more about their local environment",
@@ -6434,8 +6444,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-11-04",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Information Commissioner seeks permission to appeal DSG Retail Ltd ruling",
@@ -6444,8 +6454,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-04",
       "snippet": "We are seeking permission to appeal the judgment of the Upper Tribunal (Tribunal) on DSG Retail Limited (DSG) to the Court of Appeal.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Make a complaint about how an organisation has used your personal data",
@@ -6454,8 +6464,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-11-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Statement in response to the introduction of the Data Use and Access Bill in the House of Lords",
@@ -6464,8 +6474,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-10-31",
       "snippet": "We welcome the introduction of the Data Use and Access Bill in the House of Lords and look forward to seeing it progress through parliament to Royal Assent.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Statement on ICO’s work to protect children online",
@@ -6474,8 +6484,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-10-29",
       "snippet": "Children see sharing their personal information online as necessary to avoid social exclusion, our new research has found.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Global privacy authorities issue follow-up joint statement on data scraping after industry engagement",
@@ -6494,8 +6504,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-10-28",
       "snippet": "A blog by John Edwards, Information Commissioner.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data breach notification",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Information Commissioner: Organisations need to do more to help people affected by data breaches",
@@ -6504,8 +6514,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-10-28",
       "snippet": "Information Commissioner John Edwards has today urged organisations across the country to recognise the real-world impact of data breaches - and the devastating effects they can have on people’s lives.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data breach notification",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Two companies fined a total of £150k after bombarding people with spam texts offering financial, debt services",
@@ -6544,8 +6554,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-10-17",
       "snippet": "Two former RAC employees have been handed a suspended prison sentence and ordered to complete 150 hours of unpaid work, for unlawfully copying and selling over 29,500 lines of personal information.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Action taken against United Utilities over transparency failings",
@@ -6574,8 +6584,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-10-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Stakeholder event on ‘AI models’: express your interest to participate",
@@ -6584,8 +6594,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-10-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Join the stakeholder event on EDPB opinion on ‘AI models’",
@@ -6594,8 +6604,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-10-10",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "CEF 2025: EDPB selects topic for next year’s Coordinated Action",
@@ -6604,8 +6614,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-10-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Changes to our services for businesses",
@@ -6634,8 +6644,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-10-08",
       "snippet": null,
-      "topic": "Legitimate interest assessments",
-      "topicCategory": "Processing Concepts"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "New data protection audit framework launched to help organisations improve compliance",
@@ -6644,8 +6654,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-10-07",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Our statement on changes to LinkedIn AI data policy",
@@ -6654,8 +6664,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-09-20",
       "snippet": "We are pleased LinkedIn has reflected on our concerns and changed its approach to make it simpler for users to object to the processing and provide users with a longer window to do so.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Our statement in response to Meta's announcement to introduce teen accounts",
@@ -6684,8 +6694,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-09-13",
       "snippet": "Statement from Stephen Almond, Executive Director Regulatory Risk at the ICO.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Online platforms and social media",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Express your interest to take part in the EDPB stakeholder event on upcoming guidelines on ‘Consent or Pay’",
@@ -6694,8 +6704,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-09-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO and NCA sign memorandum of understanding for further collaboration on cyber security",
@@ -6704,8 +6714,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-09-10",
       "snippet": "We have signed a Memorandum of Understanding (MoU) with the National Crime Agency (NCA) that sets out how both organisations will cooperate to improve the UK’s cyber resilience.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "NIS2 and cyber resilience",
+      "topicCategory": "Cybersecurity"
     },
     {
       "title": "EDPB to work together with European Commission to develop guidance on interplay GDPR and DMA",
@@ -6724,8 +6734,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-09-04",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Action taken against Sky Betting and Gaming for using cookies without consent",
@@ -6744,8 +6754,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-08-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Security processing measures",
+      "topicCategory": "Cybersecurity"
     },
     {
       "title": "Belgian SA rejects a complaint against an online telephone directory",
@@ -6754,8 +6764,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-08-25",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Complaints and complaint handling",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Dutch SA imposes a fine of 290 million euro on Uber because of transfers of drivers' data to the US",
@@ -6764,8 +6774,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-08-25",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "New tool helps small businesses create privacy notices",
@@ -6774,8 +6784,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-08-21",
       "snippet": "We have launched a new, quick and easy-to-use tool to help small organisations and sole traders create a bespoke privacy notice and protect people’s information rights.",
-      "topic": "Electronic communications privacy",
-      "topicCategory": "Sector-Specific Areas"
+      "topic": "Transparency and information duties",
+      "topicCategory": "Processing Concepts"
     },
     {
       "title": "Porthcawl man sentenced after “brazen” car scam worth hundreds of thousands of pounds",
@@ -6784,8 +6794,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-08-19",
       "snippet": "A man who unlawfully accessed personal data has been sentenced after our investigation.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "ICO statement on Meta's ad-free subscription service",
@@ -6794,8 +6804,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-08-15",
       "snippet": "“One of our key priorities is to ensure that people’s information rights are upheld by the online advertising industry.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Ad tech and online advertising",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Social media and video sharing platforms put on notice over poor children’s privacy practices",
@@ -6804,8 +6814,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-08-07",
       "snippet": "We are calling on 11 social media and video sharing platforms to improve their children’s privacy practices.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Online platforms and social media",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Action taken against Labour Party for failing to respond to requests for personal information on time",
@@ -6824,8 +6834,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-07-30",
       "snippet": "We have issued a reprimand to the Electoral Commission after hackers gained access to servers that contained the personal information of approximately 40 million people.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Security processing measures",
+      "topicCategory": "Cybersecurity"
     },
     {
       "title": "Lithuanian SA: fine of  € 2 385 276 on Vinted, UAB (company)",
@@ -6834,8 +6844,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-07-25",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO statement in response to Google announcing it will no longer block third party cookies in Chrome",
@@ -6904,8 +6914,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-07-15",
       "snippet": "Water companies must put transparency first if they want to rebuild public trust, we have warned.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Do I really need to read the privacy notice?",
@@ -6914,8 +6924,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-07-09",
       "snippet": "At the Information Commissioner’s Office (ICO), we are encouraging people to check how an app plans to use their personal information before they sign up.",
-      "topic": "Electronic communications privacy",
-      "topicCategory": "Sector-Specific Areas"
+      "topic": "Transparency and information duties",
+      "topicCategory": "Processing Concepts"
     },
     {
       "title": "Supporting public authorities to be open and transparent",
@@ -6934,8 +6944,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-07-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO statement on its public sector approach trial",
@@ -6964,8 +6974,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-06-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Statement in response to Meta's plans to train generative AI with user data",
@@ -7024,8 +7034,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-05-22",
       "snippet": "“We expect organisations to be transparent with users about how their data is being used and only process personal data to the extent that it is necessary to achieve a specific purpose.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "We warn organisations must not ignore data protection risks as we conclude Snap ‘My AI’ chatbot investigation",
@@ -7044,8 +7054,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-05-20",
       "snippet": "John Edwards, Information Commissioner, delivers speech at the New Scientist Emerging Technogies summit, 15 May 2024.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB launches French and German versions of its Data Protection Guide for small business",
@@ -7054,8 +7064,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-05-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Car rental manager fined after unlawfully obtaining customer data",
@@ -7074,8 +7084,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-05-16",
       "snippet": "We have issued a reprimand to Birmingham Children's Trust Community Interest Company after the personal information of a child was inappropriately disclosed to another family.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Organisations must do more to combat the growing threat of cyber attacks",
@@ -7114,8 +7124,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-05-01",
       "snippet": "We have been working with fellow regulators, and with those organisations and individuals who will be handling your personal information during the upcoming election campaign, to ensure expectations around compliance with the law are clear.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Czech SA imposed fine of 13.9 million EUR for infringement of Art. 6 and Art. 13 of GDPR",
@@ -7134,8 +7144,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-05-01",
       "snippet": "We have published a joint statement with Ofcom about collaboration on the regulation of online services where online safety and data protection intersect.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Information Commissioner: Persistent sensitive information breaches failing people living with HIV",
@@ -7144,8 +7154,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-04-30",
       "snippet": "People living with HIV denied “basic dignity and privacy” by repeated data breaches that disclose their HIV status",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data breach notification",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "ICO fines two companies a total of £340,000 for making aggressive and unwanted marketing calls",
@@ -7164,8 +7174,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-04-29",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO publishes guidance to improve transparency in health and social care",
@@ -7174,8 +7184,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-04-24",
       "snippet": "The Information Commissioner’s Office (ICO) is supporting health and social care organisations to ensure they are being transparent with people about how their personal information is being used.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Transparency and information duties",
+      "topicCategory": "Processing Concepts"
     },
     {
       "title": "EDPB Annual Report 2023: Safeguarding individuals’ digital rights",
@@ -7184,8 +7194,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-04-22",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Housing association reprimanded for exposing personal information on online portal",
@@ -7194,8 +7204,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-04-18",
       "snippet": "We have issued a reprimand to Clyde Valley Housing Association in Lanarkshire after personal information was accessible to other residents on an online customer portal.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB sets out priorities for 2024-2027 and clarifies implementation DPF redress mechanisms",
@@ -7204,8 +7214,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-04-17",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB: ‘Consent or Pay’ models should offer real choice",
@@ -7214,8 +7224,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-04-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Commercial prospecting: French SA fined HUBSIDE.STORE €525,000",
@@ -7244,8 +7254,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-04-12",
       "snippet": "The Information Commissioner’s Office (ICO) is calling on social media and video-sharing platforms to improve their data protection practices so children are safer when using their services. This comes as the regulator sets out its 2024-2025 priorities for protecting children's personal information online.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "CSC elects 2nd Deputy Coordinator",
@@ -7254,8 +7264,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-04-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO joins global data protection and privacy enforcement programme",
@@ -7274,8 +7284,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-04-01",
       "snippet": "The Upper Tribunal has ruled on the ICO’s action to require Experian Limited to change how it handles people’s personal data, dismissing the ICO’s appeal of the First-tier Tribunal’s ruling of 20 February 2023.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Director’s update: the FOI year in review",
@@ -7304,8 +7314,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-21",
       "snippet": "Home Office pilot scheme failed to assess privacy intrusion of GPS monitoring.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO publishes new fining guidance",
@@ -7314,8 +7324,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-18",
       "snippet": "The Information Commissioner’s Office has published new data protection fining guidance setting out how it decides to issue penalties and calculate fines.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General",
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas",
       "summaryParagraphs": [
         "How the ICO decides penalties and calculates fines under UK GDPR. The guidance explains the legal framework and methodology so organisations can better understand enforcement risk.",
         "This update is from ICO (UK). For the full story and official wording, open the link above.",
@@ -7329,8 +7339,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-15",
       "snippet": "The Information Commissioner’s Office (ICO) has issued reprimands to Dover Harbour Board and Kent Police after they breached data protection law.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO reprimands London Mayor's Office for Policing and Crime for complaint web form error",
@@ -7339,8 +7349,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-14",
       "snippet": "Web form to complain about the Metropolitan Police Service accidentally revealed victims' data",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO reassures employers they can share staff data in a mental health emergency",
@@ -7349,8 +7359,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-13",
       "snippet": "The Information Commissioner’s Office (ICO) has published new guidance to give employers more certainty about sharing their workers’ personal details in a mental health emergency.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Failure of an airline company to inform the data subject of completion of erasure request, failure of transparency obligations",
@@ -7369,8 +7379,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-11",
       "snippet": "The Information Commissioner’s Office (ICO) has ordered a charity to stop sending unsolicited marketing texts to people without their consent, as it reminds all charities of their legal obligations.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Direct marketing and communications",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "Y Comisiynydd Gwybodaeth yn galw ar uwch arweinwyr i gymryd tryloywder o ddifrif",
@@ -7409,8 +7419,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-03-01",
       "snippet": "The Information Commissioner’s Office (ICO) has issued a reprimand to West Midlands Police (WMP) after the force repeatedly mixed up two people’s personal information.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO statement in response to Angiolini Inquiry",
@@ -7429,8 +7439,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-02-29",
       "snippet": "The Information Commissioner’s Office (ICO) and the US Federal Communications Commission (FCC) have signed a Memorandum of Understanding (MoU) which formalises their commitment to work together to protect people from unwanted nuisance calls, spam messaging and the misuse of private and sensitive data.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Sharing information to safeguard children: marketing materials",
@@ -7479,8 +7489,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-02-26",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Information Commissioner’s Office tells platforms to respect information rights when moderating online content",
@@ -7489,8 +7499,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-02-23",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "ICO approves legal services certification scheme",
@@ -7519,8 +7529,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-02-13",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "ICO responds to Home Office’s draft regulations to the immigration exemption",
@@ -7529,8 +7539,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-02-12",
       "snippet": "The Information Commissioner's Office has welcomed proposed government changes to provide clearer safeguards around how people in a potentially vulnerable position within the immigration system are able to access the information held about them.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Tech Horizons II report",
@@ -7569,8 +7579,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-02-01",
       "snippet": "The Information Commissioner’s Office (ICO) is calling on people with experience of the care system in the UK to share the challenges they have faced when accessing their care records from organisations.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "John Edwards speaks at IAPP’s Data Protection Intensive UK",
@@ -7579,8 +7589,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-02-01",
       "snippet": "Commissioner discusses three of the ICO’s key areas of focus in 2024.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Hungarian SA’s decision on the handling of access request by an airline company",
@@ -7589,8 +7599,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-02-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Hungarian SA’s decision: failure by an airline company to comply with an erasure request concerning an email address used for direct marketing",
@@ -7599,7 +7609,7 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-02-01",
       "snippet": null,
-      "topic": "Access, rectification, and erasure",
+      "topic": "Direct marketing and communications",
       "topicCategory": "Core Rights"
     },
     {
@@ -7619,8 +7629,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-01-31",
       "snippet": "The Information Commissioner’s Office is partnering with education, law enforcement and social service organisations to raise awareness about responsible data sharing to protect children from harm.",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "EDPB launches website auditing tool",
@@ -7629,8 +7639,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-01-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "This Data Protection Day, meet the EDPB Chair!",
@@ -7639,8 +7649,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-01-25",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "South Tees Hospitals NHS Foundation Trust reprimanded for “serious, harmful” data breach",
@@ -7669,8 +7679,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-01-18",
       "snippet": "New Opinion gives clarity to organisations on how to comply with age assurance",
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "EDPB publishes OSS case digest on Security of Processing and Data Breach Notification",
@@ -7699,8 +7709,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2024-01-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Two home improvement companies fined a total of £250,000 for making illegal marketing calls",
@@ -7779,8 +7789,8 @@
       "sourceUrl": "https://ico.org.uk/",
       "date": "2024-01-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Reform of EU data protection rules",
@@ -7794,8 +7804,8 @@
         "This update is from European Commission. For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ],
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "GDPR reform and legislative developments",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Publications on the General Data Protection Regulation (GDPR)",
@@ -7809,8 +7819,8 @@
         "This update is from European Commission. For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ],
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Convention 108+ and modernisation",
@@ -7824,8 +7834,8 @@
         "This update is from Council of Europe. For the full story and official wording, open the link above.",
         "Relevant for GDPR compliance and data protection practice."
       ],
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Data protection policy and supervisory news",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "EDPB: cookie pledge initiative should help protect fundamental rights and freedoms of users",
@@ -7834,8 +7844,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-12-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB: Application of the GDPR successful, but sufficient resources are necessary to tackle the challenges of the future",
@@ -7844,8 +7854,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-12-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Hungarian SA’s procedure on the handling of unsubscribe from newsletter",
@@ -7854,8 +7864,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-12-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Direct marketing and communications",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "The Norwegian SA imposes fine on SATS for violating several provisions of the GDPR",
@@ -7864,8 +7874,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-12-10",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Hungarian SA’s decision on the handling of access request by an airline company",
@@ -7874,8 +7884,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-12-06",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB publishes urgent binding decision regarding Meta",
@@ -7894,7 +7904,7 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-12-06",
       "snippet": null,
-      "topic": "Access, rectification, and erasure",
+      "topic": "Direct marketing and communications",
       "topicCategory": "Core Rights"
     },
     {
@@ -7904,8 +7914,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-11-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB provides clarity on tracking techniques covered by the ePrivacy Directive",
@@ -7924,8 +7934,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-10-31",
       "snippet": null,
-      "topic": "Consistency mechanisms",
-      "topicCategory": "Oversight Areas"
+      "topic": "Online platforms and social media",
+      "topicCategory": "Sector-Specific Areas"
     },
     {
       "title": "Digital euro: ensuring the highest data protection and privacy standards",
@@ -7934,8 +7944,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-10-17",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB picks topic for 2024 Coordinated Action",
@@ -7944,8 +7954,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-10-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "September plenary - adopted documents",
@@ -7954,8 +7964,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-10-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on data transfers subject to appropriate safeguards under the Law Enforcement Directive",
@@ -7974,8 +7984,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-09-20",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Following EDPB Decision, TikTok ordered to eliminate unfair design practices concerning children",
@@ -7984,8 +7994,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-09-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "EDPB settles dispute on TikTok processing of children’s data",
@@ -7994,8 +8004,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-08-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Children's data and minors",
+      "topicCategory": "Core Rights"
     },
     {
       "title": "EDPB informs stakeholders about the implications of the DPF and adopts a statement on the first review of the Japan adequacy decision",
@@ -8014,8 +8024,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-06-20",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts final version of Guidelines on the calculation of administrative fines following public consultation",
@@ -8034,8 +8044,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-05-24",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "1.2 billion euro fine for Facebook as a result of EDPB binding decision",
@@ -8044,8 +8054,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-05-21",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts final version of Guidelines on facial recognition technology in the area of law enforcement",
@@ -8064,8 +8074,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-05-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB Launches Data Protection Guide for small business",
@@ -8074,8 +8084,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-04-26",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Race to become new EDPB Chair officially kicked off",
@@ -8084,8 +8094,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-04-25",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB promotes consistent approach for 101 NOYB data transfers complaints",
@@ -8094,8 +8104,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-04-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Complaints and complaint handling",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "Launch of the 2022 Annual Activity Report of the EDPB",
@@ -8104,8 +8114,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-04-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts final version of Guidelines on data subject rights - right of access",
@@ -8124,8 +8134,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-04-12",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopted letter to EU institutions on data sharing for AML/CFT purposes",
@@ -8134,8 +8144,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-04-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Launch of coordinated enforcement on role of data protection officers",
@@ -8144,8 +8154,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-03-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Coordinated enforcement and supervisory cooperation",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "EDPB welcomes improvements under the EU-U.S. Data Privacy Framework, but concerns remain",
@@ -8164,8 +8174,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-02-26",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB publishes three guidelines following public consultation",
@@ -8174,8 +8184,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-02-23",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Boosting enforcement and cooperation - EDPB sets out priorities",
@@ -8184,8 +8194,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-02-21",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Data Protection Day 2023",
@@ -8194,8 +8204,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-01-26",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB publishes Binding Decision concerning WhatsApp",
@@ -8204,8 +8214,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-01-23",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB determines privacy recommendations for use of cloud services by public sector & adopts report on Cookie Banner Task Force",
@@ -8214,8 +8224,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-01-17",
       "snippet": null,
-      "topic": "Electronic communications privacy",
-      "topicCategory": "Sector-Specific Areas"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Facebook and Instagram decisions: “Important impact on use of personal data for behavioural advertising”",
@@ -8224,8 +8234,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2023-01-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts statement on CJEU PNR judgment",
@@ -8234,8 +8244,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-12-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Court judgments and EU case law",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "General Court: WhatsApp annulment action inadmissible",
@@ -8244,8 +8254,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-12-06",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Art. 65 dispute resolution binding decisions regarding Facebook, Instagram and WhatsApp",
@@ -8254,8 +8264,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-12-05",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Coordinated Supervision Committee re-elects coordinator",
@@ -8264,8 +8274,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-11-30",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Recommendations on the application for approval and on the elements and principles to be found in Controller Binding Corporate Rules",
@@ -8284,8 +8294,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-10-20",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts “wish list” of procedural aspects, first EU data protection seal and a statement on digital euro",
@@ -8294,8 +8304,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-10-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "CSC publishes biannual report",
@@ -8304,8 +8314,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-10-04",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "September plenary - adopted documents",
@@ -8314,8 +8324,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-09-19",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "New EDPB opinion on certification criteria",
@@ -8324,8 +8334,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-09-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Record fine for Instagram following EDPB intervention",
@@ -8334,8 +8344,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-09-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts statement on European Police Cooperation Code & picks topic for next coordinated action",
@@ -8344,8 +8354,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-09-13",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Lack of resources puts enforcement of individuals’ data protection rights at risk",
@@ -8354,8 +8364,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-09-12",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB publishes Art.65 GDPR dispute resolution Binding Decision concerning Accor SA",
@@ -8364,8 +8374,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-08-16",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "July Plenaries - adopted documents",
@@ -8374,8 +8384,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-08-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Proposal to combat child sexual abuse online presents serious risks for fundamental rights",
@@ -8384,8 +8394,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-07-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts letters to Access Now and BEUC on TikTok and an Art. 65 dispute resolution binding decision regarding Instagram",
@@ -8394,8 +8404,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-07-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB moves ahead with closer cooperation on strategic cases",
@@ -8404,8 +8414,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-07-13",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Health Data Space must ensure strong protection for electronic health data",
@@ -8424,8 +8434,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-06-29",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts guidelines on certification as a tool for transfers and an Art. 65 dispute resolution binding decision regarding Accor",
@@ -8434,8 +8444,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-06-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "May Plenaries - adopted documents",
@@ -8444,8 +8454,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-05-30",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on calculation of fines & Guidelines on the use of facial recognition technology in the area of law enforcement",
@@ -8464,8 +8474,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-05-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "The EU’s Data Act: data protection must prevail to empower data subjects",
@@ -8474,8 +8484,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-05-04",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Legislative proposals",
+      "topicCategory": "Oversight Areas"
     },
     {
       "title": "Europe Day 2022",
@@ -8484,8 +8494,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-05-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "DPAs decide on closer cooperation for strategic files",
@@ -8494,8 +8504,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-04-28",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts statement on the new Trans-Atlantic Data Privacy Framework, letter concerning independence of Belgian SA & discusses membership Spring Conference",
@@ -8514,8 +8524,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-03-20",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB & EDPS adopt joint opinion on the extension of the EU Digital COVID Certificate Regulation",
@@ -8524,8 +8534,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-03-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on Art. 60 GDPR, Guidelines on dark patterns in social media platform interfaces, toolbox on essential data protection safeguards for enforcement cooperation between EEA and third country SAs",
@@ -8534,8 +8544,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-03-14",
       "snippet": null,
-      "topic": "Deceptive design patterns",
-      "topicCategory": "Sector-Specific Areas"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "February 22nd Plenary - adopted documents",
@@ -8544,8 +8554,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-03-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts reply to LIBE on the 2nd Additional Protocol to the Cybercrime Convention, Guidelines on Codes of Conduct as a tool for international transfers, letter on AI liability and designates representatives to ENISA’s SCCG",
@@ -8564,8 +8574,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-02-20",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Launch of coordinated enforcement on use of cloud by public sector",
@@ -8574,8 +8584,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-02-14",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Coordinated enforcement and supervisory cooperation",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "January 18th & February 1st plenary sessions - adopted documents",
@@ -8584,8 +8594,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-02-07",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts first opinion on certification criteria",
@@ -8594,8 +8604,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-02-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB celebrates Data Protection Day",
@@ -8604,8 +8614,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-01-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on Right of Access and letter on cookie consent",
@@ -8624,8 +8634,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2022-01-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB Statement : EDPB cooperation on the elaboration of guidelines",
@@ -8634,8 +8644,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-12-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Contribution to evaluation of Law Enforcement Directive, SPE project plan, response to MEP Ujhelyi on Pegasus, final version of Guidelines on examples regarding data breach notifications",
@@ -8654,8 +8664,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-11-22",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on the interplay between Art. 3 and Chapter V GDPR, Statement on Digital and Data Strategy & appointment of EDPB representatives to TFTP Joint Review",
@@ -8664,8 +8674,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-11-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on restrictions of data subject rights under Article 23 GDPR following public consultation",
@@ -8674,8 +8684,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-10-18",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB launches first coordinated action",
@@ -8684,8 +8694,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-10-17",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts opinion on draft South Korea Adequacy Decision",
@@ -8714,8 +8724,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-09-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Overview on resources made available by Member States to the Data Protection Authorities and on enforcement actions by the Data Protection Authorities",
@@ -8724,8 +8734,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-08-10",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Art. 65 decision regarding WhatsApp Ireland",
@@ -8734,8 +8744,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-07-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "July 7 & 12 plenaries - adopted documents",
@@ -8744,8 +8754,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-07-21",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts urgent binding decision: Irish SA not to take final measures but to carry out statutory investigation",
@@ -8754,8 +8764,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-07-14",
       "snippet": null,
-      "topic": "Consistency mechanisms",
-      "topicCategory": "Oversight Areas"
+      "topic": "Investigations and regulatory inquiries",
+      "topicCategory": "Enforcement and Compliance"
     },
     {
       "title": "June Plenary - adopted documents",
@@ -8764,8 +8774,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-07-08",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on Codes of Conduct as a tool for transfers, final versions of the Guidelines on Virtual Voice Assistants & the Guidelines on the concepts of Controller & Processor, disbands TikTok Taskforce & discusses topics for its first coordin",
@@ -8784,8 +8794,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-06-20",
       "snippet": null,
-      "topic": "Institutional data protection",
-      "topicCategory": "Oversight Areas"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB & EDPS call for ban on use of AI for automated recognition of human features in publicly accessible spaces, and some other uses of AI that can lead to unfair discrimination",
@@ -8794,8 +8804,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-06-20",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB Annual Report 2020: Ensuring data protection rights in a changing world",
@@ -8804,8 +8814,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-06-01",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB Plenary - adopted documents",
@@ -8814,8 +8824,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-05-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts opinions on first transnational codes of conduct, Statement on Data Governance Act, Recommendations on the legal basis for the storage of credit card data.",
@@ -8824,8 +8834,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-05-19",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Europe Day 2021",
@@ -8834,8 +8844,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-05-06",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopted documents - 48th plenary",
@@ -8844,8 +8854,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-04-21",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB Opinions on draft UK adequacy decisions",
@@ -8864,8 +8874,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-04-13",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Forty-eighth Plenary Session of the EDPB",
@@ -8874,8 +8884,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-04-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EU data protection authorities adopt joint opinion on the Digital Green Certificate Proposals",
@@ -8884,8 +8894,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-04-05",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Forty-seventh Plenary Session of the EDPB",
@@ -8894,8 +8904,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-03-25",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB Stakeholder Event on processing of personal data for scientific research purposes",
@@ -8904,8 +8914,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-03-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopted documents - 46th plenary",
@@ -8914,8 +8924,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-03-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Data Protection Board - 46th Plenary session",
@@ -8924,8 +8934,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-03-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB & EDPS adopt joint opinion on the Data Governance Act (DGA)",
@@ -8934,8 +8944,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-03-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopted documents - 45th plenary",
@@ -8944,8 +8954,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-02-08",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Data Protection Board - 45th Plenary session",
@@ -8954,8 +8964,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-02-02",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB celebrates Data Protection Day",
@@ -8964,8 +8974,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-01-27",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopts Guidelines on examples regarding data breach notification",
@@ -8994,8 +9004,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2021-01-03",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Data Protection Board - 43rd Plenary session",
@@ -9004,8 +9014,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-12-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "First EDPB Art. 65 Decision",
@@ -9014,8 +9024,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-12-15",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "Coordinated Supervision Committee appoints new coordinator",
@@ -9024,8 +9034,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-12-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "EDPB adopted documents - 39th & 40th plenary",
@@ -9034,8 +9044,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-11-30",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Data Protection Board - 42nd Plenary session: Presentation of two new sets of SCCs & EDPB adopts statement on ePrivacy Regulation",
@@ -9054,8 +9064,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-11-15",
       "snippet": null,
-      "topic": "Legitimate interest assessments",
-      "topicCategory": "Processing Concepts"
+      "topic": "Consultations and stakeholder input",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Data Protection Board - 41st Plenary session: EDPB adopts recommendations on supplementary measures following Schrems II",
@@ -9074,8 +9084,8 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-11-09",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
     },
     {
       "title": "European Data Protection Board - 40th Plenary session: Guidelines on Data Protection by Design & Default, Coordinated Enforcement Framework, Letter on Copyright Directive",
@@ -9094,8 +9104,228 @@
       "sourceUrl": "https://edpb.europa.eu/",
       "date": "2020-10-11",
       "snippet": null,
-      "topic": "Other GDPR & data protection topics",
-      "topicCategory": "General"
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
+    },
+    {
+      "title": "One-Stop-Shop case digests",
+      "url": "https://edpb.europa.eu/about-edpb/publications/one-stop-shop-case-digests_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Lead authority processes",
+      "topicCategory": "Enforcement and Compliance"
+    },
+    {
+      "title": "Consistency and Cooperation procedures",
+      "url": "https://edpb.europa.eu/our-work-tools/support-cooperation-and-enforcement/consistency-and-cooperation-procedures_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Consistency mechanisms",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Final One Stop Shop Decisions",
+      "url": "https://edpb.europa.eu/our-work-tools/consistency-findings/register-for-article-60-final-decisions_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Lead authority processes",
+      "topicCategory": "Enforcement and Compliance"
+    },
+    {
+      "title": "Decisions taken by supervisory authorities and courts on issues handled in the consistency mechanism",
+      "url": "https://edpb.europa.eu/our-work-tools/consistency-findings/register-for-decisions_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Consistency mechanisms",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Certification mechanisms, seals and marks",
+      "url": "https://edpb.europa.eu/our-work-tools/accountability-tools/certification-mechanisms-seals-and-marks_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Certification mechanisms",
+      "topicCategory": "Enforcement and Compliance"
+    },
+    {
+      "title": "Binding Decisions",
+      "url": "https://edpb.europa.eu/our-work-tools/consistency-findings/binding-decisions_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Consistency mechanisms",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Data Protection",
+      "url": "https://www.edps.europa.eu/data-protection/data-protection_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Legislation",
+      "url": "https://www.edps.europa.eu/data-protection/data-protection/legislation_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "The History of the GDPR",
+      "url": "https://www.edps.europa.eu/data-protection/data-protection/legislation/history-general-data-protection-regulation_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Reference Library",
+      "url": "https://www.edps.europa.eu/data-protection/data-protection/reference-library_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Court Cases",
+      "url": "https://www.edps.europa.eu/data-protection/data-protection/case-law-and-guidance_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Our role as a supervisor",
+      "url": "https://www.edps.europa.eu/data-protection/our-role-supervisor_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "DPO network list",
+      "url": "https://www.edps.europa.eu/data-protection/eu-institutions-dpo/network-dpos_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Data Protection Officers",
+      "topicCategory": "Processing Concepts"
+    },
+    {
+      "title": "Guidelines, Recommendations, Best Practices",
+      "url": "https://edpb.europa.eu/our-work-tools/general-guidance/guidelines-recommendations-best-practices_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Guidelines and regulatory publications",
+      "topicCategory": "Policy and Litigation"
+    },
+    {
+      "title": "Approved Binding Corporate Rules",
+      "url": "https://edpb.europa.eu/our-work-tools/accountability-tools/bcr_en",
+      "sourceName": "European Data Protection Board (EDPB)",
+      "sourceUrl": "https://edpb.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Territorial scope and transfers",
+      "topicCategory": "Data Transfers"
+    },
+    {
+      "title": "Complaints",
+      "url": "https://www.edps.europa.eu/data-protection/our-role-supervisor/complaints_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Personal Data Breach",
+      "url": "https://www.edps.europa.eu/data-protection/our-role-supervisor/personal-data-breach_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Data breach notification",
+      "topicCategory": "Enforcement and Compliance"
+    },
+    {
+      "title": "LSIT security incidents",
+      "url": "https://www.edps.europa.eu/data-protection/our-role-supervisor/large-scale-it-systems-security-incidents-notification_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Use of EDPS Powers",
+      "url": "https://www.edps.europa.eu/data-protection/our-role-supervisor/use-edps-powers_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Survey reports",
+      "url": "https://www.edps.europa.eu/data-protection/eu-institutions-dpo/reports_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "Our work on the AI Act",
+      "url": "https://www.edps.europa.eu/data-protection/our-work/our-work-by-type/ai-act_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "AI models and privacy principles",
+      "topicCategory": "AI and Emerging Tech"
+    },
+    {
+      "title": "Institutional Agenda",
+      "url": "https://www.edps.europa.eu/press-publications/events/institutional-agenda_en",
+      "sourceName": "European Data Protection Supervisor (EDPS)",
+      "sourceUrl": "https://www.edps.europa.eu/",
+      "date": null,
+      "snippet": null,
+      "topic": "Institutional data protection",
+      "topicCategory": "Oversight Areas"
     }
   ]
 }
