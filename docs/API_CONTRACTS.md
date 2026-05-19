@@ -11,6 +11,66 @@ Content type: JSON for all `/api/*` routes unless noted.
 - **Timestamps:** ISO 8601 strings where present (`meta.lastRefreshed`, `contentAsOf`, news `date`).
 - **Errors:** Many routes return `200` with partial data on soft failure (e.g. news crawl timeout); hard errors use `4xx`/`5xx` with `{ error: string }` where implemented.
 - **CORS:** Enabled for Express (`cors()` middleware).
+- **BYOK:** Client-supplied API keys travel in JSON request bodies as **`apiKeys`** (see below). The server **does not** persist BYOK keys to disk or log secret values.
+
+---
+
+## Health
+
+### `GET /health`
+
+**Response:** Plain text **`ok`** (HTTP **200**). Use for load balancers and liveness checks.
+
+---
+
+## API key validation (BYOK)
+
+### `POST /api/validate-api-keys`
+
+Validates Groq and/or Tavily credentials with minimal provider API calls. Keys are **not** stored.
+
+**Body:**
+
+```json
+{
+  "apiKeys": {
+    "groqApiKey": "gsk_…",
+    "tavilyApiKey": "tvly-…"
+  },
+  "checkServerKeys": false
+}
+```
+
+- Top-level **`groqApiKey`** / **`tavilyApiKey`** are also accepted (same as nested **`apiKeys`**).
+- When **`checkServerKeys`** is **`true`** and a body key is empty, the server validates the corresponding **`.env`** key instead.
+
+**Response (200):**
+
+```json
+{
+  "groq": {
+    "provider": "groq",
+    "provided": true,
+    "valid": true,
+    "message": "Groq key is valid."
+  },
+  "tavily": {
+    "provider": "tavily",
+    "provided": false,
+    "valid": null,
+    "message": "No Tavily key entered."
+  },
+  "checkedAt": "2026-05-19T12:00:00.000Z"
+}
+```
+
+| Field | Meaning |
+|-------|---------|
+| `provided` | Whether a key was supplied for that provider |
+| `valid` | `true` / `false` when checked; `null` when skipped |
+| `status` | Optional HTTP status from provider on failure |
+
+**Validation method:** Groq → `GET https://api.groq.com/openai/v1/models`; Tavily → minimal `search` with `include_answer: false`.
 
 ---
 
@@ -25,11 +85,18 @@ Content type: JSON for all `/api/*` routes unless noted.
   "lastRefreshed": "…",
   "lastChecked": "…",
   "etl": { },
+  "byokSupported": true,
   "askGroqConfigured": true,
   "askTavilyConfigured": false,
+  "askGroqServerConfigured": true,
+  "askTavilyServerConfigured": false,
   "sources": [ { "name": "", "url": "", "description": "", "documents": [ { "label": "", "url": "" } ] } ]
 }
 ```
+
+- **`byokSupported`:** Always **`true`** in current builds (BYOK UI + request-body keys).
+- **`askGroqConfigured`** / **`askTavilyConfigured`:** Mirror **server** `.env` presence (legacy names retained).
+- **`askGroqServerConfigured`** / **`askTavilyServerConfigured`:** Explicit server-key flags for the Ask status line.
 
 **`sources`:** Populated from **`gdpr-content.json`** → **`meta.sources`** (written on regulation refresh from **`gdpr-structure.json`**). If missing, the server uses **`data/gdpr-structure.json`** → **`meta.sources`** at startup; if that fails, a minimal three-entry emergency list applies. Intended to stay aligned with **News** crawler publishers (e.g. EDPB/EDPS RSS, ICO news hub, Commission Press Corner). National DPAs other than **ICO (UK)** are not listed.
 
@@ -58,8 +125,8 @@ Chapters with `sourceUrl` / `gdprInfoChapterUrl` normalized.
 
 ### `POST /api/chapter-summaries/regenerate`
 
-- **Auth:** Requires `GROQ_API_KEY`.
-- **503** if key missing; **500** if LLM output not parseable.
+- **Auth:** Requires Groq key in **`.env`** or BYOK body **`apiKeys.groqApiKey`**.
+- **503** if no Groq key available; **500** if LLM output not parseable.
 - **Success:** Writes `data/chapter-summaries.json` and returns the same shape as GET with `source: "regenerated"`, `llm: true`.
 
 ### `GET /api/articles` / `GET /api/articles/:number`
@@ -106,7 +173,11 @@ Otherwise returns a **plain array** of sector objects (same shape as `sectors[]`
 {
   "query": "string (required)",
   "includeWeb": true,
-  "industrySectorId": "GENERAL"
+  "industrySectorId": "GENERAL",
+  "apiKeys": {
+    "groqApiKey": "optional — overrides server GROQ_API_KEY when non-empty",
+    "tavilyApiKey": "optional — overrides server TAVILY_API_KEY when non-empty"
+  }
 }
 ```
 
@@ -118,7 +189,7 @@ Otherwise returns a **plain array** of sector objects (same shape as `sectors[]`
   "contentAsOf": "…",
   "includeWeb": true,
   "industrySector": { "id": "GENERAL", "label": "…", "isicSection": null },
-  "llm": { "used": true, "provider": "groq", "model": "…", "note": null },
+  "llm": { "used": true, "provider": "groq", "model": "…", "note": null, "byokGroq": true, "byokTavily": false },
   "answer": "Plain text with [S1] citations…",
   "sources": [
     { "id": "S1", "kind": "regulation", "type": "article", "number": 5, "title": "…", "chapterTitle": "…", "sourceUrl": "…", "eurLexUrl": "…", "excerpt": "…" },
@@ -166,6 +237,22 @@ Runs full crawl, merges, writes `gdpr-news.json` (up to internal `storeCap`), re
 ```
 
 - **`ok: false`** still **200** with `error` string and best-effort `items` (with topics) plus **`topicTaxonomy`** on crawl failure.
+
+### `GET` / `POST /api/news/article-attachments`
+
+**Body (POST):** `{ "url": "https://publisher.example/article" }`  
+**Query (GET fallback):** `?url=` encoded article URL.
+
+**Response:** `{ "ok": true, "attachments": [ { "label", "url", "type?" } ] }` or `{ "ok": false, "error": "…" }`.
+
+- URLs must pass allowlist / SSRF checks in **`news-article-attachments.js`**.
+- Results may be cached per **`NEWS_ATTACHMENTS_CACHE_*`**.
+
+### `POST /api/news/attachments-summary`
+
+**Body:** `{ "urls": [ "https://…", … ] }` (deduped, capped, typically ≤ 96).
+
+**Response:** `{ "items": [ { "url": "…", "count": 2 } ] }` — used to hide **Attachments** when `count === 0`.
 
 ---
 

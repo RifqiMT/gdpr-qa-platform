@@ -6,6 +6,12 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ## [Unreleased]
 
+### Added
+
+- **BYOK (Bring Your Own Key):** Header **API keys** dialog stores Groq/Tavily credentials in **browser `localStorage`** (`gdpr-qa-byok-v1`); optional override of server `.env` keys on **`POST /api/answer`** and **`POST /api/chapter-summaries/regenerate`** via request body **`apiKeys`**.
+- **`POST /api/validate-api-keys`:** Validates Groq (models API) and Tavily (minimal search) without persisting secrets; powers **Check validity** with animated result cards in the dialog.
+- **Ask LLM status line:** Shows server vs BYOK key state on the Ask tab (`updateAskLlmKeysStatus`).
+
 ### Changed
 
 - **News & Credible sources scope:** Removed **CNIL** and other **country-based** national DPA feeds from News and **`meta.sources`**; **ICO (UK)** remains the only national supervisory authority in-app. See **BG-07** in [docs/GUARDRAILS.md](docs/GUARDRAILS.md).
@@ -17,7 +23,8 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ### Documentation
 
-- **Product documentation audit (standard v1.4):** Updated **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)** to **v1.4**; aligned **[README.md](README.md)**, **[docs/PRD.md](docs/PRD.md)**, **[docs/API_CONTRACTS.md](docs/API_CONTRACTS.md)**, **[docs/VARIABLES.md](docs/VARIABLES.md)**, **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)**, **[docs/USER_STORIES.md](docs/USER_STORIES.md)**, and **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)** with the latest News UI (view toggle, searchable filters, attachments visibility) and updated `NEWS_*` defaults and enrichment knobs.
+- **Product documentation audit (standard v1.5):** Comprehensive refresh of **[README.md](README.md)**, **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)**, **[docs/README.md](docs/README.md)**, **[docs/PRD.md](docs/PRD.md)**, **[docs/USER_PERSONAS.md](docs/USER_PERSONAS.md)**, **[docs/USER_STORIES.md](docs/USER_STORIES.md)**, **[docs/VARIABLES.md](docs/VARIABLES.md)** (including BYOK variables and relationship charts), **[docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md)**, **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)**, **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)**, **[docs/GUARDRAILS.md](docs/GUARDRAILS.md)**, **[docs/API_CONTRACTS.md](docs/API_CONTRACTS.md)**, **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, **[docs/GLOSSARY.md](docs/GLOSSARY.md)**, and **[docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md)** — aligned with BYOK, key validation UI, and current codebase.
+- **Product documentation audit (standard v1.4):** News UI, attachments visibility, `NEWS_*` defaults (see git history).
 - **Earlier iterations (still reflected in repo history):** v1.2 news UI + dedupe docs; v1.1 variables/PRD guardrails expansion; initial enterprise doc set under `docs/`.
 
 ### Removed

@@ -16,6 +16,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | BG-05 | **Sector framing is illustrative.** Industry selection steers language toward typical processing; it does not replace sector-specific law (employment health data, utilities regulation, etc.). | GDPR is horizontal; other laws may apply. |
 | BG-06 | **No warranty on completeness.** The corpus covers Regulation (EU) 2016/679 as loaded; guidelines, national implementations, and case law are out of scope unless linked as external sources. | Product is a workspace, not a registry of all law. |
 | BG-07 | **National supervisory authorities (country-specific)** are **not** ingested for News or Credible sources, except **ICO (UK)** — EU-level bodies (EDPB, EDPS, Commission, CoE) remain included. | Keeps scope aligned with pan-EU reference use; avoids duplicating every MS DPA. |
+| BG-08 | **BYOK keys are user-controlled secrets.** The product stores them in **browser localStorage** and transmits them to the **same-origin server** for LLM calls only. Users are responsible for key custody, rotation, and provider billing. | Not a vault; not suitable for shared kiosks without policy. |
 
 ---
 
@@ -29,6 +30,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-A04 | **Secrets:** Never commit `.env`; API keys in process env only. | Rotate keys if leaked. |
 | TG-A05 | **Rate limits:** Groq/Tavily/OpenAI quotas can cause silent fallback. | Watch logs (`Groq answer error`, etc.). |
 | TG-A06 | **`/api/summarize`** is separate from the Ask tab UI (which does not call it in current `app.js`). | Do not remove endpoint without checking API consumers. |
+| TG-A07 | **BYOK precedence:** Non-empty **`apiKeys`** in the request body override **`.env`** keys for that request only; keys are **never** written to disk by the server. | Do not log request bodies containing secrets. |
+| TG-A08 | **`POST /api/validate-api-keys`** performs live provider calls; rate limits apply. Use for user-initiated checks, not high-frequency automation. | Abuse can exhaust Groq/Tavily quotas. |
 
 ---
 
@@ -67,6 +70,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-F02 | **Accessibility** — Maintaining ARIA tab pattern is mandatory for WCAG-oriented orgs. | Regressions affect procurement. |
 | TG-F03 | **PDF export** depends on **html2pdf.js** CDN — offline/air-gapped installs need vendoring. | Document for enterprise deployment. |
 | TG-F04 | **News sidebar chrome** uses **`sessionStorage`** for collapse prefs — not shared across browsers or devices; clearing site data resets layout. | Expected; document for support. |
+| TG-F05 | **BYOK UI** stores secrets in **`localStorage`** (`gdpr-qa-byok-v1`). Clearing site data removes keys; XSS on the origin could exfiltrate keys — deploy with trusted static assets and HTTPS in production. | Enterprise SSO does not replace BYOK storage model. |
 
 ---
 
@@ -77,6 +81,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | DG-01 | **Questions** may contain personal or sensitive information; logging full text to shared systems may be **unlawful** without basis. | Prefer aggregate metrics or hashed buckets. |
 | DG-02 | **No built-in authentication** — deploy behind VPN/SSO if needed. | Default app is open on bind address. |
 | DG-03 | **Single-tenant files** — `data/*.json` hold regulation text only; no user profiles. | Backups still sensitive for deployment metadata. |
+| DG-04 | **BYOK keys in browser** may be considered personal data if tied to an identifiable user device. Do not sync **`localStorage`** to analytics. | Treat like any client-side secret. |
 
 ---
 

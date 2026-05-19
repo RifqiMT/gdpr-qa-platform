@@ -23,6 +23,369 @@
     }).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
   }
 
+  var BYOK_STORAGE_KEY = 'gdpr-qa-byok-v1';
+  var serverLlmMeta = { askGroqServerConfigured: false, askTavilyServerConfigured: false, byokSupported: true };
+
+  function loadByokSettings() {
+    try {
+      var raw = localStorage.getItem(BYOK_STORAGE_KEY);
+      if (!raw) return { useOwnKeys: false, groqApiKey: '', tavilyApiKey: '' };
+      var parsed = JSON.parse(raw);
+      return {
+        useOwnKeys: Boolean(parsed && parsed.useOwnKeys),
+        groqApiKey: parsed && parsed.groqApiKey ? String(parsed.groqApiKey).trim() : '',
+        tavilyApiKey: parsed && parsed.tavilyApiKey ? String(parsed.tavilyApiKey).trim() : ''
+      };
+    } catch (e) {
+      return { useOwnKeys: false, groqApiKey: '', tavilyApiKey: '' };
+    }
+  }
+
+  function saveByokSettings(settings) {
+    var payload = {
+      useOwnKeys: Boolean(settings && settings.useOwnKeys),
+      groqApiKey: settings && settings.groqApiKey ? String(settings.groqApiKey).trim() : '',
+      tavilyApiKey: settings && settings.tavilyApiKey ? String(settings.tavilyApiKey).trim() : ''
+    };
+    localStorage.setItem(BYOK_STORAGE_KEY, JSON.stringify(payload));
+    return payload;
+  }
+
+  function clearByokSettings() {
+    localStorage.removeItem(BYOK_STORAGE_KEY);
+  }
+
+  /** Merge BYOK keys into Ask (and similar) POST bodies when enabled. */
+  function withByokApiKeys(body) {
+    var out = body && typeof body === 'object' ? Object.assign({}, body) : {};
+    var cfg = loadByokSettings();
+    if (!cfg.useOwnKeys) return out;
+    var apiKeys = {};
+    if (cfg.groqApiKey) apiKeys.groqApiKey = cfg.groqApiKey;
+    if (cfg.tavilyApiKey) apiKeys.tavilyApiKey = cfg.tavilyApiKey;
+    if (Object.keys(apiKeys).length) out.apiKeys = apiKeys;
+    return out;
+  }
+
+  function hasEffectiveAskLlmKeys() {
+    var cfg = loadByokSettings();
+    if (cfg.useOwnKeys && (cfg.groqApiKey || cfg.tavilyApiKey)) return true;
+    return Boolean(serverLlmMeta.askGroqServerConfigured || serverLlmMeta.askTavilyServerConfigured);
+  }
+
+  function updateAskLlmKeysStatus() {
+    var el = document.getElementById('askLlmKeysStatus');
+    if (!el) return;
+    var cfg = loadByokSettings();
+    var parts = [];
+    if (cfg.useOwnKeys) {
+      var own = [];
+      if (cfg.groqApiKey) own.push('Groq (your key)');
+      if (cfg.tavilyApiKey) own.push('Tavily (your key)');
+      if (own.length) {
+        parts.push('BYOK active: ' + own.join(', ') + '.');
+        el.className = 'ask-llm-keys-status ask-llm-keys-status--ok';
+      } else {
+        parts.push('BYOK enabled but no keys saved — open API keys in the header.');
+        el.className = 'ask-llm-keys-status ask-llm-keys-status--warn';
+      }
+    } else if (serverLlmMeta.askGroqServerConfigured || serverLlmMeta.askTavilyServerConfigured) {
+      var srv = [];
+      if (serverLlmMeta.askGroqServerConfigured) srv.push('Groq (server)');
+      if (serverLlmMeta.askTavilyServerConfigured) srv.push('Tavily (server)');
+      parts.push('Using server keys: ' + srv.join(', ') + '. Optional: API keys in the header for your own credentials.');
+      el.className = 'ask-llm-keys-status';
+    } else {
+      parts.push('No LLM keys configured. Open API keys in the header or ask your administrator to set server keys.');
+      el.className = 'ask-llm-keys-status ask-llm-keys-status--warn';
+    }
+    el.textContent = parts.join(' ');
+  }
+
+  var BYOK_ICON = {
+    check:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+    minus:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M5 12h14"/></svg>',
+    spin:
+      '<svg class="byok-validation-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/></svg>',
+    shield:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+  };
+
+  function byokValidationCardState(item) {
+    if (!item || !item.provided) {
+      return { card: 'skipped', badge: 'Skipped', icon: BYOK_ICON.minus };
+    }
+    if (item.valid === true) {
+      return { card: 'valid', badge: 'Valid', icon: BYOK_ICON.check };
+    }
+    if (item.valid === false) {
+      return { card: 'invalid', badge: 'Invalid', icon: BYOK_ICON.x };
+    }
+    return { card: 'skipped', badge: 'Skipped', icon: BYOK_ICON.minus };
+  }
+
+  function byokValidationSummaryFromData(data) {
+    var groq = data && data.groq;
+    var tavily = data && data.tavily;
+    var invalid = (groq && groq.valid === false) || (tavily && tavily.valid === false);
+    var valid =
+      (groq && groq.valid === true) || (tavily && tavily.valid === true);
+    var panel = 'success';
+    var title = 'All checked keys are valid';
+    var icon = BYOK_ICON.check;
+    if (invalid) {
+      panel = 'warning';
+      title = 'Some keys need attention';
+      icon = BYOK_ICON.x;
+    } else if (!valid) {
+      panel = 'warning';
+      title = 'No keys were verified';
+      icon = BYOK_ICON.minus;
+    }
+    var meta = 'Checked just now';
+    if (data && data.checkedAt) {
+      try {
+        meta = 'Checked ' + new Date(data.checkedAt).toLocaleTimeString();
+      } catch (e) {}
+    }
+    return { panel: panel, title: title, meta: meta, icon: icon };
+  }
+
+  function byokValidationCardHtml(providerLabel, roleLabel, item, pending) {
+    var st = pending
+      ? { card: 'pending', badge: 'Checking…', icon: BYOK_ICON.spin }
+      : byokValidationCardState(item);
+    return (
+      '<li class="byok-validation-card byok-validation-card--' +
+      st.card +
+      '">' +
+      '<span class="byok-validation-card-icon">' +
+      st.icon +
+      '</span>' +
+      '<div class="byok-validation-card-body">' +
+      '<div class="byok-validation-card-head">' +
+      '<span class="byok-validation-card-provider">' +
+      escapeHtml(providerLabel) +
+      '</span>' +
+      '<span class="byok-validation-card-role">' +
+      escapeHtml(roleLabel) +
+      '</span>' +
+      '<span class="byok-validation-card-badge">' +
+      escapeHtml(st.badge) +
+      '</span>' +
+      '</div>' +
+      '<p class="byok-validation-card-message">' +
+      escapeHtml((item && item.message) || (pending ? 'Contacting provider…' : '')) +
+      '</p>' +
+      '</div></li>'
+    );
+  }
+
+  function renderByokValidationPanel(opts) {
+    var box = document.getElementById('byokValidationResults');
+    if (!box) return;
+    if (!opts) {
+      box.classList.add('hidden');
+      box.innerHTML = '';
+      return;
+    }
+    var summary = opts.summary || {};
+    var panelClass = summary.panel || 'loading';
+    var cards = opts.cardsHtml || '';
+    box.innerHTML =
+      '<div class="byok-validation-panel byok-validation-panel--' +
+      escapeHtml(panelClass) +
+      '">' +
+      '<div class="byok-validation-summary">' +
+      '<span class="byok-validation-summary-icon">' +
+      (summary.icon || BYOK_ICON.shield) +
+      '</span>' +
+      '<div class="byok-validation-summary-text">' +
+      '<p class="byok-validation-summary-title">' +
+      escapeHtml(summary.title || '') +
+      '</p>' +
+      '<p class="byok-validation-summary-meta">' +
+      escapeHtml(summary.meta || '') +
+      '</p>' +
+      '</div></div>' +
+      '<ul class="byok-validation-list">' +
+      cards +
+      '</ul></div>';
+    box.classList.remove('hidden');
+  }
+
+  function renderByokValidationLoading(groqProvided, tavilyProvided) {
+    var cards = '';
+    if (groqProvided) {
+      cards += byokValidationCardHtml('Groq', 'Primary Ask LLM', null, true);
+    }
+    if (tavilyProvided) {
+      cards += byokValidationCardHtml('Tavily', 'Fallback search', null, true);
+    }
+    renderByokValidationPanel({
+      summary: {
+        panel: 'loading',
+        title: 'Verifying API keys…',
+        meta: 'This usually takes a few seconds',
+        icon: BYOK_ICON.spin
+      },
+      cardsHtml: cards
+    });
+  }
+
+  function renderByokValidationResults(data) {
+    if (!data) {
+      renderByokValidationPanel(null);
+      return;
+    }
+    var summary = byokValidationSummaryFromData(data);
+    var cards = '';
+    if (data.groq) {
+      cards += byokValidationCardHtml('Groq', 'Primary Ask LLM', data.groq, false);
+    }
+    if (data.tavily) {
+      cards += byokValidationCardHtml('Tavily', 'Fallback search', data.tavily, false);
+    }
+    if (!cards) {
+      renderByokValidationPanel(null);
+      return;
+    }
+    renderByokValidationPanel({ summary: summary, cardsHtml: cards });
+  }
+
+  function initByokSettingsUi() {
+    var dialog = document.getElementById('byokSettingsDialog');
+    var btnOpen = document.getElementById('btnByokSettings');
+    var btnClose = document.getElementById('byokSettingsDialogClose');
+    var form = document.getElementById('byokSettingsForm');
+    var chk = document.getElementById('byokUseOwnKeys');
+    var groqIn = document.getElementById('byokGroqApiKey');
+    var tavIn = document.getElementById('byokTavilyApiKey');
+    var btnCheck = document.getElementById('byokCheckKeys');
+    var btnClear = document.getElementById('byokClearKeys');
+    var msg = document.getElementById('byokSettingsMessage');
+    if (!dialog || !form) return;
+
+    function fillFormFromStorage() {
+      var cfg = loadByokSettings();
+      if (chk) chk.checked = cfg.useOwnKeys;
+      if (groqIn) groqIn.value = cfg.groqApiKey || '';
+      if (tavIn) tavIn.value = cfg.tavilyApiKey || '';
+    }
+
+    function setDialogMessage(text, ok) {
+      if (!msg) return;
+      if (!text) {
+        msg.textContent = '';
+        msg.className = 'byok-settings-toast hidden';
+        return;
+      }
+      msg.textContent = text;
+      msg.className =
+        'byok-settings-toast ' + (ok ? 'byok-settings-toast--ok' : 'byok-settings-toast--error');
+    }
+
+    function setCheckBusy(busy) {
+      var on = Boolean(busy);
+      if (btnCheck) {
+        btnCheck.disabled = on;
+        btnCheck.setAttribute('aria-busy', on ? 'true' : 'false');
+        btnCheck.classList.toggle('is-checking', on);
+        var lbl = btnCheck.querySelector('.btn-byok-check-label');
+        if (lbl) lbl.textContent = on ? 'Checking…' : 'Check validity';
+      }
+      if (btnClear) btnClear.disabled = on;
+    }
+
+    function openDialog() {
+      fillFormFromStorage();
+      setDialogMessage('');
+      renderByokValidationPanel(null);
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+    }
+
+    function closeDialog() {
+      if (typeof dialog.close === 'function') dialog.close();
+    }
+
+    if (btnOpen) btnOpen.addEventListener('click', openDialog);
+    if (btnClose) btnClose.addEventListener('click', closeDialog);
+    dialog.addEventListener('cancel', function (e) {
+      e.preventDefault();
+      closeDialog();
+    });
+    dialog.addEventListener('click', function (e) {
+      if (e.target === dialog) closeDialog();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      saveByokSettings({
+        useOwnKeys: chk && chk.checked,
+        groqApiKey: groqIn ? groqIn.value : '',
+        tavilyApiKey: tavIn ? tavIn.value : ''
+      });
+      updateAskLlmKeysStatus();
+      setDialogMessage('Saved. Keys stay in this browser only.', true);
+      setTimeout(closeDialog, 700);
+    });
+
+    if (btnClear) {
+      btnClear.addEventListener('click', function () {
+        clearByokSettings();
+        fillFormFromStorage();
+        renderByokValidationPanel(null);
+        updateAskLlmKeysStatus();
+        setDialogMessage('Cleared saved keys from this browser.', true);
+      });
+    }
+
+    if (btnCheck) {
+      btnCheck.addEventListener('click', function () {
+        var groqVal = groqIn ? String(groqIn.value || '').trim() : '';
+        var tavVal = tavIn ? String(tavIn.value || '').trim() : '';
+        if (!groqVal && !tavVal) {
+          renderByokValidationPanel(null);
+          setDialogMessage('Enter at least one API key to check, or save server keys in .env.', false);
+          return;
+        }
+        setDialogMessage('');
+        setCheckBusy(true);
+        renderByokValidationLoading(Boolean(groqVal), Boolean(tavVal));
+        post('/api/validate-api-keys', {
+          apiKeys: {
+            groqApiKey: groqVal,
+            tavilyApiKey: tavVal
+          }
+        })
+          .then(function (data) {
+            renderByokValidationResults(data);
+            var groqOk = data && data.groq && data.groq.valid === true;
+            var tavOk = data && data.tavily && data.tavily.valid === true;
+            var groqBad = data && data.groq && data.groq.valid === false;
+            var tavBad = data && data.tavily && data.tavily.valid === false;
+            if (groqBad || tavBad) {
+              setDialogMessage('Review the results below and update any invalid keys.', false);
+            } else if (groqOk || tavOk) {
+              setDialogMessage('');
+            } else {
+              setDialogMessage('No keys were checked — enter a Groq or Tavily key.', false);
+            }
+          })
+          .catch(function () {
+            renderByokValidationPanel(null);
+            setDialogMessage('Could not run validation. Is the Node server running?', false);
+          })
+          .finally(function () {
+            setCheckBusy(false);
+          });
+      });
+    }
+  }
+
   /**
    * News attachments API returns JSON. Proxies sometimes omit Content-Type; static hosts return HTML.
    * Do not rely on Content-Type — detect HTML by body, then JSON.parse. POST first, GET fallback.
@@ -486,7 +849,17 @@
 
   function loadMeta() {
     get('/api/meta')
-      .then(setMeta)
+      .then(function (meta) {
+        serverLlmMeta.askGroqServerConfigured = Boolean(
+          meta && (meta.askGroqServerConfigured != null ? meta.askGroqServerConfigured : meta.askGroqConfigured)
+        );
+        serverLlmMeta.askTavilyServerConfigured = Boolean(
+          meta && (meta.askTavilyServerConfigured != null ? meta.askTavilyServerConfigured : meta.askTavilyConfigured)
+        );
+        serverLlmMeta.byokSupported = meta && meta.byokSupported != null ? Boolean(meta.byokSupported) : true;
+        updateAskLlmKeysStatus();
+        setMeta(meta);
+      })
       .catch(function () {
         if (!freshnessContentEl) return;
         freshnessContentEl.textContent = '';
@@ -7059,7 +7432,7 @@
     }
     var sectorSel = document.getElementById('askIndustrySector');
     var sectorId = sectorSel && sectorSel.value ? sectorSel.value : 'GENERAL';
-    post('/api/answer', { query: q, includeWeb: true, industrySectorId: sectorId })
+    post('/api/answer', withByokApiKeys({ query: q, includeWeb: true, industrySectorId: sectorId }))
       .then(function (ans) {
         if (!askAnswerBox || !askAnswerContent) return;
         if (askAnswerStatus) {
@@ -7099,7 +7472,11 @@
       })
       .catch(function () {
         if (!askAnswerBox || !askAnswerContent) return;
-        if (askAnswerStatus) askAnswerStatus.textContent = 'Answer failed (check GROQ_API_KEY, TAVILY_API_KEY, or server logs)';
+        if (askAnswerStatus) {
+          askAnswerStatus.textContent = hasEffectiveAskLlmKeys()
+            ? 'Answer failed (check API keys or server logs)'
+            : 'Answer failed — configure API keys in the header or server .env';
+        }
         if (askAnswerSectorLine) {
           askAnswerSectorLine.textContent = '';
           askAnswerSectorLine.classList.add('hidden');
@@ -7391,5 +7768,7 @@
 
   initCitationSidebarCollapsibles();
   updateBrowseSectionMenu();
+  initByokSettingsUi();
+  updateAskLlmKeysStatus();
   loadMeta();
 })();

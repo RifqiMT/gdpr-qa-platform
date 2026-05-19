@@ -10,7 +10,7 @@ This directory contains **professional product, design, and engineering document
 | Step | Document | Why read it |
 |------|----------|-------------|
 | 1 | [../README.md](../README.md) | Product overview, features, configuration, quick start. |
-| 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation governance and full index (**v1.3**). |
+| 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation governance and full index (**v1.5**). |
 | 3 | [PRD.md](PRD.md) | Formal requirements and scope. |
 | 4 | [USER_PERSONAS.md](USER_PERSONAS.md) / [USER_STORIES.md](USER_STORIES.md) | Who uses the product and verifiable stories. |
 | 5 | [ARCHITECTURE.md](ARCHITECTURE.md) / [API_CONTRACTS.md](API_CONTRACTS.md) | System shape and REST contracts. |
@@ -29,7 +29,7 @@ This directory contains **professional product, design, and engineering document
 
 | Document | Description |
 |----------|-------------|
-| [PRD.md](PRD.md) | Product requirements: goals, functional/non-functional requirements, data model, success criteria, out of scope (**v1.3**). |
+| [PRD.md](PRD.md) | Product requirements: goals, functional/non-functional requirements, BYOK, data model, success criteria, out of scope (**v1.4**). |
 | [USER_PERSONAS.md](USER_PERSONAS.md) | Six user personas plus **Engineering / DevOps**. |
 | [USER_STORIES.md](USER_STORIES.md) | User stories by epic, aligned with PRD and traceability matrix. |
 | [VARIABLES.md](VARIABLES.md) | **Comprehensive** data dictionary: technical name, friendly name, definition, formula, location, example; Mermaid charts (core flow, configuration, **news deduplication**). |
@@ -49,7 +49,7 @@ This directory contains **professional product, design, and engineering document
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Main product documentation (single source for operators). |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.3** and checklist. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.5** and checklist. |
 | [../CHANGELOG.md](../CHANGELOG.md) | Release and change history ([Keep a Changelog](https://keepachangelog.com/)). |
 | [../.env.example](../.env.example) | Environment variable template (no secrets). |
 

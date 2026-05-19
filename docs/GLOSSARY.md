@@ -14,7 +14,8 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **EUR-Lex** | Official EU law database; canonical legal publication of Regulation (EU) 2016/679. |
 | **GDPR** | General Data Protection Regulation — Regulation (EU) 2016/679. |
 | **GDPR-Info** | Unofficial but widely used website **gdpr-info.eu**; default primary source for paragraph structure in the app’s corpus. |
-| **Groq** | Third-party inference API (OpenAI-compatible) used as the **primary** Ask synthesizer when **`GROQ_API_KEY`** is set. |
+| **BYOK** | Bring Your Own Key — users store **Groq** / **Tavily** credentials in **browser `localStorage`** and send them per request via **`apiKeys`**; overrides server `.env` when non-empty. |
+| **Groq** | Third-party inference API (OpenAI-compatible) used as the **primary** Ask synthesizer when **`GROQ_API_KEY`** (server) or BYOK **`groqApiKey`** is set. |
 | **ICO** | Information Commissioner’s Office (UK) — credible source in News and Sources. |
 | **ISIC** | International Standard Industrial Classification of All Economic Activities — referenced for sector labels in **`industry-sectors.json`**. |
 | **OKR** | Objectives and Key Results — planning framework; example cycles in [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md). |

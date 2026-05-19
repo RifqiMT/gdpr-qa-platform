@@ -70,8 +70,9 @@ sequenceDiagram
   participant T as Tavily API
   participant W as Web (DDG + pages)
 
-  UI->>S: POST /api/answer { query, industrySectorId, includeWeb }
-  S->>S: loadContent + buildLocalContext (BM25)
+  UI->>S: POST /api/answer { query, industrySectorId, includeWeb, apiKeys? }
+  Note over UI,S: apiKeys optional BYOK from localStorage
+  S->>S: resolveLlmKeys + loadContent + buildLocalContext (BM25)
   opt includeWeb
     S->>W: DuckDuckGo + fetch excerpts
   end
@@ -97,9 +98,32 @@ sequenceDiagram
 
 ---
 
+## BYOK validation (sequence)
+
+```mermaid
+sequenceDiagram
+  participant UI as Browser dialog
+  participant S as server.js
+  participant G as Groq API
+  participant T as Tavily API
+
+  UI->>S: POST /api/validate-api-keys { apiKeys }
+  par Groq check
+    S->>G: GET /openai/v1/models
+    G-->>S: 200 or 401
+  and Tavily check
+    S->>T: minimal search
+    T-->>S: 200 or error
+  end
+  S-->>UI: { groq, tavily, checkedAt }
+```
+
+---
+
 ## Extension points
 
 - **New LLM provider for Ask:** Extend `server.js` with a parallel path to Groq/Tavily (keep citation contract).
+- **BYOK providers:** Extend **`resolveLlmKeys`** and validation helpers; never persist client keys server-side.
 - **Additional news sources:** Implement fetch/parser in `news-crawler.js` and add feed metadata to defaults or JSON.
 - **Sector list:** Edit `public/industry-sectors.json` (and optional server copy if split later).
 

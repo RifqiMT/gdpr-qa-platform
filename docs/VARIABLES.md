@@ -112,6 +112,25 @@
 | `llm.used` | Model output used | Whether a neural or Tavily synthesis path produced the answer body. | **`true`** if Groq or Tavily returned usable text. | Response **`llm`** | `true` |
 | `llm.provider` | Active synthesizer id | **`groq`** or **`tavily`**. | Set by branch taken. | Ask status chip | `groq` |
 | `llm.model` | Model or mode label | Groq model id or Tavily-specific label. | From provider metadata. | Ask status | `llama-3.3-70b-versatile` |
+| `llm.byokGroq` | BYOK Groq used flag | Whether the Groq key in this request came from the client body (not only `.env`). | **`true`** when **`resolveLlmKeys`** found **`groqKey`** in **`apiKeys`**. | Response **`llm`** | `true` |
+| `llm.byokTavily` | BYOK Tavily used flag | Same for Tavily. | **`true`** when body supplied **`tavilyApiKey`**. | Response **`llm`** | `false` |
+
+---
+
+## 4.1 BYOK (Bring Your Own Key) — browser and request body
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `gdpr-qa-byok-v1` | BYOK localStorage key | JSON blob persisted in the user’s browser for optional API keys. | **`{ useOwnKeys, groqApiKey, tavilyApiKey }`**; never written to server disk. | `public/app.js` → `loadByokSettings` / `saveByokSettings` | *(local only)* |
+| `useOwnKeys` | Use my API keys toggle | When **`true`**, Ask requests include **`apiKeys`** from storage. | Boolean in **`gdpr-qa-byok-v1`**. | API keys dialog checkbox | `true` |
+| `apiKeys.groqApiKey` | BYOK Groq credential | Per-request Groq secret from the client. | Trimmed; overrides **`GROQ_API_KEY`** when non-empty. | **`POST /api/answer`**, **`POST /api/validate-api-keys`**, chapter regenerate | `gsk_…` |
+| `apiKeys.tavilyApiKey` | BYOK Tavily credential | Per-request Tavily secret. | Trimmed; overrides **`TAVILY_API_KEY`** when non-empty. | Same | `tvly-…` |
+| `byokSupported` | BYOK feature flag (meta) | Product advertises BYOK capability to the UI. | Always **`true`** in current server builds. | **`GET /api/meta`** | `true` |
+| `askGroqServerConfigured` | Server Groq configured | Whether **`.env`** has a non-empty **`GROQ_API_KEY`**. | Boolean from env at request time. | **`GET /api/meta`**, Ask status line | `true` |
+| `askTavilyServerConfigured` | Server Tavily configured | Whether **`.env`** has **`TAVILY_API_KEY`**. | Boolean. | **`GET /api/meta`** | `true` |
+| `checkServerKeys` | Validate server keys flag | When **`true`** on validate endpoint, empty body fields fall back to env keys. | Optional on **`POST /api/validate-api-keys`**. | Validation API | `false` |
+
+**Precedence rule:** For each provider, **`resolveLlmKeys(req)`** uses **body key first**, then **server `.env`** key. Client keys are never logged.
 
 **BM25 (conceptual formula):** For document \(d\) and query term \(t\), scoring uses inverse document frequency and length-normalized term frequency with \(k_1 = 1.2\), \(b = 0.75\), and a **title boost** of **1.8** inside **`buildLocalContext`** (`server.js`).
 
@@ -207,9 +226,11 @@ flowchart TB
     META[GET /api/meta]
   end
 
+  BYOK[Browser apiKeys BYOK]
   ENV --> GROQ
   ENV --> WEB
   ENV --> MERGE
+  BYOK --> GROQ
   STRUCT --> LOAD
   CONTENT --> LOAD
   DOCFMT -.->|normalize on read/write| LOAD
@@ -323,6 +344,24 @@ flowchart LR
   ASSIGN[assignNewsTopicFields]
   API[GET/POST /api/news]
   CRAWL --> GATE --> ASSIGN --> API
+```
+
+### 9.5 BYOK key resolution (Ask)
+
+```mermaid
+flowchart TB
+  UI[API keys dialog localStorage]
+  ASK[POST /api/answer body]
+  RESOLVE[resolveLlmKeys]
+  ENV[GROQ_API_KEY / TAVILY_API_KEY in .env]
+  GROQAPI[Groq chat API]
+  TAVAPI[Tavily search API]
+
+  UI -->|useOwnKeys + apiKeys| ASK
+  ASK --> RESOLVE
+  ENV --> RESOLVE
+  RESOLVE -->|groqKey| GROQAPI
+  RESOLVE -->|tavilyKey| TAVAPI
 ```
 
 ---

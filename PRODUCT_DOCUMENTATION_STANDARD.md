@@ -1,7 +1,7 @@
 # Product documentation standard  
 ## GDPR Q&A Platform
 
-**Version:** 1.4  
+**Version:** 1.5  
 **Status:** Active — this document is the **governance checklist** for product, design, compliance, engineering, and operations stakeholders.
 
 **Scope:** All material under **`gdpr-qa-platform/`** that describes what the product is, how it behaves, how it is configured, and how it is verified.
@@ -60,7 +60,8 @@ Traceability to Articles/Recitals, grounded answers with citations, efficient br
 | Area | Highlights |
 |------|------------|
 | **Browse** | Recitals and chapters/articles; filters; reader; Prev/Next/Go; related articles/recitals; chapter intros; Export PDF; homepage via logo. |
-| **Ask** | **`POST /api/answer`**; Groq → Tavily → extractive; optional web; industry sector; relevant provisions; **`[Sn]`** chips. |
+| **Ask** | **`POST /api/answer`**; Groq → Tavily → extractive; optional web; industry sector; relevant provisions; **`[Sn]`** chips; **BYOK** (`apiKeys` in body, browser **`localStorage`**). |
+| **API keys (BYOK)** | Header dialog; **`POST /api/validate-api-keys`**; Check validity UI; keys override server `.env` per request. |
 | **Sources & News** | **`/api/meta`** sources; News by source/topic with **URL + semantic deduplication** (server + **`news-dedupe.js`** client mirror); expandable **Official site & RSS** and **Quick filters** dock (desktop); **`GET /api/news`** with **`no-store`** cache; **`POST /api/news/refresh`**. |
 | **Refresh** | Regulation ETL with **document formatting guardrails**; server cache reload; client meta/lists/doc reopen; daily cron; CLI **`npm run refresh`**. |
 

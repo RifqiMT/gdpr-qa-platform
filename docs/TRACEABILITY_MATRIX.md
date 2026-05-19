@@ -39,6 +39,9 @@ Enterprise-style traceability links **business intent** → **requirements** →
 | BR-A-04 | Relevant provisions list with View in app | FR-A2 | US-A3 | `renderRelevantProvisionsFromAnswer` | List matches regulation sources |
 | BR-A-05 | LLM provider visibility | NFR-6 | US-A5 | `askAnswerStatus` chip from `llm` object | Shows Groq/Tavily/Extractive |
 | BR-A-06 | Content freshness visible | FR-A5 | US-A5 | `contentAsOf` in responses, freshness tooltip | Tooltip shows last refreshed |
+| BR-A-07 | User supplies own LLM API keys (BYOK) | FR-A10, FR-A12 | US-A8 | `BYOK_STORAGE_KEY`, `withByokApiKeys`, `resolveLlmKeys` in `server.js` | Enable BYOK; Ask uses client keys; `llm.byokGroq` true |
+| BR-A-08 | User validates API keys before use | FR-A11 | US-A9 | `POST /api/validate-api-keys`, `renderByokValidationResults` | Check validity → Groq/Tavily valid cards |
+| BR-A-09 | Ask UI shows server vs BYOK key state | FR-A10 | US-A10 | `updateAskLlmKeysStatus`, `GET /api/meta` server flags | Status line reflects BYOK or server keys |
 
 ---
 

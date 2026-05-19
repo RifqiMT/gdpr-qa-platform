@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## GDPR Q&A Platform
 
-**Last updated:** 2026-04 (aligned with documentation standard v1.3 and expanded News ingestion).
+**Last updated:** 2026-05 (aligned with documentation standard **v1.5**; includes **BYOK** and key-validation metrics).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -30,6 +30,9 @@ This document defines **product metrics** (what to measure in production or rese
 | **News API cache bypass** | Share of `GET /api/news` responses whose **`Cache-Control`** includes **`no-store`** (monitoring or spot-check). | Confirms users see post-refresh merges without aggressive HTTP caching. |
 | **Sector usage** | Share of Ask requests with `industrySectorId !== 'GENERAL'`. | Informs sector list quality and prompt tuning. |
 | **Time to first answer** | p50/p95 latency of `POST /api/answer` end-to-end. | Dominated by LLM and web fetches; track regressions after deploys. |
+| **BYOK adoption** | Share of Ask requests where **`llm.byokGroq`** or **`llm.byokTavily`** is **`true`**. | Indicates reliance on user-supplied keys vs server `.env`. |
+| **Key validation success rate** | Share of **`POST /api/validate-api-keys`** checks per provider where **`valid === true`** (among **`provided`**). | Product quality of onboarding; do not log key values. |
+| **BYOK enablement** | Share of sessions that save **`useOwnKeys: true`** in **`gdpr-qa-byok-v1`** (client-side telemetry only if policy allows). | Privacy-sensitive — aggregate counts only. |
 
 ### 1.3 Quality and risk metrics
 
@@ -95,12 +98,20 @@ This document defines **product metrics** (what to measure in production or rese
 | KR2 | Zero skipped **`normalizeCorpus`** steps in code review for new ETL paths (audit checklist). |
 | KR3 | Manual spot-check of **Art. 4**, **Art. 6**, and **Art. 13** reader layout passes after each major scraper change. |
 
+### Objective O5: Operators can use their own LLM credentials safely (BYOK).
+
+| Key result | Target (example) |
+|------------|------------------|
+| KR1 | ≥ 95% of **`POST /api/validate-api-keys`** checks for known-good test keys return **`valid: true`** (synthetic monitoring). |
+| KR2 | Documentation and UI copy clearly state keys are **browser-local** and not written to server `.env`. |
+| KR3 | Zero incidents of API keys logged in server stdout (audit per release). |
+
 ---
 
 ## 4. Instrumentation guidance
 
 - **Server:** Structured logs with route, status, duration, and **hashed** query or topic bucket (avoid storing raw GDPR questions in third-party tools unless compliant).
-- **Client:** Optional analytics events: `ask_submit`, `view_article`, `export_pdf`, `news_click` with non-PII properties.
+- **Client:** Optional analytics events: `ask_submit`, `view_article`, `export_pdf`, `news_click`, `byok_save`, `byok_validate` with non-PII properties (never include key material).
 - **Review:** Quarterly audit of prompts and fallback messages against sample queries (red team for hallucination patterns).
 
 ---

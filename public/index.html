@@ -37,6 +37,9 @@
             <div id="freshnessTooltipContent" class="freshness-tooltip-content">Loading…</div>
           </div>
         </div>
+        <button type="button" id="btnByokSettings" class="btn btn-secondary btn-byok-settings" title="Bring your own API keys for Groq and Tavily (Ask tab)">
+          <span class="btn-icon" aria-hidden="true">🔑</span> API keys
+        </button>
         <button type="button" id="btnRefresh" class="btn btn-primary" title="Fetch the latest GDPR (Regulation EU 2016/679) text from EUR-Lex">
           <span class="btn-icon" aria-hidden="true">↻</span> Refresh sources
         </button>
@@ -273,7 +276,8 @@
       <div class="ask-layout">
         <header class="ask-hero">
           <h2 class="ask-title" id="askHeading">Ask about the GDPR</h2>
-          <p class="ask-lead">Get answers grounded in the official <strong>Regulation (EU) 2016/679</strong> text, augmented with curated web snippets and LLM synthesis—Groq when available, Tavily as a fallback.</p>
+          <p class="ask-lead">Get answers grounded in the official <strong>Regulation (EU) 2016/679</strong> text, augmented with curated web snippets and LLM synthesis—Groq when available, Tavily as a fallback. Use <strong>API keys</strong> in the header to bring your own Groq/Tavily credentials (stored in this browser only).</p>
+          <p id="askLlmKeysStatus" class="ask-llm-keys-status" role="status" aria-live="polite"></p>
           <ul class="ask-signals" role="list" aria-label="How each answer is composed">
             <li class="ask-signal">
               <span class="ask-signal-dot" aria-hidden="true"></span>
@@ -639,6 +643,41 @@
   </main>
 
   <div id="pdfPrintMount" class="pdf-print-mount" aria-hidden="true"></div>
+
+  <dialog id="byokSettingsDialog" class="news-attachments-dialog byok-settings-dialog" aria-labelledby="byokSettingsDialogTitle">
+    <div class="news-attachments-dialog-inner byok-settings-dialog-inner">
+      <header class="news-attachments-dialog-header">
+        <h3 id="byokSettingsDialogTitle">API keys (bring your own)</h3>
+        <button type="button" id="byokSettingsDialogClose" class="btn btn-secondary news-attachments-dialog-close" aria-label="Close">&times;</button>
+      </header>
+      <p class="byok-settings-lead">Keys are saved in <strong>this browser only</strong> (localStorage) and sent to your server when you ask a question—they are not written to the server&apos;s <code>.env</code> file.</p>
+      <form id="byokSettingsForm" class="byok-settings-form">
+        <label class="byok-settings-toggle">
+          <input type="checkbox" id="byokUseOwnKeys" name="useOwnKeys">
+          <span>Use my API keys for Ask (override server keys when set)</span>
+        </label>
+        <div class="byok-settings-field">
+          <label for="byokGroqApiKey">Groq API key</label>
+          <input type="password" id="byokGroqApiKey" name="groqApiKey" class="byok-settings-input" autocomplete="off" spellcheck="false" placeholder="gsk_…">
+          <p class="byok-settings-hint"><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Get a Groq key</a> — primary Ask LLM.</p>
+        </div>
+        <div class="byok-settings-field">
+          <label for="byokTavilyApiKey">Tavily API key</label>
+          <input type="password" id="byokTavilyApiKey" name="tavilyApiKey" class="byok-settings-input" autocomplete="off" spellcheck="false" placeholder="tvly-…">
+          <p class="byok-settings-hint"><a href="https://tavily.com/" target="_blank" rel="noopener noreferrer">Get a Tavily key</a> — optional fallback when Groq is unavailable.</p>
+        </div>
+        <div class="byok-settings-actions">
+          <button type="submit" class="btn btn-primary">Save keys</button>
+          <button type="button" id="byokCheckKeys" class="btn btn-secondary btn-byok-check" aria-busy="false">
+            <span class="btn-byok-check-label">Check validity</span>
+          </button>
+          <button type="button" id="byokClearKeys" class="btn btn-secondary">Clear saved keys</button>
+        </div>
+        <div id="byokValidationResults" class="byok-validation-host hidden" role="region" aria-live="polite" aria-label="API key validation results"></div>
+        <p id="byokSettingsMessage" class="byok-settings-toast hidden" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </dialog>
 
   <dialog id="newsAttachmentsDialog" class="news-attachments-dialog" aria-labelledby="newsAttachmentsDialogTitle">
     <div class="news-attachments-dialog-inner">

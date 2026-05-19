@@ -4,7 +4,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.0.0   | ≥ 18 | Browse GDPR with filters and cross-links; **Ask** via BM25 + Groq/Tavily grounded answers with `[S1]` citations; optional industry sector; **News** (multi-source crawl including EDPS, deep Commission RSS/API, ICO; server + client deduplication; expandable Quick filters dock; collapsible “Official site & RSS”); Credible sources; chapter summaries; PDF export. **Product documentation standard v1.3** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
+| 1.1.0   | ≥ 18 | Browse GDPR with filters and cross-links; **Ask** via BM25 + Groq/Tavily grounded answers with `[S1]` citations; **BYOK** API keys (browser-local) with **Check validity**; optional industry sector; **News** (multi-source crawl including EDPS, deep Commission RSS/API, ICO; server + client deduplication; expandable Quick filters dock; collapsible “Official site & RSS”); Credible sources; chapter summaries; PDF export. **Product documentation standard v1.5** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
 
 ---
 
@@ -74,6 +74,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 - **Cross-references** — Articles show merged “suitable” recitals (editorial map + recitals that cite the article); recitals show related articles.
 - **News from credible sources** — One place to see GDPR-related updates from EDPB, EDPS, ICO (UK), European Commission, and Council of Europe, with summaries and filters by source and topic. Users can switch between **By source** and a blended **All** view (single chronological list across sources). **Refresh news** can load many more items than a single RSS page (still capped by `NEWS_MERGE_CAP`, default 6000).
 - **Credible sources hub** — One tab listing all official and widely cited sources with direct links to key documents (EDPB guidelines, ICO guidance, Commission pages, etc.).
+- **Bring your own key (BYOK)** — Operators and power users can supply **Groq** and **Tavily** API keys in the browser (header **API keys**), validate them before save, and override server `.env` keys for Ask without redeploying the Node process.
 
 ---
 
@@ -100,6 +101,14 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 - **Relevant GDPR provisions** — Aside lists regulation `sources` returned with the answer (articles/recitals), each with “View in app”.
 - **Refresh on each ask** — Each new question clears the previous answer, citations panel, and relevant-provisions list.
 - **Legacy search API** — **`POST /api/ask`** still returns simple token-scored matches (full-text excerpts) for scripts or integrations; the Ask **tab** does not use it.
+
+#### 3.2.1 API keys (BYOK)
+
+- **Header control** — **API keys** opens a modal to enable **Use my API keys for Ask**, enter **Groq** (primary LLM) and **Tavily** (fallback) keys, **Save keys**, **Check validity**, or **Clear saved keys**.
+- **Storage** — Keys persist in **`localStorage`** under **`gdpr-qa-byok-v1`** (`useOwnKeys`, `groqApiKey`, `tavilyApiKey`). They are **not** written to the server `.env` file.
+- **Runtime** — When BYOK is enabled and keys are present, **`POST /api/answer`** includes `apiKeys: { groqApiKey?, tavilyApiKey? }`. Non-empty client keys **override** server environment keys for that request. Response **`llm.byokGroq`** / **`llm.byokTavily`** indicate which credentials were used.
+- **Validation** — **Check validity** calls **`POST /api/validate-api-keys`** (Groq models endpoint; Tavily minimal search). Results render in an animated status panel (valid / invalid / skipped per provider).
+- **Status** — The Ask tab shows whether **server** or **BYOK** keys are active (`GET /api/meta` + local settings).
 
 ### 3.3 Credible sources
 
@@ -295,8 +304,8 @@ gdpr-qa-platform/
 | **news-crawler.js** | `crawlNews`, `dedupeNewsItemsConsolidated`, `normalizeNewsUrlKey`, semantic merge, `withTimeout`, topic assignment via **`news-topics.js`**. |
 | **news-topics.js** | GDPR/privacy news topic groups, `classifyNewsItemTopic`, `assignNewsTopicFields`, `getTopicTaxonomyForClient`, supplemental **`newsBlobMatchesTopicAnchor`** gate. |
 | **public/news-dedupe.js** | Browser **`GDPR_NEWS_DEDUPE.dedupeNewsItemsConsolidated`** (keep aligned with crawler). |
-| **public/app.js** | Browse (filters, doc nav, cross-links, chapter summaries); **Ask:** `doAsk` → `/api/answer`; Sources; News (dedupe client, expandable feeds + sidebar filters, IO dock); PDF; homepage. |
-| **public/styles.css** | Design tokens, layout, reader, Ask citation chips, news layout, sidebar Quick filters card, feeds section toggle, print/PDF hooks. |
+| **public/app.js** | Browse (filters, doc nav, cross-links, chapter summaries); **Ask:** `doAsk` → `/api/answer` + BYOK (`withByokApiKeys`, validation UI); Sources; News (dedupe client, expandable feeds + sidebar filters, IO dock); PDF; homepage. |
+| **public/styles.css** | Design tokens, layout, reader, Ask citation chips, **BYOK validation panel**, news layout, sidebar Quick filters card, feeds section toggle, print/PDF hooks. |
 | **data/article-suitable-recitals.json** | `articles` map for editorial suitable recitals per article. |
 | **.env.example** | `PORT`, web/news tuning, LLM keys, `LLM_PROVIDER`. |
 
@@ -306,9 +315,13 @@ gdpr-qa-platform/
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| GET | `/api/meta` | Freshness fields, `askGroqConfigured`, `askTavilyConfigured`, `sources[]` for Credible sources |
+| GET | `/health` | Liveness probe (`ok` plain text) |
+| GET | `/api/meta` | Freshness, `byokSupported`, server/BYOK Groq/Tavily flags, `sources[]` |
+| POST | `/api/validate-api-keys` | Validate Groq/Tavily keys in body (`apiKeys`); keys not stored |
 | GET | `/api/news` | `{ newsFeeds, items }` merged static + crawl (capped) |
 | POST | `/api/news/refresh` | Full crawl, merge, write `gdpr-news.json`, return fresh items |
+| GET/POST | `/api/news/article-attachments` | Attachment links for one allowlisted article URL |
+| POST | `/api/news/attachments-summary` | Batch attachment counts (up to 96 URLs) |
 | GET | `/api/categories` | Categories |
 | GET | `/api/chapters` | All chapters (+ source URLs) |
 | GET | `/api/chapters/:number` | One chapter with articles |
@@ -319,7 +332,7 @@ gdpr-qa-platform/
 | GET | `/api/recitals` | All recitals |
 | GET | `/api/recitals/:number` | One recital + URLs, `contentAsOf`, **`suitableArticles`** |
 | GET | `/api/industry-sectors` | Sector list + optional ISIC tree for Ask (`{ sectors, tree }` or array) |
-| POST | `/api/answer` | Body: `{ query, includeWeb?, industrySectorId? }`. Grounded answer + `sources` + `llm` metadata |
+| POST | `/api/answer` | Body: `{ query, includeWeb?, industrySectorId?, apiKeys? }`. Grounded answer + `sources` + `llm` (incl. BYOK flags) |
 | POST | `/api/ask` | Body: `{ query }`. Legacy simple search, top 25 full-text hits |
 | POST | `/api/summarize` | Body: `{ query, excerpts[] }`. LLM/extractive summary (integrations) |
 | POST | `/api/refresh` | Run ETL + **normalizeCorpus** + write JSON + reload server cache; returns **`formattingGuardrails`** |
@@ -380,6 +393,8 @@ Static files under `public/` are served by Express.
 | `OPENROUTER_REFERRER` | HTTP Referer sent to OpenRouter (default `http://localhost:3847`; set in production). |
 
 Copy `.env.example` to `.env` and set keys as needed. When multiple keys are set and `LLM_PROVIDER` is not set, the server tries Anthropic first, then OpenAI, then the rest.
+
+**BYOK (browser):** Users may instead open **API keys** in the header, save Groq/Tavily keys locally, and enable **Use my API keys for Ask**. Keys are sent to the server only when asking questions (or validating); they are never committed to the repository. See [docs/VARIABLES.md](docs/VARIABLES.md) §4.1 and [docs/GUARDRAILS.md](docs/GUARDRAILS.md) **BG-08** / **TG-LLM-03**.
 
 ### 10.2 Scripts
 

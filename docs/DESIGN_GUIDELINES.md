@@ -125,6 +125,20 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | **Ask answer** | `.answer-box`, `.citation-chip`, `.ask-answer-prose` | `[Sn]` chips link in-app for regulation, external for web. |
 | **News** | `.news-card`, `.news-sections`, `.filter-bar.news-filters`, `.news-topic-tag`, `.news-view-toggle` | Source/topic filters; **topic** chip on cards (**`.news-topic-tag`**); main **`#newsControlsPanel`** is **not sticky**—it scrolls with content to avoid overlapping cards. A segmented view toggle (**By source** / **All**) uses `.news-view-toggle` and keeps layout consistent across modes. |
 | **Sources** | `.sources-grid`, `.source-card` | Grid of credible organizations. |
+| **API keys (BYOK)** | `.byok-settings-dialog`, `.byok-validation-panel`, `.byok-validation-card`, `.btn-byok-check` | Modal from header; validation panel with summary header + per-provider cards; success/warning/error panel variants. |
+| **Ask LLM status** | `.ask-llm-keys-status`, `.ask-llm-keys-status--ok`, `.ask-llm-keys-status--warn` | Line under Ask hero describing server vs BYOK key state. |
+
+### 7.0.1 BYOK validation panel (light theme)
+
+| Element | Classes | Colors / motion |
+|---------|---------|-----------------|
+| **Panel shell** | `.byok-validation-panel`, `--success` / `--warning` / `--loading` | Border tint uses success green or amber; entry animation **`byokPanelIn`** (respects reduced motion). |
+| **Summary row** | `.byok-validation-summary`, `.byok-validation-summary-icon` | Gradient header; circular icon badge. |
+| **Provider card** | `.byok-validation-card--valid` / `--invalid` / `--pending` / `--skipped` | Valid: green-tinted gradient; invalid: amber; pending: spinner **`byok-validation-spinner`**. |
+| **Badge** | `.byok-validation-card-badge` | Pill label: Valid, Invalid, Checking…, Skipped. |
+| **Toast** | `.byok-settings-toast--ok`, `.byok-settings-toast--error` | Secondary feedback below actions when needed. |
+
+**Responsive:** `.byok-settings-actions` uses a single column on narrow viewports; Save spans full width; Check validity and Clear share a row from **420px** up.
 
 ---
 

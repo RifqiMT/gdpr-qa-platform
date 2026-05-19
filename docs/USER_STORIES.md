@@ -31,6 +31,9 @@ Personas: Legal/Compliance, DPO, Consultant, Industry specialist, General Profes
 | US-A5 | As a **DPO**, I want to see **content as of** / freshness information when available so that I know which consolidated version underlies the corpus. | DPO |
 | US-A6 | As an **Industry specialist**, I want to pick my **sector** in the Ask UI so that the answer explicitly reflects that industry’s context while staying within cited GDPR text. | Industry specialist |
 | US-A7 | As a **Legal/Compliance** user, I want citation chips in the answer to be **clickable** so that I can jump to the Article or Recital in Browse. | Legal/Compliance |
+| US-A8 | As **Engineering / DevOps**, I want to supply my own **Groq** and **Tavily** API keys in the browser so that I can use Ask without changing server `.env` or redeploying. | Engineering / DevOps |
+| US-A9 | As a **Consultant**, I want to **validate** my API keys before saving so that I know they work before asking a question. | Consultant |
+| US-A10 | As a **DPO**, I want the Ask tab to show whether **server** or **my own** keys are active so that I understand who is billed for LLM usage. | DPO |
 
 ---
 

@@ -16,6 +16,36 @@ const fs = require('fs');
     process.env.TAVILY_API_KEY = String(process.env.TAVILY_API_KEY).replace(/^\uFEFF/, '').trim();
   }
 })();
+
+/** Trim BOM/whitespace from API key strings (env or BYOK body). */
+function normalizeApiKey(value) {
+  if (value == null) return '';
+  return String(value).replace(/^\uFEFF/, '').trim();
+}
+
+/** Optional BYOK keys from JSON body (`apiKeys` or top-level `groqApiKey` / `tavilyApiKey`). */
+function resolveLlmKeysFromBody(body) {
+  if (!body || typeof body !== 'object') {
+    return { groqKey: '', tavilyKey: '' };
+  }
+  const bag = body.apiKeys && typeof body.apiKeys === 'object' ? body.apiKeys : body;
+  return {
+    groqKey: normalizeApiKey(bag.groqApiKey || bag.groq || body.groqApiKey),
+    tavilyKey: normalizeApiKey(bag.tavilyApiKey || bag.tavily || body.tavilyApiKey)
+  };
+}
+
+/** Client BYOK overrides server `.env` when non-empty keys are sent in the request body. */
+function resolveLlmKeys(req) {
+  const fromBody = resolveLlmKeysFromBody(req && req.body);
+  return {
+    groqKey: fromBody.groqKey || normalizeApiKey(process.env.GROQ_API_KEY),
+    tavilyKey: fromBody.tavilyKey || normalizeApiKey(process.env.TAVILY_API_KEY),
+    byokGroq: Boolean(fromBody.groqKey),
+    byokTavily: Boolean(fromBody.tavilyKey)
+  };
+}
+
 const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
@@ -187,8 +217,8 @@ function readChapterSummariesPayload() {
   };
 }
 
-async function generateChapterSummariesWithGroq(contentData) {
-  const key = process.env.GROQ_API_KEY;
+async function generateChapterSummariesWithGroq(contentData, groqKeyOverride) {
+  const key = normalizeApiKey(groqKeyOverride) || normalizeApiKey(process.env.GROQ_API_KEY);
   if (!key) return null;
   const chapters = (contentData.chapters || []).slice().sort((a, b) => a.number - b.number);
   const articles = contentData.articles || [];
@@ -321,14 +351,121 @@ function loadContent() {
   }
 }
 
+/** Map HTTP status / provider JSON to a short user-facing validation message (never include secrets). */
+function providerValidationMessage(provider, status, data) {
+  const errMsg =
+    (data && typeof data.error === 'object' && (data.error.message || data.error.type)) ||
+    (data && typeof data.error === 'string' && data.error) ||
+    (data && data.detail) ||
+    '';
+  const errLower = String(errMsg).toLowerCase();
+  if (status === 401 || status === 403 || /invalid.*api.*key|unauthorized|authentication/i.test(errLower)) {
+    return 'Invalid or unauthorized API key.';
+  }
+  if (status === 429) return 'Rate limited — the key may be valid but quota is exceeded.';
+  if (status >= 500) return `${provider} service error (${status}). Try again later.`;
+  if (status >= 400) return errMsg ? String(errMsg).slice(0, 180) : `Request failed (${status}).`;
+  return '';
+}
+
+async function validateGroqApiKey(key) {
+  const trimmed = normalizeApiKey(key);
+  if (!trimmed) {
+    return { provider: 'groq', provided: false, valid: null, message: 'No Groq key entered.' };
+  }
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/models', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${trimmed}` }
+    });
+    const text = await res.text();
+    let data = null;
+    try {
+      data = JSON.parse(text);
+    } catch (_) {
+      data = null;
+    }
+    if (res.ok) {
+      return { provider: 'groq', provided: true, valid: true, message: 'Groq key is valid.' };
+    }
+    const hint = providerValidationMessage('Groq', res.status, data);
+    return {
+      provider: 'groq',
+      provided: true,
+      valid: false,
+      message: hint || 'Groq key could not be verified.',
+      status: res.status
+    };
+  } catch (e) {
+    return {
+      provider: 'groq',
+      provided: true,
+      valid: false,
+      message: 'Could not reach Groq — check your network connection.'
+    };
+  }
+}
+
+async function validateTavilyApiKey(key) {
+  const trimmed = normalizeApiKey(key);
+  if (!trimmed) {
+    return { provider: 'tavily', provided: false, valid: null, message: 'No Tavily key entered.' };
+  }
+  try {
+    const r = await tavilySearchRequest(trimmed, 'GDPR API key check', 'basic', 1, false);
+    if (r.ok) {
+      return { provider: 'tavily', provided: true, valid: true, message: 'Tavily key is valid.' };
+    }
+    const hint = providerValidationMessage('Tavily', r.status, r.data);
+    return {
+      provider: 'tavily',
+      provided: true,
+      valid: false,
+      message: hint || 'Tavily key could not be verified.',
+      status: r.status
+    };
+  } catch (e) {
+    return {
+      provider: 'tavily',
+      provided: true,
+      valid: false,
+      message: 'Could not reach Tavily — check your network connection.'
+    };
+  }
+}
+
+/** BYOK: verify Groq/Tavily keys with minimal provider API calls (keys are not logged or stored). */
+app.post('/api/validate-api-keys', async (req, res) => {
+  const fromBody = resolveLlmKeysFromBody(req.body);
+  const checkServer = Boolean(req.body && req.body.checkServerKeys);
+  const groqKey =
+    fromBody.groqKey || (checkServer ? normalizeApiKey(process.env.GROQ_API_KEY) : '');
+  const tavilyKey =
+    fromBody.tavilyKey || (checkServer ? normalizeApiKey(process.env.TAVILY_API_KEY) : '');
+
+  const [groq, tavily] = await Promise.all([
+    validateGroqApiKey(groqKey),
+    validateTavilyApiKey(tavilyKey)
+  ]);
+
+  res.json({
+    groq,
+    tavily,
+    checkedAt: new Date().toISOString()
+  });
+});
+
 app.get('/api/meta', (req, res) => {
   const data = loadContent();
   res.json({
     lastRefreshed: data.meta?.lastRefreshed ?? null,
     lastChecked: data.meta?.lastChecked ?? null,
     etl: data.meta?.etl ?? null,
-    askGroqConfigured: Boolean((process.env.GROQ_API_KEY || '').trim()),
-    askTavilyConfigured: Boolean((process.env.TAVILY_API_KEY || '').trim()),
+    byokSupported: true,
+    askGroqConfigured: Boolean(normalizeApiKey(process.env.GROQ_API_KEY)),
+    askTavilyConfigured: Boolean(normalizeApiKey(process.env.TAVILY_API_KEY)),
+    askGroqServerConfigured: Boolean(normalizeApiKey(process.env.GROQ_API_KEY)),
+    askTavilyServerConfigured: Boolean(normalizeApiKey(process.env.TAVILY_API_KEY)),
     sources: data.meta?.sources ??
       defaultCredibleSourcesFallback ?? [
         { name: 'GDPR-Info', url: 'https://gdpr-info.eu/', description: 'Regulation text and structure.', documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }] },
@@ -607,14 +744,17 @@ app.get('/api/chapter-summaries', (req, res) => {
   });
 });
 
-/** Regenerate cached chapter summaries with Groq (writes data/chapter-summaries.json). Requires GROQ_API_KEY. */
+/** Regenerate cached chapter summaries with Groq (writes data/chapter-summaries.json). Requires GROQ_API_KEY or BYOK body key. */
 app.post('/api/chapter-summaries/regenerate', async (req, res) => {
-  if (!process.env.GROQ_API_KEY) {
-    return res.status(503).json({ error: 'GROQ_API_KEY not configured; using bundled summaries.' });
+  const llmKeys = resolveLlmKeys(req);
+  if (!llmKeys.groqKey) {
+    return res.status(503).json({
+      error: 'Groq API key not configured. Set GROQ_API_KEY on the server or add your key under API keys (BYOK) in the app.'
+    });
   }
   const data = loadContent();
   try {
-    const summaries = await generateChapterSummariesWithGroq(data);
+    const summaries = await generateChapterSummariesWithGroq(data, llmKeys.groqKey);
     if (!summaries || typeof summaries !== 'object') {
       return res.status(500).json({ error: 'LLM did not return parseable JSON summaries.' });
     }
@@ -1383,8 +1523,8 @@ function groqModelCandidates() {
  * Try Groq chat/completions with each candidate model until one returns content.
  * Handles HTTP errors and JSON bodies with { error: ... }.
  */
-async function groqChatComplete(messages, maxTokens, temperature) {
-  const key = (process.env.GROQ_API_KEY || '').trim();
+async function groqChatComplete(messages, maxTokens, temperature, groqKeyOverride) {
+  const key = normalizeApiKey(groqKeyOverride) || normalizeApiKey(process.env.GROQ_API_KEY);
   if (!key) return null;
   const models = groqModelCandidates();
   for (const model of models) {
@@ -1419,7 +1559,7 @@ async function groqChatComplete(messages, maxTokens, temperature) {
   return null;
 }
 
-async function answerWithGroq(query, sources, sector) {
+async function answerWithGroq(query, sources, sector, groqKeyOverride) {
   const { systemPrompt, userPrompt } = buildAnswerPrompt(query, sources, sector);
   let maxTok = 950;
   let temp = 0.12;
@@ -1439,7 +1579,8 @@ async function answerWithGroq(query, sources, sector) {
       { role: 'user', content: userPrompt }
     ],
     maxTok,
-    temp
+    temp,
+    groqKeyOverride
   );
 }
 
@@ -1510,8 +1651,8 @@ async function tavilySearchRequest(key, query, depth, maxResults, includeAnswer,
   return { ok: true, data, status: res.status };
 }
 
-async function answerWithTavily(query, sector) {
-  const key = (process.env.TAVILY_API_KEY || '').trim();
+async function answerWithTavily(query, sector, tavilyKeyOverride) {
+  const key = normalizeApiKey(tavilyKeyOverride) || normalizeApiKey(process.env.TAVILY_API_KEY);
   if (!key) return null;
 
   let tavilyQuery = query;
@@ -1609,7 +1750,7 @@ function answerHasCitationsEverySentence(answerText) {
 /**
  * Second pass when the model answered with generic "the industry" but omitted the selected sector.
  */
-async function enforceSectorMentionGroq(query, sources, draftAnswer, sector) {
+async function enforceSectorMentionGroq(query, sources, draftAnswer, sector, groqKeyOverride) {
   if (!sector || sector.id === 'GENERAL') return null;
   const focus = sectorLabelFocusPhrase(sector);
   if (!focus) return null;
@@ -1637,7 +1778,8 @@ Rewrite the full answer.`;
       { role: 'user', content: userPrompt }
     ],
     1150,
-    0.08
+    0.08,
+    groqKeyOverride
   );
   return out ? out.content : null;
 }
@@ -1645,7 +1787,7 @@ Rewrite the full answer.`;
 /**
  * When General mode draft invents healthcare/business sections or multiple "For …:" blocks.
  */
-async function enforceGeneralSingleAudienceGroq(query, sources, draftAnswer, sector) {
+async function enforceGeneralSingleAudienceGroq(query, sources, draftAnswer, sector, groqKeyOverride) {
   if (!sector || sector.id !== 'GENERAL') return null;
   const numbered = formatNumberedSourcesForAsk(sources);
   const systemPrompt = `You fix GDPR answers that became off-topic, overly creative, or multi-audience.
@@ -1674,12 +1816,13 @@ Rewrite fully.`;
       { role: 'user', content: userPrompt }
     ],
     820,
-    0.04
+    0.04,
+    groqKeyOverride
   );
   return out ? out.content : null;
 }
 
-async function repairAnswerWithGroq(query, sources, badAnswer, sector) {
+async function repairAnswerWithGroq(query, sources, badAnswer, sector, groqKeyOverride) {
   const numbered = formatNumberedSourcesForAsk(sources);
   const focusNeed =
     sector && sector.id !== 'GENERAL' ? sectorLabelFocusPhrase(sector) : '';
@@ -1722,7 +1865,8 @@ Rewrite the answer to comply with the rules.`;
       { role: 'user', content: userPrompt }
     ],
     900,
-    0.05
+    0.05,
+    groqKeyOverride
   );
   return out ? out.content : null;
 }
@@ -1766,43 +1910,51 @@ app.post('/api/answer', async (req, res) => {
   }
 
   const sources = [...localSources, ...webSources].slice(0, 10);
-  let llm = { used: false, provider: null, model: null, note: null };
+  let llm = { used: false, provider: null, model: null, note: null, byokGroq: false, byokTavily: false };
   let answer = null;
   let answerSources = sources;
 
-  const groqKey = (process.env.GROQ_API_KEY || '').trim();
-  const tavilyKey = (process.env.TAVILY_API_KEY || '').trim();
+  const llmKeys = resolveLlmKeys(req);
+  const groqKey = llmKeys.groqKey;
+  const tavilyKey = llmKeys.tavilyKey;
 
   if (groqKey) {
-    const groqOut = await answerWithGroq(query, sources, sector);
+    const groqOut = await answerWithGroq(query, sources, sector, groqKey);
     if (groqOut && groqOut.content) {
       answer = groqOut.content;
       if (sector && sector.id !== 'GENERAL' && !answerNamesSelectedSector(answer, sector)) {
-        const sectorFixed = await enforceSectorMentionGroq(query, sources, answer, sector);
+        const sectorFixed = await enforceSectorMentionGroq(query, sources, answer, sector, groqKey);
         if (sectorFixed) answer = sectorFixed;
       }
       if (sector && sector.id === 'GENERAL' && answerViolatesGeneralCoherence(answer, sector, query)) {
-        const gFix = await enforceGeneralSingleAudienceGroq(query, sources, answer, sector);
+        const gFix = await enforceGeneralSingleAudienceGroq(query, sources, answer, sector, groqKey);
         if (gFix) answer = gFix;
       }
       if (!answerHasCitationsEverySentence(answer)) {
-        const repaired = await repairAnswerWithGroq(query, sources, answer, sector);
+        const repaired = await repairAnswerWithGroq(query, sources, answer, sector, groqKey);
         if (repaired) answer = repaired;
       }
       if (sector && sector.id !== 'GENERAL' && !answerNamesSelectedSector(answer, sector)) {
-        const sectorFixed2 = await enforceSectorMentionGroq(query, sources, answer, sector);
+        const sectorFixed2 = await enforceSectorMentionGroq(query, sources, answer, sector, groqKey);
         if (sectorFixed2) answer = sectorFixed2;
       }
       if (sector && sector.id === 'GENERAL' && answerViolatesGeneralCoherence(answer, sector, query)) {
-        const gFix2 = await enforceGeneralSingleAudienceGroq(query, sources, answer, sector);
+        const gFix2 = await enforceGeneralSingleAudienceGroq(query, sources, answer, sector, groqKey);
         if (gFix2) answer = gFix2;
       }
-      llm = { used: true, provider: 'groq', model: groqOut.model, note: null };
+      llm = {
+        used: true,
+        provider: 'groq',
+        model: groqOut.model,
+        note: null,
+        byokGroq: llmKeys.byokGroq,
+        byokTavily: llmKeys.byokTavily
+      };
     }
   }
 
   if (!answer && tavilyKey) {
-    const tav = await answerWithTavily(query, sector);
+    const tav = await answerWithTavily(query, sector, tavilyKey);
     if (tav && tav.text) {
       answer = tav.text;
       const blendNote = groqKey ? 'Used after Groq had no usable answer.' : null;
@@ -1810,7 +1962,9 @@ app.post('/api/answer', async (req, res) => {
         used: true,
         provider: 'tavily',
         model: tav.mode,
-        note: blendNote
+        note: blendNote,
+        byokGroq: llmKeys.byokGroq,
+        byokTavily: llmKeys.byokTavily
       };
     }
   }
@@ -1822,19 +1976,21 @@ app.post('/api/answer', async (req, res) => {
       note = 'Groq and Tavily did not return a usable answer (see server logs). Using extractive fallback from top sources.';
     } else if (groqKey) {
       note =
-        'Groq returned no usable answer (check the terminal for HTTP errors, model name, or quota). Optional: set TAVILY_API_KEY for Tavily search+answer fallback. Using extractive fallback from top sources.';
+        'Groq returned no usable answer (check the terminal for HTTP errors, model name, or quota). Optional: add a Tavily key (server .env or API keys in the app) for fallback. Using extractive fallback from top sources.';
     } else if (tavilyKey) {
       note =
-        'GROQ_API_KEY not set (primary Ask LLM). Tavily did not return a usable answer. Using extractive fallback from top sources.';
+        'Groq API key not set (primary Ask LLM). Tavily did not return a usable answer. Using extractive fallback from top sources.';
     } else {
       note =
-        'LLM not configured — add GROQ_API_KEY to .env (and optionally TAVILY_API_KEY as fallback), then restart this Node process.';
+        'LLM not configured — add Groq/Tavily keys on the server (.env) or open API keys (BYOK) in the app header.';
     }
     llm = {
       used: false,
       provider: null,
       model: null,
-      note
+      note,
+      byokGroq: llmKeys.byokGroq,
+      byokTavily: llmKeys.byokTavily
     };
     answer = buildSummaryFromExcerpts(
       query,
@@ -2154,15 +2310,16 @@ if (process.argv.includes('--refresh-only')) {
     .catch((e) => { console.error(e); process.exit(1); });
 } else {
   const server = app.listen(PORT, HOST, async () => {
-    const groqOk = Boolean((process.env.GROQ_API_KEY || '').trim());
-    const tavilyOk = Boolean((process.env.TAVILY_API_KEY || '').trim());
+    const groqOk = Boolean(normalizeApiKey(process.env.GROQ_API_KEY));
+    const tavilyOk = Boolean(normalizeApiKey(process.env.TAVILY_API_KEY));
     console.log(`GDPR Q&A Platform listening on ${HOST}:${PORT}`);
-    console.log(groqOk ? 'Ask (LLM): Groq enabled (GROQ_API_KEY loaded).' : 'Ask (LLM): Groq disabled — set GROQ_API_KEY in .env and restart the server.');
+    console.log(groqOk ? 'Ask (LLM): Groq enabled (GROQ_API_KEY loaded).' : 'Ask (LLM): Groq disabled — set GROQ_API_KEY in .env or use API keys (BYOK) in the app.');
     console.log(
       tavilyOk
         ? 'Ask (LLM): Tavily fallback enabled (TAVILY_API_KEY loaded; used if Groq fails).'
-        : 'Ask (LLM): Tavily fallback off — set TAVILY_API_KEY to use Tavily search+answer when Groq is unavailable.'
+        : 'Ask (LLM): Tavily fallback off — set TAVILY_API_KEY or add a Tavily key via BYOK in the app.'
     );
+    console.log('Ask (LLM): BYOK supported — users can supply Groq/Tavily keys in the browser (stored locally).');
     console.log(
       'News attachments: POST+GET /api/news/article-attachments; batch counts POST /api/news/attachments-summary (restart after pull if Attachments returns HTML).'
     );

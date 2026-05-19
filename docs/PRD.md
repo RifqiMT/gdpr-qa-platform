@@ -1,8 +1,8 @@
 # Product Requirements Document (PRD)  
 ## GDPR Q&A Platform
 
-**Version:** 1.3  
-**Last updated:** 2026-04 — Aligned with product documentation standard **v1.3**, expanded **News** ingestion (EDPB, EDPS, ICO, European Commission multi-feed Press Corner, Council of Europe), **`news-topics.js`** classification, configurable **`NEWS_*`** crawl and merge caps, and existing News UI (Quick filters dock, expandable feeds, client dedupe mirror).
+**Version:** 1.4  
+**Last updated:** 2026-05 — Aligned with product documentation standard **v1.5**; adds **BYOK** (browser-local Groq/Tavily keys), **`POST /api/validate-api-keys`**, API keys dialog with **Check validity**, and Ask status for server vs BYOK credentials. Retains News ingestion (EDPB, EDPS, ICO, Commission, CoE), **`news-topics.js`**, and **`NEWS_*`** tuning.
 
 ---
 
@@ -80,6 +80,9 @@ Target: legal, compliance, and privacy professionals (and anyone) who need quick
 | FR-A7 | Status UI indicates whether the answer used **Groq**, **Tavily**, or **extractive** fallback (`llm` metadata). | Should |
 | FR-A8 | **`POST /api/ask`** remains available for simple search-style results (legacy/programmatic); the Ask **tab** uses `/api/answer` only. | Must |
 | FR-A9 | **`POST /api/summarize`** remains available for excerpt-based summaries (multi-provider); optional for integrations—current Ask tab does not require it. | Should |
+| FR-A10 | User can open **API keys** in the header, enable **Use my API keys for Ask**, and save **Groq** / **Tavily** keys in **browser localStorage** (not server `.env`). | Must |
+| FR-A11 | User can **Check validity** of entered keys via **`POST /api/validate-api-keys`** with clear per-provider results (valid / invalid / skipped). | Must |
+| FR-A12 | When BYOK is enabled, **`POST /api/answer`** uses client **`apiKeys`** to override server env keys for that request; response **`llm.byokGroq`** / **`byokTavily`** indicate BYOK usage. | Must |
 
 ### 3.3 Credible sources and News
 

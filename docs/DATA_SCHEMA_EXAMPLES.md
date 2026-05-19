@@ -65,29 +65,71 @@
 
 ---
 
-## 3. Ask response (`POST /api/answer`) — illustrative
+## 3. Ask request with BYOK (`POST /api/answer`) — illustrative
 
 ```json
 {
-  "answer": "Personal data means … [S1] … [S2]",
-  "sources": [
-    { "id": "S1", "type": "article", "number": 4, "title": "Definitions", "excerpt": "…" },
-    { "id": "S2", "type": "recital", "number": 26, "excerpt": "…" }
-  ],
-  "webSources": [],
-  "llm": {
-    "used": true,
-    "provider": "groq",
-    "model": "llama-3.3-70b-versatile"
-  },
-  "contentAsOf": "2026-04-04T10:00:00.000Z",
-  "note": null
+  "query": "When is consent valid under the GDPR?",
+  "includeWeb": true,
+  "industrySectorId": "GENERAL",
+  "apiKeys": {
+    "groqApiKey": "gsk_…",
+    "tavilyApiKey": "tvly-…"
+  }
 }
 ```
 
 ---
 
-## 4. Regulation refresh (`POST /api/refresh`) — illustrative
+## 4. Ask response (`POST /api/answer`) — illustrative
+
+```json
+{
+  "query": "When is consent valid under the GDPR?",
+  "contentAsOf": "2026-05-19T12:00:00.000Z",
+  "includeWeb": true,
+  "industrySector": { "id": "GENERAL", "label": "General", "isicSection": null, "isicDivision": null },
+  "answer": "Consent must be freely given, specific, informed, and unambiguous … [S1] … [S2]",
+  "sources": [
+    { "id": "S1", "kind": "regulation", "type": "article", "number": 7, "title": "Conditions for consent", "excerpt": "…" },
+    { "id": "S2", "kind": "regulation", "type": "recital", "number": 32, "excerpt": "…" }
+  ],
+  "llm": {
+    "used": true,
+    "provider": "groq",
+    "model": "llama-3.3-70b-versatile",
+    "note": null,
+    "byokGroq": true,
+    "byokTavily": false
+  }
+}
+```
+
+---
+
+## 5. API key validation (`POST /api/validate-api-keys`) — illustrative
+
+```json
+{
+  "groq": {
+    "provider": "groq",
+    "provided": true,
+    "valid": true,
+    "message": "Groq key is valid."
+  },
+  "tavily": {
+    "provider": "tavily",
+    "provided": true,
+    "valid": true,
+    "message": "Tavily key is valid."
+  },
+  "checkedAt": "2026-05-19T12:00:00.000Z"
+}
+```
+
+---
+
+## 6. Regulation refresh (`POST /api/refresh`) — illustrative
 
 ```json
 {
