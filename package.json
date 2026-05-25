@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "prestart": "node -e \"const fs=require('fs'),p=require('path');const a=p.join('data','article-suitable-recitals.json'),b=p.join('public','article-suitable-recitals.json');try{if(fs.existsSync(a))fs.copyFileSync(a,b);}catch(e){}\"",
+    "vercel-build": "npm run prestart",
     "start": "node server.js",
     "refresh": "node server.js --refresh-only",
     "fetch-suitable-recitals": "node scripts/fetch-article-suitable-recitals.js"

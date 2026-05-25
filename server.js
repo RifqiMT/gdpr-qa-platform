@@ -112,10 +112,12 @@ function mergeNewsFeedsWithDefaults(stored) {
   return base.length ? base : DEFAULT_NEWS_FEEDS.slice();
 }
 
+const { getDataDir, IS_VERCEL } = require('./lib/paths');
+
 const app = express();
 const PORT = process.env.PORT || 3847;
 const HOST = process.env.HOST || '0.0.0.0';
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = getDataDir();
 const CONTENT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
 const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
 
@@ -2295,21 +2297,21 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-cron.schedule('0 2 * * *', async () => {
-  try {
-    await runRegulationScraperAndReloadContent();
-    console.log('Daily GDPR content refresh completed.');
-  } catch (e) {
-    console.error('Daily refresh failed:', e.message);
-  }
-}, { timezone: 'Europe/Brussels' });
-
 if (process.argv.includes('--refresh-only')) {
   runScraper()
     .then(() => process.exit(0))
     .catch((e) => { console.error(e); process.exit(1); });
-} else {
-  const server = app.listen(PORT, HOST, async () => {
+} else if (!IS_VERCEL && require.main === module) {
+  cron.schedule('0 2 * * *', async () => {
+    try {
+      await runRegulationScraperAndReloadContent();
+      console.log('Daily GDPR content refresh completed.');
+    } catch (e) {
+      console.error('Daily refresh failed:', e.message);
+    }
+  }, { timezone: 'Europe/Brussels' });
+
+  app.listen(PORT, HOST, async () => {
     const groqOk = Boolean(normalizeApiKey(process.env.GROQ_API_KEY));
     const tavilyOk = Boolean(normalizeApiKey(process.env.TAVILY_API_KEY));
     console.log(`GDPR Q&A Platform listening on ${HOST}:${PORT}`);
@@ -2332,6 +2334,9 @@ if (process.argv.includes('--refresh-only')) {
       }
     }
   });
+} else if (IS_VERCEL) {
+  console.log('GDPR Q&A Platform: Vercel serverless mode (Express app exported via api/index.js).');
 }
 
 module.exports = app;
+module.exports.runRegulationScraperAndReloadContent = runRegulationScraperAndReloadContent;

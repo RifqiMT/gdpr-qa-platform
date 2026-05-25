@@ -14,7 +14,8 @@ try { axios = require('axios'); cheerio = require('cheerio'); } catch (_) {}
 const EUR_LEX_HTML_URL = 'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679';
 const EUR_LEX_TXT_URL = 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679';
 const GDPR_INFO_BASE = 'https://gdpr-info.eu';
-const DATA_DIR = path.join(__dirname, 'data');
+const { getDataDir } = require('./lib/paths');
+const DATA_DIR = getDataDir();
 
 /** Stored article/recital body max length. Env GDPR_MAX_ARTICLE_CHARS: omit or high number (default 500000); 0 or negative = no cap. */
 function capGdprBodyText(body) {

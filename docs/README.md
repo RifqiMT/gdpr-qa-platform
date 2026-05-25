@@ -22,6 +22,7 @@ This directory contains **professional product, design, and engineering document
 | 10 | [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md) | Product metrics and example OKRs. |
 | 11 | [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md) | Enterprise-style requirements traceability. |
 | 12 | [../CHANGELOG.md](../CHANGELOG.md) | Historical changes. |
+| 13 | [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md) | Production deploy on Vercel (env vars, cron, limits). |
 
 ---
 
@@ -41,6 +42,7 @@ This directory contains **professional product, design, and engineering document
 | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) | Mandatory refresh contract, reader pipeline, ETL obligations, verification checklist. |
 | [API_CONTRACTS.md](API_CONTRACTS.md) | REST API request/response shapes (including **`POST /api/refresh`**). |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System context, logical layers, **regulation refresh** and **Ask** sequence diagrams. |
+| [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md) | Vercel serverless setup, environment variables, cron, ephemeral `/tmp` data notes. |
 
 ---
 

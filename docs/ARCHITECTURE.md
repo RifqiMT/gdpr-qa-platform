@@ -92,9 +92,10 @@ sequenceDiagram
 
 ## Deployment model
 
-- **Single process** — One Node.js server serves API and static files.
-- **Stateful files** — `data/` directory should persist on disk between restarts (content + news cache).
-- **Secrets** — Environment variables only; no database required for core features.
+- **Local / VM** — One Node.js process (`npm start`) serves API and static files; `node-cron` runs daily regulation ETL at 02:00 Europe/Brussels.
+- **Vercel** — Express app exported via `api/index.js`; all routes rewrite to that function; bundled `data/` is seeded into `/tmp/gdpr-qa-data` per instance (`lib/paths.js`). Daily ETL uses Vercel Cron → `api/cron/daily-regulation-refresh.js` with `CRON_SECRET`. See [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
+- **Stateful files (local)** — `data/` should persist on disk between restarts (content + news cache). On Vercel, treat committed `data/` as source of truth; `/tmp` writes are ephemeral.
+- **Secrets** — Environment variables only; no database required for core features. BYOK keys stay in the browser.
 
 ---
 

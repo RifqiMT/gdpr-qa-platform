@@ -40,7 +40,7 @@ The **GDPR Q&A Platform** is a web application that lets users **browse** the fu
 | **Purpose** | Reference and Q&A over the GDPR using credible, official text only; plus curated news from supervisory bodies and official sources. |
 | **Users** | Legal, compliance, privacy professionals and anyone needing quick, sourced GDPR answers and updates. |
 | **Content** | **GDPR** recitals 1–173 and articles 1–99: default corpus from **GDPR-Info** (paragraph structure aligned with [gdpr-info.eu](https://gdpr-info.eu/)); optional **EUR-Lex** primary via env; official links in-app; news from EDPB, EDPS, ICO (UK), European Commission, Council of Europe. |
-| **Deployment** | Single Node.js server; default port **3847** (`PORT` env). |
+| **Deployment** | Single Node.js server locally (port **3847**); **Vercel serverless** supported — see [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md). |
 
 ### Knowledge sources (credible organizations)
 
@@ -403,6 +403,15 @@ Copy `.env.example` to `.env` and set keys as needed. When multiple keys are set
 | `npm start` | `prestart` copies `article-suitable-recitals.json` to `public/` if present; starts server; if `gdpr-content.json` is missing, runs scraper once. |
 | `npm run refresh` | Run scraper only (`node server.js --refresh-only`), then exit. |
 | `npm run fetch-suitable-recitals` | Run `scripts/fetch-article-suitable-recitals.js` to refresh editorial crossrefs (see script header). |
+| `npm run vercel-build` | Pre-deploy copy of recitals map into `public/` (used by Vercel `buildCommand`). |
+
+### 10.3 Deploy to Vercel
+
+1. Connect the GitHub repo to Vercel (root = this folder).
+2. Set environment variables: `GROQ_API_KEY`, `CRON_SECRET`, optional `TAVILY_API_KEY`, `OPENROUTER_REFERRER` = production URL.
+3. Deploy; `vercel.json` routes all pages to the Express app and schedules daily regulation ETL.
+
+Full steps, limits, and cron auth: **[docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md)**.
 
 ---
 

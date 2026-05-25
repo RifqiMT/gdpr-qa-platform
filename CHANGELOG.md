@@ -8,6 +8,7 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ### Added
 
+- **Vercel production deployment:** `vercel.json`, `api/index.js` (Express serverless entry), `api/cron/daily-regulation-refresh.js`, `lib/paths.js` (bundled `data/` + `/tmp` on Vercel), `npm run vercel-build`, `.vercelignore`, and **[docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md)**.
 - **BYOK (Bring Your Own Key):** Header **API keys** dialog stores Groq/Tavily credentials in **browser `localStorage`** (`gdpr-qa-byok-v1`); optional override of server `.env` keys on **`POST /api/answer`** and **`POST /api/chapter-summaries/regenerate`** via request body **`apiKeys`**.
 - **`POST /api/validate-api-keys`:** Validates Groq (models API) and Tavily (minimal search) without persisting secrets; powers **Check validity** with animated result cards in the dialog.
 - **Ask LLM status line:** Shows server vs BYOK key state on the Ask tab (`updateAskLlmKeysStatus`).
