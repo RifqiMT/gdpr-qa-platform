@@ -819,8 +819,12 @@ if (require.main === module) {
 module.exports = {
   run,
   fetchUrl,
+  fetchText,
   parseEurLexText,
   buildSearchIndex,
   mergeWithExisting,
-  getGdprInfoEntryPlainText
+  getGdprInfoEntryPlainText,
+  computeDatasetHash,
+  diffByNumber,
+  capGdprBodyText
 };

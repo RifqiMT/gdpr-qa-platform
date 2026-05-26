@@ -1,7 +1,9 @@
 # Traceability matrix  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
 
-Enterprise-style traceability links **business intent** → **requirements** → **implementation** → **verification**. This matrix is maintained alongside the [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
+**Version:** 1.2 · **Last updated:** 2026-05-25 · Documentation standard **v1.7**
+
+Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 
 **Legend**
 
@@ -12,6 +14,17 @@ Enterprise-style traceability links **business intent** → **requirements** →
 | **Story** | User story id in USER_STORIES.md |
 | **Implementation** | Primary code or data artifact |
 | **Verification** | How to confirm |
+
+---
+
+## Regulation selection (multi-regulation)
+
+| BR-ID | Business requirement | PRD | Story | Implementation | Verification |
+|-------|---------------------|-----|-------|----------------|--------------|
+| BR-R-01 | User selects GDPR or EU AI Act | FR-REG-01 | US-R1 | `#regulationSelect`, `GET /api/regulations`, `lib/regulations.js` | Switch shows 113 articles for AI Act |
+| BR-R-02 | Selection persists across sessions | FR-REG-02 | US-R2 | `gdpr-qa-regulation-v1`, `setCurrentRegulation` | Reload page; selection retained |
+| BR-R-03 | Refresh updates active regulation only | FR-REG-04 | US-R3, US-ETL1 | `POST /api/refresh`, `runRegulationScraperAndReloadContent` | Refresh with AI Act does not alter GDPR JSON |
+| BR-R-04 | UI copy follows regulation | FR-REG-05 | US-R4 | `regulation-profiles.js`, `syncAskSourcesNewsChrome` | Ask title says “EU AI Act” when selected |
 
 ---
 
@@ -42,6 +55,8 @@ Enterprise-style traceability links **business intent** → **requirements** →
 | BR-A-07 | User supplies own LLM API keys (BYOK) | FR-A10, FR-A12 | US-A8 | `BYOK_STORAGE_KEY`, `withByokApiKeys`, `resolveLlmKeys` in `server.js` | Enable BYOK; Ask uses client keys; `llm.byokGroq` true |
 | BR-A-08 | User validates API keys before use | FR-A11 | US-A9 | `POST /api/validate-api-keys`, `renderByokValidationResults` | Check validity → Groq/Tavily valid cards |
 | BR-A-09 | Ask UI shows server vs BYOK key state | FR-A10 | US-A10 | `updateAskLlmKeysStatus`, `GET /api/meta` server flags | Status line reflects BYOK or server keys |
+| BR-A-10 | AI Act Ask uses AI Act corpus and prompts | FR-ASK-02 | US-A11 | `regulationSearchContext`, `buildAnswerPrompt(reg)`, `ai-act-content.json` | Ask with `regulation=ai-act` cites Art. 6+ |
+| BR-AI-N01 | AI Act news filter in UI | FR-NEWS-05 | US-N12 | `itemMatchesNewsRegulationScope`, `#newsRegulationBanner` | AI Act selected → fewer news cards + banner |
 
 ---
 

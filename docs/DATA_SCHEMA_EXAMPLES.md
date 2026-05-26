@@ -1,7 +1,9 @@
 # Data schema examples  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
 
-**Purpose:** Illustrative **JSON fragments** for integrators and engineers. Shapes follow current server behavior; **not every optional field** is shown. For authoritative field lists see [VARIABLES.md](VARIABLES.md) and [API_CONTRACTS.md](API_CONTRACTS.md).
+**Version:** 1.1 · **Last updated:** 2026-05-25
+
+Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md).
 
 ---
 
@@ -30,6 +32,30 @@
   "recitals": [{ "number": 1, "text": "…", "sourceUrl": "…", "eurLexUrl": "…" }],
   "articles": [{ "number": 5, "title": "…", "chapter": 2, "text": "…", "sourceUrl": "…" }],
   "searchIndex": [{ "id": "article-5", "type": "article", "title": "…", "text": "…" }]
+}
+```
+
+---
+
+## 1b. EU AI Act corpus (`data/ai-act-content.json`) — excerpts
+
+```json
+{
+  "meta": {
+    "regulationId": "ai-act",
+    "lastRefreshed": "2026-05-25T09:21:33.808Z",
+    "sources": [
+      {
+        "name": "AI Act Law",
+        "url": "https://ai-act-law.eu/",
+        "description": "Readable English layout of Regulation (EU) 2024/1689"
+      }
+    ]
+  },
+  "chapters": [{ "number": 3, "roman": "III", "title": "High-risk AI systems", "articleRange": "6-49" }],
+  "articles": [{ "number": 6, "title": "Classification rules for high-risk AI systems", "chapter": 3, "text": "…" }],
+  "recitals": [{ "number": 1, "text": "…" }],
+  "searchIndex": [{ "id": "article-6", "type": "article", "number": 6, "title": "…", "text": "…" }]
 }
 ```
 
@@ -69,7 +95,8 @@
 
 ```json
 {
-  "query": "When is consent valid under the GDPR?",
+  "query": "What is a high-risk AI system?",
+  "regulation": "ai-act",
   "includeWeb": true,
   "industrySectorId": "GENERAL",
   "apiKeys": {
@@ -85,14 +112,14 @@
 
 ```json
 {
-  "query": "When is consent valid under the GDPR?",
+  "query": "What is a high-risk AI system?",
+  "regulationId": "ai-act",
   "contentAsOf": "2026-05-19T12:00:00.000Z",
   "includeWeb": true,
   "industrySector": { "id": "GENERAL", "label": "General", "isicSection": null, "isicDivision": null },
   "answer": "Consent must be freely given, specific, informed, and unambiguous … [S1] … [S2]",
   "sources": [
-    { "id": "S1", "kind": "regulation", "type": "article", "number": 7, "title": "Conditions for consent", "excerpt": "…" },
-    { "id": "S2", "kind": "regulation", "type": "recital", "number": 32, "excerpt": "…" }
+    { "id": "S1", "kind": "regulation", "type": "article", "number": 6, "title": "Classification rules for high-risk AI systems", "excerpt": "…", "sourceUrl": "https://ai-act-law.eu/article/6/" }
   ],
   "llm": {
     "used": true,

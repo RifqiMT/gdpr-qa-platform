@@ -11,16 +11,392 @@
     return '';
   })();
 
+  var REG_STORAGE_KEY = 'gdpr-qa-regulation-v1';
+  var currentRegulation = {
+    id: 'gdpr',
+    shortName: 'GDPR',
+    maxArticles: 99,
+    maxRecitals: 173,
+    segmentMeta: { recitals: '1–173', articles: '1–99' }
+  };
+  var regulationsCatalog = [];
+
+  function regulationMaxArticles() {
+    return currentRegulation.maxArticles || 99;
+  }
+
+  function regulationMaxRecitals() {
+    return currentRegulation.maxRecitals || 173;
+  }
+
+  function regulationShortLabel() {
+    return currentRegulation.shortName || 'GDPR';
+  }
+
+  function getRegProfile() {
+    var api = currentRegulation || {};
+    var base =
+      typeof getRegulationProfile === 'function'
+        ? getRegulationProfile(api.id || 'gdpr')
+        : null;
+    if (!base && typeof REGULATION_PROFILES !== 'undefined') {
+      base = REGULATION_PROFILES[api.id] || REGULATION_PROFILES.gdpr;
+    }
+    base = base || {};
+    return Object.assign({}, base, {
+      id: api.id || base.id || 'gdpr',
+      shortName: api.shortName || base.shortName || 'GDPR',
+      fullName: api.fullName || base.fullName || '',
+      maxArticles: api.maxArticles || base.maxArticles || 99,
+      maxRecitals: api.maxRecitals || base.maxRecitals || 173,
+      segmentMeta: api.segmentMeta || base.segmentMeta || { recitals: '', articles: '' }
+    });
+  }
+
+  function clearRegulationBrowseCaches() {
+    recitalsDataCache = null;
+    docNavArticlesListCache = null;
+    window.__chaptersData = null;
+    window.__chapterSummaries = null;
+    articleToRecitalsMapPromise = null;
+  }
+
+  function renderRegulationSourceLinks(el, profile) {
+    if (!el || !profile) return;
+    el.innerHTML =
+      'Official sources: <a href="' +
+      escapeHtml(profile.recitalsIndexUrl || profile.infoBaseUrl) +
+      '" target="_blank" rel="noopener">' +
+      escapeHtml(profile.infoSiteName) +
+      '</a> · <a href="' +
+      escapeHtml(profile.eurLexUrl) +
+      '" target="_blank" rel="noopener">EUR-Lex</a>';
+  }
+
+  function loadStoredRegulationId() {
+    try {
+      var s = localStorage.getItem(REG_STORAGE_KEY);
+      if (s === 'ai-act' || s === 'gdpr') return s;
+    } catch (e) {}
+    return 'gdpr';
+  }
+
+  function saveRegulationId(id) {
+    try {
+      localStorage.setItem(REG_STORAGE_KEY, id);
+    } catch (e) {}
+  }
+
+  function appendRegulationParam(url) {
+    if (!url || url.indexOf('/api/') !== 0) return url;
+    if (
+      url.indexOf('/api/regulations') === 0 ||
+      url.indexOf('/api/news') === 0 ||
+      url.indexOf('/api/industry-sectors') === 0 ||
+      url.indexOf('/api/validate-api-keys') === 0
+    ) {
+      return url;
+    }
+    var sep = url.indexOf('?') >= 0 ? '&' : '?';
+    return url + sep + 'regulation=' + encodeURIComponent(currentRegulation.id);
+  }
+
+  function mergeRegulationBody(url, body) {
+    var out = body && typeof body === 'object' ? Object.assign({}, body) : {};
+    if (
+      url === '/api/refresh' ||
+      url === '/api/answer' ||
+      url === '/api/ask' ||
+      url === '/api/chapter-summaries/regenerate'
+    ) {
+      out.regulation = currentRegulation.id;
+    }
+    return out;
+  }
+
   function get(url) {
-    return fetch(API + url).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
+    return fetch(API + appendRegulationParam(url)).then(r => {
+      if (!r.ok) throw new Error(r.statusText);
+      return r.json();
+    });
   }
 
   function post(url, body) {
-    return fetch(API + url, {
+    return fetch(API + appendRegulationParam(url), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(mergeRegulationBody(url, body))
     }).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
+  }
+
+  /** Headlines that match EU AI Act selection in the News tab (title, snippet, topic). */
+  var AI_ACT_NEWS_SCOPE_RE =
+    /ai\s+act|artificial intelligence act|regulation\s*\(eu\)\s*2024\s*\/\s*1689|high[- ]risk\s+ai|general[- ]purpose\s+ai|\bgpai\b|ai\s+office|foundation\s+model|prohibited\s+ai|conformity\s+assessment.*ai|market\s+surveillance.*ai|deployer.*ai\s+system|provider.*ai\s+system|algorithmic|automated\s+decision/i;
+
+  function itemMatchesNewsRegulationScope(item) {
+    var reg = getRegProfile();
+    if (!reg.newsUi || !reg.newsUi.filterForRegulation) return true;
+    var text =
+      (item.title || '') +
+      ' ' +
+      (item.snippet || '') +
+      ' ' +
+      (item.topic || '') +
+      ' ' +
+      (item.topicCategory || '');
+    if (AI_ACT_NEWS_SCOPE_RE.test(text)) return true;
+    var cat = String(item.topicCategory || '');
+    if (/EU Artificial Intelligence Act|AI and Emerging Tech/i.test(cat)) return true;
+    var topic = String(item.topic || '');
+    if (
+      /high-risk|prohibited|gpai|general-purpose|ai office|ai act|foundation model|deepfake|facial recognition|biometric|artificial intelligence/i.test(
+        topic
+      )
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function syncAskSourcesNewsChrome(reg) {
+    reg = reg || getRegProfile();
+    var ask = reg.askUi || {};
+    var sources = reg.sourcesUi || {};
+    var news = reg.newsUi || {};
+
+    var askHeading = document.getElementById('askHeading');
+    if (askHeading) askHeading.textContent = ask.heading || 'Ask about the ' + reg.shortName;
+    var askLead = document.getElementById('askLead');
+    if (askLead) askLead.innerHTML = ask.leadHtml || '';
+    var askSignal = document.getElementById('askSignalCorpus');
+    if (askSignal) askSignal.textContent = ask.signalCorpus || 'Local regulation corpus';
+    var askMeta = document.getElementById('askMeta');
+    if (askMeta) askMeta.innerHTML = ask.metaHtml || '';
+    var askDesc = document.getElementById('askIndustrySectorDesc');
+    if (askDesc) askDesc.innerHTML = ask.sectorExplainer || '';
+    var askRelTitle = document.getElementById('askRelevantDocsTitle');
+    if (askRelTitle) askRelTitle.textContent = ask.relevantTitle || 'Relevant provisions';
+    var askRelHint = document.getElementById('askRelevantDocsHint');
+    if (askRelHint) askRelHint.innerHTML = ask.relevantHint || '';
+    var askPanel = document.getElementById('askSummaryPanel');
+    if (askPanel) askPanel.setAttribute('aria-label', ask.relevantTitle || 'Relevant provisions');
+    var askRelWrap = document.getElementById('askRelevantDocs');
+    if (askRelWrap) askRelWrap.setAttribute('aria-label', ask.relevantTitle || 'Relevant provisions');
+    if (queryInput) {
+      queryInput.placeholder = ask.placeholder || 'Ask a question…';
+      queryInput.setAttribute('aria-label', ask.queryAriaLabel || 'Ask a question');
+    }
+    var ql = document.querySelector('label[for="query"]');
+    if (ql) ql.textContent = 'Your ' + reg.shortName + ' question';
+
+    var sourcesTitle = document.getElementById('sourcesHeaderTitle');
+    if (sourcesTitle) sourcesTitle.textContent = sources.title || reg.shortName + ': credible sources';
+    var sourcesIntro = document.getElementById('sourcesIntro');
+    if (sourcesIntro) sourcesIntro.textContent = sources.intro || '';
+
+    var newsEyebrow = document.getElementById('newsEyebrow');
+    if (newsEyebrow) newsEyebrow.textContent = news.eyebrow || 'News';
+    var newsHeroTitle = document.getElementById('newsHeroTitle');
+    if (newsHeroTitle) newsHeroTitle.textContent = news.title || 'News';
+    var newsIntro = document.getElementById('newsIntro');
+    if (newsIntro) newsIntro.textContent = news.intro || '';
+    var newsBanner = document.getElementById('newsRegulationBanner');
+    if (newsBanner) {
+      if (news.bannerHtml) {
+        newsBanner.innerHTML = news.bannerHtml;
+        newsBanner.classList.remove('hidden');
+      } else {
+        newsBanner.innerHTML = '';
+        newsBanner.classList.add('hidden');
+      }
+    }
+
+    var genOpt = document.querySelector('#askIndustrySector option[value="GENERAL"]');
+    if (genOpt && ask.sectorFrameworkGeneral) {
+      genOpt.textContent = 'General — ' + ask.sectorFrameworkGeneral.replace(/^Default:\s*/i, '');
+    }
+  }
+
+  function syncRegulationChrome() {
+    var reg = getRegProfile();
+    var sn = reg.shortName;
+    var sm = reg.segmentMeta || {};
+
+    var tagline = document.getElementById('appTagline') || document.querySelector('.tagline');
+    if (tagline) tagline.textContent = reg.fullName;
+
+    var logo = document.getElementById('logoLink');
+    if (logo) logo.title = sn + ' — EU Regulation Q&A';
+
+    var tabBrowse = document.getElementById('tabBrowseMain');
+    if (tabBrowse) {
+      tabBrowse.innerHTML =
+        'Browse ' + escapeHtml(sn) + ' <span class="tab-browse-cue" aria-hidden="true">▾</span>';
+      tabBrowse.title = 'Choose section: ' + sn + ' recitals or chapters & articles';
+    }
+
+    var menu = document.getElementById('browseRegMenu');
+    if (menu) {
+      menu.setAttribute('aria-label', 'Browse ' + sn + ' sections');
+      var items = menu.querySelectorAll('[data-browse-segment]');
+      if (items[0]) {
+        items[0].querySelector('.tab-browse-menu-label').textContent = sn + ' recitals';
+        var m0 = items[0].querySelector('.tab-browse-menu-meta');
+        if (m0) m0.textContent = sm.recitals;
+      }
+      if (items[1]) {
+        items[1].querySelector('.tab-browse-menu-label').textContent = sn + ' chapters & articles';
+        var m1 = items[1].querySelector('.tab-browse-menu-meta');
+        if (m1) m1.textContent = sm.articles;
+      }
+    }
+
+    var qr = document.getElementById('browseQuickRecitals');
+    var qc = document.getElementById('browseQuickChapters');
+    var qa = document.querySelector('.browse-quick-actions');
+    if (qa) qa.setAttribute('aria-label', 'Open ' + sn + ' regulation sections');
+    if (qr) {
+      qr.querySelector('.browse-quick-btn-label').textContent = sn + ' recitals';
+      qr.querySelector('.browse-quick-btn-meta').textContent = sm.recitals;
+    }
+    if (qc) {
+      qc.querySelector('.browse-quick-btn-label').textContent = sn + ' chapters & articles';
+      qc.querySelector('.browse-quick-btn-meta').textContent = sm.articles;
+    }
+
+    var ph = document.querySelector('#browsePlaceholder p');
+    if (ph) {
+      ph.innerHTML =
+        'Open <strong>Browse ' + escapeHtml(sn) + '</strong> in the tab bar and click it again for the full menu—or jump straight in below.';
+    }
+
+    var rh = document.querySelector('#browseRecitals .recitals-header h2');
+    if (rh) rh.textContent = sn + ' recitals';
+    var rl = document.getElementById('recitalsLead');
+    if (rl) {
+      rl.textContent =
+        sn +
+        ' recitals (' +
+        sm.recitals +
+        ') explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.';
+    }
+    renderRegulationSourceLinks(document.getElementById('recitalsSourceLinks'), reg);
+
+    var ch = document.querySelector('#browseChapters .chapters-browser-header h2');
+    if (ch) ch.textContent = sn + ' chapters & articles';
+    var cl = document.getElementById('chaptersLead');
+    if (cl) {
+      cl.textContent =
+        'All ' +
+        sm.articles +
+        ' ' +
+        sn +
+        ' articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.';
+    }
+    renderRegulationSourceLinks(document.getElementById('chaptersSourceLinks'), reg);
+
+    if (recitalsSearch) {
+      recitalsSearch.placeholder =
+        'Search ' + sn + ' recitals by number (e.g. 12) or keywords…';
+      var rsLabel = document.querySelector('label[for="recitalsSearch"]');
+      if (rsLabel) rsLabel.textContent = 'Search ' + sn + ' recitals by number or text';
+    }
+
+    if (detailContent) {
+      detailContent.setAttribute('aria-label', sn + ' regulation text');
+    }
+
+    if (btnRefresh) {
+      btnRefresh.title = 'Fetch the latest ' + sn + ' text from official sources (' + reg.infoSiteName + ' / EUR-Lex)';
+    }
+    if (btnFreshnessInfo) {
+      btnFreshnessInfo.setAttribute(
+        'aria-label',
+        reg.shortName + ' consolidated text: show content and check timestamps'
+      );
+    }
+
+    var subWrap = document.getElementById('chaptersFilterSubcategoryWrap');
+    if (subWrap) {
+      subWrap.classList.toggle('hidden', !reg.hasArticleTopics);
+    }
+    var cfBar = document.querySelector('.chapters-filters');
+    if (cfBar) {
+      cfBar.setAttribute('aria-label', 'Filter ' + sn + ' documents by category, chapter, and article');
+    }
+
+    var sel = document.getElementById('regulationSelect');
+    if (sel && sel.value !== reg.id) sel.value = reg.id;
+
+    document.title = sn + ' — EU Regulation Q&A Platform';
+    syncAskSourcesNewsChrome(reg);
+  }
+
+  function setCurrentRegulation(reg) {
+    if (!reg || !reg.id) return;
+    var prevId = currentRegulation.id;
+    currentRegulation = {
+      id: reg.id,
+      shortName: reg.shortName || reg.id,
+      fullName: reg.fullName || reg.shortName || reg.id,
+      maxArticles: reg.maxArticles || 99,
+      maxRecitals: reg.maxRecitals || 173,
+      segmentMeta: reg.segmentMeta || { recitals: '', articles: '' },
+      infoBaseUrl: reg.infoBaseUrl,
+      eurLexUrl: reg.eurLexUrl,
+      hasArticleTopics: reg.hasArticleTopics,
+      hasSuitableRecitals: reg.hasSuitableRecitals
+    };
+    saveRegulationId(reg.id);
+    if (prevId !== reg.id) clearRegulationBrowseCaches();
+    syncRegulationChrome();
+    loadMeta();
+    if (viewSources && viewSources.classList.contains('active')) loadSources();
+    if (viewNews && viewNews.classList.contains('active') && lastNewsItems.length) applyNewsFilters();
+    if (browseDetail && !browseDetail.classList.contains('hidden') && btnBack) {
+      btnBack.click();
+    }
+  }
+
+  function reloadActiveBrowseSegment() {
+    if (!viewBrowse || !viewBrowse.classList.contains('active')) return;
+    if (browseDetail && !browseDetail.classList.contains('hidden')) return;
+    if (browseChapters && !browseChapters.classList.contains('hidden')) loadChapters();
+    else if (browseRecitals && !browseRecitals.classList.contains('hidden')) loadRecitals();
+  }
+
+  function initRegulationSelector() {
+    return get('/api/regulations')
+      .then(function (payload) {
+        regulationsCatalog = payload.regulations || [];
+        var sel = document.getElementById('regulationSelect');
+        if (!sel) return;
+        sel.innerHTML = '';
+        regulationsCatalog.forEach(function (r) {
+          var opt = document.createElement('option');
+          opt.value = r.id;
+          opt.textContent = r.shortName;
+          sel.appendChild(opt);
+        });
+        var stored = loadStoredRegulationId();
+        var match =
+          regulationsCatalog.find(function (r) {
+            return r.id === stored;
+          }) || regulationsCatalog[0];
+        if (match) setCurrentRegulation(match);
+        sel.addEventListener('change', function () {
+          var next = regulationsCatalog.find(function (r) {
+            return r.id === sel.value;
+          });
+          if (next) {
+            setCurrentRegulation(next);
+            reloadActiveBrowseSegment();
+          }
+        });
+      })
+      .catch(function () {
+        syncRegulationChrome();
+      });
   }
 
   var BYOK_STORAGE_KEY = 'gdpr-qa-byok-v1';
@@ -469,6 +845,7 @@
   }
 
   function resolveSuitableRecitalsForArticle(articleNum, fromApi) {
+    if (!getRegProfile().hasSuitableRecitals) return Promise.resolve([]);
     if (Array.isArray(fromApi) && fromApi.length > 0) return Promise.resolve(fromApi);
     return loadArticleToRecitalsMap().then(function (map) {
       var arr = map[String(articleNum)];
@@ -477,8 +854,10 @@
   }
 
   function resolveSuitableArticlesForRecital(recitalNum, fromApi) {
+    if (!getRegProfile().hasSuitableRecitals) return Promise.resolve([]);
     if (Array.isArray(fromApi) && fromApi.length > 0) return Promise.resolve(fromApi);
     return loadArticleToRecitalsMap().then(function (map) {
+      var maxArt = regulationMaxArticles();
       var out = [];
       for (var artKey in map) {
         if (!Object.prototype.hasOwnProperty.call(map, artKey)) continue;
@@ -486,7 +865,7 @@
         if (!Array.isArray(recs)) continue;
         if (recs.indexOf(recitalNum) !== -1) {
           var a = parseInt(artKey, 10);
-          if (!isNaN(a) && a >= 1 && a <= 99) out.push(a);
+          if (!isNaN(a) && a >= 1 && a <= maxArt) out.push(a);
         }
       }
       return out.sort(function (x, y) {
@@ -727,7 +1106,7 @@
   }
 
   function getArticleTopicIds(art) {
-    if (!art) return [];
+    if (!art || !getRegProfile().hasArticleTopics) return [];
     var text = ((art.title || '') + ' ' + (art.text || '').slice(0, 300)).toLowerCase();
     var ids = [];
     ARTICLE_TOPICS.forEach(function (t) {
@@ -761,10 +1140,16 @@
       .replace(/\r/g, '\n')
       .trim();
     if (!t) return t;
-    var tryPrefixes = [];
-    if (dataTitle && String(dataTitle).trim()) tryPrefixes.push(String(dataTitle).trim());
-    tryPrefixes.push('Art. ' + articleNumber + ' GDPR');
-    if (displayTitle && String(displayTitle).trim()) tryPrefixes.push(String(displayTitle).trim());
+    var profile = getRegProfile();
+    var tryPrefixes =
+      typeof profile.bodyStripPrefixes === 'function'
+        ? profile.bodyStripPrefixes(articleNumber, dataTitle, displayTitle)
+        : [];
+    if (!tryPrefixes.length) {
+      if (dataTitle && String(dataTitle).trim()) tryPrefixes.push(String(dataTitle).trim());
+      tryPrefixes.push('Art. ' + articleNumber + ' GDPR');
+      if (displayTitle && String(displayTitle).trim()) tryPrefixes.push(String(displayTitle).trim());
+    }
     var seen = Object.create(null);
     var maxHeadingPasses = 4;
     while (maxHeadingPasses-- > 0) {
@@ -842,7 +1227,7 @@
       var note = document.createElement('p');
       note.className = 'freshness-tooltip-note';
       note.textContent =
-        'Content not yet loaded from official sources. Use Refresh sources to fetch the latest GDPR text from EUR-Lex.';
+        'Content not yet loaded from official sources. Use Refresh sources to fetch the latest ' + regulationShortLabel() + ' text.';
       freshnessContentEl.appendChild(note);
     }
   }
@@ -893,8 +1278,14 @@
               return '<li><a href="' + escapeHtml(d.url) + '" target="_blank" rel="noopener">' + escapeHtml(d.label) + '</a></li>';
             }).join('') + '</ul>';
           }
-          card.innerHTML = '<h3 class="source-card-title"><a href="' + escapeHtml(src.url) + '" target="_blank" rel="noopener">' + escapeHtml(src.name) + '</a></h3>' +
-            (src.description ? '<p class="source-card-desc">' + escapeHtml(src.description) + '</p>' : '') +
+          var desc = src.description || SOURCE_SUMMARIES[src.name] || '';
+          card.innerHTML =
+            '<h3 class="source-card-title"><a href="' +
+            escapeHtml(src.url) +
+            '" target="_blank" rel="noopener">' +
+            escapeHtml(src.name) +
+            '</a></h3>' +
+            (desc ? '<p class="source-card-desc">' + escapeHtml(desc) + '</p>' : '') +
             docsHtml;
           container.appendChild(card);
         });
@@ -912,7 +1303,13 @@
     'EDPS': 'Press, blogs, and updates from the European Data Protection Supervisor on EU institutions, Regulation 2018/1725, and cooperation with the EDPB.',
     'ICO (UK)': 'UK regulator updates: enforcement actions, fines, guidance under UK GDPR, and how the ICO interprets data protection law.',
     'European Commission': 'Official EU policy, reform, and publications on data protection and the GDPR from the European Commission.',
-    'Council of Europe': 'International data protection standards and updates on Convention 108+ (protection of personal data).'
+    'Council of Europe': 'International data protection standards and updates on Convention 108+ (protection of personal data).',
+    'AI Act Law':
+      'Readable English layout of Regulation (EU) 2024/1689 with articles, recitals, chapters, and annexes—aligned with the official structure.',
+    'EUR-Lex (Official Journal)':
+      'Authoritative EU publication of the Artificial Intelligence Act (Regulation (EU) 2024/1689) in the Official Journal.',
+    'EU Digital Strategy (AI)':
+      'European Commission hub for the AI Act regulatory framework, implementation timelines, and policy updates.'
   };
 
   /** Catch-all leaf topic; must match `NEWS_TOPIC_FALLBACK` in `news-topics.js`. */
@@ -1897,8 +2294,10 @@
     if (loaded === 0 && shown === 0) {
       msg = '';
     } else if (shown === 0 && loaded > 0) {
-      msg =
-        'No articles match your filters or search. Try clearing all or using different keywords.';
+      var regNews = getRegProfile().newsUi || {};
+      msg = regNews.filterForRegulation
+        ? 'No headlines match the EU AI Act relevance filter. Switch to GDPR in the header for the full news corpus, or clear topic/source filters.'
+        : 'No articles match your filters or search. Try clearing all or using different keywords.';
     } else {
       var head = q
         ? 'Showing ' + shown + (shown === 1 ? ' article' : ' articles') + ' matching your search'
@@ -2098,6 +2497,7 @@
     var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
     var allowedLeafSet = buildTopicAllowedLeafSetFromTopicVal(topicVal);
     var filtered = items.filter(function (item) {
+      if (!itemMatchesNewsRegulationScope(item)) return false;
       if (!itemMatchesSourceFilter(sourceVal, item)) return false;
       if (!itemMatchesTopicFilter(topicVal, item, allowedLeafSet)) return false;
       if (!itemMatchesNewsSearch(q, item)) return false;
@@ -3208,19 +3608,24 @@
     const isRecital = doc.type === 'recital';
     const num = doc.number;
     const minNum = isRecital ? 1 : 1;
-    const maxNum = isRecital ? 173 : 99;
+    const maxNum = isRecital ? regulationMaxRecitals() : regulationMaxArticles();
     const prevNum = num - 1;
     const nextNum = num + 1;
 
     docNavPrev.disabled = prevNum < minNum;
     docNavNext.disabled = nextNum > maxNum;
-    docNavPrev.textContent = isRecital ? ('← GDPR Recital (' + prevNum + ')') : ('← GDPR Art. ' + prevNum);
-    docNavNext.textContent = isRecital ? ('GDPR Recital (' + nextNum + ') →') : ('GDPR Art. ' + nextNum + ' →');
-    docNavLabel.textContent = isRecital ? ('GDPR Recital (' + num + ') / 173') : ('GDPR Art. ' + num + ' / 99');
+    var sn = regulationShortLabel();
+    docNavPrev.textContent = isRecital ? ('← ' + sn + ' Recital (' + prevNum + ')') : ('← ' + sn + ' Art. ' + prevNum);
+    docNavNext.textContent = isRecital ? (sn + ' Recital (' + nextNum + ') →') : (sn + ' Art. ' + nextNum + ' →');
+    docNavLabel.textContent = isRecital
+      ? (regulationShortLabel() + ' Recital (' + num + ') / ' + regulationMaxRecitals())
+      : (regulationShortLabel() + ' Art. ' + num + ' / ' + regulationMaxArticles());
     closeDocNavSuggestions();
     if (docNavNumber) {
       docNavNumber.value = buildDocNavInputDisplay(doc);
-      docNavNumber.placeholder = isRecital ? 'No. or keywords (1–173)' : 'No. or keywords (1–99)';
+      docNavNumber.placeholder = isRecital
+        ? ('No. or keywords (1–' + regulationMaxRecitals() + ')')
+        : ('No. or keywords (1–' + regulationMaxArticles() + ')');
       var ariaBrief = truncateBriefTitleForDocNav((doc.briefTitle || '').trim(), 72);
       if (!ariaBrief && detailContent) {
         var subj = detailContent.querySelector('.art-subject');
@@ -3264,7 +3669,7 @@
     if (isNaN(num)) return;
     const isRecital = currentDoc.type === 'recital';
     const minNum = 1;
-    const maxNum = isRecital ? 173 : 99;
+    const maxNum = isRecital ? regulationMaxRecitals() : regulationMaxArticles();
     if (num < minNum || num > maxNum) return;
     closeDocNavSuggestions();
     if (currentDoc.type === 'recital') openRecital(num);
@@ -3537,17 +3942,19 @@
     if (!query) {
       return all.slice().sort(function (a, b) { return a.number - b.number; });
     }
-    if (/^\d{1,2}$/.test(query)) {
+    if (/^\d{1,3}$/.test(query)) {
       var n = parseInt(query, 10);
-      if (n >= 1 && n <= 99) return all.filter(function (a) { return a.number === n; });
+      var maxA = regulationMaxArticles();
+      if (n >= 1 && n <= maxA) return all.filter(function (a) { return a.number === n; });
     }
     var qStrip = query
       .replace(/^article\s*/i, '')
       .replace(/^art\.?\s*/i, '')
       .trim();
-    if (/^\d{1,2}$/.test(qStrip)) {
+    if (/^\d{1,3}$/.test(qStrip)) {
       var n2 = parseInt(qStrip, 10);
-      if (n2 >= 1 && n2 <= 99) {
+      var maxA2 = regulationMaxArticles();
+      if (n2 >= 1 && n2 <= maxA2) {
         var byNum = all.filter(function (a) { return a.number === n2; });
         if (byNum.length) return byNum;
       }
@@ -3565,7 +3972,7 @@
   function updateRecitalsCountShowing(shown, total) {
     if (!recitalsCountEl) return;
     if (!total) recitalsCountEl.textContent = '';
-    else if (shown === total) recitalsCountEl.textContent = total + ' GDPR recitals';
+    else if (shown === total) recitalsCountEl.textContent = total + ' ' + regulationShortLabel() + ' recitals';
     else recitalsCountEl.textContent = 'Showing ' + shown + ' of ' + total;
   }
 
@@ -3580,7 +3987,7 @@
       empty.className = 'recitals-empty';
       empty.setAttribute('role', 'status');
       empty.textContent =
-        'No GDPR recitals match your search. Try a number between 1 and 173, or different keywords.';
+        'No ' + regulationShortLabel() + ' recitals match your search. Try a number between 1 and ' + regulationMaxRecitals() + ', or different keywords.';
       recitalsList.appendChild(empty);
       return;
     }
@@ -3598,8 +4005,9 @@
         summaryHtml =
           '<p class="recital-card-summary recital-card-summary--placeholder">Full text opens in the reader.</p>';
       }
+      var sn = regulationShortLabel();
       var ariaLabel =
-        'GDPR Recital ' + r.number + (topic ? ': ' + topic : '') + ' — open full text';
+        sn + ' Recital ' + r.number + (topic ? ': ' + topic : '') + ' — open full text';
       card.innerHTML =
         '<a href="#" class="recital-card-link" data-type="recital" data-number="' +
         r.number +
@@ -3608,7 +4016,7 @@
         '">' +
         '<div class="recital-card-body">' +
         '<div class="recital-card-top">' +
-        '<span class="recital-card-badge"><span class="recital-card-badge-label">GDPR Recital</span> <span class="recital-card-badge-num">' +
+        '<span class="recital-card-badge"><span class="recital-card-badge-label">' + escapeHtml(sn) + ' Recital</span> <span class="recital-card-badge-num">' +
         r.number +
         '</span></span>' +
         '</div>' +
@@ -3720,27 +4128,28 @@
         var suitableArticles = bundle.suitableArticles;
         var recitalTitle = (data.title || '').trim();
         var recitalHtml = renderRecitalDocumentHtml(data.text);
+        var profile = getRegProfile();
         detailContent.innerHTML =
           '<div class="article-doc recital-doc">' +
           '<div class="article-separator"></div>' +
-          '<p class="art-num">GDPR Recital (' + data.number + ')</p>' +
+          '<p class="art-num">' + escapeHtml(profile.recitalHeading(data.number)) + '</p>' +
           (recitalTitle ? '<h2 class="art-subject">' + escapeHtml(recitalTitle) + '</h2>' : '') +
           '<div class="article-separator"></div>' +
           '<div class="article-body"><div class="prose">' + recitalHtml + '</div></div>' +
           '<div class="article-separator"></div>' +
           '</div>';
         var contentAsOfHtml = data.contentAsOf
-          ? '<li class="content-as-of">Text as of ' + formatContentDate(data.contentAsOf) + ' from EUR-Lex consolidated version.</li>'
-          : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest from EUR-Lex.</li>';
+          ? '<li class="content-as-of">Text as of ' + formatContentDate(data.contentAsOf) + ' (consolidated).</li>'
+          : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest text.</li>';
         var recNum = data.number != null ? parseInt(String(data.number), 10) : number;
         if (isNaN(recNum) || recNum < 1) recNum = number;
-        /** Canonical GDPR-Info URL per recital (matches scraper / site structure); do not rely on API alone. */
-        var gdprRecitalInfoUrl = 'https://gdpr-info.eu/recitals/no-' + recNum + '/';
-        var eurLexUrl = data.eurLexUrl || 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679';
+        var infoRecitalUrl = data.sourceUrl || profile.recitalUrl(recNum);
+        var eurLexUrl = data.eurLexUrl || profile.eurLexTxtUrl;
         citationLinks.innerHTML =
           contentAsOfHtml +
-          '<li><a href="' + escapeHtml(gdprRecitalInfoUrl) + '" target="_blank" rel="noopener noreferrer">GDPR-Info – GDPR Recital (' + recNum + ')</a></li>' +
-          '<li><a href="' + escapeHtml(eurLexUrl) + '" target="_blank" rel="noopener noreferrer">EUR-Lex – Regulation (EU) 2016/679</a></li>';
+          '<li><a href="' + escapeHtml(infoRecitalUrl) + '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(profile.infoSiteName) + ' – ' + escapeHtml(profile.recitalHeading(recNum)) + '</a></li>' +
+          '<li><a href="' + escapeHtml(eurLexUrl) + '" target="_blank" rel="noopener noreferrer">EUR-Lex – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
         updateCitationOfficialSourcesCount();
         var navBrief = parseRecitalTopicTitle(data.title, data.number);
         if (!navBrief && recitalTitle) {
@@ -3799,7 +4208,7 @@
       });
     }
     var preserve = chaptersFilterChapter.value;
-    chaptersFilterChapter.innerHTML = '<option value="">All GDPR chapters</option>';
+    chaptersFilterChapter.innerHTML = '<option value="">All ' + regulationShortLabel() + ' chapters</option>';
     if (chaptersFilterCategory) chaptersFilterCategory.innerHTML = '<option value="">All GDPR categories</option>';
     chapters.forEach(function (ch) {
       if (allowed && !allowed.has(ch.number)) return;
@@ -4970,7 +5379,7 @@
     if (chaptersArticlesGrouped) {
       chaptersArticlesGrouped.setAttribute('aria-busy', 'true');
       chaptersArticlesGrouped.innerHTML =
-        '<p class="docs-browser-loading" role="status"><span class="docs-browser-loading-pulse" aria-hidden="true"></span> Loading GDPR chapters and articles…</p>';
+        '<p class="docs-browser-loading" role="status"><span class="docs-browser-loading-pulse" aria-hidden="true"></span> Loading ' + escapeHtml(regulationShortLabel()) + ' chapters and articles…</p>';
     }
     Promise.all([
       get('/api/chapters'),
@@ -4999,7 +5408,7 @@
     }).catch(() => {
       if (chaptersArticlesGrouped) {
         chaptersArticlesGrouped.setAttribute('aria-busy', 'false');
-        chaptersArticlesGrouped.innerHTML = '<p class="docs-browser-loading docs-browser-loading--error" role="alert">Could not load GDPR chapters and articles. Check your connection and try again.</p>';
+        chaptersArticlesGrouped.innerHTML = '<p class="docs-browser-loading docs-browser-loading--error" role="alert">Could not load ' + escapeHtml(regulationShortLabel()) + ' chapters and articles. Check your connection and try again.</p>';
       }
     });
   }
@@ -5009,7 +5418,7 @@
     const data = window.__chaptersData;
     if (!data || !data.topicIdsByChapter) return;
     const selected = chaptersFilterSubcategory.value;
-    chaptersFilterSubcategory.innerHTML = '<option value="">All GDPR sub-categories</option>';
+    chaptersFilterSubcategory.innerHTML = '<option value="">All ' + regulationShortLabel() + ' sub-categories</option>';
     const topicSet = filterChapterNumber != null ? data.topicIdsByChapter[filterChapterNumber] : null;
     ARTICLE_TOPICS.forEach(function (t) {
       if (topicSet != null && !topicSet.has(t.id)) return;
@@ -5060,6 +5469,9 @@
 
     const chapterSumm = window.__chapterSummaries || normalizeChapterSummariesMap(null);
 
+    var profile = getRegProfile();
+    var sn = profile.shortName;
+    var site = profile.infoSiteName;
     let html = '';
     const sortedChapters = chapters.slice();
     sortedChapters.forEach(ch => {
@@ -5069,33 +5481,33 @@
       var totalInCh = totalArticlesByChapter.get(ch.number) || list.length;
       var countLabel =
         list.length === totalInCh
-          ? list.length + ' GDPR article' + (list.length !== 1 ? 's' : '') + ' in this section'
-          : 'Showing ' + list.length + ' of ' + totalInCh + ' GDPR articles (filters applied)';
+          ? list.length + ' ' + sn + ' article' + (list.length !== 1 ? 's' : '') + ' in this section'
+          : 'Showing ' + list.length + ' of ' + totalInCh + ' ' + sn + ' articles (filters applied)';
       var chapterUrl =
         ch.sourceUrl ||
         ch.gdprInfoChapterUrl ||
-        'https://gdpr-info.eu/chapter-' + ch.number + '/';
+        profile.infoBaseUrl + '/chapter/' + ch.number + '/';
       var summaryText = getChapterSummaryForSection(ch.number, chapterSumm);
       if (!summaryText) {
         summaryText =
-          'This GDPR chapter covers Articles ' +
+          'This ' + sn + ' chapter covers Articles ' +
           ch.articleRange +
           ' (' +
           ch.title +
-          '). Open a card below for full GDPR text, or use the GDPR-Info link for the official chapter page.';
+          '). Open a card below for full text, or use the ' + site + ' link for the official chapter page.';
       }
-      html += '<section class="chapters-group-section chapters-group-section--panel" data-chapter="' + ch.number + '" role="region" aria-label="GDPR Chapter ' + ch.roman + '">';
+      html += '<section class="chapters-group-section chapters-group-section--panel" data-chapter="' + ch.number + '" role="region" aria-label="' + escapeHtml(sn) + ' Chapter ' + ch.roman + '">';
       html += '<header class="chapters-group-banner">';
-      html += '<h3 class="chapters-group-heading"><span class="chapters-group-roman" aria-hidden="true">' + ch.roman + '</span> <span class="chapters-group-heading-text">GDPR Chapter ' + ch.roman + ' – ' + escapeHtml(ch.title) + '</span></h3>';
-      html += '<p class="chapters-group-meta">GDPR Articles ' + escapeHtml(ch.articleRange) + '</p>';
+      html += '<h3 class="chapters-group-heading"><span class="chapters-group-roman" aria-hidden="true">' + ch.roman + '</span> <span class="chapters-group-heading-text">' + escapeHtml(sn) + ' Chapter ' + ch.roman + ' – ' + escapeHtml(ch.title) + '</span></h3>';
+      html += '<p class="chapters-group-meta">' + escapeHtml(sn) + ' Articles ' + escapeHtml(ch.articleRange) + '</p>';
       html += '<p class="chapters-group-summary" data-chapter-summary="' + ch.number + '">' + escapeHtml(summaryText) + '</p>';
       html += '<p class="chapters-group-count" role="status">' + escapeHtml(countLabel) + '</p>';
       html +=
         '<p class="chapters-group-source"><a class="chapters-group-source-link" href="' +
         escapeHtml(chapterUrl) +
-        '" target="_blank" rel="noopener noreferrer">GDPR Chapter ' +
+        '" target="_blank" rel="noopener noreferrer">' + escapeHtml(sn) + ' Chapter ' +
         escapeHtml(ch.roman) +
-        ' on GDPR-Info.eu</a> · <span class="chapters-group-source-hint">Authoritative GDPR chapter outline and navigation</span></p>';
+        ' on ' + escapeHtml(site) + '</a> · <span class="chapters-group-source-hint">Authoritative chapter outline and navigation</span></p>';
       html += '</header>';
       html += '<ul class="items-list chapters-group-list" role="list">';
       list.forEach(art => {
@@ -5109,7 +5521,7 @@
         } else {
           excerptHtml = escapeHtml('Open to read the full article text.');
         }
-        var ariaOpen = 'Open GDPR Article ' + art.number + (disp ? ': ' + disp : '');
+        var ariaOpen = 'Open ' + sn + ' Article ' + art.number + (disp ? ': ' + disp : '');
         html += '<li class="item-card" role="listitem">';
         html += '<a href="#" class="item-card-link" data-type="article" data-number="' + art.number + '" aria-label="' + escapeHtml(ariaOpen) + '">';
         html += '<div class="item-card-main">';
@@ -5121,7 +5533,7 @@
       html += '</ul></section>';
     });
     if (!html) {
-      html = '<p class="chapters-filter-empty excerpt" role="status">No GDPR articles match the current filters. Try changing or clearing the filters.</p>';
+      html = '<p class="chapters-filter-empty excerpt" role="status">No ' + escapeHtml(sn) + ' articles match the current filters. Try changing or clearing the filters.</p>';
     }
     chaptersArticlesGrouped.innerHTML = html;
     chaptersArticlesGrouped.querySelectorAll('a.item-card-link[data-type="article"]').forEach(a => {
@@ -5137,10 +5549,13 @@
     get('/api/chapters/' + number).then(data => {
       resetCitationSidebarPanels();
       const ch = data;
+      var profile = getRegProfile();
+      var sn = profile.shortName;
+      var site = profile.infoSiteName;
       let html = '<div class="chapter-view">';
       html += '<header class="chapter-view-header">';
-      html += '<h2 class="doc-heading chapter-heading">GDPR Chapter ' + ch.roman + ' – ' + escapeHtml(ch.title) + '</h2>';
-      html += '<p class="chapter-view-sources">Official sources: <a href="' + ch.sourceUrl + '" target="_blank" rel="noopener">GDPR-Info</a> · <a href="' + ch.eurLexUrl + '" target="_blank" rel="noopener">EUR-Lex</a></p>';
+      html += '<h2 class="doc-heading chapter-heading">' + escapeHtml(sn) + ' Chapter ' + ch.roman + ' – ' + escapeHtml(ch.title) + '</h2>';
+      html += '<p class="chapter-view-sources">Official sources: <a href="' + escapeHtml(ch.sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(site) + '</a> · <a href="' + escapeHtml(ch.eurLexUrl) + '" target="_blank" rel="noopener">EUR-Lex</a></p>';
       html += '</header>';
       if (ch.articles && ch.articles.length) {
         html += '<ul class="items-list" role="list">';
@@ -5155,7 +5570,7 @@
           } else {
             excerptHtml = escapeHtml('Open to read the full article text.');
           }
-          var ariaOpen = 'Open GDPR Article ' + art.number + (disp ? ': ' + disp : '');
+          var ariaOpen = 'Open ' + sn + ' Article ' + art.number + (disp ? ': ' + disp : '');
           html += '<li class="item-card" role="listitem">';
           html += '<a href="#" class="item-card-link" data-type="article" data-number="' + art.number + '" aria-label="' + escapeHtml(ariaOpen) + '">';
           html += '<div class="item-card-main">';
@@ -5166,11 +5581,12 @@
         });
         html += '</ul>';
       } else {
-        html += '<p class="chapter-empty">GDPR article text will appear after refreshing sources. <a href="' + ch.sourceUrl + '" target="_blank" rel="noopener">Read on GDPR-Info</a>.</p>';
+        html += '<p class="chapter-empty">' + escapeHtml(sn) + ' article text will appear after refreshing sources. <a href="' + escapeHtml(ch.sourceUrl) + '" target="_blank" rel="noopener">Read on ' + escapeHtml(site) + '</a>.</p>';
       }
       html += '</div>';
       detailContent.innerHTML = html;
-      citationLinks.innerHTML = '<li><a href="' + ch.sourceUrl + '" target="_blank" rel="noopener">GDPR-Info – GDPR Chapter ' + ch.roman + '</a></li><li><a href="' + ch.eurLexUrl + '" target="_blank" rel="noopener">EUR-Lex – Full GDPR text</a></li>';
+      citationLinks.innerHTML =
+        '<li><a href="' + escapeHtml(ch.sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(site) + ' – ' + escapeHtml(sn) + ' Chapter ' + ch.roman + '</a></li><li><a href="' + escapeHtml(ch.eurLexUrl) + '" target="_blank" rel="noopener">EUR-Lex – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
       updateCitationOfficialSourcesCount();
       if (relatedArticles) relatedArticles.innerHTML = '';
       if (relatedRecitals) relatedRecitals.innerHTML = '';
@@ -5226,22 +5642,26 @@
             }
           }
         }
+        var profile = getRegProfile();
         detailContent.innerHTML =
           '<div class="article-doc">' +
           '<div class="article-separator"></div>' +
-          '<p class="art-num">Art. ' + data.number + ' GDPR</p>' +
+          '<p class="art-num">' + escapeHtml(profile.articleHeading(data.number)) + '</p>' +
           '<h2 class="art-subject">' + title + '</h2>' +
           '<div class="article-separator"></div>' +
           '<div class="article-body">' + bodyHtml + '</div>' +
           '<div class="article-separator"></div>' +
           '</div>';
         var contentAsOfHtml = data.contentAsOf
-          ? '<li class="content-as-of">Text as of ' + formatContentDate(data.contentAsOf) + ' from EUR-Lex consolidated version.</li>'
-          : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest from EUR-Lex.</li>';
+          ? '<li class="content-as-of">Text as of ' + formatContentDate(data.contentAsOf) + ' (consolidated).</li>'
+          : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest text.</li>';
+        var infoArtUrl = data.sourceUrl || profile.articleUrl(data.number);
+        var eurLexArt = data.eurLexUrl || profile.eurLexTxtUrl;
         citationLinks.innerHTML =
           contentAsOfHtml +
-          '<li><a href="' + data.sourceUrl + '" target="_blank" rel="noopener">GDPR-Info – GDPR Article ' + data.number + '</a></li>' +
-          '<li><a href="' + data.eurLexUrl + '" target="_blank" rel="noopener">EUR-Lex – Regulation (EU) 2016/679</a></li>';
+          '<li><a href="' + escapeHtml(infoArtUrl) + '" target="_blank" rel="noopener">' +
+          escapeHtml(profile.infoSiteName) + ' – Article ' + data.number + '</a></li>' +
+          '<li><a href="' + escapeHtml(eurLexArt) + '" target="_blank" rel="noopener">EUR-Lex – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
         updateCitationOfficialSourcesCount();
         var artBrief = (displayTitle || '').trim();
         if (/^Article\s+\d+\s*$/i.test(artBrief)) artBrief = '';
@@ -5259,17 +5679,18 @@
       });
   }
 
-  /** GDPR-Info URLs for PDF (same patterns as browse / scraper). */
+  /** Official readable-site URLs for PDF export (per active regulation). */
   function resolveGdprInfoProvisionUrlForPdf(type, numStr) {
+    var profile = getRegProfile();
     var n = parseInt(String(numStr), 10);
     if (isNaN(n) || n < 1) return '';
     if (type === 'recital') {
-      if (n > 173) return '';
-      return 'https://gdpr-info.eu/recitals/no-' + n + '/';
+      if (n > regulationMaxRecitals()) return '';
+      return profile.recitalUrl(n);
     }
     if (type === 'article') {
-      if (n > 99) return '';
-      return 'https://gdpr-info.eu/art-' + n + '-gdpr/';
+      if (n > regulationMaxArticles()) return '';
+      return profile.articleUrl(n);
     }
     return '';
   }
@@ -5317,7 +5738,7 @@
 
     var kicker = document.createElement('p');
     kicker.className = 'pdf-export-kicker';
-    kicker.textContent = 'Regulation (EU) 2016/679 — General Data Protection Regulation (GDPR)';
+    kicker.textContent = getRegProfile().fullName;
     wrap.appendChild(kicker);
 
     var articleDoc = detailContent.querySelector('.article-doc');
@@ -5360,7 +5781,9 @@
     var refLead = document.createElement('p');
     refLead.className = 'pdf-export-references-lead';
     refLead.textContent =
-      'Authoritative online sources for the consolidated text, plus related articles and recitals referenced from this provision. Links open the corresponding pages on GDPR-Info (unofficial but widely used) where available.';
+      'Authoritative online sources for the consolidated text, plus related articles and recitals referenced from this provision. Links open the corresponding pages on ' +
+      getRegProfile().infoSiteName +
+      ' where available.';
     refPreface.appendChild(refH);
     refPreface.appendChild(refLead);
     refSection.appendChild(refPreface);
@@ -5376,7 +5799,7 @@
     if (hasArts) {
       var hA = document.createElement('h3');
       hA.className = 'pdf-export-references-subtitle';
-      hA.textContent = 'Related GDPR articles';
+      hA.textContent = 'Related ' + regulationShortLabel() + ' articles';
       refSection.appendChild(hA);
       refSection.appendChild(cloneElementForPdfExport(relatedArticles, 'pdf-export-ref-list pdf-export-ref-list--articles'));
     }
@@ -5384,7 +5807,7 @@
     if (hasRecs) {
       var hR = document.createElement('h3');
       hR.className = 'pdf-export-references-subtitle';
-      hR.textContent = 'Related GDPR recitals';
+      hR.textContent = 'Related ' + regulationShortLabel() + ' recitals';
       refSection.appendChild(hR);
       refSection.appendChild(cloneElementForPdfExport(relatedRecitals, 'pdf-export-ref-list pdf-export-ref-list--recitals'));
     }
@@ -5642,6 +6065,8 @@
     var text = String(rawText || '');
     var articles = new Set();
     var recitals = new Set();
+    var maxArt = regulationMaxArticles();
+    var maxRec = regulationMaxRecitals();
 
     function addRange(set, a, b, min, max) {
       a = parseInt(a, 10);
@@ -5664,55 +6089,55 @@
     }
 
     // Article ranges (to/–/-)
-    text.replace(/\b(?:Articles?|Arts?\.)\s*(\d{1,2})\s*(?:to|[–-])\s*(\d{1,2})\b/gi, function (_, a, b) {
-      addRange(articles, a, b, 1, 99);
+    text.replace(/\b(?:Articles?|Arts?\.)\s*(\d{1,3})\s*(?:to|[–-])\s*(\d{1,3})\b/gi, function (_, a, b) {
+      addRange(articles, a, b, 1, maxArt);
       return _;
     });
     // Recital ranges
     text.replace(/\bRecitals?\s*(\d{1,3})\s*(?:to|[–-])\s*(\d{1,3})\b/gi, function (_, a, b) {
-      addRange(recitals, a, b, 1, 173);
+      addRange(recitals, a, b, 1, maxRec);
       return _;
     });
 
     // Article lists: "9, 10", "9, Article 10", "46 or 47", etc.
     var articleListSep = '(?:,\\s*|\\s+and\\s+|\\s+or\\s+|\\s*&\\s*)(?:Articles?\\s+)?';
-    var articleListTail = '(?:' + articleListSep + '\\d{1,2})+';
-    text.replace(new RegExp('\\bArticles?\\s+((?:\\d{1,2})' + articleListTail + ')\\b', 'gi'), function (_, list) {
-      addList(articles, list, 1, 99);
+    var articleListTail = '(?:' + articleListSep + '\\d{1,3})+';
+    text.replace(new RegExp('\\bArticles?\\s+((?:\\d{1,3})' + articleListTail + ')\\b', 'gi'), function (_, list) {
+      addList(articles, list, 1, maxArt);
       return _;
     });
-    text.replace(new RegExp('\\bArts?\\.\\s*((?:\\d{1,2})' + articleListTail + ')\\b', 'gi'), function (_, list) {
-      addList(articles, list, 1, 99);
+    text.replace(new RegExp('\\bArts?\\.\\s*((?:\\d{1,3})' + articleListTail + ')\\b', 'gi'), function (_, list) {
+      addList(articles, list, 1, maxArt);
       return _;
     });
     // Recital lists (incl. "Recital 5, Recital 6")
     var recitalListSep = '(?:,\\s*|\\s+and\\s+|\\s+or\\s+|\\s*&\\s*)(?:Recitals?\\s+)?';
     var recitalListTail = '(?:' + recitalListSep + '\\d{1,3})+';
     text.replace(new RegExp('\\bRecitals?\\s+((?:\\d{1,3})' + recitalListTail + ')\\b', 'gi'), function (_, list) {
-      addList(recitals, list, 1, 173);
+      addList(recitals, list, 1, maxRec);
       return _;
     });
 
     // Singles (incl. Article 9(2)(a), broken "Article 9(2")
     text.replace(
-      new RegExp('\\b(?:Article|Articles)\\s+(\\d{1,2})(?:' + ARTICLE_SUBREF_SUFFIX_SRC + ')?', 'gi'),
+      new RegExp('\\b(?:Article|Articles)\\s+(\\d{1,3})(?:' + ARTICLE_SUBREF_SUFFIX_SRC + ')?', 'gi'),
       function (_, n) {
         var x = parseInt(n, 10);
-        if (!isNaN(x) && x >= 1 && x <= 99) articles.add(x);
+        if (!isNaN(x) && x >= 1 && x <= maxArt) articles.add(x);
         return _;
       }
     );
     text.replace(
-      new RegExp('\\bArts?\\.\\s*(\\d{1,2})(?:' + ARTICLE_SUBREF_SUFFIX_SRC + ')?', 'gi'),
+      new RegExp('\\bArts?\\.\\s*(\\d{1,3})(?:' + ARTICLE_SUBREF_SUFFIX_SRC + ')?', 'gi'),
       function (_, n) {
         var x = parseInt(n, 10);
-        if (!isNaN(x) && x >= 1 && x <= 99) articles.add(x);
+        if (!isNaN(x) && x >= 1 && x <= maxArt) articles.add(x);
         return _;
       }
     );
     text.replace(/\bRecital\s*\(?\s*(\d{1,3})\s*\)?\b/gi, function (_, n) {
       var y = parseInt(n, 10);
-      if (!isNaN(y) && y >= 1 && y <= 173) recitals.add(y);
+      if (!isNaN(y) && y >= 1 && y <= maxRec) recitals.add(y);
       return _;
     });
 
@@ -5981,7 +6406,9 @@
   var EUR_LEX_TFEU_HTML = 'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:12016E/TXT';
 
   /** GDPR Regulation (EU) 2016/679 has Articles 1–99; dual-link same number for in-app Browse. */
-  var GDPR_ARTICLE_MAX = 99;
+  function gdprArticleMax() {
+    return regulationMaxArticles();
+  }
 
   /**
    * Charter / TFEU: first segment "Article n(…)" → GDPR Article n in-app; remainder → EUR-Lex.
@@ -6002,7 +6429,7 @@
         var extLabel = 'TFEU Article ' + n + ' — opens EUR-Lex in a new tab';
         var articlePrefix = 'Article ' + art + (sub || '');
         var rest = full.slice(articlePrefix.length);
-        if (n >= 1 && n <= GDPR_ARTICLE_MAX) {
+        if (n >= 1 && n <= gdprArticleMax()) {
           var gdpr = regulationCitationLink('article', String(n), escapeHtml(articlePrefix));
           var ext =
             '<a href="' +
@@ -6039,7 +6466,7 @@
         var chLabel = 'EU Charter Article ' + n + ' — opens EUR-Lex in a new tab';
         var articlePrefix = 'Article ' + art + (sub || '');
         var rest = full.slice(articlePrefix.length);
-        if (n >= 1 && n <= GDPR_ARTICLE_MAX) {
+        if (n >= 1 && n <= gdprArticleMax()) {
           var gdpr = regulationCitationLink('article', String(n), escapeHtml(articlePrefix));
           var ext =
             '<a href="' +
@@ -6094,11 +6521,13 @@
 
   function linkRegulationCitationsInEscapedTextSegment(text) {
     if (!text) return text;
+    var maxArt = regulationMaxArticles();
+    var maxRec = regulationMaxRecitals();
     text = normalizeSpaceEntitiesForCitationPlainText(text);
     /* EUR-Lex / ETL glues: "2Article 5", "Article4", "Art.6", "3Recital 12" — need separators for \b matchers. */
-    text = text.replace(/\b(Articles?)(\d{1,2})\b/gi, '$1 $2');
+    text = text.replace(/\b(Articles?)(\d{1,3})\b/gi, '$1 $2');
     text = text.replace(/\b(Recitals?)(\d{1,3})\b/gi, '$1 $2');
-    text = text.replace(/\b(Arts?\.)(\d{1,2})\b/gi, '$1 $2');
+    text = text.replace(/\b(Arts?\.)(\d{1,3})\b/gi, '$1 $2');
     text = text.replace(/(\d)(Articles?)\b/gi, '$1 $2');
     text = text.replace(/(\d)(Recitals?)\b/gi, '$1 $2');
     text = text.replace(/(\d)(Arts?\.)/gi, '$1 $2');
@@ -6106,9 +6535,9 @@
     function pushCandidate(start, end, type, num) {
       var n = parseInt(num, 10);
       if (type === 'recital') {
-        if (n < 1 || n > 173) return;
+        if (n < 1 || n > maxRec) return;
       } else {
-        if (n < 1 || n > 99) return;
+        if (n < 1 || n > maxArt) return;
       }
       if (type === 'article' && !isProbablyGdprArticleCitation(text, end)) return;
       cand.push({
@@ -6139,7 +6568,7 @@
       var a = parseInt(n1, 10);
       var b = parseInt(n2, 10);
       if (isNaN(a) || isNaN(b)) return;
-      if (a < 1 || a > 99 || b < 1 || b > 99) return;
+      if (a < 1 || a > maxArt || b < 1 || b > maxArt) return;
       if (a > b) {
         var t = a;
         a = b;
@@ -6161,7 +6590,7 @@
       var a = parseInt(n1, 10);
       var b = parseInt(n2, 10);
       if (isNaN(a) || isNaN(b)) return;
-      if (a < 1 || a > 173 || b < 1 || b > 173) return;
+      if (a < 1 || a > maxRec || b < 1 || b > maxRec) return;
       if (a > b) {
         var t2 = a;
         a = b;
@@ -7428,7 +7857,10 @@
     if (askAnswerBox && askAnswerContent) {
       askAnswerBox.classList.remove('hidden');
       askAnswerContent.textContent = '';
-      if (askAnswerStatus) askAnswerStatus.textContent = 'Retrieving sources and synthesizing…';
+        if (askAnswerStatus) {
+          askAnswerStatus.textContent =
+            'Retrieving ' + regulationShortLabel() + ' sources and synthesizing…';
+        }
     }
     var sectorSel = document.getElementById('askIndustrySector');
     var sectorId = sectorSel && sectorSel.value ? sectorSel.value : 'GENERAL';
@@ -7572,10 +8004,13 @@
       askRelevantDocs.classList.add('hidden');
       return;
     }
+    var regProf = getRegProfile();
     regs.forEach(function (s, idx) {
-      var label = s.type === 'recital'
-        ? 'GDPR Recital (' + s.number + ')'
-        : (getArticleDisplayTitle({ number: s.number, title: s.title }) + (s.chapterTitle ? ' · ' + s.chapterTitle : ''));
+      var label =
+        s.type === 'recital'
+          ? regProf.recitalHeading(s.number)
+          : getArticleDisplayTitle({ number: s.number, title: s.title }) +
+            (s.chapterTitle ? ' · ' + s.chapterTitle : '');
       var li = document.createElement('li');
       li.className = 'ask-relevant-doc-card';
       li.setAttribute('role', 'listitem');
@@ -7597,7 +8032,11 @@
         s.number +
         '">View in app</a>' +
         (s.sourceUrl
-          ? '<a href="' + escapeHtml(s.sourceUrl) + '" target="_blank" rel="noopener" class="ask-relevant-doc-link">GDPR-Info</a>'
+          ? '<a href="' +
+            escapeHtml(s.sourceUrl) +
+            '" target="_blank" rel="noopener" class="ask-relevant-doc-link">' +
+            escapeHtml(regProf.infoSiteName || 'Source') +
+            '</a>'
           : '') +
         (s.eurLexUrl
           ? '<a href="' + escapeHtml(s.eurLexUrl) + '" target="_blank" rel="noopener" class="ask-relevant-doc-link">EUR-Lex</a>'
@@ -7610,7 +8049,7 @@
     var articlesOnly = regs.filter(function (s) {
       return s.type === 'article';
     });
-    if (!articlesOnly.length) return;
+    if (!articlesOnly.length || !regProf.hasSuitableRecitals) return;
     Promise.all(
       articlesOnly.map(function (s) {
         return resolveSuitableRecitalsForArticle(s.number, null).then(function (recs) {
@@ -7627,7 +8066,7 @@
       extra.className = 'ask-crossref-extra';
       var h = document.createElement('h4');
       h.className = 'ask-relevant-docs-subtitle';
-      h.textContent = 'Suitable GDPR recitals (GDPR-Info)';
+      h.textContent = regProf.askUi && regProf.askUi.crossrefTitle ? regProf.askUi.crossrefTitle : 'Suitable recitals';
       extra.appendChild(h);
       var ul = document.createElement('ul');
       ul.className = 'ask-relevant-docs-list';
@@ -7678,19 +8117,20 @@
         t = t.replace(new RegExp('^Recital\\s+' + esc + '\\b\\s*(?:[—–-]\\s*)+', 'i'), '').trim();
       } else {
         t = t.replace(
-          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*GDPR)?\\s*(?:[—–-]\\s*)+', 'i'),
+          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act))?\\s*(?:[—–-]\\s*)+', 'i'),
           ''
         ).trim();
-        t = t.replace(new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*GDPR)?\\s+', 'i'), '').trim();
+        t = t.replace(new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act))?\\s+', 'i'), '').trim();
         t = t.replace(new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b\\s*$', 'i'), '').trim();
-        t = t.replace(/^GDPR\s+/i, '').trim();
+        t = t.replace(/^(?:GDPR|AI Act)\s+/i, '').trim();
       }
     } while (t !== prev && t.length && i < 12);
     return t;
   }
 
   function formatAnswerCitationHeadline(type, number, rawTitle) {
-    var label = type === 'recital' ? 'Recital (' + number + ')' : 'Art. ' + number;
+    var reg = getRegProfile();
+    var label = type === 'recital' ? reg.recitalHeading(number) : reg.articleHeading(number);
     var rest = stripRedundantProvisionTitle(type, number, rawTitle);
     return rest ? label + ' — ' + rest : label;
   }
@@ -7717,8 +8157,11 @@
       if (s.kind === 'regulation') {
         var docLine = formatAnswerCitationHeadline(s.type, s.number, s.title || '');
         var inApp = '<a href="#" class="app-goto-doc from-ask" data-type="' + escapeHtml(s.type) + '" data-number="' + s.number + '">View in app</a>';
-        var links = (s.sourceUrl ? (' · <a href="' + escapeHtml(s.sourceUrl) + '" target="_blank" rel="noopener">GDPR-Info</a>') : '') +
-          (s.eurLexUrl ? (' · <a href="' + escapeHtml(s.eurLexUrl) + '" target="_blank" rel="noopener">EUR-Lex</a>') : '');
+        var siteName = getRegProfile().infoSiteName || 'Source';
+        var links =
+          (s.sourceUrl
+            ? ' · <a href="' + escapeHtml(s.sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(siteName) + '</a>'
+            : '') + (s.eurLexUrl ? (' · <a href="' + escapeHtml(s.eurLexUrl) + '" target="_blank" rel="noopener">EUR-Lex</a>') : '');
         html += '<li class="answer-citation-item" role="listitem">' +
           '<div class="answer-citation-head"><span class="answer-citation-id">[' + escapeHtml(label) + ']</span> ' +
           '<span class="answer-citation-doc">' + escapeHtml(docLine) + '</span></div>' +
@@ -7770,5 +8213,7 @@
   updateBrowseSectionMenu();
   initByokSettingsUi();
   updateAskLlmKeysStatus();
-  loadMeta();
+  initRegulationSelector().finally(function () {
+    loadMeta();
+  });
 })();

@@ -1,0 +1,21 @@
+{
+  "regulationId": "ai-act",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": null,
+  "summaries": {
+    "1": "Chapter I sets the AI Act’s subject matter, scope, definitions, and relationship with other EU law — including when the rules apply and key concepts such as AI system, provider, and deployer.",
+    "2": "Chapter II lists prohibited AI practices that are unacceptable in the Union, including certain manipulative, exploitative, and social-scoring uses of AI.",
+    "3": "Chapter III is the core high-risk framework: classification, requirements, conformity assessment, registration, and obligations for providers and deployers of high-risk AI systems.",
+    "4": "Chapter IV imposes transparency obligations for certain AI systems (e.g. chatbots, deepfakes, emotion recognition) so users know they interact with AI.",
+    "5": "Chapter V regulates general-purpose AI models, including transparency, copyright, and systemic-risk obligations for the most capable models.",
+    "6": "Chapter VI supports innovation through regulatory sandboxes, real-world testing, and measures to reduce burdens on SMEs and start-ups.",
+    "7": "Chapter VII establishes governance: the AI Office, Board, scientific panel, and national competent authorities coordinating application of the Act.",
+    "8": "Chapter VIII requires an EU database for high-risk AI systems registered under the Act.",
+    "9": "Chapter IX covers post-market monitoring, incident reporting, market surveillance, and enforcement cooperation among authorities.",
+    "10": "Chapter X encourages codes of conduct and guidelines to foster trustworthy AI beyond minimum legal requirements.",
+    "11": "Chapter XI governs delegated acts and committee procedures for updating technical elements of the framework.",
+    "12": "Chapter XII sets administrative fines and penalties for infringements of the AI Act.",
+    "13": "Chapter XIII contains final provisions, including evaluation, review, and staged dates of application for different chapters."
+  }
+}

@@ -54,6 +54,41 @@ const NEWS_TOPIC_GROUPS = [
     ]
   },
   {
+    category: 'EU Artificial Intelligence Act',
+    topics: [
+      {
+        label: 'High-risk AI systems and conformity',
+        patterns: [
+          /high[- ]risk ai|high[- ]risk artificial intelligence|conformity assessment|notified bod(y|ies).*ai|eu database.*high[- ]risk|quality management system.*ai/i
+        ]
+      },
+      {
+        label: 'Prohibited and unacceptable AI practices',
+        patterns: [
+          /prohibited ai|unacceptable risk|social scoring|real[- ]time biometric|emotion recognition in (the )?workplace|manipulative ai|exploitative ai/i
+        ]
+      },
+      {
+        label: 'General-purpose AI and systemic risk',
+        patterns: [
+          /general[- ]purpose ai|\bgpai\b|foundation model|systemic risk|model provider|code of practice|downstream provider/i
+        ]
+      },
+      {
+        label: 'AI Act governance and AI Office',
+        patterns: [
+          /ai office|artificial intelligence board|market surveillance.*ai|regulation \(eu\) 2024\/1689|eu ai act|artificial intelligence act/i
+        ]
+      },
+      {
+        label: 'Transparency, deepfakes, and deployer duties',
+        patterns: [
+          /deepfake|synthetic content|chatbot disclosure|emotion detection|biometric categorisation|deployer.*ai system|provider.*ai system|transparency obligation/i
+        ]
+      }
+    ]
+  },
+  {
     category: 'AI and Emerging Tech',
     topics: [
       {

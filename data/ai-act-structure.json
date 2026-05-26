@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "regulationId": "ai-act",
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "AI Act Law",
+        "url": "https://ai-act-law.eu/",
+        "description": "Readable English layout of Regulation (EU) 2024/1689 (Artificial Intelligence Act), aligned with official structure.",
+        "documents": [
+          { "label": "Full regulation", "url": "https://ai-act-law.eu/" },
+          { "label": "Recitals", "url": "https://ai-act-law.eu/recital/" },
+          { "label": "Chapter I – General provisions", "url": "https://ai-act-law.eu/chapter/1/" },
+          { "label": "Chapter II – Prohibited AI practices", "url": "https://ai-act-law.eu/chapter/2/" },
+          { "label": "Chapter III – High-risk AI systems", "url": "https://ai-act-law.eu/chapter/3/" },
+          { "label": "Chapter IV – Transparency obligations", "url": "https://ai-act-law.eu/chapter/4/" },
+          { "label": "Chapter V – General-purpose AI models", "url": "https://ai-act-law.eu/chapter/5/" },
+          { "label": "Chapter VI – Measures in support of innovation", "url": "https://ai-act-law.eu/chapter/6/" },
+          { "label": "Chapter VII – Governance", "url": "https://ai-act-law.eu/chapter/7/" },
+          { "label": "Chapter VIII – EU database for high-risk AI systems", "url": "https://ai-act-law.eu/chapter/8/" },
+          { "label": "Chapter IX – Post-market monitoring and market surveillance", "url": "https://ai-act-law.eu/chapter/9/" },
+          { "label": "Chapter X – Codes of conduct and guidelines", "url": "https://ai-act-law.eu/chapter/10/" },
+          { "label": "Chapter XI – Delegation of power and committee procedure", "url": "https://ai-act-law.eu/chapter/11/" },
+          { "label": "Chapter XII – Penalties", "url": "https://ai-act-law.eu/chapter/12/" },
+          { "label": "Chapter XIII – Final provisions", "url": "https://ai-act-law.eu/chapter/13/" },
+          { "label": "Annexes", "url": "https://ai-act-law.eu/annex/" }
+        ]
+      },
+      {
+        "name": "EUR-Lex (Official Journal)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+        "description": "Official EU publication of Regulation (EU) 2024/1689 (Artificial Intelligence Act).",
+        "documents": [
+          { "label": "Regulation (EU) 2024/1689 (Official Journal)", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng" },
+          { "label": "HTML version", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689" },
+          { "label": "Consolidated text", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" }
+        ]
+      },
+      {
+        "name": "European Commission",
+        "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+        "description": "EU policy on the Artificial Intelligence Act and implementation.",
+        "documents": [
+          { "label": "AI Act — regulatory framework", "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" },
+          { "label": "AI Act Explorer", "url": "https://artificialintelligenceact.eu/" }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Recitals",
+      "description": "Preamble and context of the AI Act (Recitals 1–180).",
+      "sourceUrl": "https://ai-act-law.eu/recital/",
+      "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
+    },
+    {
+      "id": "chapters",
+      "title": "Chapters & Articles",
+      "description": "Binding provisions organised in 13 chapters (Articles 1–113).",
+      "sourceUrl": "https://ai-act-law.eu/",
+      "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
+    }
+  ],
+  "chapters": [
+    { "number": 1, "roman": "I", "title": "General provisions", "articleRange": "1-4", "sourceUrl": "https://ai-act-law.eu/chapter/1/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 2, "roman": "II", "title": "Prohibited AI practices", "articleRange": "5", "sourceUrl": "https://ai-act-law.eu/chapter/2/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 3, "roman": "III", "title": "High-risk AI systems", "articleRange": "6-49", "sourceUrl": "https://ai-act-law.eu/chapter/3/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 4, "roman": "IV", "title": "Transparency obligations for providers and deployers of certain AI systems", "articleRange": "50", "sourceUrl": "https://ai-act-law.eu/chapter/4/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 5, "roman": "V", "title": "General-purpose AI models", "articleRange": "51-56", "sourceUrl": "https://ai-act-law.eu/chapter/5/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 6, "roman": "VI", "title": "Measures in support of innovation", "articleRange": "57-63", "sourceUrl": "https://ai-act-law.eu/chapter/6/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 7, "roman": "VII", "title": "Governance", "articleRange": "64-70", "sourceUrl": "https://ai-act-law.eu/chapter/7/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 8, "roman": "VIII", "title": "EU database for high-risk AI systems", "articleRange": "71", "sourceUrl": "https://ai-act-law.eu/chapter/8/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 9, "roman": "IX", "title": "Post-market monitoring, information sharing and market surveillance", "articleRange": "72-94", "sourceUrl": "https://ai-act-law.eu/chapter/9/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 10, "roman": "X", "title": "Codes of conduct and guidelines", "articleRange": "95-96", "sourceUrl": "https://ai-act-law.eu/chapter/10/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 11, "roman": "XI", "title": "Delegation of power and committee procedure", "articleRange": "97-98", "sourceUrl": "https://ai-act-law.eu/chapter/11/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 12, "roman": "XII", "title": "Penalties", "articleRange": "99-101", "sourceUrl": "https://ai-act-law.eu/chapter/12/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" },
+    { "number": 13, "roman": "XIII", "title": "Final provisions", "articleRange": "102-113", "sourceUrl": "https://ai-act-law.eu/chapter/13/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": []
+}

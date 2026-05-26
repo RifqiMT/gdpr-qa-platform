@@ -1,5 +1,7 @@
 # Guardrails  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
+
+**Version:** 1.1 · **Last updated:** 2026-05-25
 
 Guardrails define **technical and business limitations** so the team ships safely: what the product must not claim, what the architecture assumes, and where human review is required.
 
@@ -85,12 +87,25 @@ Guardrails define **technical and business limitations** so the team ships safel
 
 ---
 
+## 6b. EU AI Act–specific guardrails
+
+| Id | Guardrail | Detail |
+|----|-----------|--------|
+| BG-AI-01 | **No suitable-recital map** | AI Act does not ship `article-suitable-recitals` crossrefs; UI must not imply GDPR-Info-style suitable recitals. |
+| BG-AI-02 | **News is filtered, not separate** | AI Act mode filters shared GDPR/data-protection news; do not claim full AI Act press coverage. |
+| BG-AI-03 | **Separate corpora** | `ai-act-content.json` and `gdpr-content.json` must never merge; regulation id selects one file. |
+| TG-AI-01 | **AI Act ETL** | `ai-act-scraper.js` is independent of GDPR guardrails file; monitor formatting separately. |
+| TG-AI-02 | **Regulation in Ask** | Tavily/DuckDuckGo queries must include AI Act context when `regulation=ai-act`. |
+
+---
+
 ## 7. Out-of-scope reminders (do not commit roadmap as promise)
 
 - User accounts, roles, audit trails per user.  
 - Official EDPB/ICO API partnerships beyond public pages.  
 - Guaranteed SLAs without hosting agreement.  
-- Automated legal compliance scoring.
+- Automated legal compliance scoring.  
+- Dedicated AI Act-only news crawler (filter-only today).
 
 ---
 

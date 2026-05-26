@@ -1,0 +1,132 @@
+# Feature catalog  
+## EU Regulation Q&A Platform
+
+**Version:** 1.0 · **Last updated:** 2026-05-25 · **Product version:** `package.json` **1.1.0**
+
+This catalog is the **feature-level inventory** of the shipped product. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
+
+---
+
+## 1. Platform shell
+
+| Feature ID | Name | Description | Primary surfaces |
+|------------|------|-------------|------------------|
+| F-SHELL-01 | Regulation switcher | Header dropdown: **GDPR** \| **EU AI Act**; persists in browser storage. | `index.html`, `app.js`, `GET /api/regulations` |
+| F-SHELL-02 | Tab navigation | Browse · Ask · Credible sources · News. | `index.html`, `app.js` |
+| F-SHELL-03 | Refresh sources | ETL for **active** regulation only. | Header button, `POST /api/refresh` |
+| F-SHELL-04 | Freshness tooltip | Last refreshed / check timestamps for corpus. | `GET /api/meta`, freshness UI |
+| F-SHELL-05 | API keys (BYOK) | Browser-stored Groq/Tavily override for Ask. | Header modal, `gdpr-qa-byok-v1` |
+| F-SHELL-06 | Homepage (logo) | Resets Browse to placeholder; clears reader state. | `goToHome()` in `app.js` |
+
+---
+
+## 2. Browse regulation
+
+| Feature ID | Name | GDPR | EU AI Act | Notes |
+|------------|------|------|-----------|-------|
+| F-BRW-01 | Recitals list | ✓ | ✓ | Search by number/keyword; card grid |
+| F-BRW-02 | Chapters & articles | ✓ | ✓ | Grouped by chapter; roman numerals |
+| F-BRW-03 | Category filter | ✓ | — | Chapter-title as category |
+| F-BRW-04 | Sub-category filter | ✓ | Hidden | Topic keywords (`ARTICLE_TOPICS`) |
+| F-BRW-05 | Chapter / article filters | ✓ | ✓ | Combobox filters |
+| F-BRW-06 | Reader detail view | ✓ | ✓ | Formatted body, official links |
+| F-BRW-07 | Doc navigation | ✓ | ✓ | Prev / Next / Go (number input) |
+| F-BRW-08 | Export PDF | ✓ | ✓ | html2pdf.js client-side |
+| F-BRW-09 | Related articles/recitals | ✓ | Partial | AI Act: text citations only; no suitable-recital map |
+| F-BRW-10 | Suitable recitals panel | ✓ | — | `article-suitable-recitals.json` + API |
+| F-BRW-11 | Chapter introductions | ✓ | ✓ | `chapter-summaries*.json`; Groq regenerate |
+| F-BRW-12 | Back to question | ✓ | ✓ | From Ask → Browse → return to Ask |
+| F-BRW-13 | Regulation-aware links | ✓ | ✓ | `regulation-profiles.js` URLs and headings |
+
+---
+
+## 3. Ask a question
+
+| Feature ID | Name | Description |
+|------------|------|-------------|
+| F-ASK-01 | Natural-language Q&A | `POST /api/answer` with BM25 local context + optional web + Groq/Tavily/extractive |
+| F-ASK-02 | Citation chips `[S#]` | Regulation chips open Browse; web chips open URLs |
+| F-ASK-03 | Relevant provisions panel | Lists regulation sources from answer; regulation-labeled |
+| F-ASK-04 | Industry / sector (ISIC) | Optional sector framing in prompts and BM25 expansion |
+| F-ASK-05 | Regulation-scoped prompts | `buildAnswerPrompt(query, sources, sector, reg)` |
+| F-ASK-06 | Regulation-scoped web search | DuckDuckGo + Tavily prefixes per `regulationSearchContext` |
+| F-ASK-07 | Layperson explain mode | Skips web for some general explain queries; tighter length rules |
+| F-ASK-08 | LLM status chip | Groq / Tavily / extractive + model name |
+| F-ASK-09 | BYOK | `apiKeys` in body; `POST /api/validate-api-keys` |
+| F-ASK-10 | Legacy search API | `POST /api/ask` token search (integrations) |
+| F-ASK-11 | Dynamic Ask copy | Placeholders, hero, signals via `askUi` in profiles |
+
+---
+
+## 4. Credible sources
+
+| Feature ID | Name | Description |
+|------------|------|-------------|
+| F-SRC-01 | Regulation-scoped catalog | `GET /api/meta?regulation=` → `meta.sources[]` |
+| F-SRC-02 | Source cards | Name, description, document link lists |
+| F-SRC-03 | Dynamic header copy | `sourcesUi` in `regulation-profiles.js` |
+| F-SRC-04 | Summary blurbs | `SOURCE_SUMMARIES` in `app.js` for known orgs |
+
+---
+
+## 5. News
+
+| Feature ID | Name | Description |
+|------------|------|-------------|
+| F-NEWS-01 | Multi-source aggregation | EDPB, EDPS, ICO (UK), Commission, CoE (+ EU Digital Strategy AI link in feeds list) |
+| F-NEWS-02 | Topic taxonomy | `news-topics.js` groups incl. **EU Artificial Intelligence Act** |
+| F-NEWS-03 | Source / topic filters | Client-side on `lastNewsItems` |
+| F-NEWS-04 | By source / All views | Segmented toggle; chronological **All** mode |
+| F-NEWS-05 | URL + semantic dedupe | Server + `news-dedupe.js` client mirror |
+| F-NEWS-06 | Refresh news | `POST /api/news/refresh` → `gdpr-news.json` |
+| F-NEWS-07 | Attachments discovery | Per-article scan; batch summary hides empty actions |
+| F-NEWS-08 | Quick filters dock | Desktop sidebar when main filters scroll away |
+| F-NEWS-09 | AI Act relevance filter | When `ai-act` selected: `itemMatchesNewsRegulationScope` + banner |
+| F-NEWS-10 | Three-paragraph summaries | Card summary blocks from data or heuristics |
+
+---
+
+## 6. Content pipeline (ETL)
+
+| Feature ID | Name | GDPR | EU AI Act |
+|------------|------|------|-----------|
+| F-ETL-01 | Scraper ETL | `scraper.js` | `ai-act-scraper.js` |
+| F-ETL-02 | Formatting guardrails | `document-formatting-guardrails.js` | Same |
+| F-ETL-03 | Search index build | BM25 `searchIndex[]` | Same |
+| F-ETL-04 | Merge with existing | Per-number last-wins | Same |
+| F-ETL-05 | CLI refresh | `npm run refresh` | `npm run refresh-ai-act` |
+| F-ETL-06 | Vercel cron | `api/cron/daily-regulation-refresh.js` | Both regulations |
+
+---
+
+## 7. Deployment and operations
+
+| Feature ID | Name | Description |
+|------------|------|-------------|
+| F-OPS-01 | Local Node server | `npm start` port **3847** |
+| F-OPS-02 | Vercel serverless | `api/index.js`, `vercel.json` |
+| F-OPS-03 | Ephemeral data on Vercel | `GDPR_DATA_DIR` / `/tmp` seed from bundled `data/` |
+| F-OPS-04 | Health check | `GET /health` |
+| F-OPS-05 | CORS | Enabled for API consumers |
+
+---
+
+## 8. Feature ↔ persona matrix (summary)
+
+| Persona | Browse | Ask | Sources | News |
+|---------|--------|-----|---------|------|
+| Legal / Compliance | ●●● | ●●● | ●● | ●● |
+| DPO | ●● | ●●● | ●● | ●●● |
+| AI governance lead | ●●● | ●●● | ●●● | ●● (filtered) |
+| Consultant | ●● | ●●● | ● | ●● |
+| Engineering / DevOps | ● | ● (BYOK) | — | ● (tuning) |
+
+Legend: ● = primary · ●● = frequent · ●●● = core workflow
+
+---
+
+## See also
+
+- [README.md](../README.md) — operator handbook  
+- [PRD.md](PRD.md) — formal requirements  
+- [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md) — runbooks and incidents

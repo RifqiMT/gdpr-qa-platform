@@ -11,12 +11,19 @@ module.exports = async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   try {
-    const data = await runRegulationScraperAndReloadContent();
+    const gdpr = await runRegulationScraperAndReloadContent('gdpr');
+    const aiAct = await runRegulationScraperAndReloadContent('ai-act');
     res.json({
       ok: true,
       job: 'daily-regulation-refresh',
-      lastRefreshed: data.meta?.lastRefreshed ?? null,
-      lastChecked: data.meta?.lastChecked ?? null
+      gdpr: {
+        lastRefreshed: gdpr.meta?.lastRefreshed ?? null,
+        lastChecked: gdpr.meta?.lastChecked ?? null
+      },
+      aiAct: {
+        lastRefreshed: aiAct.meta?.lastRefreshed ?? null,
+        lastChecked: aiAct.meta?.lastChecked ?? null
+      }
     });
   } catch (e) {
     console.error('Cron regulation refresh failed:', e);

@@ -1,7 +1,9 @@
 # Variables and data dictionary  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
 
-**Purpose:** This document is the **authoritative data dictionary** for configuration keys, environment variables, persisted JSON fields, and derived quantities used across the product. Each entry uses consistent, reader-friendly wording.
+**Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act). Each entry uses consistent, reader-friendly wording.
+
+**Version:** 1.3 · **Last updated:** 2026-05-25
 
 **Column reference**
 
@@ -71,10 +73,42 @@
 | `OPENROUTER_MODEL` | OpenRouter model slug | Default **`anthropic/claude-3.5-sonnet`**. | String. | `server.js` | `anthropic/claude-3.5-sonnet` |
 | `OPENROUTER_REFERRER` | OpenRouter HTTP Referer | Sent as **`HTTP-Referer`** on OpenRouter requests. | Default **`http://localhost:3847`** (override in production). | `server.js` | `https://your-domain.example` |
 | `LLM_PROVIDER` | Summarize provider lock | Forces a single LLM provider for **`POST /api/summarize`** when set. | **`openai`**, **`anthropic`**, **`gemini`**, **`groq`**, **`mistral`**, **`openrouter`** (case-insensitive). | `server.js` → `summarizeWithLLM` | `groq` |
+| `CRON_SECRET` | Vercel cron auth secret | Bearer token for **`/api/cron/daily-regulation-refresh`**. | Must match `Authorization: Bearer …` header. | `api/cron/daily-regulation-refresh.js` | *(secret)* |
+| `GDPR_DATA_DIR` | Writable data directory | Overrides default `data/` path (Vercel: `/tmp/gdpr-qa-data`). | Absolute or relative path string. | `lib/paths.js` | `/tmp/gdpr-qa-data` |
+| `MIN_AI_ACT_ARTICLES` | Minimum AI Act articles | Acceptance threshold for AI Act ETL. | `parseInt(env \|\| '113', 10)`. | `ai-act-scraper.js` | `113` |
+| `MIN_AI_ACT_RECITALS` | Minimum AI Act recitals | Acceptance threshold for AI Act ETL. | `parseInt(env \|\| '180', 10)`. | `ai-act-scraper.js` | `180` |
+| `AI_ACT_MAX_ARTICLE_CHARS` | AI Act body char cap | Optional max chars per article/recital body. | Integer; 0 = uncapped. | `ai-act-scraper.js` | `500000` |
+| `AI_ACT_INFO_CONCURRENCY` | AI Act fetch parallelism | Concurrent page fetches from ai-act-law.eu. | `max(1, parseInt(env \|\| '6', 10))`. | `ai-act-scraper.js` | `6` |
+| `AI_ACT_FORCE_CORPUS_WRITE` | Force AI Act corpus write | Write `ai-act-content.json` even if hash unchanged. | `=== '1'`. | `ai-act-scraper.js` | `1` |
 
 ---
 
-## 2. Regulation content (`data/gdpr-content.json`)
+## 2. Regulation selection (API and client)
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `regulation` | Active regulation id | Selects which corpus and structure files load. | **`gdpr`** (default) or **`ai-act`**; invalid → `gdpr`. | Query `?regulation=` or POST body; `parseRegulationId` | `ai-act` |
+| `gdpr-qa-regulation-v1` | Stored regulation preference | User’s last selected regulation in the browser. | `localStorage` string `gdpr` \| `ai-act`. | `public/app.js` → `REG_STORAGE_KEY` | `ai-act` |
+| `regulationId` | Regulation in API response | Echo of active regulation on Ask/meta. | Same as `regulation` param. | `POST /api/answer` JSON | `"ai-act"` |
+| `currentRegulation` | In-memory regulation state | Client object: id, shortName, maxArticles, flags. | Merged from `/api/regulations` + profiles. | `public/app.js` | `{ id: 'ai-act', … }` |
+
+### 2.1 Regulation UI profiles (`public/regulation-profiles.js`)
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `askUi.heading` | Ask tab title | Main H2 on Ask tab. | Set by `syncAskSourcesNewsChrome`. | `#askHeading` | `Ask about the EU AI Act` |
+| `askUi.placeholder` | Ask search placeholder | Query input hint text. | Per regulation profile. | `#query` | `What is a high-risk AI system?…` |
+| `askUi.signalCorpus` | Ask trust signal | First bullet under Ask hero. | Describes local corpus source. | `#askSignalCorpus` | `Local AI Act corpus & EUR-Lex alignment` |
+| `askUi.relevantTitle` | Relevant provisions heading | Aside panel title after Ask. | GDPR vs AI Act wording. | `#askRelevantDocsTitle` | `Relevant AI Act provisions` |
+| `askUi.crossrefTitle` | Suitable recitals subtitle | GDPR-Info crossref block; `null` hides block. | Only when `hasSuitableRecitals`. | `renderRelevantProvisionsFromAnswer` | `Suitable GDPR recitals (GDPR-Info)` |
+| `sourcesUi.title` | Sources page title | H2 on Credible sources tab. | Regulation-scoped copy. | `#sourcesHeaderTitle` | `EU AI Act: credible sources & documents` |
+| `newsUi.filterForRegulation` | News regulation filter flag | When true, client filters headlines for AI relevance. | `itemMatchesNewsRegulationScope`. | `newsUi` on `ai-act` profile | `true` |
+| `newsUi.bannerHtml` | News scope banner | HTML shown under News intro when filtering. | Hidden when empty. | `#newsRegulationBanner` | AI Act filter explanation |
+| `AI_ACT_NEWS_SCOPE_RE` | AI news match pattern | Regex on title+snippet+topic for AI Act News filter. | OR topic category **EU Artificial Intelligence Act** / **AI and Emerging Tech**. | `public/app.js` | Matches `AI Act`, `high-risk AI`, … |
+
+---
+
+## 3. Regulation content (`data/gdpr-content.json`)
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
@@ -366,7 +400,61 @@ flowchart TB
 
 ---
 
-## 10. Maintenance checklist
+## 3b. EU AI Act content (`data/ai-act-content.json`)
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `ai-act-content.json` | AI Act corpus file | Full AI Act text + search index. | Written by `ai-act-scraper.js`; read by `loadContent('ai-act')`. | `data/` | 113 articles |
+| `meta.regulationId` | Corpus regulation tag | Identifies corpus in combined meta responses. | Constant **`ai-act`**. | `ai-act-content.json` → `meta` | `"ai-act"` |
+| `hasArticleTopics` | Topic filter flag (client) | Whether sub-category filters show. | **`false`** for AI Act in `lib/regulations.js`. | API `/api/regulations` | `false` |
+| `hasSuitableRecitals` | Cross-ref flag (client) | Whether suitable-recital panels load. | **`false`** for AI Act. | API `/api/regulations` | `false` |
+
+---
+
+## 10. Multi-regulation relationship (overview)
+
+```mermaid
+flowchart TB
+  subgraph Client
+    SEL[regulationSelect]
+    LS[(gdpr-qa-regulation-v1)]
+    APP[public/app.js]
+    PROF[regulation-profiles.js]
+  end
+  subgraph API
+    REGS[GET /api/regulations]
+    META[GET /api/meta?regulation=]
+    ANS[POST /api/answer]
+    REF[POST /api/refresh]
+  end
+  subgraph Server
+    PARSE[parseRegulationId]
+    LOAD[loadContent regId]
+    LIB[lib/regulations.js]
+  end
+  subgraph Data
+    GDPR[(gdpr-content.json)]
+    AI[(ai-act-content.json)]
+  end
+  SEL --> LS
+  LS --> APP
+  APP --> PROF
+  APP --> REGS
+  APP --> META
+  APP --> ANS
+  APP --> REF
+  META --> PARSE
+  ANS --> PARSE
+  REF --> PARSE
+  PARSE --> LOAD
+  LOAD --> LIB
+  LOAD --> GDPR
+  LOAD --> AI
+```
+
+---
+
+## 11. Maintenance checklist
 
 1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together. **Commission / multi-feed crawl changes:** review **[GUARDRAILS.md](GUARDRAILS.md) TG-N06** and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** news rows.
 2. **JSON shape change** (regulation or news): Update **§2** / **§7**, **[PRD.md](PRD.md)**, and **[DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)** or news merge notes as appropriate.

@@ -1,12 +1,21 @@
 # Glossary  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
+
+**Version:** 1.1 · **Last updated:** 2026-05-25
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI.
 
 | Term | Definition |
 |------|------------|
-| **BM25** | Best Matching 25 — a probabilistic ranking function used to score regulation excerpts against the user’s Ask query (`server.js`). |
-| **Corpus** | The full set of regulation texts and index rows loaded from **`gdpr-content.json`** (and normalized via **`document-formatting-guardrails.js`**). |
+| **AI Act** | Artificial Intelligence Act — Regulation (EU) 2024/1689; regulation id **`ai-act`** in APIs. |
+| **AI Act Law** | Readable site **ai-act-law.eu** — default primary source for AI Act corpus layout. |
+| **AI Office** | EU body referenced in AI Act governance provisions (see official text). |
+| **BM25** | Best Matching 25 — ranking function for Ask excerpt retrieval (`server.js`). |
+| **Corpus** | Regulation texts + search index from **`gdpr-content.json`** or **`ai-act-content.json`**, normalized on read/write (GDPR via **`document-formatting-guardrails.js`**). |
+| **Deployer** | AI Act role placing an AI system on the market or putting it into service (see Art. 3). |
+| **GPAI** | General-purpose AI model — Chapter V of the EU AI Act. |
+| **High-risk AI system** | AI system classified as high-risk under Chapter III of the EU AI Act. |
+| **Provider** | AI Act role developing an AI system or having it developed (see Art. 3). |
 | **DPO** | Data Protection Officer — persona target; not a software component. |
 | **EDPB** | European Data Protection Board — credible source for guidelines and news feeds. |
 | **EDPS** | European Data Protection Supervisor — EU institutional data protection; News via **`feed/news_en`**. |
@@ -23,7 +32,9 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **Tavily** | Third-party search-and-answer API used as **fallback** when Groq does not return usable Ask output. |
 | **TG / BG / DG** | Prefixes for guardrail ids in [GUARDRAILS.md](GUARDRAILS.md): **technical**, **business**, **data/privacy/documentation**. |
 | **News deduplication (consolidated)** | Two-pass merge in **`news-crawler.js`** / **`server.js`**: (1) normalized URL key, (2) semantic key (source + date + title fingerprint) with **`mergeNewsDuplicate`**; mirrored in the browser by **`public/news-dedupe.js`** as **`GDPR_NEWS_DEDUPE`**. |
-| **news-topics.js** | Server module: topic **taxonomy**, **`classifyNewsItemTopic`**, **`assignNewsTopicFields`**, **`getTopicTaxonomyForClient`**, and **`newsBlobMatchesTopicAnchor`** (supplemental gate inside **`newsItemMatchesApprovedTopic`**). |
+| **news-topics.js** | Server module: topic **taxonomy** (includes **EU Artificial Intelligence Act** category), classification, and client filter support. |
+| **regulation** | API/UI parameter **`gdpr`** \| **`ai-act`** selecting active corpus. |
+| **regulation-profiles.js** | Client module: per-regulation copy (Ask, Sources, News), URLs, heading patterns. |
 
 ---
 

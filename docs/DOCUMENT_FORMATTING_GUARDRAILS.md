@@ -1,10 +1,12 @@
-# Document formatting guardrails (GDPR reader)
+# Document formatting guardrails (regulation reader)
 
-This document is the **reference contract** between **source data** (`data/gdpr-content.json`, produced by refresh/scrape from EUR-Lex / GDPR-Info) and **in-app presentation** (`public/app.js`, `public/styles.css`). Any change to extraction, normalization, or JSON shape should be checked against these rules so the reader does not regress.
+**Applies to:** **GDPR** corpus (`gdpr-content.json`, `scraper.js`) — mandatory **`normalizeCorpus`** on refresh and read. **EU AI Act** corpus (`ai-act-content.json`, `ai-act-scraper.js`) uses the **same reader** in `public/app.js` (`fmtArticleLine`, `fmtRecitalLine`, citation linking) with regulation-specific heading patterns from `regulation-profiles.js`.
 
-**Principle:** The app must not alter the **legal meaning** of the GDPR. Formatting logic only parses, escapes, and structures text for display. If a fix requires rewriting substantive law, fix the **ETL** or **source**, not the wording in JSON.
+This document is the **reference contract** between **source JSON** and **in-app presentation** (`public/app.js`, `public/styles.css`).
 
-**This file is the binding bible** for how regulation text is normalized and presented. Any new extractor (GDPR-Info, EUR-Lex, or future mirror) must still pass through the same mandatory steps below before the corpus is written or served.
+**Principle:** The app must not alter the **legal meaning** of the regulation text. Formatting logic only parses, escapes, and structures text for display. If a fix requires rewriting substantive law, fix the **ETL** or **source**, not the wording in JSON.
+
+**Binding rule for GDPR ETL:** Any GDPR extractor (GDPR-Info, EUR-Lex) must pass through **`document-formatting-guardrails.js`** before the corpus is written or served (see §1.1).
 
 ---
 

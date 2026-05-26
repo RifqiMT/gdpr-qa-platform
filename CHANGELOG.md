@@ -1,13 +1,23 @@
 # Changelog
 
-All notable changes to the **GDPR Q&A Platform** are documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) where applicable.
+All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-platform`) are documented in this file. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
 ## [Unreleased]
 
+### Documentation
+
+- **Product documentation audit (standard v1.7):** Comprehensive refresh aligned with **dual-regulation** product (GDPR + EU AI Act), Ask/Sources/News integration, and v1.1.0 codebase — [README.md](README.md) (Browse/Ask/News/ETL sections), [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) **v1.7**, [docs/README.md](docs/README.md), new [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md), new [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md), and updates across PRD, personas, stories, variables (relationship charts), metrics, design, traceability, guardrails, glossary, API contracts, architecture, business/tech guidelines, and changelog.
+
+---
+
+## [1.1.0] — 2026-05-25
+
 ### Added
 
+- **EU AI Act regulation:** Browse and Ask over Regulation (EU) 2024/1689 — 113 articles and 180 recitals from [ai-act-law.eu](https://ai-act-law.eu/), with regulation switcher in the header, `?regulation=ai-act` API parameter, `npm run refresh-ai-act`, bundled `data/ai-act-content.json`, and shared UI via `public/regulation-profiles.js` (reader, chapter list, citations, PDF export).
+- **Ask / Sources / News integration for AI Act:** Regulation-aware Ask copy, Tavily/web search context, credible sources from `ai-act-structure.json`, News AI-relevance filter and banner when EU AI Act is selected; **EU Artificial Intelligence Act** topic group in `news-topics.js`.
 - **Vercel production deployment:** `vercel.json`, `api/index.js` (Express serverless entry), `api/cron/daily-regulation-refresh.js`, `lib/paths.js` (bundled `data/` + `/tmp` on Vercel), `npm run vercel-build`, `.vercelignore`, and **[docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md)**.
 - **BYOK (Bring Your Own Key):** Header **API keys** dialog stores Groq/Tavily credentials in **browser `localStorage`** (`gdpr-qa-byok-v1`); optional override of server `.env` keys on **`POST /api/answer`** and **`POST /api/chapter-summaries/regenerate`** via request body **`apiKeys`**.
 - **`POST /api/validate-api-keys`:** Validates Groq (models API) and Tavily (minimal search) without persisting secrets; powers **Check validity** with animated result cards in the dialog.
@@ -24,15 +34,13 @@ All notable changes to the **GDPR Q&A Platform** are documented in this file. Th
 
 ### Documentation
 
-- **Product documentation audit (standard v1.5):** Comprehensive refresh of **[README.md](README.md)**, **[PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)**, **[docs/README.md](docs/README.md)**, **[docs/PRD.md](docs/PRD.md)**, **[docs/USER_PERSONAS.md](docs/USER_PERSONAS.md)**, **[docs/USER_STORIES.md](docs/USER_STORIES.md)**, **[docs/VARIABLES.md](docs/VARIABLES.md)** (including BYOK variables and relationship charts), **[docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md)**, **[docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md)**, **[docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md)**, **[docs/GUARDRAILS.md](docs/GUARDRAILS.md)**, **[docs/API_CONTRACTS.md](docs/API_CONTRACTS.md)**, **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, **[docs/GLOSSARY.md](docs/GLOSSARY.md)**, and **[docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md)** — aligned with BYOK, key validation UI, and current codebase.
-- **Product documentation audit (standard v1.4):** News UI, attachments visibility, `NEWS_*` defaults (see git history).
-- **Earlier iterations (still reflected in repo history):** v1.2 news UI + dedupe docs; v1.1 variables/PRD guardrails expansion; initial enterprise doc set under `docs/`.
+- **Product documentation audit (standard v1.5):** BYOK, validate-api-keys, News UI (see git history for v1.4–v1.5 iterations).
 
 ### Removed
 
-- **Docker / Render web porting artifacts:** Removed **`Dockerfile`**, **`.dockerignore`**, and **`render.yaml`**. The **`GET /health`** route remains for any generic liveness checks.
+- **Docker / Render web porting artifacts:** Removed **`Dockerfile`**, **`.dockerignore`**, and **`render.yaml`**. **`GET /health`** retained.
 
-### Earlier unreleased notes
+### Notes (1.1.0 development)
 
 - Added enterprise product documentation set: `docs/VARIABLES.md`, `docs/METRICS_AND_OKRS.md`, `docs/DESIGN_GUIDELINES.md`, `docs/TRACEABILITY_MATRIX.md`, `docs/GUARDRAILS.md`, `docs/API_CONTRACTS.md`, `docs/ARCHITECTURE.md`, `docs/README.md`.
 - Expanded `PRODUCT_DOCUMENTATION_STANDARD.md` and root `README.md` to reflect current Ask (`POST /api/answer`), BM25 retrieval, industry sectors, Groq/Tavily, chapter summaries, and news APIs.

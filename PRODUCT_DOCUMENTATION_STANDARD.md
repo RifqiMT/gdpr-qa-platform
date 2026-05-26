@@ -1,10 +1,10 @@
 # Product documentation standard  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
 
-**Version:** 1.5  
-**Status:** Active — this document is the **governance checklist** for product, design, compliance, engineering, and operations stakeholders.
+**Version:** 1.7  
+**Status:** Active — governance checklist for product, design, compliance, engineering, and operations.
 
-**Scope:** All material under **`gdpr-qa-platform/`** that describes what the product is, how it behaves, how it is configured, and how it is verified.
+**Scope:** All material under **`gdpr-qa-platform/`** describing the product (GDPR + EU AI Act), behavior, configuration, and verification.
 
 ---
 
@@ -15,7 +15,9 @@
 | [README.md](README.md) | All | Primary handbook: overview, benefits, features, logic, business/tech guidelines, tech stack, structure, API summary, configuration, quick start, disclaimer. |
 | [CHANGELOG.md](CHANGELOG.md) | Engineering, release managers | Semantic, dated record of user-visible and operational changes. |
 | [docs/README.md](docs/README.md) | All | Hub page: reading order, document map, conventions. |
-| [docs/PRD.md](docs/PRD.md) | Product, engineering | Product Requirements Document: goals, functional/non-functional requirements, data model, success criteria, out of scope (includes News view modes and attachments visibility rules). |
+| [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) | Product, legal | Business scope, positioning, credible sources policy, regulation scope. |
+| [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md) | Engineering, DevOps | Technical standards: multi-regulation APIs, ETL, Ask pipeline, security, performance. |
+| [docs/PRD.md](docs/PRD.md) | Product, engineering | PRD **v2.0**: dual regulation (GDPR + EU AI Act), BYOK, News, Vercel. |
 | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX, content | Personas, goals, pain points, feature fit. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA, engineering | User stories by epic, traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, DevOps, support | Data dictionary: env vars, JSON fields, Ask/refresh variables, News enrichment knobs, **relationship diagrams** (data flow + configuration). |
@@ -29,6 +31,9 @@
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Engineering | System context, layers, sequence diagrams. |
 | [.env.example](.env.example) | DevOps | Commented template for configuration (no secrets committed). |
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | All | Acronyms and product terms (BM25, ETL, GDPR-Info, …). |
+| [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) | Product, QA | Feature inventory by area (Browse, Ask, Sources, News, ETL, ops). |
+| [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) | DevOps, support | Start/stop, refresh, Vercel, smoke tests, incidents. |
+| [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) | Engineering | Repository file map and simplified dependency diagram. |
 
 ---
 
@@ -38,9 +43,9 @@
 
 | Element | Description |
 |--------|--------------|
-| **Purpose** | Browse and search **Regulation (EU) 2016/679** with official links; **Ask** with BM25-grounded excerpts, optional web snippets, and **Groq** / **Tavily** / extractive synthesis; optional **industry sector** framing; **Credible sources**; curated **News**; **PDF** export. |
-| **Target users** | Legal, compliance, DPOs, consultants, sector specialists, and occasional professional users (see personas). |
-| **Core concepts** | Local corpus **`gdpr-content.json`**, **`normalizeCorpus`** on every refresh and read, **`POST /api/answer`**, citation ids **`[S1]`**, cross-references (**`gdpr-crossrefs.js`**), chapter summaries, news merge. |
+| **Purpose** | Browse and **Ask** over **GDPR** and **EU AI Act** with official links; BM25 + Groq/Tavily; sector framing; regulation-scoped **Credible sources**; **News** (AI-filter when AI Act selected); **PDF** export. |
+| **Target users** | Legal, compliance, privacy, **AI governance**, DPOs, consultants, engineers (see personas). |
+| **Core concepts** | **`lib/regulations.js`** registry; **`gdpr-content.json`** + **`ai-act-content.json`**; **`regulation`** API param; **`POST /api/answer`**; **`[S1]`** citations; GDPR crossrefs; **`regulation-profiles.js`** (`askUi`, `sourcesUi`, `newsUi`); News **AI Act filter** when `ai-act` selected. |
 | **High-level journey** | Open app → Browse or Ask → follow citations → refresh regulation or news from authoritative sources when needed. |
 
 ---

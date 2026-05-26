@@ -8,11 +8,11 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 300,
-      "includeFiles": "data/**"
+      "includeFiles": "data/**,ai-act-scraper.js"
     },
     "api/cron/daily-regulation-refresh.js": {
       "maxDuration": 300,
-      "includeFiles": "data/**"
+      "includeFiles": "data/**,ai-act-scraper.js"
     }
   },
   "rewrites": [

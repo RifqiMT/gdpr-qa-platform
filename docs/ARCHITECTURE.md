@@ -1,20 +1,24 @@
 # Architecture overview  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
+
+**Version:** 1.2 · **Last updated:** 2026-05-25
 
 ## System context
 
 ```mermaid
 flowchart LR
   user[User browser]
-  app[GDPR Q&A Platform Node Express]
-  eurlex[EUR-Lex GDPR-Info]
+  app[EU Regulation Q&A Node Express]
+  gdprSrc[GDPR-Info / EUR-Lex]
+  aiSrc[AI Act Law / EUR-Lex 2024/1689]
   news[Publisher sites EDPB EDPS ICO Commission CoE]
   groq[Groq API]
   tavily[Tavily API]
   ddg[DuckDuckGo HTML]
 
   user --> app
-  app --> eurlex
+  app --> gdprSrc
+  app --> aiSrc
   app --> news
   app --> groq
   app --> tavily
@@ -27,9 +31,11 @@ flowchart LR
 
 | Layer | Components | Responsibility |
 |-------|------------|----------------|
-| **Client** | `public/index.html`, `public/app.js`, `public/news-dedupe.js`, `public/styles.css` | Tabs, browse reader, Ask composer, News (dedupe client, Quick filters dock, expandable feeds), Sources, PDF export |
-| **API** | `server.js` | REST endpoints, content load, BM25 retrieval, LLM orchestration, news merge |
-| **ETL** | `scraper.js` + **`document-formatting-guardrails.js`** | Fetch and parse regulation → **`normalizeCorpus`** → **`buildSearchIndex`** → **`gdpr-content.json`** |
+| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, `news-dedupe.js`, `styles.css` | Regulation switcher; tabs; regulation-aware Ask/Sources/News |
+| **API** | `server.js` | REST; `parseRegulationId`; BM25; Groq/Tavily with `regulationSearchContext` |
+| **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Regulation metadata; `loadContent(regId)`; Vercel `/tmp` |
+| **ETL GDPR** | `scraper.js` + **`document-formatting-guardrails.js`** | → **`gdpr-content.json`** |
+| **ETL AI Act** | `ai-act-scraper.js` | → **`ai-act-content.json`** |
 | **News** | `news-crawler.js`, `news-topics.js`, `server.js` (merge, dedupe, routes), `public/news-dedupe.js` | Parallel fetches (RSS/HTML/API) → relevance gate → topic assignment → merge → **consolidated dedupe** → API + client mirror |
 | **Crossrefs** | `gdpr-crossrefs.js` | Article↔recital suitability and citation extraction |
 | **Data** | `data/*.json`, `public/industry-sectors.json` | Corpus, news cache, chapter summaries, sectors |
@@ -46,8 +52,8 @@ sequenceDiagram
   participant DF as document-formatting-guardrails
   participant FS as File system
 
-  UI->>S: POST /api/refresh
-  S->>SCR: run() ETL merge + fetch
+  UI->>S: POST /api/refresh { regulation }
+  S->>SCR: run() for gdpr OR ai-act-scraper for ai-act
   SCR->>DF: normalizeCorpus(recitals, articles)
   DF-->>SCR: normalized arrays
   SCR->>SCR: buildSearchIndex

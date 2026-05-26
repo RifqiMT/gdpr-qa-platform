@@ -5,7 +5,7 @@
   <!-- Optional: full origin if the UI is hosted separately from the Node API (e.g. content="https://api.example.com") -->
   <meta name="gdpr-api-base" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GDPR Q&A Platform</title>
+  <title>EU Regulation Q&amp;A Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Text&display=swap" rel="stylesheet">
@@ -15,10 +15,17 @@
   <header class="header">
     <div class="header-inner">
       <div class="header-top">
-        <h1 class="logo"><a href="#" class="logo-link" id="logoLink" title="Go to homepage">GDPR Q&A Platform</a></h1>
-        <p class="tagline">General Data Protection Regulation (EU) 2016/679</p>
+        <h1 class="logo"><a href="#" class="logo-link" id="logoLink" title="Go to homepage">EU Regulation Q&amp;A Platform</a></h1>
+        <p class="tagline" id="appTagline">Select a regulation above to browse and ask questions.</p>
       </div>
       <div class="meta-row">
+        <label class="regulation-select-wrap" for="regulationSelect">
+          <span class="regulation-select-label">Regulation</span>
+          <select id="regulationSelect" class="regulation-select" title="Switch between GDPR and EU AI Act">
+            <option value="gdpr">GDPR</option>
+            <option value="ai-act">EU AI Act</option>
+          </select>
+        </label>
         <div class="freshness-tooltip-wrap" id="freshnessTooltipWrap">
           <button
             type="button"
@@ -86,14 +93,14 @@
                   <span class="browse-quick-btn-meta">1–99</span>
                 </button>
               </div>
-              <p class="placeholder-hint">GDPR text is loaded from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>. Use <strong>Refresh sources</strong> in the header to fetch the latest consolidated Regulation.</p>
+              <p class="placeholder-hint" id="browsePlaceholderHint">Use <strong>Refresh sources</strong> in the header to fetch the latest consolidated text for the selected regulation.</p>
             </div>
           </div>
           <div id="browseRecitals" class="browse-section browse-recitals hidden">
             <header class="recitals-header section-header" id="recitalsBrowserTop">
               <h2>GDPR recitals</h2>
-              <p class="recitals-lead">GDPR recitals (1–173) explain the context and objectives of the Regulation. Search by number or keyword, then open a card for the consolidated text and related articles.</p>
-              <p class="source-links">Official sources: <a href="https://gdpr-info.eu/recitals/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a></p>
+              <p class="recitals-lead" id="recitalsLead">Recitals explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.</p>
+              <p class="source-links" id="recitalsSourceLinks">Official sources: …</p>
               <div class="recitals-toolbar" role="search">
                 <div class="recitals-search-wrap">
                   <label for="recitalsSearch" class="visually-hidden">Search GDPR recitals by number or text</label>
@@ -111,8 +118,8 @@
           <div id="browseChapters" class="browse-section browse-chapters hidden">
             <header class="section-header chapters-browser-header">
               <h2>GDPR chapters &amp; articles</h2>
-              <p class="chapters-browser-lead">All 99 GDPR articles are grouped by chapter. Filter by category, sub-topic, or article number—then open any card for the full legal text and cross-links.</p>
-              <p class="source-links">Official sources: <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">EUR-Lex</a></p>
+              <p class="chapters-browser-lead" id="chaptersLead">Articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.</p>
+              <p class="source-links" id="chaptersSourceLinks">Official sources: …</p>
             </header>
             <div class="filter-bar chapters-filters" role="group" aria-label="Filter GDPR documents by category, chapter, and article">
               <p class="chapters-filters-hint" id="chaptersFiltersHint">Type to search or open the list to choose. Other filters narrow suggestions; typing searches the full set where helpful.</p>
@@ -129,7 +136,7 @@
                   </select>
                 </div>
               </div>
-              <div class="filter-field filter-field--combobox">
+              <div class="filter-field filter-field--combobox" id="chaptersFilterSubcategoryWrap">
                 <label for="chaptersFilterSubcategoryInput" class="filter-field-label">Sub-category</label>
                 <div class="filter-combobox" data-chapters-filter="subcategory">
                   <div class="filter-combobox-control">
@@ -276,12 +283,12 @@
       <div class="ask-layout">
         <header class="ask-hero">
           <h2 class="ask-title" id="askHeading">Ask about the GDPR</h2>
-          <p class="ask-lead">Get answers grounded in the official <strong>Regulation (EU) 2016/679</strong> text, augmented with curated web snippets and LLM synthesis—Groq when available, Tavily as a fallback. Use <strong>API keys</strong> in the header to bring your own Groq/Tavily credentials (stored in this browser only).</p>
+          <p class="ask-lead" id="askLead">Get answers grounded in the official <strong>Regulation (EU) 2016/679</strong> text, augmented with curated web snippets and LLM synthesis—Groq when available, Tavily as a fallback. Use <strong>API keys</strong> in the header to bring your own Groq/Tavily credentials (stored in this browser only).</p>
           <p id="askLlmKeysStatus" class="ask-llm-keys-status" role="status" aria-live="polite"></p>
           <ul class="ask-signals" role="list" aria-label="How each answer is composed">
             <li class="ask-signal">
               <span class="ask-signal-dot" aria-hidden="true"></span>
-              <span class="ask-signal-text">Local GDPR corpus &amp; EUR-Lex alignment</span>
+              <span class="ask-signal-text" id="askSignalCorpus">Local GDPR corpus &amp; EUR-Lex alignment</span>
             </li>
             <li class="ask-signal">
               <span class="ask-signal-dot" aria-hidden="true"></span>
@@ -325,7 +332,7 @@
               <div id="askIndustrySectorList" class="filter-combobox-list filter-combobox-list--ask-sector" role="listbox" hidden></div>
             </div>
           </div>
-          <p class="ask-meta">Consolidated EU law text is loaded from your cache; use <strong>Refresh sources</strong> in the page header to pull the latest from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>.</p>
+          <p class="ask-meta" id="askMeta">Consolidated EU law text is loaded from your cache; use <strong>Refresh sources</strong> in the page header to pull the latest from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>.</p>
         </div>
         <div id="askResults" class="ask-results hidden">
           <div class="ask-results-grid">
@@ -367,8 +374,8 @@
                     </svg>
                   </span>
                   <div>
-                    <h3 class="ask-relevant-docs-title">Relevant GDPR provisions</h3>
-                    <p class="ask-relevant-docs-hint">Articles and recitals behind this answer. For articles, related recitals from <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> appear below when available.</p>
+                    <h3 class="ask-relevant-docs-title" id="askRelevantDocsTitle">Relevant GDPR provisions</h3>
+                    <p class="ask-relevant-docs-hint" id="askRelevantDocsHint">Articles and recitals behind this answer. For articles, related recitals from <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a> appear below when available.</p>
                   </div>
                 </div>
                 <ul id="askRelevantDocsList" class="ask-relevant-docs-list" role="list"></ul>
@@ -383,8 +390,8 @@
       <div class="sources-layout">
         <header class="sources-header">
           <div class="sources-header-main">
-            <h2>GDPR: credible sources &amp; documents</h2>
-            <p class="sources-intro">Official and specialist GDPR and data-protection guidance. Every link opens in a new tab.</p>
+            <h2 id="sourcesHeaderTitle">GDPR: credible sources &amp; documents</h2>
+            <p class="sources-intro" id="sourcesIntro">Official and specialist GDPR and data-protection guidance. Every link opens in a new tab.</p>
           </div>
         </header>
         <div id="sourcesList" class="sources-grid" role="list"></div>
@@ -395,11 +402,12 @@
       <div class="news-layout">
         <a href="#newsSections" class="news-skip-link">Skip to news list</a>
         <header class="news-hero">
-          <p class="news-eyebrow">Regulators &amp; EU institutions</p>
+          <p class="news-eyebrow" id="newsEyebrow">Regulators &amp; EU institutions</p>
           <div class="news-hero-grid">
             <div class="news-hero-main">
-              <h2>GDPR &amp; data protection news</h2>
-              <p class="news-intro">Headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds—grouped by source, tagged by theme, with optional file attachments when the page links any.</p>
+              <h2 id="newsHeroTitle">GDPR &amp; data protection news</h2>
+              <p class="news-intro" id="newsIntro">Headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds—grouped by source, tagged by theme, with optional file attachments when the page links any.</p>
+              <p id="newsRegulationBanner" class="news-regulation-banner hidden" role="status"></p>
             </div>
             <div class="news-hero-aside">
               <button type="button" id="btnRefreshNews" class="btn btn-primary btn-refresh-news" aria-describedby="newsRefreshHint">
@@ -708,6 +716,7 @@
     </div>
   </footer>
   <script src="news-dedupe.js"></script>
+  <script src="regulation-profiles.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

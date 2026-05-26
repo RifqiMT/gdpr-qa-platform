@@ -95,7 +95,12 @@ const DEFAULT_NEWS_FEEDS = [
   },
   { name: 'European Commission', url: 'https://commission.europa.eu/news', description: 'Commission news' },
   { name: 'ICO (UK)', url: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/', description: 'ICO news and blogs' },
-  { name: 'Council of Europe', url: 'https://www.coe.int/en/web/data-protection', description: 'Data protection' }
+  { name: 'Council of Europe', url: 'https://www.coe.int/en/web/data-protection', description: 'Data protection' },
+  {
+    name: 'EU Digital Strategy (AI)',
+    url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai',
+    description: 'European Commission — EU AI Act policy and implementation'
+  }
 ];
 
 /** Append any new default feeds (e.g. EDPS) when `gdpr-news.json` has an older `newsFeeds` list. */
@@ -113,13 +118,22 @@ function mergeNewsFeedsWithDefaults(stored) {
 }
 
 const { getDataDir, IS_VERCEL } = require('./lib/paths');
+const {
+  parseRegulationId,
+  loadContent,
+  invalidateRegulationContentCache,
+  runRegulationScraperAndReloadContent,
+  listRegulations,
+  getRegulationPaths
+} = require('./lib/regulation-content');
+const { getRegulation, normalizeRegulationId } = require('./lib/regulations');
 
 const app = express();
 const PORT = process.env.PORT || 3847;
 const HOST = process.env.HOST || '0.0.0.0';
 const DATA_DIR = getDataDir();
-const CONTENT_FILE = path.join(DATA_DIR, 'gdpr-content.json');
-const STRUCTURE_FILE = path.join(DATA_DIR, 'gdpr-structure.json');
+const GDPR_PATHS = getRegulationPaths('gdpr');
+const STRUCTURE_FILE = GDPR_PATHS.structureFile;
 
 /** Credible Sources when `gdpr-content.json` omits `meta.sources` — single source of truth: `gdpr-structure.json`. */
 let defaultCredibleSourcesFallback = null;
@@ -132,23 +146,16 @@ try {
   console.warn('Could not load credible sources from gdpr-structure.json:', e && e.message ? e.message : e);
 }
 
-/** In-memory cache invalidated by gdpr-content.json mtime. Always apply guardrails + rebuild search index so the API matches DOCUMENT_FORMATTING_GUARDRAILS even if the file was never re-fetched from GDPR-Info. */
-let contentLoadCache = { mtimeMs: null, data: null };
-
-/** After regulation ETL (`runScraper`), clear cache and reload so APIs/Ask use the file just written (see docs/DOCUMENT_FORMATTING_GUARDRAILS.md §1). */
-function invalidateRegulationContentCache() {
-  contentLoadCache = { mtimeMs: null, data: null };
+function contentFor(req) {
+  return loadContent(parseRegulationId(req));
 }
 
-/** @returns {Promise<object>} Normalized corpus + meta from `loadContent()` after ETL write. */
-async function runRegulationScraperAndReloadContent() {
-  await runScraper();
-  invalidateRegulationContentCache();
-  return loadContent();
+function regulationMeta(req) {
+  return getRegulation(parseRegulationId(req));
 }
+
 const NEWS_FILE = path.join(DATA_DIR, 'gdpr-news.json');
-const ARTICLE_SUITABLE_RECITALS_FILE = path.join(DATA_DIR, 'article-suitable-recitals.json');
-const CHAPTER_SUMMARIES_FILE = path.join(DATA_DIR, 'chapter-summaries.json');
+const ARTICLE_SUITABLE_RECITALS_FILE = GDPR_PATHS.suitableRecitalsFile;
 const INDUSTRY_SECTORS_FILE = path.join(__dirname, 'public', 'industry-sectors.json');
 const INDUSTRY_SECTOR_TREE_FILE = path.join(__dirname, 'public', 'industry-sector-tree.json');
 
@@ -195,10 +202,11 @@ const FALLBACK_CHAPTER_SUMMARIES = {
   11: 'GDPR Chapter XI contains final provisions: repeal of the old Directive, relationships with other instruments, reporting and review, and entry into force and application of the GDPR.'
 };
 
-function readChapterSummariesPayload() {
+function readChapterSummariesPayload(regulationId = 'gdpr') {
+  const chapterFile = getRegulationPaths(regulationId).chapterSummariesFile;
   try {
-    if (fs.existsSync(CHAPTER_SUMMARIES_FILE)) {
-      const j = JSON.parse(fs.readFileSync(CHAPTER_SUMMARIES_FILE, 'utf8'));
+    if (fs.existsSync(chapterFile)) {
+      const j = JSON.parse(fs.readFileSync(chapterFile, 'utf8'));
       if (j && j.summaries && typeof j.summaries === 'object') {
         return {
           summaries: j.summaries,
@@ -219,7 +227,8 @@ function readChapterSummariesPayload() {
   };
 }
 
-async function generateChapterSummariesWithGroq(contentData, groqKeyOverride) {
+async function generateChapterSummariesWithGroq(contentData, groqKeyOverride, reg) {
+  const regulation = reg || getRegulation('gdpr');
   const key = normalizeApiKey(groqKeyOverride) || normalizeApiKey(process.env.GROQ_API_KEY);
   if (!key) return null;
   const chapters = (contentData.chapters || []).slice().sort((a, b) => a.number - b.number);
@@ -241,12 +250,13 @@ async function generateChapterSummariesWithGroq(contentData, groqKeyOverride) {
     );
   }
   const bundle = parts.join('\n\n').slice(0, 28000);
-  const systemPrompt = `You write concise chapter introductions for a GDPR regulation browser.
-Output ONLY valid JSON: one object with string keys "1","2",…"11" (all eleven) and string values.
+  const maxCh = regulation.maxChapters;
+  const systemPrompt = `You write concise chapter introductions for a ${regulation.shortName} regulation browser.
+Output ONLY valid JSON: one object with string keys "1" through "${maxCh}" (all ${maxCh} chapters) and string values.
 Each value is 2–3 sentences of plain English describing what that chapter covers.
 Use ONLY themes supported by the article titles and excerpts provided. Do not invent citations or cases.
 No markdown fences, no commentary—only the JSON object.`;
-  const userPrompt = `Regulation structure and article excerpts by chapter:\n\n${bundle}\n\nReturn: {"1":"…","2":"…",…,"11":"…"}`;
+  const userPrompt = `Regulation (${regulation.fullName}) structure and article excerpts by chapter:\n\n${bundle}\n\nReturn JSON with keys "1"…"${maxCh}".`;
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
@@ -321,37 +331,9 @@ app.get('/article-suitable-recitals.json', (req, res) => {
   res.sendFile(path.resolve(ARTICLE_SUITABLE_RECITALS_FILE));
 });
 
-function loadContent() {
-  try {
-    if (fs.existsSync(CONTENT_FILE)) {
-      const st = fs.statSync(CONTENT_FILE);
-      if (contentLoadCache.data && contentLoadCache.mtimeMs === st.mtimeMs) {
-        return contentLoadCache.data;
-      }
-      const raw = JSON.parse(fs.readFileSync(CONTENT_FILE, 'utf-8'));
-      const { normalizeCorpus } = require('./document-formatting-guardrails');
-      const norm = normalizeCorpus(raw.recitals || [], raw.articles || []);
-      raw.recitals = norm.recitals;
-      raw.articles = norm.articles;
-      if (Array.isArray(raw.chapters) && raw.chapters.length) {
-        try {
-          raw.searchIndex = buildSearchIndex(raw.recitals, raw.articles, raw.chapters);
-        } catch (e) {
-          console.warn('[loadContent] searchIndex rebuild failed:', e && e.message ? e.message : String(e));
-        }
-      }
-      contentLoadCache = { mtimeMs: st.mtimeMs, data: raw };
-      return raw;
-    }
-  } catch (e) {
-    console.warn('loadContent:', e && e.message ? e.message : String(e));
-  }
-  try {
-    return JSON.parse(fs.readFileSync(STRUCTURE_FILE, 'utf-8'));
-  } catch (_) {
-    return { meta: {}, categories: [], chapters: [], articles: [], recitals: [], searchIndex: [] };
-  }
-}
+app.get('/api/regulations', (req, res) => {
+  res.json({ regulations: listRegulations() });
+});
 
 /** Map HTTP status / provider JSON to a short user-facing validation message (never include secrets). */
 function providerValidationMessage(provider, status, data) {
@@ -458,8 +440,13 @@ app.post('/api/validate-api-keys', async (req, res) => {
 });
 
 app.get('/api/meta', (req, res) => {
-  const data = loadContent();
+  const regId = parseRegulationId(req);
+  const reg = getRegulation(regId);
+  const data = loadContent(regId);
   res.json({
+    regulationId: regId,
+    regulation: { id: reg.id, shortName: reg.shortName, fullName: reg.fullName, maxArticles: reg.maxArticles, maxRecitals: reg.maxRecitals },
+    regulations: listRegulations(),
     lastRefreshed: data.meta?.lastRefreshed ?? null,
     lastChecked: data.meta?.lastChecked ?? null,
     etl: data.meta?.etl ?? null,
@@ -723,21 +710,22 @@ app.post('/api/news/refresh', async (req, res) => {
 });
 
 app.get('/api/categories', (req, res) => {
-  const data = loadContent();
+  const data = contentFor(req);
   res.json(data.categories || []);
 });
 
 app.get('/api/chapters', (req, res) => {
-  const data = loadContent();
+  const reg = regulationMeta(req);
+  const data = contentFor(req);
   const list = (data.chapters || []).map((c) => {
-    const sourceUrl = c.sourceUrl || `https://gdpr-info.eu/chapter-${c.number}/`;
+    const sourceUrl = c.sourceUrl || `${reg.infoBaseUrl}/chapter/${c.number}/`;
     return { ...c, sourceUrl, gdprInfoChapterUrl: sourceUrl };
   });
   res.json(list);
 });
 
 app.get('/api/chapter-summaries', (req, res) => {
-  const payload = readChapterSummariesPayload();
+  const payload = readChapterSummariesPayload(parseRegulationId(req));
   res.json({
     summaries: payload.summaries,
     source: payload.source,
@@ -754,24 +742,28 @@ app.post('/api/chapter-summaries/regenerate', async (req, res) => {
       error: 'Groq API key not configured. Set GROQ_API_KEY on the server or add your key under API keys (BYOK) in the app.'
     });
   }
-  const data = loadContent();
+  const regId = parseRegulationId(req);
+  const reg = getRegulation(regId);
+  const data = loadContent(regId);
   try {
-    const summaries = await generateChapterSummariesWithGroq(data, llmKeys.groqKey);
+    const summaries = await generateChapterSummariesWithGroq(data, llmKeys.groqKey, reg);
     if (!summaries || typeof summaries !== 'object') {
       return res.status(500).json({ error: 'LLM did not return parseable JSON summaries.' });
     }
     const normalized = {};
-    for (let n = 1; n <= 11; n++) {
+    for (let n = 1; n <= reg.maxChapters; n++) {
       const v = summaries[String(n)] || summaries[n];
-      normalized[String(n)] = typeof v === 'string' ? v.trim() : FALLBACK_CHAPTER_SUMMARIES[n];
+      normalized[String(n)] = typeof v === 'string' ? v.trim() : (FALLBACK_CHAPTER_SUMMARIES[n] || '');
     }
     const out = {
       summaries: normalized,
       source: 'regenerated',
       llm: true,
-      generatedAt: new Date().toISOString()
+      generatedAt: new Date().toISOString(),
+      regulationId: regId
     };
-    fs.writeFileSync(CHAPTER_SUMMARIES_FILE, JSON.stringify(out, null, 2), 'utf8');
+    const chapterFile = getRegulationPaths(regId).chapterSummariesFile;
+    fs.writeFileSync(chapterFile, JSON.stringify(out, null, 2), 'utf8');
     res.json(out);
   } catch (e) {
     console.error(e);
@@ -780,29 +772,33 @@ app.post('/api/chapter-summaries/regenerate', async (req, res) => {
 });
 
 app.get('/api/chapters/:number', (req, res) => {
-  const data = loadContent();
+  const reg = regulationMeta(req);
+  const data = contentFor(req);
   const num = parseInt(req.params.number, 10);
   const chapter = (data.chapters || []).find(c => c.number === num);
   if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
   const articles = (data.articles || []).filter(a => a.chapter === num);
-  const sourceUrl = chapter.sourceUrl || `https://gdpr-info.eu/chapter-${num}/`;
+  const sourceUrl = chapter.sourceUrl || `${reg.infoBaseUrl}/chapter/${num}/`;
   res.json({ ...chapter, sourceUrl, gdprInfoChapterUrl: sourceUrl, articles });
 });
 
 app.get('/api/articles', (req, res) => {
-  const data = loadContent();
+  const data = contentFor(req);
   res.json(data.articles || []);
 });
 
 app.get('/api/articles/:number', (req, res) => {
-  const data = loadContent();
+  const regId = parseRegulationId(req);
+  const data = contentFor(req);
   const num = parseInt(req.params.number, 10);
   const article = (data.articles || []).find(a => a.number === num);
   if (!article) return res.status(404).json({ error: 'Article not found' });
   const chapter = (data.chapters || []).find(c => c.number === article.chapter);
   const citingMap = getRecitalsCitingArticlesMap(data);
-  const editorial = getEditorialSuitableRecitalsByArticle();
-  const suitableRecitals = mergedSuitableRecitalsForArticle(num, editorial, citingMap);
+  const editorial = regId === 'gdpr' ? getEditorialSuitableRecitalsByArticle() : {};
+  const suitableRecitals = regId === 'gdpr'
+    ? mergedSuitableRecitalsForArticle(num, editorial, citingMap)
+    : [];
   res.json({
     ...article,
     chapter,
@@ -812,23 +808,26 @@ app.get('/api/articles/:number', (req, res) => {
 });
 
 app.get('/api/recitals', (req, res) => {
-  const data = loadContent();
+  const data = contentFor(req);
   res.json(data.recitals || []);
 });
 
 app.get('/api/recitals/:number', (req, res) => {
-  const data = loadContent();
+  const reg = regulationMeta(req);
+  const regId = parseRegulationId(req);
+  const data = contentFor(req);
   const num = parseInt(req.params.number, 10);
   const recital = (data.recitals || []).find(r => r.number === num);
   if (!recital) return res.status(404).json({ error: 'Recital not found' });
-  const editorial = getEditorialSuitableRecitalsByArticle();
-  const suitableArticles = mergedSuitableArticlesForRecital(num, editorial, recital.text || '');
-  /** Same path pattern as scraper.js (`/recitals/no-${n}/`) — opens this recital on GDPR-Info, not the recitals index. */
-  const gdprInfoRecitalUrl = `https://gdpr-info.eu/recitals/no-${num}/`;
+  const editorial = regId === 'gdpr' ? getEditorialSuitableRecitalsByArticle() : {};
+  const suitableArticles = regId === 'gdpr'
+    ? mergedSuitableArticlesForRecital(num, editorial, recital.text || '')
+    : [];
+  const recitalUrl = recital.sourceUrl || `${reg.infoBaseUrl}${reg.recitalPath(num)}`;
   res.json({
     ...recital,
-    sourceUrl: gdprInfoRecitalUrl,
-    eurLexUrl: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679',
+    sourceUrl: recitalUrl,
+    eurLexUrl: recital.eurLexUrl || reg.eurLexTxtUrl,
     contentAsOf: data.meta?.lastRefreshed || null,
     suitableArticles
   });
@@ -1174,8 +1173,27 @@ function stripHtmlToText(html) {
   return String(text).replace(/\s+/g, ' ').trim();
 }
 
-async function webSearchDuckDuckGo(query) {
-  const q = encodeURIComponent(query);
+function regulationSearchContext(reg) {
+  const r = reg || getRegulation('gdpr');
+  if (r.id === 'ai-act') {
+    return {
+      tavilyPrefix: 'EU Artificial Intelligence Act Regulation (EU) 2024/1689:',
+      ddgSuffix: ' EU AI Act Regulation 2024/1689',
+      sectorRegPhrase: 'EU AI Act artificial intelligence compliance',
+      corpusNote: 'AI Act'
+    };
+  }
+  return {
+    tavilyPrefix: 'EU GDPR Regulation (EU) 2016/679:',
+    ddgSuffix: ' EU GDPR personal data',
+    sectorRegPhrase: 'EU GDPR personal data processing',
+    corpusNote: 'GDPR'
+  };
+}
+
+async function webSearchDuckDuckGo(query, reg) {
+  const ctx = regulationSearchContext(reg);
+  const q = encodeURIComponent(String(query || '').trim() + ctx.ddgSuffix);
   const url = `https://duckduckgo.com/html/?q=${q}`;
   const res = await fetchWithTimeout(url, {
     headers: {
@@ -1199,8 +1217,8 @@ async function webSearchDuckDuckGo(query) {
   return results;
 }
 
-async function fetchWebSnippets(query) {
-  const hits = await webSearchDuckDuckGo(query);
+async function fetchWebSnippets(query, reg) {
+  const hits = await webSearchDuckDuckGo(query, reg);
   const pages = [];
   for (const hit of hits.slice(0, WEB_MAX_PAGES)) {
     try {
@@ -1227,7 +1245,7 @@ async function fetchWebSnippets(query) {
 }
 
 app.post('/api/ask', (req, res) => {
-  const data = loadContent();
+  const data = contentFor(req);
   const query = (req.body?.query || req.query?.query || '').trim();
   const index = data.searchIndex || [];
   const results = simpleSearch(query, index);
@@ -1265,7 +1283,9 @@ app.post('/api/ask', (req, res) => {
 });
 
 /** Build a concise, comprehensible summary from excerpts (extractive). */
-function buildSummaryFromExcerpts(query, excerpts, sector) {
+function buildSummaryFromExcerpts(query, excerpts, sector, reg) {
+  const regulation = reg || getRegulation('gdpr');
+  const regLabel = regulation.legalLabel;
   if (!excerpts || excerpts.length === 0) {
     const empty =
       sector && sector.id !== 'GENERAL'
@@ -1294,7 +1314,7 @@ function buildSummaryFromExcerpts(query, excerpts, sector) {
   const focus = sector && sector.id !== 'GENERAL' ? sectorLabelFocusPhrase(sector) : '';
   const sectorPrefix =
     sector && sector.id !== 'GENERAL'
-      ? `Filtered context: ${sector.label}${focus ? ` (${focus})` : ''}. Interpret the following strictly as GDPR obligations that would apply to typical personal-data processing in this line of business; it is extractive summary only, not tailored legal advice. From the retrieved text: `
+      ? `Filtered context: ${sector.label}${focus ? ` (${focus})` : ''}. Interpret the following strictly as ${regLabel} obligations that would apply in this line of business; it is extractive summary only, not tailored legal advice. From the retrieved text: `
       : '';
   return `${sectorPrefix}${core} ${sourceLine}`;
 }
@@ -1335,7 +1355,11 @@ function querySeemsLaypersonExplain(q) {
     /\bgive\s+(me\s+)?(an?\s+)?explanation\s+about\b/i.test(s) ||
     (/\bexplain\b.*\bgdpr\b/i.test(s) && !/\barticle\s*\d+/i.test(s)) ||
     /\bwhat\s+is\s+(the\s+)?gdpr\b/i.test(s) ||
-    /\bgdpr\b.*\b(simple|simply|easy|understand|plain)\b/i.test(s)
+    /\bgdpr\b.*\b(simple|simply|easy|understand|plain)\b/i.test(s) ||
+    /\bwhat\s+is\s+(the\s+)?(eu\s+)?ai\s+act\b/i.test(s) ||
+    (/\bexplain\b.*\bai\s+act\b/i.test(s) && !/\barticle\s*\d+/i.test(s)) ||
+    /\bhigh[- ]risk\b.*\b(mean|definition)\b/i.test(s) ||
+    /\bwhat\s+counts\s+as\s+(a\s+)?high[- ]risk\s+ai\b/i.test(s)
   );
 }
 
@@ -1424,14 +1448,16 @@ function formatNumberedSourcesForAsk(sources) {
   }).join('\n\n---\n\n');
 }
 
-function buildAnswerPrompt(query, sources, sector) {
+function buildAnswerPrompt(query, sources, sector, reg) {
+  const regulation = reg || getRegulation('gdpr');
+  const regLabel = regulation.legalLabel;
   const numbered = formatNumberedSourcesForAsk(sources);
 
   const focusPhrase = sector && sector.id !== 'GENERAL' ? sectorLabelFocusPhrase(sector) : '';
   const metricsExtra =
     sector && sector.id !== 'GENERAL' && querySeemsMetricsFocused(query)
       ? `
-11) The user asked about metrics, KPIs, indicators, examples of measures, or monitoring. List only indicators that are implied by the cited GDPR duties (e.g. documentation, breaches, DSAR handling, DPIAs, security measures). For each bullet or sentence, explicitly tie it to typical processing in "${focusPhrase}" (one short clause) using the sources — do not invent numeric targets or obligations not in the sources.`
+11) The user asked about metrics, KPIs, indicators, examples of measures, or monitoring. List only indicators that are implied by the cited ${regLabel} duties using the sources. For each bullet or sentence, explicitly tie it to typical processing in "${focusPhrase}" (one short clause) — do not invent numeric targets or obligations not in the sources.`
       : '';
 
   const sectorLockHeader =
@@ -1442,7 +1468,7 @@ SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
 - You MUST include this exact phrase verbatim at least once (copy/paste spelling): "${focusPhrase}"
 - Forbidden: a generic essay that could apply to any industry — every paragraph must clearly speak to this line of business.
 - Forbidden: vague openers like "the industry", "this sector", or "organizations" alone without first using the exact phrase above.
-- Reliability: tie illustrations to the cited GDPR text only; do not invent sector-specific laws (e.g. banking/health acts) unless a source snippet names them.
+- Reliability: tie illustrations to the cited ${regLabel} text only; do not invent sector-specific laws unless a source snippet names them.
 - After the opening, most substantive sentences should include a brief sector hook (who typically processes what, or which relationship — controller/processor/data subject) grounded in the sources, not free speculation.
 `
       : '';
@@ -1452,8 +1478,8 @@ SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
       ? `
 7) Follow SECTOR FILTER — LOCK-IN. Sentence 1 or 2 must contain "${focusPhrase}" verbatim.
 8) Re-state the sector context at least once later (paraphrase of the label or anchors is OK) so the answer cannot be read as generic compliance advice.
-9) Ground every legal point in the sources. Illustrations (e.g. customer accounts, HR files, access logs) are allowed only as plain-language applications of the cited GDPR duties — never as new statutory obligations.
-10) If the provided excerpts are generic GDPR only, say so in one short sentence, then still map those duties to typical processing in "${focusPhrase}" without adding rules not in the sources.${metricsExtra}`
+9) Ground every legal point in the sources. Illustrations are allowed only as plain-language applications of the cited ${regLabel} duties — never as new statutory obligations.
+10) If the provided excerpts are generic ${regLabel} text only, say so in one short sentence, then still map those duties to typical processing in "${focusPhrase}" without adding rules not in the sources.${metricsExtra}`
       : '';
 
   const layperson = querySeemsLaypersonExplain(query);
@@ -1463,15 +1489,15 @@ SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
 7) GENERAL MODE — no industry is selected: Do NOT add sections for healthcare workers, businesses, banks, retailers, schools, or any other audience the user did not name. FORBIDDEN line starters include: "For healthcare", "For businesses", "For professionals", "For providers", "For retail", "For banks", "For employers" (unless the user explicitly asked for that audience).
 8) ONE NARRATIVE ONLY: At most ONE "For …:" line at the very start, and only if it mirrors the user’s audience (e.g. grandparents). Otherwise omit headings. Never use "---" or horizontal rules to split invented multi-part answers.
 9) STAY ON THE QUESTION: Do not introduce unrelated topics from excerpts (e.g. children’s online consent) unless the user asked about minors. Prefer principles, definitions, and data-subject rights from the sources.
-10) CONCISE & SOBER: State what GDPR requires in plain words tied to citations. Do not write long creative stories, multi-scene analogies, or “chapter 2 for another reader”. At most one short comparison (one sentence) if it directly helps and stays grounded in the sources.${layperson ? ' For simple explainers: use Articles with Recitals only where they add clarity; keep the body to 4–5 tight sentences before "Used sources".' : ''}
+10) CONCISE & SOBER: State what the ${regLabel} requires in plain words tied to citations. Do not write long creative stories, multi-scene analogies, or “chapter 2 for another reader”. At most one short comparison (one sentence) if it directly helps and stays grounded in the sources.${layperson ? ' For simple explainers: use Articles with Recitals only where they add clarity; keep the body to 4–5 tight sentences before "Used sources".' : ''}
 11) COHESION: The entire answer must read as a single reply to the user’s question, not a bundle of unrelated mini-essays.`
       : '';
 
   const rule4Line = layperson && sector && sector.id === 'GENERAL'
-    ? '4) For simple explainers, balance GDPR Articles with Recitals when both appear — Recitals often help plain-language context; still cite accurately.'
-    : '4) Prefer GDPR Articles (binding provisions) over Recitals when both are available. Use Recitals mainly for context/interpretation.';
+    ? `4) For simple explainers, balance ${regLabel} Articles with Recitals when both appear — Recitals often help plain-language context; still cite accurately.`
+    : `4) Prefer ${regLabel} Articles (binding provisions) over Recitals when both are available. Use Recitals mainly for context/interpretation.`;
 
-  const systemPrompt = `You are a careful GDPR Q&A assistant.
+  const systemPrompt = `You are a careful ${regulation.shortName} Q&A assistant (${regulation.fullName}).
 You must answer using ONLY the provided sources below (regulation excerpts and optional web snippets).
 ${sectorLockHeader}
 Hard rules (must follow):
@@ -1561,8 +1587,8 @@ async function groqChatComplete(messages, maxTokens, temperature, groqKeyOverrid
   return null;
 }
 
-async function answerWithGroq(query, sources, sector, groqKeyOverride) {
-  const { systemPrompt, userPrompt } = buildAnswerPrompt(query, sources, sector);
+async function answerWithGroq(query, sources, sector, groqKeyOverride, reg) {
+  const { systemPrompt, userPrompt } = buildAnswerPrompt(query, sources, sector, reg);
   let maxTok = 950;
   let temp = 0.12;
   if (sector && sector.id !== 'GENERAL') {
@@ -1605,8 +1631,9 @@ function parseTavilyAnswerString(data) {
   return '';
 }
 
-function buildAnswerFromTavilyResults(query, results) {
+function buildAnswerFromTavilyResults(query, results, reg) {
   if (!Array.isArray(results) || results.length === 0) return '';
+  const ctx = regulationSearchContext(reg);
   const lines = [];
   for (let i = 0; i < Math.min(6, results.length); i++) {
     const r = results[i];
@@ -1618,15 +1645,16 @@ function buildAnswerFromTavilyResults(query, results) {
   }
   if (!lines.length) return '';
   return (
-    `Web research summary (Tavily) for your GDPR question:\n\n${lines.join('\n\n')}\n\n` +
-    "—\nNote: Groq did not return a usable answer and Tavily did not return a short LLM summary; this text is built from search result snippets. Use Citations for in-app GDPR articles and recitals."
+    `Web research summary (Tavily) for your ${ctx.corpusNote} question:\n\n${lines.join('\n\n')}\n\n` +
+    `—\nNote: Groq did not return a usable answer and Tavily did not return a short LLM summary; this text is built from search result snippets. Use Citations for in-app ${ctx.corpusNote} articles and recitals.`
   );
 }
 
-async function tavilySearchRequest(key, query, depth, maxResults, includeAnswer, include_domains) {
+async function tavilySearchRequest(key, query, depth, maxResults, includeAnswer, include_domains, reg) {
+  const ctx = regulationSearchContext(reg);
   const body = {
     api_key: key,
-    query: `EU GDPR Regulation (EU) 2016/679: ${query}`,
+    query: `${ctx.tavilyPrefix} ${query}`,
     search_depth: depth,
     max_results: maxResults,
     include_answer: includeAnswer,
@@ -1653,9 +1681,10 @@ async function tavilySearchRequest(key, query, depth, maxResults, includeAnswer,
   return { ok: true, data, status: res.status };
 }
 
-async function answerWithTavily(query, sector, tavilyKeyOverride) {
+async function answerWithTavily(query, sector, tavilyKeyOverride, reg) {
   const key = normalizeApiKey(tavilyKeyOverride) || normalizeApiKey(process.env.TAVILY_API_KEY);
   if (!key) return null;
+  const ctx = regulationSearchContext(reg);
 
   let tavilyQuery = query;
   if (sector && sector.id !== 'GENERAL') {
@@ -1667,7 +1696,7 @@ async function answerWithTavily(query, sector, tavilyKeyOverride) {
           .slice(0, 5)
           .join(' ')
       : '';
-    tavilyQuery = `${query} EU GDPR personal data processing; sector: ${sector.label}`;
+    tavilyQuery = `${query} ${ctx.sectorRegPhrase}; sector: ${sector.label}`;
     if (focus) tavilyQuery += `; context: ${focus}`;
     if (stShort) tavilyQuery += `; keywords: ${stShort}`;
   }
@@ -1699,20 +1728,20 @@ async function answerWithTavily(query, sector, tavilyKeyOverride) {
 
     let lastData = null;
     for (const att of attempts) {
-      const r = await tavilySearchRequest(key, tavilyQuery, att.depth, maxResults, att.include, include_domains);
+      const r = await tavilySearchRequest(key, tavilyQuery, att.depth, maxResults, att.include, include_domains, reg);
       if (!r.ok || !r.data) continue;
       lastData = r.data;
       const ans = parseTavilyAnswerString(r.data);
       if (ans) {
         const modeLabel = typeof att.include === 'string' ? att.include : 'basic';
         const suffix =
-          "\n\n—\nNote: Answered with Tavily (Groq had no usable reply). Citations still list GDPR sources from this app's local corpus where available.";
+          `\n\n—\nNote: Answered with Tavily (Groq had no usable reply). Citations still list ${ctx.corpusNote} sources from this app's local corpus where available.`;
         return { text: ans + suffix, mode: `search+answer (${modeLabel})`, source: 'tavily-answer' };
       }
     }
 
     if (lastData && Array.isArray(lastData.results) && lastData.results.length) {
-      const fallback = buildAnswerFromTavilyResults(tavilyQuery, lastData.results);
+      const fallback = buildAnswerFromTavilyResults(tavilyQuery, lastData.results, reg);
       if (fallback) {
         return { text: fallback, mode: 'search snippets (no Tavily summary)', source: 'tavily-snippets' };
       }
@@ -1881,7 +1910,9 @@ app.get('/api/industry-sectors', (req, res) => {
 });
 
 app.post('/api/answer', async (req, res) => {
-  const data = loadContent();
+  const regId = parseRegulationId(req);
+  const reg = getRegulation(regId);
+  const data = loadContent(regId);
   const query = String(req.body?.query || '').trim();
   if (!query) return res.status(400).json({ error: 'Missing query' });
 
@@ -1905,7 +1936,7 @@ app.post('/api/answer', async (req, res) => {
     includeWeb && (!sector || sector.id === 'GENERAL') && querySeemsLaypersonExplain(query);
   if (includeWeb && !skipWebForLaypersonGeneral) {
     try {
-      webSources = await fetchWebSnippets(webQuery);
+      webSources = await fetchWebSnippets(webQuery, reg);
     } catch (e) {
       webSources = [];
     }
@@ -1921,7 +1952,7 @@ app.post('/api/answer', async (req, res) => {
   const tavilyKey = llmKeys.tavilyKey;
 
   if (groqKey) {
-    const groqOut = await answerWithGroq(query, sources, sector, groqKey);
+    const groqOut = await answerWithGroq(query, sources, sector, groqKey, reg);
     if (groqOut && groqOut.content) {
       answer = groqOut.content;
       if (sector && sector.id !== 'GENERAL' && !answerNamesSelectedSector(answer, sector)) {
@@ -1956,7 +1987,7 @@ app.post('/api/answer', async (req, res) => {
   }
 
   if (!answer && tavilyKey) {
-    const tav = await answerWithTavily(query, sector, tavilyKey);
+    const tav = await answerWithTavily(query, sector, tavilyKey, reg);
     if (tav && tav.text) {
       answer = tav.text;
       const blendNote = groqKey ? 'Used after Groq had no usable answer.' : null;
@@ -1997,7 +2028,8 @@ app.post('/api/answer', async (req, res) => {
     answer = buildSummaryFromExcerpts(
       query,
       localSources.map(s => ({ type: s.type, number: s.number, excerpt: s.excerpt })),
-      sector
+      sector,
+      reg
     );
   }
 
@@ -2013,6 +2045,7 @@ app.post('/api/answer', async (req, res) => {
 
   res.json({
     query,
+    regulationId: regId,
     contentAsOf: data.meta?.lastRefreshed || null,
     includeWeb,
     industrySector: {
@@ -2270,11 +2303,13 @@ app.post('/api/summarize', async (req, res) => {
 
 app.post('/api/refresh', async (req, res) => {
   try {
-    const data = await runRegulationScraperAndReloadContent();
+    const regId = parseRegulationId(req);
+    const data = await runRegulationScraperAndReloadContent(regId);
     const { validateCorpusFormatting } = require('./document-formatting-guardrails');
     const formattingGuardrails = validateCorpusFormatting(data.recitals || [], data.articles || []);
     res.json({
       success: true,
+      regulationId: regId,
       lastChecked: data.meta?.lastChecked ?? null,
       lastRefreshed: data.meta?.lastRefreshed,
       etl: data.meta?.etl ?? null,
@@ -2304,8 +2339,9 @@ if (process.argv.includes('--refresh-only')) {
 } else if (!IS_VERCEL && require.main === module) {
   cron.schedule('0 2 * * *', async () => {
     try {
-      await runRegulationScraperAndReloadContent();
-      console.log('Daily GDPR content refresh completed.');
+      await runRegulationScraperAndReloadContent('gdpr');
+      await runRegulationScraperAndReloadContent('ai-act');
+      console.log('Daily regulation content refresh completed (GDPR + AI Act).');
     } catch (e) {
       console.error('Daily refresh failed:', e.message);
     }
@@ -2325,10 +2361,10 @@ if (process.argv.includes('--refresh-only')) {
     console.log(
       'News attachments: POST+GET /api/news/article-attachments; batch counts POST /api/news/attachments-summary (restart after pull if Attachments returns HTML).'
     );
-    if (!fs.existsSync(CONTENT_FILE)) {
-      console.log('No cached content found. Running initial refresh...');
+    if (!fs.existsSync(GDPR_PATHS.contentFile)) {
+      console.log('No cached GDPR content found. Running initial refresh...');
       try {
-        await runRegulationScraperAndReloadContent();
+        await runRegulationScraperAndReloadContent('gdpr');
       } catch (e) {
         console.log('Initial refresh failed. Using structure only. Use "Refresh sources" in the app to retry.');
       }

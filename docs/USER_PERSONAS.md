@@ -1,7 +1,9 @@
 # User Personas  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
 
-Personas represent primary users of the platform. They inform features, user stories, and documentation.
+Personas represent primary users of the platform (GDPR + EU AI Act). They inform features, user stories, and documentation.
+
+**Version:** 1.2 · **Last updated:** 2026-05-25
 
 ---
 
@@ -103,6 +105,20 @@ Personas represent primary users of the platform. They inform features, user sto
 
 ---
 
+## Persona 7: AI governance / compliance lead (EU AI Act)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Morgan (AI governance) |
+| **Role** | Leads AI Act readiness — high-risk systems, GPAI, transparency, governance structures. |
+| **Goals** | Read official AI Act articles/recitals; ask scoped questions with citations; link to EUR-Lex and AI Act Law; track overlapping data-protection news. |
+| **Pain points** | AI Act text scattered across PDFs; confusion between GDPR and AI Act obligations; generic LLM answers without article references. |
+| **Needs** | Select **EU AI Act** in header; Browse 113 articles / 180 recitals; Ask with AI Act corpus; Credible sources for Commission AI framework; News filtered for AI relevance. |
+| **Tech context** | Same browser deployment as privacy team; may share BYOK keys with DPO function. |
+| **Relevant features** | Regulation switcher, AI Act Browse/Ask, regulation-profiles copy, News banner + filter, `npm run refresh-ai-act`. |
+
+---
+
 ## Summary matrix
 
 | Persona              | Primary use                    | Key features                                              |
@@ -113,6 +129,7 @@ Personas represent primary users of the platform. They inform features, user sto
 | Industry specialist  | Sector-context Q&A             | Ask + sector, Browse, official links                      |
 | General Professional| Quick check                    | Ask, extractive/LLM paths, Browse, Credible sources, Homepage |
 | Stakeholder         | Verify references              | Browse, doc nav, citations, Export PDF, Credible sources  |
-| Engineering / DevOps | Operate ETL and config         | Refresh + guardrails, env vars, BYOK + key validation, API meta, logs, changelog |
+| Engineering / DevOps | Operate ETL and config         | Dual-regulation refresh, env vars, BYOK, Vercel cron, changelog |
+| AI governance lead  | EU AI Act obligations          | Regulation **ai-act**, Browse/Ask, AI-filtered News, AI Act sources |
 
 For user stories derived from these personas, see [USER_STORIES.md](USER_STORIES.md). For full product documentation, see [README.md](../README.md).

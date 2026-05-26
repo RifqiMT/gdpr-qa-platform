@@ -1,5 +1,7 @@
 # API contracts  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
+
+**Version:** 1.2 · **Last updated:** 2026-05-25
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.
@@ -8,10 +10,19 @@ Content type: JSON for all `/api/*` routes unless noted.
 
 ## Conventions
 
+- **Regulation scope:** Most corpus routes accept **`?regulation=gdpr`** (default) or **`?regulation=ai-act`**, or **`body.regulation`** on POST. Excluded: `/api/regulations`, `/api/news*`, `/api/industry-sectors`, `/api/validate-api-keys`.
 - **Timestamps:** ISO 8601 strings where present (`meta.lastRefreshed`, `contentAsOf`, news `date`).
 - **Errors:** Many routes return `200` with partial data on soft failure (e.g. news crawl timeout); hard errors use `4xx`/`5xx` with `{ error: string }` where implemented.
 - **CORS:** Enabled for Express (`cors()` middleware).
 - **BYOK:** Client-supplied API keys travel in JSON request bodies as **`apiKeys`** (see below). The server **does not** persist BYOK keys to disk or log secret values.
+
+---
+
+## Regulations catalog
+
+### `GET /api/regulations`
+
+**Response:** `{ regulations: [ { id, shortName, legalLabel, fullName, maxArticles, maxRecitals, segmentMeta, infoBaseUrl, eurLexUrl, hasArticleTopics, hasSuitableRecitals }, … ] }`
 
 ---
 

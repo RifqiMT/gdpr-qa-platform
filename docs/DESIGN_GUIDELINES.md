@@ -1,7 +1,9 @@
 # Design guidelines  
-## GDPR Q&A Platform
+## EU Regulation Q&A Platform
 
-This document describes the **visual language**, **CSS design tokens**, and **component patterns** for the web UI. The implementation source of truth is `public/styles.css` and markup in `public/index.html`.
+**Version:** 1.2 · **Last updated:** 2026-05-25 · Documentation standard **v1.7**
+
+Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
 ---
 
@@ -116,7 +118,8 @@ The application ships a **single light theme** (no dark-mode token set in code a
 
 | Component | Class hooks (representative) | Notes |
 |-----------|----------------------------|--------|
-| **Header** | `.header`, `.logo-link`, `.btn-freshness-info`, `.btn-primary` | Logo returns to homepage; freshness info button opens tooltip panel. |
+| **Header** | `.header`, `.logo-link`, `.regulation-select`, `.btn-freshness-info`, `.btn-primary` | **Regulation** dropdown (`#regulationSelect`); logo → homepage; freshness tooltip. |
+| **Regulation banner (News)** | `.news-regulation-banner` | Shown when EU AI Act selected; muted panel under news intro. |
 | **Tabs** | `.tabs`, `.tab`, `.tab--browse-main`, `.tab-browse-menu` | `role="tablist"` / `tab` / `tabpanel`; browse split menu. |
 | **Buttons** | `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-sm` | Primary = accent fill; secondary = outline / muted. |
 | **Filter combobox** | `.filter-combobox`, `.filter-combobox-input`, `.filter-combobox-list` | Used for chapters filters and industry sector in Ask. |

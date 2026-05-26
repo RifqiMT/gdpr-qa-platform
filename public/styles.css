@@ -224,6 +224,32 @@ body {
   flex-shrink: 0;
 }
 
+.regulation-select-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: 0.25rem;
+}
+
+.regulation-select-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.regulation-select {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #fff);
+  color: var(--text-primary, #0f172a);
+  max-width: 10rem;
+}
+
 .btn-byok-settings .btn-icon {
   font-size: 0.95rem;
   line-height: 1;
@@ -5306,6 +5332,22 @@ a.external-eu-law-link:focus-visible {
   margin: 0;
   line-height: 1.55;
   max-width: 68ch;
+}
+
+.news-regulation-banner {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0.75rem 0 0;
+  padding: 0.65rem 0.85rem;
+  line-height: 1.5;
+  max-width: 68ch;
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  background: var(--surface-muted, rgba(0, 0, 0, 0.03));
+}
+
+.news-regulation-banner.hidden {
+  display: none;
 }
 
 .news-hero-aside {
