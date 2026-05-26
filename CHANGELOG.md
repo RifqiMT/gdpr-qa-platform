@@ -8,6 +8,26 @@ All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-
 
 ---
 
+## [1.2.3] — 2026-05-19
+
+### Added
+
+- **Responsive app chrome (phones & tablets):** Sticky `#appChrome` wrapper; **Tools** menu with collapsible **1-column toolbar** (labeled rows for Source freshness, API keys, Refresh sources); full-width **Regulation** selector; compact pill-style tab bar.
+- **Live toolbar status (mobile/tablet Tools panel):** `syncHeaderToolbarStatus()` updates freshness and API-key subtitles from `GET /api/meta` and BYOK state (no duplicate always-visible status strip).
+- **News hero (responsive):** Compact bar (pill + title + Sync); collapsible **details** on ≤899px with **1-column** intro and scope panels; horizontal-scroll topic tags; regulation-themed accents (`newsUi` in `regulation-profiles.js`).
+
+### Changed
+
+- **Header UX:** Replaced cramped icon-only overflow row with full-width toolbar actions; desktop keeps horizontal compact controls (freshness icon, API keys + Refresh labels).
+- **Avoid feature overlap:** Removed redundant header status cards; freshness detail remains in **tooltip**; Ask key narrative remains on **Ask tab** (`#askLlmKeysStatus`); BYOK configuration remains in **API keys** dialog only.
+- **Reading viewport:** `--app-chrome-height` measured via `ResizeObserver` for accurate `--reading-pane-max-h` on variable chrome height.
+
+### Documentation
+
+- **Product documentation standard v2.1:** Full audit — README, PRD v2.4, personas, user stories, VARIABLES (§12 app chrome + §9.8 diagram), metrics, design (responsive chrome), traceability (BR-S-*), guardrails (BG-13, TG-F07–F09), feature catalog, architecture, operations, source inventory, glossary, changelog.
+
+---
+
 ## [1.2.2] — 2026-05-19
 
 ### Fixed

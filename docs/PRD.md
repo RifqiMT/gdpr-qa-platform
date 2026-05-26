@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.3  
+**Version:** 2.4  
 **Last updated:** 2026-05-19  
-**Aligned with:** Product documentation standard **v2.0** · `package.json` **1.2.2**
+**Aligned with:** Product documentation standard **v2.1** · `package.json` **1.2.3**
 
 ---
 
@@ -49,6 +49,19 @@ Users select the active regulation in the header. The product provides:
 ---
 
 ## 2. Functional requirements
+
+### 2.0 App shell and responsive chrome (FR-SHELL)
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-SHELL-01 | Header lists regulations; selection persists (`gdpr-qa-regulation-v1`). | P0 |
+| FR-SHELL-02 | On viewports **≤899px**, **Tools** toggles a **1-column** toolbar (freshness, API keys, refresh). | P0 |
+| FR-SHELL-03 | On viewports **≤899px**, regulation selector is **full width** with visible label. | P0 |
+| FR-SHELL-04 | `#appChrome` is sticky on ≤899px; reading pane height respects measured chrome (`--app-chrome-height`). | P1 |
+| FR-SHELL-05 | Toolbar rows show **live subtitles** for freshness (from meta) and API keys (from BYOK/server meta) without a duplicate always-visible status strip. | P1 |
+| FR-SHELL-06 | Freshness **full detail** remains in tooltip; API keys **configuration** remains in BYOK dialog; Ask tab retains `#askLlmKeysStatus`. | P0 |
+| FR-SHELL-07 | Tab bar uses compact labels on ≤899px (Browse / Ask / Sources / News). | P1 |
+| FR-SHELL-08 | Desktop (≥900px): horizontal toolbar; Tools toggle hidden; freshness icon-only acceptable. | P1 |
 
 ### 2.1 Regulation selection (FR-REG)
 
@@ -108,6 +121,7 @@ Users select the active regulation in the header. The product provides:
 | FR-NEWS-04 | Attachments summary hides button when count=0. | P1 |
 | FR-NEWS-05 | When `ai-act` or `data-act` selected: filter + banner for regulation-relevant items. | P1 |
 | FR-NEWS-06 | Topic taxonomy includes **EU Artificial Intelligence Act** group. | P2 |
+| FR-NEWS-07 | News hero: compact bar; collapsible details ≤899px; regulation-themed `newsUi`; 1-column intro/scope panels; stats when loaded. | P1 |
 
 ### 2.6 ETL & refresh (FR-ETL)
 

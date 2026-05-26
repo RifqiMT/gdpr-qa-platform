@@ -1,7 +1,7 @@
 # Feature catalog  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.2** · Documentation standard **v2.0**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.3** · Documentation standard **v2.1**
 
 This catalog is the **feature-level inventory** of the shipped product. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
@@ -19,6 +19,9 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 | F-SHELL-06 | Homepage (logo) | Resets Browse to placeholder; clears reader state. | `goToHome()` in `app.js` |
 | F-SHELL-07 | App credits bar | Maintainer attribution; LinkedIn and website icon links. | `.app-credits` in `index.html` |
 | F-SHELL-08 | Regulation-aware citation sidebar | Browse detail panels sync via `citationsUi` + `syncCitationSidebarChrome`. | `#citationsSidebar`, `regulation-profiles.js` |
+| F-SHELL-09 | Responsive app chrome | Sticky `#appChrome`; Tools menu; 1-column toolbar ≤899px; `--app-chrome-height` via `ResizeObserver`. | `index.html`, `styles.css`, `initHeaderActionsToggle` |
+| F-SHELL-10 | Toolbar live status hints | Freshness + API key subtitles in Tools rows (`syncHeaderToolbarStatus`); no duplicate status strip. | `#headerFreshnessHint`, `#headerApiKeysHint`, `app.js` |
+| F-SHELL-11 | Compact mobile tabs | Short tab labels; pill container; horizontal scroll. | `.tabs`, `.tab-label--short` |
 
 ---
 
@@ -90,6 +93,7 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 | F-NEWS-08 | Quick filters dock | Desktop sidebar when main filters scroll away |
 | F-NEWS-09 | Regulation relevance filter | When `ai-act` or `data-act` selected: `itemMatchesNewsRegulationScope` + banner |
 | F-NEWS-10 | Three-paragraph summaries | Card summary blocks from data or heuristics |
+| F-NEWS-11 | Responsive news hero | Compact bar; collapsible details ≤899px; `newsUi` themes; 1-column intro/scope panels; stats strip. | `#newsHero`, `syncNewsHeroChrome`, `initNewsHeroDetails` |
 
 ---
 

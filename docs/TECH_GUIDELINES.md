@@ -1,9 +1,9 @@
 # Technical guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4  
+**Version:** 1.5  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v2.0** · Product **1.2.2** · **Last updated:** 2026-05-19
+**Status:** Active · Documentation standard **v2.1** · Product **1.2.3** · **Last updated:** 2026-05-19
 
 ---
 
@@ -119,7 +119,21 @@
 
 ---
 
-## 8. Code conventions
+## 8. Responsive app chrome (frontend)
+
+| Concern | Implementation |
+|---------|----------------|
+| **Breakpoint** | `max-width: 899px` — sticky `#appChrome`, collapsible `#headerActionsPanel`, compact tab labels. |
+| **Chrome height** | `ResizeObserver` on `#appChrome` → CSS variable `--app-chrome-height` for `--reading-pane-max-h`. |
+| **Status without duplication** | `syncHeaderToolbarStatus()` updates `#headerFreshnessHint` / `#headerApiKeysHint` only; full freshness in tooltip; Ask narrative on `#askLlmKeysStatus`; no `#headerStatusStrip` (**BG-13**). |
+| **News hero** | `newsUi` in `regulation-profiles.js`; `syncNewsHeroChrome`, `initNewsHeroDetails`, `updateNewsHeroStats`; `.news-detail-grid` single column on small viewports. |
+| **Init** | `initHeaderActionsToggle()` from `app.js` DOM ready; re-run height sync on panel toggle and window resize. |
+
+Do not add a second always-visible status row in the header — extend the Tools subtitles or existing tab copy instead.
+
+---
+
+## 9. Code conventions
 
 - Match existing **vanilla JS** style in `app.js` (IIFE, `function` declarations).  
 - Regulation-specific copy in **`regulation-profiles.js`**, not scattered GDPR strings.  
@@ -128,7 +142,7 @@
 
 ---
 
-## 9. Testing checklist (manual)
+## 10. Testing checklist (manual)
 
 - [ ] Switch GDPR ↔ AI Act — Browse lists correct counts.  
 - [ ] Ask on AI Act: “What is a high-risk AI system?” — cites AI Act articles.  
@@ -137,10 +151,12 @@
 - [ ] `POST /api/refresh` per regulation succeeds.  
 - [ ] BYOK validate + Ask with client keys.  
 - [ ] `GET /health` returns `ok`.
+- [ ] **375px width:** Tools opens; freshness and API key subtitles update after meta/BYOK; article reader not hidden under sticky chrome.
+- [ ] **News (mobile):** Hero collapsed by default; expand shows 1-column intro + scope; Sync still works.
 
 ---
 
-## 10. Related documents
+## 11. Related documents
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)  
 - [API_CONTRACTS.md](API_CONTRACTS.md)  

@@ -3,7 +3,7 @@
 
 **Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act + EU Data Act). Each entry uses consistent, reader-friendly wording.
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
+**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 **Column reference**
 
@@ -107,8 +107,17 @@
 | `askUi.relevantTitle` | Relevant provisions heading | Aside panel title after Ask. | GDPR vs AI Act wording. | `#askRelevantDocsTitle` | `Relevant AI Act provisions` |
 | `askUi.crossrefTitle` | Suitable recitals subtitle | GDPR-Info crossref block; `null` hides block. | Only when `hasSuitableRecitals`. | `renderRelevantProvisionsFromAnswer` | `Suitable GDPR recitals (GDPR-Info)` |
 | `sourcesUi.title` | Sources page title | H2 on Credible sources tab. | Regulation-scoped copy. | `#sourcesHeaderTitle` | `EU AI Act: credible sources & documents` |
-| `newsUi.filterForRegulation` | News regulation filter flag | When true, client filters headlines for AI relevance. | `itemMatchesNewsRegulationScope`. | `newsUi` on `ai-act` profile | `true` |
-| `newsUi.bannerHtml` | News scope banner | HTML shown under News intro when filtering. | Hidden when empty. | `#newsRegulationBanner` | AI Act filter explanation |
+| `newsUi.theme` | News hero theme token | CSS hook for regulation accent (`gdpr`, `ai-act`, `data-act`). | `data-news-theme` on `#newsHero`. | `public/index.html`, `styles.css` | `ai-act` |
+| `newsUi.eyebrow` | News hero pill label | Short label in regulation pill. | `syncNewsHeroChrome` → `#newsRegulationPillLabel`. | `#newsRegulationPill` | `AI governance & data protection` |
+| `newsUi.title` | News hero title | H2 on News tab. | From profile; `#newsHeroTitle`. | News hero | `AI Act–relevant news` |
+| `newsUi.intro` | News hero intro | Lead paragraph in intro panel. | `.news-copy-panel--intro`. | `#newsHeroDetails` | Filter explanation copy |
+| `newsUi.filterForRegulation` | News regulation filter flag | When true, client filters headlines for regulation relevance. | `itemMatchesNewsRegulationScope`. | `public/app.js` | `true` |
+| `newsUi.scopeMode` | News scope card mode | `full` or `filtered`; drives scope card styling and stat label. | `news-scope-card--*` classes. | `#newsScopeCard` | `filtered` |
+| `newsUi.scopeEyebrow` | Scope card eyebrow | Small label on scope card. | `#newsScopeEyebrow`. | Scope panel | `Relevance filter active` |
+| `newsUi.scopeTitle` | Scope card title | H3 on scope card. | `#newsScopeTitle`. | Scope panel | `Showing EU AI Act–related items` |
+| `newsUi.scopeText` | Scope card body | Explains full vs filtered corpus. | `#newsScopeText`. | Scope panel | Shared corpus, narrowed list |
+| `newsUi.tags` | News coverage tags | Chip list under intro. | Rendered into `#newsHeroTags`. | Intro panel | `['High-risk AI', …]` |
+| `newsUi.refreshLabel` | News refresh button label | Accessible label for hero Sync. | `#btnNewsHeroRefresh` | News hero actions | `Refresh feeds` |
 | `AI_ACT_NEWS_SCOPE_RE` | AI news match pattern | Regex on title+snippet+topic for AI Act News filter. | OR topic category **EU Artificial Intelligence Act** / **AI and Emerging Tech**. | `public/app.js` | Matches `AI Act`, `high-risk AI`, … |
 | `citationsUi.asideAriaLabel` | Citation sidebar region label | Accessible name for the Browse detail aside. | Set by **`syncCitationSidebarChrome`**. | `#citationsSidebar` | `EU Data Act: official links and cross-references` |
 | `citationsUi.officialLeadHtml` | Official links panel lead | HTML under “Citations & official links”. | Describes consolidated text freshness for active regulation. | `#citationOfficialLead` | `…consolidated <strong>EU AI Act</strong> text.` |
@@ -531,9 +540,52 @@ flowchart LR
 
 ---
 
+## 12. App chrome and responsive UI (CSS + client)
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `--app-chrome-height` | Measured chrome height | Pixel height of `#appChrome` (header + tabs) used for reading-pane math. | Set by `ResizeObserver` + `syncAppChromeHeight()` in `initHeaderActionsToggle`; falls back to ~6–7.75rem in CSS. | `public/styles.css` `:root`; `document.documentElement` inline style | `112px` |
+| `--app-shell-vertical` | Viewport reserved for chrome | Vertical space subtracted from `100dvh` for reading stacks. | `app-chrome-height + footer-block-min + main-vertical-pad` | `public/styles.css` | — |
+| `#appChrome` | App chrome wrapper | Sticky container for header and tab bar on ≤899px. | `position: sticky; top: 0` in media query | `public/index.html` | — |
+| `#headerActionsToggle` | Tools menu button | Expands/collapses `#headerActionsPanel` on mobile/tablet. | Hidden when `min-width: 900px` | `public/index.html`, `initHeaderActionsToggle` | `aria-expanded="true"` |
+| `#headerActionsPanel` | Tools panel | Holds `.header-toolbar` (freshness, keys, refresh). | Class `is-open` when expanded (≤899px) | `public/index.html` | — |
+| `#headerFreshnessHint` | Freshness toolbar subtitle | One-line status under “Source freshness” in Tools. | Updated by `syncHeaderToolbarStatus()` from `lastAppMeta` | `public/index.html` | `Content as of May 26, 2026…` |
+| `#headerApiKeysHint` | API keys toolbar subtitle | One-line BYOK/server key state under “API keys”. | Updated by `syncHeaderToolbarStatus()` after `updateAskLlmKeysStatus()` | `public/index.html` | `Your keys active · Groq & Tavily` |
+| `syncHeaderToolbarStatus` | Header status sync | Writes toolbar hints and ARIA labels; does **not** render duplicate status cards. | Called from `setMeta`, `updateAskLlmKeysStatus`, load errors | `public/app.js` | — |
+| `lastAppMeta` | Cached meta for hints | Last `GET /api/meta` payload used for freshness subtitles. | Assigned in `syncHeaderToolbarStatus(meta)` | `public/app.js` | `{ lastRefreshed, lastChecked }` |
+| `newsUi` | News hero copy profile | Per-regulation News hero: `theme`, `title`, `intro`, `tags`, `scopeMode`, `scopeText`, refresh labels. | Object on each profile in `REGULATION_PROFILES` | `public/regulation-profiles.js` | `theme: 'data-act'` |
+| `syncNewsHeroChrome` | News hero binder | Applies `newsUi` to `#newsHero`, tags, scope card, refresh button. | Called from `syncAskSourcesNewsChrome` | `public/app.js` | — |
+
+### 12.1 App chrome and toolbar status flow
+
+```mermaid
+flowchart TB
+  META[GET /api/meta]
+  SETMETA[setMeta]
+  SYNC[syncHeaderToolbarStatus]
+  HINT1[#headerFreshnessHint]
+  HINT2[#headerApiKeysHint]
+  TOOLTIP[#freshnessTooltipContent]
+  BYOK[loadByokSettings + serverLlmMeta]
+  ASKLINE[#askLlmKeysStatus]
+
+  META --> SETMETA
+  SETMETA --> SYNC
+  BYOK --> SYNC
+  SYNC --> HINT1
+  SYNC --> HINT2
+  SETMETA --> TOOLTIP
+  BYOK --> ASKLINE
+```
+
+**Note:** Full freshness timestamps appear in the **tooltip**; long-form Ask key guidance appears on the **Ask tab** only (**BG-13** / **FR-SHELL-06**).
+
+---
+
 ## 11. Maintenance checklist
 
 1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together. **Commission / multi-feed crawl changes:** review **[GUARDRAILS.md](GUARDRAILS.md) TG-N06** and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** news rows.
 2. **JSON shape change** (regulation or news): Update **§2** / **§7**, **[PRD.md](PRD.md)**, and **[DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)** or news merge notes as appropriate.
 3. **New API field:** Update **[API_CONTRACTS.md](API_CONTRACTS.md)** and this dictionary.
+4. **App chrome / News hero UI:** Update **§2.1** (`newsUi`), **§12**, **[DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md)**, **[FEATURE_CATALOG.md](FEATURE_CATALOG.md)**, and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** BR-S-* / BR-*-N01 rows together.
 4. **Release:** Bump **`package.json`** version and **[CHANGELOG.md](../CHANGELOG.md)**; align **“Last updated”** notes in **[PRD.md](PRD.md)** when requirements change materially.

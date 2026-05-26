@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## EU Regulation Q&A Platform
 
-**Last updated:** 2026-05-19 (documentation standard **v2.0**; GDPR + EU AI Act + EU Data Act + BYOK + News regulation filters + reader title/formatting quality).
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3** (responsive app chrome, News hero, toolbar status hints).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -39,6 +39,10 @@ This document defines **product metrics** (what to measure in production or rese
 | **Title mismatch reports** | Support or QA tickets citing wrong article heading for regulation (should trend to **zero** after FR-BRW-09). | Spot-check Art. 10 on GDPR vs Data Act vs AI Act; Data Act Art. 4/33 for long titles. |
 | **Citation sidebar regulation accuracy** | QA checklist: zero instances of “GDPR” / GDPR-Info in sidebar when AI Act or Data Act is selected. | Manual pass on three regulations per release; ties to **FR-BRW-12** / **TG-F07**. |
 | **Reader formatting regressions** | Manual or automated checks that sample articles contain `1.` / `(a)` markers post-ETL (AI Act Art. 6, Data Act Art. 4). | Tied to `formattingGuardrails.ok` and visual QA. |
+| **Mobile Tools open rate** | Share of sessions at viewport ≤899px where `#headerActionsPanel` receives `is-open` at least once. | Proxy for discoverability of freshness, keys, and refresh on phones/tablets. |
+| **Toolbar hint accuracy** | Manual QA: `#headerFreshnessHint` and `#headerApiKeysHint` match tooltip and Ask key line after meta/BYOK changes. | Regressions indicate `syncHeaderToolbarStatus` drift. |
+| **Reading pane under chrome** | Visual QA: first line of article body visible without scroll on 375px after opening an article. | Uses `--app-chrome-height`; failure = layout regression. |
+| **News hero expand rate** | Share of mobile News sessions where `#newsHeroDetails` is expanded at least once. | High expand + low scroll-to-cards may mean hero still too tall—tune copy or default. |
 
 ### 1.3 Quality and risk metrics
 
@@ -129,6 +133,14 @@ This document defines **product metrics** (what to measure in production or rese
 | KR2 | ≥ 90% of golden-path Data Act Ask queries return at least one Data Act article citation in `sources`. |
 | KR3 | Regulation switch causes **zero** GDPR corpus responses when `regulation=data-act` (automated API tests). |
 | KR4 | **Data Act adoption:** measurable share of Ask sessions use `data-act` (if telemetry enabled). |
+
+### Objective O8: Mobile and tablet users can work without layout friction.
+
+| Key result | Target (example) |
+|------------|------------------|
+| KR1 | Zero P1 bugs open > 7 days on **Tools** panel, reading pane under chrome, or News hero overlap. |
+| KR2 | QA pass on 375px and 768px: Tools subtitles match tooltip/Ask key state after refresh and BYOK save. |
+| KR3 | ≥ 70% of mobile sessions (if instrumented) open Tools at least once — indicates discoverability of freshness and keys. |
 
 ---
 

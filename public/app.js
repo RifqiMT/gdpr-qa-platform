@@ -251,6 +251,96 @@
     return false;
   }
 
+  function syncNewsHeroChrome(reg, newsUi) {
+    reg = reg || getRegProfile();
+    var news = newsUi || reg.newsUi || {};
+    var hero = document.getElementById('newsHero');
+    if (hero) {
+      hero.setAttribute('data-news-theme', news.theme || reg.id || 'gdpr');
+    }
+    var pillLabel = document.getElementById('newsRegulationPillLabel');
+    if (pillLabel) pillLabel.textContent = reg.shortName || reg.legalLabel || 'Regulation';
+    var eyebrow = document.getElementById('newsEyebrow');
+    if (eyebrow) eyebrow.textContent = news.eyebrow || 'EU regulatory news';
+    var title = document.getElementById('newsHeroTitle');
+    if (title) title.textContent = news.title || 'News';
+    var intro = document.getElementById('newsIntro');
+    if (intro) intro.textContent = news.intro || '';
+    var refreshLabel = document.getElementById('newsRefreshLabel');
+    if (refreshLabel) refreshLabel.textContent = news.refreshLabel || 'Refresh feeds';
+    var refreshHint = document.getElementById('newsRefreshHint');
+    if (refreshHint) refreshHint.textContent = news.refreshHint || 'Fetches the latest headlines from configured sources.';
+    if (btnRefreshNews) {
+      btnRefreshNews.title = news.refreshHint || news.refreshLabel || 'Refresh news feeds';
+    }
+    var tagsEl = document.getElementById('newsHeroTags');
+    if (tagsEl) {
+      tagsEl.innerHTML = '';
+      var tags = Array.isArray(news.tags) ? news.tags : [];
+      tags.forEach(function (tag) {
+        var li = document.createElement('li');
+        li.className = 'news-hero-tag';
+        li.textContent = tag;
+        tagsEl.appendChild(li);
+      });
+      tagsEl.classList.toggle('is-empty', tags.length === 0);
+    }
+    var scopeCard = document.getElementById('newsScopeCard');
+    var scopeMode = news.scopeMode || (news.filterForRegulation ? 'filtered' : 'full');
+    var showScope = scopeMode === 'filtered' || scopeMode === 'full';
+    if (scopeCard) {
+      if (!showScope) {
+        scopeCard.classList.add('hidden');
+      } else {
+        scopeCard.classList.remove('hidden');
+        scopeCard.classList.toggle('news-scope-card--filtered', scopeMode === 'filtered');
+        scopeCard.classList.toggle('news-scope-card--full', scopeMode === 'full');
+        var scopeEyebrow = document.getElementById('newsScopeCardEyebrow');
+        if (scopeEyebrow) scopeEyebrow.textContent = news.scopeEyebrow || (scopeMode === 'filtered' ? 'Relevance filter' : 'Coverage');
+        var scopeTitle = document.getElementById('newsScopeCardTitle');
+        if (scopeTitle) scopeTitle.textContent = news.scopeTitle || '';
+        var scopeText = document.getElementById('newsScopeCardText');
+        if (scopeText) scopeText.textContent = news.scopeText || '';
+      }
+    }
+    var switchBtn = document.getElementById('newsScopeSwitchBtn');
+    var switchLabel = document.getElementById('newsScopeSwitchLabel');
+    if (switchBtn && switchLabel) {
+      if (news.switchToRegulationId && news.switchToLabel) {
+        switchBtn.hidden = false;
+        switchBtn.dataset.regulationId = news.switchToRegulationId;
+        switchLabel.textContent = news.switchToLabel;
+      } else {
+        switchBtn.hidden = true;
+        switchBtn.removeAttribute('data-regulation-id');
+      }
+    }
+    var viewLabel = document.getElementById('newsHeroStatViewLabel');
+    if (viewLabel) viewLabel.textContent = news.viewModeLabel || (scopeMode === 'filtered' ? 'Filtered' : 'Full index');
+  }
+
+  function updateNewsHeroStats(visibleCount, loadedCount) {
+    var meta = document.getElementById('newsHeroMeta');
+    if (!meta) return;
+    var loaded = typeof loadedCount === 'number' ? loadedCount : 0;
+    var visible = typeof visibleCount === 'number' ? visibleCount : loaded;
+    if (loaded <= 0) {
+      meta.hidden = true;
+      return;
+    }
+    meta.hidden = false;
+    var countEl = document.getElementById('newsHeroStatCount');
+    if (countEl) {
+      countEl.textContent =
+        visible !== loaded ? visible + ' / ' + loaded : String(visible);
+    }
+    var sourcesEl = document.getElementById('newsHeroStatSources');
+    if (sourcesEl) {
+      var srcs = getOrderedSourcesFromItems(lastNewsItems || []);
+      sourcesEl.textContent = String(srcs.length || '—');
+    }
+  }
+
   function syncAskSourcesNewsChrome(reg) {
     reg = reg || getRegProfile();
     var ask = reg.askUi || {};
@@ -287,22 +377,7 @@
     var sourcesIntro = document.getElementById('sourcesIntro');
     if (sourcesIntro) sourcesIntro.textContent = sources.intro || '';
 
-    var newsEyebrow = document.getElementById('newsEyebrow');
-    if (newsEyebrow) newsEyebrow.textContent = news.eyebrow || 'News';
-    var newsHeroTitle = document.getElementById('newsHeroTitle');
-    if (newsHeroTitle) newsHeroTitle.textContent = news.title || 'News';
-    var newsIntro = document.getElementById('newsIntro');
-    if (newsIntro) newsIntro.textContent = news.intro || '';
-    var newsBanner = document.getElementById('newsRegulationBanner');
-    if (newsBanner) {
-      if (news.bannerHtml) {
-        newsBanner.innerHTML = news.bannerHtml;
-        newsBanner.classList.remove('hidden');
-      } else {
-        newsBanner.innerHTML = '';
-        newsBanner.classList.add('hidden');
-      }
-    }
+    syncNewsHeroChrome(reg, news);
 
     var genOpt = document.querySelector('#askIndustrySector option[value="GENERAL"]');
     if (genOpt && ask.sectorFrameworkGeneral) {
@@ -324,7 +399,11 @@
     var tabBrowse = document.getElementById('tabBrowseMain');
     if (tabBrowse) {
       tabBrowse.innerHTML =
-        'Browse ' + escapeHtml(sn) + ' <span class="tab-browse-cue" aria-hidden="true">▾</span>';
+        '<span class="tab-label tab-label--long">Browse ' +
+        escapeHtml(sn) +
+        '</span><span class="tab-label tab-label--short">' +
+        escapeHtml(sn) +
+        '</span> <span class="tab-browse-cue" aria-hidden="true">▾</span>';
       tabBrowse.title = 'Choose section: ' + sn + ' recitals or chapters & articles';
     }
 
@@ -496,6 +575,7 @@
 
   var BYOK_STORAGE_KEY = 'gdpr-qa-byok-v1';
   var serverLlmMeta = { askGroqServerConfigured: false, askTavilyServerConfigured: false, byokSupported: true };
+  var lastAppMeta = null;
 
   function loadByokSettings() {
     try {
@@ -544,6 +624,130 @@
     return Boolean(serverLlmMeta.askGroqServerConfigured || serverLlmMeta.askTavilyServerConfigured);
   }
 
+  function formatLocaleDateTime(iso) {
+    if (!iso) return null;
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return null;
+    return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  }
+
+  function getFreshnessStatusLines(meta) {
+    meta = meta || lastAppMeta;
+    if (!meta) {
+      return { primary: 'Loading source timestamps…', tone: 'neutral' };
+    }
+    var refreshed = formatLocaleDateTime(meta.lastRefreshed);
+    var checked = formatLocaleDateTime(meta.lastChecked);
+    if (refreshed && checked) {
+      return {
+        primary: 'Content as of ' + refreshed,
+        secondary: 'Last checked ' + checked,
+        tone: 'ok'
+      };
+    }
+    if (refreshed) {
+      return { primary: 'Content as of ' + refreshed, tone: 'ok' };
+    }
+    if (checked) {
+      return {
+        primary: 'Last checked ' + checked,
+        secondary: 'Run Refresh sources to load consolidated text',
+        tone: 'warn'
+      };
+    }
+    return {
+      primary: 'Not loaded from official sources yet',
+      secondary: 'Use Refresh sources in Tools',
+      tone: 'warn'
+    };
+  }
+
+  function getApiKeysStatusLines() {
+    var cfg = loadByokSettings();
+    if (cfg.useOwnKeys) {
+      var hasGroq = Boolean(cfg.groqApiKey);
+      var hasTavily = Boolean(cfg.tavilyApiKey);
+      if (hasGroq && hasTavily) {
+        return {
+          primary: 'Your keys active',
+          secondary: 'Groq & Tavily (browser storage)',
+          tone: 'ok'
+        };
+      }
+      if (hasGroq || hasTavily) {
+        return {
+          primary: 'Partial BYOK setup',
+          secondary: (hasGroq ? 'Groq set' : 'Groq missing') + ' · ' + (hasTavily ? 'Tavily set' : 'Tavily missing'),
+          tone: 'warn'
+        };
+      }
+      return {
+        primary: 'BYOK enabled',
+        secondary: 'No keys saved — tap to add',
+        tone: 'warn'
+      };
+    }
+    var groq = Boolean(serverLlmMeta.askGroqServerConfigured);
+    var tavily = Boolean(serverLlmMeta.askTavilyServerConfigured);
+    if (groq && tavily) {
+      return {
+        primary: 'Server keys ready',
+        secondary: 'Groq & Tavily for Ask',
+        tone: 'ok'
+      };
+    }
+    if (groq) {
+      return {
+        primary: 'Groq ready (server)',
+        secondary: 'Tavily not configured on server',
+        tone: 'warn'
+      };
+    }
+    if (tavily) {
+      return {
+        primary: 'Tavily ready (server)',
+        secondary: 'Groq not configured on server',
+        tone: 'warn'
+      };
+    }
+    return {
+      primary: 'No Ask keys configured',
+      secondary: 'Tap to add your keys or contact admin',
+      tone: 'warn'
+    };
+  }
+
+  /** Header Tools rows only — full freshness detail stays in tooltip; Ask tab keeps askLlmKeysStatus. */
+  function syncHeaderToolbarStatus(meta) {
+    if (meta) lastAppMeta = meta;
+    var freshLines = getFreshnessStatusLines(meta);
+    var keysLines = getApiKeysStatusLines();
+    var freshHint = document.getElementById('headerFreshnessHint');
+    var keysHint = document.getElementById('headerApiKeysHint');
+    function toneHint(el, lines) {
+      if (!el || !lines) return;
+      el.textContent = lines.secondary
+        ? lines.primary + ' · ' + lines.secondary
+        : lines.primary;
+      el.classList.remove('header-toolbar-hint--ok', 'header-toolbar-hint--warn', 'header-toolbar-hint--neutral');
+      el.classList.add('header-toolbar-hint--' + (lines.tone || 'neutral'));
+    }
+    toneHint(freshHint, freshLines);
+    toneHint(keysHint, keysLines);
+    var btnFresh = document.getElementById('btnFreshnessInfo');
+    if (btnFresh) {
+      var freshAria = freshLines.primary;
+      if (freshLines.secondary) freshAria += '. ' + freshLines.secondary;
+      btnFresh.setAttribute('aria-label', 'Source freshness: ' + freshAria);
+    }
+    var btnByok = document.getElementById('btnByokSettings');
+    if (btnByok) {
+      var keysAria = keysLines.primary;
+      if (keysLines.secondary) keysAria += '. ' + keysLines.secondary;
+      btnByok.setAttribute('aria-label', 'API keys: ' + keysAria);
+    }
+  }
+
   function updateAskLlmKeysStatus() {
     var el = document.getElementById('askLlmKeysStatus');
     if (!el) return;
@@ -571,6 +775,7 @@
       el.className = 'ask-llm-keys-status ask-llm-keys-status--warn';
     }
     el.textContent = parts.join(' ');
+    syncHeaderToolbarStatus();
   }
 
   var BYOK_ICON = {
@@ -973,6 +1178,20 @@
   const btnFreshnessInfo = document.getElementById('btnFreshnessInfo');
   const freshnessTooltipWrap = document.getElementById('freshnessTooltipWrap');
   const btnRefresh = document.getElementById('btnRefresh');
+
+  function setBtnRefreshLabels(fullText, shortText) {
+    if (!btnRefresh) return;
+    var full = fullText || 'Refresh sources';
+    var short = shortText != null ? shortText : 'Refresh';
+    btnRefresh.innerHTML =
+      '<span class="btn-icon" aria-hidden="true">↻</span>' +
+      '<span class="btn-text btn-text--full">' +
+      escapeHtml(full) +
+      '</span>' +
+      '<span class="btn-text btn-text--short">' +
+      escapeHtml(short) +
+      '</span>';
+  }
   const btnBack = document.getElementById('btnBack');
   const btnBackToQuestion = document.getElementById('btnBackToQuestion');
   const btnBackFromCitation = document.getElementById('btnBackFromCitation');
@@ -1341,6 +1560,7 @@
         'Content not yet loaded from official sources. Use Refresh sources to fetch the latest ' + regulationShortLabel() + ' text.';
       freshnessContentEl.appendChild(note);
     }
+    syncHeaderToolbarStatus(meta);
   }
 
   function loadMeta() {
@@ -1357,12 +1577,22 @@
         setMeta(meta);
       })
       .catch(function () {
-        if (!freshnessContentEl) return;
-        freshnessContentEl.textContent = '';
-        var err = document.createElement('p');
-        err.className = 'freshness-tooltip-error';
-        err.textContent = 'Could not load freshness information.';
-        freshnessContentEl.appendChild(err);
+        if (freshnessContentEl) {
+          freshnessContentEl.textContent = '';
+          var err = document.createElement('p');
+          err.className = 'freshness-tooltip-error';
+          err.textContent = 'Could not load freshness information.';
+          freshnessContentEl.appendChild(err);
+        }
+        syncHeaderToolbarStatus({
+          lastRefreshed: null,
+          lastChecked: null
+        });
+        var freshHint = document.getElementById('headerFreshnessHint');
+        if (freshHint) {
+          freshHint.textContent = 'Could not load timestamps — tap for details';
+          freshHint.classList.add('header-toolbar-hint--warn');
+        }
       });
   }
 
@@ -2629,6 +2859,7 @@
       renderNewsToc(getOrderedSourcesFromItems(filtered));
     }
     updateNewsResultStatus(filtered.length, items.length, q);
+    updateNewsHeroStats(filtered.length, items.length);
     syncNewsSearchClearVisible();
     syncAllAsideFromMain();
     refreshNewsFilterDropdownsUi();
@@ -2898,9 +3129,10 @@
         syncNewsSearchClearVisible();
         teardownNewsToolbarDock();
         newsSections.innerHTML =
-          '<p class="news-empty">No news items yet. Use the feed links on the left to browse each site, or tap <strong>Refresh all sources</strong>.</p>';
+          '<p class="news-empty">No news items yet. Use the feed links on the left to browse each site, or tap <strong>Refresh feeds</strong>.</p>';
         populateNewsFilters([]);
         refreshNewsFilterDropdownsUi();
+        updateNewsHeroStats(0, 0);
       } else {
         lastNewsItems = items;
         populateNewsFilters(items);
@@ -3000,7 +3232,7 @@
 
   btnRefresh.addEventListener('click', function () {
     btnRefresh.disabled = true;
-    btnRefresh.innerHTML = '<span class="btn-icon" aria-hidden="true">↻</span> Refreshing…';
+    setBtnRefreshLabels('Refreshing…', '…');
     post('/api/refresh')
       .then((data) => {
         if (data.success) {
@@ -3035,11 +3267,11 @@
           if (currentDoc && currentDoc.type === 'article') openArticle(currentDoc.number);
           else if (currentDoc && currentDoc.type === 'recital') openRecital(currentDoc.number);
         }
-        btnRefresh.innerHTML = '<span class="btn-icon" aria-hidden="true">↻</span> Refresh sources';
+        setBtnRefreshLabels('Refresh sources', 'Refresh');
         btnRefresh.disabled = false;
       })
       .catch(() => {
-        btnRefresh.innerHTML = '<span class="btn-icon" aria-hidden="true">↻</span> Refresh sources';
+        setBtnRefreshLabels('Refresh sources', 'Refresh');
         btnRefresh.disabled = false;
         if (freshnessContentEl) {
           freshnessContentEl.textContent = '';
@@ -3050,6 +3282,63 @@
         }
       });
   });
+
+  (function initHeaderActionsToggle() {
+    var toggle = document.getElementById('headerActionsToggle');
+    var panel = document.getElementById('headerActionsPanel');
+    if (!toggle || !panel) return;
+
+    function syncAppChromeHeight() {
+      var chromeEl = document.getElementById('appChrome');
+      if (!chromeEl) return;
+      var h = chromeEl.getBoundingClientRect().height;
+      if (h > 0) {
+        document.documentElement.style.setProperty('--app-chrome-height', Math.ceil(h) + 'px');
+      }
+    }
+
+    function setHeaderActionsOpen(open) {
+      panel.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Hide tools and settings' : 'Show tools and settings');
+      requestAnimationFrame(syncAppChromeHeight);
+    }
+
+    function isDesktopChrome() {
+      return window.matchMedia('(min-width: 900px)').matches;
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setHeaderActionsOpen(!panel.classList.contains('is-open'));
+    });
+
+    document.addEventListener('click', function (e) {
+      if (isDesktopChrome() || !panel.classList.contains('is-open')) return;
+      var chrome = document.getElementById('appChrome');
+      if (chrome && !chrome.contains(e.target)) setHeaderActionsOpen(false);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('is-open')) setHeaderActionsOpen(false);
+    });
+
+    var mqDesktop = window.matchMedia('(min-width: 900px)');
+    function onChromeBreakpoint() {
+      if (mqDesktop.matches) setHeaderActionsOpen(false);
+      syncAppChromeHeight();
+    }
+    if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', onChromeBreakpoint);
+    else if (mqDesktop.addListener) mqDesktop.addListener(onChromeBreakpoint);
+
+    var chromeEl = document.getElementById('appChrome');
+    if (chromeEl && typeof ResizeObserver !== 'undefined') {
+      var chromeRo = new ResizeObserver(syncAppChromeHeight);
+      chromeRo.observe(chromeEl);
+    }
+    syncAppChromeHeight();
+    window.addEventListener('resize', syncAppChromeHeight, { passive: true });
+  })();
 
   if (btnFreshnessInfo && freshnessTooltipWrap) {
     btnFreshnessInfo.addEventListener('click', function (e) {
@@ -3240,6 +3529,57 @@
   });
 
   if (btnRefreshNews) btnRefreshNews.addEventListener('click', refreshNewsFromAllSources);
+
+  (function initNewsHeroDetails() {
+    var toggle = document.getElementById('newsHeroDetailsToggle');
+    var details = document.getElementById('newsHeroDetails');
+    if (!toggle || !details) return;
+
+    function setDetailsOpen(open) {
+      details.classList.toggle('is-expanded', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute(
+        'aria-label',
+        open ? 'Hide news overview and coverage' : 'Show news overview and coverage'
+      );
+    }
+
+    function applyNewsHeroLayoutMode() {
+      var desktop = window.matchMedia('(min-width: 900px)').matches;
+      if (desktop) {
+        setDetailsOpen(true);
+        toggle.hidden = true;
+      } else {
+        toggle.hidden = false;
+        setDetailsOpen(false);
+      }
+    }
+
+    toggle.addEventListener('click', function () {
+      setDetailsOpen(!details.classList.contains('is-expanded'));
+    });
+
+    var mqNewsHero = window.matchMedia('(min-width: 900px)');
+    if (mqNewsHero.addEventListener) mqNewsHero.addEventListener('change', applyNewsHeroLayoutMode);
+    else if (mqNewsHero.addListener) mqNewsHero.addListener(applyNewsHeroLayoutMode);
+
+    applyNewsHeroLayoutMode();
+  })();
+
+  var newsScopeSwitchBtn = document.getElementById('newsScopeSwitchBtn');
+  if (newsScopeSwitchBtn) {
+    newsScopeSwitchBtn.addEventListener('click', function () {
+      var targetId = newsScopeSwitchBtn.dataset.regulationId || 'gdpr';
+      var sel = document.getElementById('regulationSelect');
+      if (sel) {
+        sel.value = targetId;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      if (viewNews && !viewNews.classList.contains('hidden')) {
+        loadNews();
+      }
+    });
+  }
 
   initNewsFilterDropdownUiOnce();
 
@@ -8371,6 +8711,7 @@
   initCitationSidebarCollapsibles();
   updateBrowseSectionMenu();
   initByokSettingsUi();
+  syncHeaderToolbarStatus();
   updateAskLlmKeysStatus();
   initRegulationSelector().finally(function () {
     loadMeta();

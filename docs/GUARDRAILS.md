@@ -1,7 +1,7 @@
 # Guardrails  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 Guardrails define **technical and business limitations** so the team ships safely: what the product must not claim, what the architecture assumes, and where human review is required.
 
@@ -23,6 +23,7 @@ Guardrails define **technical and business limitations** so the team ships safel
 | BG-10 | **Maintainer attribution** in the app credits bar is **product metadata**, not a legal disclaimer or endorsement by LinkedIn or any regulator. | Separate from “reference only” copy in README §12. |
 | BG-11 | **Article numbers are not globally unique titles.** Articles 1–99 exist in GDPR, AI Act, and Data Act with **different** official titles. UI must never map GDPR canonical titles onto other regulations by number alone. | Enforced in `getArticleDisplayTitle()` (GDPR-only canonical map). |
 | BG-12 | **Long official titles must display in full** for AI Act and Data Act. Do not truncate corpus titles to “Article N” in the reader. | Enforced in `getArticleDisplayTitle()` (no 120-character fallback outside GDPR). |
+| BG-13 | **One surface per status type.** Freshness timestamps belong in the **Source freshness** tooltip (header Tools). API key configuration belongs in the **API keys** dialog + **Ask tab** status line. Do not add parallel always-visible status cards that repeat the same data. | Avoids redundant mobile chrome and conflicting copy. |
 
 ---
 
@@ -79,6 +80,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-F05 | **BYOK UI** stores secrets in **`localStorage`** (`gdpr-qa-byok-v1`). Clearing site data removes keys; XSS on the origin could exfiltrate keys — deploy with trusted static assets and HTTPS in production. | Enterprise SSO does not replace BYOK storage model. |
 | TG-F06 | **Display title helpers** — Any change to `getArticleDisplayTitle`, `getRecitalDisplayTitle`, or `CANONICAL_ARTICLE_TITLES` must be tested on **all three** regulations (spot-check Art. 10 on each; Data Act Art. 4 for long titles). | Regression caused wrong Data Act titles when GDPR map applied globally. |
 | TG-F07 | **Citation sidebar chrome** — Panel titles, leads, and publisher links must update via **`citationsUi`** + **`syncCitationSidebarChrome`**. Do not hardcode “GDPR” or GDPR-Info in `index.html` without IDs wired to sync. | Users saw GDPR labels while viewing EU Data Act. |
+| TG-F08 | **App chrome height** — Header/toolbar markup changes must keep **`ResizeObserver`** updating **`--app-chrome-height`** so the reader is not clipped under sticky chrome on phones. | Test Browse detail on 375px width after chrome edits. |
+| TG-F09 | **No duplicate status UI** — Use **`syncHeaderToolbarStatus`** for toolbar hints only; do not add a second always-visible freshness/keys card row (see **BG-13**). | Ask tab **`#askLlmKeysStatus`** remains the long-form Ask key narrative. |
 
 ---
 

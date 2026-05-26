@@ -1,7 +1,7 @@
 # Glossary  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI.
 
@@ -43,6 +43,10 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **CANONICAL_ARTICLE_TITLES** | GDPR-only map in `public/app.js` (Articles 1–99 official short titles); used by **`getArticleDisplayTitle`** when regulation is **`gdpr`**. |
 | **getArticleDisplayTitle** | Client helper resolving the article H2 in Browse, filters, and Ask aside; must not apply GDPR canonical titles to AI Act or Data Act. |
 | **getRecitalDisplayTitle** | Client helper resolving recital topic lines in cards and reader from corpus **`title`** fields. |
+| **App chrome** | `#appChrome` wrapper: header + tab bar; sticky on viewports ≤899px. |
+| **Tools panel** | `#headerActionsPanel` — collapsible header area with Source freshness, API keys, and Refresh sources (mobile/tablet). |
+| **syncHeaderToolbarStatus** | Client function syncing one-line freshness and BYOK hints in the Tools panel without duplicate status cards. |
+| **newsUi** | Per-regulation News hero copy and theme in `regulation-profiles.js` (intro, scope, tags, refresh labels). |
 
 ---
 

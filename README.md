@@ -4,7 +4,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.2.2   | ≥ 18 | **Multi-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals), **EU AI Act** (113 articles, 180 recitals), and **EU Data Act** (50 articles, 119 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; relevance filters when AI Act or Data Act is selected); regulation-aware **Credible sources** and **citation sidebar**; chapter summaries; PDF export; **Vercel** deploy. Reader shows **full official article titles** (including long Data Act headings), **regulation-correct recital titles**, and aligned numbered-paragraph layout. **Product documentation standard v2.0** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
+| 1.2.3   | ≥ 18 | **Multi-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals), **EU AI Act** (113 articles, 180 recitals), and **EU Data Act** (50 articles, 119 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; relevance filters when AI Act or Data Act is selected); regulation-aware **Credible sources** and **citation sidebar**; chapter summaries; PDF export; **Vercel** deploy. Reader shows **full official article titles** (including long Data Act headings), **regulation-correct recital titles**, and aligned numbered-paragraph layout. **Responsive app chrome** (Tools menu, tablet/phone layouts) and **News hero** (collapsible details). **Product documentation standard v2.1** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
 
 ---
 
@@ -23,7 +23,7 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
-**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.0**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
+**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.1**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
 **Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) (data dictionary + relationship diagrams) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) (sample JSON shapes) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
 
@@ -80,6 +80,17 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 ---
 
 ## 3. Features
+
+### 3.0 App shell and responsive chrome
+
+- **`#appChrome`** — Sticky header + tab bar on viewports **≤899px**; measured height drives `--app-chrome-height` and reading-pane caps (`ResizeObserver` in `public/app.js`).
+- **Regulation** — Full-width labeled dropdown on phones/tablets; inline on desktop.
+- **Tools menu** — On **≤899px**, **Tools** toggles a **1-column grid** of actions:
+  - **Source freshness** — Subtitle shows last refresh/check from meta; tap opens the **EUR-Lex freshness tooltip** (full timestamps).
+  - **API keys** — Subtitle shows server vs BYOK state; tap opens the **BYOK dialog** (same as desktop).
+  - **Refresh sources** — Primary action for active-regulation ETL.
+- **No duplicate status UI** — There is no second always-visible freshness/keys card row; the **Ask tab** still shows `#askLlmKeysStatus` for Ask-specific guidance.
+- **Tabs** — Compact pill-style segments on small screens (Browse / Ask / Sources / News short labels).
 
 ### 3.1 Browse regulation (GDPR, EU AI Act, or EU Data Act)
 
@@ -138,6 +149,7 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ### 3.5 News (GDPR & data protection; AI Act and Data Act filters)
 
+- **News hero** — Regulation-themed header (`syncNewsHeroChrome`, `newsUi`): compact **bar** (pill, title, **Sync**); on **≤899px** a chevron expands **details** (intro, horizontal-scroll topic tags, scope card) in a **1-column** layout; stats strip when items are loaded.
 - **News tab** — Aggregates GDPR and data-protection headlines from EU/UK supervisory and Commission sources. Each item links to the **original article** on the publisher’s site.
 - **EU AI Act selected** — Hero copy and an info **banner** explain scope; the list is **filtered client-side** for AI governance relevance (AI Act, high-risk AI, GPAI, biometrics, overlapping privacy/AI topics).
 - **EU Data Act selected** — Similar banner and filter for data access, interoperability, cloud switching, IoT product data, B2B data sharing, and related Commission/digital-policy headlines.

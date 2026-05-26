@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 
@@ -25,6 +25,18 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 | BR-R-02 | Selection persists across sessions | FR-REG-02 | US-R2 | `gdpr-qa-regulation-v1`, `setCurrentRegulation` | Reload page; selection retained |
 | BR-R-03 | Refresh updates active regulation only | FR-REG-04 | US-R3, US-ETL1 | `POST /api/refresh`, `runRegulationScraperAndReloadContent` | Refresh with AI Act does not alter GDPR JSON |
 | BR-R-04 | UI copy follows regulation | FR-REG-05, FR-REG-06 | US-R4, US-R6 | `regulation-profiles.js`, `syncAskSourcesNewsChrome`, `syncCitationSidebarChrome` | Ask title and citation sidebar say “EU AI Act” / AI Act Law when selected |
+
+---
+
+## App shell and responsive chrome
+
+| BR-ID | Business requirement | PRD | Story | Implementation | Verification |
+|-------|---------------------|-----|-------|----------------|--------------|
+| BR-S-01 | Mobile/tablet user can open header tools without cramped icon-only row | FR-SHELL-02, FR-SHELL-03 | US-S1 | `#headerActionsToggle`, `.header-toolbar`, `.header-regulation` | ≤899px: Tools opens 1-column grid; regulation full width |
+| BR-S-02 | User sees corpus freshness at a glance before opening tooltip | FR-SHELL-05 | US-S2 | `syncHeaderToolbarStatus`, `#headerFreshnessHint`, `#btnFreshnessInfo` | Toolbar subtitle shows refresh dates; tooltip has full detail |
+| BR-S-03 | User configures API keys from header without duplicate status cards | FR-SHELL-05, FR-SHELL-06 | US-S3 | `#btnByokSettings`, `#askLlmKeysStatus` (Ask only) | No `#headerStatusStrip`; keys dialog + Ask line only |
+| BR-S-04 | Reader uses remaining viewport under sticky chrome | FR-SHELL-04 | US-S4 | `#appChrome`, `ResizeObserver`, `--app-chrome-height` | Browse article scroll not hidden under chrome on phone |
+| BR-S-05 | News intro does not consume entire mobile screen | FR-NEWS-07 | US-N14 | `#newsHero`, `initNewsHeroDetails`, `.news-detail-grid` | Hero collapsed by default; expand shows 1-column panels |
 
 ---
 
@@ -61,10 +73,10 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 | BR-A-08 | User validates API keys before use | FR-A11 | US-A9 | `POST /api/validate-api-keys`, `renderByokValidationResults` | Check validity → Groq/Tavily valid cards |
 | BR-A-09 | Ask UI shows server vs BYOK key state | FR-A10 | US-A10 | `updateAskLlmKeysStatus`, `GET /api/meta` server flags | Status line reflects BYOK or server keys |
 | BR-A-10 | AI Act Ask uses AI Act corpus and prompts | FR-ASK-02 | US-A11 | `regulationSearchContext`, `buildAnswerPrompt(reg)`, `ai-act-content.json` | Ask with `regulation=ai-act` cites Art. 6+ |
-| BR-AI-N01 | AI Act news filter in UI | FR-NEWS-05 | US-N12 | `itemMatchesNewsRegulationScope`, `#newsRegulationBanner` | AI Act selected → fewer news cards + banner |
+| BR-AI-N01 | AI Act news filter in UI | FR-NEWS-05, FR-NEWS-07 | US-N12 | `itemMatchesNewsRegulationScope`, `newsUi`, `#newsScopeCard` | AI Act selected → fewer news cards + filtered scope card in hero |
 | BR-DA-01 | Data Act Ask uses Data Act corpus | FR-ETL-02b, FR-ASK-02 | US-A12 | `data-act-content.json`, `regulationSearchContext` | Ask with `regulation=data-act` cites Data Act articles |
 | BR-DA-02 | Data Act credible sources | FR-SRC-01 | US-S4 | `data-act-structure.json`, `GET /api/meta?regulation=data-act` | Three source cards for Data Act |
-| BR-DA-N01 | Data Act news filter in UI | FR-NEWS-05 | US-N13 | `DATA_ACT_NEWS_SCOPE_RE`, news banner | Data Act selected → filtered list + banner |
+| BR-DA-N01 | Data Act news filter in UI | FR-NEWS-05, FR-NEWS-07 | US-N13 | `DATA_ACT_NEWS_SCOPE_RE`, `newsUi`, `#newsScopeCard` | Data Act selected → filtered list + scope card in hero |
 | BR-SH-01 | Maintainer attribution bar | FR-SHELL-07 | US-H4 | `app-credits` in `index.html`, `styles.css` | Footer shows name + LinkedIn + website icons |
 
 ---

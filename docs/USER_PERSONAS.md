@@ -3,7 +3,7 @@
 
 Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and **EU Data Act**). They inform features, user stories, and documentation.
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 ---
 
@@ -15,8 +15,8 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 | **Role** | In-house counsel or compliance officer; needs accurate EU regulation text and citations across privacy, AI, and data-access law. |
 | **Goals** | Find the right Article or Recital quickly; cite official sources (EUR-Lex, GDPR-Info, AI Act Law, Data Act Law); avoid unsourced interpretations. |
 | **Pain points** | Long PDFs; confusion between overlapping instruments (GDPR vs AI Act vs Data Act); no single searchable workspace. |
-| **Needs** | Regulation switcher; Browse with filters; Ask with **`[S#]`** citations; sector framing when relevant; PDF export; credible sources tab. |
-| **Relevant features** | Browse, Ask, Credible sources, Export PDF, Refresh sources, regulation profiles. |
+| **Needs** | Regulation switcher; Browse with filters; Ask with **`[S#]`** citations; sector framing when relevant; PDF export; credible sources tab; on mobile, **Tools** menu for refresh/keys without cramped header icons. |
+| **Relevant features** | Browse, Ask, Credible sources, Export PDF, Refresh sources, regulation profiles, responsive app chrome (Tools panel). |
 
 ---
 

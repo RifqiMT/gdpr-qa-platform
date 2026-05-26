@@ -1,7 +1,7 @@
 # User Stories  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
 Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** and **Data Act** leads).
@@ -19,6 +19,17 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-R7 | As a **Data Act lead**, I want the Browse detail sidebar to say **“Related Data Act articles”** and link to **Data Act Law** (not GDPR-Info) when EU Data Act is selected. | Data Act lead |
 | US-R5 | As a **Data Act lead**, I want to select **EU Data Act** in the header so that Browse and Ask use the Data Act corpus (50 articles, 119 recitals). | Data Act lead |
 | US-R6 | As **Engineering / DevOps**, I want **`npm run refresh-data-act`** so that I can refresh the Data Act corpus without the UI. | Engineering / DevOps |
+
+---
+
+## Epic 0b: Responsive app shell
+
+| ID | Story | Persona |
+|----|--------|---------|
+| US-S1 | As a **Legal/Compliance** user on my **phone**, I want a **Tools** menu with full-width actions so that I can refresh sources and open API keys without mis-tapping tiny icons. | Legal/Compliance |
+| US-S2 | As a **DPO**, I want to see **when the corpus was last refreshed** in the Source freshness row before I open the full tooltip so that I know the text is current. | DPO |
+| US-S3 | As a **Consultant**, I want **one place** for API key status (Tools row + Ask tab) without duplicate cards in the header so that the app feels clear and professional. | Consultant |
+| US-S4 | As a **General Professional** on a **tablet**, I want the regulation reader to use the space **below** the sticky header so that long articles are not hidden under the chrome. | General Professional |
 
 ---
 
@@ -90,6 +101,7 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-N11 | As a **DPO**, I want the **Attachments** action to appear only when a news article page actually links downloadable files so that the UI stays clean and predictable. | DPO |
 | US-N12 | As an **AI governance** user, I want News to show an **AI Act relevance filter and banner** when EU AI Act is selected so that I see AI governance headlines without assuming a separate AI-only wire service. | AI governance |
 | US-N13 | As a **Data Act lead**, I want News to show a **Data Act relevance filter and banner** when EU Data Act is selected so that I see data access, interoperability, and digital-policy headlines in context. | Data Act lead |
+| US-N14 | As a **Legal/Compliance** user on **mobile**, I want the News **hero** collapsed by default with regulation-themed intro and scope in a **single column** when I expand it so that headlines are visible without scrolling past a full-screen banner. | Legal/Compliance |
 
 ---
 
@@ -165,6 +177,9 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-N12 | EU AI Act selected | User opens News | Banner visible; list filtered to AI-relevant items; status explains filter |
 | US-A8 | User enters Groq key in BYOK | User clicks Check validity | `POST /api/validate-api-keys` returns `valid: true` for Groq without persisting key |
 | US-ETL1 | GDPR selected | User clicks Refresh sources | Only `gdpr-content.json` mtime changes; AI Act file unchanged |
+| US-S1 | Viewport ≤899px | User taps **Tools** | Panel opens with three full-width rows; regulation select spans header width |
+| US-S2 | Meta loaded | User reads Source freshness row | `#headerFreshnessHint` matches summary; tooltip has full timestamps |
+| US-N14 | Viewport ≤899px, News tab | User expands hero details | Intro and scope stack in one column; cards visible without excessive scroll |
 
 Full verification steps: [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 

@@ -62,12 +62,23 @@
           'Official and specialist GDPR and data-protection guidance. Every link opens in a new tab.'
       },
       newsUi: {
-        eyebrow: 'Regulators & EU institutions',
+        theme: 'gdpr',
+        eyebrow: 'EU & UK supervisory news',
         title: 'GDPR & data protection news',
         intro:
-          'Headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds—grouped by source, tagged by theme, with optional file attachments when the page links any.',
+          'Curated headlines from EDPB, EDPS, ICO (UK), European Commission, and Council of Europe—grouped by source, tagged by topic, with attachments when available.',
         filterForRegulation: false,
-        bannerHtml: ''
+        scopeMode: 'full',
+        scopeEyebrow: 'Full corpus',
+        scopeTitle: 'All configured data-protection feeds',
+        scopeText:
+          'You are viewing the complete news index. Switch to EU AI Act or EU Data Act in the header to see a relevance-filtered subset for those regulations.',
+        switchToRegulationId: '',
+        switchToLabel: '',
+        tags: ['Supervisory guidance', 'Enforcement', 'Rights & consent', 'Transfers', 'AI overlap'],
+        refreshLabel: 'Refresh feeds',
+        refreshHint: 'Pulls the latest items from each regulator feed (may take a few seconds).',
+        viewModeLabel: 'Full index'
       },
       citationsUi: {
         asideAriaLabel: 'GDPR: official links and cross-references',
@@ -142,13 +153,23 @@
           'Authoritative AI Act text (AI Act Law, EUR-Lex) and European Commission policy on the EU regulatory framework for AI. Every link opens in a new tab.'
       },
       newsUi: {
+        theme: 'ai-act',
         eyebrow: 'AI governance & data protection',
         title: 'AI Act–relevant news',
         intro:
-          'Headlines from EU regulators and the Commission, filtered for artificial intelligence governance, high-risk systems, GPAI, biometrics, and overlapping data-protection themes.',
+          'Headlines from EU regulators and the Commission, ranked for artificial intelligence governance—high-risk systems, GPAI, biometrics, and privacy overlap.',
         filterForRegulation: true,
-        bannerHtml:
-          'Showing items relevant to the <strong>EU AI Act</strong> and AI/data-protection overlap. Select <strong>GDPR</strong> in the header for the full data-protection news corpus.'
+        scopeMode: 'filtered',
+        scopeEyebrow: 'Relevance filter active',
+        scopeTitle: 'Showing EU AI Act–related items',
+        scopeText:
+          'This list is narrowed from the shared supervisory news corpus. Topics such as high-risk AI, GPAI, and biometric identification are prioritised.',
+        switchToRegulationId: 'gdpr',
+        switchToLabel: 'View full GDPR news',
+        tags: ['High-risk AI', 'GPAI', 'Biometrics', 'AI Office', 'Data protection overlap'],
+        refreshLabel: 'Refresh feeds',
+        refreshHint: 'Updates the shared corpus, then reapplies the AI Act relevance filter.',
+        viewModeLabel: 'AI Act filter'
       },
       citationsUi: {
         asideAriaLabel: 'EU AI Act: official links and cross-references',
@@ -223,13 +244,23 @@
           'Authoritative Data Act text (Data Act Law, EUR-Lex) and European Commission policy on fair access to data. Every link opens in a new tab.'
       },
       newsUi: {
+        theme: 'data-act',
         eyebrow: 'Data economy & data protection',
         title: 'Data Act–relevant news',
         intro:
-          'Headlines from EU regulators and the Commission, filtered for data access, cloud switching, connected products, interoperability, and overlapping data-protection themes.',
+          'Headlines from EU regulators and the Commission, ranked for fair data access, cloud switching, connected products, interoperability, and related digital-policy themes.',
         filterForRegulation: true,
-        bannerHtml:
-          'Showing items relevant to the <strong>EU Data Act</strong> and data-economy themes. Select <strong>GDPR</strong> in the header for the full data-protection news corpus.'
+        scopeMode: 'filtered',
+        scopeEyebrow: 'Relevance filter active',
+        scopeTitle: 'Showing EU Data Act–related items',
+        scopeText:
+          'This list is narrowed from the shared supervisory news corpus. Data access, IoT product data, cloud portability, and B2B sharing themes are prioritised.',
+        switchToRegulationId: 'gdpr',
+        switchToLabel: 'View full GDPR news',
+        tags: ['Data access', 'Cloud switching', 'Connected products', 'Interoperability', 'B2B data sharing'],
+        refreshLabel: 'Refresh feeds',
+        refreshHint: 'Updates the shared corpus, then reapplies the Data Act relevance filter.',
+        viewModeLabel: 'Data Act filter'
       },
       citationsUi: {
         asideAriaLabel: 'EU Data Act: official links and cross-references',

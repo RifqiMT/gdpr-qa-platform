@@ -1,7 +1,7 @@
 # Architecture overview  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 ## System context
 
@@ -33,7 +33,7 @@ flowchart LR
 
 | Layer | Components | Responsibility |
 |-------|------------|----------------|
-| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, `news-dedupe.js`, `styles.css` | Regulation switcher; tabs; regulation-aware Ask/Sources/News |
+| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, `news-dedupe.js`, `styles.css` | `#appChrome` (sticky header + tabs ≤899px); **Tools** panel; `syncHeaderToolbarStatus`; News hero; regulation switcher; tabs; regulation-aware Ask/Sources/News/Browse |
 | **API** | `server.js` | REST; `parseRegulationId`; BM25; Groq/Tavily with `regulationSearchContext` |
 | **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Regulation metadata; `loadContent(regId)`; Vercel `/tmp` |
 | **ETL GDPR** | `scraper.js` + **`document-formatting-guardrails.js`** | → **`gdpr-content.json`** |

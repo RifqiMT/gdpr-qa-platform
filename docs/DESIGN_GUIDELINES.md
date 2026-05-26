@@ -1,7 +1,7 @@
 # Design guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
 
 Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
@@ -50,10 +50,37 @@ The application ships a **single light theme** (no dark-mode token set in code a
 
 | Breakpoint | Typical width | Effect (representative) |
 |------------|---------------|-------------------------|
-| **Default** | &lt; 640px | Tighter **`--main-vertical-pad`**, larger credits-bar reserve, reading pane **`min(62dvh, …)`**. |
+| **Default** | &lt; 640px | Tighter **`--content-pad`**; **`--app-chrome-height`** ~6rem (collapsed Tools); reading pane **`min(72dvh, …)`**. |
 | **640px+** | Small tablet | Slightly larger **`--reading-toolbar-gap`**. |
-| **900px+** | Desktop | **`--content-pad`** 2rem, **`--main-vertical-pad`** increased; reading pane **`min(70dvh, …)`**; chapter filter grid may use two columns (see **`.filter-bar`** in CSS). |
+| **≤899px** | Phone / tablet | **Sticky `#appChrome`**; **Tools** menu; full-width regulation select; **1-column** toolbar grid when open; pill tabs; News hero details collapsed by default. |
+| **900px+** | Desktop | Tools toggle hidden; toolbar always horizontal; **`--content-pad`** 2rem; reading pane **`min(70dvh, …)`**. |
+| **1100px+** | News desktop | Two-column news body (feeds aside + articles). |
 | **1600px+** | Wide | **`--content-pad`** 2.5rem. |
+
+### 2.2 News hero theme accents (regulation)
+
+| `data-news-theme` | Accent (`--news-hero-accent`) | Gradient hint |
+|-------------------|------------------------------|---------------|
+| `gdpr` (default) | `#0f766e` (teal) | Mint wash |
+| `ai-act` | `#4f46e5` (indigo) | Indigo wash |
+| `data-act` | `#0369a1` (sky) | Sky wash |
+
+Set by **`syncNewsHeroChrome()`** from **`newsUi.theme`** in `regulation-profiles.js`.
+
+---
+
+## 2.3 App chrome (header + tabs)
+
+| Element | Classes / ids | Behavior |
+|---------|---------------|----------|
+| **Chrome wrapper** | `#appChrome`, `.app-chrome` | Sticky on ≤899px; **`ResizeObserver`** sets **`--app-chrome-height`**. |
+| **Primary row** | `.header-primary`, `.logo`, `#headerActionsToggle` | Title + **Tools** button (mobile/tablet). |
+| **Regulation** | `.header-regulation`, `#regulationSelect` | Full-width grid label + select on ≤899px. |
+| **Tools panel** | `#headerActionsPanel`, `.header-toolbar` | Collapsible; **`display: grid; grid-template-columns: 1fr`** on small screens. |
+| **Toolbar rows** | `.header-toolbar-btn`, `--freshness`, `--keys`, `--refresh` | Icon + label + **live hint** (`#headerFreshnessHint`, `#headerApiKeysHint`). |
+| **Tabs** | `.tabs`, `.tab`, `.tab-label--short` | Horizontal scroll + pill active state on ≤899px. |
+
+**Anti-pattern (removed):** Always-visible duplicate freshness/API-key **status cards** between regulation and Tools — use toolbar hints + existing tooltip / Ask status instead.
 
 ---
 
@@ -76,11 +103,12 @@ The application ships a **single light theme** (no dark-mode token set in code a
 
 | Token | Role |
 |-------|------|
-| `--header-height` | ~72px header band |
-| `--tabs-bar-height` | Tab bar height for shell math |
+| `--header-height` | Legacy estimate (~72px); prefer **`--app-chrome-height`** |
+| `--app-chrome-height` | Measured sticky chrome (header + tabs); set in JS |
+| `--tabs-bar-height` | Tab bar height estimate for fallback math |
 | `--footer-block-min` | App credits bar reserve (larger on small screens) |
 | `--main-vertical-pad` | Main content vertical padding (responsive) |
-| `--app-shell-vertical` | Sum used to compute reading pane max height |
+| `--app-shell-vertical` | `app-chrome-height` + footer pad + main pad → reading cap |
 | `--reading-pane-max-h` / `--doc-readable-max-h` | Cap scroll region for long articles |
 | `--content-max` | `100%` full-width canvas |
 | `--radius`, `--radius-sm`, `--radius-lg` | 14px / 10px / 18px corner radii |
@@ -118,8 +146,10 @@ The application ships a **single light theme** (no dark-mode token set in code a
 
 | Component | Class hooks (representative) | Notes |
 |-----------|----------------------------|--------|
-| **Header** | `.header`, `.logo-link`, `.regulation-select`, `.btn-freshness-info`, `.btn-primary` | **Regulation** dropdown (`#regulationSelect`); logo → homepage; freshness tooltip. |
-| **Regulation banner (News)** | `.news-regulation-banner` | Shown when EU AI Act or EU Data Act selected; muted panel under news intro. |
+| **App chrome** | `#appChrome`, `.header-inner`, `.btn-header-menu`, `.header-toolbar` | Sticky shell; **Tools** toggle; 1-column toolbar on ≤899px. |
+| **Header** | `.header`, `.logo-link`, `.regulation-select`, `.header-toolbar-btn--freshness` | Regulation dropdown; logo → homepage; freshness via toolbar row + tooltip. |
+| **News hero** | `.news-hero`, `.news-hero-bar`, `.news-hero-details`, `.news-copy-panel` | Collapsible details on mobile; 1-column intro/scope panels. |
+| **Regulation scope (News)** | `.news-scope-card`, `#newsScopeCard` | Filtered/full corpus callout inside hero details (not a separate banner). |
 | **App credits bar** | `.app-credits`, `.app-credits-inner`, `.app-credits-text`, `.app-credits-links`, `.app-credits-link`, `.app-credits-icon` | Bottom attribution: “Developed, managed, and maintained by **Rifqi Tjahyono**”; LinkedIn (filled icon, hover `#0a66c2`) and website (globe stroke icon). Centered on mobile; text left / icons right from **640px**. |
 | **Tabs** | `.tabs`, `.tab`, `.tab--browse-main`, `.tab-browse-menu` | `role="tablist"` / `tab` / `tabpanel`; browse split menu. |
 | **Buttons** | `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-sm` | Primary = accent fill; secondary = outline / muted. |

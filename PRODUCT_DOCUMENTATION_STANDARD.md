@@ -1,9 +1,9 @@
 # Product documentation standard  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.0  
+**Version:** 2.1  
 **Status:** Active — governance checklist for product, design, compliance, engineering, and operations.  
-**Product release:** `package.json` **1.2.2** (GDPR + EU AI Act + EU Data Act). **Latest doc audit:** 2026-05-19 (citation sidebar regulation chrome, long article titles, AI/Data Act ETL formatting, full doc set alignment).
+**Product release:** `package.json` **1.2.3** (GDPR + EU AI Act + EU Data Act). **Latest doc audit:** 2026-05-19 (responsive app chrome, News hero, toolbar status without duplicate UI, full doc set alignment).
 
 **Scope:** All material under **`gdpr-qa-platform/`** describing the product, behavior, configuration, verification, and release history.
 
@@ -18,13 +18,13 @@
 | [docs/README.md](docs/README.md) | All | Documentation hub: reading order, map, conventions. |
 | [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) | Product, legal | Positioning, regulation scope (GDPR, AI Act, Data Act), credible sources, News policy. |
 | [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md) | Engineering, DevOps | Multi-regulation APIs, ETL, Ask pipeline, BYOK, security, performance. |
-| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.2** — three regulations, BYOK, News filters, reader titles, Vercel. |
+| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.4** — three regulations, BYOK, responsive chrome, News hero, reader titles, Vercel. |
 | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX | Eight personas including AI governance and **data economy / Data Act** leads. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA | Epics and acceptance-oriented stories traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, support | Data dictionary + **Mermaid relationship diagrams** (configuration, corpus, Ask, News). |
 | [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) | Integrators | Sample JSON for corpora, Ask, news (illustrative). |
 | [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) | Product leadership | Product metrics definitions and example OKRs. |
-| [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) | Design, frontend | Tokens, components, breakpoints, **app credits** bar, regulation chrome. |
+| [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) | Design, frontend | Tokens, components, breakpoints, **app chrome** (Tools menu, ≤899px), **News hero**, app credits bar. |
 | [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) | QA, compliance-oriented orgs | BR → PRD → stories → code → verification. |
 | [docs/GUARDRAILS.md](docs/GUARDRAILS.md) | All | Business (**BG-***) and technical (**TG-***) limitations. |
 | [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) | Engineering | Binding ETL ↔ JSON ↔ reader contract (all corpora). |
@@ -80,7 +80,7 @@
 | **Sources** | `GET /api/meta?regulation=` credible org list per regulation. |
 | **News** | Multi-source crawl; filters; By source / All; attachments when present; **AI Act** / **Data Act** relevance filter + banner. |
 | **ETL** | `scraper.js`, `ai-act-scraper.js`, `data-act-scraper.js`; formatting guardrails; daily cron (all three). |
-| **Shell** | Regulation switcher; **app credits** bar (maintainer attribution + LinkedIn / website icons). |
+| **Shell** | Regulation switcher; **Tools** menu (≤899px); freshness tooltip; BYOK dialog; refresh; **app credits** bar; responsive chrome. |
 
 ---
 
