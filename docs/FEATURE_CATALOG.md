@@ -1,7 +1,7 @@
 # Feature catalog  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.3** · Documentation standard **v2.1**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.4** · Documentation standard **v2.2**
 
 This catalog is the **feature-level inventory** of the shipped product. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
@@ -47,6 +47,10 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 | F-BRW-16 | Numbered/lettered paragraph reader | ✓ | ✓ | ✓ | ETL + guardrails + `renderManualNumberedParagraphs` |
 | F-BRW-17 | Regulation-aware citation sidebar | ✓ | ✓ | ✓ | `citationsUi`; official + related panel copy |
 | F-BRW-18 | Full long article titles (non-GDPR) | — | ✓ | ✓ | No 120-char fallback in `getArticleDisplayTitle` |
+| F-BRW-19 | Browse welcome overview | ✓ | ✓ | ✓ | `browseUi`; themed description + tags + EUR-Lex |
+| F-BRW-20 | Desktop 3-column regulation hub | ✓ | ✓ | ✓ | `#browseWelcomeGrid`; order GDPR · Data Act · AI Act |
+| F-BRW-21 | Chapters filter reliability | ✓ | ✓ | ✓ | `resetChaptersFilters`; hidden GDPR topic filter guard |
+| F-BRW-22 | Mobile collapsible chapter filters | ✓ | ✓ | ✓ | `#chaptersFiltersToggle`; active-filter banner |
 
 ---
 

@@ -1,7 +1,7 @@
 # Operations runbook  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Procedures for **local development**, **production (Vercel)**, and **routine maintenance**. Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md).
 
@@ -98,6 +98,9 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 | Reader paragraphs | AI Act Art. 6 or 99; Data Act Art. 4 shows `1.` / `2.` blocks and `(a)` sublists |
 | Mobile Tools (375px) | **Tools** opens; `#headerFreshnessHint` non-empty after load; no duplicate status strip in header |
 | News hero (≤899px) | News tab: hero collapsed; **Show details** reveals 1-column intro + scope; **Sync** runs refresh |
+| Browse welcome (≥900px) | Browse placeholder: three cards (GDPR, Data Act, AI Act); **Chapters** button above **Recitals** |
+| Chapters filter bleed | GDPR: set sub-category → switch EU Data Act → Chapters with All filters → articles listed |
+| Mobile chapters filters | ≤899px: **Filters** collapsed by default; expand shows chapter + article; **Clear filters** works |
 
 ---
 

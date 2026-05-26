@@ -3,7 +3,7 @@
 
 **Version:** 1.5  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v2.1** · Product **1.2.3** · **Last updated:** 2026-05-19
+**Status:** Active · Documentation standard **v2.2** · Product **1.2.4** · **Last updated:** 2026-05-19
 
 ---
 
@@ -133,6 +133,22 @@ Do not add a second always-visible status row in the header — extend the Tools
 
 ---
 
+## 8b. Browse welcome and chapters filters
+
+| Concern | Implementation |
+|---------|----------------|
+| **Desktop hub** | `initBrowseWelcomeGrid()` builds three cards from `REGULATION_PROFILES` (`BROWSE_WELCOME_GRID_ORDER`: gdpr, data-act, ai-act). |
+| **Mobile solo** | `syncBrowseWelcomeSolo(reg)` updates `#browseWelcome` for active regulation only. |
+| **Quick actions** | **Chapters** = `btn-primary` + `data-browse-quick="chapters"`; **Recitals** = secondary. |
+| **Regulation switch** | `setCurrentRegulation` → `resetChaptersFilters()` when id changes; clears hidden GDPR topic filters. |
+| **Sub-category guard** | `getChaptersFilterSubcategoryValue()` returns `''` when `!hasArticleTopics`. |
+| **Load races** | `loadChaptersRequestId` + `currentRegulation.id` check before applying `__chaptersData`. |
+| **Mobile filters** | `#chaptersFiltersPanel` collapsed by default ≤899px; `#chaptersActiveFilters` shows applied filters. |
+
+Copy for welcome cards lives in **`browseUi`** — keep in sync with [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) §2.2.1.
+
+---
+
 ## 9. Code conventions
 
 - Match existing **vanilla JS** style in `app.js` (IIFE, `function` declarations).  
@@ -153,6 +169,8 @@ Do not add a second always-visible status row in the header — extend the Tools
 - [ ] `GET /health` returns `ok`.
 - [ ] **375px width:** Tools opens; freshness and API key subtitles update after meta/BYOK; article reader not hidden under sticky chrome.
 - [ ] **News (mobile):** Hero collapsed by default; expand shows 1-column intro + scope; Sync still works.
+- [ ] **Browse welcome (desktop):** Three regulation cards; chapters button above recitals; card click switches regulation.
+- [ ] **Chapters false empty:** GDPR sub-category set → switch to Data Act → Chapters shows articles with All filters.
 
 ---
 

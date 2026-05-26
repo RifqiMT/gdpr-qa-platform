@@ -3,7 +3,7 @@
 
 **Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act + EU Data Act). Each entry uses consistent, reader-friendly wording.
 
-**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.8 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 **Column reference**
 
@@ -107,6 +107,11 @@
 | `askUi.relevantTitle` | Relevant provisions heading | Aside panel title after Ask. | GDPR vs AI Act wording. | `#askRelevantDocsTitle` | `Relevant AI Act provisions` |
 | `askUi.crossrefTitle` | Suitable recitals subtitle | GDPR-Info crossref block; `null` hides block. | Only when `hasSuitableRecitals`. | `renderRelevantProvisionsFromAnswer` | `Suitable GDPR recitals (GDPR-Info)` |
 | `sourcesUi.title` | Sources page title | H2 on Credible sources tab. | Regulation-scoped copy. | `#sourcesHeaderTitle` | `EU AI Act: credible sources & documents` |
+| `browseUi.theme` | Browse welcome theme token | CSS accent hook (`gdpr`, `ai-act`, `data-act`). | `data-browse-theme` on welcome cards. | `.browse-welcome`, `styles.css` | `data-act` |
+| `browseUi.title` | Browse welcome title | Short regulation name on welcome card. | `#browseWelcomeTitle` or card H2. | Browse placeholder | `EU Data Act` |
+| `browseUi.description` | Browse welcome body | Plain-language summary of the regulation. | `#browseWelcomeDesc` / card `.browse-welcome-desc` | `regulation-profiles.js` | Data Act fair-access copy |
+| `browseUi.highlights` | Browse theme tags | Chip labels for key topics. | Rendered as `.browse-welcome-tag` list items. | `#browseWelcomeTags` | `['Data access', …]` |
+| `browseUi.mark` | Browse mark badge | 2–4 letter mark in colored square. | `.browse-welcome-mark` | Welcome header | `DA` |
 | `newsUi.theme` | News hero theme token | CSS hook for regulation accent (`gdpr`, `ai-act`, `data-act`). | `data-news-theme` on `#newsHero`. | `public/index.html`, `styles.css` | `ai-act` |
 | `newsUi.eyebrow` | News hero pill label | Short label in regulation pill. | `syncNewsHeroChrome` → `#newsRegulationPillLabel`. | `#newsRegulationPill` | `AI governance & data protection` |
 | `newsUi.title` | News hero title | H2 on News tab. | From profile; `#newsHeroTitle`. | News hero | `AI Act–relevant news` |
@@ -582,10 +587,66 @@ flowchart TB
 
 ---
 
+## 13. Browse welcome and chapters filters
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `BROWSE_WELCOME_GRID_ORDER` | Desktop card order | Regulation ids rendered left-to-right on desktop. | `['gdpr', 'data-act', 'ai-act']` | `public/app.js` | GDPR left column |
+| `#browseWelcomeGrid` | Desktop welcome grid | Three regulation overview cards (≥900px). | Built by `initBrowseWelcomeGrid()` once (`data-built="2"`). | `public/index.html` | — |
+| `#browseWelcome` | Mobile welcome card | Single card for active regulation (&lt;900px). | `syncBrowseWelcomeSolo(reg)` | `public/index.html` | — |
+| `syncBrowseWelcomeChrome` | Browse welcome sync | Initializes grid + solo card + active state. | Called from `syncRegulationChrome` | `public/app.js` | — |
+| `data-browse-quick` | Quick segment action | `chapters` or `recitals` on grid card buttons. | `activateBrowseForRegulation(regId, seg)` | Grid card buttons | `chapters` |
+| `loadChaptersRequestId` | Chapters load generation | Monotonic counter; stale responses discarded. | Incremented on each `loadChapters()` and `clearRegulationBrowseCaches()` | `public/app.js` | `3` |
+| `resetChaptersFilters` | Reset chapter filters | Clears category, chapter, article, sub-category selects + combobox inputs. | Called on regulation change | `public/app.js` | — |
+| `getChaptersFilterSubcategoryValue` | Effective sub-category filter | Returns sub-category value only when `hasArticleTopics`. | `''` for AI Act and Data Act | `applyChaptersFilters` | `''` |
+| `normalizeChapterNumber` | Chapter number normalizer | Parses chapter id for filter matching. | `parseInt(value, 10)` or `null` | `applyChaptersFilters` | `3` |
+| `#chaptersFiltersToggle` | Mobile filters control | Expands/collapses `#chaptersFiltersPanel` (≤899px). | `initChaptersFiltersPanelToggle` | Chapters browse | `aria-expanded` |
+| `#chaptersFiltersPanel` | Filters panel container | Holds `.chapters-filters` bar. | Hidden by default on mobile | `public/index.html` | — |
+| `#chaptersActiveFilters` | Active filters banner | Shows human-readable active filters + clear link. | `updateChaptersFiltersToggleMeta()` | Above article list | — |
+
+### 13.1 Browse welcome and regulation switch flow
+
+```mermaid
+flowchart TB
+  REG[Header regulation select]
+  SET[setCurrentRegulation]
+  RESET[resetChaptersFilters]
+  SYNC[syncRegulationChrome]
+  GRID[#browseWelcomeGrid]
+  SOLO[#browseWelcome]
+  LOAD[loadChapters if chapters view open]
+
+  REG --> SET
+  SET --> RESET
+  SET --> SYNC
+  SYNC --> GRID
+  SYNC --> SOLO
+  SET --> LOAD
+```
+
+### 13.2 Chapters filter apply flow
+
+```mermaid
+flowchart LR
+  DATA[window.__chaptersData]
+  SUB[getChaptersFilterSubcategoryValue]
+  CH[normalizeChapterNumber filters]
+  APPLY[applyChaptersFilters]
+  LIST[#chaptersArticlesGrouped]
+
+  DATA --> APPLY
+  SUB --> APPLY
+  CH --> APPLY
+  APPLY --> LIST
+```
+
+---
+
 ## 11. Maintenance checklist
 
 1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together. **Commission / multi-feed crawl changes:** review **[GUARDRAILS.md](GUARDRAILS.md) TG-N06** and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** news rows.
 2. **JSON shape change** (regulation or news): Update **§2** / **§7**, **[PRD.md](PRD.md)**, and **[DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)** or news merge notes as appropriate.
 3. **New API field:** Update **[API_CONTRACTS.md](API_CONTRACTS.md)** and this dictionary.
 4. **App chrome / News hero UI:** Update **§2.1** (`newsUi`), **§12**, **[DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md)**, **[FEATURE_CATALOG.md](FEATURE_CATALOG.md)**, and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** BR-S-* / BR-*-N01 rows together.
-4. **Release:** Bump **`package.json`** version and **[CHANGELOG.md](../CHANGELOG.md)**; align **“Last updated”** notes in **[PRD.md](PRD.md)** when requirements change materially.
+5. **Browse welcome / chapters filters:** Update **§2.1** (`browseUi`), **§13**, PRD **FR-BRW-13–17**, feature **F-BRW-19–22**, design §2.2.1 together.
+6. **Release:** Bump **`package.json`** version and **[CHANGELOG.md](../CHANGELOG.md)**; align **“Last updated”** notes in **[PRD.md](PRD.md)** when requirements change materially.

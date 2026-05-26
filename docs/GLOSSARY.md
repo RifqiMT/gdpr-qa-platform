@@ -1,7 +1,7 @@
 # Glossary  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI.
 
@@ -47,6 +47,10 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **Tools panel** | `#headerActionsPanel` — collapsible header area with Source freshness, API keys, and Refresh sources (mobile/tablet). |
 | **syncHeaderToolbarStatus** | Client function syncing one-line freshness and BYOK hints in the Tools panel without duplicate status cards. |
 | **newsUi** | Per-regulation News hero copy and theme in `regulation-profiles.js` (intro, scope, tags, refresh labels). |
+| **browseUi** | Per-regulation Browse welcome copy: description, highlights, theme, mark badge (`regulation-profiles.js`). |
+| **browseWelcomeGrid** | Desktop three-column overview of GDPR, EU Data Act, and EU AI Act on the Browse placeholder. |
+| **resetChaptersFilters** | Clears chapter/category/article/sub-category filters and syncs combobox inputs; runs on regulation change. |
+| **loadChaptersRequestId** | Generation counter preventing stale chapter list API results from overwriting the active regulation. |
 
 ---
 

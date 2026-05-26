@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3** (responsive app chrome, News hero, toolbar status hints).
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4** (browse welcome hub, chapters filter reliability, regulation themes).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -43,6 +43,9 @@ This document defines **product metrics** (what to measure in production or rese
 | **Toolbar hint accuracy** | Manual QA: `#headerFreshnessHint` and `#headerApiKeysHint` match tooltip and Ask key line after meta/BYOK changes. | Regressions indicate `syncHeaderToolbarStatus` drift. |
 | **Reading pane under chrome** | Visual QA: first line of article body visible without scroll on 375px after opening an article. | Uses `--app-chrome-height`; failure = layout regression. |
 | **News hero expand rate** | Share of mobile News sessions where `#newsHeroDetails` is expanded at least once. | High expand + low scroll-to-cards may mean hero still too tall—tune copy or default. |
+| **Browse welcome card engagement** | Share of desktop sessions where user clicks a grid card or quick action on `#browseWelcomeGrid`. | Segment by regulation id. |
+| **False empty chapters rate** | Share of `applyChaptersFilters` runs with filters visually “All” but zero articles (should trend **zero** after **TG-F10**). | Log `chaptersFiltersAreActive()` vs empty HTML reason. |
+| **Chapters filter clear rate** | Share of empty filtered states where user clicks **Clear all filters** within 30s. | High rate may mean confusing hidden filters. |
 
 ### 1.3 Quality and risk metrics
 
@@ -141,6 +144,14 @@ This document defines **product metrics** (what to measure in production or rese
 | KR1 | Zero P1 bugs open > 7 days on **Tools** panel, reading pane under chrome, or News hero overlap. |
 | KR2 | QA pass on 375px and 768px: Tools subtitles match tooltip/Ask key state after refresh and BYOK save. |
 | KR3 | ≥ 70% of mobile sessions (if instrumented) open Tools at least once — indicates discoverability of freshness and keys. |
+
+### Objective O9: Browse entry and chapters list are trustworthy across regulations.
+
+| Key result | Target (example) |
+|------------|------------------|
+| KR1 | **False empty chapters rate** = 0 on QA script: GDPR topic filter → switch to Data Act → All filters → articles visible. |
+| KR2 | ≥ 80% of desktop Browse-placeholder sessions interact with at least one welcome card (if telemetry enabled). |
+| KR3 | Zero P1 bugs on **hidden filter bleed** or **stale loadChapters** after regulation switch for two release cycles. |
 
 ---
 

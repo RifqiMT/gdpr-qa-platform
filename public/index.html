@@ -106,13 +106,13 @@
           <span class="tab-browse-cue" aria-hidden="true">▾</span>
         </button>
         <div id="browseRegMenu" class="tab-browse-menu" role="menu" hidden aria-label="Browse GDPR sections">
-          <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="recitals">
-            <span class="tab-browse-menu-label">GDPR recitals</span>
-            <span class="tab-browse-menu-meta">1–173</span>
-          </button>
           <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="chapters">
             <span class="tab-browse-menu-label">GDPR chapters &amp; articles</span>
             <span class="tab-browse-menu-meta">1–99</span>
+          </button>
+          <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="recitals">
+            <span class="tab-browse-menu-label">GDPR recitals</span>
+            <span class="tab-browse-menu-meta">1–173</span>
           </button>
         </div>
       </div>
@@ -136,21 +136,47 @@
       <div class="browse-layout">
         <div class="content-panel">
           <div id="browsePlaceholder" class="placeholder">
-            <div class="placeholder-content">
-              <div class="placeholder-icon">📋</div>
-              <p>Open <strong>Browse GDPR</strong> in the tab bar and click it again for the full menu—or jump straight in below.</p>
-              <div class="browse-quick-actions" role="group" aria-label="Open GDPR regulation sections">
-                <button type="button" id="browseQuickRecitals" class="btn btn-primary browse-quick-btn">
-                  <span class="browse-quick-btn-label">GDPR recitals</span>
-                  <span class="browse-quick-btn-meta">1–173</span>
-                </button>
-                <button type="button" id="browseQuickChapters" class="btn btn-secondary browse-quick-btn">
-                  <span class="browse-quick-btn-label">GDPR chapters &amp; articles</span>
-                  <span class="browse-quick-btn-meta">1–99</span>
-                </button>
+            <p class="browse-welcome-grid-lead" id="browseWelcomeGridLead">
+              Three EU regulations in one workspace—select a card to focus Browse and Ask, or use the header regulation control.
+            </p>
+            <div class="browse-welcome-grid" id="browseWelcomeGrid" role="list" aria-label="EU regulations overview"></div>
+            <article class="placeholder-content browse-welcome browse-welcome--solo" id="browseWelcome" data-browse-theme="gdpr" aria-labelledby="browseWelcomeTitle">
+              <div class="browse-welcome-shell">
+                <div class="browse-welcome-accent" aria-hidden="true"></div>
+                <header class="browse-welcome-head">
+                  <div class="browse-welcome-mark" id="browseWelcomeMark" aria-hidden="true">GDPR</div>
+                  <p class="browse-welcome-eyebrow" id="browseWelcomeEyebrow">EU data protection law</p>
+                  <h2 class="browse-welcome-title" id="browseWelcomeTitle">GDPR</h2>
+                  <p class="browse-welcome-subtitle" id="browseWelcomeSubtitle">Regulation (EU) 2016/679</p>
+                </header>
+                <p class="browse-welcome-desc" id="browseWelcomeDesc">
+                  The General Data Protection Regulation sets EU-wide rules for processing personal data—lawfulness and transparency, data-subject rights, accountability, and international transfers. Browse recitals and articles with official links, or use Ask for answers cited to this corpus.
+                </p>
+                <ul class="browse-welcome-tags" id="browseWelcomeTags" aria-label="Key themes for this regulation"></ul>
+                <p class="browse-welcome-nav-lead" id="browseWelcomeNavLead">
+                  Open <strong>Browse GDPR</strong> in the tab bar and click it again for the full menu—or jump straight in below.
+                </p>
+                <div class="browse-quick-actions" role="group" aria-label="Open GDPR regulation sections">
+                  <button type="button" id="browseQuickChapters" class="btn btn-primary browse-quick-btn">
+                    <span class="browse-quick-btn-label">GDPR chapters &amp; articles</span>
+                    <span class="browse-quick-btn-meta">1–99</span>
+                  </button>
+                  <button type="button" id="browseQuickRecitals" class="btn btn-secondary browse-quick-btn">
+                    <span class="browse-quick-btn-label">GDPR recitals</span>
+                    <span class="browse-quick-btn-meta">1–173</span>
+                  </button>
+                </div>
+                <p class="browse-welcome-official">
+                  <a class="browse-welcome-official-link" id="browseWelcomeOfficialLink" href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener noreferrer">
+                    <span class="browse-welcome-official-label" id="browseWelcomeOfficialLabel">Regulation (EU) 2016/679</span>
+                    <span class="browse-welcome-official-cue" aria-hidden="true">↗</span>
+                  </a>
+                </p>
               </div>
-              <p class="placeholder-hint" id="browsePlaceholderHint">Use <strong>Refresh sources</strong> in the header to fetch the latest consolidated text for the selected regulation.</p>
-            </div>
+            </article>
+            <p class="placeholder-hint browse-welcome-global-hint" id="browsePlaceholderHint">
+              Use <strong>Refresh sources</strong> in the header to fetch the latest consolidated text for the selected regulation.
+            </p>
           </div>
           <div id="browseRecitals" class="browse-section browse-recitals hidden">
             <header class="recitals-header section-header" id="recitalsBrowserTop">
@@ -177,9 +203,22 @@
               <p class="chapters-browser-lead" id="chaptersLead">Articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.</p>
               <p class="source-links" id="chaptersSourceLinks">Official sources: …</p>
             </header>
-            <div class="filter-bar chapters-filters" role="group" aria-label="Filter GDPR documents by category, chapter, and article">
+            <div class="chapters-filters-toolbar">
+              <button
+                type="button"
+                id="chaptersFiltersToggle"
+                class="chapters-filters-toggle"
+                aria-expanded="false"
+                aria-controls="chaptersFiltersPanel"
+              >
+                <span class="chapters-filters-toggle-label">Filters</span>
+                <span class="chapters-filters-toggle-meta" id="chaptersFiltersToggleMeta">All chapters &amp; articles</span>
+              </button>
+            </div>
+            <div id="chaptersFiltersPanel" class="chapters-filters-panel" hidden>
+            <div class="filter-bar chapters-filters" id="chaptersFiltersBar" role="group" aria-label="Filter GDPR documents by category, chapter, and article">
               <p class="chapters-filters-hint" id="chaptersFiltersHint">Type to search or open the list to choose. Other filters narrow suggestions; typing searches the full set where helpful.</p>
-              <div class="filter-field filter-field--combobox">
+              <div class="filter-field filter-field--combobox" id="chaptersFilterCategoryWrap">
                 <label for="chaptersFilterCategoryInput" class="filter-field-label">Category</label>
                 <div class="filter-combobox" data-chapters-filter="category">
                   <div class="filter-combobox-control">
@@ -235,6 +274,8 @@
                 <button type="button" id="chaptersFilterClear" class="btn btn-secondary btn-sm filter-clear-btn">Clear filters</button>
               </div>
             </div>
+            </div>
+            <p class="chapters-active-filters hidden" id="chaptersActiveFilters" role="status" aria-live="polite"></p>
             <div id="chaptersArticlesGrouped" class="chapters-articles-grouped" role="region" aria-label="GDPR articles by chapter"></div>
           </div>
           <div id="browseDetail" class="browse-section detail-view hidden">

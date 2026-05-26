@@ -1,7 +1,7 @@
 # Architecture overview  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 ## System context
 
@@ -33,7 +33,7 @@ flowchart LR
 
 | Layer | Components | Responsibility |
 |-------|------------|----------------|
-| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, `news-dedupe.js`, `styles.css` | `#appChrome` (sticky header + tabs ≤899px); **Tools** panel; `syncHeaderToolbarStatus`; News hero; regulation switcher; tabs; regulation-aware Ask/Sources/News/Browse |
+| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, `news-dedupe.js`, `styles.css` | `#appChrome`; **Tools** panel; **browse welcome grid** (desktop) / solo card (mobile); chapters filter panel + `resetChaptersFilters`; News hero; regulation-aware Browse/Ask/Sources/News |
 | **API** | `server.js` | REST; `parseRegulationId`; BM25; Groq/Tavily with `regulationSearchContext` |
 | **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Regulation metadata; `loadContent(regId)`; Vercel `/tmp` |
 | **ETL GDPR** | `scraper.js` + **`document-formatting-guardrails.js`** | → **`gdpr-content.json`** |
@@ -65,6 +65,28 @@ sequenceDiagram
   S->>S: invalidateRegulationContentCache
   S->>S: loadContent() reload + normalize on read
   S-->>UI: JSON success + formattingGuardrails
+```
+
+---
+
+## Browse welcome (client flow)
+
+When Browse shows the placeholder (no article/recital open), the client renders regulation overview UI from **`browseUi`** in `regulation-profiles.js`:
+
+```mermaid
+flowchart TB
+  subgraph desktop["Desktop ≥900px"]
+    grid["#browseWelcomeGrid\n3 themed cards"]
+    grid --> pick["User clicks card or quick action"]
+  end
+  subgraph mobile["Mobile ≤899px"]
+    solo["#browseWelcome\nsolo card for active regulation"]
+    solo --> pick
+  end
+  pick --> setReg["setCurrentRegulation(id)"]
+  setReg --> reset["resetChaptersFilters()"]
+  pick --> seg["Open Chapters or Recitals segment"]
+  seg --> load["loadChapters / loadRecitals\n(loadChaptersRequestId guards stale responses)"]
 ```
 
 ---

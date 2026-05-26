@@ -1,7 +1,7 @@
 # User Stories  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
 Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** and **Data Act** leads).
@@ -180,6 +180,8 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-S1 | Viewport ≤899px | User taps **Tools** | Panel opens with three full-width rows; regulation select spans header width |
 | US-S2 | Meta loaded | User reads Source freshness row | `#headerFreshnessHint` matches summary; tooltip has full timestamps |
 | US-N14 | Viewport ≤899px, News tab | User expands hero details | Intro and scope stack in one column; cards visible without excessive scroll |
+| US-W3 | GDPR sub-category was set | User switches to EU Data Act, opens Chapters | Article list populated; no false “no match” with All chapter/article |
+| US-W1 | Desktop width | User opens Browse placeholder | Three regulation cards visible with correct themes |
 
 Full verification steps: [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 

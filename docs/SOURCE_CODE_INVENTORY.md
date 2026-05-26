@@ -1,7 +1,7 @@
 # Source code inventory  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Repository file map and simplified dependency overview. For architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -48,10 +48,10 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 
 | Path | Responsibility |
 |------|----------------|
-| `public/index.html` | SPA shell: `#appChrome` (header + tabs), regulation selector, collapsible **Tools** panel (`#headerActionsToggle`, `#headerActionsPanel`), News hero (`#newsHero`, `#newsHeroDetails`), app credits bar |
-| `public/app.js` | Browse, Ask, Sources, News, BYOK; **`initHeaderActionsToggle`**, **`syncAppChromeHeight`**, **`syncHeaderToolbarStatus`**; **`initNewsHeroDetails`**, **`syncNewsHeroChrome`**, **`updateNewsHeroStats`**; **`syncRegulationChrome`**, **`syncCitationSidebarChrome`**; reader formatting |
-| `public/styles.css` | Design tokens, breakpoints (≤899px sticky chrome), `--app-chrome-height`, News hero themes, `.header-toolbar`, `.news-detail-grid` |
-| `public/regulation-profiles.js` | Per-regulation UI copy (`askUi`, `sourcesUi`, **`newsUi`** (hero intro/scope/tags), **`citationsUi`**) and URLs |
+| `public/index.html` | SPA shell: `#appChrome`, Tools panel, **`#browseWelcomeGrid`** / **`#browseWelcome`**, **`#chaptersFiltersToggle`** / panel, News hero, app credits |
+| `public/app.js` | Browse, Ask, Sources, News, BYOK; **`initBrowseWelcomeGrid`**, **`syncBrowseWelcomeChrome`**, **`resetChaptersFilters`**, **`loadChaptersRequestId`**; header chrome sync; chapters filter panel; reader formatting |
+| `public/styles.css` | Tokens, app chrome, **`.browse-welcome`**, **`.browse-welcome-grid`**, regulation theme accents, chapters filters toolbar, News hero |
+| `public/regulation-profiles.js` | Per-regulation UI: `askUi`, `sourcesUi`, `newsUi`, **`browseUi`**, `citationsUi`, URLs |
 | `public/news-dedupe.js` | Client news dedupe mirror |
 | `public/industry-sectors.json` | ISIC sector list for Ask |
 | `public/industry-sector-tree.json` | Hierarchical sector tree |

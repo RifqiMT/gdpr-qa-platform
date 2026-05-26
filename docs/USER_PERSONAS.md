@@ -3,7 +3,7 @@
 
 Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and **EU Data Act**). They inform features, user stories, and documentation.
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 ---
 
@@ -15,8 +15,8 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 | **Role** | In-house counsel or compliance officer; needs accurate EU regulation text and citations across privacy, AI, and data-access law. |
 | **Goals** | Find the right Article or Recital quickly; cite official sources (EUR-Lex, GDPR-Info, AI Act Law, Data Act Law); avoid unsourced interpretations. |
 | **Pain points** | Long PDFs; confusion between overlapping instruments (GDPR vs AI Act vs Data Act); no single searchable workspace. |
-| **Needs** | Regulation switcher; Browse with filters; Ask with **`[S#]`** citations; sector framing when relevant; PDF export; credible sources tab; on mobile, **Tools** menu for refresh/keys without cramped header icons. |
-| **Relevant features** | Browse, Ask, Credible sources, Export PDF, Refresh sources, regulation profiles, responsive app chrome (Tools panel). |
+| **Needs** | Regulation switcher; **Browse welcome hub** (compare three regulations on desktop); Browse with filters; Ask with **`[S#]`** citations; sector framing when relevant; PDF export; credible sources tab; on mobile, **Tools** menu for refresh/keys without cramped header icons. |
+| **Relevant features** | Browse welcome grid, Browse, Ask, Credible sources, Export PDF, Refresh sources, regulation profiles, responsive app chrome (Tools panel). |
 
 ---
 
@@ -106,8 +106,8 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 | **Role** | Leads AI Act readiness — high-risk systems, GPAI, transparency. |
 | **Goals** | Official AI Act text; scoped Ask; Commission AI framework links; relevant news. |
 | **Pain points** | GDPR vs AI Act confusion; PDF-only workflows. |
-| **Needs** | Select **EU AI Act**; Browse 113/180; AI-filtered News; `npm run refresh-ai-act`. |
-| **Relevant features** | Regulation switcher, AI Act Browse/Ask/Sources, News banner + filter. |
+| **Needs** | Select **EU AI Act** (from header or welcome card); Browse 113/180; AI-filtered News; `npm run refresh-ai-act`. |
+| **Relevant features** | Browse welcome (AI Act card/theme), regulation switcher, AI Act Browse/Ask/Sources, News banner + filter. |
 
 ---
 
@@ -128,7 +128,7 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 
 | Persona | Primary use | Key features |
 |---------|-------------|--------------|
-| Legal / Compliance | Multi-regulation lookup | Switcher, Browse, Ask, Sources |
+| Legal / Compliance | Multi-regulation lookup | Welcome hub, switcher, Browse, Ask, Sources |
 | DPO | GDPR Q&A + news | Ask, News, Sources |
 | Consultant | Sourced client work | Ask, PDF, Sources |
 | Industry specialist | Sector Ask | Ask + ISIC, Browse |

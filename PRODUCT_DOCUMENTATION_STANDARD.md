@@ -1,9 +1,9 @@
 # Product documentation standard  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.1  
+**Version:** 2.2  
 **Status:** Active — governance checklist for product, design, compliance, engineering, and operations.  
-**Product release:** `package.json` **1.2.3** (GDPR + EU AI Act + EU Data Act). **Latest doc audit:** 2026-05-19 (responsive app chrome, News hero, toolbar status without duplicate UI, full doc set alignment).
+**Product release:** `package.json` **1.2.4** (GDPR + EU AI Act + EU Data Act). **Latest doc audit:** 2026-05-19 (browse welcome hub, chapters filter reliability, regulation theme cards, full doc set alignment).
 
 **Scope:** All material under **`gdpr-qa-platform/`** describing the product, behavior, configuration, verification, and release history.
 
@@ -18,13 +18,13 @@
 | [docs/README.md](docs/README.md) | All | Documentation hub: reading order, map, conventions. |
 | [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) | Product, legal | Positioning, regulation scope (GDPR, AI Act, Data Act), credible sources, News policy. |
 | [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md) | Engineering, DevOps | Multi-regulation APIs, ETL, Ask pipeline, BYOK, security, performance. |
-| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.4** — three regulations, BYOK, responsive chrome, News hero, reader titles, Vercel. |
+| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.5** — three regulations, browse welcome hub, chapters filter reliability, BYOK, responsive chrome, News hero, Vercel. |
 | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX | Eight personas including AI governance and **data economy / Data Act** leads. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA | Epics and acceptance-oriented stories traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, support | Data dictionary + **Mermaid relationship diagrams** (configuration, corpus, Ask, News). |
 | [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) | Integrators | Sample JSON for corpora, Ask, news (illustrative). |
 | [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) | Product leadership | Product metrics definitions and example OKRs. |
-| [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) | Design, frontend | Tokens, components, breakpoints, **app chrome** (Tools menu, ≤899px), **News hero**, app credits bar. |
+| [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) | Design, frontend | Tokens, **regulation theme accents** (GDPR / AI Act / Data Act), **browse welcome**, app chrome, News hero, components. |
 | [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) | QA, compliance-oriented orgs | BR → PRD → stories → code → verification. |
 | [docs/GUARDRAILS.md](docs/GUARDRAILS.md) | All | Business (**BG-***) and technical (**TG-***) limitations. |
 | [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) | Engineering | Binding ETL ↔ JSON ↔ reader contract (all corpora). |
@@ -36,7 +36,7 @@
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | All | Acronyms and product terms. |
 | [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md) | DevOps | Serverless deploy and cron. |
 | [.env.example](.env.example) | DevOps | Commented configuration template (no secrets). |
-| [public/regulation-profiles.js](public/regulation-profiles.js) | Frontend | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, **`citationsUi`**). |
+| [public/regulation-profiles.js](public/regulation-profiles.js) | Frontend | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, `browseUi`, **`citationsUi`**). |
 
 ---
 
@@ -75,7 +75,7 @@
 
 | Area | Highlights |
 |------|------------|
-| **Browse** | Recitals; chapters/articles; GDPR topic filters; reader with **regulation-correct article/recital titles** (full long titles on AI/Data Act); **regulation-aware citation sidebar**; numbered/lettered paragraph layout (all corpora); Prev/Next/Go; chapter intros; PDF; GDPR suitable recitals. |
+| **Browse** | **Welcome hub** (desktop 3 cards; mobile solo); chapters **before** recitals in quick actions; GDPR topic filters (cleared on regulation switch for AI/Data Act); collapsible mobile **Filters**; reader titles; citation sidebar; PDF; suitable recitals (GDPR). |
 | **Ask** | `POST /api/answer`; Groq → Tavily → extractive; web snippets; sector; BYOK; regulation-scoped prompts. |
 | **Sources** | `GET /api/meta?regulation=` credible org list per regulation. |
 | **News** | Multi-source crawl; filters; By source / All; attachments when present; **AI Act** / **Data Act** relevance filter + banner. |
@@ -163,6 +163,8 @@ Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans / DM Serif Text
 
 | Standard version | Date | Highlights |
 |------------------|------|------------|
+| **2.2** | 2026-05-19 | Browse welcome hub (`browseUi`); desktop 3-column cards; chapters filter reset + mobile Filters panel; PRD v2.5; VARIABLES §13; design regulation themes. |
+| **2.1** | 2026-05-19 | Responsive app chrome; News hero; toolbar hints; no duplicate status strip; PRD v2.4. |
 | **2.0** | 2026-05-19 | Citation sidebar `citationsUi`; long-title display fix; ETL sup/`<li>` numbering; full doc audit; PRD v2.3; traceability BR-B-11/12. |
 | **1.9** | 2026-05-26 | Reader title fix (GDPR-only canonical); AI/Data Act formatting; VARIABLES relationship charts; PRD v2.2. |
 | **1.8** | 2026-05-19 | EU Data Act; app credits bar; three-regulation docs. |

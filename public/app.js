@@ -142,12 +142,136 @@
     });
   }
 
+  var loadChaptersRequestId = 0;
+
   function clearRegulationBrowseCaches() {
     recitalsDataCache = null;
     docNavArticlesListCache = null;
     window.__chaptersData = null;
     window.__chapterSummaries = null;
     articleToRecitalsMapPromise = null;
+    loadChaptersRequestId += 1;
+  }
+
+  function normalizeChapterNumber(value) {
+    if (value == null || value === '') return null;
+    var n = parseInt(value, 10);
+    return isNaN(n) ? null : n;
+  }
+
+  function resetChaptersFilters() {
+    if (chaptersFilterCategory) chaptersFilterCategory.value = '';
+    if (chaptersFilterChapter) chaptersFilterChapter.value = '';
+    if (chaptersFilterArticle) chaptersFilterArticle.value = '';
+    if (chaptersFilterSubcategory) chaptersFilterSubcategory.value = '';
+    chaptersFilterComboboxesSyncInputsFromSelects();
+    updateChaptersFiltersToggleMeta();
+  }
+
+  function chaptersFiltersAreActive() {
+    if (chaptersFilterChapter && chaptersFilterChapter.value !== '') return true;
+    if (chaptersFilterCategory && chaptersFilterCategory.value !== '') return true;
+    if (chaptersFilterArticle && chaptersFilterArticle.value !== '') return true;
+    var profile = getRegProfile();
+    if (
+      profile.hasArticleTopics &&
+      chaptersFilterSubcategory &&
+      chaptersFilterSubcategory.value !== ''
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function getChaptersFilterSubcategoryValue() {
+    var profile = getRegProfile();
+    if (!profile.hasArticleTopics || !chaptersFilterSubcategory) return '';
+    return chaptersFilterSubcategory.value !== '' ? chaptersFilterSubcategory.value : '';
+  }
+
+  function describeChaptersActiveFilters() {
+    var parts = [];
+    var profile = getRegProfile();
+    var sn = profile.shortName;
+    var chNum = chaptersFilterGetChapterNumber();
+    if (chNum != null) {
+      parts.push(sn + ' chapter ' + chNum);
+    }
+    if (profile.hasArticleTopics && chaptersFilterSubcategory && chaptersFilterSubcategory.value !== '') {
+      var subOpt = chaptersFilterSubcategory.options[chaptersFilterSubcategory.selectedIndex];
+      parts.push(subOpt && subOpt.textContent ? subOpt.textContent : 'sub-category');
+    }
+    if (chaptersFilterArticle && chaptersFilterArticle.value !== '') {
+      parts.push(sn + ' article ' + chaptersFilterArticle.value);
+    }
+    return parts;
+  }
+
+  function updateChaptersFiltersToggleMeta() {
+    var meta = document.getElementById('chaptersFiltersToggleMeta');
+    var activeEl = document.getElementById('chaptersActiveFilters');
+    var parts = describeChaptersActiveFilters();
+    if (meta) {
+      meta.textContent = parts.length ? parts.join(' · ') : 'All chapters & articles';
+    }
+    if (activeEl) {
+      if (!parts.length) {
+        activeEl.classList.add('hidden');
+        activeEl.innerHTML = '';
+      } else {
+        activeEl.classList.remove('hidden');
+        activeEl.innerHTML =
+          '<span class="chapters-active-filters-label">Active filters:</span> ' +
+          escapeHtml(parts.join(' · ')) +
+          ' <button type="button" class="chapters-active-filters-clear" id="chaptersActiveFiltersClear">Clear all</button>';
+      }
+    }
+  }
+
+  (function bindChaptersActiveFiltersClear() {
+    var host = document.getElementById('chaptersActiveFilters');
+    if (!host || host.dataset.bound === '1') return;
+    host.dataset.bound = '1';
+    host.addEventListener('click', function (e) {
+      if (e.target && e.target.id === 'chaptersActiveFiltersClear') {
+        resetChaptersFilters();
+        applyChaptersFilters();
+      }
+    });
+  })();
+
+  function initChaptersFiltersPanelToggle() {
+    var toggle = document.getElementById('chaptersFiltersToggle');
+    var panel = document.getElementById('chaptersFiltersPanel');
+    if (!toggle || !panel || toggle.dataset.bound === '1') return;
+    toggle.dataset.bound = '1';
+    var mq = window.matchMedia('(min-width: 900px)');
+    function syncPanelForViewport() {
+      if (mq.matches) {
+        panel.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.classList.add('chapters-filters-toggle--desktop');
+      } else {
+        toggle.classList.remove('chapters-filters-toggle--desktop');
+        if (toggle.getAttribute('data-user-expanded') !== 'true') {
+          panel.hidden = true;
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    }
+    toggle.addEventListener('click', function () {
+      if (mq.matches) return;
+      var open = panel.hidden;
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('data-user-expanded', open ? 'true' : 'false');
+    });
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', syncPanelForViewport);
+    } else if (mq.addListener) {
+      mq.addListener(syncPanelForViewport);
+    }
+    syncPanelForViewport();
   }
 
   function renderRegulationSourceLinks(el, profile) {
@@ -385,6 +509,222 @@
     }
   }
 
+  var BROWSE_WELCOME_GRID_ORDER = ['gdpr', 'data-act', 'ai-act'];
+
+  function getRegulationProfileById(regId) {
+    if (typeof getRegulationProfile === 'function') return getRegulationProfile(regId);
+    if (typeof REGULATION_PROFILES !== 'undefined') {
+      return REGULATION_PROFILES[regId] || REGULATION_PROFILES.gdpr;
+    }
+    return null;
+  }
+
+  function findRegulationInCatalog(regId) {
+    if (!regulationsCatalog || !regulationsCatalog.length) return null;
+    return (
+      regulationsCatalog.find(function (r) {
+        return r.id === regId;
+      }) || null
+    );
+  }
+
+  function activateBrowseForRegulation(regId, segment) {
+    var match = findRegulationInCatalog(regId);
+    if (match) setCurrentRegulation(match);
+    if (segment) activateBrowseRegulationSegment(segment);
+  }
+
+  function renderBrowseWelcomeTagsHtml(highlights) {
+    if (!highlights || !highlights.length) return '';
+    return highlights
+      .map(function (t) {
+        return '<li><span class="browse-welcome-tag">' + escapeHtml(t) + '</span></li>';
+      })
+      .join('');
+  }
+
+  function buildBrowseWelcomeCardHtml(profile, compact) {
+    var browse = profile.browseUi || {};
+    var sn = profile.shortName || profile.id;
+    var sm = profile.segmentMeta || {};
+    var theme = browse.theme || profile.id || 'gdpr';
+    var tags = renderBrowseWelcomeTagsHtml(browse.highlights);
+    var tagsBlock = tags
+      ? '<ul class="browse-welcome-tags" aria-label="Key themes for ' +
+        escapeHtml(sn) +
+        '">' +
+        tags +
+        '</ul>'
+      : '';
+
+    var navLead = compact
+      ? ''
+      : '<p class="browse-welcome-nav-lead">Open <strong>Browse ' +
+        escapeHtml(sn) +
+        '</strong> in the tab bar and click it again for the full menu—or jump straight in below.</p>';
+
+    return (
+      '<article class="placeholder-content browse-welcome browse-welcome-card' +
+      (compact ? ' browse-welcome-card--compact' : '') +
+      '" data-regulation-id="' +
+      escapeHtml(profile.id) +
+      '" data-browse-theme="' +
+      escapeHtml(theme) +
+      '" role="listitem" aria-labelledby="browseWelcomeTitle-' +
+      escapeHtml(profile.id) +
+      '">' +
+      '<div class="browse-welcome-shell">' +
+      '<div class="browse-welcome-accent" aria-hidden="true"></div>' +
+      '<span class="browse-welcome-active-badge" hidden>Active</span>' +
+      '<header class="browse-welcome-head">' +
+      '<div class="browse-welcome-mark" aria-hidden="true">' +
+      escapeHtml(browse.mark || profile.legalLabel || sn) +
+      '</div>' +
+      '<p class="browse-welcome-eyebrow">' +
+      escapeHtml(browse.eyebrow || 'EU regulation') +
+      '</p>' +
+      '<h2 class="browse-welcome-title" id="browseWelcomeTitle-' +
+      escapeHtml(profile.id) +
+      '">' +
+      escapeHtml(browse.title || sn) +
+      '</h2>' +
+      '<p class="browse-welcome-subtitle">' +
+      escapeHtml(browse.subtitle || profile.fullName || '') +
+      '</p>' +
+      '</header>' +
+      '<p class="browse-welcome-desc">' +
+      escapeHtml(
+        browse.description ||
+          'Browse recitals and articles with official links, or use Ask for cited answers grounded in this regulation.'
+      ) +
+      '</p>' +
+      tagsBlock +
+      navLead +
+      '<div class="browse-quick-actions browse-welcome-card__actions" role="group" aria-label="Open ' +
+      escapeHtml(sn) +
+      ' sections">' +
+      '<button type="button" class="btn btn-primary browse-quick-btn" data-browse-quick="chapters" data-regulation-id="' +
+      escapeHtml(profile.id) +
+      '">' +
+      '<span class="browse-quick-btn-label">' +
+      escapeHtml(sn) +
+      ' chapters &amp; articles</span>' +
+      '<span class="browse-quick-btn-meta">' +
+      escapeHtml(sm.articles || '') +
+      '</span></button>' +
+      '<button type="button" class="btn btn-secondary browse-quick-btn" data-browse-quick="recitals" data-regulation-id="' +
+      escapeHtml(profile.id) +
+      '">' +
+      '<span class="browse-quick-btn-label">' +
+      escapeHtml(sn) +
+      ' recitals</span>' +
+      '<span class="browse-quick-btn-meta">' +
+      escapeHtml(sm.recitals || '') +
+      '</span></button>' +
+      '</div>' +
+      '<p class="browse-welcome-official">' +
+      '<a class="browse-welcome-official-link" href="' +
+      escapeHtml(profile.eurLexUrl || '#') +
+      '" target="_blank" rel="noopener noreferrer" title="Open official text on EUR-Lex (new tab)">' +
+      '<span class="browse-welcome-official-label">' +
+      escapeHtml(profile.eurLexLabel || 'View on EUR-Lex') +
+      '</span>' +
+      '<span class="browse-welcome-official-cue" aria-hidden="true">↗</span></a></p>' +
+      '</div></article>'
+    );
+  }
+
+  function initBrowseWelcomeGrid() {
+    var grid = document.getElementById('browseWelcomeGrid');
+    if (!grid || grid.dataset.built === '2') return;
+    var html = '';
+    BROWSE_WELCOME_GRID_ORDER.forEach(function (regId) {
+      var profile = getRegulationProfileById(regId);
+      if (profile) html += buildBrowseWelcomeCardHtml(profile, true);
+    });
+    grid.innerHTML = html;
+    grid.dataset.built = '2';
+  }
+
+  function syncBrowseWelcomeGridActive(activeRegId) {
+    var grid = document.getElementById('browseWelcomeGrid');
+    if (!grid) return;
+    grid.querySelectorAll('.browse-welcome-card').forEach(function (card) {
+      var isActive = card.getAttribute('data-regulation-id') === activeRegId;
+      card.classList.toggle('browse-welcome-card--active', isActive);
+      card.setAttribute('aria-current', isActive ? 'true' : 'false');
+      var badge = card.querySelector('.browse-welcome-active-badge');
+      if (badge) badge.hidden = !isActive;
+    });
+  }
+
+  function syncBrowseWelcomeSolo(reg) {
+    if (!reg) reg = getRegProfile();
+    var browse = reg.browseUi || {};
+    var sn = reg.shortName;
+    var card = document.getElementById('browseWelcome');
+    if (!card) return;
+
+    card.setAttribute('data-browse-theme', browse.theme || reg.id || 'gdpr');
+
+    var mark = document.getElementById('browseWelcomeMark');
+    if (mark) mark.textContent = browse.mark || reg.legalLabel || sn;
+
+    var eyebrow = document.getElementById('browseWelcomeEyebrow');
+    if (eyebrow) eyebrow.textContent = browse.eyebrow || 'EU regulation';
+
+    var title = document.getElementById('browseWelcomeTitle');
+    if (title) title.textContent = browse.title || sn;
+
+    var subtitle = document.getElementById('browseWelcomeSubtitle');
+    if (subtitle) subtitle.textContent = browse.subtitle || reg.fullName || '';
+
+    var desc = document.getElementById('browseWelcomeDesc');
+    if (desc) {
+      desc.textContent =
+        browse.description ||
+        'Browse recitals and articles with official links, or use Ask for cited answers grounded in this regulation.';
+    }
+
+    var tagsEl = document.getElementById('browseWelcomeTags');
+    if (tagsEl) {
+      var highlights = browse.highlights || [];
+      if (!highlights.length) {
+        tagsEl.innerHTML = '';
+        tagsEl.hidden = true;
+      } else {
+        tagsEl.hidden = false;
+        tagsEl.setAttribute('aria-label', 'Key themes for ' + sn);
+        tagsEl.innerHTML = renderBrowseWelcomeTagsHtml(highlights);
+      }
+    }
+
+    var navLead = document.getElementById('browseWelcomeNavLead');
+    if (navLead) {
+      navLead.innerHTML =
+        'Open <strong>Browse ' +
+        escapeHtml(sn) +
+        '</strong> in the tab bar and click it again for the full menu—or jump straight in below.';
+    }
+
+    var officialLink = document.getElementById('browseWelcomeOfficialLink');
+    var officialLabel = document.getElementById('browseWelcomeOfficialLabel');
+    if (officialLink) {
+      officialLink.href = reg.eurLexUrl || '#';
+      officialLink.title = 'Open official text on EUR-Lex (new tab)';
+    }
+    if (officialLabel) {
+      officialLabel.textContent = reg.eurLexLabel || 'View on EUR-Lex';
+    }
+  }
+
+  function syncBrowseWelcomeChrome(reg) {
+    if (!reg) reg = getRegProfile();
+    initBrowseWelcomeGrid();
+    syncBrowseWelcomeSolo(reg);
+    syncBrowseWelcomeGridActive(reg.id || 'gdpr');
+  }
+
   function syncRegulationChrome() {
     var reg = getRegProfile();
     var sn = reg.shortName;
@@ -410,16 +750,17 @@
     var menu = document.getElementById('browseRegMenu');
     if (menu) {
       menu.setAttribute('aria-label', 'Browse ' + sn + ' sections');
-      var items = menu.querySelectorAll('[data-browse-segment]');
-      if (items[0]) {
-        items[0].querySelector('.tab-browse-menu-label').textContent = sn + ' recitals';
-        var m0 = items[0].querySelector('.tab-browse-menu-meta');
-        if (m0) m0.textContent = sm.recitals;
+      var chaptersItem = menu.querySelector('[data-browse-segment="chapters"]');
+      var recitalsItem = menu.querySelector('[data-browse-segment="recitals"]');
+      if (chaptersItem) {
+        chaptersItem.querySelector('.tab-browse-menu-label').textContent = sn + ' chapters & articles';
+        var mCh = chaptersItem.querySelector('.tab-browse-menu-meta');
+        if (mCh) mCh.textContent = sm.articles;
       }
-      if (items[1]) {
-        items[1].querySelector('.tab-browse-menu-label').textContent = sn + ' chapters & articles';
-        var m1 = items[1].querySelector('.tab-browse-menu-meta');
-        if (m1) m1.textContent = sm.articles;
+      if (recitalsItem) {
+        recitalsItem.querySelector('.tab-browse-menu-label').textContent = sn + ' recitals';
+        var mRec = recitalsItem.querySelector('.tab-browse-menu-meta');
+        if (mRec) mRec.textContent = sm.recitals;
       }
     }
 
@@ -436,11 +777,7 @@
       qc.querySelector('.browse-quick-btn-meta').textContent = sm.articles;
     }
 
-    var ph = document.querySelector('#browsePlaceholder p');
-    if (ph) {
-      ph.innerHTML =
-        'Open <strong>Browse ' + escapeHtml(sn) + '</strong> in the tab bar and click it again for the full menu—or jump straight in below.';
-    }
+    syncBrowseWelcomeChrome(reg);
 
     var rh = document.querySelector('#browseRecitals .recitals-header h2');
     if (rh) rh.textContent = sn + ' recitals';
@@ -488,9 +825,18 @@
       );
     }
 
+    var catWrap = document.getElementById('chaptersFilterCategoryWrap');
+    if (catWrap) {
+      catWrap.classList.toggle('hidden', !reg.hasArticleTopics);
+    }
     var subWrap = document.getElementById('chaptersFilterSubcategoryWrap');
     if (subWrap) {
       subWrap.classList.toggle('hidden', !reg.hasArticleTopics);
+    }
+    if (!reg.hasArticleTopics) {
+      if (chaptersFilterCategory) chaptersFilterCategory.value = '';
+      if (chaptersFilterSubcategory) chaptersFilterSubcategory.value = '';
+      chaptersFilterComboboxesSyncInputsFromSelects();
     }
     var cfBar = document.querySelector('.chapters-filters');
     if (cfBar) {
@@ -522,7 +868,10 @@
       hasSuitableRecitals: reg.hasSuitableRecitals
     };
     saveRegulationId(reg.id);
-    if (prevId !== reg.id) clearRegulationBrowseCaches();
+    if (prevId !== reg.id) {
+      clearRegulationBrowseCaches();
+      resetChaptersFilters();
+    }
     syncRegulationChrome();
     loadMeta();
     if (viewSources && viewSources.classList.contains('active')) loadSources();
@@ -3733,14 +4082,12 @@
   if (chaptersFilterSubcategory) chaptersFilterSubcategory.addEventListener('change', applyChaptersFilters);
   if (chaptersFilterClear) {
     chaptersFilterClear.addEventListener('click', function () {
-      if (chaptersFilterCategory) chaptersFilterCategory.value = '';
-      if (chaptersFilterChapter) chaptersFilterChapter.value = '';
-      if (chaptersFilterArticle) chaptersFilterArticle.value = '';
-      if (chaptersFilterSubcategory) chaptersFilterSubcategory.value = '';
+      resetChaptersFilters();
       applyChaptersFilters();
     });
   }
   initChaptersFilterComboboxes();
+  initChaptersFiltersPanelToggle();
   initAskIndustrySectorCombobox();
 
   function formatCitationReturnLabel(doc) {
@@ -4669,14 +5016,14 @@
     var chapters = data.chapters;
     var articles = data.articles;
     var articleTopics = data.articleTopics;
-    var sub = chaptersFilterSubcategory && chaptersFilterSubcategory.value;
+    var sub = getChaptersFilterSubcategoryValue();
     var allowed = null;
     if (sub) {
       allowed = new Set();
       articles.forEach(function (a) {
         if (a.chapter == null) return;
         var t = articleTopics[a.number] || [];
-        if (t.indexOf(sub) !== -1) allowed.add(a.chapter);
+        if (t.indexOf(sub) !== -1) allowed.add(normalizeChapterNumber(a.chapter));
       });
     }
     var preserve = chaptersFilterChapter.value;
@@ -4686,7 +5033,7 @@
         '<option value="">' + escapeHtml(regulationFilterPlaceholder('categories')) + '</option>';
     }
     chapters.forEach(function (ch) {
-      if (allowed && !allowed.has(ch.number)) return;
+      if (allowed && !allowed.has(normalizeChapterNumber(ch.number))) return;
       var o1 = document.createElement('option');
       o1.value = String(ch.number);
       o1.textContent = regulationChapterFilterLabel(ch);
@@ -4722,7 +5069,7 @@
     var articles = data.articles;
     var articleTopics = data.articleTopics;
     var chNum = chaptersFilterGetChapterNumber();
-    var sub = chaptersFilterSubcategory && chaptersFilterSubcategory.value;
+    var sub = getChaptersFilterSubcategoryValue();
     var preserve = chaptersFilterArticle.value;
     chaptersFilterArticle.innerHTML =
       '<option value="">' + escapeHtml(regulationFilterPlaceholder('articles')) + '</option>';
@@ -4732,7 +5079,7 @@
         return a.number - b.number;
       })
       .forEach(function (art) {
-        if (chNum != null && art.chapter !== chNum) return;
+        if (chNum != null && normalizeChapterNumber(art.chapter) !== chNum) return;
         if (sub && (!articleTopics[art.number] || articleTopics[art.number].indexOf(sub) === -1)) return;
         var o = document.createElement('option');
         o.value = String(art.number);
@@ -5852,6 +6199,8 @@
   }
 
   function loadChapters() {
+    var regId = currentRegulation.id;
+    var requestId = ++loadChaptersRequestId;
     if (chaptersArticlesGrouped) {
       chaptersArticlesGrouped.setAttribute('aria-busy', 'true');
       chaptersArticlesGrouped.innerHTML =
@@ -5864,6 +6213,7 @@
         return {};
       })
     ]).then(function (results) {
+      if (requestId !== loadChaptersRequestId || currentRegulation.id !== regId) return;
       const chapters = results[0] || [];
       const articles = results[1] || [];
       const sumRes = results[2] || {};
@@ -5881,10 +6231,14 @@
       window.__chaptersData = { chapters, articles, articleTopics, topicIdsByChapter };
       docNavArticlesListCache = articles;
       applyChaptersFilters();
-    }).catch(() => {
+    }).catch(function () {
+      if (requestId !== loadChaptersRequestId || currentRegulation.id !== regId) return;
       if (chaptersArticlesGrouped) {
         chaptersArticlesGrouped.setAttribute('aria-busy', 'false');
-        chaptersArticlesGrouped.innerHTML = '<p class="docs-browser-loading docs-browser-loading--error" role="alert">Could not load ' + escapeHtml(regulationShortLabel()) + ' chapters and articles. Check your connection and try again.</p>';
+        chaptersArticlesGrouped.innerHTML =
+          '<p class="docs-browser-loading docs-browser-loading--error" role="alert">Could not load ' +
+          escapeHtml(regulationShortLabel()) +
+          ' chapters and articles. Check your connection and try again.</p>';
       }
     });
   }
@@ -5920,27 +6274,39 @@
     const { chapters, articles, articleTopics } = data;
     const categoryVal = chaptersFilterCategory && chaptersFilterCategory.value !== '' ? chaptersFilterCategory.value : '';
     const chapterVal = chaptersFilterChapter && chaptersFilterChapter.value !== '' ? chaptersFilterChapter.value : '';
-    const filterChapter = categoryVal !== '' ? parseInt(categoryVal, 10) : (chapterVal !== '' ? parseInt(chapterVal, 10) : null);
-    const filterArticle = chaptersFilterArticle && chaptersFilterArticle.value !== '' ? parseInt(chaptersFilterArticle.value, 10) : null;
-    const filterSubcategoryAfter = chaptersFilterSubcategory && chaptersFilterSubcategory.value !== '' ? chaptersFilterSubcategory.value : '';
+    const filterChapter =
+      categoryVal !== ''
+        ? normalizeChapterNumber(categoryVal)
+        : chapterVal !== ''
+          ? normalizeChapterNumber(chapterVal)
+          : null;
+    const filterArticle =
+      chaptersFilterArticle && chaptersFilterArticle.value !== ''
+        ? parseInt(chaptersFilterArticle.value, 10)
+        : null;
+    const filterSubcategoryAfter = getChaptersFilterSubcategoryValue();
 
     const byChapter = new Map();
-    chapters.forEach(ch => { byChapter.set(ch.number, { chapter: ch, articles: [] }); });
-    articles.forEach(art => {
+    chapters.forEach(function (ch) {
+      byChapter.set(normalizeChapterNumber(ch.number), { chapter: ch, articles: [] });
+    });
+    articles.forEach(function (art) {
       if (art.chapter == null) return;
-      if (filterChapter != null && art.chapter !== filterChapter) return;
+      var artChapter = normalizeChapterNumber(art.chapter);
+      if (filterChapter != null && artChapter !== filterChapter) return;
       if (filterArticle != null && art.number !== filterArticle) return;
       if (filterSubcategoryAfter && (!articleTopics[art.number] || articleTopics[art.number].indexOf(filterSubcategoryAfter) === -1)) return;
-      const entry = byChapter.get(art.chapter);
+      var entry = byChapter.get(artChapter);
       if (entry) entry.articles.push(art);
     });
 
     const totalArticlesByChapter = new Map();
     chapters.forEach(function (ch) {
+      var chN = normalizeChapterNumber(ch.number);
       var n = articles.filter(function (a) {
-        return a.chapter === ch.number;
+        return normalizeChapterNumber(a.chapter) === chN;
       }).length;
-      totalArticlesByChapter.set(ch.number, n);
+      totalArticlesByChapter.set(chN, n);
     });
 
     const chapterSumm = window.__chapterSummaries || normalizeChapterSummariesMap(null);
@@ -5950,11 +6316,12 @@
     var site = profile.infoSiteName;
     let html = '';
     const sortedChapters = chapters.slice();
-    sortedChapters.forEach(ch => {
-      const entry = byChapter.get(ch.number);
+    sortedChapters.forEach(function (ch) {
+      var chKey = normalizeChapterNumber(ch.number);
+      const entry = byChapter.get(chKey);
       const list = entry ? entry.articles.sort((a, b) => a.number - b.number) : [];
       if (list.length === 0) return;
-      var totalInCh = totalArticlesByChapter.get(ch.number) || list.length;
+      var totalInCh = totalArticlesByChapter.get(chKey) || list.length;
       var countLabel =
         list.length === totalInCh
           ? list.length + ' ' + sn + ' article' + (list.length !== 1 ? 's' : '') + ' in this section'
@@ -6009,9 +6376,51 @@
       html += '</ul></section>';
     });
     if (!html) {
-      html = '<p class="chapters-filter-empty excerpt" role="status">No ' + escapeHtml(sn) + ' articles match the current filters. Try changing or clearing the filters.</p>';
+      var filtersActive = chaptersFiltersAreActive();
+      if (!articles.length) {
+        html =
+          '<div class="chapters-filter-empty chapters-filter-empty--no-data" role="status">' +
+          '<p class="chapters-filter-empty-title">No ' +
+          escapeHtml(sn) +
+          ' articles loaded yet</p>' +
+          '<p class="chapters-filter-empty-lead">The corpus may be missing on this deployment. Use <strong>Refresh sources</strong> in the header (with ' +
+          escapeHtml(profile.infoSiteName) +
+          ' / EUR-Lex reachable) to load consolidated text.</p></div>';
+      } else if (filtersActive) {
+        var filterDesc = describeChaptersActiveFilters().join(' · ');
+        html =
+          '<div class="chapters-filter-empty chapters-filter-empty--filters" role="status">' +
+          '<p class="chapters-filter-empty-title">No ' +
+          escapeHtml(sn) +
+          ' articles match your filters</p>' +
+          '<p class="chapters-filter-empty-lead">Active: <strong>' +
+          escapeHtml(filterDesc) +
+          '</strong>. Open <strong>Filters</strong> to adjust, or clear below to show all articles.</p>' +
+          '<button type="button" class="btn btn-primary btn-sm chapters-filter-empty-clear" id="chaptersEmptyClearFilters">Clear all filters</button></div>';
+        var toggle = document.getElementById('chaptersFiltersToggle');
+        var panel = document.getElementById('chaptersFiltersPanel');
+        if (toggle && panel && window.matchMedia('(max-width: 899px)').matches) {
+          panel.hidden = false;
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.setAttribute('data-user-expanded', 'true');
+        }
+      } else {
+        html =
+          '<div class="chapters-filter-empty" role="status">' +
+          '<p class="chapters-filter-empty-title">No ' +
+          escapeHtml(sn) +
+          ' articles to display</p>' +
+          '<p class="chapters-filter-empty-lead">Try <strong>Refresh sources</strong> or pick another regulation.</p></div>';
+      }
     }
     chaptersArticlesGrouped.innerHTML = html;
+    var emptyClear = document.getElementById('chaptersEmptyClearFilters');
+    if (emptyClear) {
+      emptyClear.addEventListener('click', function () {
+        resetChaptersFilters();
+        applyChaptersFilters();
+      });
+    }
     chaptersArticlesGrouped.querySelectorAll('a.item-card-link[data-type="article"]').forEach(a => {
       a.addEventListener('click', function (e) {
         e.preventDefault();
@@ -6019,6 +6428,7 @@
       });
     });
     chaptersFilterComboboxesSyncInputsFromSelects();
+    updateChaptersFiltersToggleMeta();
   }
 
   function openChapter(number) {
@@ -6407,6 +6817,26 @@
   if (browseQuickChapters) {
     browseQuickChapters.addEventListener('click', function () {
       activateBrowseRegulationSegment('chapters');
+    });
+  }
+
+  initBrowseWelcomeGrid();
+  var browseWelcomeGrid = document.getElementById('browseWelcomeGrid');
+  if (browseWelcomeGrid) {
+    browseWelcomeGrid.addEventListener('click', function (e) {
+      var quick = e.target.closest('[data-browse-quick]');
+      if (quick) {
+        var regId = quick.getAttribute('data-regulation-id');
+        var seg = quick.getAttribute('data-browse-quick');
+        if (regId) activateBrowseForRegulation(regId, seg);
+        return;
+      }
+      var card = e.target.closest('.browse-welcome-card[data-regulation-id]');
+      if (card && !e.target.closest('a, button')) {
+        var cardRegId = card.getAttribute('data-regulation-id');
+        var match = findRegulationInCatalog(cardRegId);
+        if (match) setCurrentRegulation(match);
+      }
     });
   }
 

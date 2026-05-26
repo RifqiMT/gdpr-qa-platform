@@ -92,6 +92,16 @@
           'Mentioned in the text or suggested for this article (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).',
         relatedArticlesToggleLabel: 'Show or hide related GDPR articles',
         relatedRecitalsToggleLabel: 'Show or hide related GDPR recitals'
+      },
+      browseUi: {
+        theme: 'gdpr',
+        eyebrow: 'EU data protection law',
+        title: 'GDPR',
+        subtitle: 'Regulation (EU) 2016/679',
+        description:
+          'The General Data Protection Regulation sets EU-wide rules for processing personal data—lawfulness and transparency, data-subject rights, accountability, and international transfers. Browse recitals and articles with official links, or use Ask for answers cited to this corpus.',
+        highlights: ['Lawfulness & consent', 'Data-subject rights', 'Accountability & DPIAs', 'International transfers'],
+        mark: 'GDPR'
       }
     },
     'ai-act': {
@@ -183,6 +193,16 @@
           'Other recitals cited in this article or cross-referenced in the text (<a href="https://ai-act-law.eu/" target="_blank" rel="noopener">AI Act Law</a>).',
         relatedArticlesToggleLabel: 'Show or hide related AI Act articles',
         relatedRecitalsToggleLabel: 'Show or hide related AI Act recitals'
+      },
+      browseUi: {
+        theme: 'ai-act',
+        eyebrow: 'EU artificial intelligence law',
+        title: 'EU AI Act',
+        subtitle: 'Regulation (EU) 2024/1689',
+        description:
+          'The Artificial Intelligence Act introduces a risk-based framework for AI systems on the EU market—prohibited practices, requirements for high-risk AI, transparency duties, and rules for general-purpose AI models and governance roles.',
+        highlights: ['Risk-based classification', 'High-risk AI systems', 'GPAI obligations', 'Providers & deployers'],
+        mark: 'AI'
       }
     },
     'data-act': {
@@ -274,6 +294,16 @@
           'Other recitals cited in this article or cross-referenced in the text (<a href="https://data-act-law.eu/" target="_blank" rel="noopener">Data Act Law</a>).',
         relatedArticlesToggleLabel: 'Show or hide related Data Act articles',
         relatedRecitalsToggleLabel: 'Show or hide related Data Act recitals'
+      },
+      browseUi: {
+        theme: 'data-act',
+        eyebrow: 'EU data economy law',
+        title: 'EU Data Act',
+        subtitle: 'Regulation (EU) 2023/2854',
+        description:
+          'The Data Act governs fair access to and use of data across the EU—user rights over connected-product data, cloud switching, B2B data sharing, interoperability, and protection against unfair terms in data-related contracts.',
+        highlights: ['Connected-product data', 'Cloud switching', 'B2B data sharing', 'Interoperability'],
+        mark: 'DA'
       }
     }
   };

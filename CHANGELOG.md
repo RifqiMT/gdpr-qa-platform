@@ -8,6 +8,31 @@ All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-
 
 ---
 
+## [1.2.4] — 2026-05-19
+
+### Added
+
+- **Browse regulation overview:** Per-regulation **`browseUi`** in `regulation-profiles.js` (description, theme tags, EUR-Lex link).
+- **Desktop Browse hub:** Three-column **`#browseWelcomeGrid`** (GDPR · EU Data Act · EU AI Act) with themed cards; click card or quick actions to switch regulation and open **Chapters & articles** or **Recitals**.
+- **Mobile Browse welcome:** Single **`#browseWelcome`** card synced to header regulation selection.
+
+### Fixed
+
+- **False empty chapters list:** Hidden GDPR **Category** / **Sub-category** values no longer filter AI Act or Data Act after regulation switch (`resetChaptersFilters`, `getChaptersFilterSubcategoryValue`).
+- **Stale chapter loads:** `loadChaptersRequestId` ignores out-of-order API responses when switching regulations quickly.
+- **Chapter number matching:** `normalizeChapterNumber()` for consistent filter grouping.
+
+### Changed
+
+- **Chapters quick actions order:** **Chapters & articles** first (primary), **Recitals** second — welcome cards, tab menu, and mobile solo layout.
+- **Mobile chapters filters:** Collapsible **Filters** toolbar (≤899px); active-filter summary and clearer empty states (no data vs filtered).
+
+### Documentation
+
+- **Product documentation standard v2.2:** Full audit for browse welcome, chapters filter reliability, design tokens for regulation themes, traceability, variables (§13), metrics, user stories, PRD v2.5.
+
+---
+
 ## [1.2.3] — 2026-05-19
 
 ### Added

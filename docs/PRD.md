@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.4  
+**Version:** 2.5  
 **Last updated:** 2026-05-19  
-**Aligned with:** Product documentation standard **v2.1** · `package.json` **1.2.3**
+**Aligned with:** Product documentation standard **v2.2** · `package.json` **1.2.4**
 
 ---
 
@@ -90,6 +90,11 @@ Users select the active regulation in the header. The product provides:
 | FR-BRW-10 | **Recital display title** from corpus via `getRecitalDisplayTitle` / `parseRecitalTopicTitle`; reader heading uses regulation profile label. | P0 |
 | FR-BRW-11 | **Reader body** renders numbered and lettered lists aligned with source sites (ETL + `document-formatting-guardrails` + `renderManualNumberedParagraphs`). | P1 |
 | FR-BRW-12 | **Citation sidebar** panel titles, leads, and publisher links match active regulation (`citationsUi` in `regulation-profiles.js`). | P0 |
+| FR-BRW-13 | **Browse welcome:** per-regulation `browseUi` (description, tags, theme); desktop **3-column** grid (GDPR, Data Act, AI Act); mobile solo card for active regulation. | P1 |
+| FR-BRW-14 | Quick actions order: **Chapters & articles** first (primary), **Recitals** second (tab menu + welcome). | P1 |
+| FR-BRW-15 | On regulation switch: **reset** chapter filters; **ignore** GDPR sub-category when `hasArticleTopics` is false. | P0 |
+| FR-BRW-16 | **loadChapters** ignores stale responses when regulation changes mid-request. | P1 |
+| FR-BRW-17 | Mobile (≤899px): collapsible **Filters** panel for chapters browse; active-filter summary; differentiated empty states. | P1 |
 
 ### 2.3 Ask (FR-ASK)
 

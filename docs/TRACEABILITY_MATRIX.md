@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 
@@ -37,6 +37,18 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 | BR-S-03 | User configures API keys from header without duplicate status cards | FR-SHELL-05, FR-SHELL-06 | US-S3 | `#btnByokSettings`, `#askLlmKeysStatus` (Ask only) | No `#headerStatusStrip`; keys dialog + Ask line only |
 | BR-S-04 | Reader uses remaining viewport under sticky chrome | FR-SHELL-04 | US-S4 | `#appChrome`, `ResizeObserver`, `--app-chrome-height` | Browse article scroll not hidden under chrome on phone |
 | BR-S-05 | News intro does not consume entire mobile screen | FR-NEWS-07 | US-N14 | `#newsHero`, `initNewsHeroDetails`, `.news-detail-grid` | Hero collapsed by default; expand shows 1-column panels |
+
+---
+
+## Browse welcome and chapters filter reliability
+
+| BR-ID | Business requirement | PRD | Story | Implementation | Verification |
+|-------|---------------------|-----|-------|----------------|--------------|
+| BR-W-01 | User sees all three regulations at a glance on desktop | FR-BRW-13 | US-W1 | `#browseWelcomeGrid`, `browseUi`, `initBrowseWelcomeGrid` | ≥900px: three themed cards visible |
+| BR-W-02 | User opens chapters before recitals in welcome UI | FR-BRW-14 | US-W2 | `buildBrowseWelcomeCardHtml`, `#browseQuickChapters` primary | Chapters button is first / primary green |
+| BR-W-03 | Data Act chapters list not falsely empty after GDPR filter use | FR-BRW-15 | US-W3 | `resetChaptersFilters`, `getChaptersFilterSubcategoryValue` | Switch GDPR→Data Act with “All” filters → articles show |
+| BR-W-04 | Fast regulation switching does not show wrong corpus | FR-BRW-16 | US-W4 | `loadChaptersRequestId` | Rapid switch: list matches selected regulation |
+| BR-W-05 | Mobile user can collapse chapter filters to see articles | FR-BRW-17 | US-W5 | `#chaptersFiltersToggle`, `#chaptersFiltersPanel` | ≤899px: Filters collapsed by default; expand works |
 
 ---
 

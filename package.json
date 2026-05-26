@@ -1,6 +1,6 @@
 {
   "name": "gdpr-qa-platform",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "EU Regulation Q&A Platform — GDPR, EU AI Act, and EU Data Act; Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
   "main": "server.js",
   "scripts": {

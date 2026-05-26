@@ -1,7 +1,7 @@
 # Design guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
@@ -66,6 +66,28 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | `data-act` | `#0369a1` (sky) | Sky wash |
 
 Set by **`syncNewsHeroChrome()`** from **`newsUi.theme`** in `regulation-profiles.js`.
+
+### 2.2.1 Browse welcome theme accents (regulation)
+
+Shared token pattern with News hero — applied via **`data-browse-theme`** on `.browse-welcome` / `.browse-welcome-card`:
+
+| `data-browse-theme` | Accent (`--browse-accent`) | Mark / tags background |
+|---------------------|---------------------------|-------------------------|
+| `gdpr` (default) | `#0f766e` (teal) | `--browse-accent-soft` mint |
+| `ai-act` | `#4f46e5` (indigo) | Indigo soft wash |
+| `data-act` | `#0369a1` (sky) | Sky soft wash |
+
+**Layout**
+
+| Viewport | Component | Behavior |
+|----------|-----------|----------|
+| **≥900px** | `#browseWelcomeGrid` | `grid-template-columns: repeat(3, 1fr)`; `.browse-welcome--solo` hidden |
+| **&lt;900px** | `#browseWelcome` (solo) | Grid hidden; single card for header-selected regulation |
+| **All** | Quick actions | **Chapters & articles** = `btn-primary`; **Recitals** = `btn-secondary`; stacked full-width in grid cards |
+
+**Active card (desktop):** `.browse-welcome-card--active` — accent border, elevated shadow, **Active** badge.
+
+**Chapters filters (mobile):** `.chapters-filters-toggle` + collapsible `#chaptersFiltersPanel`; `.chapters-active-filters` banner when filters applied.
 
 ---
 

@@ -1,7 +1,7 @@
 # Guardrails  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.1** · Product **1.2.3**
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
 
 Guardrails define **technical and business limitations** so the team ships safely: what the product must not claim, what the architecture assumes, and where human review is required.
 
@@ -82,6 +82,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-F07 | **Citation sidebar chrome** — Panel titles, leads, and publisher links must update via **`citationsUi`** + **`syncCitationSidebarChrome`**. Do not hardcode “GDPR” or GDPR-Info in `index.html` without IDs wired to sync. | Users saw GDPR labels while viewing EU Data Act. |
 | TG-F08 | **App chrome height** — Header/toolbar markup changes must keep **`ResizeObserver`** updating **`--app-chrome-height`** so the reader is not clipped under sticky chrome on phones. | Test Browse detail on 375px width after chrome edits. |
 | TG-F09 | **No duplicate status UI** — Use **`syncHeaderToolbarStatus`** for toolbar hints only; do not add a second always-visible freshness/keys card row (see **BG-13**). | Ask tab **`#askLlmKeysStatus`** remains the long-form Ask key narrative. |
+| TG-F10 | **Hidden chapter filters** — When `hasArticleTopics` is false, **`getChaptersFilterSubcategoryValue`** must return empty and **`resetChaptersFilters`** must run on regulation change. Never apply GDPR **Category** / **Sub-category** values to AI Act or Data Act lists. | Prevents false “no articles match” empty states. |
+| TG-F11 | **Chapters load races** — `loadChapters` must compare **`loadChaptersRequestId`** and **`currentRegulation.id`** before applying results. | Prevents wrong-regulation article lists after fast switching. |
 
 ---
 

@@ -1,9 +1,9 @@
 # Business guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19  
+**Version:** 1.5 · **Last updated:** 2026-05-19  
 **Audience:** Product, legal/compliance stakeholders, content owners, support  
-**Status:** Active · Documentation standard **v2.1** · Product **1.2.3**
+**Status:** Active · Documentation standard **v2.2** · Product **1.2.4**
 
 ---
 
@@ -32,7 +32,21 @@ These guidelines define **how the product should be positioned, scoped, and used
 4. **Stay informed** via News from EU-level and UK ICO sources (data protection + AI overlap).  
 5. **Export** a provision as PDF for offline reading or internal packs.  
 6. **Trust** that article and recital **headings** match the selected regulation (same article number does not imply the same title across GDPR, AI Act, and Data Act).  
-7. **Operate on mobile** — check corpus freshness and API keys from the header **Tools** menu without duplicate status UI or losing reading space to oversized chrome.
+7. **Operate on mobile** — check corpus freshness and API keys from the header **Tools** menu without duplicate status UI or losing reading space to oversized chrome.  
+8. **Discover regulations quickly** — on desktop, compare **GDPR**, **EU Data Act**, and **EU AI Act** from the Browse welcome hub before drilling into chapters or recitals.
+
+---
+
+## 3.1 Browse welcome hub (business)
+
+| Rule | Detail |
+|------|--------|
+| **Purpose** | Orient users who land on Browse without a provision open — plain-language summaries, topic tags, and EUR-Lex links per regulation. |
+| **Desktop** | Three cards side by side (order: **GDPR · EU Data Act · EU AI Act**); selecting a card sets the header regulation and may open **Chapters & articles** or **Recitals**. |
+| **Mobile** | One card for the **currently selected** regulation; same quick actions with **Chapters first**, **Recitals second**. |
+| **Copy ownership** | Marketing-style descriptions live in **`browseUi`** (`regulation-profiles.js`); they are **educational**, not legal analysis. |
+| **Consistency** | Welcome themes must align with News hero and citation accents for the same regulation (see [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) §2.2.1). |
+| **Filters** | GDPR-only topic filters must not carry over when users switch to AI Act or Data Act (see **TG-F10** in [GUARDRAILS.md](GUARDRAILS.md)). |
 
 ---
 
