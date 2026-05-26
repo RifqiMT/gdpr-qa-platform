@@ -1,7 +1,7 @@
 # Feature catalog  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.0** · Documentation standard **v1.8**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.2** · Documentation standard **v2.0**
 
 This catalog is the **feature-level inventory** of the shipped product. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
@@ -18,6 +18,7 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 | F-SHELL-05 | API keys (BYOK) | Browser-stored Groq/Tavily override for Ask. | Header modal, `gdpr-qa-byok-v1` |
 | F-SHELL-06 | Homepage (logo) | Resets Browse to placeholder; clears reader state. | `goToHome()` in `app.js` |
 | F-SHELL-07 | App credits bar | Maintainer attribution; LinkedIn and website icon links. | `.app-credits` in `index.html` |
+| F-SHELL-08 | Regulation-aware citation sidebar | Browse detail panels sync via `citationsUi` + `syncCitationSidebarChrome`. | `#citationsSidebar`, `regulation-profiles.js` |
 
 ---
 
@@ -38,6 +39,11 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 | F-BRW-11 | Chapter introductions | ✓ | ✓ | ✓ | `chapter-summaries*.json`; Groq regenerate |
 | F-BRW-12 | Back to question | ✓ | ✓ | ✓ | From Ask → Browse → return to Ask |
 | F-BRW-13 | Regulation-aware links | ✓ | ✓ | ✓ | `regulation-profiles.js` URLs and headings |
+| F-BRW-14 | Correct article display titles | ✓ | ✓ | ✓ | GDPR: canonical map; AI/Data Act: corpus `title` only |
+| F-BRW-15 | Recital display titles | ✓ | ✓ | ✓ | `getRecitalDisplayTitle`, `parseRecitalTopicTitle` |
+| F-BRW-16 | Numbered/lettered paragraph reader | ✓ | ✓ | ✓ | ETL + guardrails + `renderManualNumberedParagraphs` |
+| F-BRW-17 | Regulation-aware citation sidebar | ✓ | ✓ | ✓ | `citationsUi`; official + related panel copy |
+| F-BRW-18 | Full long article titles (non-GDPR) | — | ✓ | ✓ | No 120-char fallback in `getArticleDisplayTitle` |
 
 ---
 

@@ -1,7 +1,7 @@
 # Guardrails  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 Guardrails define **technical and business limitations** so the team ships safely: what the product must not claim, what the architecture assumes, and where human review is required.
 
@@ -21,6 +21,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | BG-08 | **BYOK keys are user-controlled secrets.** The product stores them in **browser localStorage** and transmits them to the **same-origin server** for LLM calls only. Users are responsible for key custody, rotation, and provider billing. | Not a vault; not suitable for shared kiosks without policy. |
 | BG-09 | **Three regulations, one News corpus.** News remains GDPR/data-protection oriented; AI Act and Data Act views use **client-side relevance filters**, not dedicated regulation-only crawlers. | Do not imply complete Data Act or AI Act press coverage. |
 | BG-10 | **Maintainer attribution** in the app credits bar is **product metadata**, not a legal disclaimer or endorsement by LinkedIn or any regulator. | Separate from “reference only” copy in README §12. |
+| BG-11 | **Article numbers are not globally unique titles.** Articles 1–99 exist in GDPR, AI Act, and Data Act with **different** official titles. UI must never map GDPR canonical titles onto other regulations by number alone. | Enforced in `getArticleDisplayTitle()` (GDPR-only canonical map). |
+| BG-12 | **Long official titles must display in full** for AI Act and Data Act. Do not truncate corpus titles to “Article N” in the reader. | Enforced in `getArticleDisplayTitle()` (no 120-character fallback outside GDPR). |
 
 ---
 
@@ -75,6 +77,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-F03 | **PDF export** depends on **html2pdf.js** CDN — offline/air-gapped installs need vendoring. | Document for enterprise deployment. |
 | TG-F04 | **News sidebar chrome** uses **`sessionStorage`** for collapse prefs — not shared across browsers or devices; clearing site data resets layout. | Expected; document for support. |
 | TG-F05 | **BYOK UI** stores secrets in **`localStorage`** (`gdpr-qa-byok-v1`). Clearing site data removes keys; XSS on the origin could exfiltrate keys — deploy with trusted static assets and HTTPS in production. | Enterprise SSO does not replace BYOK storage model. |
+| TG-F06 | **Display title helpers** — Any change to `getArticleDisplayTitle`, `getRecitalDisplayTitle`, or `CANONICAL_ARTICLE_TITLES` must be tested on **all three** regulations (spot-check Art. 10 on each; Data Act Art. 4 for long titles). | Regression caused wrong Data Act titles when GDPR map applied globally. |
+| TG-F07 | **Citation sidebar chrome** — Panel titles, leads, and publisher links must update via **`citationsUi`** + **`syncCitationSidebarChrome`**. Do not hardcode “GDPR” or GDPR-Info in `index.html` without IDs wired to sync. | Users saw GDPR labels while viewing EU Data Act. |
 
 ---
 
@@ -98,6 +102,18 @@ Guardrails define **technical and business limitations** so the team ships safel
 | BG-AI-03 | **Separate corpora** | `ai-act-content.json` and `gdpr-content.json` must never merge; regulation id selects one file. |
 | TG-AI-01 | **AI Act ETL** | `ai-act-scraper.js` is independent of GDPR guardrails file; monitor formatting separately. |
 | TG-AI-02 | **Regulation in Ask** | Tavily/DuckDuckGo queries must include AI Act context when `regulation=ai-act`. |
+
+---
+
+## 6c. EU Data Act–specific guardrails
+
+| Id | Guardrail | Detail |
+|----|-----------|--------|
+| BG-DA-01 | **No suitable-recital map** | Data Act does not ship `article-suitable-recitals`; do not show GDPR-style suitable recitals panels. |
+| BG-DA-02 | **News is filtered, not separate** | Data Act mode filters shared news for data-access/interoperability keywords; not a dedicated Data Act press wire. |
+| BG-DA-03 | **Separate corpus** | `data-act-content.json` must not merge with GDPR or AI Act; titles come only from Data Act ETL. |
+| TG-DA-01 | **Data Act ETL** | `data-act-scraper.js` + shared `scraper.js` HTML extraction; same formatting guardrails as other corpora. |
+| TG-DA-02 | **Title display** | Never apply `CANONICAL_ARTICLE_TITLES` when `regulation=data-act`. |
 
 ---
 

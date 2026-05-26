@@ -1,7 +1,7 @@
 # Glossary  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-19
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI.
 
@@ -36,7 +36,13 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **News deduplication (consolidated)** | Two-pass merge in **`news-crawler.js`** / **`server.js`**: (1) normalized URL key, (2) semantic key (source + date + title fingerprint) with **`mergeNewsDuplicate`**; mirrored in the browser by **`public/news-dedupe.js`** as **`GDPR_NEWS_DEDUPE`**. |
 | **news-topics.js** | Server module: topic **taxonomy** (includes **EU Artificial Intelligence Act** category), classification, and client filter support. |
 | **regulation** | API/UI parameter **`gdpr`** \| **`ai-act`** \| **`data-act`** selecting active corpus. |
-| **regulation-profiles.js** | Client module: per-regulation copy (Ask, Sources, News), URLs, heading patterns. |
+| **regulation-profiles.js** | Client module: per-regulation copy (`askUi`, `sourcesUi`, `newsUi`, **`citationsUi`**), URLs, heading patterns. |
+| **citationsUi** | Per-regulation object defining citation sidebar panel titles, HTML leads, and toggle labels (GDPR-Info vs AI Act Law vs Data Act Law). |
+| **syncCitationSidebarChrome** | Client function applying **`citationsUi`** to Browse detail aside when regulation changes. |
+| **syncRegulationChrome** | Client function updating Browse/Ask/Sources/News labels, filters, and citation sidebar after regulation switch. |
+| **CANONICAL_ARTICLE_TITLES** | GDPR-only map in `public/app.js` (Articles 1–99 official short titles); used by **`getArticleDisplayTitle`** when regulation is **`gdpr`**. |
+| **getArticleDisplayTitle** | Client helper resolving the article H2 in Browse, filters, and Ask aside; must not apply GDPR canonical titles to AI Act or Data Act. |
+| **getRecitalDisplayTitle** | Client helper resolving recital topic lines in cards and reader from corpus **`title`** fields. |
 
 ---
 

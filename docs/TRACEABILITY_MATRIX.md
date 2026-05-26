@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 
@@ -24,7 +24,7 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 | BR-R-01 | User selects GDPR, EU AI Act, or EU Data Act | FR-REG-01 | US-R1, US-R5 | `#regulationSelect`, `GET /api/regulations`, `lib/regulations.js` | Switch shows 50 articles for Data Act |
 | BR-R-02 | Selection persists across sessions | FR-REG-02 | US-R2 | `gdpr-qa-regulation-v1`, `setCurrentRegulation` | Reload page; selection retained |
 | BR-R-03 | Refresh updates active regulation only | FR-REG-04 | US-R3, US-ETL1 | `POST /api/refresh`, `runRegulationScraperAndReloadContent` | Refresh with AI Act does not alter GDPR JSON |
-| BR-R-04 | UI copy follows regulation | FR-REG-05 | US-R4 | `regulation-profiles.js`, `syncAskSourcesNewsChrome` | Ask title says “EU AI Act” when selected |
+| BR-R-04 | UI copy follows regulation | FR-REG-05, FR-REG-06 | US-R4, US-R6 | `regulation-profiles.js`, `syncAskSourcesNewsChrome`, `syncCitationSidebarChrome` | Ask title and citation sidebar say “EU AI Act” / AI Act Law when selected |
 
 ---
 
@@ -32,13 +32,18 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 
 | BR-ID | Business requirement | PRD | Story | Implementation | Verification |
 |-------|---------------------|-----|-------|----------------|--------------|
-| BR-B-01 | User reads Recitals 1–173 in app with official links | FR-B2 | US-B2 | `public/app.js` (recitals list, `openRecital`), `GET /api/recitals` | Open Recital 1; citations panel shows GDPR-Info/EUR-Lex |
+| BR-B-01 | User reads recitals in app with official links | FR-B2 | US-B2 | `public/app.js` (recitals list, `openRecital`), `GET /api/recitals` | Open Recital 1; citations panel shows active site + EUR-Lex |
 | BR-B-02 | User filters Articles by category, topic, chapter, number | FR-B3 | US-B3 | `ARTICLE_TOPICS`, `applyChaptersFilters`, `GET /api/chapters`, `/api/articles` | Filter to “Consent”; list matches |
 | BR-B-03 | User navigates Prev/Next/Go between documents | FR-B4 | US-B4 | `docNav`, `goToDocNumber`, `updateDocNav` | Jump Article 17 → 18; keyboard Enter on Go |
 | BR-B-04 | User exports current provision as PDF | FR-B6 | US-B5, US-E1 | `html2pdf.js`, `#pdfPrintMount`, print CSS | Export produces multi-page PDF without clipped paragraphs |
 | BR-B-05 | User returns from Ask via “Back to question” | FR-B5 | US-B7 | `cameFromAsk`, `btnBackToQuestion` | Ask → View in app → Back to question |
 | BR-B-06 | Homepage reset via logo | FR-B7, FR-H1 | US-H1, US-H2 | `goToHome`, `#logoLink` | Logo click shows placeholder; sidebar reset |
 | BR-B-07 | Related articles/recitals cross-links | FR-B2 (extended) | US-B2 | `gdpr-crossrefs.js`, `GET /api/articles/:n` `suitableRecitals`, `/api/recitals/:n` `suitableArticles` | Open Article 6; related recitals non-empty when data present |
+| BR-B-08 | Article titles match active regulation corpus | FR-BRW-09 | US-B10 | `getArticleDisplayTitle()`, `CANONICAL_ARTICLE_TITLES` (GDPR only) | Data Act Art. 10 shows “Dispute settlement”, not GDPR Art. 10 title |
+| BR-B-09 | Recital titles readable and regulation-agnostic | FR-BRW-10 | US-B11 | `getRecitalDisplayTitle()`, `parseRecitalTopicTitle` | Recital card and reader H2 match `*-content.json` title |
+| BR-B-10 | AI Act / Data Act body matches source paragraph structure | FR-BRW-11 | US-B12 | `scraper.js`, `joinBodyLines`, `document-formatting-guardrails`, `renderManualNumberedParagraphs` | Art. 6 AI Act shows `1.`/`2.` and `(a)`–`(c)` sublists |
+| BR-B-11 | Citation sidebar labels match active regulation | FR-BRW-12, FR-REG-06 | US-B13, US-R6 | `citationsUi`, `syncCitationSidebarChrome`, `index.html` panel IDs | Data Act selected → “Related Data Act articles”, Data Act Law link |
+| BR-B-12 | Long official article titles display in reader | FR-BRW-09 | US-B10 | `getArticleDisplayTitle()` (no 120-char cap for non-GDPR) | Data Act Art. 4 shows full title, not “Article 4” |
 
 ---
 

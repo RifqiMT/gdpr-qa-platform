@@ -117,6 +117,14 @@ Same as articles through **`injectRegulationCitationLinks`**, but use **`fmtReci
 
 **GDPR-Info extraction:** `.entry-content` is walked in document order (`<p>`, `<ol>/<ul>/<li>` with nesting, footnote `<div>`s). Articles that are list-only (e.g. Art. 1, 5) and definition lists (Art. 4) require this; a `<p>`-only pass misses the legal text.
 
+**AI Act Law / Data Act Law (shared `scraper.js` helpers):**
+
+- **`<sup>N</sup>` in a single `<li>`** → multiple top-level paragraphs `N.` via `linesFromLiHtml` / `topLevelParaNum` (e.g. AI Act Art. 99).
+- **“in particular on:”** blocks → lettered sub-list before continuation prose (e.g. AI Act Art. 96).
+- **`stripLeadingHeadingLinesFromBody`** — removes duplicate title / `Art. n …` lines from article body after extract.
+- **`buildSearchIndex`** — uses regulation-specific recital index URL (no GDPR-Info URLs in AI/Data Act corpora).
+- **`splitGluedNumericClauseMarkers`** — applied to **articles** as well as recitals (`1In` → `1. In`).
+
 **Default corpus source:** With `GDPR_ETL_PRIMARY=gdpr-info` (default), article and recital bodies are taken from **gdpr-info.eu** `.entry-content` (same presentation as the public pages you use for spot checks). EUR-Lex text differs in whitespace and line breaks; use it only when you intentionally set `GDPR_ETL_PRIMARY=eur-lex`.
 
 When changing `scraper.js` or any step that writes `gdpr-content.json`:
@@ -135,7 +143,7 @@ When changing `scraper.js` or any step that writes `gdpr-content.json`:
 
 - **`getArticleBodyTextAfterHeading`:** For list/search excerpts only; same strip as the reader; does not change stored JSON.
 - **Related panel titles/descriptions:** Short labels for UX; full text remains in the document view.
-- **`CANONICAL_ARTICLE_TITLES`:** Display fallback when API title is missing or malformed; keep in sync with official short titles when you intentionally update naming.
+- **`CANONICAL_ARTICLE_TITLES` (GDPR only in UI):** Display fallback when GDPR API title is missing or malformed; **must not** be applied to EU AI Act or EU Data Act article numbers (those regulations reuse article numbering but different titles). AI Act and Data Act use scraped `title` from `*-content.json` via `getArticleDisplayTitle()`.
 
 ---
 
@@ -145,7 +153,10 @@ Run these in the **browse** reader (not only Ask):
 
 | Check | Why |
 |--------|-----|
-| **Art. 1-99** | Three numbered paragraphs; no spurious empty list items |
+| **GDPR Art. 1** | Three numbered paragraphs; no spurious empty list items |
+| **AI Act Art. 6** | Numbered §§ and `(a)`–`(c)` sublists under correct parent § |
+| **Data Act Art. 4** | `1.` / `2.` paragraphs; `(a)` / `(b)` under §3 |
+| **Art. 10 (each regulation)** | H2 title matches corpus (`Dispute settlement` / `Data and data governance` / GDPR title) — not cross-regulation |
 | **Art. 1-99** | §1–§4; lettered `(a)`–`(d)` under §2 intact |
 | **Art. 1-99** | Definition list + recital refs readable |
 | **Art. 1-99** | Special list layouts |

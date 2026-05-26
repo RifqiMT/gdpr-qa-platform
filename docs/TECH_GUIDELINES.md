@@ -1,9 +1,9 @@
 # Technical guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2  
+**Version:** 1.4  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v1.8** · Product **1.2.0**
+**Status:** Active · Documentation standard **v2.0** · Product **1.2.2** · **Last updated:** 2026-05-19
 
 ---
 
@@ -46,6 +46,30 @@
 **CLI:** `npm run refresh`, `npm run refresh-ai-act`, `npm run refresh-data-act`.
 
 **Cron:** `api/cron/daily-regulation-refresh.js` refreshes **GDPR, AI Act, and Data Act** when `CRON_SECRET` is set on Vercel.
+
+**Shared HTML extraction:** `scraper.js` exports `getGdprInfoEntryPlainText` (used by AI Act and Data Act scrapers) for `span.actlist-number`, nested `<ol>/<li>`, and paragraph splits. Regulation scrapers call **`joinBodyLines()`** so numbered and lettered blocks retain blank-line boundaries in JSON.
+
+---
+
+## 3.1 Browse display titles (frontend)
+
+| Function | Rule |
+|----------|------|
+| **`getArticleDisplayTitle(art)`** | If `getRegProfile().id === 'gdpr'`, prefer **`CANONICAL_ARTICLE_TITLES[art.number]`**, else trimmed **`art.title`** with GDPR-only malformed-title guards (length &gt; 120, recital-prefixed junk). **AI Act / Data Act:** always use full corpus **`art.title`** (no length cap). |
+| **`getRecitalDisplayTitle(r)`** | Prefer **`parseRecitalTopicTitle(r.title)`**; else corpus title; reject Directive-prefixed junk. |
+| **`stripLeadingArticleHeadingFromBody`** | Removes duplicate heading lines from body before structure detection; uses regulation-specific prefixes from **`regulation-profiles.js`**. |
+
+**Regression test:** After any change to title helpers, open **Art. 10** on GDPR, AI Act, and Data Act — three **different** official short titles must appear. For Data Act, also verify **Art. 4** and **Art. 33** show **full** long titles (not “Article 4”).
+
+### 3.2 Citation sidebar (Browse detail)
+
+| Function / artifact | Rule |
+|---------------------|------|
+| **`citationsUi`** | Per-regulation panel titles, HTML leads, toggle `aria-label`s in **`regulation-profiles.js`**. |
+| **`syncCitationSidebarChrome(reg)`** | Called from **`syncRegulationChrome`**; updates `#citationOfficialLead`, `#relatedArticlesTitleLabel`, `#relatedRecitalsTitleLabel`, leads, and badge ARIA. |
+| **`relatedPanelBadgeAriaLabel`** | Uses **`legalLabel`** (e.g. “Data Act”) for count badges — never hardcode “GDPR”. |
+
+**Regression test:** Select EU Data Act → open any article → sidebar must say “Related **Data Act** articles” and link to **data-act-law.eu**, not GDPR-Info.
 
 ---
 

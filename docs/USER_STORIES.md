@@ -1,7 +1,7 @@
 # User Stories  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
 Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** and **Data Act** leads).
@@ -15,7 +15,8 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-R1 | As an **AI governance** user, I want to select **EU AI Act** in the header so that Browse and Ask use the AI Act corpus (113 articles, 180 recitals). | AI governance |
 | US-R2 | As a **Legal/Compliance** user, I want my regulation choice **remembered** on return visits so that I do not re-select GDPR each session. | Legal/Compliance |
 | US-R3 | As **Engineering / DevOps**, I want **Refresh sources** to update only the **active** regulation so that GDPR and AI Act ETL do not overwrite each other unintentionally. | Engineering / DevOps |
-| US-R4 | As a **DPO**, I want tab labels and placeholders to **change with regulation** so that I am never confused about which regulation I am reading. | DPO |
+| US-R4 | As a **DPO**, I want tab labels, placeholders, and **citation sidebar** copy to **change with regulation** so that I am never confused about which regulation I am reading. | DPO |
+| US-R7 | As a **Data Act lead**, I want the Browse detail sidebar to say **“Related Data Act articles”** and link to **Data Act Law** (not GDPR-Info) when EU Data Act is selected. | Data Act lead |
 | US-R5 | As a **Data Act lead**, I want to select **EU Data Act** in the header so that Browse and Ask use the Data Act corpus (50 articles, 119 recitals). | Data Act lead |
 | US-R6 | As **Engineering / DevOps**, I want **`npm run refresh-data-act`** so that I can refresh the Data Act corpus without the UI. | Engineering / DevOps |
 
@@ -33,8 +34,12 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-B9 | As a **Data Act lead**, I want article headings and external links to use **Data Act Law** and EUR-Lex 2023/2854 so that citations match my compliance pack. | Data Act lead |
 | US-B4 | As a **Consultant**, I want to open an article and use Prev/Next and “Go to” number so that I can jump to any Article or Recital without going back to the list. | Consultant |
 | US-B5 | As a **Legal/Compliance** user, I want to export the current article or recital as PDF so that I can attach it to memos or store offline. | Legal/Compliance |
-| US-B6 | As a **Stakeholder**, I want to see citation links (GDPR-Info, EUR-Lex) on every detail view so that I can verify against official sources. | Stakeholder |
+| US-B6 | As a **Stakeholder**, I want to see citation links to the **active regulation’s readable site and EUR-Lex** on every detail view so that I can verify against official sources. | Stakeholder |
 | US-B7 | As a **General Professional**, I want to click “Back to question” when I opened a document from Ask so that I can return to my search results. | General Professional |
+| US-B10 | As a **Data Act lead**, I want each article heading to show the **full Data Act title** from the official layout (including long titles such as Art. 4 and 33—not bare “Article N”) so that I trust the reader. | Data Act lead |
+| US-B13 | As an **AI governance** user, I want the citation sidebar panels to use **AI Act** wording and **AI Act Law** links when EU AI Act is selected so that the UI never shows “Related GDPR articles”. | AI governance |
+| US-B11 | As an **AI governance** user, I want recital cards and reader headers to show the **recital topic** from the AI Act corpus so that I can scan recitals by subject. | AI governance |
+| US-B12 | As a **Legal/Compliance** user, I want numbered and lettered paragraphs in AI Act and Data Act articles to display like the source sites so that I can compare line-by-line with EUR-Lex mirrors. | Legal/Compliance |
 
 ---
 

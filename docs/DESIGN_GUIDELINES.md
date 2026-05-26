@@ -1,7 +1,7 @@
 # Design guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.5 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
@@ -124,8 +124,9 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | **Tabs** | `.tabs`, `.tab`, `.tab--browse-main`, `.tab-browse-menu` | `role="tablist"` / `tab` / `tabpanel`; browse split menu. |
 | **Buttons** | `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-sm` | Primary = accent fill; secondary = outline / muted. |
 | **Filter combobox** | `.filter-combobox`, `.filter-combobox-input`, `.filter-combobox-list` | Used for chapters filters and industry sector in Ask. |
-| **Doc reader** | `.reader-chrome`, `.doc-nav`, `.doc-content` | Prev/Next/Go; article/recital typography inside `.article-doc` / `.recital-doc`. |
-| **Citation panels** | `.citation-panel`, `.citation-panel-toggle`, `.citation-panel-badge` | Collapsible aside sections. |
+| **Doc reader** | `.reader-chrome`, `.doc-nav`, `.doc-content`, `.art-num`, `.art-subject` | Prev/Next/Go; **`.art-num`** = regulation label (e.g. “Art. 10 Data Act”); **`.art-subject`** = official short title (serif, centered); body in `.article-doc` / `.recital-doc` with `.art-para-list` for numbered blocks. |
+| **Citation panels** | `.citation-panel`, `.citation-panel-toggle`, `.citation-panel-badge` | Collapsible aside on Browse detail; **regulation-specific** title/lead copy via `citationsUi` (not static HTML). Accent stripes: `.citation-panel--official` (teal), `--articles` (indigo), `--recitals` (violet). |
+| **Article subject (reader H2)** | `.art-subject` | Centered serif heading; uses `hyphens: auto`, `text-wrap: balance`, `overflow-wrap: break-word` for long Data Act / AI Act titles. |
 | **Ask answer** | `.answer-box`, `.citation-chip`, `.ask-answer-prose` | `[Sn]` chips link in-app for regulation, external for web. |
 | **News** | `.news-card`, `.news-sections`, `.filter-bar.news-filters`, `.news-topic-tag`, `.news-view-toggle` | Source/topic filters; **topic** chip on cards (**`.news-topic-tag`**); main **`#newsControlsPanel`** is **not sticky**—it scrolls with content to avoid overlapping cards. A segmented view toggle (**By source** / **All**) uses `.news-view-toggle` and keeps layout consistent across modes. |
 | **Sources** | `.sources-grid`, `.source-card` | Grid of credible organizations. |

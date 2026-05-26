@@ -1,7 +1,7 @@
 # Operations runbook  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.1 · **Last updated:** 2026-05-19 · Documentation standard **v1.8** · Product **1.2.0**
+**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 Procedures for **local development**, **production (Vercel)**, and **routine maintenance**. Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md).
 
@@ -90,6 +90,12 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 | `curl -s http://localhost:3847/api/regulations` | JSON with `gdpr`, `ai-act`, and `data-act` |
 | `curl -s "http://localhost:3847/api/meta?regulation=ai-act"` | `regulationId: ai-act`, `sources` array |
 | Ask (with keys) | `POST /api/answer` returns `answer`, `sources`, `llm.used` |
+| Data Act Art. 10 title | Browse → EU Data Act → Art. 10 → H2 **“Dispute settlement”** (not GDPR Art. 10 title) |
+| Data Act Art. 4 long title | Browse → EU Data Act → Art. 4 → H2 shows full rights/obligations title (not bare “Article 4”) |
+| AI Act Art. 10 title | Browse → EU AI Act → Art. 10 → H2 **“Data and data governance”** |
+| Citation sidebar (Data Act) | EU Data Act selected → open any article → sidebar says **Related Data Act articles** and links to **data-act-law.eu** |
+| Citation sidebar (AI Act) | EU AI Act selected → sidebar says **Related AI Act recitals** and links to **ai-act-law.eu** |
+| Reader paragraphs | AI Act Art. 6 or 99; Data Act Art. 4 shows `1.` / `2.` blocks and `(a)` sublists |
 
 ---
 
@@ -102,6 +108,7 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 | News attachments fail | Opened `index.html` as file | Use `npm start` URL |
 | Stale news in browser | Cached JSON | `GET /api/news` sends `no-store`; hard refresh |
 | AI Act Sources empty | Wrong regulation / missing structure | Select AI Act; verify `ai-act-structure.json` |
+| Sidebar still says “GDPR” | Stale `app.js` / hard refresh needed | Hard refresh; verify `syncCitationSidebarChrome` in build |
 | News empty with AI Act selected | Filter too strict | Switch to GDPR for full list; widen search/filters |
 
 ---

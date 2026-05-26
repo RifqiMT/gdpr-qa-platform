@@ -1,9 +1,9 @@
 # Product documentation standard  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.8  
+**Version:** 2.0  
 **Status:** Active — governance checklist for product, design, compliance, engineering, and operations.  
-**Product release:** `package.json` **1.2.0** (GDPR + EU AI Act + EU Data Act).
+**Product release:** `package.json` **1.2.2** (GDPR + EU AI Act + EU Data Act). **Latest doc audit:** 2026-05-19 (citation sidebar regulation chrome, long article titles, AI/Data Act ETL formatting, full doc set alignment).
 
 **Scope:** All material under **`gdpr-qa-platform/`** describing the product, behavior, configuration, verification, and release history.
 
@@ -18,7 +18,7 @@
 | [docs/README.md](docs/README.md) | All | Documentation hub: reading order, map, conventions. |
 | [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) | Product, legal | Positioning, regulation scope (GDPR, AI Act, Data Act), credible sources, News policy. |
 | [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md) | Engineering, DevOps | Multi-regulation APIs, ETL, Ask pipeline, BYOK, security, performance. |
-| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.1** — three regulations, BYOK, News filters, Vercel. |
+| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.2** — three regulations, BYOK, News filters, reader titles, Vercel. |
 | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX | Eight personas including AI governance and **data economy / Data Act** leads. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA | Epics and acceptance-oriented stories traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, support | Data dictionary + **Mermaid relationship diagrams** (configuration, corpus, Ask, News). |
@@ -36,7 +36,7 @@
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | All | Acronyms and product terms. |
 | [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md) | DevOps | Serverless deploy and cron. |
 | [.env.example](.env.example) | DevOps | Commented configuration template (no secrets). |
-| [public/regulation-profiles.js](public/regulation-profiles.js) | Frontend | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`). |
+| [public/regulation-profiles.js](public/regulation-profiles.js) | Frontend | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, **`citationsUi`**). |
 
 ---
 
@@ -75,7 +75,7 @@
 
 | Area | Highlights |
 |------|------------|
-| **Browse** | Recitals; chapters/articles; GDPR topic filters; reader; Prev/Next/Go; chapter intros; PDF; GDPR suitable recitals. |
+| **Browse** | Recitals; chapters/articles; GDPR topic filters; reader with **regulation-correct article/recital titles** (full long titles on AI/Data Act); **regulation-aware citation sidebar**; numbered/lettered paragraph layout (all corpora); Prev/Next/Go; chapter intros; PDF; GDPR suitable recitals. |
 | **Ask** | `POST /api/answer`; Groq → Tavily → extractive; web snippets; sector; BYOK; regulation-scoped prompts. |
 | **Sources** | `GET /api/meta?regulation=` credible org list per regulation. |
 | **News** | Multi-source crawl; filters; By source / All; attachments when present; **AI Act** / **Data Act** relevance filter + banner. |
@@ -95,6 +95,10 @@
 | `data-act-content.json` | EU Data Act | `data-act-scraper.js` |
 
 All corpora pass through **`document-formatting-guardrails.js`** before index build and on **`loadContent()`** read. News uses **`gdpr-news.json`** + **`news-crawler.js`** + **`news-topics.js`** (shared, not per-regulation).
+
+**Display titles (critical):** `CANONICAL_ARTICLE_TITLES` in `public/app.js` is **GDPR-only**. EU AI Act and EU Data Act must use each article’s **full** **`title`** from `ai-act-content.json` / `data-act-content.json` (no 120-character fallback to “Article N”). See **`getArticleDisplayTitle()`**, **`getRecitalDisplayTitle()`**, and [DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md).
+
+**Citation sidebar (critical):** Browse detail **`citationsUi`** in `regulation-profiles.js` + **`syncCitationSidebarChrome()`** in `public/app.js` must update panel titles, leads, and publisher links when the regulation changes — never hardcode “GDPR” or GDPR-Info for all regulations.
 
 ---
 
@@ -152,6 +156,17 @@ Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans / DM Serif Text
 10. Configuration  
 11. Quick start  
 12. License and disclaimer  
+
+---
+
+## 11. Documentation revision history (standard)
+
+| Standard version | Date | Highlights |
+|------------------|------|------------|
+| **2.0** | 2026-05-19 | Citation sidebar `citationsUi`; long-title display fix; ETL sup/`<li>` numbering; full doc audit; PRD v2.3; traceability BR-B-11/12. |
+| **1.9** | 2026-05-26 | Reader title fix (GDPR-only canonical); AI/Data Act formatting; VARIABLES relationship charts; PRD v2.2. |
+| **1.8** | 2026-05-19 | EU Data Act; app credits bar; three-regulation docs. |
+| **1.5–1.7** | 2026-05 | BYOK, Vercel, AI Act integration (see [CHANGELOG.md](CHANGELOG.md)). |
 
 ---
 

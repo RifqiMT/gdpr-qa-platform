@@ -1,7 +1,7 @@
 {
   "meta": {
     "regulationId": "ai-act",
-    "lastRefreshed": "2026-05-25T09:21:33.808Z",
+    "lastRefreshed": "2026-05-26T10:49:01.676Z",
     "sources": [
       {
         "name": "AI Act Law",
@@ -109,7 +109,7 @@
         ]
       }
     ],
-    "lastChecked": "2026-05-25T09:21:33.808Z",
+    "lastChecked": "2026-05-26T10:49:01.676Z",
     "datasetHash": "8847f5ec7b60b7f318e5bc4608e6c7a6da3d207b294b28dddc092d77ce9a0002",
     "etl": {
       "extractedFrom": "ai-act-law",

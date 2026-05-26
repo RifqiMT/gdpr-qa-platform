@@ -105,12 +105,47 @@ function getGdprInfoEntryPlainText($, cheerioMod) {
     return cheerioMod.load('<span>' + h + '</span>')('span').text().replace(/\s+/g, ' ').trim();
   }
 
+  /** Prefix "1." / "(a)" when source HTML already exposes the marker (AI Act / Data Act Law). */
+  function prefixListMarker(prefix, body) {
+    const b = String(body || '').trim();
+    if (!b) return '';
+    const p = String(prefix || '').trim();
+    if (!p) return b;
+    if (/^\d+\.$/.test(p)) {
+      const n = p.replace(/\.$/, '');
+      if (new RegExp(`^${n}\\.\\s`).test(b) || new RegExp(`^${n}[A-Za-z]`).test(b)) {
+        return b.replace(new RegExp(`^${n}(?=\\.)`), `${n}. `);
+      }
+      return `${p} ${b}`;
+    }
+    if (/^\([a-z]\)$/i.test(p)) {
+      const letter = p.replace(/[()]/g, '').toLowerCase();
+      if (new RegExp(`^\\(${letter}\\)\\s`, 'i').test(b)) return b;
+      if (new RegExp(`^\\(${letter}\\)`, 'i').test(b)) {
+        return b.replace(new RegExp(`^\\(${letter}\\)`, 'i'), `(${letter}) `);
+      }
+      return `(${letter}) ${b}`;
+    }
+    return b;
+  }
+
+  function listMarkerForDepth(depth, index) {
+    if (depth === 0) return `${index + 1}.`;
+    return `(${String.fromCharCode(97 + index)})`;
+  }
+
   function processParagraph($p) {
-    const raw = $p.html() || '';
+    const $clone = $p.clone();
+    const $marker = $clone.find('span.actlist-number, span.dsgvo-number').first();
+    let paraPrefix = '';
+    if ($marker.length) {
+      paraPrefix = $marker.text().replace(/\s+/g, '').trim();
+      $marker.remove();
+    }
+    const raw = $clone.html() || '';
     const brParts = raw.split(/<br\s*\/?>/i);
-    brParts.forEach((frag) => {
+    brParts.forEach((frag, fragIdx) => {
       let f = String(frag || '');
-      // GDPR-Info recitals: <sup>1</sup>The … <sup>2</sup>In … — split into one stored line per clause (matches gdpr-info.eu).
       const supToDigit = {
         '¹': '1',
         '\u00b9': '1',
@@ -124,25 +159,116 @@ function getGdprInfoEntryPlainText($, cheerioMod) {
         const d = /^[0-9]+$/.test(ch) ? ch : supToDigit[ch] || '1';
         return `\n\n${d}`;
       });
-      f.split(/\n+/).forEach((chunk) => {
-        const line = lineFromInnerHtml(chunk);
-        if (line) pushLine(line);
+      f.split(/\n+/).forEach((chunk, chunkIdx) => {
+        let line = lineFromInnerHtml(chunk);
+        if (!line) return;
+        if (paraPrefix && fragIdx === 0 && chunkIdx === 0) {
+          line = prefixListMarker(paraPrefix, line);
+          paraPrefix = '';
+        }
+        pushLine(line);
+      });
+    });
+  }
+
+  /** Split <li> HTML on <sup>N</sup> (AI Act Law penalty articles, etc.). */
+  function linesFromLiHtml(html) {
+    const h = String(html || '').trim();
+    if (!h) return [];
+    const parts = h.split(/<sup[^>]*>\s*(\d{1,2})\s*<\/sup>/i);
+    if (parts.length <= 1) {
+      const single = lineFromInnerHtml(h);
+      return single ? [single] : [];
+    }
+    const out = [];
+    const before = lineFromInnerHtml(parts[0]);
+    if (before) out.push(before);
+    for (let i = 1; i < parts.length; i += 2) {
+      const num = parts[i];
+      const chunk = parts[i + 1] || '';
+      let line = lineFromInnerHtml(chunk);
+      if (!line) continue;
+      line = prefixListMarker(`${num}.`, line);
+      if (line) out.push(line);
+    }
+    return out;
+  }
+
+  function bumpTopLevelParaNum(n) {
+    if (typeof n === 'number' && n > topLevelParaNum) topLevelParaNum = n;
+  }
+
+  function nextTopLevelMarker() {
+    topLevelParaNum += 1;
+    return `${topLevelParaNum}.`;
+  }
+
+  function prefixTopLevelLine(body, liIdx, depth) {
+    const b = String(body || '').trim();
+    if (!b) return '';
+    if (/^\d+\.\s/.test(b)) {
+      const m = b.match(/^(\d+)\./);
+      if (m) bumpTopLevelParaNum(parseInt(m[1], 10));
+      return b;
+    }
+    if (depth === 0) return prefixListMarker(nextTopLevelMarker(), b);
+    return prefixListMarker(listMarkerForDepth(depth, liIdx), b);
+  }
+
+  let topLevelParaNum = 0;
+
+  function processStructuredList($list, depth) {
+    $list.children('li').each(function (liIdx) {
+      const $li = $(this);
+      const $nestedLists = $li.children('ol, ul');
+      const $lead = $li.clone();
+      $lead.children('ol, ul').remove();
+      const leadHtml = $lead.html() || '';
+
+      if (depth === 0 && $nestedLists.length) {
+        const leadLines = linesFromLiHtml(leadHtml);
+        const body = leadLines.length > 1 ? leadLines.join('\n\n') : (leadLines[0] || lineFromInnerHtml(leadHtml));
+        const splitOn = body && /in particular on:/i.test(body)
+          ? body.match(/^([\s\S]*?\bin particular on:\s*)([\s\S]+)$/i)
+          : null;
+        if (splitOn && splitOn[2].trim()) {
+          let head = splitOn[1].trim();
+          const continuation = splitOn[2].trim();
+          if (!/^\d+\.\s/.test(head)) {
+            head = prefixTopLevelLine(head, liIdx, depth);
+          } else {
+            const hm = head.match(/^(\d+)\./);
+            if (hm) bumpTopLevelParaNum(parseInt(hm[1], 10));
+          }
+          if (head) pushLine(head);
+          $nestedLists.each(function () {
+            processStructuredList($(this), depth + 1);
+          });
+          pushLine(continuation);
+          return;
+        }
+      }
+
+      const leadLines = linesFromLiHtml(leadHtml);
+      if (leadLines.length > 1) {
+        leadLines.forEach((ln) => {
+          const prefixed = prefixTopLevelLine(ln, liIdx, depth);
+          if (prefixed) pushLine(prefixed);
+        });
+      } else {
+        const body = leadLines[0] || lineFromInnerHtml(leadHtml);
+        const prefixed = prefixTopLevelLine(body, liIdx, depth);
+        if (prefixed) pushLine(prefixed);
+      }
+      $nestedLists.each(function () {
+        processStructuredList($(this), depth + 1);
       });
     });
   }
 
   function processList($list) {
-    $list.children('li').each(function () {
-      const $li = $(this);
-      const $nested = $li.children('ol, ul');
-      const $lead = $li.clone();
-      $lead.children('ol, ul').remove();
-      const leadText = lineFromInnerHtml($lead.html());
-      if (leadText) pushLine(leadText);
-      $nested.each(function () {
-        processList($(this));
-      });
-    });
+    topLevelParaNum = 0;
+    processStructuredList($list, 0);
   }
 
   function walkContainer($container) {
@@ -520,7 +646,42 @@ function parseEurLexText(html) {
   return { recitals, articles };
 }
 
-function buildSearchIndex(recitals, articles, chapters) {
+/** Remove duplicated title / “Art. n …” lines from article body (AI Act / Data Act / GDPR-Info). */
+function stripLeadingHeadingLinesFromBody(bodyLines, opts) {
+  const lines = Array.isArray(bodyLines) ? bodyLines.map((l) => String(l)) : [];
+  const title = String((opts && opts.title) || '').replace(/\s+/g, ' ').trim();
+  const titleKey = title.toLowerCase();
+  const artRe = opts && opts.articleLabel
+    ? new RegExp(`^${String(opts.articleLabel).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i')
+    : null;
+  while (lines.length) {
+    const l = lines[0].replace(/\s+/g, ' ').trim();
+    if (!l) {
+      lines.shift();
+      continue;
+    }
+    if (titleKey && l.toLowerCase() === titleKey) {
+      lines.shift();
+      continue;
+    }
+    if (titleKey && l.toLowerCase().startsWith(titleKey) && l.length <= titleKey.length + 40) {
+      lines.shift();
+      continue;
+    }
+    if (artRe && artRe.test(l)) {
+      lines.shift();
+      continue;
+    }
+    break;
+  }
+  return lines;
+}
+
+function buildSearchIndex(recitals, articles, chapters, indexMeta) {
+  const meta = indexMeta && typeof indexMeta === 'object' ? indexMeta : {};
+  const defaultRecitalUrl =
+    meta.recitalsIndexUrl || meta.recitalsUrl || 'https://gdpr-info.eu/recitals/';
+  const defaultEurLex = meta.eurLexTxtUrl || EUR_LEX_TXT_URL;
   const index = [];
   const seenId = new Set(); // avoid duplicate index entries
   for (const r of recitals) {
@@ -534,16 +695,16 @@ function buildSearchIndex(recitals, articles, chapters) {
       id,
       number: r.number,
       title: fullTitle,
-      text: r.text.slice(0, 2000),
-      sourceUrl: 'https://gdpr-info.eu/recitals/',
-      eurLexUrl: EUR_LEX_TXT_URL
+      text: (r.text || '').slice(0, 2000),
+      sourceUrl: r.sourceUrl || defaultRecitalUrl,
+      eurLexUrl: r.eurLexUrl || defaultEurLex
     });
   }
   for (const a of articles) {
     const id = `article-${a.number}`;
     if (seenId.has(id)) continue;
     seenId.add(id);
-    const ch = chapters.find(c => c.number === a.chapter);
+    const ch = (chapters || []).find((c) => c.number === a.chapter);
     index.push({
       type: 'article',
       id,
@@ -551,7 +712,7 @@ function buildSearchIndex(recitals, articles, chapters) {
       chapter: a.chapter,
       chapterTitle: ch ? ch.title : '',
       title: a.title,
-      text: (a.title + ' ' + a.text).slice(0, 3000),
+      text: ((a.title || '') + ' ' + (a.text || '')).trim().slice(0, 3000),
       sourceUrl: a.sourceUrl,
       eurLexUrl: a.eurLexUrl
     });
@@ -764,7 +925,10 @@ async function run() {
     '[document-formatting-guardrails] refresh pipeline: normalizeCorpus applied; search index will be built from normalized articles/recitals.'
   );
   docFmt.logFormattingGuardrailsReport(recitals, articles);
-  const searchIndex = buildSearchIndex(recitals, articles, structure.chapters);
+  const searchIndex = buildSearchIndex(recitals, articles, structure.chapters, {
+    recitalsIndexUrl: `${GDPR_INFO_BASE}/recitals/`,
+    eurLexTxtUrl: EUR_LEX_TXT_URL
+  });
 
   const output = {
     meta: {
@@ -822,6 +986,7 @@ module.exports = {
   fetchText,
   parseEurLexText,
   buildSearchIndex,
+  stripLeadingHeadingLinesFromBody,
   mergeWithExisting,
   getGdprInfoEntryPlainText,
   computeDatasetHash,

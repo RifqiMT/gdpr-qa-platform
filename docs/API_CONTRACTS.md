@@ -1,7 +1,7 @@
 # API contracts  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.

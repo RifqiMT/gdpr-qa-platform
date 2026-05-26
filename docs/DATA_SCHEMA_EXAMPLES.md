@@ -1,7 +1,7 @@
 # Data schema examples  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
 
 Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md).
 

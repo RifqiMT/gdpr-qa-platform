@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.1  
+**Version:** 2.3  
 **Last updated:** 2026-05-19  
-**Aligned with:** Product documentation standard **v1.8** · `package.json` **1.2.0**
+**Aligned with:** Product documentation standard **v2.0** · `package.json` **1.2.2**
 
 ---
 
@@ -58,7 +58,8 @@ Users select the active regulation in the header. The product provides:
 | FR-REG-02 | Selection persists in `localStorage` (`gdpr-qa-regulation-v1`). | P0 |
 | FR-REG-03 | Browse, Ask, Sources, and API calls use active `regulation` id. | P0 |
 | FR-REG-04 | **Refresh sources** runs ETL for the **selected** regulation only. | P0 |
-| FR-REG-05 | UI chrome (titles, placeholders, links) updates via `regulation-profiles.js`. | P0 |
+| FR-REG-05 | UI chrome (titles, placeholders, links) updates via `regulation-profiles.js` and `syncRegulationChrome`. | P0 |
+| FR-REG-06 | Citation sidebar (official links, related articles/recitals) updates via `citationsUi` and `syncCitationSidebarChrome`. | P0 |
 
 ### 2.2 Browse (FR-BRW)
 
@@ -72,6 +73,10 @@ Users select the active regulation in the header. The product provides:
 | FR-BRW-06 | GDPR: related articles/recitals + suitable recitals. | P1 |
 | FR-BRW-07 | AI Act: no suitable-recital crossrefs (`hasSuitableRecitals: false`). | P1 |
 | FR-BRW-08 | Chapter intro from `/api/chapter-summaries` per regulation. | P1 |
+| FR-BRW-09 | **Article display title** matches active regulation: GDPR may use `CANONICAL_ARTICLE_TITLES`; AI Act and Data Act use **full** corpus `articles[].title` only (`getArticleDisplayTitle`, no spurious “Article N” for long titles). | P0 |
+| FR-BRW-10 | **Recital display title** from corpus via `getRecitalDisplayTitle` / `parseRecitalTopicTitle`; reader heading uses regulation profile label. | P0 |
+| FR-BRW-11 | **Reader body** renders numbered and lettered lists aligned with source sites (ETL + `document-formatting-guardrails` + `renderManualNumberedParagraphs`). | P1 |
+| FR-BRW-12 | **Citation sidebar** panel titles, leads, and publisher links match active regulation (`citationsUi` in `regulation-profiles.js`). | P0 |
 
 ### 2.3 Ask (FR-ASK)
 

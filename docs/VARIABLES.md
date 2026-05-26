@@ -3,7 +3,7 @@
 
 **Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act + EU Data Act). Each entry uses consistent, reader-friendly wording.
 
-**Version:** 1.4 · **Last updated:** 2026-05-19
+**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 **Column reference**
 
@@ -110,6 +110,15 @@
 | `newsUi.filterForRegulation` | News regulation filter flag | When true, client filters headlines for AI relevance. | `itemMatchesNewsRegulationScope`. | `newsUi` on `ai-act` profile | `true` |
 | `newsUi.bannerHtml` | News scope banner | HTML shown under News intro when filtering. | Hidden when empty. | `#newsRegulationBanner` | AI Act filter explanation |
 | `AI_ACT_NEWS_SCOPE_RE` | AI news match pattern | Regex on title+snippet+topic for AI Act News filter. | OR topic category **EU Artificial Intelligence Act** / **AI and Emerging Tech**. | `public/app.js` | Matches `AI Act`, `high-risk AI`, … |
+| `citationsUi.asideAriaLabel` | Citation sidebar region label | Accessible name for the Browse detail aside. | Set by **`syncCitationSidebarChrome`**. | `#citationsSidebar` | `EU Data Act: official links and cross-references` |
+| `citationsUi.officialLeadHtml` | Official links panel lead | HTML under “Citations & official links”. | Describes consolidated text freshness for active regulation. | `#citationOfficialLead` | `…consolidated <strong>EU AI Act</strong> text.` |
+| `citationsUi.relatedArticlesTitle` | Related articles panel title | H3 label (badge count appended in DOM). | Regulation-specific wording. | `#relatedArticlesTitleLabel` | `Related Data Act articles` |
+| `citationsUi.relatedRecitalsTitle` | Related recitals panel title | H3 label for recital cross-links. | Regulation-specific wording. | `#relatedRecitalsTitleLabel` | `Related AI Act recitals` |
+| `citationsUi.relatedArticlesLeadHtml` | Related articles description | HTML lead; may link to readable site. | GDPR: GDPR-Info suitable-recital hint; AI/Data Act: in-text citation wording. | `#relatedArticlesLead` | Link to **data-act-law.eu** |
+| `citationsUi.relatedRecitalsLeadHtml` | Related recitals description | HTML lead for article → recital panel. | Same pattern as articles lead. | `#relatedRecitalsLead` | Link to **ai-act-law.eu** |
+| `syncCitationSidebarChrome(reg)` | Citation sidebar sync function | Applies **`citationsUi`** and badge ARIA labels on regulation change. | Called from **`syncRegulationChrome`**. | `public/app.js` | Switch to `data-act` → Data Act Law links |
+| `regulationFilterPlaceholder(kind)` | Chapter filter placeholder | “All {regulation} chapters” etc. | `kind`: `categories` \| `subcategories` \| `chapters` \| `articles`. | Filter combobox inputs | `All EU Data Act articles` |
+| `relatedPanelBadgeAriaLabel(kind, count)` | Related panel badge ARIA | Count badge accessibility text. | Uses **`legalLabel`** from active profile. | `#relatedArticlesCount`, `#relatedRecitalsCount` | `3 related Data Act articles` |
 
 ---
 
@@ -213,7 +222,10 @@
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `ARTICLE_TOPICS` | Sub-category topic taxonomy | Topic ids with keyword lists for chapter filters. | **`getArticleTopicIds`** scans title + excerpt. | Chapters filter UI | `{ id: 'consent', label: 'Consent', keywords: […] }` |
-| `CANONICAL_ARTICLE_TITLES` | Canonical article title map | Fallback short titles when scraped titles are noisy. | Map keyed by article number. | Article headers, Ask aside | Art. **17** title |
+| `CANONICAL_ARTICLE_TITLES` | GDPR canonical article title map | Official short titles for **GDPR only** when scraped title is missing or malformed. | Map keyed by article number **1–99**; **must not** be used for `ai-act` or `data-act`. | `getArticleDisplayTitle()` when `profile.id === 'gdpr'` | Art. **17** → “Right to erasure…” |
+| `getArticleDisplayTitle(art)` | Article heading (display) | Resolves the H2 title in Browse, chapter cards, Ask aside, and doc nav. | **GDPR**: prefer `CANONICAL_ARTICLE_TITLES[n]`; malformed/long scraped titles → `"Article n"`. **AI Act / Data Act**: **full** `art.title` only (no 120-char cap; never GDPR canonical). | `public/app.js` | Data Act Art. **4** → full rights/obligations title |
+| `getRecitalDisplayTitle(r)` | Recital topic line (display) | Human-readable recital subject in cards and reader H2. | `parseRecitalTopicTitle(r.title)` first; else trimmed `r.title`; empty if junk. | `public/app.js`, recital cards, `openRecital` | “Fundamental right to the protection of personal data” |
+| `parseRecitalTopicTitle(title, n)` | Recital title parser | Strips `Recital (n) —` / `Recital n —` prefixes from API titles. | Regex chain; returns topic string or `''`. | `getRecitalDisplayTitle`, search | `Recital (10) — Foo` → `Foo` |
 | `CHAPTER_SUMMARY_FALLBACK` | Client-side chapter blurbs | Mirrors server fallback when API unavailable. | Static strings **1–11**. | Chapter cards | Same as server **`FALLBACK_CHAPTER_SUMMARIES`** |
 | `gdpr_news_sidebar_collapsed` | Quick filters expanded state (session) | Remembers whether the **sidebar Quick filters** card body is collapsed. | **`sessionStorage`** string **`"1"`** = collapsed; read/write in **`applyNewsSidebarToolbarCollapsedPreference`**. | News tab, desktop dock | User collapses Quick filters → `"1"` |
 | `gdpr_news_feeds_section_collapsed` | Official site & RSS expanded state (session) | Remembers whether the feed list panel is hidden. | **`sessionStorage`** string **`"1"`** = collapsed. | `#newsFeedsSectionToggle`, `renderNewsPayload` | User hides feed list → `"1"` |
@@ -457,6 +469,53 @@ flowchart TB
   LOAD --> GDPR
   LOAD --> AI
   LOAD --> DA
+```
+
+### 9.6 Browse display title resolution (by regulation)
+
+How **article** and **recital** headings are chosen in the UI (must stay aligned with corpus `title` fields).
+
+```mermaid
+flowchart TB
+  ART[Article or recital record from API]
+  PROF[getRegProfile id]
+  GDPR{regulation is gdpr?}
+  CANON[CANONICAL_ARTICLE_TITLES number]
+  CORPUS[art.title or r.title from JSON]
+  DISP[getArticleDisplayTitle / getRecitalDisplayTitle]
+  UI[Reader H2 chapter cards Ask aside]
+
+  ART --> DISP
+  PROF --> DISP
+  DISP --> GDPR
+  GDPR -->|yes article| CANON
+  GDPR -->|no or recital| CORPUS
+  CANON -->|if defined| UI
+  CORPUS --> UI
+```
+
+### 9.7 Regulation chrome and citation sidebar
+
+How the **regulation selector** drives Browse copy, including the detail-view citation aside.
+
+```mermaid
+flowchart LR
+  SEL[regulationSelect change]
+  SET[setCurrentRegulation]
+  SYNC[syncRegulationChrome]
+  ASK[syncAskSourcesNewsChrome]
+  CIT[syncCitationSidebarChrome]
+  FIL[syncChaptersFilterPlaceholders]
+  PROF[regulation-profiles.js]
+  HTML[index.html citation panels]
+
+  SEL --> SET
+  SET --> SYNC
+  SYNC --> ASK
+  SYNC --> CIT
+  SYNC --> FIL
+  PROF --> CIT
+  CIT --> HTML
 ```
 
 ---

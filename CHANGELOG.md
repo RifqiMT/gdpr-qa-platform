@@ -8,6 +8,37 @@ All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-
 
 ---
 
+## [1.2.2] — 2026-05-19
+
+### Fixed
+
+- **Citation sidebar (multi-regulation):** Browse detail panels (“Citations & official links”, “Related articles/recitals”) use **`citationsUi`** from `regulation-profiles.js` and **`syncCitationSidebarChrome()`** when the regulation selector changes (no longer hardcoded to GDPR / GDPR-Info).
+- **Article display titles (AI Act & Data Act):** `getArticleDisplayTitle()` no longer replaces corpus titles longer than 120 characters with bare “Article N” (fixes Data Act Art. 4, Art. 33, and similar long official titles).
+- **AI Act / Data Act ETL:** `<sup>N</sup>` paragraph markers, sequential top-level numbering across `<li>` elements (`topLevelParaNum`), and “in particular on:” + lettered sub-list reordering (e.g. Art. 96).
+- **Article bodies:** Glued markers (`1In` → `1. In`) via guardrails; strip duplicate title lines from body text; `buildSearchIndex` uses regulation-specific recital URLs (no GDPR-Info pollution in AI/Data Act indexes).
+
+### Changed
+
+- **Browse chrome:** Document nav, chapter filter placeholders, and related-panel loading/badge ARIA labels follow the active regulation (`regulationFilterPlaceholder`, `relatedPanelBadgeAriaLabel`).
+- **Documentation (standard v2.0):** Comprehensive audit — README, PRODUCT_DOCUMENTATION_STANDARD, PRD v2.3, personas, user stories, VARIABLES (`citationsUi` + relationship charts), metrics, design, traceability (BR-B-11/12), guardrails, architecture, API contracts, feature catalog, operations runbook, source inventory, glossary, data schema examples, document formatting guardrails, docs hub.
+
+---
+
+## [1.2.1] — 2026-05-26
+
+### Fixed
+
+- **Browse reader titles (EU AI Act & EU Data Act):** `getArticleDisplayTitle()` in `public/app.js` now applies **`CANONICAL_ARTICLE_TITLES` only when GDPR is selected**. AI Act and Data Act use scraped `title` from `*-content.json` (fixes wrong headings such as GDPR Art. 10 title on Data Act Art. 10).
+- **Recital titles:** Added **`getRecitalDisplayTitle()`** and improved **`parseRecitalTopicTitle()`** for regulation-agnostic topic lines in cards, reader, and Ask aside.
+- **Regulation-aware labels:** Citation “back” links and chapter filter option labels use the active regulation name instead of hardcoded “GDPR”.
+
+### Changed
+
+- **Document formatting (AI Act & Data Act):** ETL preserves numbered paragraphs `(a)`/`(b)` and `1.` markers via shared `scraper.js` list handling, `joinBodyLines()` in regulation scrapers, `normalizeDsgvoLawParagraphMarkers`, and reader helpers (`renderManualNumberedParagraphs`, `renderManualParagraphBody`).
+- **Documentation (standard v1.9):** Comprehensive audit — README, PRODUCT_DOCUMENTATION_STANDARD, PRD v2.2, personas, user stories, VARIABLES (display-title variables + relationship charts), metrics, design, traceability, guardrails, architecture, API contracts, tech/business guidelines, feature catalog, operations runbook, source inventory, glossary, data schema examples, document formatting guardrails, docs hub, changelog.
+
+---
+
 ## [1.2.0] — 2026-05-19
 
 ### Added

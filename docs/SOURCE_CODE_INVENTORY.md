@@ -1,7 +1,7 @@
 # Source code inventory  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v1.8** · Product **1.2.0**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0** · Product **1.2.2**
 
 Repository file map and simplified dependency overview. For architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -49,9 +49,9 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 | Path | Responsibility |
 |------|----------------|
 | `public/index.html` | SPA shell, tabs, regulation selector, app credits bar |
-| `public/app.js` | Browse, Ask, Sources, News, BYOK, regulation chrome |
-| `public/styles.css` | Design tokens, layout, components |
-| `public/regulation-profiles.js` | Per-regulation UI copy and URLs |
+| `public/app.js` | Browse, Ask, Sources, News, BYOK; **`syncRegulationChrome`**, **`syncCitationSidebarChrome`**; **`getArticleDisplayTitle`** (GDPR-only canonical; full titles for AI/Data Act); **`getRecitalDisplayTitle`**; reader formatting |
+| `public/styles.css` | Design tokens, layout, components, `.art-subject` long-title wrap |
+| `public/regulation-profiles.js` | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, **`citationsUi`**) and URLs |
 | `public/news-dedupe.js` | Client news dedupe mirror |
 | `public/industry-sectors.json` | ISIC sector list for Ask |
 | `public/industry-sector-tree.json` | Hierarchical sector tree |

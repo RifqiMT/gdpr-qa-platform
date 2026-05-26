@@ -1,9 +1,9 @@
 # Business guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-19  
+**Version:** 1.3 · **Last updated:** 2026-05-19  
 **Audience:** Product, legal/compliance stakeholders, content owners, support  
-**Status:** Active · Documentation standard **v1.8**
+**Status:** Active · Documentation standard **v2.0**
 
 ---
 
@@ -30,7 +30,8 @@ These guidelines define **how the product should be positioned, scoped, and used
 2. **Ask** questions and receive answers **grounded in corpus text** with traceable `[S#]` citations.  
 3. **Verify** against official publishers (EUR-Lex, GDPR-Info, AI Act Law).  
 4. **Stay informed** via News from EU-level and UK ICO sources (data protection + AI overlap).  
-5. **Export** a provision as PDF for offline reading or internal packs.
+5. **Export** a provision as PDF for offline reading or internal packs.  
+6. **Trust** that article and recital **headings** match the selected regulation (same article number does not imply the same title across GDPR, AI Act, and Data Act).
 
 ---
 

@@ -4,8 +4,8 @@
 This directory contains **professional product, design, and engineering documentation** for the **EU Regulation Q&A Platform** — a multi-regulation reference and Q&A application covering **GDPR**, **EU AI Act**, and **EU Data Act**.
 
 The **canonical operator handbook** is the repository root **[README.md](../README.md)**.  
-**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v1.8**).  
-**Product version:** `package.json` **1.2.0**.
+**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.0**).  
+**Product version:** `package.json` **1.2.2** · **Last documentation audit:** 2026-05-19.
 
 ---
 
@@ -15,7 +15,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 |------|----------|-------------|
 | 1 | [../README.md](../README.md) | Product overview, features, logic, configuration, quick start. |
 | 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Document index and governance rules. |
-| 3 | [PRD.md](PRD.md) | Formal requirements (three regulations, BYOK, News, Vercel). |
+| 3 | [PRD.md](PRD.md) | Formal requirements (three regulations, BYOK, News, citation sidebar, Vercel). |
 | 4 | [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) | Business scope, credible sources, regulation-specific notes. |
 | 5 | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) | Engineering standards, APIs, ETL, security. |
 | 6 | [USER_PERSONAS.md](USER_PERSONAS.md) / [USER_STORIES.md](USER_STORIES.md) | Users and acceptance criteria. |
@@ -24,7 +24,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 | 8b | [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md) | Sample JSON (GDPR, AI Act, Data Act, Ask, news). |
 | 9 | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) | Binding ETL ↔ JSON ↔ reader contract. |
 | 10 | [GUARDRAILS.md](GUARDRAILS.md) | Business and technical limitations. |
-| 11 | [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Visual system, tokens, app credits bar. |
+| 11 | [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Visual system, tokens, citation panels, app credits bar. |
 | 12 | [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md) | Product and OKR metrics. |
 | 13 | [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md) | Enterprise traceability matrix. |
 | 14 | [GLOSSARY.md](GLOSSARY.md) | Terms and acronyms. |
@@ -40,19 +40,19 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 
 | Document | Description |
 |----------|-------------|
-| [PRD.md](PRD.md) | Product requirements **v2.1** — GDPR, AI Act, Data Act, BYOK, News, Vercel. |
+| [PRD.md](PRD.md) | Product requirements **v2.3** — GDPR, AI Act, Data Act, BYOK, News, reader titles, citation sidebar, Vercel. |
 | [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) | Business scope, credible sources, News policy per regulation. |
 | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) | Stack, regulation APIs, three ETL scrapers, LLM, performance. |
-| [USER_PERSONAS.md](USER_PERSONAS.md) | Eight personas (legal, DPO, AI governance, **Data Act**, DevOps, …). |
+| [USER_PERSONAS.md](USER_PERSONAS.md) | Eight personas (legal, DPO, AI governance, Data Act, DevOps, …). |
 | [USER_STORIES.md](USER_STORIES.md) | Epics: regulation switch, Browse, Ask, Sources, News, BYOK, ETL. |
-| [VARIABLES.md](VARIABLES.md) | Env vars, JSON fields, client storage, relationship diagrams. |
+| [VARIABLES.md](VARIABLES.md) | Env vars, JSON fields, `citationsUi`, client storage, relationship diagrams. |
 | [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md) | Illustrative API and corpus payloads. |
 | [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md) | Product + operational metrics; OKRs **O1–O6**. |
-| [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Color tokens, components, **app-credits** footer bar. |
+| [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Color tokens, components, **citation sidebar** panels, **app-credits** footer bar. |
 | [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md) | BR ↔ PRD ↔ stories ↔ implementation ↔ verification. |
-| [GLOSSARY.md](GLOSSARY.md) | Acronyms (GDPR, AI Act, Data Act, BM25, BYOK, …). |
+| [GLOSSARY.md](GLOSSARY.md) | Acronyms (GDPR, AI Act, Data Act, BM25, BYOK, `citationsUi`, …). |
 | [GUARDRAILS.md](GUARDRAILS.md) | **BG-***, **TG-***, **DG-*** guardrails. |
-| [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) | Reader formatting for all corpora. |
+| [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) | Reader formatting for all corpora (sup markers, list numbering). |
 | [API_CONTRACTS.md](API_CONTRACTS.md) | REST shapes; `regulation` = `gdpr` \| `ai-act` \| `data-act`. |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Three-regulation context, ETL, Ask, News. |
 | [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md) | Serverless deploy, cron (all regulations), `/tmp` data. |
@@ -67,10 +67,10 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Primary product handbook. |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v1.8**. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.0**. |
 | [../CHANGELOG.md](../CHANGELOG.md) | [Keep a Changelog](https://keepachangelog.com/) history. |
 | [../.env.example](../.env.example) | Environment template (GDPR + AI Act + Data Act + News + LLM). |
-| [../public/regulation-profiles.js](../public/regulation-profiles.js) | Per-regulation UI copy. |
+| [../public/regulation-profiles.js](../public/regulation-profiles.js) | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, `citationsUi`). |
 | [../lib/regulations.js](../lib/regulations.js) | Regulation registry (ids, CELEX, paths, limits). |
 
 ---
@@ -83,6 +83,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 - **Secrets:** Never commit `.env`; document keys only in VARIABLES and `.env.example`.
 - **Legal:** Reference only — not legal advice ([GUARDRAILS.md](GUARDRAILS.md)).
 - **Maintainer attribution:** Bottom **app credits** bar in `public/index.html` — not a legal disclaimer footer.
+- **Regulation chrome:** Any user-visible “GDPR” string in Browse must go through `regulation-profiles.js` or `syncRegulationChrome` / `syncCitationSidebarChrome` — see **TG-F07** in [GUARDRAILS.md](GUARDRAILS.md).
 
 ---
 

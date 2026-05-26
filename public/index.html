@@ -219,7 +219,7 @@
             <div id="readerScrollPort" class="reader-scroll-port">
               <article id="detailContent" class="doc-content" tabindex="-1" aria-label="GDPR regulation text"></article>
             </div>
-            <aside class="citations citations-sidebar" aria-label="Official links and cross-references">
+            <aside class="citations citations-sidebar" id="citationsSidebar" aria-label="Official links and cross-references">
               <section class="citation-panel citation-panel--official citation-panel--collapsible" aria-labelledby="citationOfficialHeading">
                 <header class="citation-panel-header">
                   <button type="button" class="citation-panel-toggle" id="citationOfficialTrigger" aria-expanded="false" aria-controls="citationOfficialBody" aria-label="Show or hide citations and official links">
@@ -232,7 +232,7 @@
                     </span>
                     <span class="citation-panel-chevron" aria-hidden="true"></span>
                   </button>
-                  <p class="citation-panel-lead">Authoritative sources and freshness of the consolidated GDPR text.</p>
+                  <p class="citation-panel-lead" id="citationOfficialLead">Authoritative sources and freshness of the consolidated regulation text.</p>
                 </header>
                 <div class="citation-panel-body" id="citationOfficialBody" role="region" aria-labelledby="citationOfficialHeading">
                   <ul id="citationLinks" class="citation-links citation-panel-list"></ul>
@@ -240,17 +240,17 @@
               </section>
               <section class="citation-panel citation-panel--articles citation-panel--collapsible" aria-labelledby="relatedArticlesHeading">
                 <header class="citation-panel-header">
-                  <button type="button" class="citation-panel-toggle" id="relatedArticlesTrigger" aria-expanded="false" aria-controls="relatedArticlesBody" aria-label="Show or hide related GDPR articles">
+                  <button type="button" class="citation-panel-toggle" id="relatedArticlesTrigger" aria-expanded="false" aria-controls="relatedArticlesBody" aria-label="Show or hide related articles">
                     <span class="citation-panel-accent" aria-hidden="true"></span>
                     <span class="citation-panel-toggle-text">
                       <h3 id="relatedArticlesHeading" class="citation-panel-title">
-                        Related GDPR articles
-                        <span id="relatedArticlesCount" class="citation-panel-badge is-empty" aria-label="0 related GDPR articles">0</span>
+                        <span id="relatedArticlesTitleLabel">Related articles</span>
+                        <span id="relatedArticlesCount" class="citation-panel-badge is-empty" aria-label="0 related articles">0</span>
                       </h3>
                     </span>
                     <span class="citation-panel-chevron" aria-hidden="true"></span>
                   </button>
-                  <p class="citation-panel-lead">Mentioned in the text or suggested for this recital (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).</p>
+                  <p class="citation-panel-lead" id="relatedArticlesLead">Mentioned in the text or cross-referenced from this provision.</p>
                 </header>
                 <div class="citation-panel-body" id="relatedArticlesBody" role="region" aria-labelledby="relatedArticlesHeading">
                   <ul id="relatedArticles" class="related-panel-list" role="list"></ul>
@@ -258,17 +258,17 @@
               </section>
               <section class="citation-panel citation-panel--recitals citation-panel--collapsible" aria-labelledby="relatedRecitalsHeading">
                 <header class="citation-panel-header">
-                  <button type="button" class="citation-panel-toggle" id="relatedRecitalsTrigger" aria-expanded="false" aria-controls="relatedRecitalsBody" aria-label="Show or hide related GDPR recitals">
+                  <button type="button" class="citation-panel-toggle" id="relatedRecitalsTrigger" aria-expanded="false" aria-controls="relatedRecitalsBody" aria-label="Show or hide related recitals">
                     <span class="citation-panel-accent" aria-hidden="true"></span>
                     <span class="citation-panel-toggle-text">
                       <h3 id="relatedRecitalsHeading" class="citation-panel-title">
-                        Related GDPR recitals
-                        <span id="relatedRecitalsCount" class="citation-panel-badge is-empty" aria-label="0 related GDPR recitals">0</span>
+                        <span id="relatedRecitalsTitleLabel">Related recitals</span>
+                        <span id="relatedRecitalsCount" class="citation-panel-badge is-empty" aria-label="0 related recitals">0</span>
                       </h3>
                     </span>
                     <span class="citation-panel-chevron" aria-hidden="true"></span>
                   </button>
-                  <p class="citation-panel-lead">Mentioned in the text or suggested for this article (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).</p>
+                  <p class="citation-panel-lead" id="relatedRecitalsLead">Mentioned in the text or cross-referenced from this provision.</p>
                 </header>
                 <div class="citation-panel-body" id="relatedRecitalsBody" role="region" aria-labelledby="relatedRecitalsHeading">
                   <ul id="relatedRecitals" class="related-panel-list" role="list"></ul>

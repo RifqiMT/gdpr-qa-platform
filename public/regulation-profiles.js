@@ -68,6 +68,19 @@
           'Headlines from the EDPB, EDPS, ICO, European Commission, Council of Europe, and other configured feeds—grouped by source, tagged by theme, with optional file attachments when the page links any.',
         filterForRegulation: false,
         bannerHtml: ''
+      },
+      citationsUi: {
+        asideAriaLabel: 'GDPR: official links and cross-references',
+        officialLeadHtml:
+          'Authoritative sources and freshness of the consolidated <strong>GDPR</strong> text.',
+        relatedArticlesTitle: 'Related GDPR articles',
+        relatedRecitalsTitle: 'Related GDPR recitals',
+        relatedArticlesLeadHtml:
+          'Mentioned in the text or suggested for this recital (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).',
+        relatedRecitalsLeadHtml:
+          'Mentioned in the text or suggested for this article (<a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR-Info</a>).',
+        relatedArticlesToggleLabel: 'Show or hide related GDPR articles',
+        relatedRecitalsToggleLabel: 'Show or hide related GDPR recitals'
       }
     },
     'ai-act': {
@@ -136,6 +149,19 @@
         filterForRegulation: true,
         bannerHtml:
           'Showing items relevant to the <strong>EU AI Act</strong> and AI/data-protection overlap. Select <strong>GDPR</strong> in the header for the full data-protection news corpus.'
+      },
+      citationsUi: {
+        asideAriaLabel: 'EU AI Act: official links and cross-references',
+        officialLeadHtml:
+          'Authoritative sources and freshness of the consolidated <strong>EU AI Act</strong> text.',
+        relatedArticlesTitle: 'Related AI Act articles',
+        relatedRecitalsTitle: 'Related AI Act recitals',
+        relatedArticlesLeadHtml:
+          'Other articles cited in this recital or cross-referenced in the text (<a href="https://ai-act-law.eu/" target="_blank" rel="noopener">AI Act Law</a>).',
+        relatedRecitalsLeadHtml:
+          'Other recitals cited in this article or cross-referenced in the text (<a href="https://ai-act-law.eu/" target="_blank" rel="noopener">AI Act Law</a>).',
+        relatedArticlesToggleLabel: 'Show or hide related AI Act articles',
+        relatedRecitalsToggleLabel: 'Show or hide related AI Act recitals'
       }
     },
     'data-act': {
@@ -204,6 +230,19 @@
         filterForRegulation: true,
         bannerHtml:
           'Showing items relevant to the <strong>EU Data Act</strong> and data-economy themes. Select <strong>GDPR</strong> in the header for the full data-protection news corpus.'
+      },
+      citationsUi: {
+        asideAriaLabel: 'EU Data Act: official links and cross-references',
+        officialLeadHtml:
+          'Authoritative sources and freshness of the consolidated <strong>EU Data Act</strong> text.',
+        relatedArticlesTitle: 'Related Data Act articles',
+        relatedRecitalsTitle: 'Related Data Act recitals',
+        relatedArticlesLeadHtml:
+          'Other articles cited in this recital or cross-referenced in the text (<a href="https://data-act-law.eu/" target="_blank" rel="noopener">Data Act Law</a>).',
+        relatedRecitalsLeadHtml:
+          'Other recitals cited in this article or cross-referenced in the text (<a href="https://data-act-law.eu/" target="_blank" rel="noopener">Data Act Law</a>).',
+        relatedArticlesToggleLabel: 'Show or hide related Data Act articles',
+        relatedRecitalsToggleLabel: 'Show or hide related Data Act recitals'
       }
     }
   };

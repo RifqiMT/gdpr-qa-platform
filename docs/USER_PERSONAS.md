@@ -3,7 +3,7 @@
 
 Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and **EU Data Act**). They inform features, user stories, and documentation.
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
 
 ---
 

@@ -1,7 +1,7 @@
 # Architecture overview  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
+**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.0**
 
 ## System context
 

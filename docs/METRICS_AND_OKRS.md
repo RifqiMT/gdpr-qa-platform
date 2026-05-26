@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## EU Regulation Q&A Platform
 
-**Last updated:** 2026-05-19 (documentation standard **v1.8**; GDPR + EU AI Act + EU Data Act + BYOK + News regulation filters).
+**Last updated:** 2026-05-19 (documentation standard **v2.0**; GDPR + EU AI Act + EU Data Act + BYOK + News regulation filters + reader title/formatting quality).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -36,6 +36,9 @@ This document defines **product metrics** (what to measure in production or rese
 | **Regulation mix (Ask)** | Share of **`POST /api/answer`** by **`regulationId`**: `gdpr`, `ai-act`, `data-act`. | Adoption of multi-regulation product. |
 | **Corpus freshness (per regulation)** | Age of **`meta.lastRefreshed`** in each `*-content.json` vs policy threshold. | Stale Data Act or AI Act corpus undermines trust. |
 | **Regulation switch rate** | Share of sessions that change `#regulationSelect` at least once. | Indicates multi-regulation workflows. |
+| **Title mismatch reports** | Support or QA tickets citing wrong article heading for regulation (should trend to **zero** after FR-BRW-09). | Spot-check Art. 10 on GDPR vs Data Act vs AI Act; Data Act Art. 4/33 for long titles. |
+| **Citation sidebar regulation accuracy** | QA checklist: zero instances of “GDPR” / GDPR-Info in sidebar when AI Act or Data Act is selected. | Manual pass on three regulations per release; ties to **FR-BRW-12** / **TG-F07**. |
+| **Reader formatting regressions** | Manual or automated checks that sample articles contain `1.` / `(a)` markers post-ETL (AI Act Art. 6, Data Act Art. 4). | Tied to `formattingGuardrails.ok` and visual QA. |
 
 ### 1.3 Quality and risk metrics
 
@@ -99,7 +102,7 @@ This document defines **product metrics** (what to measure in production or rese
 |------------|------------------|
 | KR1 | ≥ 99% of production **`POST /api/refresh`** runs return **`formattingGuardrails.ok === true`**. |
 | KR2 | Zero skipped **`normalizeCorpus`** steps in code review for new ETL paths (audit checklist). |
-| KR3 | Manual spot-check of **Art. 4**, **Art. 6**, and **Art. 13** reader layout passes after each major scraper change. |
+| KR3 | Manual spot-check of **GDPR Art. 4**, **AI Act Art. 6**, **Data Act Art. 4**, and **Art. 10 titles** on all three regulations passes after each major scraper or reader change. |
 
 ### Objective O5: Operators can use their own LLM credentials safely (BYOK).
 

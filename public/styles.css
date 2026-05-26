@@ -3332,6 +3332,9 @@ body {
   margin: 0 0 1.1rem;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  hyphens: auto;
+  overflow-wrap: break-word;
+  text-wrap: balance;
   text-wrap: balance;
 }
 

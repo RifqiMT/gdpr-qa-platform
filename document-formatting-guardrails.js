@@ -43,6 +43,38 @@ function normalizeEurLexGlue(text) {
 }
 
 /**
+ * AI Act Law / Data Act Law / GDPR-Info: "1.Where" → "1. Where"; strip stray duplicate markers at line ends.
+ */
+function normalizeDsgvoLawParagraphMarkers(text) {
+  let t = normalizeLineEndings(String(text || ''));
+  t = t.replace(/(^|\n)(\d{1,2})\.([A-Za-zÀ-ŸÄÖÆØ])/gm, '$1$2. $3');
+  /** AI Act / Data Act Law: "<sup>1</sup>In" → "1. In" when marker has no dot. */
+  t = t.replace(/(^|\n)(\d{1,2})(?=[A-Za-zÀ-ŸÄÖÆØ])/gm, '$1$2. ');
+  t = t.replace(/(^|\n)\((\d{1,2})\)([A-Za-zÀ-Ÿ])/gm, '$1($2) $3');
+  const lines = t.split('\n');
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    const mNum = line.match(/^(\d{1,2})\.\s+/);
+    if (mNum) {
+      const n = mNum[1];
+      line = line.replace(new RegExp(`\\.${n}\\.\\s*$`), '.');
+      line = line.replace(new RegExp(`\\s+${n}\\.\\s*$`), '');
+    }
+    const mLet = line.match(/^\(([a-z])\)\s+/i);
+    if (mLet) {
+      const letter = mLet[1].toLowerCase();
+      line = line.replace(new RegExp(`\\(${letter}\\)\\s*$`, 'i'), '');
+      line = line.replace(new RegExp(`\\s+\\(${letter}\\)\\s*$`, 'i'), '');
+    }
+    line = line.replace(/\bparagraph\s+(\d{1,2}):(\d{1,2})\.\s*$/i, 'paragraph $1.');
+    line = line.replace(/:\s*(\d{1,2})\.\s*$/, '.');
+    out.push(line);
+  }
+  return out.join('\n');
+}
+
+/**
  * Collapse noisy whitespace from mixed ETL (e.g. " \\n \\n \\n 1." from EUR-Lex) so numbered
  * paragraphs align with GDPR-Info-style blocks (double newline between logical blocks).
  */
@@ -305,6 +337,9 @@ function normalizeArticle(a) {
   if (!a || typeof a !== 'object') return a;
   const noSplit = { splitGluedNumericClauses: false };
   let text = normalizeProvisionText(a.text || '', noSplit);
+  text = normalizeDsgvoLawParagraphMarkers(text);
+  text = splitGluedNumericClauseMarkers(text);
+  text = normalizeDsgvoLawParagraphMarkers(text);
   text = stripParentheticalRecitalsFromArticleText(text);
   text = mergeOrphanCommaContinuationInText(text);
   text = removeJunkOnlyLinesFromText(text);

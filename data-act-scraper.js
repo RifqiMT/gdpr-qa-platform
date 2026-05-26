@@ -14,7 +14,8 @@ const {
   getGdprInfoEntryPlainText,
   buildSearchIndex,
   mergeWithExisting,
-  computeDatasetHash
+  computeDatasetHash,
+  stripLeadingHeadingLinesFromBody
 } = require('./scraper');
 const { getRegulation, getRegulationPaths, enrichArticlesWithChapter } = require('./lib/regulations');
 
@@ -26,6 +27,19 @@ function capBodyText(body) {
   const s = String(body || '');
   if (!Number.isFinite(max) || max <= 0) return s;
   return s.length <= max ? s : s.slice(0, max);
+}
+
+/** Join ETL lines with block breaks before numbered / lettered sub-paragraphs (matches source layout). */
+function joinBodyLines(lines) {
+  const arr = (lines || []).map((l) => String(l).trim()).filter(Boolean);
+  if (!arr.length) return '';
+  let out = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    const cur = arr[i];
+    if (/^\d+\.\s/.test(cur) || /^\([a-z]\)\s/i.test(cur)) out += '\n\n' + cur;
+    else out += '\n' + cur;
+  }
+  return out;
 }
 
 function cleanLines(text) {
@@ -60,13 +74,17 @@ function extractDataActArticleFromText(n, text, h1Parts, reg) {
     title = m ? m[1].trim() : `Article ${n}`;
   }
   const cutIdx = lines.findIndex((l) => /^Suitable Recitals/i.test(l));
-  const bodyLines = (cutIdx >= 0 ? lines.slice(0, cutIdx) : lines)
+  let bodyLines = (cutIdx >= 0 ? lines.slice(0, cutIdx) : lines)
     .filter((l) => !new RegExp(`^Art\\.\\s*${n}\\s*Data Act`, 'i').test(l))
     .filter((l) => !/Table of contents|Report error/i.test(l));
+  bodyLines = stripLeadingHeadingLinesFromBody(bodyLines, {
+    title,
+    articleLabel: `Art\\.\\s*${n}\\s*Data Act`
+  });
   return {
     number: n,
     title,
-    text: capBodyText(bodyLines.join('\n').trim()),
+    text: capBodyText(joinBodyLines(bodyLines)),
     sourceUrl: `${reg.infoBaseUrl}${reg.articlePath(n)}`,
     eurLexUrl: reg.eurLexTxtUrl
   };
@@ -80,13 +98,17 @@ function extractDataActRecitalFromText(n, text, h1Parts, reg) {
     title = m ? m[1].replace(/^[-–—]\s*/, '').trim() : '';
   }
   const cutIdx = lines.findIndex((l) => /^\*\s*This title is an unofficial description/i.test(l));
-  const bodyLines = (cutIdx >= 0 ? lines.slice(0, cutIdx) : lines)
+  let bodyLines = (cutIdx >= 0 ? lines.slice(0, cutIdx) : lines)
     .filter((l) => !new RegExp(`^Recital\\s*${n}\\b`, 'i').test(l))
     .filter((l) => !/All recitals|Report error/i.test(l));
+  bodyLines = stripLeadingHeadingLinesFromBody(bodyLines, {
+    title,
+    articleLabel: `Recital\\s*${n}`
+  });
   return {
     number: n,
     title,
-    text: capBodyText(bodyLines.join('\n').trim()),
+    text: capBodyText(joinBodyLines(bodyLines)),
     sourceUrl: `${reg.infoBaseUrl}${reg.recitalPath(n)}`,
     eurLexUrl: reg.eurLexTxtUrl
   };
@@ -162,7 +184,10 @@ async function run() {
   const { normalizeCorpus } = require('./document-formatting-guardrails');
   const norm = normalizeCorpus(recitals, articles);
   const chapters = structure.chapters || [];
-  const searchIndex = buildSearchIndex(norm.recitals, norm.articles, chapters);
+  const searchIndex = buildSearchIndex(norm.recitals, norm.articles, chapters, {
+    recitalsIndexUrl: reg.recitalsIndexUrl || `${reg.infoBaseUrl}/recital/`,
+    eurLexTxtUrl: reg.eurLexTxtUrl
+  });
 
   const now = new Date().toISOString();
   const newHash = computeDatasetHash(norm.recitals, norm.articles);
