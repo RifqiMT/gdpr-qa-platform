@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-25 · Documentation standard **v1.7**
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
 
 Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 
@@ -21,7 +21,7 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 
 | BR-ID | Business requirement | PRD | Story | Implementation | Verification |
 |-------|---------------------|-----|-------|----------------|--------------|
-| BR-R-01 | User selects GDPR or EU AI Act | FR-REG-01 | US-R1 | `#regulationSelect`, `GET /api/regulations`, `lib/regulations.js` | Switch shows 113 articles for AI Act |
+| BR-R-01 | User selects GDPR, EU AI Act, or EU Data Act | FR-REG-01 | US-R1, US-R5 | `#regulationSelect`, `GET /api/regulations`, `lib/regulations.js` | Switch shows 50 articles for Data Act |
 | BR-R-02 | Selection persists across sessions | FR-REG-02 | US-R2 | `gdpr-qa-regulation-v1`, `setCurrentRegulation` | Reload page; selection retained |
 | BR-R-03 | Refresh updates active regulation only | FR-REG-04 | US-R3, US-ETL1 | `POST /api/refresh`, `runRegulationScraperAndReloadContent` | Refresh with AI Act does not alter GDPR JSON |
 | BR-R-04 | UI copy follows regulation | FR-REG-05 | US-R4 | `regulation-profiles.js`, `syncAskSourcesNewsChrome` | Ask title says “EU AI Act” when selected |
@@ -57,6 +57,10 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 | BR-A-09 | Ask UI shows server vs BYOK key state | FR-A10 | US-A10 | `updateAskLlmKeysStatus`, `GET /api/meta` server flags | Status line reflects BYOK or server keys |
 | BR-A-10 | AI Act Ask uses AI Act corpus and prompts | FR-ASK-02 | US-A11 | `regulationSearchContext`, `buildAnswerPrompt(reg)`, `ai-act-content.json` | Ask with `regulation=ai-act` cites Art. 6+ |
 | BR-AI-N01 | AI Act news filter in UI | FR-NEWS-05 | US-N12 | `itemMatchesNewsRegulationScope`, `#newsRegulationBanner` | AI Act selected → fewer news cards + banner |
+| BR-DA-01 | Data Act Ask uses Data Act corpus | FR-ETL-02b, FR-ASK-02 | US-A12 | `data-act-content.json`, `regulationSearchContext` | Ask with `regulation=data-act` cites Data Act articles |
+| BR-DA-02 | Data Act credible sources | FR-SRC-01 | US-S4 | `data-act-structure.json`, `GET /api/meta?regulation=data-act` | Three source cards for Data Act |
+| BR-DA-N01 | Data Act news filter in UI | FR-NEWS-05 | US-N13 | `DATA_ACT_NEWS_SCOPE_RE`, news banner | Data Act selected → filtered list + banner |
+| BR-SH-01 | Maintainer attribution bar | FR-SHELL-07 | US-H4 | `app-credits` in `index.html`, `styles.css` | Footer shows name + LinkedIn + website icons |
 
 ---
 

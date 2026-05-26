@@ -1,10 +1,10 @@
 # EU Regulation Q&A Platform
 
-**Product documentation · GDPR (EU 2016/679) and EU AI Act (EU 2024/1689)**
+**Product documentation · GDPR (EU 2016/679), EU AI Act (EU 2024/1689), and EU Data Act (EU 2023/2854)**
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.1.0   | ≥ 18 | **Dual-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals) and **EU AI Act** (113 articles, 180 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; AI Act–relevant filter when AI Act selected); regulation-aware **Credible sources**; chapter summaries; PDF export; **Vercel** deploy. **Product documentation standard v1.7** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
+| 1.2.0   | ≥ 18 | **Multi-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals), **EU AI Act** (113 articles, 180 recitals), and **EU Data Act** (50 articles, 119 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; relevance filters when AI Act or Data Act is selected); regulation-aware **Credible sources**; chapter summaries; PDF export; **Vercel** deploy. **Product documentation standard v1.8** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
 
 ---
 
@@ -23,7 +23,7 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
-**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v1.7**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
+**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v1.8**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
 **Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) (data dictionary + relationship diagrams) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) (sample JSON shapes) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
 
@@ -33,15 +33,15 @@
 
 ## 1. Product overview
 
-The **EU Regulation Q&A Platform** is a web application for **browsing** and **asking questions** about EU regulations using **local corpora**, **official links**, and **grounded LLM synthesis**. Users select a regulation in the header (**GDPR** or **EU AI Act**); all Browse, Ask, and Credible sources flows follow that selection. **Ask** retrieves regulation excerpts (BM25), optionally fetches **web snippets**, and synthesizes answers with **Groq** (primary) or **Tavily** (fallback), with citations **`[S1]`, `[S2]`, …** tied to sources. Optional **industry / sector** (ISIC) framing applies to both regulations. **News** aggregates GDPR and data-protection headlines (with an **AI Act relevance filter** when EU AI Act is selected). No coding is required for end users.
+The **EU Regulation Q&A Platform** is a web application for **browsing** and **asking questions** about EU regulations using **local corpora**, **official links**, and **grounded LLM synthesis**. Users select a regulation in the header (**GDPR**, **EU AI Act**, or **EU Data Act**); all Browse, Ask, and Credible sources flows follow that selection. **Ask** retrieves regulation excerpts (BM25), optionally fetches **web snippets**, and synthesizes answers with **Groq** (primary) or **Tavily** (fallback), with citations **`[S1]`, `[S2]`, …** tied to sources. Optional **industry / sector** (ISIC) framing applies to both regulations. **News** aggregates GDPR and data-protection headlines (with an **AI Act relevance filter** when EU AI Act is selected). No coding is required for end users.
 
 | Aspect | Description |
 |--------|-------------|
-| **Purpose** | Reference and Q&A over **GDPR** and **EU AI Act** using credible official text; curated supervisory news; traceable citations. |
-| **Users** | Legal, compliance, privacy, and AI governance professionals; DPOs; consultants; engineers operating the stack. |
-| **Regulations** | **GDPR** — 173 recitals, 99 articles ([gdpr-info.eu](https://gdpr-info.eu/), EUR-Lex 2016/679). **EU AI Act** — 180 recitals, 113 articles ([ai-act-law.eu](https://ai-act-law.eu/), EUR-Lex 2024/1689). |
+| **Purpose** | Reference and Q&A over **GDPR**, **EU AI Act**, and **EU Data Act** using credible official text; curated supervisory news; traceable citations. |
+| **Users** | Legal, compliance, privacy, AI governance, and data-economy professionals; DPOs; consultants; engineers operating the stack. |
+| **Regulations** | **GDPR** — 173 recitals, 99 articles ([gdpr-info.eu](https://gdpr-info.eu/), EUR-Lex 2016/679). **EU AI Act** — 180 recitals, 113 articles ([ai-act-law.eu](https://ai-act-law.eu/), EUR-Lex 2024/1689). **EU Data Act** — 119 recitals, 50 articles ([data-act-law.eu](https://data-act-law.eu/), EUR-Lex 2023/2854). |
 | **Deployment** | Node.js locally (port **3847**); **Vercel** serverless — [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md). |
-| **News scope** | EDPB, EDPS, ICO (UK), European Commission, Council of Europe, EU Digital Strategy (AI policy link). Not a dedicated AI Act-only news crawler. |
+| **News scope** | EDPB, EDPS, ICO (UK), European Commission, Council of Europe, EU Digital Strategy (AI policy link). Client-side relevance filters when **AI Act** or **Data Act** is selected; not a dedicated regulation-only news crawler. |
 
 ### Knowledge sources (credible organizations)
 
@@ -81,11 +81,11 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ## 3. Features
 
-### 3.1 Browse regulation (GDPR or EU AI Act)
+### 3.1 Browse regulation (GDPR, EU AI Act, or EU Data Act)
 
-- **Regulation switcher** — Header **Regulation** dropdown (`gdpr` | `ai-act`) persists in **`localStorage`** (`gdpr-qa-regulation-v1`). Browse labels, filters, reader headings, and external links update via **`public/regulation-profiles.js`** and **`syncRegulationChrome()`**.
+- **Regulation switcher** — Header **Regulation** dropdown (`gdpr` | `ai-act` | `data-act`) persists in **`localStorage`** (`gdpr-qa-regulation-v1`). Browse labels, filters, reader headings, and external links update via **`public/regulation-profiles.js`** and **`syncRegulationChrome()`**.
 - **Homepage** — Clicking the **“EU Regulation Q&A Platform”** logo resets Browse to the placeholder (recitals, chapters & articles, credible sources) and clears the reader sidebar.
-- **Browse segments** — **Recitals** (GDPR 1–173; AI Act 1–180) and **Chapters & articles** (GDPR: 11 chapters, Articles 1–99; AI Act: 13 chapters, Articles 1–113). Chapter list shows roman numerals, titles, and article ranges.
+- **Browse segments** — **Recitals** (GDPR 1–173; AI Act 1–180; Data Act 1–119) and **Chapters & articles** (GDPR: 11 chapters, Articles 1–99; AI Act: 13 chapters, Articles 1–113; Data Act: 11 chapters, Articles 1–50). Chapter list shows roman numerals, titles, and article ranges.
 - **Filter bar** — **Category** (chapter title), **Sub-category** (topic derived from article title/keywords, e.g. Consent, Right to erasure, Transfers, DPO), **Chapter**, and **Article**; each filter is on its own row for clarity. When a Category/Chapter is selected, Sub-category shows only topics that have at least one article in that chapter. **Clear filters** resets all. Layout is responsive: single column on small screens, two-column grid on larger screens.
 - **Recitals list** — Grid of recital cards; click to open full recital text in a detail view with formatted body and citation links.
 - **Chapters & Articles list** — Grouped by chapter; filter by category, sub-category, chapter, and/or article. Section headers (e.g. “Chapter I – General provisions”) and meta (“Articles 1–4”) are centered. Each chapter can show a **short introduction** from `GET /api/chapter-summaries` (file-backed, with inline fallback; regeneratable via Groq on the server). Click an article to open its full text.
@@ -117,6 +117,7 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 - **Sources tab** — **`GET /api/meta?regulation=`** returns **`meta.sources`** for the **active regulation** (from corpus or structure fallback).
 - **GDPR** — GDPR-Info, EUR-Lex, EDPB, EDPS, European Commission (data protection), ICO (UK), GDPR.eu, Council of Europe.
 - **EU AI Act** — AI Act Law, EUR-Lex 2024/1689, European Commission AI regulatory framework (from **`ai-act-structure.json`**).
+- **EU Data Act** — Data Act Law, EUR-Lex 2023/2854, European Commission Data Act policy (from **`data-act-structure.json`**).
 - **UI** — Title, intro, and card descriptions sync on regulation change (`syncAskSourcesNewsChrome`).
 
 ### 3.4 Content and regulation refresh
@@ -124,17 +125,21 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 - **Refresh sources** — **`POST /api/refresh`** with **`regulation`** runs ETL for the **selected** regulation only:
   - **GDPR:** **`scraper.js`** → **`data/gdpr-content.json`**
   - **EU AI Act:** **`ai-act-scraper.js`** → **`data/ai-act-content.json`**
+  - **EU Data Act:** **`data-act-scraper.js`** → **`data/data-act-content.json`**
 - **Pipeline** — **`document-formatting-guardrails.js`** **`normalizeCorpus`**, **`validateCorpusFormatting`**, **`buildSearchIndex`**, disk write, **`invalidateRegulationContentCache`**, client reload. See [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md).
 - **GDPR primary source** — **`GDPR_ETL_PRIMARY=gdpr-info`** (default) or **`eur-lex`**.
 - **AI Act primary source** — [ai-act-law.eu](https://ai-act-law.eu/) article/recital pages (`ai-act-scraper.js`).
-- **Force write** — **`GDPR_FORCE_CORPUS_WRITE=1`** / **`AI_ACT_FORCE_CORPUS_WRITE=1`** when hashes unchanged.
-- **Daily refresh** — Local cron (Europe/Brussels 02:00) or Vercel **`/api/cron/daily-regulation-refresh`** (both regulations).
-- **CLI** — **`npm run refresh`** (GDPR); **`npm run refresh-ai-act`** (AI Act).
+- **Data Act primary source** — [data-act-law.eu](https://data-act-law.eu/) article/recital pages (`data-act-scraper.js`).
+- **Force write** — **`GDPR_FORCE_CORPUS_WRITE=1`** / **`AI_ACT_FORCE_CORPUS_WRITE=1`** / **`DATA_ACT_FORCE_CORPUS_WRITE=1`** when hashes unchanged.
+- **Daily refresh** — Local cron (Europe/Brussels 02:00) or Vercel **`/api/cron/daily-regulation-refresh`** (all three regulations).
+- **CLI** — **`npm run refresh`** (GDPR); **`npm run refresh-ai-act`** (AI Act); **`npm run refresh-data-act`** (Data Act).
 
-### 3.5 News (GDPR & data protection; AI Act filter)
+### 3.5 News (GDPR & data protection; AI Act and Data Act filters)
 
 - **News tab** — Aggregates GDPR and data-protection headlines from EU/UK supervisory and Commission sources. Each item links to the **original article** on the publisher’s site.
-- **EU AI Act selected** — Hero copy and an info **banner** explain scope; the list is **filtered client-side** for AI governance relevance (AI Act, high-risk AI, GPAI, biometrics, overlapping privacy/AI topics). Full corpus remains available when **GDPR** is selected.
+- **EU AI Act selected** — Hero copy and an info **banner** explain scope; the list is **filtered client-side** for AI governance relevance (AI Act, high-risk AI, GPAI, biometrics, overlapping privacy/AI topics).
+- **EU Data Act selected** — Similar banner and filter for data access, interoperability, cloud switching, IoT product data, B2B data sharing, and related Commission/digital-policy headlines.
+- **GDPR selected** — Full unfiltered news list (subject to topic approval gates on ingest).
 - **Grouping** — News is grouped **by source** (EDPB, EDPS, ICO, European Commission, Council of Europe). Each section has a short plain-language summary describing that source’s role.
 - **Three-paragraph summaries** — Each news card shows a **Summary** block with three paragraphs: (1) high-level summary of the item, (2) attribution to the source and link to full article, (3) relevance (e.g. GDPR compliance). Uses `summaryParagraphs` from data when present, otherwise built from snippet/title and standard sentences.
 - **Topic tags** — Items get a **`topic`** (and **`topicCategory`**) from **`news-topics.js`**: grouped areas such as **Core Rights**, **AI and Emerging Tech**, **Data Transfers**, **Enforcement and Compliance**, **Processing Concepts**, **Sector-Specific Areas**, **Cybersecurity**, and **Oversight Areas**, each with specific leaf labels (e.g. Standard contractual clauses, DPIA, Lead authority processes). Classification uses title, snippet, and URL. The catch‑all **Other GDPR & data protection topics** is hidden on cards to reduce noise. The taxonomy also acts as a **supplemental relevance anchor** in **`newsItemMatchesApprovedTopic`** (with a data-protection context check) so niche phrasing from existing feeds can still pass the gate.
@@ -160,12 +165,13 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 |------|------------|------|
 | **`gdpr-structure.json`** / **`gdpr-content.json`** | GDPR | Structure + full corpus (99 articles, 173 recitals); ETL via **`scraper.js`**. |
 | **`ai-act-structure.json`** / **`ai-act-content.json`** | EU AI Act | Structure + full corpus (113 articles, 180 recitals); ETL via **`ai-act-scraper.js`**. |
-| **`lib/regulations.js`** | Both | Registry: ids, CELEX, paths, chapter ranges, feature flags (`hasArticleTopics`, `hasSuitableRecitals`). |
-| **`lib/regulation-content.js`** | Both | **`loadContent(regId)`**, cache, **`parseRegulationId`**, refresh orchestration. |
+| **`data-act-structure.json`** / **`data-act-content.json`** | EU Data Act | Structure + full corpus (50 articles, 119 recitals); ETL via **`data-act-scraper.js`**. |
+| **`lib/regulations.js`** | All | Registry: ids, CELEX, paths, chapter ranges, feature flags (`hasArticleTopics`, `hasSuitableRecitals`). |
+| **`lib/regulation-content.js`** | All | **`loadContent(regId)`**, cache, **`parseRegulationId`**, refresh orchestration. |
 | **`gdpr-news.json`** | News (shared) | `newsFeeds[]`, `items[]`; merged with **`news-crawler.js`**; topics via **`news-topics.js`**. |
 | **`article-suitable-recitals.json`** | GDPR only | Editorial article→recital map for crossrefs. |
-| **`chapter-summaries.json`** / **`chapter-summaries-ai-act.json`** | Per regulation | Chapter intro blurbs for Browse. |
-| **`public/regulation-profiles.js`** | Both | Per-regulation UI copy (Ask, Sources, News, reader URLs). |
+| **`chapter-summaries.json`** / **`chapter-summaries-ai-act.json`** / **`chapter-summaries-data-act.json`** | Per regulation | Chapter intro blurbs for Browse. |
+| **`public/regulation-profiles.js`** | All | Per-regulation UI copy (Ask, Sources, News, reader URLs). |
 
 ### 4.2 Scraper (`scraper.js`)
 
@@ -194,8 +200,8 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ### 4.5 Server (`server.js`)
 
-- **loadContent(regId)** — Reads **`gdpr-content.json`** or **`ai-act-content.json`** via **`lib/regulation-content.js`** (mtime-cached), applies **`normalizeCorpus`**, rebuilds **`searchIndex`**. **`contentFor(req)`** / **`parseRegulationId(req)`** select corpus from query/body **`regulation`** (default `gdpr`).
-- **Regulation-aware Ask web context** — **`regulationSearchContext(reg)`** biases DuckDuckGo and Tavily queries for GDPR vs AI Act; **`fetchWebSnippets(query, reg)`**, **`answerWithTavily(..., reg)`**.
+- **loadContent(regId)** — Reads **`gdpr-content.json`**, **`ai-act-content.json`**, or **`data-act-content.json`** via **`lib/regulation-content.js`** (mtime-cached), applies **`normalizeCorpus`**, rebuilds **`searchIndex`**. **`contentFor(req)`** / **`parseRegulationId(req)`** select corpus from query/body **`regulation`** (default `gdpr`).
+- **Regulation-aware Ask web context** — **`regulationSearchContext(reg)`** biases DuckDuckGo and Tavily queries per regulation; **`fetchWebSnippets(query, reg)`**, **`answerWithTavily(..., reg)`**.
 - **invalidateRegulationContentCache()** / **runRegulationScraperAndReloadContent()** — After ETL, clears the in-memory corpus cache and reloads from disk (**`POST /api/refresh`**, daily cron, initial missing-file refresh).
 - **Cross-references** — `gdpr-crossrefs.js`: build map of recitals citing articles; merge with `article-suitable-recitals.json` for `suitableRecitals` / `suitableArticles` on article and recital GET routes.
 - **BM25** — `buildBm25Searcher` over `searchIndex` for `buildLocalContext` (Ask). Legacy **`simpleSearch`** still powers **`POST /api/ask`**.
@@ -261,7 +267,7 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 | **Fonts** | Google Fonts (DM Sans, DM Serif Text) |
 | **PDF export** | html2pdf.js 0.10.1 (CDN), client-side |
 | **LLM (optional)** | REST calls to OpenAI, Anthropic, Google Gemini, Groq, Mistral, OpenRouter (no SDKs; fetch only) |
-| **Data** | JSON files in `data/` (gdpr-structure.json, gdpr-content.json, gdpr-news.json) |
+| **Data** | JSON files in `data/` (`gdpr-*`, `ai-act-*`, `data-act-*`, `gdpr-news.json`, chapter summaries) |
 
 ### Dependencies (package.json)
 
@@ -281,14 +287,15 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 gdpr-qa-platform/
 ├── server.js                 # Express: APIs, BM25 context, Groq/Tavily Ask, summarize, refresh (runRegulationScraperAndReloadContent), news, chapter summaries, cron, static + SPA fallback
 ├── lib/
-│   ├── regulations.js        # Regulation registry (gdpr, ai-act)
+│   ├── regulations.js        # Regulation registry (gdpr, ai-act, data-act)
 │   ├── regulation-content.js # loadContent, parseRegulationId, ETL orchestration
 │   └── paths.js              # data dir; Vercel /tmp handling
 ├── scraper.js                # GDPR ETL → gdpr-content.json
 ├── ai-act-scraper.js         # EU AI Act ETL → ai-act-content.json
+├── data-act-scraper.js       # EU Data Act ETL → data-act-content.json
 ├── api/
 │   ├── index.js              # Vercel serverless entry
-│   └── cron/daily-regulation-refresh.js  # Both regulations
+│   └── cron/daily-regulation-refresh.js  # All regulations (GDPR, AI Act, Data Act)
 ├── public/regulation-profiles.js  # Per-regulation UI copy and URLs
 ├── document-formatting-guardrails.js  # Corpus normalization + validation on every refresh (see docs/DOCUMENT_FORMATTING_GUARDRAILS.md)
 ├── news-crawler.js           # News crawl; used by GET/POST news routes
@@ -307,10 +314,12 @@ gdpr-qa-platform/
 ├── data/
 │   ├── gdpr-structure.json / gdpr-content.json
 │   ├── ai-act-structure.json / ai-act-content.json
+│   ├── data-act-structure.json / data-act-content.json
 │   ├── gdpr-news.json
 │   ├── article-suitable-recitals.json   # GDPR only
 │   ├── chapter-summaries.json
-│   └── chapter-summaries-ai-act.json
+│   ├── chapter-summaries-ai-act.json
+│   └── chapter-summaries-data-act.json
 └── public/
     ├── index.html
     ├── styles.css
@@ -344,7 +353,7 @@ gdpr-qa-platform/
 | Method | Path | Purpose |
 |--------|------|---------|
 | GET | `/health` | Liveness probe (`ok` plain text) |
-| GET | `/api/regulations` | List available regulations (`gdpr`, `ai-act`) with limits and flags |
+| GET | `/api/regulations` | List available regulations (`gdpr`, `ai-act`, `data-act`) with limits and flags |
 | GET | `/api/meta` | Freshness, `byokSupported`, server/BYOK Groq/Tavily flags, `sources[]` — **`?regulation=`** |
 | POST | `/api/validate-api-keys` | Validate Groq/Tavily keys in body (`apiKeys`); keys not stored |
 | GET | `/api/news` | `{ newsFeeds, items }` merged static + crawl (capped) |
@@ -432,6 +441,7 @@ Copy `.env.example` to `.env` and set keys as needed. When multiple keys are set
 | `npm start` | `prestart` copies `article-suitable-recitals.json` to `public/` if present; starts server; if `gdpr-content.json` is missing, runs scraper once. |
 | `npm run refresh` | Run GDPR scraper only (`node server.js --refresh-only`), then exit. |
 | `npm run refresh-ai-act` | Run `ai-act-scraper.js` for EU AI Act corpus. |
+| `npm run refresh-data-act` | Run `data-act-scraper.js` for EU Data Act corpus. |
 | `npm run fetch-suitable-recitals` | Run `scripts/fetch-article-suitable-recitals.js` to refresh editorial crossrefs (see script header). |
 | `npm run vercel-build` | Pre-deploy copy of recitals map into `public/` (used by Vercel `buildCommand`). |
 
@@ -454,16 +464,18 @@ Full steps, limits, and cron auth: **[docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.
    npm start
    ```
 2. Open **http://localhost:3847** in a browser.
-3. Choose **GDPR** or **EU AI Act** in the header **Regulation** dropdown.
+3. Choose **GDPR**, **EU AI Act**, or **EU Data Act** in the header **Regulation** dropdown.
 4. Click **Refresh sources** to update the selected regulation corpus (bundled JSON is used until then).
-5. Use **Browse** for recitals and chapters/articles (GDPR: category + sub-category filters; AI Act: chapter/article filters). Use Prev/Next or **Go** in the reader.
+5. Use **Browse** for recitals and chapters/articles (GDPR: category + sub-category filters; AI Act / Data Act: chapter/article filters). Use Prev/Next or **Go** in the reader.
 6. Use **Ask a question** for grounded answers with **`[S#]`** citations and **Relevant provisions** (regulation-aware).
 7. Open **Credible sources** for official links for the active regulation.
-8. Open **News** for supervisory headlines (AI-filtered when EU AI Act is selected); **Refresh news** reloads feeds.
+8. Open **News** for supervisory headlines (relevance-filtered when EU AI Act or EU Data Act is selected); **Refresh news** reloads feeds.
 9. (Optional) Set **GROQ_API_KEY** / **TAVILY_API_KEY** in `.env` or use header **API keys** (BYOK).
 
 ---
 
 ## 12. License and disclaimer
 
-This project is for **reference only**. Regulation text is sourced from official EU publications and widely used readable layouts ([GDPR-Info](https://gdpr-info.eu/), [AI Act Law](https://ai-act-law.eu/), [EUR-Lex](https://eur-lex.europa.eu/)). Always verify against the official instruments: Regulation (EU) 2016/679 and Regulation (EU) 2024/1689. The maintainers do not provide legal advice.
+This project is for **reference only**. Regulation text is sourced from official EU publications and widely used readable layouts ([GDPR-Info](https://gdpr-info.eu/), [AI Act Law](https://ai-act-law.eu/), [Data Act Law](https://data-act-law.eu/), [EUR-Lex](https://eur-lex.europa.eu/)). Always verify against the official instruments: Regulation (EU) 2016/679, Regulation (EU) 2024/1689, and Regulation (EU) 2023/2854. The maintainers do not provide legal advice.
+
+**Attribution:** The application footer credits **Rifqi Tjahyono** as developer/maintainer with links to [LinkedIn](https://www.linkedin.com/in/rifqi-tjahjono/) and [rifqi-tjahyono.com](https://rifqi-tjahyono.com/).

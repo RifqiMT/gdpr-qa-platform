@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "regulationId": "data-act",
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "Data Act Law",
+        "url": "https://data-act-law.eu/",
+        "description": "Readable English layout of Regulation (EU) 2023/2854 (Data Act), aligned with official structure.",
+        "documents": [
+          { "label": "Full regulation", "url": "https://data-act-law.eu/" },
+          { "label": "Recitals", "url": "https://data-act-law.eu/recital/" },
+          { "label": "Chapter I – General provisions", "url": "https://data-act-law.eu/chapter/1/" },
+          { "label": "Chapter II – Business to consumer and business to business data sharing", "url": "https://data-act-law.eu/chapter/2/" },
+          { "label": "Chapter III – Obligations for data holders obliged to make data available pursuant to Union law", "url": "https://data-act-law.eu/chapter/3/" },
+          { "label": "Chapter IV – Unfair contractual terms related to data access and use between enterprises", "url": "https://data-act-law.eu/chapter/4/" },
+          { "label": "Chapter V – Making data available to public sector bodies on the basis of an exceptional need", "url": "https://data-act-law.eu/chapter/5/" },
+          { "label": "Chapter VI – Switching between data processing services", "url": "https://data-act-law.eu/chapter/6/" },
+          { "label": "Chapter VII – Unlawful international governmental access and transfer of non-personal data", "url": "https://data-act-law.eu/chapter/7/" },
+          { "label": "Chapter VIII – Interoperability", "url": "https://data-act-law.eu/chapter/8/" },
+          { "label": "Chapter IX – Implementation and enforcement", "url": "https://data-act-law.eu/chapter/9/" },
+          { "label": "Chapter X – Sui generis right under Directive 96/9/EC", "url": "https://data-act-law.eu/chapter/10/" },
+          { "label": "Chapter XI – Final provisions", "url": "https://data-act-law.eu/chapter/11/" },
+          { "label": "Annexes", "url": "https://data-act-law.eu/annex/" }
+        ]
+      },
+      {
+        "name": "EUR-Lex (Official Journal)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2023/2854/oj/eng",
+        "description": "Official EU publication of Regulation (EU) 2023/2854 (Data Act).",
+        "documents": [
+          { "label": "Regulation (EU) 2023/2854 (Official Journal)", "url": "https://eur-lex.europa.eu/eli/reg/2023/2854/oj/eng" },
+          { "label": "HTML version", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R2854" },
+          { "label": "Consolidated text", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" }
+        ]
+      },
+      {
+        "name": "European Commission",
+        "url": "https://digital-strategy.ec.europa.eu/en/policies/data-act",
+        "description": "EU policy on the Data Act — fair access to and use of data in the internal market.",
+        "documents": [
+          { "label": "Data Act — policy overview", "url": "https://digital-strategy.ec.europa.eu/en/policies/data-act" },
+          { "label": "European data strategy", "url": "https://digital-strategy.ec.europa.eu/en/policies/european-data-strategy" }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Recitals",
+      "description": "Preamble and context of the Data Act (Recitals 1–119).",
+      "sourceUrl": "https://data-act-law.eu/recital/",
+      "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854"
+    },
+    {
+      "id": "chapters",
+      "title": "Chapters & Articles",
+      "description": "Binding provisions organised in 11 chapters (Articles 1–50).",
+      "sourceUrl": "https://data-act-law.eu/",
+      "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854"
+    }
+  ],
+  "chapters": [
+    { "number": 1, "roman": "I", "title": "General provisions", "articleRange": "1-2", "sourceUrl": "https://data-act-law.eu/chapter/1/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 2, "roman": "II", "title": "Business to consumer and business to business data sharing", "articleRange": "3-7", "sourceUrl": "https://data-act-law.eu/chapter/2/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 3, "roman": "III", "title": "Obligations for data holders obliged to make data available pursuant to Union law", "articleRange": "8-12", "sourceUrl": "https://data-act-law.eu/chapter/3/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 4, "roman": "IV", "title": "Unfair contractual terms related to data access and use between enterprises", "articleRange": "13", "sourceUrl": "https://data-act-law.eu/chapter/4/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 5, "roman": "V", "title": "Making data available to public sector bodies, the Commission, the European Central Bank and Union bodies on the basis of an exceptional need", "articleRange": "14-22", "sourceUrl": "https://data-act-law.eu/chapter/5/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 6, "roman": "VI", "title": "Switching between data processing services", "articleRange": "23-31", "sourceUrl": "https://data-act-law.eu/chapter/6/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 7, "roman": "VII", "title": "Unlawful international governmental access and transfer of non-personal data", "articleRange": "32", "sourceUrl": "https://data-act-law.eu/chapter/7/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 8, "roman": "VIII", "title": "Interoperability", "articleRange": "33-36", "sourceUrl": "https://data-act-law.eu/chapter/8/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 9, "roman": "IX", "title": "Implementation and enforcement", "articleRange": "37-42", "sourceUrl": "https://data-act-law.eu/chapter/9/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 10, "roman": "X", "title": "Sui generis right under Directive 96/9/EC", "articleRange": "43", "sourceUrl": "https://data-act-law.eu/chapter/10/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" },
+    { "number": 11, "roman": "XI", "title": "Final provisions", "articleRange": "44-50", "sourceUrl": "https://data-act-law.eu/chapter/11/", "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": []
+}

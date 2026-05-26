@@ -1,7 +1,7 @@
 # Design guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-25 · Documentation standard **v1.7**
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
 
 Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
@@ -28,7 +28,7 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | `--surface-hover` | `#f8fafc` | Hover states for list rows |
 | `--border` | `#e2e8f0` | Default borders |
 | `--border-light` | `#f1f5f9` | Subtle separators |
-| `--border-subtle` | `rgba(148, 163, 184, 0.4)` | Header/footer hairlines |
+| `--border-subtle` | `rgba(148, 163, 184, 0.4)` | Header / app credits bar hairlines |
 | `--border-focus` | `#64748b` | Focus rings (with outline patterns in components) |
 | `--text` | `#0f172a` | Primary body |
 | `--text-secondary` | `#334155` | Secondary labels |
@@ -50,7 +50,7 @@ The application ships a **single light theme** (no dark-mode token set in code a
 
 | Breakpoint | Typical width | Effect (representative) |
 |------------|---------------|-------------------------|
-| **Default** | &lt; 640px | Tighter **`--main-vertical-pad`**, larger footer reserve, reading pane **`min(62dvh, …)`**. |
+| **Default** | &lt; 640px | Tighter **`--main-vertical-pad`**, larger credits-bar reserve, reading pane **`min(62dvh, …)`**. |
 | **640px+** | Small tablet | Slightly larger **`--reading-toolbar-gap`**. |
 | **900px+** | Desktop | **`--content-pad`** 2rem, **`--main-vertical-pad`** increased; reading pane **`min(70dvh, …)`**; chapter filter grid may use two columns (see **`.filter-bar`** in CSS). |
 | **1600px+** | Wide | **`--content-pad`** 2.5rem. |
@@ -78,7 +78,7 @@ The application ships a **single light theme** (no dark-mode token set in code a
 |-------|------|
 | `--header-height` | ~72px header band |
 | `--tabs-bar-height` | Tab bar height for shell math |
-| `--footer-block-min` | Footer reserve (larger on small screens) |
+| `--footer-block-min` | App credits bar reserve (larger on small screens) |
 | `--main-vertical-pad` | Main content vertical padding (responsive) |
 | `--app-shell-vertical` | Sum used to compute reading pane max height |
 | `--reading-pane-max-h` / `--doc-readable-max-h` | Cap scroll region for long articles |
@@ -119,7 +119,8 @@ The application ships a **single light theme** (no dark-mode token set in code a
 | Component | Class hooks (representative) | Notes |
 |-----------|----------------------------|--------|
 | **Header** | `.header`, `.logo-link`, `.regulation-select`, `.btn-freshness-info`, `.btn-primary` | **Regulation** dropdown (`#regulationSelect`); logo → homepage; freshness tooltip. |
-| **Regulation banner (News)** | `.news-regulation-banner` | Shown when EU AI Act selected; muted panel under news intro. |
+| **Regulation banner (News)** | `.news-regulation-banner` | Shown when EU AI Act or EU Data Act selected; muted panel under news intro. |
+| **App credits bar** | `.app-credits`, `.app-credits-inner`, `.app-credits-text`, `.app-credits-links`, `.app-credits-link`, `.app-credits-icon` | Bottom attribution: “Developed, managed, and maintained by **Rifqi Tjahyono**”; LinkedIn (filled icon, hover `#0a66c2`) and website (globe stroke icon). Centered on mobile; text left / icons right from **640px**. |
 | **Tabs** | `.tabs`, `.tab`, `.tab--browse-main`, `.tab-browse-menu` | `role="tablist"` / `tab` / `tabpanel`; browse split menu. |
 | **Buttons** | `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-sm` | Primary = accent fill; secondary = outline / muted. |
 | **Filter combobox** | `.filter-combobox`, `.filter-combobox-input`, `.filter-combobox-list` | Used for chapters filters and industry sector in Ask. |

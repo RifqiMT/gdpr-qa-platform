@@ -1,9 +1,9 @@
 # Variables and data dictionary  
 ## EU Regulation Q&A Platform
 
-**Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act). Each entry uses consistent, reader-friendly wording.
+**Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act + EU Data Act). Each entry uses consistent, reader-friendly wording.
 
-**Version:** 1.3 · **Last updated:** 2026-05-25
+**Version:** 1.4 · **Last updated:** 2026-05-19
 
 **Column reference**
 
@@ -80,6 +80,11 @@
 | `AI_ACT_MAX_ARTICLE_CHARS` | AI Act body char cap | Optional max chars per article/recital body. | Integer; 0 = uncapped. | `ai-act-scraper.js` | `500000` |
 | `AI_ACT_INFO_CONCURRENCY` | AI Act fetch parallelism | Concurrent page fetches from ai-act-law.eu. | `max(1, parseInt(env \|\| '6', 10))`. | `ai-act-scraper.js` | `6` |
 | `AI_ACT_FORCE_CORPUS_WRITE` | Force AI Act corpus write | Write `ai-act-content.json` even if hash unchanged. | `=== '1'`. | `ai-act-scraper.js` | `1` |
+| `MIN_DATA_ACT_ARTICLES` | Minimum Data Act articles | Acceptance threshold for Data Act ETL. | `parseInt(env \|\| '50', 10)`. | `data-act-scraper.js` | `50` |
+| `MIN_DATA_ACT_RECITALS` | Minimum Data Act recitals | Acceptance threshold for Data Act ETL. | `parseInt(env \|\| '119', 10)`. | `data-act-scraper.js` | `119` |
+| `DATA_ACT_MAX_ARTICLE_CHARS` | Data Act body char cap | Optional max chars per article/recital body. | Integer; 0 = uncapped. | `data-act-scraper.js` | `500000` |
+| `DATA_ACT_INFO_CONCURRENCY` | Data Act fetch parallelism | Concurrent page fetches from data-act-law.eu. | `max(1, parseInt(env \|\| '6', 10))`. | `data-act-scraper.js` | `6` |
+| `DATA_ACT_FORCE_CORPUS_WRITE` | Force Data Act corpus write | Write `data-act-content.json` even if hash unchanged. | `=== '1'`. | `data-act-scraper.js` | `1` |
 
 ---
 
@@ -87,8 +92,8 @@
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `regulation` | Active regulation id | Selects which corpus and structure files load. | **`gdpr`** (default) or **`ai-act`**; invalid → `gdpr`. | Query `?regulation=` or POST body; `parseRegulationId` | `ai-act` |
-| `gdpr-qa-regulation-v1` | Stored regulation preference | User’s last selected regulation in the browser. | `localStorage` string `gdpr` \| `ai-act`. | `public/app.js` → `REG_STORAGE_KEY` | `ai-act` |
+| `regulation` | Active regulation id | Selects which corpus and structure files load. | **`gdpr`** (default), **`ai-act`**, or **`data-act`**; invalid → `gdpr`. | Query `?regulation=` or POST body; `parseRegulationId` | `data-act` |
+| `gdpr-qa-regulation-v1` | Stored regulation preference | User’s last selected regulation in the browser. | `localStorage` string `gdpr` \| `ai-act` \| `data-act`. | `public/app.js` → `REG_STORAGE_KEY` | `data-act` |
 | `regulationId` | Regulation in API response | Echo of active regulation on Ask/meta. | Same as `regulation` param. | `POST /api/answer` JSON | `"ai-act"` |
 | `currentRegulation` | In-memory regulation state | Client object: id, shortName, maxArticles, flags. | Merged from `/api/regulations` + profiles. | `public/app.js` | `{ id: 'ai-act', … }` |
 
@@ -435,6 +440,7 @@ flowchart TB
   subgraph Data
     GDPR[(gdpr-content.json)]
     AI[(ai-act-content.json)]
+    DA[(data-act-content.json)]
   end
   SEL --> LS
   LS --> APP
@@ -450,7 +456,19 @@ flowchart TB
   LOAD --> LIB
   LOAD --> GDPR
   LOAD --> AI
+  LOAD --> DA
 ```
+
+---
+
+## 3c. EU Data Act content (`data/data-act-content.json`)
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `data-act-content.json` | Data Act corpus file | Full Data Act text + search index. | Written by `data-act-scraper.js`; read by `loadContent('data-act')`. | `data/` | 50 articles |
+| `meta.regulationId` | Corpus regulation tag | Identifies corpus in combined meta responses. | Constant **`data-act`**. | `data-act-content.json` → `meta` | `"data-act"` |
+| `hasArticleTopics` | Topic filter flag (client) | Whether sub-category filters show. | **`false`** for Data Act in `lib/regulations.js`. | API `/api/regulations` | `false` |
+| `hasSuitableRecitals` | Cross-ref flag (client) | Whether suitable-recital panels load. | **`false`** for Data Act. | API `/api/regulations` | `false` |
 
 ---
 

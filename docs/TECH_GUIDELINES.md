@@ -1,9 +1,9 @@
 # Technical guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.0  
+**Version:** 1.2  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active
+**Status:** Active · Documentation standard **v1.8** · Product **1.2.0**
 
 ---
 
@@ -37,12 +37,15 @@
 |------------|--------|--------|----------------|
 | GDPR | `scraper.js` | `gdpr-content.json` | `GDPR_ETL_PRIMARY` (`gdpr-info` default) |
 | AI Act | `ai-act-scraper.js` | `ai-act-content.json` | `ai-act-law.eu` |
+| Data Act | `data-act-scraper.js` | `data-act-content.json` | `data-act-law.eu` |
 
-**Mandatory:** Run `document-formatting-guardrails.js` `normalizeCorpus` before index build and disk write (GDPR path).
+**Mandatory:** Run `document-formatting-guardrails.js` `normalizeCorpus` before index build and disk write (**all** regulation paths).
 
-**Refresh API:** `POST /api/refresh` with `{ regulation: "gdpr" | "ai-act" }`.
+**Refresh API:** `POST /api/refresh` with `{ regulation: "gdpr" | "ai-act" | "data-act" }`.
 
-**Cron:** `api/cron/daily-regulation-refresh.js` refreshes **both** regulations when `CRON_SECRET` is set on Vercel.
+**CLI:** `npm run refresh`, `npm run refresh-ai-act`, `npm run refresh-data-act`.
+
+**Cron:** `api/cron/daily-regulation-refresh.js` refreshes **GDPR, AI Act, and Data Act** when `CRON_SECRET` is set on Vercel.
 
 ---
 
@@ -61,9 +64,9 @@
 ## 5. News pipeline (technical)
 
 - **Storage:** `data/gdpr-news.json` (feeds + items).  
-- **Classification:** `news-topics.js` (includes **EU Artificial Intelligence Act** category).  
+- **Classification:** `news-topics.js` (includes **EU Artificial Intelligence Act** and **EU Data Act** categories).  
 - **Dedupe:** `dedupeNewsItemsConsolidated` server + `news-dedupe.js` client.  
-- **AI Act UI filter:** `itemMatchesNewsRegulationScope` in `app.js` (not server-side).
+- **Regulation UI filters:** `itemMatchesNewsRegulationScope` in `app.js` when `ai-act` or `data-act` selected (client-side, not server-side).
 
 ---
 

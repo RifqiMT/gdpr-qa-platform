@@ -1,7 +1,9 @@
 # Source code inventory  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.0 · **Last updated:** 2026-05-25
+**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v1.8** · Product **1.2.0**
+
+Repository file map and simplified dependency overview. For architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 Authoritative **file-by-file** map of the repository (excluding `node_modules/`, `.git/`). Use with [README §8](../README.md#8-project-structure) and [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -14,6 +16,7 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 | `server.js` | Backend | Express app: regulation APIs, Ask, news, refresh, cron hooks, static SPA |
 | `scraper.js` | ETL | GDPR corpus from GDPR-Info / EUR-Lex |
 | `ai-act-scraper.js` | ETL | EU AI Act corpus from ai-act-law.eu |
+| `data-act-scraper.js` | ETL | EU Data Act corpus from data-act-law.eu |
 | `document-formatting-guardrails.js` | Library | Normalize + validate corpus on read/write |
 | `gdpr-crossrefs.js` | Library | Article↔recital suitability and citation extraction |
 | `news-crawler.js` | ETL | Multi-source news crawl and merge |
@@ -26,7 +29,7 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 
 | Path | Responsibility |
 |------|----------------|
-| `lib/regulations.js` | Regulation registry (`gdpr`, `ai-act`): paths, limits, flags |
+| `lib/regulations.js` | Regulation registry (`gdpr`, `ai-act`, `data-act`): paths, limits, flags |
 | `lib/regulation-content.js` | `loadContent`, cache, `parseRegulationId`, refresh orchestration |
 | `lib/paths.js` | `getDataDir()`, Vercel `/tmp` handling |
 
@@ -37,7 +40,7 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 | Path | Responsibility |
 |------|----------------|
 | `api/index.js` | Serverless Express entry |
-| `api/cron/daily-regulation-refresh.js` | Scheduled dual-regulation ETL |
+| `api/cron/daily-regulation-refresh.js` | Scheduled multi-regulation ETL (GDPR + AI Act + Data Act) |
 
 ---
 
@@ -45,7 +48,7 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 
 | Path | Responsibility |
 |------|----------------|
-| `public/index.html` | SPA shell, tabs, regulation selector |
+| `public/index.html` | SPA shell, tabs, regulation selector, app credits bar |
 | `public/app.js` | Browse, Ask, Sources, News, BYOK, regulation chrome |
 | `public/styles.css` | Design tokens, layout, components |
 | `public/regulation-profiles.js` | Per-regulation UI copy and URLs |
@@ -68,6 +71,9 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 | `data/article-suitable-recitals.json` | GDPR crossrefs |
 | `data/chapter-summaries.json` | GDPR chapter intros |
 | `data/chapter-summaries-ai-act.json` | AI Act chapter intros |
+| `data/data-act-structure.json` | Data Act structure + credible sources |
+| `data/data-act-content.json` | Data Act full corpus |
+| `data/chapter-summaries-data-act.json` | Data Act chapter intros |
 
 ---
 

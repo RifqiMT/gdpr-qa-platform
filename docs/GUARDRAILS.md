@@ -1,7 +1,7 @@
 # Guardrails  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.1 · **Last updated:** 2026-05-25
+**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
 
 Guardrails define **technical and business limitations** so the team ships safely: what the product must not claim, what the architecture assumes, and where human review is required.
 
@@ -19,6 +19,8 @@ Guardrails define **technical and business limitations** so the team ships safel
 | BG-06 | **No warranty on completeness.** The corpus covers Regulation (EU) 2016/679 as loaded; guidelines, national implementations, and case law are out of scope unless linked as external sources. | Product is a workspace, not a registry of all law. |
 | BG-07 | **National supervisory authorities (country-specific)** are **not** ingested for News or Credible sources, except **ICO (UK)** — EU-level bodies (EDPB, EDPS, Commission, CoE) remain included. | Keeps scope aligned with pan-EU reference use; avoids duplicating every MS DPA. |
 | BG-08 | **BYOK keys are user-controlled secrets.** The product stores them in **browser localStorage** and transmits them to the **same-origin server** for LLM calls only. Users are responsible for key custody, rotation, and provider billing. | Not a vault; not suitable for shared kiosks without policy. |
+| BG-09 | **Three regulations, one News corpus.** News remains GDPR/data-protection oriented; AI Act and Data Act views use **client-side relevance filters**, not dedicated regulation-only crawlers. | Do not imply complete Data Act or AI Act press coverage. |
+| BG-10 | **Maintainer attribution** in the app credits bar is **product metadata**, not a legal disclaimer or endorsement by LinkedIn or any regulator. | Separate from “reference only” copy in README §12. |
 
 ---
 

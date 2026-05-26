@@ -1,0 +1,19 @@
+{
+  "regulationId": "data-act",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": null,
+  "summaries": {
+    "1": "Chapter I defines the Data Act’s subject matter, scope, and key definitions — including product data, related service data, users, data holders, and the relationship with the GDPR where personal data is involved.",
+    "2": "Chapter II sets rules for business-to-consumer and business-to-business sharing: making product and service data accessible to users, user rights to share with third parties, and related obligations.",
+    "3": "Chapter III governs data holders that must make data available under other Union law — conditions, compensation, dispute settlement, and technical protection measures.",
+    "4": "Chapter IV addresses unfair contractual terms imposed on enterprises regarding data access and use, with particular protection for SMEs.",
+    "5": "Chapter V allows public sector bodies and certain Union bodies to request data in situations of exceptional need, with safeguards on purpose limitation and compensation.",
+    "6": "Chapter VI removes obstacles to switching between data processing services (including cloud), with contractual transparency, gradual removal of switching charges, and technical switching requirements.",
+    "7": "Chapter VII restricts unlawful international governmental access to and transfer of non-personal data held in the EU.",
+    "8": "Chapter VIII establishes interoperability requirements for data, data sharing mechanisms, data spaces, and smart contracts used in data sharing agreements.",
+    "9": "Chapter IX covers competent authorities, complaints, remedies, penalties, model contractual terms, and the role of the European Data Innovation Board (EDIB).",
+    "10": "Chapter X limits the sui generis database right under Directive 96/9/EC for certain databases containing data made available under the Data Act.",
+    "11": "Chapter XI contains final provisions on relationships with other Union acts, delegated powers, committee procedure, evaluation, and dates of application (including 12 September 2025)."
+  }
+}

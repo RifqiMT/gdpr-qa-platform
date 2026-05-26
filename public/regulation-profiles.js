@@ -1,5 +1,5 @@
 /**
- * Per-regulation UI copy and link patterns — keeps Browse/reader UX consistent across GDPR and EU AI Act.
+ * Per-regulation UI copy and link patterns — keeps Browse/reader UX consistent across GDPR, EU AI Act, and EU Data Act.
  */
 (function (global) {
   var PROFILES = {
@@ -136,6 +136,74 @@
         filterForRegulation: true,
         bannerHtml:
           'Showing items relevant to the <strong>EU AI Act</strong> and AI/data-protection overlap. Select <strong>GDPR</strong> in the header for the full data-protection news corpus.'
+      }
+    },
+    'data-act': {
+      id: 'data-act',
+      shortName: 'EU Data Act',
+      legalLabel: 'Data Act',
+      fullName: 'Data Act (EU) 2023/2854',
+      maxArticles: 50,
+      maxRecitals: 119,
+      segmentMeta: { recitals: '1–119', articles: '1–50' },
+      infoBaseUrl: 'https://data-act-law.eu',
+      infoSiteName: 'Data Act Law',
+      eurLexUrl: 'https://eur-lex.europa.eu/eli/reg/2023/2854/oj/eng',
+      eurLexTxtUrl: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854',
+      eurLexLabel: 'Regulation (EU) 2023/2854',
+      recitalsIndexUrl: 'https://data-act-law.eu/recital/',
+      hasArticleTopics: false,
+      hasSuitableRecitals: false,
+      articleUrl: function (n) {
+        return 'https://data-act-law.eu/article/' + n + '/';
+      },
+      recitalUrl: function (n) {
+        return 'https://data-act-law.eu/recital/' + n + '/';
+      },
+      articleHeading: function (n) {
+        return 'Art. ' + n + ' Data Act';
+      },
+      recitalHeading: function (n) {
+        return 'Recital ' + n;
+      },
+      bodyStripPrefixes: function (n, dataTitle, displayTitle) {
+        var p = [];
+        if (dataTitle) p.push(String(dataTitle).trim());
+        p.push('Art. ' + n + ' Data Act');
+        if (displayTitle) p.push(String(displayTitle).trim());
+        return p;
+      },
+      askUi: {
+        heading: 'Ask about the EU Data Act',
+        leadHtml:
+          'Get answers grounded in <strong>Regulation (EU) 2023/2854</strong> (Data Act on fair access to and use of data), augmented with curated web snippets and LLM synthesis—Groq when available, Tavily as a fallback. Use <strong>API keys</strong> in the header to bring your own credentials (stored in this browser only).',
+        placeholder:
+          'e.g. When must product data be shared with users? Cloud switching obligations? Unfair data contract terms? Public-sector exceptional need…',
+        queryAriaLabel: 'Ask an EU Data Act question',
+        signalCorpus: 'Local Data Act corpus & EUR-Lex alignment',
+        sectorExplainer:
+          'Choose <strong>General</strong> for balanced Data Act answers, or narrow by <strong>industry sector</strong> for connected products, cloud, or B2B data sharing in that line of business.',
+        metaHtml:
+          'Consolidated Data Act text is loaded from your cache; use <strong>Refresh sources</strong> in the header to pull the latest from <a href="https://data-act-law.eu/" target="_blank" rel="noopener">Data Act Law</a> and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854" target="_blank" rel="noopener">EUR-Lex</a>.',
+        relevantTitle: 'Relevant Data Act provisions',
+        relevantHint:
+          'Articles and recitals cited for this answer. Open any item in <strong>Browse EU Data Act</strong> for the full legal text.',
+        crossrefTitle: null,
+        sectorFrameworkGeneral: 'Default: balanced EU Data Act Q&A without industry emphasis.'
+      },
+      sourcesUi: {
+        title: 'EU Data Act: credible sources & documents',
+        intro:
+          'Authoritative Data Act text (Data Act Law, EUR-Lex) and European Commission policy on fair access to data. Every link opens in a new tab.'
+      },
+      newsUi: {
+        eyebrow: 'Data economy & data protection',
+        title: 'Data Act–relevant news',
+        intro:
+          'Headlines from EU regulators and the Commission, filtered for data access, cloud switching, connected products, interoperability, and overlapping data-protection themes.',
+        filterForRegulation: true,
+        bannerHtml:
+          'Showing items relevant to the <strong>EU Data Act</strong> and data-economy themes. Select <strong>GDPR</strong> in the header for the full data-protection news corpus.'
       }
     }
   };

@@ -1,7 +1,7 @@
 # Architecture overview  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-25
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
 
 ## System context
 
@@ -11,6 +11,7 @@ flowchart LR
   app[EU Regulation Q&A Node Express]
   gdprSrc[GDPR-Info / EUR-Lex]
   aiSrc[AI Act Law / EUR-Lex 2024/1689]
+  daSrc[Data Act Law / EUR-Lex 2023/2854]
   news[Publisher sites EDPB EDPS ICO Commission CoE]
   groq[Groq API]
   tavily[Tavily API]
@@ -19,6 +20,7 @@ flowchart LR
   user --> app
   app --> gdprSrc
   app --> aiSrc
+  app --> daSrc
   app --> news
   app --> groq
   app --> tavily
@@ -36,6 +38,7 @@ flowchart LR
 | **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Regulation metadata; `loadContent(regId)`; Vercel `/tmp` |
 | **ETL GDPR** | `scraper.js` + **`document-formatting-guardrails.js`** | → **`gdpr-content.json`** |
 | **ETL AI Act** | `ai-act-scraper.js` | → **`ai-act-content.json`** |
+| **ETL Data Act** | `data-act-scraper.js` | → **`data-act-content.json`** |
 | **News** | `news-crawler.js`, `news-topics.js`, `server.js` (merge, dedupe, routes), `public/news-dedupe.js` | Parallel fetches (RSS/HTML/API) → relevance gate → topic assignment → merge → **consolidated dedupe** → API + client mirror |
 | **Crossrefs** | `gdpr-crossrefs.js` | Article↔recital suitability and citation extraction |
 | **Data** | `data/*.json`, `public/industry-sectors.json` | Corpus, news cache, chapter summaries, sectors |
@@ -53,7 +56,7 @@ sequenceDiagram
   participant FS as File system
 
   UI->>S: POST /api/refresh { regulation }
-  S->>SCR: run() for gdpr OR ai-act-scraper for ai-act
+  S->>SCR: scraper / ai-act-scraper / data-act-scraper per regulation
   SCR->>DF: normalizeCorpus(recitals, articles)
   DF-->>SCR: normalized arrays
   SCR->>SCR: buildSearchIndex

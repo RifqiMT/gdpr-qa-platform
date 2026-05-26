@@ -6,9 +6,21 @@ All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-
 
 ## [Unreleased]
 
-### Documentation
+---
 
-- **Product documentation audit (standard v1.7):** Comprehensive refresh aligned with **dual-regulation** product (GDPR + EU AI Act), Ask/Sources/News integration, and v1.1.0 codebase — [README.md](README.md) (Browse/Ask/News/ETL sections), [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) **v1.7**, [docs/README.md](docs/README.md), new [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md), new [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md), and updates across PRD, personas, stories, variables (relationship charts), metrics, design, traceability, guardrails, glossary, API contracts, architecture, business/tech guidelines, and changelog.
+## [1.2.0] — 2026-05-19
+
+### Added
+
+- **EU Data Act regulation:** Browse and Ask over Regulation (EU) 2023/2854 — **50 articles** and **119 recitals** from [data-act-law.eu](https://data-act-law.eu/), with header switcher option **`data-act`**, `?regulation=data-act` API parameter, `npm run refresh-data-act`, bundled `data/data-act-content.json`, and profile in `public/regulation-profiles.js`.
+- **Ask / Sources / News integration for Data Act:** Regulation-aware Ask copy and web search context; credible sources from `data-act-structure.json`; News relevance filter and banner when EU Data Act is selected; **EU Data Act** topic group in `news-topics.js`.
+- **Daily cron:** `api/cron/daily-regulation-refresh.js` refreshes GDPR, AI Act, and Data Act corpora.
+
+### Changed
+
+- **Multi-regulation product:** Header regulation dropdown now lists **GDPR**, **EU AI Act**, and **EU Data Act** (`package.json` **1.2.0**).
+- **App shell:** Replaced legal-reference page footer with **app credits** bar (maintainer attribution, LinkedIn and website icon links).
+- **Documentation (standard v1.8):** Full audit — README, PRODUCT_DOCUMENTATION_STANDARD, PRD v2.1, personas (incl. Data Act lead), user stories, VARIABLES (Data Act env + relationship charts), metrics, design (app credits), traceability, guardrails, architecture, API contracts, tech guidelines, data schema examples, operations runbook, glossary, feature catalog, changelog.
 
 ---
 

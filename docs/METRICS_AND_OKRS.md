@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## EU Regulation Q&A Platform
 
-**Last updated:** 2026-05-25 (documentation standard **v1.7**; GDPR + EU AI Act + BYOK + News AI filter).
+**Last updated:** 2026-05-19 (documentation standard **v1.8**; GDPR + EU AI Act + EU Data Act + BYOK + News regulation filters).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -33,8 +33,9 @@ This document defines **product metrics** (what to measure in production or rese
 | **BYOK adoption** | Share of Ask requests where **`llm.byokGroq`** or **`llm.byokTavily`** is **`true`**. | Indicates reliance on user-supplied keys vs server `.env`. |
 | **Key validation success rate** | Share of **`POST /api/validate-api-keys`** checks per provider where **`valid === true`** (among **`provided`**). | Product quality of onboarding; do not log key values. |
 | **BYOK enablement** | Share of sessions that save **`useOwnKeys: true`** in **`gdpr-qa-byok-v1`** (client-side telemetry only if policy allows). | Privacy-sensitive — aggregate counts only. |
-| **Regulation mix (Ask)** | Share of **`POST /api/answer`** with **`regulationId: ai-act`** vs **`gdpr`**. | Product adoption of EU AI Act. |
-| **Corpus freshness (AI Act)** | Age of **`meta.lastRefreshed`** in `ai-act-content.json` vs policy threshold. | Same as GDPR freshness. |
+| **Regulation mix (Ask)** | Share of **`POST /api/answer`** by **`regulationId`**: `gdpr`, `ai-act`, `data-act`. | Adoption of multi-regulation product. |
+| **Corpus freshness (per regulation)** | Age of **`meta.lastRefreshed`** in each `*-content.json` vs policy threshold. | Stale Data Act or AI Act corpus undermines trust. |
+| **Regulation switch rate** | Share of sessions that change `#regulationSelect` at least once. | Indicates multi-regulation workflows. |
 
 ### 1.3 Quality and risk metrics
 
@@ -116,6 +117,15 @@ This document defines **product metrics** (what to measure in production or rese
 | KR2 | ≥ 90% of golden-path AI Act Ask queries return at least one AI Act article citation in `sources`. |
 | KR3 | Regulation switch causes **zero** GDPR corpus responses when `regulation=ai-act` (automated API tests). |
 | KR4 | **AI Act adoption:** ≥ 15% of Ask sessions use `ai-act` (if telemetry enabled). |
+
+### Objective O7: EU Data Act is a first-class regulation in the product.
+
+| Key result | Target (example) |
+|------------|------------------|
+| KR1 | After refresh, Data Act corpus has **≥50** articles and **≥119** recitals in `data-act-content.json`. |
+| KR2 | ≥ 90% of golden-path Data Act Ask queries return at least one Data Act article citation in `sources`. |
+| KR3 | Regulation switch causes **zero** GDPR corpus responses when `regulation=data-act` (automated API tests). |
+| KR4 | **Data Act adoption:** measurable share of Ask sessions use `data-act` (if telemetry enabled). |
 
 ---
 

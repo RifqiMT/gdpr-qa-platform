@@ -1,7 +1,7 @@
 # Data schema examples  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.1 · **Last updated:** 2026-05-25
+**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
 
 Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md).
 
@@ -56,6 +56,30 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
   "articles": [{ "number": 6, "title": "Classification rules for high-risk AI systems", "chapter": 3, "text": "…" }],
   "recitals": [{ "number": 1, "text": "…" }],
   "searchIndex": [{ "id": "article-6", "type": "article", "number": 6, "title": "…", "text": "…" }]
+}
+```
+
+---
+
+## 1c. EU Data Act corpus (`data/data-act-content.json`) — excerpts
+
+```json
+{
+  "meta": {
+    "regulationId": "data-act",
+    "lastRefreshed": "2026-05-19T12:00:00.000Z",
+    "sources": [
+      {
+        "name": "Data Act Law",
+        "url": "https://data-act-law.eu/",
+        "description": "Readable English layout of Regulation (EU) 2023/2854"
+      }
+    ]
+  },
+  "chapters": [{ "number": 2, "roman": "II", "title": "Obligations of data holders", "articleRange": "4-7" }],
+  "articles": [{ "number": 4, "title": "Obligation to make data available", "chapter": 2, "text": "…" }],
+  "recitals": [{ "number": 1, "text": "…" }],
+  "searchIndex": [{ "id": "article-4", "type": "article", "number": 4, "title": "…", "text": "…" }]
 }
 ```
 

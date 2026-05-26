@@ -1,9 +1,9 @@
 # Business guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.1 · **Last updated:** 2026-05-25  
+**Version:** 1.2 · **Last updated:** 2026-05-19  
 **Audience:** Product, legal/compliance stakeholders, content owners, support  
-**Status:** Active · Documentation standard **v1.7**
+**Status:** Active · Documentation standard **v1.8**
 
 ---
 
@@ -18,9 +18,9 @@ These guidelines define **how the product should be positioned, scoped, and used
 | Element | Guideline |
 |---------|-----------|
 | **Name** | **EU Regulation Q&A Platform** — emphasizes multi-regulation capability. |
-| **Value proposition** | Fast, **cited** access to official EU regulation text (GDPR and AI Act) plus curated **supervisory news**, without replacing professional legal judgment. |
+| **Value proposition** | Fast, **cited** access to official EU regulation text (**GDPR**, **EU AI Act**, **EU Data Act**) plus curated **supervisory news**, without replacing professional legal judgment. |
 | **Not** | Legal advice, DPA decisions, contract drafting, or automated compliance certification. |
-| **Primary regulations** | **GDPR** (EU 2016/679) and **EU AI Act** (EU 2024/1689), selectable in the UI. |
+| **Primary regulations** | **GDPR** (2016/679), **EU AI Act** (2024/1689), **EU Data Act** (2023/2854), selectable in the UI. |
 
 ---
 
@@ -51,11 +51,19 @@ These guidelines define **how the product should be positioned, scoped, and used
 - Credible sources: AI Act Law, EUR-Lex 2024/1689, Commission AI regulatory framework.  
 - Ask and Browse use the **same** LLM and citation patterns as GDPR, with regulation-specific prompts and web search bias.
 
-### 4.3 News (shared corpus)
+### 4.3 EU Data Act
+
+- Full recitals **1–119** and articles **1–50** in **11 chapters**.  
+- **No** GDPR-style sub-category taxonomy (same simplification as AI Act).  
+- **No** suitable-recital cross-reference map (not bundled).  
+- Credible sources: [Data Act Law](https://data-act-law.eu/), EUR-Lex 2023/2854, Commission Data Act policy.  
+- Ask and Browse use the same citation and LLM patterns with Data Act–specific prompts and web search bias.
+
+### 4.4 News (shared corpus)
 
 - News remains **GDPR and data protection** oriented (EDPB, EDPS, ICO, Commission, CoE).  
-- When **EU AI Act** is selected, the UI **filters** headlines for AI governance relevance and shows an explanatory banner.  
-- Do not market News as a complete AI Act press monitor until dedicated AI feeds are crawled.
+- When **EU AI Act** or **EU Data Act** is selected, the UI **filters** headlines for regulation relevance and shows an explanatory banner.  
+- Do not market News as a complete AI Act or Data Act press monitor until dedicated feeds are crawled.
 
 ---
 
@@ -64,7 +72,7 @@ These guidelines define **how the product should be positioned, scoped, and used
 | Rule | Detail |
 |------|--------|
 | **BG-07** | National DPAs other than **ICO (UK)** are excluded from News and default credible-source lists. |
-| **Official text** | Regulation corpora must trace to **EUR-Lex** and readable mirrors (GDPR-Info, AI Act Law). |
+| **Official text** | Regulation corpora must trace to **EUR-Lex** and readable mirrors (GDPR-Info, AI Act Law, Data Act Law). |
 | **Supervisory news** | Only configured EU/UK/international bodies in `gdpr-news.json` / crawler defaults. |
 | **Attribution** | Every news card links to the **publisher’s original URL**. |
 | **Refresh** | Operators should run **Refresh sources** after material EU legal updates; **Refresh news** on a schedule (daily cron optional). |

@@ -1183,6 +1183,14 @@ function regulationSearchContext(reg) {
       corpusNote: 'AI Act'
     };
   }
+  if (r.id === 'data-act') {
+    return {
+      tavilyPrefix: 'EU Data Act Regulation (EU) 2023/2854:',
+      ddgSuffix: ' EU Data Act Regulation 2023/2854 fair data access',
+      sectorRegPhrase: 'EU Data Act data sharing and cloud switching compliance',
+      corpusNote: 'Data Act'
+    };
+  }
   return {
     tavilyPrefix: 'EU GDPR Regulation (EU) 2016/679:',
     ddgSuffix: ' EU GDPR personal data',
@@ -1359,7 +1367,11 @@ function querySeemsLaypersonExplain(q) {
     /\bwhat\s+is\s+(the\s+)?(eu\s+)?ai\s+act\b/i.test(s) ||
     (/\bexplain\b.*\bai\s+act\b/i.test(s) && !/\barticle\s*\d+/i.test(s)) ||
     /\bhigh[- ]risk\b.*\b(mean|definition)\b/i.test(s) ||
-    /\bwhat\s+counts\s+as\s+(a\s+)?high[- ]risk\s+ai\b/i.test(s)
+    /\bwhat\s+counts\s+as\s+(a\s+)?high[- ]risk\s+ai\b/i.test(s) ||
+    /\bwhat\s+is\s+(the\s+)?(eu\s+)?data\s+act\b/i.test(s) ||
+    (/\bexplain\b.*\bdata\s+act\b/i.test(s) && !/\barticle\s*\d+/i.test(s)) ||
+    /\bproduct\s+data\b.*\b(access|share|right)\b/i.test(s) ||
+    /\bcloud\s+switching\b/i.test(s)
   );
 }
 
@@ -2341,7 +2353,8 @@ if (process.argv.includes('--refresh-only')) {
     try {
       await runRegulationScraperAndReloadContent('gdpr');
       await runRegulationScraperAndReloadContent('ai-act');
-      console.log('Daily regulation content refresh completed (GDPR + AI Act).');
+      await runRegulationScraperAndReloadContent('data-act');
+      console.log('Daily regulation content refresh completed (GDPR + AI Act + Data Act).');
     } catch (e) {
       console.error('Daily refresh failed:', e.message);
     }

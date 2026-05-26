@@ -1,7 +1,7 @@
 # Glossary  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.1 · **Last updated:** 2026-05-25
+**Version:** 1.2 · **Last updated:** 2026-05-19
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI.
 
@@ -9,9 +9,11 @@ Short definitions of **acronyms and product-specific terms** used across documen
 |------|------------|
 | **AI Act** | Artificial Intelligence Act — Regulation (EU) 2024/1689; regulation id **`ai-act`** in APIs. |
 | **AI Act Law** | Readable site **ai-act-law.eu** — default primary source for AI Act corpus layout. |
+| **Data Act** | Data Act — Regulation (EU) 2023/2854; regulation id **`data-act`** in APIs. |
+| **Data Act Law** | Readable site **data-act-law.eu** — default primary source for Data Act corpus layout. |
 | **AI Office** | EU body referenced in AI Act governance provisions (see official text). |
 | **BM25** | Best Matching 25 — ranking function for Ask excerpt retrieval (`server.js`). |
-| **Corpus** | Regulation texts + search index from **`gdpr-content.json`** or **`ai-act-content.json`**, normalized on read/write (GDPR via **`document-formatting-guardrails.js`**). |
+| **Corpus** | Regulation texts + search index from **`gdpr-content.json`**, **`ai-act-content.json`**, or **`data-act-content.json`**, normalized on read/write via **`document-formatting-guardrails.js`**. |
 | **Deployer** | AI Act role placing an AI system on the market or putting it into service (see Art. 3). |
 | **GPAI** | General-purpose AI model — Chapter V of the EU AI Act. |
 | **High-risk AI system** | AI system classified as high-risk under Chapter III of the EU AI Act. |
@@ -33,7 +35,7 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **TG / BG / DG** | Prefixes for guardrail ids in [GUARDRAILS.md](GUARDRAILS.md): **technical**, **business**, **data/privacy/documentation**. |
 | **News deduplication (consolidated)** | Two-pass merge in **`news-crawler.js`** / **`server.js`**: (1) normalized URL key, (2) semantic key (source + date + title fingerprint) with **`mergeNewsDuplicate`**; mirrored in the browser by **`public/news-dedupe.js`** as **`GDPR_NEWS_DEDUPE`**. |
 | **news-topics.js** | Server module: topic **taxonomy** (includes **EU Artificial Intelligence Act** category), classification, and client filter support. |
-| **regulation** | API/UI parameter **`gdpr`** \| **`ai-act`** selecting active corpus. |
+| **regulation** | API/UI parameter **`gdpr`** \| **`ai-act`** \| **`data-act`** selecting active corpus. |
 | **regulation-profiles.js** | Client module: per-regulation copy (Ask, Sources, News), URLs, heading patterns. |
 
 ---

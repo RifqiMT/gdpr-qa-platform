@@ -1,7 +1,7 @@
 # API contracts  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.2 · **Last updated:** 2026-05-25
+**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v1.8**
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.
@@ -10,7 +10,7 @@ Content type: JSON for all `/api/*` routes unless noted.
 
 ## Conventions
 
-- **Regulation scope:** Most corpus routes accept **`?regulation=gdpr`** (default) or **`?regulation=ai-act`**, or **`body.regulation`** on POST. Excluded: `/api/regulations`, `/api/news*`, `/api/industry-sectors`, `/api/validate-api-keys`.
+- **Regulation scope:** Most corpus routes accept **`?regulation=gdpr`** (default), **`?regulation=ai-act`**, or **`?regulation=data-act`**, or **`body.regulation`** on POST. Excluded: `/api/regulations`, `/api/news*`, `/api/industry-sectors`, `/api/validate-api-keys`.
 - **Timestamps:** ISO 8601 strings where present (`meta.lastRefreshed`, `contentAsOf`, news `date`).
 - **Errors:** Many routes return `200` with partial data on soft failure (e.g. news crawl timeout); hard errors use `4xx`/`5xx` with `{ error: string }` where implemented.
 - **CORS:** Enabled for Express (`cors()` middleware).

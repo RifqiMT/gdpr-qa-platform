@@ -1,7 +1,7 @@
 {
   "name": "gdpr-qa-platform",
-  "version": "1.1.0",
-  "description": "EU Regulation Q&A Platform — browse GDPR and EU AI Act; Ask with BM25 + Groq/Tavily; BYOK; news; credible sources; Vercel-ready",
+  "version": "1.2.0",
+  "description": "EU Regulation Q&A Platform — GDPR, EU AI Act, and EU Data Act; Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
   "main": "server.js",
   "scripts": {
     "prestart": "node -e \"const fs=require('fs'),p=require('path');const a=p.join('data','article-suitable-recitals.json'),b=p.join('public','article-suitable-recitals.json');try{if(fs.existsSync(a))fs.copyFileSync(a,b);}catch(e){}\"",
@@ -9,6 +9,7 @@
     "start": "node server.js",
     "refresh": "node server.js --refresh-only",
     "refresh-ai-act": "node ai-act-scraper.js",
+    "refresh-data-act": "node data-act-scraper.js",
     "fetch-suitable-recitals": "node scripts/fetch-article-suitable-recitals.js"
   },
   "engines": {

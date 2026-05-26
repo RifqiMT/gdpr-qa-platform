@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
   try {
     const gdpr = await runRegulationScraperAndReloadContent('gdpr');
     const aiAct = await runRegulationScraperAndReloadContent('ai-act');
+    const dataAct = await runRegulationScraperAndReloadContent('data-act');
     res.json({
       ok: true,
       job: 'daily-regulation-refresh',
@@ -23,6 +24,10 @@ module.exports = async (req, res) => {
       aiAct: {
         lastRefreshed: aiAct.meta?.lastRefreshed ?? null,
         lastChecked: aiAct.meta?.lastChecked ?? null
+      },
+      dataAct: {
+        lastRefreshed: dataAct.meta?.lastRefreshed ?? null,
+        lastChecked: dataAct.meta?.lastChecked ?? null
       }
     });
   } catch (e) {

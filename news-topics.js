@@ -54,6 +54,37 @@ const NEWS_TOPIC_GROUPS = [
     ]
   },
   {
+    category: 'EU Data Act',
+    topics: [
+      {
+        label: 'Product and related service data access',
+        patterns: [
+          /product data|related service data|connected product|data holder|user.*share.*data|third part(y|ies).*data/i
+        ]
+      },
+      {
+        label: 'Cloud switching and data processing services',
+        patterns: [
+          /switching between data processing|cloud switching|vendor lock-in|data processing service|portability.*cloud/i
+        ]
+      },
+      {
+        label: 'Unfair data contract terms (B2B)',
+        patterns: [/unfair contractual term.*data|data access.*contract|blacklisted term.*data/i]
+      },
+      {
+        label: 'Public sector exceptional need for data',
+        patterns: [/exceptional need.*data|public sector.*data request|emergency.*data access/i]
+      },
+      {
+        label: 'Data Act governance and EDIB',
+        patterns: [
+          /data act|regulation \(eu\) 2023\/2854|european data innovation board|\bedib\b|data coordinator/i
+        ]
+      }
+    ]
+  },
+  {
     category: 'EU Artificial Intelligence Act',
     topics: [
       {

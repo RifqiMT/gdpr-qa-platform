@@ -76,7 +76,7 @@
   function loadStoredRegulationId() {
     try {
       var s = localStorage.getItem(REG_STORAGE_KEY);
-      if (s === 'ai-act' || s === 'gdpr') return s;
+      if (s === 'ai-act' || s === 'gdpr' || s === 'data-act') return s;
     } catch (e) {}
     return 'gdpr';
   }
@@ -133,6 +133,9 @@
   var AI_ACT_NEWS_SCOPE_RE =
     /ai\s+act|artificial intelligence act|regulation\s*\(eu\)\s*2024\s*\/\s*1689|high[- ]risk\s+ai|general[- ]purpose\s+ai|\bgpai\b|ai\s+office|foundation\s+model|prohibited\s+ai|conformity\s+assessment.*ai|market\s+surveillance.*ai|deployer.*ai\s+system|provider.*ai\s+system|algorithmic|automated\s+decision/i;
 
+  var DATA_ACT_NEWS_SCOPE_RE =
+    /data\s+act|regulation\s*\(eu\)\s*2023\s*\/\s*2854|fair\s+access\s+to\s+and\s+use\s+of\s+data|product\s+data|related\s+service\s+data|data\s+holder|data\s+recipient|cloud\s+switching|switching\s+between\s+data\s+processing|interoperability.*data\s+space|connected\s+product|internet\s+of\s+things.*data|edib|european\s+data\s+innovation\s+board/i;
+
   function itemMatchesNewsRegulationScope(item) {
     var reg = getRegProfile();
     if (!reg.newsUi || !reg.newsUi.filterForRegulation) return true;
@@ -144,9 +147,10 @@
       (item.topic || '') +
       ' ' +
       (item.topicCategory || '');
-    if (AI_ACT_NEWS_SCOPE_RE.test(text)) return true;
+    if (reg.id === 'ai-act' && AI_ACT_NEWS_SCOPE_RE.test(text)) return true;
+    if (reg.id === 'data-act' && DATA_ACT_NEWS_SCOPE_RE.test(text)) return true;
     var cat = String(item.topicCategory || '');
-    if (/EU Artificial Intelligence Act|AI and Emerging Tech/i.test(cat)) return true;
+    if (/EU Artificial Intelligence Act|EU Data Act|AI and Emerging Tech/i.test(cat)) return true;
     var topic = String(item.topic || '');
     if (
       /high-risk|prohibited|gpai|general-purpose|ai office|ai act|foundation model|deepfake|facial recognition|biometric|artificial intelligence/i.test(
@@ -1309,7 +1313,11 @@
     'EUR-Lex (Official Journal)':
       'Authoritative EU publication of the Artificial Intelligence Act (Regulation (EU) 2024/1689) in the Official Journal.',
     'EU Digital Strategy (AI)':
-      'European Commission hub for the AI Act regulatory framework, implementation timelines, and policy updates.'
+      'European Commission hub for the AI Act regulatory framework, implementation timelines, and policy updates.',
+    'Data Act Law':
+      'Readable English layout of Regulation (EU) 2023/2854 with articles, recitals, chapters, and annexes.',
+    'European Commission':
+      'Official EU policy on the Data Act, fair access to data, and the European data strategy (also data protection when selected for GDPR).'
   };
 
   /** Catch-all leaf topic; must match `NEWS_TOPIC_FALLBACK` in `news-topics.js`. */
@@ -2296,7 +2304,9 @@
     } else if (shown === 0 && loaded > 0) {
       var regNews = getRegProfile().newsUi || {};
       msg = regNews.filterForRegulation
-        ? 'No headlines match the EU AI Act relevance filter. Switch to GDPR in the header for the full news corpus, or clear topic/source filters.'
+        ? 'No headlines match the ' +
+          (getRegProfile().shortName || 'regulation') +
+          ' relevance filter. Switch to GDPR in the header for the full news corpus, or clear topic/source filters.'
         : 'No articles match your filters or search. Try clearing all or using different keywords.';
     } else {
       var head = q
@@ -8117,12 +8127,15 @@
         t = t.replace(new RegExp('^Recital\\s+' + esc + '\\b\\s*(?:[—–-]\\s*)+', 'i'), '').trim();
       } else {
         t = t.replace(
-          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act))?\\s*(?:[—–-]\\s*)+', 'i'),
+          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act|Data Act))?\\s*(?:[—–-]\\s*)+', 'i'),
           ''
         ).trim();
-        t = t.replace(new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act))?\\s+', 'i'), '').trim();
+        t = t.replace(
+          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act|Data Act))?\\s+', 'i'),
+          ''
+        ).trim();
         t = t.replace(new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b\\s*$', 'i'), '').trim();
-        t = t.replace(/^(?:GDPR|AI Act)\s+/i, '').trim();
+        t = t.replace(/^(?:GDPR|AI Act|Data Act)\s+/i, '').trim();
       }
     } while (t !== prev && t.length && i < 12);
     return t;

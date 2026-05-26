@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.0  
-**Last updated:** 2026-05-25  
-**Aligned with:** Product documentation standard **v1.7** · `package.json` **1.1.0**
+**Version:** 2.1  
+**Last updated:** 2026-05-19  
+**Aligned with:** Product documentation standard **v1.8** · `package.json` **1.2.0**
 
 ---
 
@@ -14,33 +14,35 @@
 A web application for **browsing**, **searching**, and **asking questions** about:
 
 1. **General Data Protection Regulation (EU) 2016/679** (GDPR)  
-2. **Artificial Intelligence Act (EU) 2024/1689** (EU AI Act)
+2. **Artificial Intelligence Act (EU) 2024/1689** (EU AI Act)  
+3. **Data Act (EU) 2023/2854** (EU Data Act)
 
 Users select the active regulation in the header. The product provides:
 
 | Capability | Description |
 |------------|-------------|
-| **Browse** | Recitals and chapters/articles with filters (GDPR: category/sub-category; AI Act: chapter/article), reader, PDF export, doc navigation. |
-| **Ask** | `POST /api/answer` — BM25 + optional web + Groq/Tavily/extractive; `[S#]` citations; optional ISIC sector; BYOK keys. |
-| **Credible sources** | Regulation-scoped `meta.sources` from structure files. |
-| **News** | GDPR/data-protection feeds; **AI Act relevance filter** when AI Act selected. |
+| **Browse** | Recitals and chapters/articles with filters (GDPR: category/sub-category; AI Act / Data Act: chapter/article), reader, PDF export, doc navigation. |
+| **Ask** | `POST /api/answer` — BM25 + optional web + Groq/Tavily/extractive; `[S#]` citations; optional ISIC sector; BYOK keys; regulation-scoped prompts. |
+| **Credible sources** | Regulation-scoped `meta.sources` from structure files (GDPR-Info, AI Act Law, Data Act Law, EUR-Lex, Commission policy pages). |
+| **News** | GDPR/data-protection feeds; **relevance filters** when EU AI Act or EU Data Act is selected. |
+| **Shell** | App **credits** bar (maintainer attribution with LinkedIn and website links). |
 
-**Target users:** Legal, compliance, privacy, and AI governance professionals; DPOs; consultants; internal platform engineers.
+**Target users:** Legal, compliance, privacy, AI governance, and data-economy professionals; DPOs; consultants; internal platform engineers.
 
 ### 1.2 Goals
 
 | ID | Goal |
 |----|------|
-| G1 | Single interface for **two EU regulations** with consistent UX. |
+| G1 | Single interface for **GDPR, EU AI Act, and EU Data Act** with consistent UX. |
 | G2 | **Traceable** answers: corpus excerpts + citation ids. |
-| G3 | **Official alignment** — EUR-Lex + readable mirrors (GDPR-Info, AI Act Law). |
+| G3 | **Official alignment** — EUR-Lex + readable mirrors (GDPR-Info, AI Act Law, Data Act Law). |
 | G4 | **Credible news** from EU/UK supervisory and Commission sources. |
 | G5 | **Operable** deployment (local + Vercel) with documented env and cron refresh. |
 
 ### 1.3 Non-goals
 
 - Legal advice or binding compliance opinions.  
-- Full AI Act–only news wire (filter only today).  
+- Full AI Act– or Data Act–only news wires (client-side filter only today).  
 - Multi-tenant SaaS, SSO, or audit trails (future).  
 - Automated conformity assessment or DPIA generation.
 
@@ -99,7 +101,7 @@ Users select the active regulation in the header. The product provides:
 | FR-NEWS-02 | `POST /api/news/refresh` crawls and persists JSON. | P0 |
 | FR-NEWS-03 | Source/topic filters; By source / All views. | P1 |
 | FR-NEWS-04 | Attachments summary hides button when count=0. | P1 |
-| FR-NEWS-05 | When `ai-act` selected: filter + banner for AI-relevant items. | P1 |
+| FR-NEWS-05 | When `ai-act` or `data-act` selected: filter + banner for regulation-relevant items. | P1 |
 | FR-NEWS-06 | Topic taxonomy includes **EU Artificial Intelligence Act** group. | P2 |
 
 ### 2.6 ETL & refresh (FR-ETL)
@@ -108,9 +110,11 @@ Users select the active regulation in the header. The product provides:
 |----|-------------|----------|
 | FR-ETL-01 | GDPR: `scraper.js` → `gdpr-content.json`. | P0 |
 | FR-ETL-02 | AI Act: `ai-act-scraper.js` → `ai-act-content.json`. | P0 |
+| FR-ETL-02b | Data Act: `data-act-scraper.js` → `data-act-content.json`. | P0 |
 | FR-ETL-03 | `normalizeCorpus` on GDPR refresh/write paths. | P0 |
-| FR-ETL-04 | Daily cron refreshes **both** regulations on Vercel. | P1 |
+| FR-ETL-04 | Daily cron refreshes **all** regulations on Vercel. | P1 |
 | FR-ETL-05 | `npm run refresh-ai-act` CLI for AI Act only. | P1 |
+| FR-ETL-05b | `npm run refresh-data-act` CLI for Data Act only. | P1 |
 
 ---
 
@@ -133,7 +137,8 @@ Users select the active regulation in the header. The product provides:
 |------|------------|----------|
 | `gdpr-content.json` | GDPR | articles, recitals, searchIndex, meta |
 | `ai-act-content.json` | AI Act | articles, recitals, searchIndex, meta |
-| `gdpr-structure.json` / `ai-act-structure.json` | Both | chapters, credible sources fallback |
+| `data-act-content.json` | Data Act | articles, recitals, searchIndex, meta |
+| `gdpr-structure.json` / `ai-act-structure.json` / `data-act-structure.json` | All | chapters, credible sources fallback |
 | `gdpr-news.json` | News (shared) | newsFeeds, items |
 | `chapter-summaries.json` / `chapter-summaries-ai-act.json` | Per reg | Chapter blurbs |
 

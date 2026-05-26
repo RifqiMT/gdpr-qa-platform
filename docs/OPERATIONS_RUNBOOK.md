@@ -1,7 +1,7 @@
 # Operations runbook  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.0 · **Last updated:** 2026-05-25
+**Version:** 1.1 · **Last updated:** 2026-05-19 · Documentation standard **v1.8** · Product **1.2.0**
 
 Procedures for **local development**, **production (Vercel)**, and **routine maintenance**. Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md).
 
@@ -49,6 +49,7 @@ Exit code **137** on a background task usually means the process was killed duri
 |------|------------------|-----------|
 | Refresh GDPR corpus | UI **Refresh sources** (GDPR selected) or `npm run refresh` | Weekly or after EUR-Lex updates |
 | Refresh AI Act corpus | UI **Refresh sources** (AI Act selected) or `npm run refresh-ai-act` | As needed |
+| Refresh Data Act corpus | UI **Refresh sources** (Data Act selected) or `npm run refresh-data-act` | As needed |
 | Refresh news | UI **Refresh news** or `POST /api/news/refresh` | Daily / weekly |
 | Regenerate chapter summaries | `POST /api/chapter-summaries/regenerate` + Groq key | After major corpus change |
 | Update suitable recitals | `npm run fetch-suitable-recitals` | Occasional (GDPR) |
@@ -86,7 +87,7 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 | Check | Expected |
 |-------|----------|
 | `curl -s -o /dev/null -w "%{http_code}" http://localhost:3847/` | `200` |
-| `curl -s http://localhost:3847/api/regulations` | JSON with `gdpr` and `ai-act` |
+| `curl -s http://localhost:3847/api/regulations` | JSON with `gdpr`, `ai-act`, and `data-act` |
 | `curl -s "http://localhost:3847/api/meta?regulation=ai-act"` | `regulationId: ai-act`, `sources` array |
 | Ask (with keys) | `POST /api/answer` returns `answer`, `sources`, `llm.used` |
 

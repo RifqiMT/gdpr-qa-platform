@@ -1,7 +1,7 @@
 # Feature catalog  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.0 · **Last updated:** 2026-05-25 · **Product version:** `package.json` **1.1.0**
+**Version:** 1.2 · **Last updated:** 2026-05-19 · **Product version:** `package.json` **1.2.0** · Documentation standard **v1.8**
 
 This catalog is the **feature-level inventory** of the shipped product. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
@@ -11,32 +11,33 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 
 | Feature ID | Name | Description | Primary surfaces |
 |------------|------|-------------|------------------|
-| F-SHELL-01 | Regulation switcher | Header dropdown: **GDPR** \| **EU AI Act**; persists in browser storage. | `index.html`, `app.js`, `GET /api/regulations` |
+| F-SHELL-01 | Regulation switcher | Header dropdown: **GDPR** \| **EU AI Act** \| **EU Data Act**; persists in browser storage. | `index.html`, `app.js`, `GET /api/regulations` |
 | F-SHELL-02 | Tab navigation | Browse · Ask · Credible sources · News. | `index.html`, `app.js` |
 | F-SHELL-03 | Refresh sources | ETL for **active** regulation only. | Header button, `POST /api/refresh` |
 | F-SHELL-04 | Freshness tooltip | Last refreshed / check timestamps for corpus. | `GET /api/meta`, freshness UI |
 | F-SHELL-05 | API keys (BYOK) | Browser-stored Groq/Tavily override for Ask. | Header modal, `gdpr-qa-byok-v1` |
 | F-SHELL-06 | Homepage (logo) | Resets Browse to placeholder; clears reader state. | `goToHome()` in `app.js` |
+| F-SHELL-07 | App credits bar | Maintainer attribution; LinkedIn and website icon links. | `.app-credits` in `index.html` |
 
 ---
 
 ## 2. Browse regulation
 
-| Feature ID | Name | GDPR | EU AI Act | Notes |
-|------------|------|------|-----------|-------|
-| F-BRW-01 | Recitals list | ✓ | ✓ | Search by number/keyword; card grid |
-| F-BRW-02 | Chapters & articles | ✓ | ✓ | Grouped by chapter; roman numerals |
-| F-BRW-03 | Category filter | ✓ | — | Chapter-title as category |
-| F-BRW-04 | Sub-category filter | ✓ | Hidden | Topic keywords (`ARTICLE_TOPICS`) |
-| F-BRW-05 | Chapter / article filters | ✓ | ✓ | Combobox filters |
-| F-BRW-06 | Reader detail view | ✓ | ✓ | Formatted body, official links |
-| F-BRW-07 | Doc navigation | ✓ | ✓ | Prev / Next / Go (number input) |
-| F-BRW-08 | Export PDF | ✓ | ✓ | html2pdf.js client-side |
-| F-BRW-09 | Related articles/recitals | ✓ | Partial | AI Act: text citations only; no suitable-recital map |
-| F-BRW-10 | Suitable recitals panel | ✓ | — | `article-suitable-recitals.json` + API |
-| F-BRW-11 | Chapter introductions | ✓ | ✓ | `chapter-summaries*.json`; Groq regenerate |
-| F-BRW-12 | Back to question | ✓ | ✓ | From Ask → Browse → return to Ask |
-| F-BRW-13 | Regulation-aware links | ✓ | ✓ | `regulation-profiles.js` URLs and headings |
+| Feature ID | Name | GDPR | EU AI Act | EU Data Act | Notes |
+|------------|------|------|-----------|-------------|-------|
+| F-BRW-01 | Recitals list | ✓ | ✓ | ✓ | Search by number/keyword; card grid |
+| F-BRW-02 | Chapters & articles | ✓ | ✓ | ✓ | Grouped by chapter; roman numerals |
+| F-BRW-03 | Category filter | ✓ | — | — | Chapter-title as category |
+| F-BRW-04 | Sub-category filter | ✓ | Hidden | Hidden | Topic keywords (`ARTICLE_TOPICS`) |
+| F-BRW-05 | Chapter / article filters | ✓ | ✓ | ✓ | Combobox filters |
+| F-BRW-06 | Reader detail view | ✓ | ✓ | ✓ | Formatted body, official links |
+| F-BRW-07 | Doc navigation | ✓ | ✓ | ✓ | Prev / Next / Go (number input) |
+| F-BRW-08 | Export PDF | ✓ | ✓ | ✓ | html2pdf.js client-side |
+| F-BRW-09 | Related articles/recitals | ✓ | Partial | Partial | Text citations; no suitable-recital map |
+| F-BRW-10 | Suitable recitals panel | ✓ | — | — | `article-suitable-recitals.json` + API |
+| F-BRW-11 | Chapter introductions | ✓ | ✓ | ✓ | `chapter-summaries*.json`; Groq regenerate |
+| F-BRW-12 | Back to question | ✓ | ✓ | ✓ | From Ask → Browse → return to Ask |
+| F-BRW-13 | Regulation-aware links | ✓ | ✓ | ✓ | `regulation-profiles.js` URLs and headings |
 
 ---
 
@@ -81,21 +82,21 @@ This catalog is the **feature-level inventory** of the shipped product. For requ
 | F-NEWS-06 | Refresh news | `POST /api/news/refresh` → `gdpr-news.json` |
 | F-NEWS-07 | Attachments discovery | Per-article scan; batch summary hides empty actions |
 | F-NEWS-08 | Quick filters dock | Desktop sidebar when main filters scroll away |
-| F-NEWS-09 | AI Act relevance filter | When `ai-act` selected: `itemMatchesNewsRegulationScope` + banner |
+| F-NEWS-09 | Regulation relevance filter | When `ai-act` or `data-act` selected: `itemMatchesNewsRegulationScope` + banner |
 | F-NEWS-10 | Three-paragraph summaries | Card summary blocks from data or heuristics |
 
 ---
 
 ## 6. Content pipeline (ETL)
 
-| Feature ID | Name | GDPR | EU AI Act |
-|------------|------|------|-----------|
-| F-ETL-01 | Scraper ETL | `scraper.js` | `ai-act-scraper.js` |
-| F-ETL-02 | Formatting guardrails | `document-formatting-guardrails.js` | Same |
-| F-ETL-03 | Search index build | BM25 `searchIndex[]` | Same |
-| F-ETL-04 | Merge with existing | Per-number last-wins | Same |
-| F-ETL-05 | CLI refresh | `npm run refresh` | `npm run refresh-ai-act` |
-| F-ETL-06 | Vercel cron | `api/cron/daily-regulation-refresh.js` | Both regulations |
+| Feature ID | Name | GDPR | EU AI Act | EU Data Act |
+|------------|------|------|-----------|-------------|
+| F-ETL-01 | Scraper ETL | `scraper.js` | `ai-act-scraper.js` | `data-act-scraper.js` |
+| F-ETL-02 | Formatting guardrails | `document-formatting-guardrails.js` | Same | Same |
+| F-ETL-03 | Search index build | BM25 `searchIndex[]` | Same | Same |
+| F-ETL-04 | Merge with existing | Per-number last-wins | Same | Same |
+| F-ETL-05 | CLI refresh | `npm run refresh` | `npm run refresh-ai-act` | `npm run refresh-data-act` |
+| F-ETL-06 | Vercel cron | `api/cron/daily-regulation-refresh.js` | All three regulations |
 
 ---
 
