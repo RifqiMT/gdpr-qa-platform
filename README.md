@@ -4,7 +4,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.2.4   | ≥ 18 | **Multi-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals), **EU AI Act** (113 articles, 180 recitals), and **EU Data Act** (50 articles, 119 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Browse hub** on desktop (three regulation overview cards) and **browse welcome** on mobile. **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; relevance filters when AI Act or Data Act is selected); regulation-aware **Credible sources** and **citation sidebar**; reliable **chapters filters** (no hidden GDPR-only filter bleed); chapter summaries; PDF export; **Vercel** deploy. Reader shows **full official article titles**, **regulation-correct recital titles**, and aligned numbered-paragraph layout. **Responsive app chrome** (Tools menu) and **News hero**. **Product documentation standard v2.2** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). |
+| 1.2.4   | ≥ 18 | **Multi-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals), **EU AI Act** (113 articles, 180 recitals), and **EU Data Act** (50 articles, 119 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Browse hub** on desktop (three regulation overview cards) and **browse welcome** on mobile. **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; relevance filters when AI Act or Data Act is selected); regulation-aware **Credible sources** and **citation sidebar**; reliable **chapters filters** (no hidden GDPR-only filter bleed); chapter summaries; PDF export; **Vercel** deploy. Reader shows **full official article titles**, **regulation-correct recital titles**, and aligned numbered-paragraph layout. **Responsive app chrome** (Tools menu) and **News hero**. **Product documentation standard v2.3** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). **Last doc audit:** 2026-07-06. |
 
 ---
 
@@ -23,7 +23,7 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
-**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.2**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
+**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.3**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
 **Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) (data dictionary + relationship diagrams) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) (sample JSON shapes) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
 
@@ -68,7 +68,7 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 - **Offline-capable content** — After a refresh, the regulation is stored in `data/gdpr-content.json` and can be searched without calling external sites on each request.
 - **Export** — Export the currently viewed article or recital as PDF from the Browse view (client-side via html2pdf.js).
 - **Topic-based drill-down** — Chapters & Articles can be filtered by **Category** (chapter title), **Sub-category** (topic/keyword-derived, e.g. Consent, Right to erasure, Transfers, DPO), **Chapter**, and **Article**; sub-category options adapt when a chapter is selected.
-- **Centered chapter headers** — Section headers (“Chapter I – General provisions”, etc.) and “Official sources” are horizontally and vertically centered in both the grouped list and the chapter detail view for a clear, professional layout.
+- **Centered chapter headers** — Section headers (“Chapter I – General provisions”, etc.) in the grouped chapters list are horizontally centered for a clear, professional layout.
 - **Document navigation** — In article/recital detail view: Prev/Next buttons, label (e.g. “Article 5 of 99”), and a number input with “Go” to jump directly to any article or recital.
 - **Relevant GDPR provisions** — Ask results list regulation sources cited for the answer, with “View in app” links and clickable `[Sn]` chips in the answer body.
 - **Sector-aware Ask** — Optional industry/sector filter expands BM25/web/Tavily context, adds **customization + reliability** instructions in prompts (verbatim sector phrase, sustained sector hooks per sentence, no invented sector statutes), slightly lower LLM temperature, stronger sector repair passes, and a sector-framed extractive fallback.
@@ -246,7 +246,7 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ### 4.7 Frontend (Browse flow)
 
-- Recitals / Chapters loaded from `/api/recitals`, `/api/chapters`, `/api/articles`. Chapters view builds `__chaptersData` (chapters, articles, articleTopics, topicIdsByChapter), populates Category, Sub-category, Chapter, Article dropdowns, and applies filters via `applyChaptersFilters()` (including topic filter). Section headers use `.chapters-group-heading` and `.chapters-group-meta` (centered). Chapter detail uses `.chapter-view-header` (centered horizontally and vertically with flexbox, min-height 140px).
+- Recitals / Chapters loaded from `/api/recitals`, `/api/chapters`, `/api/articles`. Chapters view builds `__chaptersData` (chapters, articles, articleTopics, topicIdsByChapter), populates Category, Sub-category, Chapter, Article dropdowns, and applies filters via `applyChaptersFilters()` (including topic filter). Section headers use `.chapters-group-heading` and `.chapters-group-meta` (centered). Article detail opens from grouped chapter cards via `openArticle()` — there is no separate full-page chapter detail view.
 - **Homepage** — `goToHome()` (triggered by logo link click): switch to Browse tab if not already active; show `browsePlaceholder`, hide all browse sections (recitals, chapters, sources, detail); hide Back, Export PDF, Back to question; clear `currentDoc` and `lastListSection`; clear `chapterList.innerHTML` so the sidebar “Regulation & sources” shows only the original three nav items (Recitals, Chapters & Articles, Credible sources) with no chapter list below.
 - Article/recital detail from **`/api/articles/:number`**, **`/api/recitals/:number`**; articles use **`fmtArticleLine`** (citations + footnote stripping; parenthetical “(Recital N)” removed); recital bodies use **`fmtRecitalLine`** where cross-recital refs are highlighted. **Doc navigation**: **`updateDocNav()`** shows Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go” (**`goToDocNumber`**); Enter in the number input triggers Go. PDF export via **html2pdf.js** on the current detail node.
 - Tab switching: `data-view="browse"` | `data-view="ask"` | `data-view="sources"` | `data-view="news"`; views shown/hidden and `aria-selected` updated.
@@ -360,10 +360,12 @@ gdpr-qa-platform/
 | File | Responsibility |
 |------|----------------|
 | **server.js** | `loadContent`; BM25 (`buildBm25Searcher`, `buildLocalContext`); `POST /api/answer` (Groq, Tavily, extractive); `POST /api/ask`, `POST /api/summarize`; article/recital routes with `suitableRecitals` / `suitableArticles`; chapter summaries; industry sectors; news merge/refresh; cron; static. |
-| **gdpr-crossrefs.js** | `buildRecitalsCitingArticlesMap`, `mergedSuitableRecitalsForArticle`, `mergedSuitableArticlesForRecital`. |
-| **scraper.js** | EUR-Lex fetch/parse, merge, **`document-formatting-guardrails.js`** normalization, `buildSearchIndex`, write `gdpr-content.json`. |
-| **document-formatting-guardrails.js** | On every refresh: line endings, NBSP→space, EUR-Lex glue fixes; validation report (Art. 1, 4, 89, counts). |
-| **news-crawler.js** | `crawlNews`, `dedupeNewsItemsConsolidated`, `normalizeNewsUrlKey`, semantic merge, `withTimeout`, topic assignment via **`news-topics.js`**. |
+| **gdpr-crossrefs.js** | `buildRecitalsCitingArticlesMap`, `mergedSuitableRecitalsForArticle`, `mergedSuitableArticlesForRecital` (public API only). |
+| **scraper.js** | EUR-Lex fetch/parse, merge, **`document-formatting-guardrails.js`** normalization, `buildSearchIndex`, write `gdpr-content.json`. Public exports: `run`, `fetchText`, `buildSearchIndex`, `mergeWithExisting`, `computeDatasetHash`, and helpers used by AI/Data Act scrapers. |
+| **document-formatting-guardrails.js** | Public exports: `normalizeCorpus`, `validateCorpusFormatting`, `logFormattingGuardrailsReport`. |
+| **news-crawler.js** | `crawlNews`, `dedupeNewsItemsConsolidated`, `normalizeNewsUrlKey`, `sanitizeNewsItemDates`, `withTimeout`; topic assignment via **`news-topics.js`**. |
+| **lib/regulations.js** | Registry (`gdpr`, `ai-act`, `data-act`) with `hasArticleTopics` / `hasSuitableRecitals`; public API: `normalizeRegulationId`, `getRegulation`, `listRegulations`, `getRegulationPaths`, `enrichArticlesWithChapter`. |
+| **lib/paths.js** | `getDataDir()`, `IS_VERCEL`; seeds 11 bundled JSON files to `/tmp` on Vercel cold start. |
 | **news-topics.js** | GDPR/privacy news topic groups, `classifyNewsItemTopic`, `assignNewsTopicFields`, `getTopicTaxonomyForClient`, supplemental **`newsBlobMatchesTopicAnchor`** gate. |
 | **public/news-dedupe.js** | Browser **`GDPR_NEWS_DEDUPE.dedupeNewsItemsConsolidated`** (keep aligned with crawler). |
 | **public/app.js** | Browse (filters, doc nav, cross-links, chapter summaries); **Ask:** `doAsk` → `/api/answer` + BYOK (`withByokApiKeys`, validation UI); Sources; News (dedupe client, expandable feeds + sidebar filters, IO dock); PDF; homepage. |

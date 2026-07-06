@@ -472,27 +472,6 @@ function logFormattingGuardrailsReport(recitals, articles) {
 }
 
 module.exports = {
-  normalizeLineEndings,
-  normalizeNarrowSpacesToAscii,
-  normalizeEurLexGlue,
-  collapseWhitespaceNoiseForReader,
-  stripLeadingStructuralNoiseLines,
-  mergeOrphanParenLetterLinesFlat,
-  mergeOrphanParenLetterMarkersInText,
-  glueOrphanRecitalRefLinesFlat,
-  glueOrphanRecitalRefLinesInText,
-  stripParentheticalRecitalsFromArticleText,
-  mergeOrphanCommaContinuationLinesFlat,
-  mergeOrphanCommaContinuationInText,
-  removeJunkOnlyLinesFromText,
-  mergeOrphanDigitParenLinesFlat,
-  mergeOrphanDigitParenMarkersInText,
-  splitGluedNumericClauseMarkers,
-  dedupeConsecutiveIdenticalTrimmedLines,
-  dedupeAdjacentRepeatedFirstLine,
-  normalizeProvisionText,
-  normalizeArticle,
-  normalizeRecital,
   normalizeCorpus,
   validateCorpusFormatting,
   logFormattingGuardrailsReport

@@ -1,6 +1,6 @@
 # Document formatting guardrails (regulation reader)
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.5 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 **Applies to:** All regulation corpora — **GDPR** (`gdpr-content.json`, `scraper.js`), **EU AI Act** (`ai-act-content.json`, `ai-act-scraper.js`), and **EU Data Act** (`data-act-content.json`, `data-act-scraper.js`). Each path runs mandatory **`normalizeCorpus`** on refresh and read. The **same reader** in `public/app.js` (`fmtArticleLine`, `fmtRecitalLine`, citation linking) applies with regulation-specific heading patterns from `regulation-profiles.js`.
 
@@ -26,6 +26,18 @@ For **every** regulation refresh — **Refresh sources** / `POST /api/refresh`, 
 6. **`public/app.js`** after a successful refresh: reloads **`/api/meta`**, **`loadChapters()`**, **`loadRecitals()`**, **`loadSources()`**, and re-opens the current article/recital so the reader shows normalized text without a manual full page reload.
 
 CLI **`--refresh-only`** does not start HTTP; it still performs steps 1–3 and writes JSON. The next server start or API call uses **`loadContent()`** (step 4 on read).
+
+### 1.2 Public module exports
+
+Only these symbols are part of the supported Node API (**TG-C01**):
+
+| Export | Purpose |
+|--------|---------|
+| `normalizeCorpus` | Normalize recitals + articles before index build and disk write |
+| `validateCorpusFormatting` | Smoke checks (counts, sample articles) after normalization |
+| `logFormattingGuardrailsReport` | Console warnings for formatting anomalies |
+
+All other helpers in `document-formatting-guardrails.js` (line-ending fixes, orphan-line merges, `splitGluedNumericClauseMarkers`, etc.) are **internal** — used by `normalizeCorpus` but not exported.
 
 | Stage | Location | Responsibility |
 |--------|-----------|----------------|

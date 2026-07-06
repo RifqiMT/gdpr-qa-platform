@@ -1,7 +1,7 @@
 # Design guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.8 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
@@ -87,7 +87,9 @@ Shared token pattern with News hero — applied via **`data-browse-theme`** on `
 
 **Active card (desktop):** `.browse-welcome-card--active` — accent border, elevated shadow, **Active** badge.
 
-**Chapters filters (mobile):** `.chapters-filters-toggle` + collapsible `#chaptersFiltersPanel`; `.chapters-active-filters` banner when filters applied.
+**Active components:** `.answer-box--ask`, `.ask-answer-prose`, `.browse-welcome*`, `.news-hero*`, `.chapters-filters*`, `.citations-sidebar*`, `.item-card*`, `.doc-nav*`.
+
+**Removed (2026-07-06):** Legacy `.chapter-view*`, `.chapter-card`, `.qa-*` / `.chat-*` / `.result-card` Ask blocks, and hidden `.news-filter-label` rules — superseded by current Ask answer box and `#newsSections` grouped news UI.
 
 ---
 

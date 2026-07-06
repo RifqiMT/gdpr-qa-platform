@@ -1,7 +1,7 @@
 # User Stories  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.7 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
 Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** and **Data Act** leads).

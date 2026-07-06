@@ -1,7 +1,7 @@
 # Guardrails  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.7 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Guardrails define **technical and business limitations** so the team ships safely: what the product must not claim, what the architecture assumes, and where human review is required.
 
@@ -84,6 +84,16 @@ Guardrails define **technical and business limitations** so the team ships safel
 | TG-F09 | **No duplicate status UI** — Use **`syncHeaderToolbarStatus`** for toolbar hints only; do not add a second always-visible freshness/keys card row (see **BG-13**). | Ask tab **`#askLlmKeysStatus`** remains the long-form Ask key narrative. |
 | TG-F10 | **Hidden chapter filters** — When `hasArticleTopics` is false, **`getChaptersFilterSubcategoryValue`** must return empty and **`resetChaptersFilters`** must run on regulation change. Never apply GDPR **Category** / **Sub-category** values to AI Act or Data Act lists. | Prevents false “no articles match” empty states. |
 | TG-F11 | **Chapters load races** — `loadChapters` must compare **`loadChaptersRequestId`** and **`currentRegulation.id`** before applying results. | Prevents wrong-regulation article lists after fast switching. |
+
+---
+
+## 5b. Technical guardrails — Module boundaries
+
+| Id | Guardrail | Detail |
+|----|-----------|--------|
+| TG-C01 | **Import documented exports only.** Node modules expose a trimmed public API; do not `require()` internal symbols (e.g. `REGULATIONS`, `SEED_FILES`, granular guardrail helpers). | See [SOURCE_CODE_INVENTORY.md](SOURCE_CODE_INVENTORY.md) §1.1 and §2. |
+| TG-C02 | **Paired news dedupe** — Server `dedupeNewsItemsConsolidated` and client `public/news-dedupe.js` must stay aligned when merge rules change. | Same as **TG-N04**. |
+| TG-C03 | **Vercel seed completeness** — All regulation corpora in `SEED_FILES` must be present in bundled `data/` before deploy; missing files cause empty Browse on cold start. | See [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md) seed manifest. |
 
 ---
 

@@ -3,7 +3,6 @@
  * Regulation (EU) 2024/1689 (English layout).
  */
 const fs = require('fs');
-const path = require('path');
 let cheerio;
 try { cheerio = require('cheerio'); } catch (_) {}
 
@@ -235,4 +234,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { run, fetchAiActLawDataset };
+module.exports = { run };

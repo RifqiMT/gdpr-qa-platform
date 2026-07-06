@@ -982,14 +982,10 @@ if (require.main === module) {
 
 module.exports = {
   run,
-  fetchUrl,
   fetchText,
-  parseEurLexText,
   buildSearchIndex,
   stripLeadingHeadingLinesFromBody,
   mergeWithExisting,
   getGdprInfoEntryPlainText,
-  computeDatasetHash,
-  diffByNumber,
-  capGdprBodyText
+  computeDatasetHash
 };

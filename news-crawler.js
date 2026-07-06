@@ -489,15 +489,6 @@ function newsItemMatchesApprovedTopic(item) {
   return false;
 }
 
-/** @deprecated Use newsItemMatchesApprovedTopic; kept for callers/tests that pass a single text blob. */
-function commissionPressTextRelevant(blob) {
-  return newsItemMatchesApprovedTopic({ title: String(blob || ''), snippet: '', url: '' });
-}
-
-function commissionPressItemRelevant(item) {
-  return newsItemMatchesApprovedTopic(item);
-}
-
 function commissionDetailUrlFromRefCode(refCode) {
   const slug = String(refCode || '')
     .trim()
@@ -1671,18 +1662,8 @@ function withTimeout(promise, ms) {
 
 module.exports = {
   crawlNews,
-  crawlEdpbRss,
-  crawlEdpbHtml,
-  crawlEdpsRss,
-  crawlIco,
-  crawlCommissionPress,
-  crawlCouncilOfEurope,
-  fetchRss,
   withTimeout,
   normalizeNewsUrlKey,
   dedupeNewsItemsConsolidated,
-  newsItemMatchesApprovedTopic,
-  commissionPressItemRelevant,
-  commissionPressTextRelevant,
   sanitizeNewsItemDates
 };

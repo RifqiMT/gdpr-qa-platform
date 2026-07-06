@@ -149,7 +149,6 @@
   }
 
   window.GDPR_NEWS_DEDUPE = {
-    dedupeNewsItemsConsolidated: dedupeNewsItemsConsolidated,
-    normalizeNewsUrlKey: normalizeNewsUrlKey
+    dedupeNewsItemsConsolidated: dedupeNewsItemsConsolidated
   };
 })();

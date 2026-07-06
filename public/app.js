@@ -511,6 +511,17 @@
 
   var BROWSE_WELCOME_GRID_ORDER = ['gdpr', 'data-act', 'ai-act'];
 
+  function sortRegulationsCatalog(catalog) {
+    if (!catalog || !catalog.length) return catalog || [];
+    return catalog.slice().sort(function (a, b) {
+      var ia = BROWSE_WELCOME_GRID_ORDER.indexOf(a.id);
+      var ib = BROWSE_WELCOME_GRID_ORDER.indexOf(b.id);
+      if (ia < 0) ia = 999;
+      if (ib < 0) ib = 999;
+      return ia - ib;
+    });
+  }
+
   function getRegulationProfileById(regId) {
     if (typeof getRegulationProfile === 'function') return getRegulationProfile(regId);
     if (typeof REGULATION_PROFILES !== 'undefined') {
@@ -879,6 +890,9 @@
     if (browseDetail && !browseDetail.classList.contains('hidden') && btnBack) {
       btnBack.click();
     }
+    if (viewBrowse && viewBrowse.classList.contains('active') && !suppressAppRouteSync && !appRouteRestorePending) {
+      syncAppRouteToUrl();
+    }
   }
 
   function reloadActiveBrowseSegment() {
@@ -891,7 +905,7 @@
   function initRegulationSelector() {
     return get('/api/regulations')
       .then(function (payload) {
-        regulationsCatalog = payload.regulations || [];
+        regulationsCatalog = sortRegulationsCatalog(payload.regulations || []);
         var sel = document.getElementById('regulationSelect');
         if (!sel) return;
         sel.innerHTML = '';
@@ -1549,7 +1563,6 @@
   const viewSources = document.getElementById('viewSources');
   const viewNews = document.getElementById('viewNews');
   const sourcesList = document.getElementById('sourcesList');
-  const newsList = document.getElementById('newsList');
   const newsFeedsList = document.getElementById('newsFeedsList');
   const newsFeedsAsideTop = document.getElementById('newsFeedsAsideTop');
   const newsFeedsSectionToggle = document.getElementById('newsFeedsSectionToggle');
@@ -1583,9 +1596,6 @@
   const browseRecitals = document.getElementById('browseRecitals');
   const browseChapters = document.getElementById('browseChapters');
   const browseDetail = document.getElementById('browseDetail');
-  const citationsSidebarAside = browseDetail
-    ? browseDetail.querySelector('aside.citations.citations-sidebar')
-    : null;
   const recitalsList = document.getElementById('recitalsList');
   const recitalsSearch = document.getElementById('recitalsSearch');
   const recitalsCountEl = document.getElementById('recitalsCount');
@@ -1634,6 +1644,174 @@
   let cameFromAsk = false;
   /** When set, user opened this article/recital via an in-text citation; "Back" returns there */
   let citationReturnDoc = null;
+
+  var APP_ROUTE_KNOWN_REG_IDS = { gdpr: 1, 'data-act': 1, 'ai-act': 1 };
+  var APP_ROUTE_KNOWN_VIEWS = { browse: 1, ask: 1, news: 1, sources: 1 };
+  var suppressAppRouteSync = false;
+  var appRouteRestorePending = false;
+
+  function parseAppRouteFromHash() {
+    var raw = (window.location.hash || '').replace(/^#\/?/, '').trim();
+    if (!raw) {
+      return { view: 'browse', segment: 'home', regulationId: null, docType: null, docNumber: null };
+    }
+    var parts = raw.split('/').filter(Boolean);
+    if (!parts.length) {
+      return { view: 'browse', segment: 'home', regulationId: null, docType: null, docNumber: null };
+    }
+    var first = parts[0].toLowerCase();
+    if (APP_ROUTE_KNOWN_VIEWS[first] && first !== 'browse') {
+      return { view: first, segment: null, regulationId: null, docType: null, docNumber: null };
+    }
+    if (first === 'browse') {
+      if (parts.length === 1) {
+        return { view: 'browse', segment: 'home', regulationId: null, docType: null, docNumber: null };
+      }
+      parts.shift();
+      first = parts[0] ? parts[0].toLowerCase() : '';
+    }
+    if (!APP_ROUTE_KNOWN_REG_IDS[first]) {
+      return { view: 'browse', segment: 'home', regulationId: null, docType: null, docNumber: null };
+    }
+    var regId = first;
+    var segment = 'home';
+    var docType = null;
+    var docNumber = null;
+    if (parts.length >= 2) {
+      var second = parts[1].toLowerCase();
+      if (second === 'chapters' || second === 'recitals') {
+        segment = second;
+      } else if (second === 'article' || second === 'recital') {
+        segment = 'detail';
+        docType = second;
+        docNumber = parseInt(parts[2], 10);
+        if (isNaN(docNumber) || docNumber < 1) {
+          segment = 'home';
+          docType = null;
+          docNumber = null;
+        }
+      }
+    }
+    return {
+      view: 'browse',
+      segment: segment,
+      regulationId: regId,
+      docType: docType,
+      docNumber: docNumber
+    };
+  }
+
+  function buildAppRouteHash() {
+    if (viewAsk && viewAsk.classList.contains('active')) return '#/ask';
+    if (viewNews && viewNews.classList.contains('active')) return '#/news';
+    if (viewSources && viewSources.classList.contains('active')) return '#/sources';
+    var regId = currentRegulation && currentRegulation.id ? currentRegulation.id : 'gdpr';
+    if (browseDetail && !browseDetail.classList.contains('hidden') && currentDoc && currentDoc.type && currentDoc.number != null) {
+      return '#/' + regId + '/' + currentDoc.type + '/' + currentDoc.number;
+    }
+    if (browseChapters && !browseChapters.classList.contains('hidden')) {
+      return '#/' + regId + '/chapters';
+    }
+    if (browseRecitals && !browseRecitals.classList.contains('hidden')) {
+      return '#/' + regId + '/recitals';
+    }
+    return '#/browse';
+  }
+
+  function syncAppRouteToUrl(replace) {
+    if (suppressAppRouteSync || appRouteRestorePending) return;
+    var hash = buildAppRouteHash();
+    if (window.location.hash === hash) return;
+    suppressAppRouteSync = true;
+    try {
+      if (replace && history.replaceState) {
+        history.replaceState(null, '', hash);
+      } else {
+        window.location.hash = hash;
+      }
+    } catch (err) {
+      window.location.hash = hash;
+    }
+    suppressAppRouteSync = false;
+  }
+
+  function activateMainViewOnly(viewName) {
+    closeBrowseRegMenu();
+    document.querySelectorAll('.tab').forEach(function (t) {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    document.querySelectorAll('.view').forEach(function (v) {
+      v.classList.remove('active');
+      v.setAttribute('hidden', '');
+    });
+    var tab = document.querySelector('.tab[data-view="' + viewName + '"]');
+    if (tab) {
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+    }
+    var panel = document.getElementById('view' + viewName.charAt(0).toUpperCase() + viewName.slice(1));
+    if (panel) {
+      panel.classList.add('active');
+      panel.removeAttribute('hidden');
+    }
+    if (viewName === 'sources') loadSources();
+    if (viewName === 'news') loadNews();
+    if (viewName === 'ask') initAskIndustrySectorCombobox();
+    updateBrowseSectionMenu();
+  }
+
+  function applyAppRoute(route) {
+    if (!route) return;
+    suppressAppRouteSync = true;
+    appRouteRestorePending = true;
+    try {
+      if (route.view === 'ask' || route.view === 'news' || route.view === 'sources') {
+        activateMainViewOnly(route.view);
+        return;
+      }
+      activateMainViewOnly('browse');
+      if (route.regulationId) {
+        var match = findRegulationInCatalog(route.regulationId);
+        if (match) setCurrentRegulation(match);
+      }
+      if (route.segment === 'detail' && route.docType && route.docNumber != null) {
+        if (route.docType === 'recital') openRecital(route.docNumber);
+        else openArticle(route.docNumber);
+        return;
+      }
+      if (route.segment === 'chapters') {
+        showSection(browseChapters);
+        loadChapters();
+        return;
+      }
+      if (route.segment === 'recitals') {
+        showSection(browseRecitals);
+        loadRecitals();
+        return;
+      }
+      browsePlaceholder.classList.remove('hidden');
+      browseRecitals.classList.add('hidden');
+      browseChapters.classList.add('hidden');
+      browseDetail.classList.add('hidden');
+      btnBack.classList.add('hidden');
+      btnExportPdf.classList.add('hidden');
+      btnBackToQuestion.classList.add('hidden');
+      if (btnBackFromCitation) btnBackFromCitation.classList.add('hidden');
+      currentDoc = null;
+      lastListSection = null;
+      citationReturnDoc = null;
+      updateBrowseSectionMenu();
+    } finally {
+      appRouteRestorePending = false;
+      suppressAppRouteSync = false;
+    }
+  }
+
+  function restoreAppRouteFromHash() {
+    applyAppRoute(parseAppRouteFromHash());
+  }
+
   let recitalsDataCache = null;
   let recitalsSearchTimer = null;
   let docNavArticlesListCache = null;
@@ -3489,22 +3667,6 @@
         scheduleNewsAttachmentsSummaryForItems(items);
         initNewsToolbarDockObserver();
       }
-    } else if (newsList) {
-      newsList.innerHTML = '';
-      if (items.length === 0) {
-        newsList.innerHTML =
-          '<li class="news-empty">No news items yet. Check the links above for the latest from each source.</li>';
-      } else {
-        items.forEach(function (item) {
-          const li = document.createElement('li');
-          li.className = 'news-card';
-          li.setAttribute('role', 'listitem');
-          const summaryHtml = buildNewsCardSummaryHtml(item);
-          if (!summaryHtml) li.classList.add('news-card--no-summary');
-          li.innerHTML = buildNewsCardMarkupHtml(item, 'h4');
-          newsList.appendChild(li);
-        });
-      }
     }
     applyNewsFeedsSectionCollapsedPreference();
   }
@@ -3514,7 +3676,6 @@
     teardownNewsToolbarDock();
     setNewsRefreshBusy(true);
     if (newsSections) newsSections.innerHTML = '';
-    if (newsList) newsList.innerHTML = '';
     if (newsResultStatus) newsResultStatus.textContent = 'Loading…';
     if (newsTocNav) {
       newsTocNav.hidden = true;
@@ -3536,7 +3697,6 @@
           newsSections.innerHTML =
             '<p class="news-empty">News could not be loaded. Make sure the server is running and try again.</p>';
         }
-        if (newsList) newsList.innerHTML = '';
       });
   }
 
@@ -3545,7 +3705,6 @@
     teardownNewsToolbarDock();
     setNewsRefreshBusy(true);
     if (newsSections) newsSections.innerHTML = '';
-    if (newsList) newsList.innerHTML = '';
     if (newsResultStatus) newsResultStatus.textContent = 'Refreshing feeds…';
     if (newsTocNav) {
       newsTocNav.hidden = true;
@@ -3575,7 +3734,6 @@
           newsSections.innerHTML =
             '<p class="news-empty">Refresh failed. Is the server running? Try again in a moment.</p>';
         }
-        if (newsList) newsList.innerHTML = '';
       });
   }
 
@@ -3817,6 +3975,7 @@
         openBrowseRegMenu();
       }
       updateBrowseSectionMenu();
+      syncAppRouteToUrl();
     });
   });
 
@@ -4047,16 +4206,13 @@
 
   function onNewsAttachmentsButtonClick(e) {
     var btn = e.target && e.target.closest && e.target.closest('.btn-news-attachments');
-    if (!btn) return;
-    var container = newsSections && newsSections.contains(btn) ? newsSections : newsList;
-    if (!container || !container.contains(btn)) return;
+    if (!btn || !newsSections || !newsSections.contains(btn)) return;
     e.preventDefault();
     var u = btn.getAttribute('data-article-url');
     var t = btn.getAttribute('data-article-title') || '';
     openNewsAttachmentsReview(u, t);
   }
   if (newsSections) newsSections.addEventListener('click', onNewsAttachmentsButtonClick);
-  if (newsList) newsList.addEventListener('click', onNewsAttachmentsButtonClick);
   if (newsAttachmentsDialogClose) {
     newsAttachmentsDialogClose.addEventListener('click', closeNewsAttachmentsDialog);
   }
@@ -4185,6 +4341,9 @@
       updateDocNav();
     }
     updateBrowseSectionMenu();
+    if (!suppressAppRouteSync && !appRouteRestorePending) {
+      syncAppRouteToUrl();
+    }
   }
 
   function ensureRecitalsIndexForSuggest() {
@@ -4630,6 +4789,7 @@
     lastListSection = null;
     citationReturnDoc = null;
     updateBrowseSectionMenu();
+    syncAppRouteToUrl(true);
   }
 
   const logoLink = document.getElementById('logoLink');
@@ -6431,65 +6591,6 @@
     updateChaptersFiltersToggleMeta();
   }
 
-  function openChapter(number) {
-    get('/api/chapters/' + number).then(data => {
-      resetCitationSidebarPanels();
-      const ch = data;
-      var profile = getRegProfile();
-      var sn = profile.shortName;
-      var site = profile.infoSiteName;
-      let html = '<div class="chapter-view">';
-      html += '<header class="chapter-view-header">';
-      html += '<h2 class="doc-heading chapter-heading">' + escapeHtml(sn) + ' Chapter ' + ch.roman + ' – ' + escapeHtml(ch.title) + '</h2>';
-      html += '<p class="chapter-view-sources">Official sources: <a href="' + escapeHtml(ch.sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(site) + '</a> · <a href="' + escapeHtml(ch.eurLexUrl) + '" target="_blank" rel="noopener">EUR-Lex</a></p>';
-      html += '</header>';
-      if (ch.articles && ch.articles.length) {
-        html += '<ul class="items-list" role="list">';
-        ch.articles.forEach(art => {
-          var disp = getArticleDisplayTitle(art);
-          var titleText = escapeHtml(disp);
-          var excerptHtml = '';
-          var exSrcCh = getArticleBodyTextAfterHeading(art);
-          if (exSrcCh && exSrcCh.trim() && exSrcCh.indexOf('(Text not extracted') !== 0) {
-            excerptHtml =
-              escapeHtml(exSrcCh.replace(/\s+/g, ' ').trim().slice(0, 200)).trim() + '…';
-          } else {
-            excerptHtml = escapeHtml('Open to read the full article text.');
-          }
-          var ariaOpen = 'Open ' + sn + ' Article ' + art.number + (disp ? ': ' + disp : '');
-          html += '<li class="item-card" role="listitem">';
-          html += '<a href="#" class="item-card-link" data-type="article" data-number="' + art.number + '" aria-label="' + escapeHtml(ariaOpen) + '">';
-          html += '<div class="item-card-main">';
-          html += '<span class="item-card-num"><span class="item-card-num-label">Art.</span> <span class="item-card-num-value">' + art.number + '</span></span>';
-          html += '<span class="item-card-title">' + titleText + '</span>';
-          html += '<p class="item-card-excerpt">' + excerptHtml + '</p>';
-          html += '</div><span class="item-card-arrow" aria-hidden="true"></span></a></li>';
-        });
-        html += '</ul>';
-      } else {
-        html += '<p class="chapter-empty">' + escapeHtml(sn) + ' article text will appear after refreshing sources. <a href="' + escapeHtml(ch.sourceUrl) + '" target="_blank" rel="noopener">Read on ' + escapeHtml(site) + '</a>.</p>';
-      }
-      html += '</div>';
-      detailContent.innerHTML = html;
-      citationLinks.innerHTML =
-        '<li><a href="' + escapeHtml(ch.sourceUrl) + '" target="_blank" rel="noopener">' + escapeHtml(site) + ' – ' + escapeHtml(sn) + ' Chapter ' + ch.roman + '</a></li><li><a href="' + escapeHtml(ch.eurLexUrl) + '" target="_blank" rel="noopener">EUR-Lex – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
-      updateCitationOfficialSourcesCount();
-      if (relatedArticles) relatedArticles.innerHTML = '';
-      if (relatedRecitals) relatedRecitals.innerHTML = '';
-      updateRelatedPanelsCountBadge(0, 0);
-      currentDoc = null;
-      showSection(browseDetail);
-      detailContent.querySelectorAll('a.item-card-link[data-type="article"]').forEach(a => {
-        a.addEventListener('click', function (e) {
-          e.preventDefault();
-          openArticle(parseInt(this.dataset.number, 10));
-        });
-      });
-      detailContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      focusDetailContentForReading();
-    });
-  }
-
   function openArticle(number, opts) {
     applyCitationNavOpts(opts);
     get('/api/articles/' + number)
@@ -6872,25 +6973,6 @@
     const div = document.createElement('div');
     div.textContent = s;
     return div.innerHTML;
-  }
-
-  /** Normalize regulation text for readable display: collapse huge gaps, keep (a)(b)(c) and (Recital N) with their content */
-  function normalizeAnswerText(text) {
-    if (!text || typeof text !== 'string') return '';
-    var t = text.trim();
-    if (!t) return '';
-    // Collapse 3+ newlines (with optional spaces) to a single double newline
-    t = t.replace(/\n\s*\n\s*\n+/g, '\n\n');
-    // Join lettered sub-points on their own line with the next line: "(a)\n\n describe" -> "(a) describe"
-    t = t.replace(/\n\s*\(([a-z])\)\s*\n\s*/g, ' ($1) ');
-    // Join "(Recital N)" on its own line with the following line to avoid huge gaps
-    t = t.replace(/\n\s*\((Recital \d+)\)\s*\n\s*/g, ' ($1) ');
-    // Collapse multiple spaces into one (optional, keeps single spaces)
-    t = t.replace(/[ \t]+/g, ' ');
-    // Trim spaces around newlines
-    t = t.replace(/\n /g, '\n').replace(/ \n/g, '\n');
-    // Final pass: collapse any remaining 3+ newlines
-    return t.replace(/\n\s*\n\s*\n+/g, '\n\n').trim();
   }
 
   /** Remove duplicate title at start of excerpt when it matches the provision title */
@@ -7761,11 +7843,6 @@
       .filter(Boolean)
       .map(fmtArticleLine)
       .join('<br>');
-  }
-
-  /** @deprecated Use `renderDocBulletList`; kept so call sites stay obvious. Nested = bullets only. */
-  function renderNumericSublist(lines) {
-    return renderDocBulletList(lines);
   }
 
   function renderManualPara(numStr, innerContentHtml) {
@@ -8706,34 +8783,6 @@
     return '<ol class="art-para-list">' + items + '</ol>';
   }
 
-  /** Build concise summary from results when the server call fails */
-  function buildClientSummary(query, results) {
-    if (!results || results.length === 0) return 'No provisions were found to summarize. Use the GDPR text on the left.';
-    function getFirstSentences(text, maxChars) {
-      var t = (text || '').trim().replace(/\s+/g, ' ');
-      if (!t) return '';
-      var re = /[^.!?]*[.!?]/g;
-      var out = '';
-      var m;
-      while ((m = re.exec(t)) && out.length + m[0].length + 1 <= maxChars) {
-        out += (out ? ' ' : '') + m[0].trim();
-      }
-      return out || t.slice(0, maxChars).trim();
-    }
-    var first = results[0];
-    var text = (first.excerpt || '').trim();
-    var label = first.type === 'recital' ? 'Recital ' + first.number : 'Article ' + first.number;
-    var core = getFirstSentences(text, 320);
-    if (!core) return 'See ' + label + ' in the GDPR text on the left.';
-    var others = [];
-    for (var i = 1; i < Math.min(3, results.length); i++) {
-      var r = results[i];
-      others.push(r.type === 'recital' ? 'Recital ' + r.number : 'Article ' + r.number);
-    }
-    var sourceLine = others.length ? 'Source: ' + label + ' (see also ' + others.join(', ') + ').' : 'Source: ' + label + '.';
-    return core + ' ' + sourceLine;
-  }
-
   btnAsk.addEventListener('click', doAsk);
   queryInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') doAsk(); });
 
@@ -9145,5 +9194,12 @@
   updateAskLlmKeysStatus();
   initRegulationSelector().finally(function () {
     loadMeta();
+    if (window.location.hash && window.location.hash.length > 1) {
+      restoreAppRouteFromHash();
+    }
+  });
+  window.addEventListener('hashchange', function () {
+    if (suppressAppRouteSync) return;
+    restoreAppRouteFromHash();
   });
 })();

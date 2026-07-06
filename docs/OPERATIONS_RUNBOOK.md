@@ -1,7 +1,7 @@
 # Operations runbook  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.3 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Procedures for **local development**, **production (Vercel)**, and **routine maintenance**. Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md).
 
@@ -76,7 +76,7 @@ Full dictionary: [VARIABLES.md](VARIABLES.md) · template: [.env.example](../.en
 1. Set env vars in project settings (never commit `.env`).
 2. Deploy from `main`; `vercel.json` routes to `api/index.js`.
 3. Cron hits `/api/cron/daily-regulation-refresh` with `Authorization: Bearer $CRON_SECRET`.
-4. Expect **ephemeral** `/tmp` — bundled `data/*.json` is source of truth on cold start.
+4. Expect **ephemeral** `/tmp` — bundled `data/*.json` is source of truth on cold start; **`SEED_FILES`** copies 11 JSON files (incl. Data Act) on first instance access. Verify `GET /api/regulations` returns `hasArticleTopics` / `hasSuitableRecitals` per regulation.
 
 Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 
@@ -87,7 +87,7 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 | Check | Expected |
 |-------|----------|
 | `curl -s -o /dev/null -w "%{http_code}" http://localhost:3847/` | `200` |
-| `curl -s http://localhost:3847/api/regulations` | JSON with `gdpr`, `ai-act`, and `data-act` |
+| `curl -s http://localhost:3847/api/regulations` | JSON with `gdpr`, `ai-act`, and `data-act`; GDPR `hasArticleTopics: true`; AI/Data Act `false` |
 | `curl -s "http://localhost:3847/api/meta?regulation=ai-act"` | `regulationId: ai-act`, `sources` array |
 | Ask (with keys) | `POST /api/answer` returns `answer`, `sources`, `llm.used` |
 | Data Act Art. 10 title | Browse → EU Data Act → Art. 10 → H2 **“Dispute settlement”** (not GDPR Art. 10 title) |

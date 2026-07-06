@@ -698,9 +698,6 @@ function newsBlobMatchesTopicAnchor(normalizedBlob) {
 
 module.exports = {
   NEWS_TOPIC_FALLBACK,
-  NEWS_TOPIC_GROUPS,
-  newsTopicSearchBlob,
-  classifyNewsItemTopic,
   assignNewsTopicFields,
   mergeNewsItemTopicFields,
   getTopicTaxonomyForClient,

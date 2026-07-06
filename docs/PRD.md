@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.5  
-**Last updated:** 2026-05-19  
-**Aligned with:** Product documentation standard **v2.2** · `package.json` **1.2.4**
+**Version:** 2.6  
+**Last updated:** 2026-07-06  
+**Aligned with:** Product documentation standard **v2.3** · `package.json` **1.2.4** (code hygiene **1.2.5**)
 
 ---
 
@@ -192,13 +192,23 @@ See [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md).
 
 ---
 
-## 7. Traceability
+## 7. Engineering maintainability (non-functional)
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-ENG-01 | Node modules expose a **documented public API** (`module.exports`); internal registry objects and helpers are not imported cross-module. | P1 |
+| FR-ENG-02 | Vercel cold start seeds **all three regulation corpora** plus news and chapter summaries via `SEED_FILES` (11 files). | P1 |
+| FR-ENG-03 | Dead client/server code paths are removed when UI is superseded (e.g. legacy flat news list, unused Ask CSS). | P2 |
+
+---
+
+## 8. Traceability
 
 Requirements map to [USER_STORIES.md](USER_STORIES.md) and [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
 ---
 
-## 8. References
+## 9. References
 
 - [README.md](../README.md)  
 - [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md)  

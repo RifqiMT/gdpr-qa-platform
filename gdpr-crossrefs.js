@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 /**
  * Article numbers mentioned in recital/article body text (GDPR articles 1–99).
  * Strips common non-GDPR citations to reduce false positives.
@@ -52,16 +49,6 @@ function buildRecitalsCitingArticlesMap(recitals) {
     }
   }
   return map;
-}
-
-function loadEditorialArticleSuitableRecitals(dataDir) {
-  const p = path.join(dataDir, 'article-suitable-recitals.json');
-  try {
-    const raw = JSON.parse(fs.readFileSync(p, 'utf8'));
-    return raw.articles || {};
-  } catch (_) {
-    return {};
-  }
 }
 
 /**
@@ -118,10 +105,7 @@ function mergedSuitableArticlesForRecital(recitalNum, editorialByArticle, recita
 }
 
 module.exports = {
-  extractArticleNumbersFromText,
   buildRecitalsCitingArticlesMap,
-  loadEditorialArticleSuitableRecitals,
   mergedSuitableRecitalsForArticle,
-  articlesReferencingRecitalInEditorial,
   mergedSuitableArticlesForRecital
 };

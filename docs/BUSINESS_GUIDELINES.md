@@ -1,9 +1,9 @@
 # Business guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5 · **Last updated:** 2026-05-19  
+**Version:** 1.5 · **Last updated:** 2026-07-06  
 **Audience:** Product, legal/compliance stakeholders, content owners, support  
-**Status:** Active · Documentation standard **v2.2** · Product **1.2.4**
+**Status:** Active · Documentation standard **v2.3** · Product **1.2.4**
 
 ---
 

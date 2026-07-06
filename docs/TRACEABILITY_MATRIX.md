@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.7 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.8 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 
@@ -25,6 +25,16 @@ Enterprise-style traceability: **business intent** → **requirements** → **im
 | BR-R-02 | Selection persists across sessions | FR-REG-02 | US-R2 | `gdpr-qa-regulation-v1`, `setCurrentRegulation` | Reload page; selection retained |
 | BR-R-03 | Refresh updates active regulation only | FR-REG-04 | US-R3, US-ETL1 | `POST /api/refresh`, `runRegulationScraperAndReloadContent` | Refresh with AI Act does not alter GDPR JSON |
 | BR-R-04 | UI copy follows regulation | FR-REG-05, FR-REG-06 | US-R4, US-R6 | `regulation-profiles.js`, `syncAskSourcesNewsChrome`, `syncCitationSidebarChrome` | Ask title and citation sidebar say “EU AI Act” / AI Act Law when selected |
+| BR-R-05 | Feature flags exposed via API | FR-REG-07 | US-R1 | `lib/regulations.js` `hasArticleTopics`, `hasSuitableRecitals` → `listRegulations()` | `GET /api/regulations`: GDPR both true; AI/Data Act both false |
+
+---
+
+## Engineering maintainability
+
+| BR-ID | Business requirement | PRD | Story | Implementation | Verification |
+|-------|---------------------|-----|-------|----------------|--------------|
+| BR-ENG-01 | Module boundaries documented and stable | — | — | `module.exports` tables in SOURCE_CODE_INVENTORY, VARIABLES §14, TECH_GUIDELINES §9b | No imports of `REGULATIONS` or internal guardrail helpers from other modules |
+| BR-ENG-02 | Vercel cold start serves all regulations | FR-DEP-02 | — | `lib/paths.js` `SEED_FILES` (11 files) | Fresh deploy: Data Act Browse works without manual refresh |
 
 ---
 

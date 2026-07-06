@@ -8,6 +8,22 @@ All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-
 
 ---
 
+## [1.2.5] — 2026-07-06
+
+### Changed
+
+- **Module public API hygiene:** Trimmed `module.exports` surfaces in `lib/regulations.js`, `lib/paths.js`, `gdpr-crossrefs.js`, `document-formatting-guardrails.js`, `news-crawler.js`, `news-article-attachments.js`, `scraper.js`, and regulation scrapers to documented public symbols only.
+- **Regulation registry:** `hasArticleTopics` and `hasSuitableRecitals` are now defined on each `REGULATIONS` entry and projected by `GET /api/regulations` via `listRegulations()`.
+- **Vercel seed manifest:** `lib/paths.js` `SEED_FILES` now includes EU Data Act corpus, structure, and chapter summaries for cold-start `/tmp` seeding.
+- **Client cleanup:** Removed legacy `openChapter`, `buildClientSummary`, `normalizeAnswerText`, `renderNumericSublist`, and flat `#newsList` news path from `public/app.js`.
+- **CSS cleanup:** Removed unused `.chapter-view*`, `.chapter-card`, legacy Ask/chat result blocks, and hidden legacy filter rules from `public/styles.css`.
+
+### Documentation
+
+- **Product documentation standard v2.3:** Full audit (2026-07-06) — module public APIs, Vercel `SEED_FILES` manifest, variables relationship charts, traceability, guardrails, design guidelines, source inventory, and README alignment after code cleanup.
+
+---
+
 ## [1.2.4] — 2026-05-19
 
 ### Added

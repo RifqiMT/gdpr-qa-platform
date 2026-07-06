@@ -1,7 +1,7 @@
 # API contracts  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4** (no REST changes in 1.2.4 — client UI only)
+**Version:** 1.5 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4** (no REST changes in 1.2.5 — documentation and module hygiene)
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.
@@ -24,7 +24,7 @@ Content type: JSON for all `/api/*` routes unless noted.
 
 **Response:** `{ regulations: [ { id, shortName, legalLabel, fullName, maxArticles, maxRecitals, segmentMeta, infoBaseUrl, eurLexUrl, hasArticleTopics, hasSuitableRecitals }, … ] }`
 
----
+**Flag source:** `hasArticleTopics` and `hasSuitableRecitals` are defined on each entry in the internal `REGULATIONS` registry (`lib/regulations.js`) and projected by `listRegulations()`. The client merges API values with `regulation-profiles.js` via `getRegProfile()`. GDPR: both `true`; AI Act and Data Act: both `false`.
 
 ## Health
 
@@ -71,7 +71,7 @@ Validates Groq and/or Tavily credentials with minimal provider API calls. Keys a
     "valid": null,
     "message": "No Tavily key entered."
   },
-  "checkedAt": "2026-05-19T12:00:00.000Z"
+  "checkedAt": "2026-07-06T12:00:00.000Z"
 }
 ```
 

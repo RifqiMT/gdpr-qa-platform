@@ -1,7 +1,7 @@
 # Architecture overview  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.6 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 ## System context
 
@@ -35,7 +35,7 @@ flowchart LR
 |-------|------------|----------------|
 | **Client** | `index.html`, `app.js`, `regulation-profiles.js`, `news-dedupe.js`, `styles.css` | `#appChrome`; **Tools** panel; **browse welcome grid** (desktop) / solo card (mobile); chapters filter panel + `resetChaptersFilters`; News hero; regulation-aware Browse/Ask/Sources/News |
 | **API** | `server.js` | REST; `parseRegulationId`; BM25; Groq/Tavily with `regulationSearchContext` |
-| **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Regulation metadata; `loadContent(regId)`; Vercel `/tmp` |
+| **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Regulation metadata; `loadContent(regId)`; Vercel `/tmp` + **`SEED_FILES`** (11 JSON files) |
 | **ETL GDPR** | `scraper.js` + **`document-formatting-guardrails.js`** | → **`gdpr-content.json`** |
 | **ETL AI Act** | `ai-act-scraper.js` | → **`ai-act-content.json`** |
 | **ETL Data Act** | `data-act-scraper.js` | → **`data-act-content.json`** |
@@ -124,7 +124,7 @@ sequenceDiagram
 ## Deployment model
 
 - **Local / VM** — One Node.js process (`npm start`) serves API and static files; `node-cron` runs daily regulation ETL at 02:00 Europe/Brussels.
-- **Vercel** — Express app exported via `api/index.js`; all routes rewrite to that function; bundled `data/` is seeded into `/tmp/gdpr-qa-data` per instance (`lib/paths.js`). Daily ETL uses Vercel Cron → `api/cron/daily-regulation-refresh.js` with `CRON_SECRET`. See [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
+- **Vercel** — Express app exported via `api/index.js`; all routes rewrite to that function; bundled `data/` is seeded into `/tmp/gdpr-qa-data` per instance (`lib/paths.js` **`SEED_FILES`** manifest — GDPR, AI Act, Data Act corpora + news + chapter summaries). Daily ETL uses Vercel Cron → `api/cron/daily-regulation-refresh.js` with `CRON_SECRET`. See [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 - **Stateful files (local)** — `data/` should persist on disk between restarts (content + news cache). On Vercel, treat committed `data/` as source of truth; `/tmp` writes are ephemeral.
 - **Secrets** — Environment variables only; no database required for core features. BYOK keys stay in the browser.
 

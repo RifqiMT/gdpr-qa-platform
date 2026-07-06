@@ -1,7 +1,7 @@
 # Data schema examples  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.3 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md).
 
@@ -67,7 +67,7 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
 {
   "meta": {
     "regulationId": "data-act",
-    "lastRefreshed": "2026-05-19T12:00:00.000Z",
+    "lastRefreshed": "2026-07-06T12:00:00.000Z",
     "sources": [
       {
         "name": "Data Act Law",
@@ -138,7 +138,7 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
 {
   "query": "What is a high-risk AI system?",
   "regulationId": "ai-act",
-  "contentAsOf": "2026-05-19T12:00:00.000Z",
+  "contentAsOf": "2026-07-06T12:00:00.000Z",
   "includeWeb": true,
   "industrySector": { "id": "GENERAL", "label": "General", "isicSection": null, "isicDivision": null },
   "answer": "Consent must be freely given, specific, informed, and unambiguous … [S1] … [S2]",
@@ -174,7 +174,7 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
     "valid": true,
     "message": "Tavily key is valid."
   },
-  "checkedAt": "2026-05-19T12:00:00.000Z"
+  "checkedAt": "2026-07-06T12:00:00.000Z"
 }
 ```
 

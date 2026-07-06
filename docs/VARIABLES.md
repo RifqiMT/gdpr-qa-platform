@@ -3,7 +3,7 @@
 
 **Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act + EU Data Act). Each entry uses consistent, reader-friendly wording.
 
-**Version:** 1.8 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.9 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 **Column reference**
 
@@ -75,6 +75,8 @@
 | `LLM_PROVIDER` | Summarize provider lock | Forces a single LLM provider for **`POST /api/summarize`** when set. | **`openai`**, **`anthropic`**, **`gemini`**, **`groq`**, **`mistral`**, **`openrouter`** (case-insensitive). | `server.js` → `summarizeWithLLM` | `groq` |
 | `CRON_SECRET` | Vercel cron auth secret | Bearer token for **`/api/cron/daily-regulation-refresh`**. | Must match `Authorization: Bearer …` header. | `api/cron/daily-regulation-refresh.js` | *(secret)* |
 | `GDPR_DATA_DIR` | Writable data directory | Overrides default `data/` path (Vercel: `/tmp/gdpr-qa-data`). | Absolute or relative path string. | `lib/paths.js` | `/tmp/gdpr-qa-data` |
+| `IS_VERCEL` | Vercel runtime flag (read-only) | When truthy, `getDataDir()` uses `/tmp/gdpr-qa-data` and runs one-time seed copy. | Set by Vercel platform (`process.env.VERCEL`). | `lib/paths.js` | `1` |
+| `SEED_FILES` | Bundled data seed manifest (internal) | List of JSON filenames copied from bundled `data/` to writable dir when missing on Vercel cold start. | Fixed array in `lib/paths.js` (11 files; incl. Data Act corpus + summaries). | `lib/paths.js` → `seedBundledDataTo` | See §1.1 table |
 | `MIN_AI_ACT_ARTICLES` | Minimum AI Act articles | Acceptance threshold for AI Act ETL. | `parseInt(env \|\| '113', 10)`. | `ai-act-scraper.js` | `113` |
 | `MIN_AI_ACT_RECITALS` | Minimum AI Act recitals | Acceptance threshold for AI Act ETL. | `parseInt(env \|\| '180', 10)`. | `ai-act-scraper.js` | `180` |
 | `AI_ACT_MAX_ARTICLE_CHARS` | AI Act body char cap | Optional max chars per article/recital body. | Integer; 0 = uncapped. | `ai-act-scraper.js` | `500000` |
@@ -85,6 +87,40 @@
 | `DATA_ACT_MAX_ARTICLE_CHARS` | Data Act body char cap | Optional max chars per article/recital body. | Integer; 0 = uncapped. | `data-act-scraper.js` | `500000` |
 | `DATA_ACT_INFO_CONCURRENCY` | Data Act fetch parallelism | Concurrent page fetches from data-act-law.eu. | `max(1, parseInt(env \|\| '6', 10))`. | `data-act-scraper.js` | `6` |
 | `DATA_ACT_FORCE_CORPUS_WRITE` | Force Data Act corpus write | Write `data-act-content.json` even if hash unchanged. | `=== '1'`. | `data-act-scraper.js` | `1` |
+
+---
+
+## 1.1 Vercel seed manifest (`lib/paths.js` → `SEED_FILES`)
+
+On serverless cold start, each file below is copied from the deployment bundle `data/` to the writable directory **only if the destination does not yet exist**.
+
+| Technical name | Friendly name | Definition | Location in app | Example |
+|----------------|---------------|------------|-----------------|---------|
+| `gdpr-content.json` | GDPR corpus | Full GDPR articles, recitals, search index | Browse / Ask / APIs | `data/gdpr-content.json` |
+| `gdpr-structure.json` | GDPR structure | Chapters, meta, credible sources fallback | ETL, Sources tab | `data/gdpr-structure.json` |
+| `ai-act-content.json` | AI Act corpus | Full AI Act text + index | Browse / Ask when `ai-act` | `data/ai-act-content.json` |
+| `ai-act-structure.json` | AI Act structure | Chapters, credible sources | Sources tab | `data/ai-act-structure.json` |
+| `data-act-content.json` | Data Act corpus | Full Data Act text + index | Browse / Ask when `data-act` | `data/data-act-content.json` |
+| `data-act-structure.json` | Data Act structure | Chapters, credible sources | Sources tab | `data/data-act-structure.json` |
+| `gdpr-news.json` | News store | Feeds list + merged news items | News tab, crawl persistence | `data/gdpr-news.json` |
+| `chapter-summaries.json` | GDPR chapter intros | Short chapter summaries | Chapters browse | `data/chapter-summaries.json` |
+| `chapter-summaries-ai-act.json` | AI Act chapter intros | Short chapter summaries | Chapters browse | `data/chapter-summaries-ai-act.json` |
+| `chapter-summaries-data-act.json` | Data Act chapter intros | Short chapter summaries | Chapters browse | `data/chapter-summaries-data-act.json` |
+| `article-suitable-recitals.json` | Editorial crossrefs | GDPR-Info suitable recitals map | GDPR related recitals | `data/article-suitable-recitals.json` |
+
+```mermaid
+flowchart LR
+  BUNDLE[data/ bundled in deploy]
+  TMP[/tmp/gdpr-qa-data]
+  GET[getDataDir]
+  SEED[seedBundledDataTo]
+  API[server.js APIs]
+
+  BUNDLE --> SEED
+  SEED -->|copy if missing| TMP
+  GET --> TMP
+  GET --> API
+```
 
 ---
 
@@ -437,8 +473,8 @@ flowchart TB
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `ai-act-content.json` | AI Act corpus file | Full AI Act text + search index. | Written by `ai-act-scraper.js`; read by `loadContent('ai-act')`. | `data/` | 113 articles |
 | `meta.regulationId` | Corpus regulation tag | Identifies corpus in combined meta responses. | Constant **`ai-act`**. | `ai-act-content.json` → `meta` | `"ai-act"` |
-| `hasArticleTopics` | Topic filter flag (client) | Whether sub-category filters show. | **`false`** for AI Act in `lib/regulations.js`. | API `/api/regulations` | `false` |
-| `hasSuitableRecitals` | Cross-ref flag (client) | Whether suitable-recital panels load. | **`false`** for AI Act. | API `/api/regulations` | `false` |
+| `hasArticleTopics` | Topic filter flag (API + client) | Whether sub-category filters apply for this regulation. | **`true`** on GDPR registry object; **`false`** on AI Act and Data Act. Projected by `listRegulations()` → `GET /api/regulations`; client merges with `regulation-profiles.js`. | `lib/regulations.js`, `public/app.js` | `true` (GDPR) |
+| `hasSuitableRecitals` | Cross-ref flag (API + client) | Whether editorial suitable-recital panels load. | **`true`** GDPR only; **`false`** AI Act / Data Act. Same projection path as `hasArticleTopics`. | `lib/regulations.js`, `gdpr-crossrefs.js` | `false` (AI Act) |
 
 ---
 
@@ -540,7 +576,7 @@ flowchart LR
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `data-act-content.json` | Data Act corpus file | Full Data Act text + search index. | Written by `data-act-scraper.js`; read by `loadContent('data-act')`. | `data/` | 50 articles |
 | `meta.regulationId` | Corpus regulation tag | Identifies corpus in combined meta responses. | Constant **`data-act`**. | `data-act-content.json` → `meta` | `"data-act"` |
-| `hasArticleTopics` | Topic filter flag (client) | Whether sub-category filters show. | **`false`** for Data Act in `lib/regulations.js`. | API `/api/regulations` | `false` |
+| `hasArticleTopics` | Topic filter flag (client) | Whether sub-category filters show. | **`false`** for Data Act in `lib/regulations.js` registry; projected by `listRegulations()`. | API `/api/regulations` | `false` |
 | `hasSuitableRecitals` | Cross-ref flag (client) | Whether suitable-recital panels load. | **`false`** for Data Act. | API `/api/regulations` | `false` |
 
 ---
@@ -642,6 +678,40 @@ flowchart LR
 
 ---
 
+## 14. Module public API (Node)
+
+Documented `module.exports` surfaces — import only these symbols (**TG-C01**). Full consumer map: [SOURCE_CODE_INVENTORY.md](SOURCE_CODE_INVENTORY.md).
+
+| Module | Public exports | Primary consumers |
+|--------|----------------|-------------------|
+| `lib/regulations.js` | `normalizeRegulationId`, `getRegulation`, `listRegulations`, `getRegulationPaths`, `enrichArticlesWithChapter` | `server.js`, scrapers, `regulation-content.js` |
+| `lib/paths.js` | `getDataDir`, `IS_VERCEL` | `server.js`, `lib/regulations.js`, scrapers |
+| `gdpr-crossrefs.js` | `buildRecitalsCitingArticlesMap`, `mergedSuitableRecitalsForArticle`, `mergedSuitableArticlesForRecital` | `server.js` article/recital routes |
+| `document-formatting-guardrails.js` | `normalizeCorpus`, `validateCorpusFormatting`, `logFormattingGuardrailsReport` | All ETL paths, `loadContent` |
+| `news-crawler.js` | `crawlNews`, `withTimeout`, `normalizeNewsUrlKey`, `dedupeNewsItemsConsolidated`, `sanitizeNewsItemDates` | `server.js` news routes |
+
+### 14.1 Regulation flags → API → client flow
+
+```mermaid
+flowchart LR
+  REG[REGULATIONS object]
+  LIST[listRegulations]
+  API[GET /api/regulations]
+  STORE[setCurrentRegulation]
+  PROF[regulation-profiles.js]
+  GETP[getRegProfile]
+  UI[Browse filters + related panels]
+
+  REG -->|hasArticleTopics hasSuitableRecitals| LIST
+  LIST --> API
+  API --> STORE
+  PROF --> GETP
+  STORE --> GETP
+  GETP --> UI
+```
+
+---
+
 ## 11. Maintenance checklist
 
 1. **New environment variable:** Add a row to **§1**, update **[.env.example](../.env.example)**, **[README.md §10](../README.md#10-configuration)**, and **[API_CONTRACTS.md](API_CONTRACTS.md)** if user-visible. Update **§9.2** if it affects a major subsystem. **News dedupe rule changes:** update **§7**, **§9.1**, **§9.3**, **`public/news-dedupe.js`**, and **[GUARDRAILS.md](GUARDRAILS.md) TG-N04** together. **Commission / multi-feed crawl changes:** review **[GUARDRAILS.md](GUARDRAILS.md) TG-N06** and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** news rows.
@@ -650,3 +720,4 @@ flowchart LR
 4. **App chrome / News hero UI:** Update **§2.1** (`newsUi`), **§12**, **[DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md)**, **[FEATURE_CATALOG.md](FEATURE_CATALOG.md)**, and **[TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)** BR-S-* / BR-*-N01 rows together.
 5. **Browse welcome / chapters filters:** Update **§2.1** (`browseUi`), **§13**, PRD **FR-BRW-13–17**, feature **F-BRW-19–22**, design §2.2.1 together.
 6. **Release:** Bump **`package.json`** version and **[CHANGELOG.md](../CHANGELOG.md)**; align **“Last updated”** notes in **[PRD.md](PRD.md)** when requirements change materially.
+7. **Module export changes:** Update **SOURCE_CODE_INVENTORY**, **VARIABLES §14**, **TECH_GUIDELINES §9b**, **GUARDRAILS TG-C01–C03**, and **TRACEABILITY_MATRIX** BR-ENG rows together.

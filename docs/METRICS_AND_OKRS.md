@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4** (browse welcome hub, chapters filter reliability, regulation themes).
+**Version:** 1.6 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4** (browse welcome hub, chapters filter reliability, regulation themes).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -25,6 +25,7 @@ This document defines **product metrics** (what to measure in production or rese
 | **Refresh adoption** | Share of deployments or sessions where `meta.lastRefreshed` is within N days of “today.” | Stale corpus hurts trust; drive “Refresh sources” UX. |
 | **News engagement** | Click-through rate from in-app news cards to external publisher URLs. | Validates news value without hosting content. |
 | **News duplicate density** | Before/after dedupe: ratio of raw merged rows to rows after **`dedupeNewsItemsConsolidated`** (server log or one-off script). | Should trend **low** after crawl fixes; client **`news-dedupe.js`** is a safety net—large gaps imply server/JSON drift. |
+| **News date sanitization** | Share of items with normalized `publishedAt` / `date` after **`sanitizeNewsItemDates`** in the crawl pipeline. | Invalid or missing dates should not break sort order; monitor drops in enrichment passes. |
 | **News items post-gate (count)** | Number of items returned after **`crawlNews`** + **`newsItemMatchesApprovedTopic`** (or length of **`GET /api/news`** `items` after merge cap). | Tracks ingestion health; sudden drops may indicate upstream HTML/RSS changes, **403** blocks, or timeouts. Segment by **`sourceName`** when debugging. |
 | **News refresh duration** | Wall-clock time for **`POST /api/news/refresh`** until response (compare to **`NEWS_REFRESH_TIMEOUT_MS`**). | Approaching timeout suggests raising cap or reducing crawl depth via **`NEWS_MAX_*`**. |
 | **News API cache bypass** | Share of `GET /api/news` responses whose **`Cache-Control`** includes **`no-store`** (monitoring or spot-check). | Confirms users see post-refresh merges without aggressive HTTP caching. |

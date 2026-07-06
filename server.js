@@ -49,7 +49,7 @@ function resolveLlmKeys(req) {
 const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
-const { run: runScraper, buildSearchIndex } = require('./scraper');
+const { run: runScraper } = require('./scraper');
 const newsCrawlerPath = require.resolve('./news-crawler');
 const {
   withTimeout,
@@ -121,12 +121,11 @@ const { getDataDir, IS_VERCEL } = require('./lib/paths');
 const {
   parseRegulationId,
   loadContent,
-  invalidateRegulationContentCache,
   runRegulationScraperAndReloadContent,
   listRegulations,
   getRegulationPaths
 } = require('./lib/regulation-content');
-const { getRegulation, normalizeRegulationId } = require('./lib/regulations');
+const { getRegulation } = require('./lib/regulations');
 
 const app = express();
 const PORT = process.env.PORT || 3847;
@@ -1957,7 +1956,6 @@ app.post('/api/answer', async (req, res) => {
   const sources = [...localSources, ...webSources].slice(0, 10);
   let llm = { used: false, provider: null, model: null, note: null, byokGroq: false, byokTavily: false };
   let answer = null;
-  let answerSources = sources;
 
   const llmKeys = resolveLlmKeys(req);
   const groqKey = llmKeys.groqKey;

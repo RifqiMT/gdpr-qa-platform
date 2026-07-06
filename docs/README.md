@@ -4,8 +4,8 @@
 This directory contains **professional product, design, and engineering documentation** for the **EU Regulation Q&A Platform** — a multi-regulation reference and Q&A application covering **GDPR**, **EU AI Act**, and **EU Data Act**.
 
 The **canonical operator handbook** is the repository root **[README.md](../README.md)**.  
-**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.2**).  
-**Product version:** `package.json` **1.2.4** · **Last documentation audit:** 2026-05-19.
+**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.3**).  
+**Product version:** `package.json` **1.2.4** · **Last documentation audit:** 2026-07-06.
 
 ---
 
@@ -15,7 +15,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 |------|----------|-------------|
 | 1 | [../README.md](../README.md) | Product overview, features, logic, configuration, quick start. |
 | 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Document index and governance rules. |
-| 3 | [PRD.md](PRD.md) | Formal requirements **v2.5** (browse welcome hub, chapters filter reliability, BYOK, Vercel). |
+| 3 | [PRD.md](PRD.md) | Formal requirements **v2.6** (browse welcome hub, chapters filter reliability, BYOK, Vercel). |
 | 4 | [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) | Business scope, credible sources, regulation-specific notes. |
 | 5 | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) | Engineering standards, APIs, ETL, security. |
 | 6 | [USER_PERSONAS.md](USER_PERSONAS.md) / [USER_STORIES.md](USER_STORIES.md) | Users and acceptance criteria. |
@@ -40,7 +40,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 
 | Document | Description |
 |----------|-------------|
-| [PRD.md](PRD.md) | Product requirements **v2.5** — browse welcome hub, chapters filter reliability, three regulations, responsive chrome, BYOK, News hero, Vercel. |
+| [PRD.md](PRD.md) | Product requirements **v2.6** — browse welcome hub, chapters filter reliability, three regulations, responsive chrome, BYOK, News hero, Vercel, module API hygiene. |
 | [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) | Business scope, credible sources, News policy per regulation. |
 | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) | Stack, regulation APIs, three ETL scrapers, LLM, performance. |
 | [USER_PERSONAS.md](USER_PERSONAS.md) | Eight personas (legal, DPO, AI governance, Data Act, DevOps, …). |
@@ -67,11 +67,12 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Primary product handbook. |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.2**. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.3**. |
 | [../CHANGELOG.md](../CHANGELOG.md) | [Keep a Changelog](https://keepachangelog.com/) history. |
 | [../.env.example](../.env.example) | Environment template (GDPR + AI Act + Data Act + News + LLM). |
 | [../public/regulation-profiles.js](../public/regulation-profiles.js) | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, `browseUi`, `citationsUi`). |
-| [../lib/regulations.js](../lib/regulations.js) | Regulation registry (ids, CELEX, paths, limits). |
+| [../lib/regulations.js](../lib/regulations.js) | Regulation registry (ids, CELEX, paths, limits, `hasArticleTopics`, `hasSuitableRecitals`). |
+| [../lib/paths.js](../lib/paths.js) | `getDataDir()`, Vercel `SEED_FILES` manifest (11 JSON files). |
 
 ---
 

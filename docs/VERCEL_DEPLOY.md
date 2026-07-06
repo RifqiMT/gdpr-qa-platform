@@ -1,6 +1,6 @@
 # Deploying to Vercel (production)
 
-**Version:** 1.2 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.3 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 This guide covers deploying the EU Regulation Q&A Platform as a **Vercel serverless** Node app. Local development (`npm start`) is unchanged.
 
@@ -113,8 +113,30 @@ curl -X GET "https://YOUR_DEPLOYMENT.vercel.app/api/cron/daily-regulation-refres
 | `vercel.json` | Rewrites, function config, crons |
 | `api/index.js` | Serverless entry → Express `app` |
 | `api/cron/daily-regulation-refresh.js` | Cron handler |
-| `lib/paths.js` | `getDataDir()` — bundle vs `/tmp` |
+| `lib/paths.js` | `getDataDir()` — bundle vs `/tmp`; **`SEED_FILES`** manifest (11 JSON files) |
 | `.vercelignore` | Exclude `.env`, logs |
+
+---
+
+## Seed manifest (`SEED_FILES`)
+
+On first access per serverless instance, `lib/paths.js` copies these files from bundled `data/` into `/tmp/gdpr-qa-data` **only when the destination file is missing**:
+
+| # | File | Purpose |
+|---|------|---------|
+| 1 | `gdpr-content.json` | GDPR corpus |
+| 2 | `gdpr-structure.json` | GDPR structure + sources |
+| 3 | `ai-act-content.json` | AI Act corpus |
+| 4 | `ai-act-structure.json` | AI Act structure |
+| 5 | `data-act-content.json` | Data Act corpus |
+| 6 | `data-act-structure.json` | Data Act structure |
+| 7 | `gdpr-news.json` | News feeds + items |
+| 8 | `chapter-summaries.json` | GDPR chapter intros |
+| 9 | `chapter-summaries-ai-act.json` | AI Act chapter intros |
+| 10 | `chapter-summaries-data-act.json` | Data Act chapter intros |
+| 11 | `article-suitable-recitals.json` | GDPR editorial crossrefs |
+
+Override writable root with `GDPR_DATA_DIR`. After deploy, verify `GET /api/regulations` lists all three regulations and `GET /api/meta?regulation=data-act` returns metadata.
 
 ---
 

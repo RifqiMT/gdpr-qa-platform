@@ -201,8 +201,5 @@ async function fetchNewsArticleAttachments(pageUrl, opts) {
 }
 
 module.exports = {
-  fetchNewsArticleAttachments,
-  articleHostAllowed,
-  isAttachmentUrlSafe,
-  looksLikeDownloadable
+  fetchNewsArticleAttachments
 };

@@ -1,9 +1,9 @@
 # Technical guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.5  
+**Version:** 1.6  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v2.2** · Product **1.2.4** · **Last updated:** 2026-05-19
+**Status:** Active · Documentation standard **v2.3** · Product **1.2.4** · **Last updated:** 2026-07-06
 
 ---
 
@@ -155,6 +155,24 @@ Copy for welcome cards lives in **`browseUi`** — keep in sync with [DESIGN_GUI
 - Regulation-specific copy in **`regulation-profiles.js`**, not scattered GDPR strings.  
 - New regulation: add entry to `lib/regulations.js`, structure + content JSON, scraper, chapter summaries file, profile in `regulation-profiles.js`.  
 - API changes: update `docs/API_CONTRACTS.md` and `docs/TRACEABILITY_MATRIX.md`.
+
+---
+
+## 9b. Module public API (Node)
+
+Import **only** these documented exports. Internal helpers stay module-private per **TG-C01**.
+
+| Module | Public exports |
+|--------|----------------|
+| `lib/regulations.js` | `normalizeRegulationId`, `getRegulation`, `listRegulations`, `getRegulationPaths`, `enrichArticlesWithChapter` |
+| `lib/paths.js` | `getDataDir`, `IS_VERCEL` |
+| `lib/regulation-content.js` | `parseRegulationId`, `loadContent`, `invalidateRegulationContentCache`, `runRegulationScraperAndReloadContent`, `listRegulations`, `getRegulationPaths` |
+| `gdpr-crossrefs.js` | `buildRecitalsCitingArticlesMap`, `mergedSuitableRecitalsForArticle`, `mergedSuitableArticlesForRecital` |
+| `document-formatting-guardrails.js` | `normalizeCorpus`, `validateCorpusFormatting`, `logFormattingGuardrailsReport` |
+| `news-crawler.js` | `crawlNews`, `withTimeout`, `normalizeNewsUrlKey`, `dedupeNewsItemsConsolidated`, `sanitizeNewsItemDates` |
+| `scraper.js` | `run`, `fetchText`, `buildSearchIndex`, `stripLeadingHeadingLinesFromBody`, `mergeWithExisting`, `getGdprInfoEntryPlainText`, `computeDatasetHash` |
+
+Full consumer map: [SOURCE_CODE_INVENTORY.md](SOURCE_CODE_INVENTORY.md).
 
 ---
 

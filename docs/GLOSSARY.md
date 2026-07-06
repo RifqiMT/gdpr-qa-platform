@@ -1,7 +1,7 @@
 # Glossary  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.4 · **Last updated:** 2026-05-19 · Documentation standard **v2.2** · Product **1.2.4**
+**Version:** 1.5 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI.
 
@@ -25,7 +25,9 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **EUR-Lex** | Official EU law database; canonical legal publication of Regulation (EU) 2016/679. |
 | **GDPR** | General Data Protection Regulation — Regulation (EU) 2016/679. |
 | **GDPR-Info** | Unofficial but widely used website **gdpr-info.eu**; default primary source for paragraph structure in the app’s corpus. |
-| **BYOK** | Bring Your Own Key — users store **Groq** / **Tavily** credentials in **browser `localStorage`** and send them per request via **`apiKeys`**; overrides server `.env` when non-empty. |
+| **SEED_FILES** | Internal manifest in `lib/paths.js` — eleven bundled JSON files copied to `/tmp/gdpr-qa-data` on Vercel cold start when missing. |
+| **IS_VERCEL** | Read-only flag (`process.env.VERCEL`) that switches `getDataDir()` to writable `/tmp` with one-time seed copy. |
+| **Module public API** | Documented `module.exports` symbols per Node file; internal helpers must not be imported cross-module (**TG-C01**). |
 | **Groq** | Third-party inference API (OpenAI-compatible) used as the **primary** Ask synthesizer when **`GROQ_API_KEY`** (server) or BYOK **`groqApiKey`** is set. |
 | **ICO** | Information Commissioner’s Office (UK) — credible source in News and Sources. |
 | **ISIC** | International Standard Industrial Classification of All Economic Activities — referenced for sector labels in **`industry-sectors.json`**. |
