@@ -3,7 +3,7 @@
 
 **Version:** 1.6  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v2.3** · Product **1.2.4** · **Last updated:** 2026-07-06
+**Status:** Active · Documentation standard **v2.4** · Product **1.2.5** · **Last updated:** 2026-07-22
 
 ---
 

@@ -1,6 +1,6 @@
 # Deploying to Vercel (production)
 
-**Version:** 1.3 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
+**Version:** 1.3 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
 
 This guide covers deploying the EU Regulation Q&A Platform as a **Vercel serverless** Node app. Local development (`npm start`) is unchanged.
 

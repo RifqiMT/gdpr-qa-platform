@@ -1,9 +1,9 @@
 # Product documentation standard  
 ## EU Regulation Q&A Platform
 
-**Version:** 2.3  
+**Version:** 2.4  
 **Status:** Active — governance checklist for product, design, compliance, engineering, and operations.  
-**Product release:** `package.json` **1.2.4** (code hygiene **1.2.5**). **Latest doc audit:** 2026-07-06 (module public APIs, Vercel seed manifest, dead-code cleanup, full doc set alignment).
+**Product release:** `package.json` **1.2.5**. **Latest doc audit:** 2026-07-22 (full documentation set alignment to product 1.2.5; browse welcome epic; regulation theme token tables; metrics O10; version and governance bump).
 
 **Scope:** All material under **`gdpr-qa-platform/`** describing the product, behavior, configuration, verification, and release history.
 
@@ -19,7 +19,7 @@
 | [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) | Product, legal | Positioning, regulation scope (GDPR, AI Act, Data Act), credible sources, News policy. |
 | [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md) | Engineering, DevOps | Multi-regulation APIs, ETL, Ask pipeline, BYOK, security, performance. |
 | [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.6** — three regulations, browse welcome hub, chapters filter reliability, BYOK, responsive chrome, News hero, Vercel, module API hygiene. |
-| [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX | Eight personas including AI governance and **data economy / Data Act** leads. |
+| [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX | Nine personas including AI governance and **data economy / Data Act** leads. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA | Epics and acceptance-oriented stories traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, support | Data dictionary + **Mermaid relationship diagrams** (configuration, corpus, Ask, News). |
 | [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) | Integrators | Sample JSON for corpora, Ask, news (illustrative). |
@@ -164,6 +164,7 @@ Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans / DM Serif Text
 
 | Standard version | Date | Highlights |
 |------------------|------|------------|
+| **2.4** | 2026-07-22 | Product **1.2.5** version alignment across full doc set; browse welcome epic (US-W*); DESIGN_GUIDELINES regulation theme rgba tokens; METRICS O10; USER_STORIES Epic 0c; governance bump. |
 | **2.3** | 2026-07-06 | Module public API documentation; Vercel `SEED_FILES` manifest (incl. Data Act); dead-code cleanup record; SOURCE_CODE_INVENTORY v1.6; VARIABLES v1.9; guardrails TG-C01. |
 | **2.2** | 2026-05-19 | Browse welcome hub (`browseUi`); desktop 3-column cards; chapters filter reset + mobile Filters panel; PRD v2.5; VARIABLES §13; design regulation themes. |
 | **2.1** | 2026-05-19 | Responsive app chrome; News hero; toolbar hints; no duplicate status strip; PRD v2.4. |

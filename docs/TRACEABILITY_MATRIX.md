@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.8 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
+**Version:** 1.8 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
 
 Enterprise-style traceability: **business intent** → **requirements** → **implementation** → **verification**. Maintained with [PRD](PRD.md) and [USER_STORIES](USER_STORIES.md).
 

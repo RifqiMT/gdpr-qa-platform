@@ -1,6 +1,6 @@
 # Document formatting guardrails (regulation reader)
 
-**Version:** 1.5 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
+**Version:** 1.5 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
 
 **Applies to:** All regulation corpora — **GDPR** (`gdpr-content.json`, `scraper.js`), **EU AI Act** (`ai-act-content.json`, `ai-act-scraper.js`), and **EU Data Act** (`data-act-content.json`, `data-act-scraper.js`). Each path runs mandatory **`normalizeCorpus`** on refresh and read. The **same reader** in `public/app.js` (`fmtArticleLine`, `fmtRecitalLine`, citation linking) applies with regulation-specific heading patterns from `regulation-profiles.js`.
 

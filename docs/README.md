@@ -4,8 +4,8 @@
 This directory contains **professional product, design, and engineering documentation** for the **EU Regulation Q&A Platform** — a multi-regulation reference and Q&A application covering **GDPR**, **EU AI Act**, and **EU Data Act**.
 
 The **canonical operator handbook** is the repository root **[README.md](../README.md)**.  
-**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.3**).  
-**Product version:** `package.json` **1.2.4** · **Last documentation audit:** 2026-07-06.
+**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.4**).  
+**Product version:** `package.json` **1.2.5** · **Last documentation audit:** 2026-07-22.
 
 ---
 
@@ -67,7 +67,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Primary product handbook. |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.3**. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.4**. |
 | [../CHANGELOG.md](../CHANGELOG.md) | [Keep a Changelog](https://keepachangelog.com/) history. |
 | [../.env.example](../.env.example) | Environment template (GDPR + AI Act + Data Act + News + LLM). |
 | [../public/regulation-profiles.js](../public/regulation-profiles.js) | Per-regulation UI copy (`askUi`, `sourcesUi`, `newsUi`, `browseUi`, `citationsUi`). |

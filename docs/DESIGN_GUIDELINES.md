@@ -1,7 +1,7 @@
 # Design guidelines  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.8 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
+**Version:** 1.9 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
 
 Visual language, **CSS design tokens**, and **component patterns** for the web UI. Source of truth: `public/styles.css`, `public/index.html`, `public/regulation-profiles.js`.
 
@@ -71,11 +71,13 @@ Set by **`syncNewsHeroChrome()`** from **`newsUi.theme`** in `regulation-profile
 
 Shared token pattern with News hero — applied via **`data-browse-theme`** on `.browse-welcome` / `.browse-welcome-card`:
 
-| `data-browse-theme` | Accent (`--browse-accent`) | Mark / tags background |
-|---------------------|---------------------------|-------------------------|
-| `gdpr` (default) | `#0f766e` (teal) | `--browse-accent-soft` mint |
-| `ai-act` | `#4f46e5` (indigo) | Indigo soft wash |
-| `data-act` | `#0369a1` (sky) | Sky soft wash |
+| `data-browse-theme` | `--browse-accent` | `--browse-accent-soft` | `--browse-accent-glow` | Usage |
+|---------------------|-------------------|------------------------|------------------------|--------|
+| `gdpr` (default) | `#0f766e` (teal) | `rgba(15, 118, 110, 0.12)` | `rgba(15, 118, 110, 0.28)` | Card border, badges, primary quick action, gradient rail |
+| `ai-act` | `#4f46e5` (indigo) | `rgba(79, 70, 229, 0.12)` | `rgba(79, 70, 229, 0.32)` | Same pattern on AI Act card and solo mobile welcome |
+| `data-act` | `#0369a1` (sky) | `rgba(3, 105, 161, 0.12)` | `rgba(3, 105, 161, 0.3)` | Same pattern on Data Act card |
+
+**Derived states:** Primary buttons use `color-mix(in srgb, var(--browse-accent) 88%, #0f172a)` on hover; focus rings use `outline: 2px solid var(--browse-accent)`; active card (`.browse-welcome-card--active`) elevates shadow with `--browse-accent-glow`.
 
 **Layout**
 

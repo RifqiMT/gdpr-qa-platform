@@ -1,7 +1,7 @@
 # Source code inventory  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4** (code cleanup **1.2.5**)
+**Version:** 1.6 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5** (code cleanup **1.2.5**)
 
 Repository file map, **public module APIs**, and simplified dependency overview. For architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
 

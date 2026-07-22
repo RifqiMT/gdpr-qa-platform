@@ -318,9 +318,7 @@
     var out = body && typeof body === 'object' ? Object.assign({}, body) : {};
     if (
       url === '/api/refresh' ||
-      url === '/api/answer' ||
-      url === '/api/ask' ||
-      url === '/api/chapter-summaries/regenerate'
+      url === '/api/answer'
     ) {
       out.regulation = currentRegulation.id;
     }

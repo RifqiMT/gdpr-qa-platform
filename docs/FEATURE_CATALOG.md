@@ -1,7 +1,7 @@
 # Feature catalog  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-07-06 · **Product version:** `package.json` **1.2.4** · Documentation standard **v2.3**
+**Version:** 1.6 · **Last updated:** 2026-07-22 · **Product version:** `package.json` **1.2.5** · Documentation standard **v2.4**
 
 This catalog is the **feature-level inventory** of the shipped product. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 

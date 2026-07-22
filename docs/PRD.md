@@ -2,8 +2,8 @@
 ## EU Regulation Q&A Platform
 
 **Version:** 2.6  
-**Last updated:** 2026-07-06  
-**Aligned with:** Product documentation standard **v2.3** · `package.json` **1.2.4** (code hygiene **1.2.5**)
+**Last updated:** 2026-07-22  
+**Aligned with:** Product documentation standard **v2.4** · `package.json` **1.2.5**
 
 ---
 

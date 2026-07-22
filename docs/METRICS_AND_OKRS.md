@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4** (browse welcome hub, chapters filter reliability, regulation themes).
+**Version:** 1.7 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5** (browse welcome hub, chapters filter reliability, regulation themes, engineering maintainability **O10**).
 
 This document defines **product metrics** (what to measure in production or research) and **Objectives and Key Results (OKRs)** for the product team. Metrics should be collected in a way that respects privacy (no unnecessary logging of full question text in shared analytics without policy).
 
@@ -47,6 +47,9 @@ This document defines **product metrics** (what to measure in production or rese
 | **Browse welcome card engagement** | Share of desktop sessions where user clicks a grid card or quick action on `#browseWelcomeGrid`. | Segment by regulation id. |
 | **False empty chapters rate** | Share of `applyChaptersFilters` runs with filters visually “All” but zero articles (should trend **zero** after **TG-F10**). | Log `chaptersFiltersAreActive()` vs empty HTML reason. |
 | **Chapters filter clear rate** | Share of empty filtered states where user clicks **Clear all filters** within 30s. | High rate may mean confusing hidden filters. |
+| **Module export surface drift** | Count of undocumented `module.exports` symbols vs [SOURCE_CODE_INVENTORY.md](SOURCE_CODE_INVENTORY.md) public API table after each release. | Target **zero** drift; ties to **FR-ENG-01** and **TG-C01**. |
+| **Dead client symbol count** | Static review: unused functions in `public/app.js` not referenced in HTML or event bindings. | Should remain **zero** after hygiene passes. |
+| **Vercel seed manifest parity** | `SEED_FILES.length` matches documented manifest in [VARIABLES.md §1.1](VARIABLES.md#11-vercel-seed-manifest-libpathsjs--seed_files). | Currently **11** files; mismatch blocks cold-start on serverless. |
 
 ### 1.3 Quality and risk metrics
 
@@ -153,6 +156,15 @@ This document defines **product metrics** (what to measure in production or rese
 | KR1 | **False empty chapters rate** = 0 on QA script: GDPR topic filter → switch to Data Act → All filters → articles visible. |
 | KR2 | ≥ 80% of desktop Browse-placeholder sessions interact with at least one welcome card (if telemetry enabled). |
 | KR3 | Zero P1 bugs on **hidden filter bleed** or **stale loadChapters** after regulation switch for two release cycles. |
+
+### Objective O10: Engineering maintainability keeps the codebase auditable.
+
+| Key result | Target (example) |
+|------------|------------------|
+| KR1 | **Module export surface drift** = 0 between code and [SOURCE_CODE_INVENTORY.md](SOURCE_CODE_INVENTORY.md) on every release. |
+| KR2 | All modified JS files pass `node --check` in CI before merge. |
+| KR3 | **Vercel seed manifest parity** maintained (11 files) when adding new corpus JSON. |
+| KR4 | No reintroduction of removed legacy UI paths (`#newsList`, `openChapter`, `.chapter-view*`) in PR review checklist. |
 
 ---
 

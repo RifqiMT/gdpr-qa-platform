@@ -15,6 +15,7 @@ const EUR_LEX_HTML_URL = 'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?u
 const EUR_LEX_TXT_URL = 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679';
 const GDPR_INFO_BASE = 'https://gdpr-info.eu';
 const { getDataDir } = require('./lib/paths');
+const { getRegulation, enrichArticlesWithChapter } = require('./lib/regulations');
 const DATA_DIR = getDataDir();
 
 /** Stored article/recital body max length. Env GDPR_MAX_ARTICLE_CHARS: omit or high number (default 500000); 0 or negative = no cap. */
@@ -310,19 +311,6 @@ function getGdprInfoEntryPlainText($, cheerioMod) {
   }
   let t = $clone.text().replace(/\r/g, '\n').replace(/[ \t\f]+/g, ' ').replace(/\n{2,}/g, '\n\n').trim();
   return t;
-}
-
-/** Chapter ranges for Articles 1–99 (same as parseEurLexText). */
-const CHAPTER_RANGES = [
-  [1, 4], [5, 11], [12, 23], [24, 43], [44, 50], [51, 59], [60, 76], [77, 84], [85, 91], [92, 93], [94, 99]
-];
-
-function enrichArticlesWithChapter(articles) {
-  return (articles || []).map((a) => {
-    const chapterIndex = CHAPTER_RANGES.findIndex(([x, y]) => a.number >= x && a.number <= y);
-    const chapter = chapterIndex >= 0 ? chapterIndex + 1 : 1;
-    return { ...a, chapter };
-  });
 }
 
 function cleanLines(text) {
@@ -786,7 +774,7 @@ async function run() {
     if (primary === 'gdpr-info') {
       try {
         const out = await getGdprInfoBundleOnce();
-        const arts = enrichArticlesWithChapter(out.articles);
+        const arts = enrichArticlesWithChapter(out.articles, getRegulation('gdpr').chapterRanges);
         if (arts.length >= minArt && out.recitals.length >= minRec) {
           newArticles = arts;
           newRecitals = out.recitals;
@@ -830,7 +818,7 @@ async function run() {
       if (!newRecitals.length && !newArticles.length) {
         try {
           const out = await getGdprInfoBundleOnce();
-          const arts = enrichArticlesWithChapter(out.articles);
+          const arts = enrichArticlesWithChapter(out.articles, getRegulation('gdpr').chapterRanges);
           if (arts.length >= 80 && out.recitals.length >= 140) {
             newArticles = arts;
             newRecitals = out.recitals;
@@ -857,7 +845,7 @@ async function run() {
       if (!newRecitals.length && !newArticles.length) {
         try {
           const out = await getGdprInfoBundleOnce();
-          const arts = enrichArticlesWithChapter(out.articles);
+          const arts = enrichArticlesWithChapter(out.articles, getRegulation('gdpr').chapterRanges);
           if (arts.length >= 80 && out.recitals.length >= 140) {
             newArticles = arts;
             newRecitals = out.recitals;

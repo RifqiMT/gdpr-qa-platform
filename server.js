@@ -463,25 +463,15 @@ app.get('/api/meta', (req, res) => {
   });
 });
 
-function normNewsKey(url) {
-  const k = normalizeNewsUrlKey(url);
-  if (k) return k;
-  return String(url || '')
-    .toLowerCase()
-    .replace(/\/$/, '')
-    .trim();
-}
-
-/** Merge live crawl with bundled/static items; keep rich fields (e.g. summaryParagraphs) from static when URLs match. */
 function mergeNewsItems(staticItems, crawledItems) {
   const map = new Map();
   for (const c of crawledItems || []) {
-    const k = normNewsKey(c.url);
+    const k = normalizeNewsUrlKey(c.url) || String(c.url || '').toLowerCase().replace(/\/$/, '').trim();
     if (!k || !c.title) continue;
     map.set(k, { ...c });
   }
   for (const s of staticItems || []) {
-    const k = normNewsKey(s.url);
+    const k = normalizeNewsUrlKey(s.url) || String(s.url || '').toLowerCase().replace(/\/$/, '').trim();
     if (!k) continue;
     const ex = map.get(k);
     if (!ex) {
@@ -708,11 +698,6 @@ app.post('/api/news/refresh', async (req, res) => {
   }
 });
 
-app.get('/api/categories', (req, res) => {
-  const data = contentFor(req);
-  res.json(data.categories || []);
-});
-
 app.get('/api/chapters', (req, res) => {
   const reg = regulationMeta(req);
   const data = contentFor(req);
@@ -770,17 +755,6 @@ app.post('/api/chapter-summaries/regenerate', async (req, res) => {
   }
 });
 
-app.get('/api/chapters/:number', (req, res) => {
-  const reg = regulationMeta(req);
-  const data = contentFor(req);
-  const num = parseInt(req.params.number, 10);
-  const chapter = (data.chapters || []).find(c => c.number === num);
-  if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
-  const articles = (data.articles || []).filter(a => a.chapter === num);
-  const sourceUrl = chapter.sourceUrl || `${reg.infoBaseUrl}/chapter/${num}/`;
-  res.json({ ...chapter, sourceUrl, gdprInfoChapterUrl: sourceUrl, articles });
-});
-
 app.get('/api/articles', (req, res) => {
   const data = contentFor(req);
   res.json(data.articles || []);
@@ -831,22 +805,6 @@ app.get('/api/recitals/:number', (req, res) => {
     suitableArticles
   });
 });
-
-function simpleSearch(query, index) {
-  if (!query || !index.length) return [];
-  const q = query.toLowerCase().trim().replace(/\s+/g, ' ');
-  const terms = q.split(/\s+/).filter(Boolean);
-  const scored = index.map(item => {
-    const text = ((item.title || '') + ' ' + (item.text || '')).toLowerCase();
-    let score = 0;
-    for (const t of terms) {
-      if (text.includes(t)) score += 1;
-      if ((item.title || '').toLowerCase().includes(t)) score += 2;
-    }
-    return { ...item, score };
-  });
-  return scored.filter(x => x.score > 0).sort((a, b) => b.score - a.score).slice(0, 25);
-}
 
 function normalizeTextForIndex(s) {
   return String(s || '')
@@ -1251,44 +1209,6 @@ async function fetchWebSnippets(query, reg) {
   return pages;
 }
 
-app.post('/api/ask', (req, res) => {
-  const data = contentFor(req);
-  const query = (req.body?.query || req.query?.query || '').trim();
-  const index = data.searchIndex || [];
-  const results = simpleSearch(query, index);
-  const articles = data.articles || [];
-  const recitals = data.recitals || [];
-
-  res.json({
-    query,
-    contentAsOf: data.meta?.lastRefreshed || null,
-    results: results.map(({ score, ...r }) => {
-      let fullText = '';
-      if (r.type === 'recital') {
-        const rec = recitals.find(x => x.number === r.number);
-        fullText = rec ? (rec.text || '').trim() : (r.text || '').trim();
-      } else {
-        const art = articles.find(x => x.number === r.number);
-        if (art) {
-          fullText = ((art.title || '') + '\n\n' + (art.text || '')).trim();
-        } else {
-          fullText = (r.text || '').trim();
-        }
-      }
-      return {
-        type: r.type,
-        id: r.id,
-        number: r.number,
-        title: r.title,
-        excerpt: fullText,
-        sourceUrl: r.sourceUrl,
-        eurLexUrl: r.eurLexUrl,
-        chapterTitle: r.chapterTitle
-      };
-    })
-  });
-});
-
 /** Build a concise, comprehensible summary from excerpts (extractive). */
 function buildSummaryFromExcerpts(query, excerpts, sector, reg) {
   const regulation = reg || getRegulation('gdpr');
@@ -1324,23 +1244,6 @@ function buildSummaryFromExcerpts(query, excerpts, sector, reg) {
       ? `Filtered context: ${sector.label}${focus ? ` (${focus})` : ''}. Interpret the following strictly as ${regLabel} obligations that would apply in this line of business; it is extractive summary only, not tailored legal advice. From the retrieved text: `
       : '';
   return `${sectorPrefix}${core} ${sourceLine}`;
-}
-
-/** Build shared prompt — strict anti-hallucination: answer ONLY from provided credible text. */
-function buildSummaryPrompt(query, excerpts) {
-  const sourceText = excerpts.slice(0, 5).map((ex) => {
-    const label = ex.type === 'recital' ? `Recital ${ex.number}` : `Article ${ex.number}`;
-    return `[${label}]\n${(ex.excerpt || ex.text || '').trim().slice(0, 3000)}`;
-  }).join('\n\n---\n\n');
-  const systemPrompt = `You answer questions about the GDPR (EU Regulation 2016/679) using ONLY the regulation text provided below. You must not hallucinate.
-
-STRICT RULES:
-1. Use ONLY information that appears in the provided text. Do not add, infer, or assume anything not explicitly stated.
-2. Every claim in your answer must be directly supported by a specific sentence or phrase in the text. When possible, cite the Article or Recital (e.g. "Article 4(1) states that...").
-3. If the provided text does not contain an answer to the question, respond with exactly: "The provided regulation text does not contain a direct answer to this question. Please refer to the full text on the left or try rephrasing."
-4. Write in plain language, 3–5 clear sentences. Do not quote long passages; summarize only what is there.`;
-  const userPrompt = `Question: ${query}\n\nCredible regulation text (use ONLY this):\n${sourceText}\n\nAnswer the question using ONLY the text above. Cite Article/Recital numbers. If the answer is not in the text, say so.`;
-  return { systemPrompt, userPrompt };
 }
 
 function querySeemsMetricsFocused(q) {
@@ -2086,229 +1989,6 @@ app.post('/api/answer', async (req, res) => {
       };
     })
   });
-});
-
-/** OpenAI (gpt-4o-mini, etc.). Requires OPENAI_API_KEY. */
-async function summarizeWithOpenAI(query, excerpts) {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key || !excerpts || excerpts.length === 0) return null;
-  const { systemPrompt, userPrompt } = buildSummaryPrompt(query, excerpts);
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-    body: JSON.stringify({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_tokens: 600,
-      temperature: 0.1
-    })
-  });
-  if (!res.ok) {
-    console.error('OpenAI summarize error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() || null;
-}
-
-/** Anthropic (Claude). Requires ANTHROPIC_API_KEY. */
-async function summarizeWithAnthropic(query, excerpts) {
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key || !excerpts || excerpts.length === 0) return null;
-  const { systemPrompt, userPrompt } = buildSummaryPrompt(query, excerpts);
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: process.env.ANTHROPIC_MODEL || 'claude-3-5-sonnet-20241022',
-      max_tokens: 600,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userPrompt }]
-    })
-  });
-  if (!res.ok) {
-    console.error('Anthropic summarize error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  const block = data.content?.find(b => b.type === 'text');
-  return block?.text?.trim() || null;
-}
-
-/** Google Gemini. Requires GOOGLE_GEMINI_API_KEY. */
-async function summarizeWithGemini(query, excerpts) {
-  const key = process.env.GOOGLE_GEMINI_API_KEY;
-  if (!key || !excerpts || excerpts.length === 0) return null;
-  const { systemPrompt, userPrompt } = buildSummaryPrompt(query, excerpts);
-  const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
-  const model = process.env.GOOGLE_GEMINI_MODEL || 'gemini-1.5-flash';
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: fullPrompt }] }],
-      generationConfig: {
-        maxOutputTokens: 600,
-        temperature: 0.1
-      }
-    })
-  });
-  if (!res.ok) {
-    console.error('Gemini summarize error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-  return text || null;
-}
-
-/** Groq (fast inference, OpenAI-compatible). Requires GROQ_API_KEY. */
-async function summarizeWithGroq(query, excerpts) {
-  const key = process.env.GROQ_API_KEY;
-  if (!key || !excerpts || excerpts.length === 0) return null;
-  const { systemPrompt, userPrompt } = buildSummaryPrompt(query, excerpts);
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-    body: JSON.stringify({
-      model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_tokens: 600,
-      temperature: 0.1
-    })
-  });
-  if (!res.ok) {
-    console.error('Groq summarize error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() || null;
-}
-
-/** Mistral. Requires MISTRAL_API_KEY. */
-async function summarizeWithMistral(query, excerpts) {
-  const key = process.env.MISTRAL_API_KEY;
-  if (!key || !excerpts || excerpts.length === 0) return null;
-  const { systemPrompt, userPrompt } = buildSummaryPrompt(query, excerpts);
-  const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-    body: JSON.stringify({
-      model: process.env.MISTRAL_MODEL || 'mistral-small-latest',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_tokens: 600,
-      temperature: 0.1
-    })
-  });
-  if (!res.ok) {
-    console.error('Mistral summarize error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() || null;
-}
-
-/** OpenRouter (single API for many models). Requires OPENROUTER_API_KEY. */
-async function summarizeWithOpenRouter(query, excerpts) {
-  const key = process.env.OPENROUTER_API_KEY;
-  if (!key || !excerpts || excerpts.length === 0) return null;
-  const { systemPrompt, userPrompt } = buildSummaryPrompt(query, excerpts);
-  const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet';
-  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${key}`,
-      'HTTP-Referer': process.env.OPENROUTER_REFERRER || 'http://localhost:3847'
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_tokens: 600,
-      temperature: 0.1
-    })
-  });
-  if (!res.ok) {
-    console.error('OpenRouter summarize error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() || null;
-}
-
-/** Try LLM providers; best instruction-following first (Anthropic, OpenAI) to reduce hallucination. */
-async function summarizeWithLLM(query, excerpts) {
-  const provider = (process.env.LLM_PROVIDER || '').toLowerCase();
-  if (provider === 'openai') return await summarizeWithOpenAI(query, excerpts);
-  if (provider === 'anthropic') return await summarizeWithAnthropic(query, excerpts);
-  if (provider === 'gemini') return await summarizeWithGemini(query, excerpts);
-  if (provider === 'groq') return await summarizeWithGroq(query, excerpts);
-  if (provider === 'mistral') return await summarizeWithMistral(query, excerpts);
-  if (provider === 'openrouter') return await summarizeWithOpenRouter(query, excerpts);
-  // No provider specified: try best models first (Anthropic → OpenAI → others)
-  if (process.env.ANTHROPIC_API_KEY) {
-    const out = await summarizeWithAnthropic(query, excerpts);
-    if (out) return out;
-  }
-  if (process.env.OPENAI_API_KEY) {
-    const out = await summarizeWithOpenAI(query, excerpts);
-    if (out) return out;
-  }
-  if (process.env.GOOGLE_GEMINI_API_KEY) {
-    const out = await summarizeWithGemini(query, excerpts);
-    if (out) return out;
-  }
-  if (process.env.GROQ_API_KEY) {
-    const out = await summarizeWithGroq(query, excerpts);
-    if (out) return out;
-  }
-  if (process.env.MISTRAL_API_KEY) {
-    const out = await summarizeWithMistral(query, excerpts);
-    if (out) return out;
-  }
-  if (process.env.OPENROUTER_API_KEY) {
-    const out = await summarizeWithOpenRouter(query, excerpts);
-    if (out) return out;
-  }
-  return null;
-}
-
-app.post('/api/summarize', async (req, res) => {
-  try {
-    const query = (req.body?.query || '').trim();
-    const excerpts = Array.isArray(req.body?.excerpts) ? req.body.excerpts : [];
-    let summary = '';
-    if (excerpts.length > 0) {
-      summary = await summarizeWithLLM(query, excerpts) || buildSummaryFromExcerpts(query, excerpts);
-    } else {
-      summary = buildSummaryFromExcerpts(query, excerpts);
-    }
-    res.json({ query, summary });
-  } catch (err) {
-    console.error('Summarize error:', err);
-    const query = (req.body?.query || '').trim();
-    const excerpts = Array.isArray(req.body?.excerpts) ? req.body.excerpts : [];
-    res.json({
-      query,
-      summary: buildSummaryFromExcerpts(query, excerpts) || 'Summary is temporarily unavailable. Use the regulation text on the left.'
-    });
-  }
 });
 
 app.post('/api/refresh', async (req, res) => {

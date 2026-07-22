@@ -3,7 +3,7 @@
 
 **Purpose:** Authoritative data dictionary for configuration keys, environment variables, persisted JSON fields, client storage, and derived quantities (GDPR + EU AI Act + EU Data Act). Each entry uses consistent, reader-friendly wording.
 
-**Version:** 1.9 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
+**Version:** 2.0 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
 
 **Column reference**
 

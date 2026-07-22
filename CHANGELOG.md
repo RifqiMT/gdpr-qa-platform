@@ -8,6 +8,27 @@ All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-
 
 ---
 
+## [1.2.6] — 2026-07-22
+
+### Removed
+
+- **Legacy REST endpoints:** `GET /api/categories`, `GET /api/chapters/:number`, `POST /api/ask`, and `POST /api/summarize` (unused by the SPA; Ask uses `POST /api/answer` only).
+- **Unused LLM summarize providers:** OpenAI, Anthropic, Gemini, Mistral, and OpenRouter helpers removed from `server.js`; Ask remains Groq → Tavily → extractive.
+- **Dead exports:** `invalidateRegulationContentCache` removed from `lib/regulation-content.js` public API.
+
+### Changed
+
+- **GDPR scraper:** Reuses shared `enrichArticlesWithChapter` from `lib/regulations.js` instead of local duplicate.
+- **News merge:** Inlined `normNewsKey` into `mergeNewsItems` using `normalizeNewsUrlKey`.
+- **Client:** Regulation body injection limited to `/api/refresh` and `/api/answer` (drops removed routes).
+- **`.env.example`:** Trimmed to active Groq/Tavily and platform env vars only.
+
+### Documentation
+
+- **Product documentation standard v2.4:** Full alignment audit (2026-07-22) — product **1.2.5**/**1.2.6** headers; browse welcome epic (**US-W***); regulation theme token tables (accent / soft / glow); metrics **O10** (engineering maintainability); governance and README index updates.
+
+---
+
 ## [1.2.5] — 2026-07-06
 
 ### Changed

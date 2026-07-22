@@ -1,7 +1,7 @@
 # User Stories  
 ## EU Regulation Q&A Platform
 
-**Version:** 1.7 · **Last updated:** 2026-07-06 · Documentation standard **v2.3** · Product **1.2.4**
+**Version:** 1.8 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
 
 Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
 Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** and **Data Act** leads).
@@ -30,6 +30,18 @@ Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** 
 | US-S2 | As a **DPO**, I want to see **when the corpus was last refreshed** in the Source freshness row before I open the full tooltip so that I know the text is current. | DPO |
 | US-S3 | As a **Consultant**, I want **one place** for API key status (Tools row + Ask tab) without duplicate cards in the header so that the app feels clear and professional. | Consultant |
 | US-S4 | As a **General Professional** on a **tablet**, I want the regulation reader to use the space **below** the sticky header so that long articles are not hidden under the chrome. | General Professional |
+
+---
+
+## Epic 0c: Browse welcome hub
+
+| ID | Story | Persona |
+|----|--------|---------|
+| US-W1 | As a **General Professional** on **desktop**, I want to see **three regulation overview cards** (`#browseWelcomeGrid`) with correct themes so that I can choose GDPR, EU AI Act, or EU Data Act at a glance. | General Professional |
+| US-W2 | As a **Consultant**, I want **Chapters & articles** as the **primary** quick action and **Recitals** second on each welcome card so that my default path matches how I research provisions. | Consultant |
+| US-W3 | As a **Legal/Compliance** user, I want chapter filters **reset** when I switch regulation so that GDPR sub-category values never hide AI Act or Data Act articles. | Legal/Compliance |
+| US-W4 | As a **DPO**, I want chapter loads to **ignore stale API responses** when I switch regulations quickly so that the article list always matches the selected regulation. | DPO |
+| US-W5 | As a **General Professional** on **mobile**, I want a **collapsible Filters** panel for chapters browse so that I can see articles without the filter bar consuming the screen. | General Professional |
 
 ---
 
