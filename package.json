@@ -1,7 +1,7 @@
 {
   "name": "gdpr-qa-platform",
-  "version": "1.2.6",
-  "description": "EU Regulation Q&A Platform — GDPR, EU AI Act, and EU Data Act; Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
+  "version": "1.2.7",
+  "description": "Regulation Q&A Platform — EU GDPR, AI Act, Data Act and Indonesian UU PDP, Satu Data Indonesia, AI ethics; Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
   "main": "server.js",
   "scripts": {
     "prestart": "node -e \"const fs=require('fs'),p=require('path');const a=p.join('data','article-suitable-recitals.json'),b=p.join('public','article-suitable-recitals.json');try{if(fs.existsSync(a))fs.copyFileSync(a,b);}catch(e){}\"",
@@ -10,7 +10,11 @@
     "refresh": "node server.js --refresh-only",
     "refresh-ai-act": "node ai-act-scraper.js",
     "refresh-data-act": "node data-act-scraper.js",
-    "fetch-suitable-recitals": "node scripts/fetch-article-suitable-recitals.js"
+    "refresh-id-pdp": "node id-law-scraper.js id-pdp",
+    "refresh-id-satu-data": "node id-law-scraper.js id-satu-data",
+    "refresh-id-ai-ethics": "node id-law-scraper.js id-ai-ethics",
+    "fetch-suitable-recitals": "node scripts/fetch-article-suitable-recitals.js",
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=18"

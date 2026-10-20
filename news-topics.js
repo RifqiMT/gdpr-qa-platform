@@ -15,6 +15,79 @@ const NEWS_TOPIC_FALLBACK = 'Other GDPR & data protection topics';
 /** @type {NewsTopicGroup[]} */
 const NEWS_TOPIC_GROUPS = [
   {
+    category: 'Indonesia Personal Data Protection',
+    topics: [
+      {
+        label: 'UU PDP and Komdigi supervision',
+        patterns: [
+          /\buu\s*pdp\b|uu\s*(nomor|no\.?)\s*27|undang[- ]undang.{0,24}27.{0,12}2022|komdigi.{0,40}(pdp|data pribadi)|lembaga pelindungan data|pengawas.{0,20}data pribadi/i
+        ]
+      },
+      {
+        label: 'Data-subject rights (Indonesia)',
+        patterns: [
+          /hak.{0,20}(subjek data|pemilik data)|data subjek|akses data pribadi|penghapusan data pribadi|permintaan.{0,20}data pribadi|persetujuan.{0,20}data pribadi/i
+        ]
+      },
+      {
+        label: 'Cross-border transfers (Indonesia)',
+        patterns: [
+          /transfer.{0,20}data pribadi.{0,20}(luar negeri|lintas batas)|lintas batas.{0,20}data pribadi|aliran data lintas batas|adequacy.{0,20}indonesia/i
+        ]
+      },
+      {
+        label: 'Breach notification and sanctions (Indonesia)',
+        patterns: [
+          /notifikasi pelanggaran.{0,20}data|pelanggaran data pribadi|sanksi.{0,20}(pdp|data pribadi)|denda.{0,20}data pribadi|pidana.{0,20}data pribadi/i
+        ]
+      }
+    ]
+  },
+  {
+    category: 'Indonesia Satu Data',
+    topics: [
+      {
+        label: 'Satu Data Indonesia and data.go.id',
+        patterns: [
+          /satu data indonesia|\bsatu data\b|portal satu data|data\.go\.id|one data indonesia/i
+        ]
+      },
+      {
+        label: 'Walidata, producers, and data standards',
+        patterns: [
+          /\bwalidata\b|pembina data|produsen data|standar data nasional|kode referensi data|interoperabilitas data/i
+        ]
+      },
+      {
+        label: 'Perpres 39/2019 data sharing',
+        patterns: [/perpres.{0,12}39.{0,12}2019|peraturan presiden.{0,20}39.{0,12}2019|akses data.{0,20}tanpa.{0,12}(mou|nota kesepahaman)/i]
+      }
+    ]
+  },
+  {
+    category: 'Indonesia AI Ethics',
+    topics: [
+      {
+        label: 'SE Kominfo 9/2023 AI ethics',
+        patterns: [
+          /se\s*(menkominfo|kominfo|komdigi).{0,12}9.{0,12}2023|surat edaran.{0,24}9.{0,12}2023|etika kecerdasan artifisial|etika kecerdasan buatan/i
+        ]
+      },
+      {
+        label: 'Indonesian AI roadmap and Perpres',
+        patterns: [
+          /rperpres.{0,24}ai|perpres.{0,24}(etika\s*)?(ai|kecerdasan)|roadmap.{0,16}(ai|kecerdasan artifisial).{0,16}indonesia|peta jalan.{0,16}(ai|kecerdasan)/i
+        ]
+      },
+      {
+        label: 'PSE duties and humanitarian AI limits',
+        patterns: [
+          /penyelenggara sistem elektronik.{0,40}(ai|kecerdasan)|kbli\s*62015|keputusan.{0,20}kemanusiaan.{0,20}(ai|kecerdasan)|ai.{0,20}tidak.{0,20}murni.{0,20}otomatis/i
+        ]
+      }
+    ]
+  },
+  {
     category: 'Core Rights',
     topics: [
       {
@@ -678,7 +751,7 @@ function newsBlobMatchesTopicAnchor(normalizedBlob) {
     .trim();
   if (b.length < 14) return false;
   const dp =
-    /\b(personal data|data protection|privacy|\bgdpr\b|data subject|supervisory authorit|information commissioner|\bedpb\b|\bedps\b)\b/.test(
+    /\b(personal data|data protection|privacy|\bgdpr\b|data subject|supervisory authorit|information commissioner|\bedpb\b|\bedps\b|data pribadi|pelindungan data|satu data|kecerdasan artifisial|komdigi|kominfo)\b/.test(
       b
     );
   if (!dp) return false;

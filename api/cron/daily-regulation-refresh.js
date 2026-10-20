@@ -14,6 +14,9 @@ module.exports = async (req, res) => {
     const gdpr = await runRegulationScraperAndReloadContent('gdpr');
     const aiAct = await runRegulationScraperAndReloadContent('ai-act');
     const dataAct = await runRegulationScraperAndReloadContent('data-act');
+    const idPdp = await runRegulationScraperAndReloadContent('id-pdp');
+    const idSatuData = await runRegulationScraperAndReloadContent('id-satu-data');
+    const idAiEthics = await runRegulationScraperAndReloadContent('id-ai-ethics');
     res.json({
       ok: true,
       job: 'daily-regulation-refresh',
@@ -28,6 +31,18 @@ module.exports = async (req, res) => {
       dataAct: {
         lastRefreshed: dataAct.meta?.lastRefreshed ?? null,
         lastChecked: dataAct.meta?.lastChecked ?? null
+      },
+      idPdp: {
+        lastRefreshed: idPdp.meta?.lastRefreshed ?? null,
+        lastChecked: idPdp.meta?.lastChecked ?? null
+      },
+      idSatuData: {
+        lastRefreshed: idSatuData.meta?.lastRefreshed ?? null,
+        lastChecked: idSatuData.meta?.lastChecked ?? null
+      },
+      idAiEthics: {
+        lastRefreshed: idAiEthics.meta?.lastRefreshed ?? null,
+        lastChecked: idAiEthics.meta?.lastChecked ?? null
       }
     });
   } catch (e) {

@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-09-07T00:00:16.288Z",
+    "sources": [
+      {
+        "name": "JDIH Kementerian Komunikasi dan Digital",
+        "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+        "description": "Official HTML text of Surat Edaran Menteri Kominfo Nomor 9 Tahun 2023 tentang Etika Kecerdasan Artifisial (19 December 2023). This is currently Indonesia's in-force AI ethics instrument; two Presidential Regulations (AI ethics and AI roadmap 2026–2029) were still awaiting signature as of September 2026.",
+        "documents": [
+          {
+            "label": "SE Menkominfo 9/2023 (JDIH Komdigi)",
+            "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+          },
+          {
+            "label": "JDIH Komdigi home",
+            "url": "https://jdih.komdigi.go.id/"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Komdigi — AI Presidential Regulation drafts",
+        "url": "https://jdih.komdigi.go.id/berita/view/116",
+        "description": "Official Komdigi notice that ministerial discussion of the RPerpres on AI Ethics and the National AI Roadmap 2026–2029 was completed in May 2026.",
+        "documents": [
+          {
+            "label": "RPerpres Etika KA and Peta Jalan KA (Komdigi news)",
+            "url": "https://jdih.komdigi.go.id/berita/view/116"
+          }
+        ]
+      }
+    ],
+    "regulationId": "id-ai-ethics",
+    "lastChecked": "2026-09-07T00:00:16.288Z",
+    "datasetHash": "fa69aa36128d3466d1be2f8c8b224a74b6297d0cc4c7989fdb1784d8a7ea09ba",
+    "etl": {
+      "extractedFrom": "jdih-komdigi",
+      "fetched": true,
+      "significant": false,
+      "datasetHash": "fa69aa36128d3466d1be2f8c8b224a74b6297d0cc4c7989fdb1784d8a7ea09ba",
+      "articleCount": 7,
+      "recitalCount": 9
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Nine ethical values",
+      "description": "The nine Etika Kecerdasan Artifisial values in section 6 of SE 9/2023.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "id": "chapters",
+      "title": "Numbered sections",
+      "description": "Sections 1–7 of the circular (Umum through Penutup).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Umum",
+      "articleRange": "1",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Maksud, tujuan, ruang lingkup, dan dasar hukum",
+      "articleRange": "2-4",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Definisi",
+      "articleRange": "5",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Isi edaran (nilai, pelaksanaan, dan tanggung jawab)",
+      "articleRange": "6",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Penutup",
+      "articleRange": "7",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "General background (Umum)",
+      "text": "Perkembangan teknologi kecerdasan artifisial telah mengalami peningkatan yang signifikan di seluruh dunia, termasuk di Negara Indonesia. Implementasi kecerdasan artifisial telah merambah berbagai sektor dan industri, membawa dampak yang luas dalam efisiensi, inovasi, dan transformasi bisnis. Dalam beberapa kasus, implementasi kecerdasan artifisial telah mengubah cara manusia berinteraksi dengan teknologi, menghadirkan kemampuan seperti analisis data yang canggih, pemrosesan bahasa alami, dan pembelajaran mesin otomatis.\n\nBidang usaha yang berkaitan dengan kecerdasan artifisial juga mengalami pertumbuhan yang pesat. Berbagai startup dan perusahaan besar mulai mengembangkan solusi penyelenggaraan kecerdasan artifisial untuk meningkatkan produktivitas, mengoptimalkan proses bisnis, dan memberikan layanan yang lebih personal kepada pelanggan. Dalam hal ini sebagai contoh, sektor industri kreatif menyelenggarakan kecerdasan artifisial untuk pembuatan konten di media sosial, sektor kesehatan mengadopsi kecerdasan artifisial untuk diagnosis medis yang lebih akurat, bahkan di sektor pendidikan kecerdasan artifisial digunakan untuk membantu dalam kegiatan pembelajaran dan penelitian.\n\nStandar usaha pemrograman berbasis kecerdasan artifisial diatur dalam Peraturan Menteri Komunikasi dan Informatika Nomor 3 Tahun 2021 tentang Standar Kegiatan Usaha dan Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Sektor Pos, Telekomunikasi, dan Sistem dan Transaksi Elektronik yang merupakan aktivitas pemrograman berbasis kecerdasan artifisial pada Kode Baku Lapangan Usaha Indonesia 62015.\n\nDalam konteks implementasi kecerdasan artifisial, aspek etika memainkan peran penting. Di Indonesia, kesadaran terhadap pentingnya etika dalam pengembangan dan penerapan kecerdasan artifisial semakin meningkat.\n\nPelaku usaha dan penyelenggara sistem elektronik, baik lingkup privat maupun publik, sebagai pemangku kepentingan dalam penyelenggaraan kecerdasan artifisial berupaya untuk mengatur penggunaan kecerdasan artifisial secara etis, termasuk dalam pengambilan keputusan yang mempengaruhi masyarakat luas. Pengembangan pedoman etika kecerdasan artifisial bertujuan untuk memastikan bahwa teknologi ini digunakan dengan mempertimbangkan prinsip etis, kehati-hatian, keselamatan, dan berorientasi pada dampak positif.\n\nPanduan etika kecerdasan artifisial diperlukan untuk mendukung penyelenggaraan aktivitas penyelenggaraan teknologi yang lebih efektif. Panduan ini diperlukan untuk melakukan mitigasi dari dampak dan kerugian yang dapat ditimbulkan, sehingga ancaman kecerdasan artifisial dapat diminimalisasi. Potensi ancaman yang dapat terjadi berkaitan dengan perubahan kehidupan sosial, ekonomi, bahkan pertahanan akibat penyelenggaraan kecerdasan artifisial.\n\nPenyelenggaraan kecerdasan artifisial di Indonesia juga dapat digunakan untuk pengembangan inovasi teknologi. Pelaku usaha dan penyelenggara sistem elektronik dapat menyelenggarakan kemampuan kecerdasan artifisial untuk mengembangkan produk inovasi. Dengan demikian, aktivitas pemrograman berbasis kecerdasan artifisial perlu didasari dengan etika. Hal ini untuk menjaga kebermanfaatan dalam pengembangan teknologi berbasis kecerdasan artifisial.\n\nPersyaratan khusus yang harus dipenuhi oleh pelaku usaha dan penyelenggara sistem elektronik dalam menyelenggarakan usaha pemrograman berbasis kecerdasan artifisial sebagaimana diatur dalam Lampiran Peraturan Menteri Komunikasi dan Informatika Nomor 3 Tahun 2021 tentang Standar Kegiatan Usaha dan Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Sektor Pos, Telekomunikasi, dan Sistem dan Transaksi Elektronik, yaitu pelaku usaha dan penyelenggara sistem elektronik membuat dan menerapkan kebijakan internal perusahaan mengenai data dan etika internal kecerdasan artifisial.\n\nSehubungan dengan hal tersebut di atas, perlu menetapkan Surat Edaran Menteri Komunikasi dan Informatika tentang Etika Kecerdasan Artifisial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 2,
+      "title": "Purpose and objectives (Maksud dan Tujuan)",
+      "text": "(1) Maksud dari Surat Edaran Menteri ini sebagai pedoman etika dalam:\n\na. membuat dan merumuskan kebijakan internal perusahaan, penyelenggara sistem elektronik lingkup publik dan penyelenggara sistem elektronik lingkup privat mengenai data dan etika internal kecerdasan artifisial; dan\n\nb. pelaksanaan konsultasi, analisis, dan pemrograman yang berbasis kecerdasan artifisial sesuai dengan ketentuan peraturan perundang-undangan.\n\n(2) Tujuan dari Surat Edaran Menteri ini untuk memberikan acuan nilai dan prinsip etika bagi pelaku usaha, penyelenggara sistem elektronik lingkup publik, dan penyelenggara sistem elektronik lingkup privat yang memiliki aktivitas pemrograman berbasis kecerdasan artifisial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 3,
+      "title": "Scope (Ruang Lingkup)",
+      "text": "Ruang Lingkup Surat Edaran Menteri ini adalah pengertian umum, panduan umum nilai, etika, dan kontrol kegiatan konsultasi, analisis dan pemrograman yang berbasis kecerdasan artifisial oleh pelaku usaha dan penyelenggara sistem elektronik.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 4,
+      "title": "Legal basis (Dasar Hukum)",
+      "text": "Surat Edaran Menteri ini didasarkan pada ketentuan peraturan perundang-undangan sebagai berikut:\n\n1. Undang-Undang Nomor 11 Tahun 2008 tentang Informasi dan Transaksi Elektronik sebagaimana telah diubah terakhir dengan Undang-Undang Nomor 1 Tahun 2024 tentang Perubahan Kedua atas Undang-Undang Nomor 11 Tahun 2008 tentang Informasi dan Transaksi Elektronik;\n\n2. Undang-Undang Nomor 6 Tahun 2023 tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2 Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang;\n\n3. Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi;\n\n4. Peraturan Pemerintah Nomor 71 Tahun 2019 tentang Penyelenggaraan Sistem dan Transaksi Elektronik;\n\n5. Peraturan Pemerintah Nomor 5 Tahun 2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko;\n\n6. Peraturan Presiden Nomor 22 Tahun 2023 tentang Kementerian Komunikasi dan Informatika;\n\n7. Peraturan Menteri Komunikasi dan Informatika Nomor 5 Tahun 2020 tentang Penyelenggara Sistem Elektronik Lingkup Privat sebagaimana telah diubah dengan Peraturan Menteri Komunikasi dan Informatika Nomor 10 Tahun 2021;\n\n8. Peraturan Menteri Komunikasi dan Informatika Nomor 3 Tahun 2021 tentang Standar Kegiatan Usaha dan Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Sektor Pos, Telekomunikasi, dan Sistem dan Transaksi Elektronik;\n\n9. Peraturan Menteri Komunikasi dan Informatika Nomor 12 Tahun 2021 tentang Organisasi dan Tata Kerja Kementerian Komunikasi dan Informatika.\n\nKeterangan: naskah SE 9/2023 yang diundangkan pada 19 Desember 2023 merujuk UU ITE sebagaimana diubah dengan UU 19/2016; UU 1/2024 (perubahan kedua UU ITE) diundangkan setelahnya dan tetap relevan sebagai lex posterior untuk penyelenggaraan sistem elektronik.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 5,
+      "title": "Definitions",
+      "text": "1. Kecerdasan Artifisial adalah bentuk pemrograman pada suatu perangkat komputer dalam melakukan pemrosesan dan/atau pengolahan data secara cermat.\n\n2. Penyelenggaraan Kecerdasan Artifisial adalah aktivitas yang berhubungan dengan riset, pengembangan produk, pemasaran, hingga penggunaan Kecerdasan Artifisial.\n\n3. Etika Kecerdasan Artifisial adalah landasan yang mengatur prinsip dan norma etis dalam penyelenggaraan pemrograman berbasis Kecerdasan Artifisial yang didasari dengan nilai inklusivitas, transparansi, kemanusiaan, dan keamanan dalam penyelenggaraan sumber daya data yang tersedia.\n\n4. Penyelenggara Sistem Elektronik yang selanjutnya disingkat PSE adalah setiap Orang, penyelenggara negara, Badan Usaha, dan masyarakat yang menyediakan, mengelola, dan/atau mengoperasikan Sistem Elektronik secara sendiri-sendiri maupun bersama-sama kepada pengguna sistem elektronik untuk keperluan dirinya dan/atau keperluan pihak lain.\n\n5. Pelaku Usaha adalah pelaku usaha Aktivitas Pemrograman Berbasis Kecerdasan Artifisial pada Kode Baku Lapangan Usaha Indonesia 62015.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 6,
+      "title": "Operative circular (Isi Edaran)",
+      "text": "A. Penyelenggaraan kemampuan Kecerdasan Artifisial mencakup kegiatan konsultasi, analisis, dan pemrograman. Penggunaan teknologi Kecerdasan Artifisial termasuk ke dalam subset dari machine learning, natural language processing, expert system, deep learning, robotics, neural networks, dan subset lainnya.\n\nB. Penyelenggaraan teknologi Kecerdasan Artifisial memperhatikan nilai Etika Kecerdasan Artifisial meliputi Inklusivitas, Kemanusiaan, Keamanan, Aksesibilitas, Transparansi, Kredibilitas dan Akuntabilitas, Pelindungan Data Pribadi, Pembangunan dan Lingkungan Berkelanjutan, serta Kekayaan Intelektual (uraian masing-masing nilai terdapat pada considering/recital 1–9).\n\nC. Pelaksanaan dan Tanggung Jawab\n\n1. Pelaksanaan\n\na. Penyelenggaraan Kecerdasan Artifisial dilandasi dengan etika dan kode etik yang berlaku bagi Pelaku Usaha dan PSE.\n\nb. Pelaksanaan program edukasi terkait Penyelenggaraan Kecerdasan Artifisial meliputi namun tidak terbatas pada pengembangan kompetensi teknis, studi aspek etika, humaniter dan sosial yang dilakukan untuk masyarakat, sebagai tanggung jawab pengembang untuk turut mengembangkan sumber daya manusia di Indonesia.\n\nc. Penyelenggaraan kemampuan pemrograman berbasis Kecerdasan Artifisial sebagai pendukung aktivitas manusia.\n\nd. Pengawasan dilakukan oleh Pemerintah, penyelenggara, dan pengguna untuk mencegah adanya penyalahgunaan dan/atau pemanfaatan teknologi berbasis Kecerdasan Artifisial yang melanggar ketentuan peraturan perundang-undangan.\n\ne. Pemanfaatan fasilitas Kecerdasan Artifisial untuk meningkatkan kreativitas pengguna dalam menyelesaikan permasalahan dan pekerjaan.\n\nf. Penyelenggaraan Kecerdasan Artifisial yang saling menjaga privasi data sehingga tidak ada individu yang dirugikan.\n\n2. Tanggung Jawab\n\na. Memberikan pelindungan kepada masyarakat dalam penyelenggaraan Kecerdasan Artifisial, khususnya terkait dengan penggunaan data.\n\nb. Memastikan Kecerdasan Artifisial tidak diselenggarakan sebagai penentu kebijakan dan/atau pengambil keputusan yang menyangkut kemanusiaan.\n\nc. Mencegah adanya rasisme dan segala bentuk tindakan yang merugikan manusia.\n\nd. Menyelenggarakan Kecerdasan Artifisial untuk peningkatan kemampuan berinovasi dan pemecahan masalah.\n\ne. Melaksanakan kewajiban regulasi Penyelenggaraan Kecerdasan Artifisial dengan tujuan menjaga keamanan dan hak pengguna di media digital.\n\nf. Memberikan informasi yang berkaitan dengan pengembangan teknologi berbasis Kecerdasan Artifisial oleh pengembang untuk mencegah dampak negatif dan kerugian dari teknologi yang dihasilkan terhadap pengguna, Kementerian Komunikasi dan Informatika, dan/atau publik.\n\ng. Memperhatikan manajemen risiko dan manajemen krisis dalam pengembangan Kecerdasan Artifisial.\n\nKeterangan status: menurut keterangan resmi Menteri Komunikasi dan Informatika pada peluncuran, Surat Edaran ini tidak bersifat mengikat secara hukum melainkan sebagai pedoman; pengembangan dan pemanfaatan AI tetap tunduk pada peraturan perundang-undangan yang berlaku, termasuk UU ITE dan UU PDP. Dua Rancangan Peraturan Presiden (etika AI dan peta jalan AI 2026–2029) sedang difinalisasi oleh pemerintah sebagai instrumen lanjutan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 7,
+      "title": "Closing (Penutup)",
+      "text": "Surat Edaran Menteri ini ditetapkan untuk menjadi perhatian dan dilaksanakan sebagaimana mestinya.\n\nDitetapkan di Jakarta pada tanggal 19 Desember 2023.\n\nMENTERI KOMUNIKASI DAN INFORMATIKA REPUBLIK INDONESIA\n\nBUDI ARIE SETIADI",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Inclusiveness (Inklusivitas)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan nilai kesetaraan, keadilan, dan perdamaian dalam menghasilkan informasi maupun inovasi untuk kepentingan bersama.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 2,
+      "title": "Humanity (Kemanusiaan)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan nilai kemanusiaan dengan tetap saling menjaga hak asasi manusia, hubungan sosial, kepercayaan yang dianut, serta pendapat atau pemikiran setiap orang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 3,
+      "title": "Security (Keamanan)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan aspek keamanan pengguna dan data yang digunakan agar dapat menjaga privasi, data pribadi, dan mengutamakan hak pengguna Sistem Elektronik sehingga tidak ada pihak yang dirugikan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 4,
+      "title": "Accessibility (Aksesibilitas)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial bersifat inklusif dan tidak diskriminatif. Setiap pengguna memiliki hak yang sama dalam mengakses penyelenggaraan teknologi berbasis Kecerdasan Artifisial untuk kepentingannya dengan tetap menjaga prinsip etika Kecerdasan Artifisial yang berlaku.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 5,
+      "title": "Transparency (Transparansi)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu dilandasi dengan transparansi data yang digunakan untuk menghindari penyalahgunaan data dalam mengembangkan inovasi teknologi. Pelaku Usaha dan PSE dapat memberikan akses kepada pengguna yang berhak untuk mengetahui penyelenggaraan data dalam pengembangan teknologi berbasis Kecerdasan Artifisial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 6,
+      "title": "Credibility and accountability",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu mengutamakan kemampuan dalam pengambilan keputusan dari informasi atau inovasi yang dihasilkan. Informasi yang dihasilkan melalui Kecerdasan Artifisial harus dapat dipercaya dan dipertanggungjawabkan ketika disebarkan kepada publik.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 7,
+      "title": "Personal data protection",
+      "text": "Penyelenggaraan Kecerdasan Artifisial harus memastikan pelindungan data pribadi sesuai ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 8,
+      "title": "Sustainable development and the environment",
+      "text": "Penyelenggaraan Kecerdasan Artifisial mempertimbangkan dengan cermat dampak yang ditimbulkan terhadap manusia, lingkungan, dan makhluk hidup lainnya, untuk mencapai keberlanjutan dan kesejahteraan sosial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 9,
+      "title": "Intellectual property",
+      "text": "Penyelenggaraan Kecerdasan Artifisial tunduk pada prinsip pelindungan Hak Kekayaan Intelektual sesuai ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Inclusiveness (Inklusivitas)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan nilai kesetaraan, keadilan, dan perdamaian dalam menghasilkan informasi maupun inovasi untuk kepentingan bersama.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — Humanity (Kemanusiaan)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan nilai kemanusiaan dengan tetap saling menjaga hak asasi manusia, hubungan sosial, kepercayaan yang dianut, serta pendapat atau pemikiran setiap orang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Security (Keamanan)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan aspek keamanan pengguna dan data yang digunakan agar dapat menjaga privasi, data pribadi, dan mengutamakan hak pengguna Sistem Elektronik sehingga tidak ada pihak yang dirugikan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Accessibility (Aksesibilitas)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial bersifat inklusif dan tidak diskriminatif. Setiap pengguna memiliki hak yang sama dalam mengakses penyelenggaraan teknologi berbasis Kecerdasan Artifisial untuk kepentingannya dengan tetap menjaga prinsip etika Kecerdasan Artifisial yang berlaku.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-5",
+      "number": 5,
+      "title": "Recital (5) — Transparency (Transparansi)",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu dilandasi dengan transparansi data yang digunakan untuk menghindari penyalahgunaan data dalam mengembangkan inovasi teknologi. Pelaku Usaha dan PSE dapat memberikan akses kepada pengguna yang berhak untuk mengetahui penyelenggaraan data dalam pengembangan teknologi berbasis Kecerdasan Artifisial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-6",
+      "number": 6,
+      "title": "Recital (6) — Credibility and accountability",
+      "text": "Penyelenggaraan Kecerdasan Artifisial perlu mengutamakan kemampuan dalam pengambilan keputusan dari informasi atau inovasi yang dihasilkan. Informasi yang dihasilkan melalui Kecerdasan Artifisial harus dapat dipercaya dan dipertanggungjawabkan ketika disebarkan kepada publik.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-7",
+      "number": 7,
+      "title": "Recital (7) — Personal data protection",
+      "text": "Penyelenggaraan Kecerdasan Artifisial harus memastikan pelindungan data pribadi sesuai ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-8",
+      "number": 8,
+      "title": "Recital (8) — Sustainable development and the environment",
+      "text": "Penyelenggaraan Kecerdasan Artifisial mempertimbangkan dengan cermat dampak yang ditimbulkan terhadap manusia, lingkungan, dan makhluk hidup lainnya, untuk mencapai keberlanjutan dan kesejahteraan sosial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "recital",
+      "id": "recital-9",
+      "number": 9,
+      "title": "Recital (9) — Intellectual property",
+      "text": "Penyelenggaraan Kecerdasan Artifisial tunduk pada prinsip pelindungan Hak Kekayaan Intelektual sesuai ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapterTitle": "",
+      "title": "General background (Umum)",
+      "text": "General background (Umum) Perkembangan teknologi kecerdasan artifisial telah mengalami peningkatan yang signifikan di seluruh dunia, termasuk di Negara Indonesia. Implementasi kecerdasan artifisial telah merambah berbagai sektor dan industri, membawa dampak yang luas dalam efisiensi, inovasi, dan transformasi bisnis. Dalam beberapa kasus, implementasi kecerdasan artifisial telah mengubah cara manusia berinteraksi dengan teknologi, menghadirkan kemampuan seperti analisis data yang canggih, pemrosesan bahasa alami, dan pembelajaran mesin otomatis.\n\nBidang usaha yang berkaitan dengan kecerdasan artifisial juga mengalami pertumbuhan yang pesat. Berbagai startup dan perusahaan besar mulai mengembangkan solusi penyelenggaraan kecerdasan artifisial untuk meningkatkan produktivitas, mengoptimalkan proses bisnis, dan memberikan layanan yang lebih personal kepada pelanggan. Dalam hal ini sebagai contoh, sektor industri kreatif menyelenggarakan kecerdasan artifisial untuk pembuatan konten di media sosial, sektor kesehatan mengadopsi kecerdasan artifisial untuk diagnosis medis yang lebih akurat, bahkan di sektor pendidikan kecerdasan artifisial digunakan untuk membantu dalam kegiatan pembelajaran dan penelitian.\n\nStandar usaha pemrograman berbasis kecerdasan artifisial diatur dalam Peraturan Menteri Komunikasi dan Informatika Nomor 3 Tahun 2021 tentang Standar Kegiatan Usaha dan Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Sektor Pos, Telekomunikasi, dan Sistem dan Transaksi Elektronik yang merupakan aktivitas pemrograman berbasis kecerdasan artifisial pada Kode Baku Lapangan Usaha Indonesia 62015.\n\nDalam konteks implementasi kecerdasan artifisial, aspek etika memainkan peran penting. Di Indonesia, kesadaran terhadap pentingnya etika dalam pengembangan dan penerapan kecerdasan artifisial semakin meningkat.\n\nPelaku usaha dan penyelenggara sistem elektronik, baik lingkup privat maupun publik, sebagai pemangku kepentingan dalam penyelenggaraan kecerdasan artifisial berupaya untuk mengatur penggunaan kecerdasan artifisial secara etis, termasuk dalam pengambilan keputusan yang mempengaruhi masyarakat luas. Pengembangan pedoman etika kecerdasan artifisial bertujuan untuk memastikan bahwa teknologi ini digunakan dengan mempertimbangkan prinsip etis, kehati-hatian, keselamatan, dan berorientasi pada dampak positif.\n\nPanduan etika kecerdasan artifisial diperlukan untuk mendukung penyelenggaraan aktivitas penyelenggaraan teknologi yang lebih efektif. Panduan ini diperlukan untuk melakukan mitigasi dari dampak dan kerugian yang dapat ditimbulkan, sehingga ancaman kecerdasan artifisial dapat diminimalisasi. Potensi ancaman yang dapat terjadi berkaitan dengan perubahan kehidupan sosial, ekonomi, bahkan pertahanan akibat penyelenggaraan kecerdasan artifisial.\n\nPenyelenggaraan kecerdasan artifisial di Indonesia juga dapat digunakan untuk pengembangan inovasi teknologi. Pelaku usaha dan penyelenggara sistem elektronik dapat menyelenggarakan kemampu",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapterTitle": "",
+      "title": "Purpose and objectives (Maksud dan Tujuan)",
+      "text": "Purpose and objectives (Maksud dan Tujuan) (1) Maksud dari Surat Edaran Menteri ini sebagai pedoman etika dalam:\n\na. membuat dan merumuskan kebijakan internal perusahaan, penyelenggara sistem elektronik lingkup publik dan penyelenggara sistem elektronik lingkup privat mengenai data dan etika internal kecerdasan artifisial; dan\n\nb. pelaksanaan konsultasi, analisis, dan pemrograman yang berbasis kecerdasan artifisial sesuai dengan ketentuan peraturan perundang-undangan.\n\n(2) Tujuan dari Surat Edaran Menteri ini untuk memberikan acuan nilai dan prinsip etika bagi pelaku usaha, penyelenggara sistem elektronik lingkup publik, dan penyelenggara sistem elektronik lingkup privat yang memiliki aktivitas pemrograman berbasis kecerdasan artifisial.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapterTitle": "",
+      "title": "Scope (Ruang Lingkup)",
+      "text": "Scope (Ruang Lingkup) Ruang Lingkup Surat Edaran Menteri ini adalah pengertian umum, panduan umum nilai, etika, dan kontrol kegiatan konsultasi, analisis dan pemrograman yang berbasis kecerdasan artifisial oleh pelaku usaha dan penyelenggara sistem elektronik.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapterTitle": "",
+      "title": "Legal basis (Dasar Hukum)",
+      "text": "Legal basis (Dasar Hukum) Surat Edaran Menteri ini didasarkan pada ketentuan peraturan perundang-undangan sebagai berikut:\n\n1. Undang-Undang Nomor 11 Tahun 2008 tentang Informasi dan Transaksi Elektronik sebagaimana telah diubah terakhir dengan Undang-Undang Nomor 1 Tahun 2024 tentang Perubahan Kedua atas Undang-Undang Nomor 11 Tahun 2008 tentang Informasi dan Transaksi Elektronik;\n\n2. Undang-Undang Nomor 6 Tahun 2023 tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2 Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang;\n\n3. Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi;\n\n4. Peraturan Pemerintah Nomor 71 Tahun 2019 tentang Penyelenggaraan Sistem dan Transaksi Elektronik;\n\n5. Peraturan Pemerintah Nomor 5 Tahun 2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko;\n\n6. Peraturan Presiden Nomor 22 Tahun 2023 tentang Kementerian Komunikasi dan Informatika;\n\n7. Peraturan Menteri Komunikasi dan Informatika Nomor 5 Tahun 2020 tentang Penyelenggara Sistem Elektronik Lingkup Privat sebagaimana telah diubah dengan Peraturan Menteri Komunikasi dan Informatika Nomor 10 Tahun 2021;\n\n8. Peraturan Menteri Komunikasi dan Informatika Nomor 3 Tahun 2021 tentang Standar Kegiatan Usaha dan Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Sektor Pos, Telekomunikasi, dan Sistem dan Transaksi Elektronik;\n\n9. Peraturan Menteri Komunikasi dan Informatika Nomor 12 Tahun 2021 tentang Organisasi dan Tata Kerja Kementerian Komunikasi dan Informatika.\n\nKeterangan: naskah SE 9/2023 yang diundangkan pada 19 Desember 2023 merujuk UU ITE sebagaimana diubah dengan UU 19/2016; UU 1/2024 (perubahan kedua UU ITE) diundangkan setelahnya dan tetap relevan sebagai lex posterior untuk penyelenggaraan sistem elektronik.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapterTitle": "",
+      "title": "Definitions",
+      "text": "Definitions 1. Kecerdasan Artifisial adalah bentuk pemrograman pada suatu perangkat komputer dalam melakukan pemrosesan dan/atau pengolahan data secara cermat.\n\n2. Penyelenggaraan Kecerdasan Artifisial adalah aktivitas yang berhubungan dengan riset, pengembangan produk, pemasaran, hingga penggunaan Kecerdasan Artifisial.\n\n3. Etika Kecerdasan Artifisial adalah landasan yang mengatur prinsip dan norma etis dalam penyelenggaraan pemrograman berbasis Kecerdasan Artifisial yang didasari dengan nilai inklusivitas, transparansi, kemanusiaan, dan keamanan dalam penyelenggaraan sumber daya data yang tersedia.\n\n4. Penyelenggara Sistem Elektronik yang selanjutnya disingkat PSE adalah setiap Orang, penyelenggara negara, Badan Usaha, dan masyarakat yang menyediakan, mengelola, dan/atau mengoperasikan Sistem Elektronik secara sendiri-sendiri maupun bersama-sama kepada pengguna sistem elektronik untuk keperluan dirinya dan/atau keperluan pihak lain.\n\n5. Pelaku Usaha adalah pelaku usaha Aktivitas Pemrograman Berbasis Kecerdasan Artifisial pada Kode Baku Lapangan Usaha Indonesia 62015.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapterTitle": "",
+      "title": "Operative circular (Isi Edaran)",
+      "text": "Operative circular (Isi Edaran) A. Penyelenggaraan kemampuan Kecerdasan Artifisial mencakup kegiatan konsultasi, analisis, dan pemrograman. Penggunaan teknologi Kecerdasan Artifisial termasuk ke dalam subset dari machine learning, natural language processing, expert system, deep learning, robotics, neural networks, dan subset lainnya.\n\nB. Penyelenggaraan teknologi Kecerdasan Artifisial memperhatikan nilai Etika Kecerdasan Artifisial meliputi Inklusivitas, Kemanusiaan, Keamanan, Aksesibilitas, Transparansi, Kredibilitas dan Akuntabilitas, Pelindungan Data Pribadi, Pembangunan dan Lingkungan Berkelanjutan, serta Kekayaan Intelektual (uraian masing-masing nilai terdapat pada considering/recital 1–9).\n\nC. Pelaksanaan dan Tanggung Jawab\n\n1. Pelaksanaan\n\na. Penyelenggaraan Kecerdasan Artifisial dilandasi dengan etika dan kode etik yang berlaku bagi Pelaku Usaha dan PSE.\n\nb. Pelaksanaan program edukasi terkait Penyelenggaraan Kecerdasan Artifisial meliputi namun tidak terbatas pada pengembangan kompetensi teknis, studi aspek etika, humaniter dan sosial yang dilakukan untuk masyarakat, sebagai tanggung jawab pengembang untuk turut mengembangkan sumber daya manusia di Indonesia.\n\nc. Penyelenggaraan kemampuan pemrograman berbasis Kecerdasan Artifisial sebagai pendukung aktivitas manusia.\n\nd. Pengawasan dilakukan oleh Pemerintah, penyelenggara, dan pengguna untuk mencegah adanya penyalahgunaan dan/atau pemanfaatan teknologi berbasis Kecerdasan Artifisial yang melanggar ketentuan peraturan perundang-undangan.\n\ne. Pemanfaatan fasilitas Kecerdasan Artifisial untuk meningkatkan kreativitas pengguna dalam menyelesaikan permasalahan dan pekerjaan.\n\nf. Penyelenggaraan Kecerdasan Artifisial yang saling menjaga privasi data sehingga tidak ada individu yang dirugikan.\n\n2. Tanggung Jawab\n\na. Memberikan pelindungan kepada masyarakat dalam penyelenggaraan Kecerdasan Artifisial, khususnya terkait dengan penggunaan data.\n\nb. Memastikan Kecerdasan Artifisial tidak diselenggarakan sebagai penentu kebijakan dan/atau pengambil keputusan yang menyangkut kemanusiaan.\n\nc. Mencegah adanya rasisme dan segala bentuk tindakan yang merugikan manusia.\n\nd. Menyelenggarakan Kecerdasan Artifisial untuk peningkatan kemampuan berinovasi dan pemecahan masalah.\n\ne. Melaksanakan kewajiban regulasi Penyelenggaraan Kecerdasan Artifisial dengan tujuan menjaga keamanan dan hak pengguna di media digital.\n\nf. Memberikan informasi yang berkaitan dengan pengembangan teknologi berbasis Kecerdasan Artifisial oleh pengembang untuk mencegah dampak negatif dan kerugian dari teknologi yang dihasilkan terhadap pengguna, Kementerian Komunikasi dan Informatika, dan/atau publik.\n\ng. Memperhatikan manajemen risiko dan manajemen krisis dalam pengembangan Kecerdasan Artifisial.\n\nKeterangan status: menurut keterangan resmi Menteri Komunikasi dan Informatika pada peluncuran, Surat Edaran ini tidak bersifat mengikat secara hukum melainkan sebagai pedoman; pengembangan dan pemanfaatan AI tetap tunduk pada peraturan p",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapterTitle": "",
+      "title": "Closing (Penutup)",
+      "text": "Closing (Penutup) Surat Edaran Menteri ini ditetapkan untuk menjadi perhatian dan dilaksanakan sebagaimana mestinya.\n\nDitetapkan di Jakarta pada tanggal 19 Desember 2023.\n\nMENTERI KOMUNIKASI DAN INFORMATIKA REPUBLIK INDONESIA\n\nBUDI ARIE SETIADI",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ]
+}

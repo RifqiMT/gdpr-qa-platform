@@ -1,211 +1,190 @@
 # User Stories  
-## EU Regulation Q&A Platform
+## Regulation Q&A Platform
 
-**Version:** 1.8 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
-
-Stories are grouped by epic. Format: **As a** [persona], **I want** [action] **so that** [benefit].  
-Personas: see [USER_PERSONAS.md](USER_PERSONAS.md) (including **AI governance** and **Data Act** leads).
+**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**  
+**Traceability:** Stories map to [PRD.md](PRD.md) and [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
 ---
 
-## Epic 0: Regulation selection
+## Epic 0: Region and regulation selection
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-R1 | As an **AI governance** user, I want to select **EU AI Act** in the header so that Browse and Ask use the AI Act corpus (113 articles, 180 recitals). | AI governance |
-| US-R2 | As a **Legal/Compliance** user, I want my regulation choice **remembered** on return visits so that I do not re-select GDPR each session. | Legal/Compliance |
-| US-R3 | As **Engineering / DevOps**, I want **Refresh sources** to update only the **active** regulation so that GDPR and AI Act ETL do not overwrite each other unintentionally. | Engineering / DevOps |
-| US-R4 | As a **DPO**, I want tab labels, placeholders, and **citation sidebar** copy to **change with regulation** so that I am never confused about which regulation I am reading. | DPO |
-| US-R7 | As a **Data Act lead**, I want the Browse detail sidebar to say **“Related Data Act articles”** and link to **Data Act Law** (not GDPR-Info) when EU Data Act is selected. | Data Act lead |
-| US-R5 | As a **Data Act lead**, I want to select **EU Data Act** in the header so that Browse and Ask use the Data Act corpus (50 articles, 119 recitals). | Data Act lead |
-| US-R6 | As **Engineering / DevOps**, I want **`npm run refresh-data-act`** so that I can refresh the Data Act corpus without the UI. | Engineering / DevOps |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-R-01 | As a user, I can filter instruments by **All / European Union / Indonesia** so the selector matches my jurisdiction. | P0 |
+| US-R-02 | As a user, I can select any of the **six** instruments and have Browse, Ask, and Sources follow that choice. | P0 |
+| US-R-03 | As a user, my last selected regulation persists across reloads (`gdpr-qa-regulation-v1`). | P0 |
+| US-R-04 | As a user, UI chrome (titles, placeholders, links, themes) updates when I switch regulation. | P0 |
+| US-R-05 | As a user, citation sidebar publisher links match the active instrument (never stuck on GDPR-Info for ID laws). | P0 |
 
 ---
 
 ## Epic 0b: Responsive app shell
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-S1 | As a **Legal/Compliance** user on my **phone**, I want a **Tools** menu with full-width actions so that I can refresh sources and open API keys without mis-tapping tiny icons. | Legal/Compliance |
-| US-S2 | As a **DPO**, I want to see **when the corpus was last refreshed** in the Source freshness row before I open the full tooltip so that I know the text is current. | DPO |
-| US-S3 | As a **Consultant**, I want **one place** for API key status (Tools row + Ask tab) without duplicate cards in the header so that the app feels clear and professional. | Consultant |
-| US-S4 | As a **General Professional** on a **tablet**, I want the regulation reader to use the space **below** the sticky header so that long articles are not hidden under the chrome. | General Professional |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-S-01 | As a mobile user, I can open **Tools** for freshness, API keys, and Refresh sources. | P0 |
+| US-S-02 | As a user, sticky chrome does not clip the reading pane. | P1 |
+| US-S-03 | As a user, tabs clearly show Browse / Ask / Sources / News with an active indicator. | P1 |
+| US-S-04 | As a user, the logo returns me to the Browse welcome hub. | P1 |
 
 ---
 
 ## Epic 0c: Browse welcome hub
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-W1 | As a **General Professional** on **desktop**, I want to see **three regulation overview cards** (`#browseWelcomeGrid`) with correct themes so that I can choose GDPR, EU AI Act, or EU Data Act at a glance. | General Professional |
-| US-W2 | As a **Consultant**, I want **Chapters & articles** as the **primary** quick action and **Recitals** second on each welcome card so that my default path matches how I research provisions. | Consultant |
-| US-W3 | As a **Legal/Compliance** user, I want chapter filters **reset** when I switch regulation so that GDPR sub-category values never hide AI Act or Data Act articles. | Legal/Compliance |
-| US-W4 | As a **DPO**, I want chapter loads to **ignore stale API responses** when I switch regulations quickly so that the article list always matches the selected regulation. | DPO |
-| US-W5 | As a **General Professional** on **mobile**, I want a **collapsible Filters** panel for chapters browse so that I can see articles without the filter bar consuming the screen. | General Professional |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-W-01 | As a desktop user, I see themed overview cards for instruments (EU + Indonesia display order). | P1 |
+| US-W-02 | As a mobile user, I see a solo welcome card for the active regulation. | P1 |
+| US-W-03 | As a user, quick actions open **Chapters & articles** first and **Recitals** second. | P1 |
+| US-W-04 | As a user, each card shows accurate description, theme tags, and official link for that instrument. | P1 |
 
 ---
 
 ## Epic 1: Browse regulation
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-B1 | As a **Legal/Compliance** user, I want to open the Browse tab and see the sidebar “Regulation & sources” with Recitals, Chapters & Articles, and Credible sources so that I can choose how to navigate. | Legal/Compliance |
-| US-B2 | As a **Legal/Compliance** user, I want to open Recitals and click a recital to see full text with citations and Prev/Next/Go so that I can read and navigate without leaving the app. | Legal/Compliance |
-| US-B3 | As a **DPO**, I want to filter Chapters & Articles by Category, Sub-category (GDPR), Chapter, and Article so that I can narrow down to the right provisions quickly. | DPO |
-| US-B3b | As an **AI governance** user, I want to browse AI Act chapters **without GDPR-only sub-categories** so that the filter bar matches the AI Act structure. | AI governance |
-| US-B8 | As an **AI governance** user, I want article headings and external links to use **AI Act Law** and EUR-Lex 2024/1689 so that citations match my compliance pack. | AI governance |
-| US-B9 | As a **Data Act lead**, I want article headings and external links to use **Data Act Law** and EUR-Lex 2023/2854 so that citations match my compliance pack. | Data Act lead |
-| US-B4 | As a **Consultant**, I want to open an article and use Prev/Next and “Go to” number so that I can jump to any Article or Recital without going back to the list. | Consultant |
-| US-B5 | As a **Legal/Compliance** user, I want to export the current article or recital as PDF so that I can attach it to memos or store offline. | Legal/Compliance |
-| US-B6 | As a **Stakeholder**, I want to see citation links to the **active regulation’s readable site and EUR-Lex** on every detail view so that I can verify against official sources. | Stakeholder |
-| US-B7 | As a **General Professional**, I want to click “Back to question” when I opened a document from Ask so that I can return to my search results. | General Professional |
-| US-B10 | As a **Data Act lead**, I want each article heading to show the **full Data Act title** from the official layout (including long titles such as Art. 4 and 33—not bare “Article N”) so that I trust the reader. | Data Act lead |
-| US-B13 | As an **AI governance** user, I want the citation sidebar panels to use **AI Act** wording and **AI Act Law** links when EU AI Act is selected so that the UI never shows “Related GDPR articles”. | AI governance |
-| US-B11 | As an **AI governance** user, I want recital cards and reader headers to show the **recital topic** from the AI Act corpus so that I can scan recitals by subject. | AI governance |
-| US-B12 | As a **Legal/Compliance** user, I want numbered and lettered paragraphs in AI Act and Data Act articles to display like the source sites so that I can compare line-by-line with EUR-Lex mirrors. | Legal/Compliance |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-B-01 | As a user, I can list and open articles/pasal and recitals/considering/values for the active instrument. | P0 |
+| US-B-02 | As a GDPR user, I can filter by category and sub-category topics. | P0 |
+| US-B-03 | As a non-GDPR user, I never see a false empty list caused by leftover GDPR topic filters. | P0 |
+| US-B-04 | As a user, I can navigate with Prev / Next / Go and export PDF. | P1 |
+| US-B-05 | As a GDPR user, I see suitable recitals; as other users, I see related provisions from text only. | P1 |
+| US-B-06 | As a user, article/pasal titles show the official corpus title (GDPR may use canonical map). | P0 |
+| US-B-07 | As a user, chapter introductions match the active regulation (no GDPR blurbs under ID instruments). | P1 |
+| US-B-08 | As an Indonesian user, I can browse UU PDP pasal, Satu Data pasal, and AI Ethics sections/values. | P0 |
 
 ---
 
 ## Epic 2: Ask a question
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-A1 | As a **DPO**, I want to type a question and receive an answer that is **grounded in retrieved regulation (and optional web) sources** with `[S1]`-style citations so that I can trace every claim. | DPO |
-| US-A2 | As a **Consultant**, I want to see which **LLM path** was used (Groq, Tavily, or extractive) so that I can judge how much to rely on synthesis versus opening full text. | Consultant |
-| US-A3 | As a **Legal/Compliance** user, I want a **Relevant provisions** list (labeled per regulation) with “View in app” so that I can open the full article or recital without re-searching. | Legal/Compliance |
-| US-A11 | As an **AI governance** user, I want Ask answers to cite **AI Act articles** when I have EU AI Act selected so that obligations map to Regulation (EU) 2024/1689. | AI governance |
-| US-A12 | As a **Data Act lead**, I want Ask answers to cite **Data Act articles** when EU Data Act is selected so that obligations map to Regulation (EU) 2023/2854. | Data Act lead |
-| US-A4 | As a **General Professional**, I want each new question to clear the previous answer and panels so that I only see output for the current question. | General Professional |
-| US-A5 | As a **DPO**, I want to see **content as of** / freshness information when available so that I know which consolidated version underlies the corpus. | DPO |
-| US-A6 | As an **Industry specialist**, I want to pick my **sector** in the Ask UI so that the answer explicitly reflects that industry’s context while staying within cited GDPR text. | Industry specialist |
-| US-A7 | As a **Legal/Compliance** user, I want citation chips in the answer to be **clickable** so that I can jump to the Article or Recital in Browse. | Legal/Compliance |
-| US-A8 | As **Engineering / DevOps**, I want to supply my own **Groq** and **Tavily** API keys in the browser so that I can use Ask without changing server `.env` or redeploying. | Engineering / DevOps |
-| US-A9 | As a **Consultant**, I want to **validate** my API keys before saving so that I know they work before asking a question. | Consultant |
-| US-A10 | As a **DPO**, I want the Ask tab to show whether **server** or **my own** keys are active so that I understand who is billed for LLM usage. | DPO |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-A-01 | As a user, I can ask a natural-language question and receive a grounded answer with `[S#]` citations. | P0 |
+| US-A-02 | As a user, Ask uses only `POST /api/answer` (Groq → Tavily → extractive). | P0 |
+| US-A-03 | As a user, I can open cited provisions in Browse and return via Back to question. | P0 |
+| US-A-04 | As a power user, I can use BYOK Groq/Tavily keys validated before save. | P1 |
+| US-A-05 | As an industry specialist, I can optionally apply ISIC sector framing. | P1 |
+| US-A-06 | As an AI Ethics user, Ask framing states that SE Menkominfo 9/2023 is soft law. | P0 |
+| US-A-07 | As a user without LLM keys, I still receive an extractive answer from corpus excerpts. | P0 |
 
 ---
 
 ## Epic 3: Credible sources
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-S1 | As a **DPO**, I want one tab listing all credible organizations (GDPR-Info, EUR-Lex, EDPB, ICO, Commission, GDPR.eu, Council of Europe) with document links so that I can bookmark or share official pages. | DPO |
-| US-S2 | As a **Stakeholder**, I want to open Credible sources and see short descriptions per organization so that I understand the role of each source. | Stakeholder |
-| US-S3 | As an **AI governance** user, I want Credible sources to list **AI Act Law, EUR-Lex 2024/1689, and Commission AI policy** when EU AI Act is selected so that I have the right official links in one place. | AI governance |
-| US-S4 | As a **Data Act lead**, I want Credible sources to list **Data Act Law, EUR-Lex 2023/2854, and Commission Data Act policy** when EU Data Act is selected so that I have the right official links in one place. | Data Act lead |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-C-01 | As a user, Sources lists credible organizations for the **active** instrument only. | P0 |
+| US-C-02 | As an Indonesian user, I see JDIH / peraturan.go.id style sources — not GDPR-Info. | P0 |
+| US-C-03 | As an EU AI Act / Data Act user, I see instrument-specific publishers + EUR-Lex. | P0 |
 
 ---
 
 ## Epic 4: News
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-N1 | As a **DPO**, I want a News tab with GDPR/data protection updates from **EDPB, EDPS, ICO (UK), European Commission,** and **Council of Europe** so that I have one place to stay updated. | DPO |
-| US-N2 | As a **Legal/Compliance** user, I want news grouped by source with a short summary per source so that I can scan by organization. | Legal/Compliance |
-| US-N3 | As a **DPO**, I want to filter news by Source and Topic so that I can focus on e.g. enforcement or guidance. | DPO |
-| US-N4 | As a **Consultant**, I want each news item to link to the original article so that I can read the full story on the publisher’s site. | Consultant |
-| US-N5 | As a **DPO**, I want to click “Refresh news” to run a **server refresh** that merges crawled items and updates the cached news file so that I get durable, current updates. | DPO |
-| US-N6 | As a **Legal/Compliance** user, I want **duplicate stories** (same item linked from different URLs) **collapsed into one card** so that my scan list is not noisy. | Legal/Compliance |
-| US-N7 | As a **DPO**, I want **Quick filters** to appear in the **sidebar when I scroll** past the main news filters (on desktop) so that I can change source/topic without scrolling back up. | DPO |
-| US-N8 | As a **Consultant**, I want to **collapse “Official site & RSS”** when I need more room in the sidebar, with my choice remembered for the session. | Consultant |
-| US-N9 | As **Engineering / DevOps**, I want to **tune news crawl depth and merge caps** via documented **`NEWS_*`** environment variables so that we can balance freshness, runtime, and API payload size without forking the crawler. | Engineering / DevOps |
-| US-N10 | As a **Legal/Compliance** user, I want to switch between a **By source** view and an **All sources** chronological feed so that I can scan either by organization or by time. | Legal/Compliance |
-| US-N11 | As a **DPO**, I want the **Attachments** action to appear only when a news article page actually links downloadable files so that the UI stays clean and predictable. | DPO |
-| US-N12 | As an **AI governance** user, I want News to show an **AI Act relevance filter and banner** when EU AI Act is selected so that I see AI governance headlines without assuming a separate AI-only wire service. | AI governance |
-| US-N13 | As a **Data Act lead**, I want News to show a **Data Act relevance filter and banner** when EU Data Act is selected so that I see data access, interoperability, and digital-policy headlines in context. | Data Act lead |
-| US-N14 | As a **Legal/Compliance** user on **mobile**, I want the News **hero** collapsed by default with regulation-themed intro and scope in a **single column** when I expand it so that headlines are visible without scrolling past a full-screen banner. | Legal/Compliance |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-N-01 | As a user, I can browse supervisory/policy news with source and topic filters. | P0 |
+| US-N-02 | As an AI Act / Data Act / UU PDP / Satu Data / AI Ethics user, I see a relevance-filtered list and banner. | P0 |
+| US-N-03 | As a user, I can Refresh news to re-crawl EU and Indonesian hubs. | P0 |
+| US-N-04 | As an Indonesian user, empty filtered states tell me to Refresh news when feeds are sparse. | P1 |
+| US-N-05 | As a user, duplicate stories collapse (URL + semantic dedupe). | P1 |
 
 ---
 
 ## Epic 5: Content refresh
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-ETL1 | As a **Legal/Compliance** user, I want to click **“Refresh sources”** to run ETL for the **selected regulation** (GDPR-Info/EUR-Lex, AI Act Law, or Data Act Law) so that I work with an up-to-date consolidated corpus. | Legal/Compliance |
-| US-ETL2 | As a **DPO**, I want to see **content as of** / **last checked** freshness metadata so that I know how current the regulation text is. | DPO |
-| US-ETL3 | As **Engineering / DevOps**, I want **`npm run refresh-ai-act`**, **`npm run refresh-data-act`**, and Vercel cron to refresh **all three** corpora so that production stays current. | Engineering / DevOps |
-| US-ETL4 | As a **Legal/Compliance** user, I want **chapter introduction blurbs** per regulation when browsing chapters so that I understand each chapter’s scope before opening articles. | Legal/Compliance |
-| US-ETL5 | As **Engineering / DevOps**, I want every GDPR refresh to run **document formatting guardrails** and return **`formattingGuardrails`** so that I can confirm validation in logs or API responses. | Engineering / DevOps |
-| US-ETL6 | As a **Legal/Compliance** user, I want the app to **reload** browse lists and the open document after refresh so that I see normalized text without a full browser reload. | Legal/Compliance |
-| US-ETL7 | As **Engineering / DevOps**, I want **`GDPR_FORCE_CORPUS_WRITE`** / **`AI_ACT_FORCE_CORPUS_WRITE`** / **`DATA_ACT_FORCE_CORPUS_WRITE`** to force disk writes when hashes match so that guardrail-only updates still persist. | Engineering / DevOps |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-E-01 | As an operator, Refresh sources updates only the selected instrument’s corpus. | P0 |
+| US-E-02 | As an operator, I can CLI-refresh GDPR, AI Act, Data Act, and each Indonesian instrument. | P0 |
+| US-E-03 | As an operator, daily cron refreshes all six instruments. | P0 |
+| US-E-04 | As an operator, every corpus write runs formatting guardrails. | P0 |
+| US-E-05 | As a Vercel operator, cold start seeds EU + ID JSON via `SEED_FILES`. | P0 |
 
 ---
 
 ## Epic 6: Homepage and navigation
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-H1 | As any user, I want to click the **EU Regulation Q&A Platform** logo to go to the homepage so that I can start over from a clean Browse view. | All |
-| US-H2 | As a **General Professional**, I want the homepage to show the initial placeholder and the sidebar “Regulation & sources” without a loaded chapter list so that the state is clearly “home.” | General Professional |
-| US-H3 | As any user, I want to switch between Browse, Ask, Credible sources, and News with clear tab state so that I always know where I am. | All |
-| US-H4 | As any user, I want to see **maintainer attribution** at the bottom of the app with links to LinkedIn and the maintainer website so that I know who developed and operates the platform. | All |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-H-01 | As a user, clicking the brand logo resets Browse to the welcome hub. | P1 |
+| US-H-02 | As a user, I can move between Browse, Ask, Sources, and News without losing regulation selection. | P0 |
 
 ---
 
 ## Epic 7: Export and citations
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-E1 | As a **Consultant**, I want to export the currently viewed article or recital as PDF so that I can attach it to client deliverables. | Consultant |
-| US-E2 | As a **Stakeholder**, I want every detail view to show “Citations & official links” so that I can verify the text. | Stakeholder |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-X-01 | As a user, I can export the open provision as PDF. | P1 |
+| US-X-02 | As a user, citation chips and official links open the correct publisher for the active instrument. | P0 |
 
 ---
 
 ## Epic 8: Accessibility and UX
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-U1 | As any user, I want tabs and panels to use proper roles and aria-selected so that I can use the app with assistive technology. | All |
-| US-U2 | As any user, I want to use Enter in the “Go to” number input to jump to the document so that I can navigate with the keyboard. | All |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-U-01 | As a keyboard user, I can operate tabs, filters, and doc Go via keyboard. | P1 |
+| US-U-02 | As a mobile user, Filters collapse behind a clear control with active-filter summary. | P1 |
 
 ---
 
 ## Epic 9: Cross-references and corpus quality
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-X1 | As a **Legal/Compliance** user, I want **related recitals** suggested when I read an article so that I see interpretive context alongside binding text. | Legal/Compliance |
-| US-X2 | As a **Stakeholder**, I want **related articles** listed when I read a recital so that I can jump to operative provisions. | Stakeholder |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-Q-01 | As a GDPR user, related + suitable recitals appear where mapped. | P1 |
+| US-Q-02 | As any user, reader numbered paragraphs match source layout after refresh. | P0 |
+| US-Q-03 | As engineering, `npm test` validates Indo registry/corpus/news parity. | P0 |
 
 ---
 
 ## Epic 10: Documentation and compliance artifacts
 
-| ID | Story | Persona |
-|----|--------|---------|
-| US-D1 | As **Engineering / DevOps**, I want a single **variables** document with formulas and examples so that I can configure deployments without reading the entire codebase. | Engineering / DevOps |
-| US-D2 | As a **product owner**, I want a **traceability matrix** linking business requirements to PRD ids and code so that audits and release reviews are efficient. | Product (proxy) |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-D-01 | As a stakeholder, I can find PRD, personas, stories, variables, metrics, design, traceability, and guardrails under `docs/`. | P1 |
+| US-D-02 | As engineering, docs do not advertise removed 1.2.6 APIs or LLM providers. | P0 |
 
 ---
 
 ## Acceptance criteria (representative)
 
-| Story ID | Given | When | Then |
-|----------|-------|------|------|
-| US-R1 | EU AI Act is selected | User opens Browse → Chapters | Article list shows up to **113** articles; headings use **AI Act Law** links |
-| US-R4 | User switches regulation | User opens Ask tab | Title, placeholder, and relevant-provisions label match active regulation |
-| US-A11 | EU AI Act selected | User asks about high-risk AI systems | Answer cites AI Act articles in `sources`; chips open AI Act Browse |
-| US-S3 | EU AI Act selected | User opens Credible sources | Cards include AI Act Law, EUR-Lex 2024/1689, Commission AI framework |
-| US-N12 | EU AI Act selected | User opens News | Banner visible; list filtered to AI-relevant items; status explains filter |
-| US-A8 | User enters Groq key in BYOK | User clicks Check validity | `POST /api/validate-api-keys` returns `valid: true` for Groq without persisting key |
-| US-ETL1 | GDPR selected | User clicks Refresh sources | Only `gdpr-content.json` mtime changes; AI Act file unchanged |
-| US-S1 | Viewport ≤899px | User taps **Tools** | Panel opens with three full-width rows; regulation select spans header width |
-| US-S2 | Meta loaded | User reads Source freshness row | `#headerFreshnessHint` matches summary; tooltip has full timestamps |
-| US-N14 | Viewport ≤899px, News tab | User expands hero details | Intro and scope stack in one column; cards visible without excessive scroll |
-| US-W3 | GDPR sub-category was set | User switches to EU Data Act, opens Chapters | Article list populated; no false “no match” with All chapter/article |
-| US-W1 | Desktop width | User opens Browse placeholder | Three regulation cards visible with correct themes |
+### AC — Region + Indonesian instrument (US-R-01, US-R-02, US-B-08)
 
-Full verification steps: [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
+1. Set region to **Indonesia** → selector shows `id-pdp`, `id-satu-data`, `id-ai-ethics` only.  
+2. Select **ID PDP Law** → Browse loads pasal counts consistent with corpus; Ask answers cite UU PDP sources.  
+3. Sources tab does **not** show GDPR-Info / EDPB as primary cards.
+
+### AC — Soft-law Ask (US-A-06)
+
+1. Select **ID AI Ethics**.  
+2. Ask a question about ethical values.  
+3. System prompt / answer framing indicates guidance / circular (soft law), not a binding Act.
+
+### AC — Chapters filter reliability (US-B-03)
+
+1. On GDPR, set a Sub-category filter.  
+2. Switch to AI Act, Data Act, or any ID instrument.  
+3. Chapters list is not falsely empty; topic filters are hidden/cleared.
+
+### AC — News Indo filter (US-N-02, US-N-04)
+
+1. Select UU PDP or Satu Data.  
+2. News list applies Indo relevance filter; empty state mentions Refresh news.  
+3. After successful refresh with Indo items present, cards render with source attribution.
+
+### AC — Dead API absence (US-A-02, US-D-02)
+
+1. Confirm SPA Ask calls only `/api/answer`.  
+2. Confirm documentation does not list `/api/ask` or `/api/summarize` as live.
 
 ---
 
 ## Reference
 
-- **Personas:** [USER_PERSONAS.md](USER_PERSONAS.md)  
-- **PRD:** [PRD.md](PRD.md)  
-- **Full documentation:** [README.md](../README.md)  
-- **Product documentation standard:** [PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)  
-- **Variables & diagrams:** [VARIABLES.md](VARIABLES.md)  
-- **Sample JSON:** [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md)  
-- **API contracts:** [API_CONTRACTS.md](API_CONTRACTS.md)  
-- **Traceability:** [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)
+- [PRD.md](PRD.md)  
+- [USER_PERSONAS.md](USER_PERSONAS.md)  
+- [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md)  
+- [FEATURE_CATALOG.md](FEATURE_CATALOG.md)

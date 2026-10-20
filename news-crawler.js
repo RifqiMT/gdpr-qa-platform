@@ -1,7 +1,8 @@
 /**
  * Crawl GDPR / data protection / digital-policy news from credible sources.
  * EDPB (RSS + parallel paginated news HTML), EDPS (RSS), ICO (Umbraco /api/search + sitemap),
- * Commission Press Corner (general + per-policy RSS + thematic API; policy areas for topic gate), CoE (RSS + HTML, Referer).
+ * Commission Press Corner (general + per-policy RSS + thematic API; policy areas for topic gate), CoE (RSS + HTML, Referer),
+ * Indonesian official and state-agency sources (Antara RSS; Komdigi/Setkab best-effort).
  */
 
 const axios = require('axios');
@@ -486,7 +487,251 @@ function newsItemMatchesApprovedTopic(item) {
 
   if (newsBlobMatchesTopicAnchor(b)) return true;
 
+  if (
+    /komdigi\.go\.id|setkab\.go\.id|data\.go\.id|jdih\.komdigi|antaranews\.com/i.test(url) &&
+    indonesiaPolicyNewsRe().test(b)
+  ) {
+    return true;
+  }
+  if (indonesiaPolicyNewsRe().test(b)) return true;
+
   return false;
+}
+
+function indonesiaPolicyNewsRe() {
+  return /uu\s*pdp|undang[- ]undang.{0,24}27.{0,12}2022|pelindungan data(?:\s+pribadi)?|perlindungan data(?:\s+pribadi)?|data pribadi|privasi data|pengendali data|kebocoran data|komdigi|kementerian komunikasi dan digital|satu data indonesia|\bsatu data\b|perpres.{0,12}39.{0,12}2019|walidata|portal satu data|data\.go\.id|interoperabilitas data|etika(?:\s+kecerdasan|\s+ai)|kecerdasan artifisial|kecerdasan buatan|surat edaran.{0,24}9.{0,12}2023|se\s*(menkominfo|kominfo|komdigi).{0,8}9|roadmap.{0,12}ai.{0,12}indonesia|rperpres.{0,24}ai|lembaga pelindungan data|penyelenggara sistem elektronik|literasi\s+ai|keamanan digital/i;
+}
+
+function indonesiaNewsItemIsOnScope(item) {
+  const b = `${item && item.title ? item.title : ''} ${item && item.snippet ? item.snippet : ''} ${item && item.url ? item.url : ''}`;
+  return indonesiaPolicyNewsRe().test(b);
+}
+
+/** Antara tag hubs — topical archives beat category RSS for PDP / Satu Data / AI ethics recall. */
+const ANTARA_POLICY_TAGS = [
+  { tag: 'uu-pdp', sourceName: 'Antara (Hukum)', trustTag: true, scopeHint: 'UU PDP pelindungan data pribadi' },
+  { tag: 'data-pribadi', sourceName: 'Antara (Hukum)', trustTag: true, scopeHint: 'data pribadi pelindungan data pribadi' },
+  {
+    tag: 'satu-data',
+    sourceName: 'Satu Data Indonesia',
+    trustTag: true,
+    scopeHint: 'Satu Data Indonesia walidata data.go.id'
+  },
+  {
+    tag: 'etika-ai',
+    sourceName: 'Antara (Tekno)',
+    trustTag: true,
+    scopeHint: 'etika kecerdasan artifisial AI SE Kominfo'
+  },
+  {
+    tag: 'kecerdasan-buatan',
+    sourceName: 'Antara (Tekno)',
+    trustTag: false,
+    scopeHint: 'kecerdasan buatan kecerdasan artifisial'
+  },
+  { tag: 'komdigi', sourceName: 'Antara (Tekno)', trustTag: false, scopeHint: 'Komdigi digital policy' }
+];
+
+function isAntaraArticleUrl(href) {
+  return /^https?:\/\/((www|en)\.)?antaranews\.com\/(berita|news)\/\d+\//i.test(String(href || ''));
+}
+
+/**
+ * Harvest Antara /tag/{slug} listing pages (state news agency).
+ * Trusted tags skip the keyword gate; broad tags still require indonesiaPolicyNewsRe.
+ */
+async function crawlAntaraPolicyTagPages() {
+  const idHeaders = { ...BROWSER_HEADERS, 'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8' };
+  const out = [];
+  const seen = new Set();
+  await Promise.all(
+    ANTARA_POLICY_TAGS.map(async (cfg) => {
+      const pageUrl = `https://www.antaranews.com/tag/${cfg.tag}`;
+      try {
+        const { data, status } = await axios.get(pageUrl, {
+          timeout: Math.min(CRAWL_TIMEOUT_MS, 18000),
+          headers: idHeaders,
+          responseType: 'text',
+          validateStatus: (s) => s >= 200 && s < 500
+        });
+        if (status !== 200 || !data) {
+          console.warn('News crawler (Antara tag ' + cfg.tag + '): HTTP ' + status);
+          return;
+        }
+        const $ = cheerio.load(data);
+        $('a[href]').each((_, el) => {
+          let href = ($(el).attr('href') || '').trim();
+          if (!href) return;
+          if (href.startsWith('/')) href = 'https://www.antaranews.com' + href;
+          if (!isAntaraArticleUrl(href)) return;
+          href = href.split('#')[0].split('?')[0];
+          const k = normalizeNewsUrlKey(href);
+          if (!k || seen.has(k)) return;
+          const title = stripTagsAndCollapse($(el).text() || '').trim();
+          if (!title || title.length < 18 || title.length > 240) return;
+          const snippet = String(cfg.scopeHint || '').trim() || null;
+          const item = {
+            title,
+            url: href,
+            sourceName: cfg.sourceName || 'Antara (Hukum)',
+            sourceUrl: 'https://www.antaranews.com/',
+            date: null,
+            snippet
+          };
+          if (!cfg.trustTag && !indonesiaNewsItemIsOnScope(item)) return;
+          seen.add(k);
+          out.push(item);
+        });
+      } catch (err) {
+        console.warn('News crawler (Antara tag ' + cfg.tag + '):', err.message || err);
+      }
+    })
+  );
+  return out;
+}
+
+/**
+ * Best-effort data.go.id / Satu Data portal headlines from public HTML (SPA often yields few links).
+ */
+async function crawlSatuDataPortalBestEffort() {
+  const pages = ['https://data.go.id', 'https://data.go.id/home', 'https://data.go.id/dataset'];
+  const sourceName = 'Satu Data Indonesia';
+  const sourceUrl = 'https://data.go.id';
+  const items = [];
+  const seen = new Set();
+  for (const pageUrl of pages) {
+    try {
+      const { data, status } = await axios.get(pageUrl, {
+        timeout: Math.min(CRAWL_TIMEOUT_MS, 15000),
+        headers: { ...BROWSER_HEADERS, 'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8' },
+        responseType: 'text',
+        validateStatus: (s) => s >= 200 && s < 500
+      });
+      if (status !== 200 || !data) continue;
+      const $ = cheerio.load(data);
+      $('a[href]').each((_, el) => {
+        let href = ($(el).attr('href') || '').trim();
+        if (!href) return;
+        if (href.startsWith('/')) href = 'https://data.go.id' + href;
+        if (!/^https?:\/\/([a-z0-9.-]+\.)?data\.go\.id\//i.test(href)) return;
+        if (!/\/(dataset|article|berita|news|page)\b/i.test(href) && !/satu.?data/i.test(href)) return;
+        href = href.split('#')[0].split('?')[0];
+        const k = normalizeNewsUrlKey(href);
+        if (!k || seen.has(k)) return;
+        const title = stripTagsAndCollapse($(el).text() || '').trim();
+        if (!title || title.length < 12 || title.length > 240) return;
+        seen.add(k);
+        items.push({
+          title,
+          url: href,
+          sourceName,
+          sourceUrl,
+          date: null,
+          snippet: 'Satu Data Indonesia data.go.id portal'
+        });
+      });
+    } catch (err) {
+      console.warn('News crawler (Satu Data portal ' + pageUrl + '):', err.message || err);
+    }
+  }
+  return items;
+}
+
+async function crawlIndonesiaOfficialNews() {
+  const idHeaders = { 'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8' };
+  const nested = await Promise.all([
+    crawlAntaraPolicyTagPages(),
+    fetchRss(
+      'https://www.antaranews.com/rss/hukum.xml',
+      'Antara (Hukum)',
+      'https://www.antaranews.com/',
+      idHeaders
+    ),
+    fetchRss(
+      'https://www.antaranews.com/rss/tekno.xml',
+      'Antara (Tekno)',
+      'https://www.antaranews.com/',
+      idHeaders
+    ),
+    fetchRss(
+      'https://en.antaranews.com/rss/news.xml',
+      'Antara (English)',
+      'https://en.antaranews.com/',
+      idHeaders
+    ),
+    crawlKomdigiHtmlBestEffort(),
+    crawlSetkabFeedBestEffort(),
+    crawlSatuDataPortalBestEffort()
+  ]);
+  const byKey = new Map();
+  for (const item of nested.flat()) {
+    if (!item || !item.title || !item.url) continue;
+    const fromTrustedTag = Boolean(item.snippet && /UU PDP|data pribadi|Satu Data|etika kecerdasan/i.test(item.snippet));
+    if (!fromTrustedTag && !indonesiaNewsItemIsOnScope(item)) continue;
+    const key = normalizeNewsUrlKey(item.url);
+    if (!key) continue;
+    const prev = byKey.get(key);
+    if (!prev) byKey.set(key, { ...item });
+    else byKey.set(key, mergeNewsDuplicate(prev, item));
+  }
+  return Array.from(byKey.values());
+}
+
+async function crawlKomdigiHtmlBestEffort() {
+  const pages = [
+    'https://www.komdigi.go.id/berita/siaran-pers',
+    'https://www.komdigi.go.id/berita/berita-komdigi',
+    'https://www.komdigi.go.id/berita'
+  ];
+  const sourceName = 'Komdigi';
+  const sourceUrl = 'https://www.komdigi.go.id/berita';
+  const items = [];
+  const seen = new Set();
+  for (const pageUrl of pages) {
+    try {
+      const { data, status } = await axios.get(pageUrl, {
+        timeout: Math.min(CRAWL_TIMEOUT_MS, 15000),
+        headers: { ...BROWSER_HEADERS, 'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8' },
+        responseType: 'text',
+        validateStatus: (s) => s >= 200 && s < 500
+      });
+      if (status === 403 || status === 401) {
+        console.warn('News crawler (Komdigi ' + pageUrl + '): HTTP ' + status + ' (bot/WAF block)');
+        continue;
+      }
+      if (status !== 200 || !data) continue;
+      const $ = cheerio.load(data);
+      $('a[href]').each((_, el) => {
+        let href = ($(el).attr('href') || '').trim();
+        if (!href) return;
+        if (href.startsWith('/')) href = 'https://www.komdigi.go.id' + href;
+        if (!/^https?:\/\/(www\.)?komdigi\.go\.id\//i.test(href)) return;
+        if (!/\/berita\//i.test(href)) return;
+        href = href.split('#')[0];
+        const k = normalizeNewsUrlKey(href);
+        if (!k || seen.has(k)) return;
+        const title = stripTagsAndCollapse($(el).text() || '').trim();
+        if (!title || title.length < 12 || title.length > 240) return;
+        seen.add(k);
+        items.push({ title, url: href, sourceName, sourceUrl, date: null, snippet: 'Komdigi berita digital' });
+      });
+    } catch (err) {
+      console.warn('News crawler (Komdigi ' + pageUrl + '):', err.message || err);
+    }
+  }
+  return items;
+}
+
+async function crawlSetkabFeedBestEffort() {
+  try {
+    const items = await fetchRss('https://setkab.go.id/feed/', 'Setkab', 'https://setkab.go.id/', {
+      'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8'
+    });
+    if (items && items.length) return items;
+  } catch (err) {
+    console.warn('News crawler (Setkab feed):', err.message || err);
+  }
+  return [];
 }
 
 function commissionDetailUrlFromRefCode(refCode) {
@@ -953,13 +1198,6 @@ async function crawlEdpsSearch(query) {
   }
 }
 
-async function crawlIcoSearchQuery(query) {
-  // ICO's public /api/search currently blocks keyworded requests (403) in many environments.
-  // We already crawl the full ICO hub via /api/search (without searchTerm) + sitemap enrichment,
-  // so topic enrichment skips ICO to avoid noisy failures and unnecessary load.
-  return [];
-}
-
 async function fetchCommissionPressQuerySearch(query) {
   const q = normalizeTopicQuery(query);
   if (!q) return [];
@@ -1032,14 +1270,13 @@ async function enrichMissingTopicsViaSearch(itemsAlready) {
         const all = [];
         for (const q of qSlice) {
           if (queryBudgetUsed >= TOPIC_ENRICH_MAX_QUERIES) break;
-          queryBudgetUsed += 3; // approx: EDPB + EDPS + Commission (ICO skipped)
-          const [edpb, edps, ico, comm] = await Promise.all([
+          queryBudgetUsed += 3; // approx: EDPB + EDPS + Commission (ICO keyword search skipped — 403s)
+          const [edpb, edps, comm] = await Promise.all([
             crawlEdpbSearch(q),
             crawlEdpsSearch(q),
-            crawlIcoSearchQuery(q),
             fetchCommissionPressQuerySearch(q)
           ]);
-          all.push(...edpb, ...edps, ...ico, ...comm);
+          all.push(...edpb, ...edps, ...comm);
         }
         return all;
       })
@@ -1589,21 +1826,24 @@ function dedupeNewsItemsConsolidated(items) {
 }
 
 async function crawlNews() {
-  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems] = await Promise.all([
-    crawlEdpbRss(),
-    crawlEdpbHtml(),
-    crawlEdpsRss(),
-    crawlIco(),
-    crawlCommissionPress(),
-    crawlCouncilOfEurope()
-  ]);
+  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems, indonesiaItems] =
+    await Promise.all([
+      crawlEdpbRss(),
+      crawlEdpbHtml(),
+      crawlEdpsRss(),
+      crawlIco(),
+      crawlCommissionPress(),
+      crawlCouncilOfEurope(),
+      crawlIndonesiaOfficialNews()
+    ]);
   const combined = [
     ...edpbRssItems,
     ...edpbHtmlItems,
     ...edpsRssItems,
     ...icoItems,
     ...commissionItems,
-    ...coeItems
+    ...coeItems,
+    ...indonesiaItems
   ];
   const byKey = new Map();
   combined.forEach((item) => {
@@ -1662,6 +1902,8 @@ function withTimeout(promise, ms) {
 
 module.exports = {
   crawlNews,
+  indonesiaPolicyNewsRe,
+  indonesiaNewsItemIsOnScope,
   withTimeout,
   normalizeNewsUrlKey,
   dedupeNewsItemsConsolidated,

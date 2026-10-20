@@ -1,0 +1,13 @@
+{
+  "regulationId": "id-ai-ethics",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": null,
+  "summaries": {
+    "1": "Section 1 explains why Indonesia issued AI ethics guidance: rapid uptake across sectors, KBLI 62015 programming activities, and the duty under Permen Kominfo 3/2021 to adopt internal data-and-ethics policies.",
+    "2": "Sections 2–4 state the circular's purpose (internal AI ethics policies; lawful AI consultancy/analysis/programming), its scope, and its legal basis (ITE Law, Cipta Kerja, PDP Law, GR 71/2019, and Kominfo ministerial regulations).",
+    "3": "Section 5 defines artificial intelligence, AI operations, AI ethics, electronic system operators (PSE), and in-scope business actors.",
+    "4": "Section 6 is the operative core: AI covers ML/NLP/expert systems/deep learning/robotics/neural networks; nine ethical values; implementation duties; and developer responsibilities, including that AI must not be the sole decision-maker on humanitarian matters.",
+    "5": "Section 7 closes the circular (Jakarta, 19 December 2023). The instrument is official soft law; binding AI Presidential Regulations were still being finalised in 2026."
+  }
+}

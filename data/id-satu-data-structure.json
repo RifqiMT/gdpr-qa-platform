@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "peraturan.go.id",
+        "url": "https://peraturan.go.id/id/perpres-no-39-tahun-2019",
+        "description": "Official national regulation database entry for Perpres 39/2019.",
+        "documents": [
+          {
+            "label": "Perpres No. 39 Tahun 2019",
+            "url": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Kemenko Infra (PDF salinan)",
+        "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+        "description": "Official PDF of Presidential Regulation No. 39 of 2019 on Satu Data Indonesia.",
+        "documents": [
+          {
+            "label": "PDF Perpres 39/2019",
+            "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf"
+          }
+        ]
+      },
+      {
+        "name": "Sekretariat Kabinet",
+        "url": "https://setkab.go.id/presiden-jokowi-tandangani-perpres-no-392019-tentang-satu-data-indonesia/",
+        "description": "Official Cabinet Secretariat announcement of Perpres 39/2019.",
+        "documents": [
+          {
+            "label": "Setkab announcement",
+            "url": "https://setkab.go.id/presiden-jokowi-tandangani-perpres-no-392019-tentang-satu-data-indonesia/"
+          }
+        ]
+      },
+      {
+        "name": "Portal Satu Data Indonesia",
+        "url": "https://data.go.id",
+        "description": "National data-sharing portal implementing Satu Data Indonesia.",
+        "documents": [
+          {
+            "label": "data.go.id",
+            "url": "https://data.go.id"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Considering (Menimbang)",
+      "description": "Preamble recitals of Perpres 39/2019 (huruf a–d).",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "id": "chapters",
+      "title": "Bab & Pasal",
+      "description": "8 chapters, Articles 1–44 on government data sharing, standards, metadata, and interoperability.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Ketentuan umum",
+      "articleRange": "1-2",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Prinsip Satu Data Indonesia",
+      "articleRange": "3-10",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Penyelenggara Satu Data Indonesia",
+      "articleRange": "11-24",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Penyelenggaraan Satu Data Indonesia",
+      "articleRange": "25-39",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Pendanaan",
+      "articleRange": "40",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Partisipasi lembaga negara dan badan hukum publik",
+      "articleRange": "41",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "Ketentuan peralihan",
+      "articleRange": "42",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 8,
+      "roman": "VIII",
+      "title": "Ketentuan penutup",
+      "articleRange": "43-44",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": []
+}

@@ -1,0 +1,16 @@
+{
+  "regulationId": "id-satu-data",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": null,
+  "summaries": {
+    "1": "Bab I defines Satu Data Indonesia as government data governance so that data are accurate, up to date, integrated, accountable, accessible, and shareable through standards, metadata, interoperability, reference codes, and master data.",
+    "2": "Bab II sets the four Satu Data principles and details data standards, metadata, interoperability, and reference/master data.",
+    "3": "Bab III organises central and regional roles: Steering Board, Pembina Data, Walidata, producers, the One Data Forum, and secretariats.",
+    "4": "Bab IV covers the lifecycle: planning (including priority data), collection, examination, and dissemination via Portal Satu Data Indonesia, including access without fees or MoUs.",
+    "5": "Bab V allocates funding from the state budget, regional budgets, and other lawful sources.",
+    "6": "Bab VI lets independent public bodies (BI, OJK, BPJS, and others) participate without reducing their statutory independence.",
+    "7": "Bab VII contains transitional arrangements for existing data-governance practices.",
+    "8": "Bab VIII repeals conflicting provisions as specified and brings the Perpres into force on promulgation."
+  }
+}

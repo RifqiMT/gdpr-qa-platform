@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "JDIH Kementerian Komunikasi dan Digital",
+        "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+        "description": "Official legal-documentation network of Komdigi; HTML text of UU 27/2022.",
+        "documents": [
+          {
+            "label": "UU No. 27 Tahun 2022 (JDIH Komdigi)",
+            "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022"
+          },
+          {
+            "label": "JDIH Komdigi home",
+            "url": "https://jdih.komdigi.go.id/"
+          }
+        ]
+      },
+      {
+        "name": "peraturan.go.id (Database Peraturan)",
+        "url": "https://peraturan.go.id/id/uu-no-27-tahun-2022",
+        "description": "Official national regulation database of the Government of Indonesia.",
+        "documents": [
+          {
+            "label": "UU No. 27 Tahun 2022",
+            "url": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Kementerian Koordinator Bidang Infrastruktur",
+        "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/uu/uu-nomor-27-tahun-2022.pdf",
+        "description": "Official PDF salinan of UU 27/2022 (LN 2022 No. 196).",
+        "documents": [
+          {
+            "label": "PDF salinan UU 27/2022",
+            "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/uu/uu-nomor-27-tahun-2022.pdf"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Kementerian Keuangan",
+        "url": "https://jdih.kemenkeu.go.id/dok/uu-27-tahun-2022",
+        "description": "Ministry of Finance legal database entry for UU 27/2022.",
+        "documents": [
+          {
+            "label": "UU 27 Tahun 2022",
+            "url": "https://jdih.kemenkeu.go.id/dok/uu-27-tahun-2022"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Considering (Menimbang)",
+      "description": "Preamble recitals of UU 27/2022 (huruf a–d).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "id": "chapters",
+      "title": "Bab & Pasal",
+      "description": "16 chapters (Bab I–XVI), Articles 1–76.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Ketentuan umum",
+      "articleRange": "1-2",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Asas",
+      "articleRange": "3",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Jenis Data Pribadi",
+      "articleRange": "4",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Hak Subjek Data Pribadi",
+      "articleRange": "5-15",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Pemrosesan Data Pribadi",
+      "articleRange": "16-18",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Kewajiban Pengendali dan Prosesor Data Pribadi",
+      "articleRange": "19-54",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "Transfer Data Pribadi",
+      "articleRange": "55-56",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 8,
+      "roman": "VIII",
+      "title": "Sanksi administratif",
+      "articleRange": "57",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 9,
+      "roman": "IX",
+      "title": "Kelembagaan",
+      "articleRange": "58-61",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 10,
+      "roman": "X",
+      "title": "Kerja sama internasional",
+      "articleRange": "62",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 11,
+      "roman": "XI",
+      "title": "Partisipasi masyarakat",
+      "articleRange": "63",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 12,
+      "roman": "XII",
+      "title": "Penyelesaian sengketa dan hukum acara",
+      "articleRange": "64",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 13,
+      "roman": "XIII",
+      "title": "Larangan dalam penggunaan Data Pribadi",
+      "articleRange": "65-66",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 14,
+      "roman": "XIV",
+      "title": "Ketentuan pidana",
+      "articleRange": "67-73",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 15,
+      "roman": "XV",
+      "title": "Ketentuan peralihan",
+      "articleRange": "74-75",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 16,
+      "roman": "XVI",
+      "title": "Ketentuan penutup",
+      "articleRange": "76",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": []
+}

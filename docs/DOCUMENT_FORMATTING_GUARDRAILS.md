@@ -1,14 +1,16 @@
 # Document formatting guardrails (regulation reader)
 
-**Version:** 1.5 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
+**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
 
-**Applies to:** All regulation corpora — **GDPR** (`gdpr-content.json`, `scraper.js`), **EU AI Act** (`ai-act-content.json`, `ai-act-scraper.js`), and **EU Data Act** (`data-act-content.json`, `data-act-scraper.js`). Each path runs mandatory **`normalizeCorpus`** on refresh and read. The **same reader** in `public/app.js` (`fmtArticleLine`, `fmtRecitalLine`, citation linking) applies with regulation-specific heading patterns from `regulation-profiles.js`.
+> **Contract scope (v2.5):** this contract applies to **all six corpora** — **GDPR**, **EU AI Act**, **EU Data Act**, **UU PDP** (`id-pdp`), **Satu Data Indonesia** (`id-satu-data`), and **SE AI Ethics** (`id-ai-ethics`) — including every corpus written by **`id-law-scraper.js`**. No ETL path may write `data/<id>-content.json` without running **`normalizeCorpus`** first. Indonesian text is **Bahasa Indonesia legal wording**; the normalizer is language-neutral (line endings, NBSP, orphan-line merges, numbered/lettered clause splits) and must not translate or reword it.
+
+**Applies to:** All regulation corpora — **GDPR** (`gdpr-content.json`, `scraper.js`), **EU AI Act** (`ai-act-content.json`, `ai-act-scraper.js`), **EU Data Act** (`data-act-content.json`, `data-act-scraper.js`), and the three **Indonesian** corpora (`id-pdp-content.json`, `id-satu-data-content.json`, `id-ai-ethics-content.json`, all via **`id-law-scraper.js`**). Each path runs mandatory **`normalizeCorpus`** on refresh and read. The **same reader** in `public/app.js` (`fmtArticleLine`, `fmtRecitalLine`, citation linking) applies with regulation-specific heading patterns from `regulation-profiles.js` / `regulation-profiles-id.js`. Sections below that cite GDPR-Info, EUR-Lex, GDPR citation linking, `CANONICAL_ARTICLE_TITLES`, or Art. 4/5/8 renderers are **EU/GDPR-specific**; Indonesian corpora use the generic numbered-paragraph path (`renderManualNumberedParagraphs` → `renderGenericStructuredArticle`) with their English structural `title` and anchors `#pasal-N` / `#menimbang-N` / `#bagian-N` / `#nilai-N`.
 
 This document is the **reference contract** between **source JSON** and **in-app presentation** (`public/app.js`, `public/styles.css`).
 
 **Principle:** The app must not alter the **legal meaning** of the regulation text. Formatting logic only parses, escapes, and structures text for display. If a fix requires rewriting substantive law, fix the **ETL** or **source**, not the wording in JSON.
 
-**Binding rule for GDPR ETL:** Any GDPR extractor (GDPR-Info, EUR-Lex) must pass through **`document-formatting-guardrails.js`** before the corpus is written or served (see §1.1).
+**Binding rule for every ETL:** Any extractor — GDPR (GDPR-Info, EUR-Lex), AI Act / Data Act (law-site scrapers), and **Indonesian** (`id-law-scraper.js`: JDIH HTML, official PDF text, bundled official corpus) — must pass through **`document-formatting-guardrails.js`** before the corpus is written or served (see §1.1). New instruments inherit this rule.
 
 ---
 
@@ -16,10 +18,10 @@ This document is the **reference contract** between **source JSON** and **in-app
 
 ### 1.1 Mandatory refresh contract (no exceptions)
 
-For **every** regulation refresh — **Refresh sources** / `POST /api/refresh`, **`npm run refresh`** (`server.js --refresh-only`), **daily cron**, and **initial startup** when `gdpr-content.json` is missing:
+For **every** regulation refresh — **Refresh sources** / `POST /api/refresh`, **`npm run refresh`** (`server.js --refresh-only`, GDPR), **`npm run refresh-ai-act` / `refresh-data-act` / `refresh-id-pdp` / `refresh-id-satu-data` / `refresh-id-ai-ethics`**, **daily cron** (all six), and **initial startup** when `gdpr-content.json` is missing:
 
-1. **`scraper.js` `run()`** merges fetched `articles` / `recitals` with the existing file (or structure-only baseline).
-2. **`normalizeCorpus`** from **`document-formatting-guardrails.js`** runs on the merged arrays **immediately before** **`buildSearchIndex`** and **before every `fs.writeFileSync`** of `gdpr-content.json` — including when the dataset hash is unchanged (baseline is re-normalized on each run so guardrail updates apply without a forced hash change).
+1. **The instrument's scraper `run()`** (`scraper.js`, `ai-act-scraper.js`, `data-act-scraper.js`, or **`id-law-scraper.js` `run(id)`**) merges fetched `articles` / `recitals` with the existing file (or structure-only baseline) via `mergeWithExisting`.
+2. **`normalizeCorpus`** from **`document-formatting-guardrails.js`** runs on the merged arrays **immediately before** **`buildSearchIndex`** and **before every `fs.writeFileSync`** of `<id>-content.json` (shown for GDPR below; identical for all six). For GDPR/AI Act/Data Act the baseline is re-normalized on each run even when the dataset hash is unchanged. **Indonesian ETL** normalizes on every run but only **writes** when the hash changed, the file/index is missing, or `<PREFIX>_FORCE_CORPUS_WRITE` / `GDPR_FORCE_CORPUS_WRITE=1` is set — and `loadContent()` re-normalizes on every read, so guardrail changes still reach the API without a forced write.
 3. **`logFormattingGuardrailsReport`** + **`validateCorpusFormatting`** run on the normalized corpus (§8 smoke checks).
 4. **`server.js`** after ETL: **`invalidateRegulationContentCache`** + **`loadContent()`** (`runRegulationScraperAndReloadContent`) so in-memory API state matches the file just written.
 5. **`POST /api/refresh`** returns **`formattingGuardrails`** to the client for console warnings.
@@ -41,11 +43,11 @@ All other helpers in `document-formatting-guardrails.js` (line-ending fixes, orp
 
 | Stage | Location | Responsibility |
 |--------|-----------|----------------|
-| Fetch & extract | `scraper.js` (EUR-Lex HTML/TXT, GDPR-Info pages) | Produce `articles[]`, `recitals[]` with `number`, `title`, `text`, URLs |
+| Fetch & extract | `scraper.js` (EUR-Lex HTML/TXT, GDPR-Info pages); `ai-act-scraper.js` / `data-act-scraper.js`; **`id-law-scraper.js`** (JDIH HTML `Pasal` parsing; bundled official corpus fallback) | Produce `articles[]`, `recitals[]` with `number`, `title`, `text`, URLs |
 | **Normalize (every refresh write)** | **`document-formatting-guardrails.js`** → **`normalizeCorpus`** | **Before `buildSearchIndex` and every write:** line endings (§3.2), NBSP→space (§4.2), EUR-Lex glue (§3.3); article-only stripping of parenthetical “(Recital N)” and continuation-line merges; **`logFormattingGuardrailsReport`** + **`validateCorpusFormatting`** (§8). |
 | **Normalize (every API read)** | **`server.js` → `loadContent()`** | **`normalizeCorpus`** on `articles` / `recitals` + **`buildSearchIndex`** so Browse/Ask match guardrails even if the JSON file predates a code change. |
 | **Cache bust after ETL** | **`server.js`** → **`invalidateRegulationContentCache`**, **`runRegulationScraperAndReloadContent`** | Ensures the process serving `/api/*` does not return stale corpus after refresh. |
-| Store | `data/gdpr-content.json` | Single source of truth for browse/API |
+| Store | `data/<id>-content.json` (six files; e.g. `gdpr-content.json`, `id-pdp-content.json`) | Single source of truth for browse/API |
 | Serve | `server.js` (`/api/articles/:n`, `/api/recitals/:n`) | Returns guardrail-normalized payloads from `loadContent()` |
 | Render | `public/app.js` | `openArticle`, `openRecital`, `fmtArticleLine` / `fmtRecitalLine`, list renderers |
 | Style | `public/styles.css` | `.article-doc`, `.recital-doc`, `.art-para-list`, etc. |
@@ -127,7 +129,7 @@ Same as articles through **`injectRegulationCitationLinks`**, but use **`fmtReci
 
 ## 6. ETL / scraper obligations (source refresh “bible”)
 
-**On every refresh** (button, `POST /api/refresh`, daily cron), `scraper.js` calls **`normalizeCorpus`** from `document-formatting-guardrails.js` on the final `recitals` and `articles` before `buildSearchIndex` and `fs.writeFileSync`. Do not skip this step when adding new write paths.
+**On every refresh** (button, `POST /api/refresh`, daily cron), each scraper (`scraper.js`, `ai-act-scraper.js`, `data-act-scraper.js`, `id-law-scraper.js`) calls **`normalizeCorpus`** from `document-formatting-guardrails.js` on the final `recitals` and `articles` before `buildSearchIndex` and `fs.writeFileSync`. Do not skip this step when adding new write paths.
 
 **GDPR-Info extraction:** `.entry-content` is walked in document order (`<p>`, `<ol>/<ul>/<li>` with nesting, footnote `<div>`s). Articles that are list-only (e.g. Art. 1, 5) and definition lists (Art. 4) require this; a `<p>`-only pass misses the legal text.
 
@@ -213,4 +215,4 @@ If **citations** break, inspect **entity normalization** (section 4.2) and **lis
 
 ---
 
-*Last aligned with in-app logic in `public/app.js` (article/recital rendering, citation linking, Ask industry sectors). Update the “Last aligned” note when you change those flows.*
+*Last aligned 2026-10-20 (product 1.2.6, standard v2.5) with in-app logic in `public/app.js` (article/recital rendering, citation linking, Ask industry sectors) and with all six ETL paths including `id-law-scraper.js`. Update the “Last aligned” note when you change those flows.*

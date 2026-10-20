@@ -1,9 +1,9 @@
 # Operations runbook  
-## EU Regulation Q&A Platform
+## Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
+**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
 
-Procedures for **local development**, **production (Vercel)**, and **routine maintenance**. Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md).
+Procedures for **local development**, **production (Vercel)**, and **routine maintenance** across **six instruments** (`gdpr`, `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`). Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md). There is **no end-user authentication**; the only secured route is the cron handler.
 
 ---
 
@@ -16,6 +16,8 @@ Procedures for **local development**, **production (Vercel)**, and **routine mai
 | **Health** | `GET /health` → `ok` |
 | **UI** | Static `public/` + SPA fallback |
 | **Writable data** | `data/` (local) or `GDPR_DATA_DIR` (Vercel `/tmp/gdpr-qa-data`) |
+| **Instruments** | 3 EU + 3 Indonesia; list via `GET /api/regulations` |
+| **Tests** | `npm test` (`node --test test/*.test.js`) |
 
 ---
 
@@ -41,19 +43,57 @@ npm start
 
 Exit code **137** on a background task usually means the process was killed during restart — expected.
 
+### Run tests before any release
+
+```bash
+npm test
+```
+
+Expected (2026-10-20): **8 tests, 4 suites, 0 failures** (`test/indo-parity.test.js`: Indonesian registry, corpora for Ask/Browse, news helpers, persisted Indonesian news). Run on every change touching `lib/regulations.js`, `id-law-scraper.js`, `news-crawler.js`, `news-topics.js`, or `data/*.json`. Unstable tests must be stabilized before merge.
+
 ---
 
 ## 3. Routine maintenance
 
 | Task | Command / action | Frequency |
 |------|------------------|-----------|
-| Refresh GDPR corpus | UI **Refresh sources** (GDPR selected) or `npm run refresh` | Weekly or after EUR-Lex updates |
+| Refresh GDPR corpus | UI **Refresh sources** (GDPR selected) or `npm run refresh` (**GDPR only**) | Weekly or after EUR-Lex updates |
 | Refresh AI Act corpus | UI **Refresh sources** (AI Act selected) or `npm run refresh-ai-act` | As needed |
 | Refresh Data Act corpus | UI **Refresh sources** (Data Act selected) or `npm run refresh-data-act` | As needed |
-| Refresh news | UI **Refresh news** or `POST /api/news/refresh` | Daily / weekly |
-| Regenerate chapter summaries | `POST /api/chapter-summaries/regenerate` + Groq key | After major corpus change |
-| Update suitable recitals | `npm run fetch-suitable-recitals` | Occasional (GDPR) |
+| **Refresh UU PDP corpus** | UI (UU PDP selected) or `npm run refresh-id-pdp` | As needed / after JDIH changes |
+| **Refresh Satu Data corpus** | UI (Satu Data selected) or `npm run refresh-id-satu-data` | As needed |
+| **Refresh SE AI Ethics corpus** | UI (SE AI Ethics selected) or `npm run refresh-id-ai-ethics` | As needed; also when Komdigi signs the AI-ethics / AI-roadmap Perpres (update structure sources, see §3.1) |
+| Refresh **all six** | Wait for daily cron (02:00) or `POST /api/refresh` once per `regulation` id | Daily (automatic) |
+| Refresh news (EU + Indonesia) | UI **Refresh news** or `POST /api/news/refresh` | Daily / weekly |
+| Regenerate chapter summaries | `POST /api/chapter-summaries/regenerate` (+ `regulation`) + Groq key | After major corpus change |
+| Update suitable recitals | `npm run fetch-suitable-recitals` | Occasional (GDPR only) |
 | Verify guardrails | Check `formattingGuardrails` in refresh API response | After ETL code changes |
+| Run test suite | `npm test` | Before every release / PR |
+
+### 3.1 Indonesian refresh scripts
+
+| Script | Equivalent | Output | Typical `etl.extractedFrom` |
+|--------|-----------|--------|-----------------------------|
+| `npm run refresh-id-pdp` | `node id-law-scraper.js id-pdp` | `data/id-pdp-content.json` | `jdih-komdigi` |
+| `npm run refresh-id-satu-data` | `node id-law-scraper.js id-satu-data` | `data/id-satu-data-content.json` | `jdih-kemenkoinfra-pdf` |
+| `npm run refresh-id-ai-ethics` | `node id-law-scraper.js id-ai-ethics` | `data/id-ai-ethics-content.json` | `jdih-komdigi` |
+
+How the Indonesian ETL behaves (so operators are not surprised):
+
+- It **keeps the bundled official corpus** when the live JDIH HTML extract is incomplete — a log line "keeping bundled official … corpus" or "live … extract incomplete" is **normal**, not a failure.
+- It writes only when the dataset hash changed, the file is missing, the index is empty, or a force flag is set: `ID_PDP_FORCE_CORPUS_WRITE=1`, `ID_SATU_DATA_FORCE_CORPUS_WRITE=1`, `ID_AI_ETHICS_FORCE_CORPUS_WRITE=1` (or global `GDPR_FORCE_CORPUS_WRITE=1`).
+- Minimum counts guard against truncated data: `MIN_ID_PDP_ARTICLES` / `_RECITALS`, `MIN_ID_SATU_DATA_*`, `MIN_ID_AI_ETHICS_*` (defaults from the registry: 76/4, 40/4, 7/9). Falling below them with no usable existing corpus aborts with `… ETL incomplete` (exit 1; `POST /api/refresh` → **500**).
+- **Rebuilding corpora from scratch** (maintainers only): `python3 scripts/build-id-corpora.py` uses downloaded sources in git-ignored `tmp-id-etl/` (UU 27/2022 PDF, Perpres 39/2019 PDF/text). Review the script's hard-coded scratch path before running on another machine; then run the three `refresh-id-*` scripts and `npm test`, and commit the updated `data/id-*.json` only after review.
+- **After changing a corpus,** also review the matching `chapter-summaries-id-*.json` if chapter structure changed.
+
+### 3.2 Indonesian news refresh
+
+`POST /api/news/refresh` (UI **Refresh news**) runs the EU crawl **and** `crawlIndonesiaOfficialNews`: Antara policy tag hubs (`uu-pdp`, `data-pribadi`, Satu Data and AI-ethics tags, `komdigi`), Antara RSS (Hukum, Tekno, English), Komdigi HTML, Setkab feed, and `data.go.id` portal. Notes:
+
+- **Komdigi** HTML is best-effort and can be **WAF-blocked** (log: `News crawler (Komdigi …): HTTP … (bot/WAF block)`); this is expected, other sources still populate.
+- `data.go.id` is a SPA — few links are normal.
+- If the Indonesian-filtered News tab is empty, run **Refresh news** first; the empty-state copy says the same.
+- Persisted items live in `data/gdpr-news.json` (shared EU + Indonesia). `npm test` asserts it contains Antara / Satu Data items.
 
 ---
 
@@ -62,10 +102,12 @@ Exit code **137** on a background task usually means the process was killed duri
 | Variable | Required for Ask | Notes |
 |----------|------------------|-------|
 | `GROQ_API_KEY` | Recommended | Primary LLM |
+| `GROQ_MODEL` | Optional | Single or comma-separated model list; **set explicitly** if default models are unavailable (see §7) |
 | `TAVILY_API_KEY` | Optional | Fallback when Groq fails |
-| `CRON_SECRET` | Vercel cron | Bearer for daily regulation refresh |
+| `CRON_SECRET` | Vercel cron | Bearer for daily regulation refresh (all six) |
 | `GDPR_DATA_DIR` | Vercel | Writable path; seeded from bundle |
 | `NEWS_*` | Optional | Crawl depth, caps, timeouts |
+| `MIN_ID_*`, `ID_*_FORCE_CORPUS_WRITE` | Optional | Indonesian ETL guards (§3.1) |
 
 Full dictionary: [VARIABLES.md](VARIABLES.md) · template: [.env.example](../.env.example).
 
@@ -74,9 +116,9 @@ Full dictionary: [VARIABLES.md](VARIABLES.md) · template: [.env.example](../.en
 ## 5. Vercel production
 
 1. Set env vars in project settings (never commit `.env`).
-2. Deploy from `main`; `vercel.json` routes to `api/index.js`.
-3. Cron hits `/api/cron/daily-regulation-refresh` with `Authorization: Bearer $CRON_SECRET`.
-4. Expect **ephemeral** `/tmp` — bundled `data/*.json` is source of truth on cold start; **`SEED_FILES`** copies 11 JSON files (incl. Data Act) on first instance access. Verify `GET /api/regulations` returns `hasArticleTopics` / `hasSuitableRecitals` per regulation.
+2. Deploy from `main`; `vercel.json` routes to `api/index.js`; `includeFiles` must ship `data/**` and all three scraper modules (`ai-act-scraper.js`, `data-act-scraper.js`, **`id-law-scraper.js`**).
+3. Cron hits `/api/cron/daily-regulation-refresh` with `Authorization: Bearer $CRON_SECRET` and refreshes **all six** instruments sequentially (allow up to `maxDuration` 300 s).
+4. Expect **ephemeral** `/tmp` — bundled `data/*.json` is source of truth on cold start; **`SEED_FILES`** copies **20** JSON files (six corpora, six structures, news, six chapter-summary files, GDPR suitable recitals) on first instance access. Verify `GET /api/regulations` returns **six** entries with `jurisdiction`; GDPR has `hasArticleTopics`/`hasSuitableRecitals` `true`, the other five `false`.
 
 Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 
@@ -84,21 +126,54 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 
 ## 6. Monitoring and smoke tests
 
+### 6.1 API smoke (copy-paste)
+
+```bash
+BASE=http://localhost:3847
+curl -s "$BASE/health"                               # ok
+curl -s "$BASE/api/regulations" | python3 -c "import sys,json;print([(r['id'],r['jurisdiction']) for r in json.load(sys.stdin)['regulations']])"
+for r in gdpr ai-act data-act id-pdp id-satu-data id-ai-ethics; do
+  echo -n "$r articles="; curl -s "$BASE/api/articles?regulation=$r" | python3 -c "import sys,json;print(len(json.load(sys.stdin)))"
+  echo -n "$r sources=";  curl -s "$BASE/api/meta?regulation=$r" | python3 -c "import sys,json;print(len(json.load(sys.stdin)['sources']))"
+done
+```
+
+### 6.2 Expected results
+
 | Check | Expected |
 |-------|----------|
 | `curl -s -o /dev/null -w "%{http_code}" http://localhost:3847/` | `200` |
-| `curl -s http://localhost:3847/api/regulations` | JSON with `gdpr`, `ai-act`, and `data-act`; GDPR `hasArticleTopics: true`; AI/Data Act `false` |
-| `curl -s "http://localhost:3847/api/meta?regulation=ai-act"` | `regulationId: ai-act`, `sources` array |
+| `GET /api/regulations` | **Six** ids in order `gdpr, data-act, ai-act, id-pdp, id-satu-data, id-ai-ethics`; `jurisdiction` `eu` ×3 / `id` ×3; GDPR `hasArticleTopics: true`; all others `false` |
+| Article counts (`GET /api/articles?regulation=`) | `gdpr` 99 · `ai-act` 113 · `data-act` 50 · **`id-pdp` 76 · `id-satu-data` 44 · `id-ai-ethics` 7** |
+| `GET /api/meta?regulation=id-pdp` | `regulationId: id-pdp`, 4 `sources` (JDIH Komdigi, peraturan.go.id, JDIH Kemenko Infra, JDIH Kemenkeu), `etl.articleCount: 76` |
+| `GET /api/meta?regulation=id-satu-data` | 4 `sources` incl. `data.go.id`; `etl.articleCount: 44` |
+| `GET /api/meta?regulation=id-ai-ethics` | 2 `sources`; `etl.articleCount: 7`, `etl.recitalCount: 9` |
+| `GET /api/meta?regulation=ai-act` | `regulationId: ai-act`, `sources` array (never GDPR-Info / EUR-Lex fallback for non-GDPR) |
+| **Ask on an Indonesian instrument** | `POST /api/answer {"query":"Apa hak subjek data pribadi?","regulation":"id-pdp","includeWeb":false}` → `regulationId: "id-pdp"`, non-empty `answer`, regulation `sources` with `[S#]` ids; `llm.provider` is `groq`, `tavily`, or `null` (extractive) depending on keys |
+| **Soft-law check** | `regulation: "id-ai-ethics"`, query "Is the circular legally binding?" → answer frames SE 9/2023 as guidance, **not** a statute |
+| `GET /api/news` | `items` includes Indonesian sources (Antara / Satu Data); `topicTaxonomy.groups` includes **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics** |
+| **Removed routes (1.2.6)** | `POST /api/ask` → **404**; `POST /api/summarize` → **404**; `GET /api/categories` and `/api/chapters/1` return the SPA HTML (200, not JSON) — they must not be used |
 | Ask (with keys) | `POST /api/answer` returns `answer`, `sources`, `llm.used` |
-| Data Act Art. 10 title | Browse → EU Data Act → Art. 10 → H2 **“Dispute settlement”** (not GDPR Art. 10 title) |
-| Data Act Art. 4 long title | Browse → EU Data Act → Art. 4 → H2 shows full rights/obligations title (not bare “Article 4”) |
-| AI Act Art. 10 title | Browse → EU AI Act → Art. 10 → H2 **“Data and data governance”** |
+| Data Act Art. 10 title | Browse → EU Data Act → Art. 10 → H2 **"Dispute settlement"** (not GDPR Art. 10 title) |
+| Data Act Art. 4 long title | Browse → EU Data Act → Art. 4 → H2 shows full rights/obligations title (not bare "Article 4") |
+| AI Act Art. 10 title | Browse → EU AI Act → Art. 10 → H2 **"Data and data governance"** |
 | Citation sidebar (Data Act) | EU Data Act selected → open any article → sidebar says **Related Data Act articles** and links to **data-act-law.eu** |
 | Citation sidebar (AI Act) | EU AI Act selected → sidebar says **Related AI Act recitals** and links to **ai-act-law.eu** |
 | Reader paragraphs | AI Act Art. 6 or 99; Data Act Art. 4 shows `1.` / `2.` blocks and `(a)` sublists |
+
+### 6.3 UI smoke — region picker and Indonesian instruments
+
+| Check | Expected |
+|-------|----------|
+| Region picker | Header **Region**: All / EU / Indonesia. **EU** → select lists 3 EU instruments, chip "European Union"; **Indonesia** → 3 Indonesian instruments (default **UU PDP**), chip "Indonesia"; **All** → grouped options (European Union / Indonesia). Reload keeps the choice (`gdpr-qa-region-v1`). |
+| Browse welcome (≥900px) | **Six** cards in two region sections; region filter hides the other section; **Chapters** button above **Recitals** |
+| UU PDP Browse | Select UU PDP → Chapters shows 16 BAB and Pasal 1–76; Recitals shows **Menimbang a–d** |
+| Satu Data Browse | Pasal 1–44 in 8 BAB; Recitals 4 |
+| SE AI Ethics Browse | 7 sections; Recitals tab shows the **nine ethical values**; no category/sub-category filter shown (GDPR only) |
+| Credible sources (Indonesian) | Cards show JDIH / peraturan.go.id etc.; **no** EUR-Lex/EDPB cards |
+| News (Indonesian instrument) | Scope banner visible; list limited to Indonesian-relevant items; empty ⇒ **Refresh news** hint |
 | Mobile Tools (375px) | **Tools** opens; `#headerFreshnessHint` non-empty after load; no duplicate status strip in header |
 | News hero (≤899px) | News tab: hero collapsed; **Show details** reveals 1-column intro + scope; **Sync** runs refresh |
-| Browse welcome (≥900px) | Browse placeholder: three cards (GDPR, Data Act, AI Act); **Chapters** button above **Recitals** |
 | Chapters filter bleed | GDPR: set sub-category → switch EU Data Act → Chapters with All filters → articles listed |
 | Mobile chapters filters | ≤899px: **Filters** collapsed by default; expand shows chapter + article; **Clear filters** works |
 
@@ -109,12 +184,18 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 | Symptom | Likely cause | Action |
 |---------|--------------|--------|
 | Ask always extractive | Missing/invalid Groq key | Set `.env` or BYOK; check server log on start |
-| Empty Browse | Missing content JSON | Run refresh or verify `data/*-content.json` exists |
+| Ask never uses Groq; log shows `model_not_found` / `model_decommissioned` | Default Groq model list (`llama-3.3-70b-versatile`, `llama-3.1-8b-instant`, `llama-3.1-70b-versatile`, `mixtral-8x7b-32768`) not available to the key (observed in a 2026-10-20 local smoke test; Ask then fell back to Tavily) | Set `GROQ_MODEL` to a model currently listed for your Groq account (`GET https://api.groq.com/openai/v1/models`); no code change needed. Tracked as a follow-up for the model default list. |
+| Empty Browse | Missing content JSON | Run refresh or verify `data/*-content.json` exists (six files) |
+| Indonesian refresh logs "keeping bundled official corpus" | Live JDIH HTML thin or unchanged | Normal; confirm `etl.fetched: true` and counts |
+| `… ETL incomplete: articles x/y` (exit 1 / 500) | Existing corpus below `MIN_ID_*` and live extract failed | Restore `data/id-*.json` from git; or lower `MIN_*` only if the instrument legitimately changed |
+| Indonesian News empty | No refresh yet / Komdigi WAF block | Run **Refresh news**; check logs; Antara tag hubs usually still populate |
 | News attachments fail | Opened `index.html` as file | Use `npm start` URL |
 | Stale news in browser | Cached JSON | `GET /api/news` sends `no-store`; hard refresh |
-| AI Act Sources empty | Wrong regulation / missing structure | Select AI Act; verify `ai-act-structure.json` |
-| Sidebar still says “GDPR” | Stale `app.js` / hard refresh needed | Hard refresh; verify `syncCitationSidebarChrome` in build |
-| News empty with AI Act selected | Filter too strict | Switch to GDPR for full list; widen search/filters |
+| Credible sources empty for AI Act / Data Act / Indonesian | Wrong regulation / missing structure | Select the right instrument; verify `data/<id>-structure.json` has `meta.sources` (by design there is **no** GDPR fallback) |
+| Sidebar still says "GDPR" | Stale `app.js` / hard refresh needed | Hard refresh; verify `syncCitationSidebarChrome` in build |
+| Region chip / list wrong after update | Stale `regulation-profiles-id.js` or `localStorage` | Hard refresh; clear `gdpr-qa-region-v1` / `gdpr-qa-regulation-v1` |
+| News empty with a scoped instrument selected | Filter too strict | Switch to GDPR for full list; widen search/filters |
+| Cron timeouts on Vercel | Six sequential ETLs + `maxDuration` 300 | Check function logs; refresh locally and commit `data/` if needed |
 
 ---
 
@@ -122,6 +203,7 @@ Detail: [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 
 - **Never** commit `.env`, API keys, or `CRON_SECRET`.
 - BYOK keys stay in **browser localStorage** only; sent per request, not stored server-side.
+- There is **no end-user authentication**; do not place secrets in the public SPA or corpora.
 - Rotate keys if exposed; update Vercel env and notify users to re-save BYOK.
 
 See [GUARDRAILS.md](GUARDRAILS.md) **TG-SEC-*** and **BG-08**.
@@ -133,7 +215,8 @@ See [GUARDRAILS.md](GUARDRAILS.md) **TG-SEC-*** and **BG-08**.
 | Area | Owner (typical) | Doc |
 |------|-----------------|-----|
 | Product scope | Product / legal liaison | [PRD.md](PRD.md), [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) |
-| ETL / corpus | Engineering | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) |
+| ETL / corpus (EU) | Engineering | [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) |
+| ETL / corpus (Indonesia) | Engineering + Indonesian legal reviewer | `id-law-scraper.js`, §3.1 |
 | LLM / Ask | Engineering | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) |
 | News crawler | Engineering | `news-crawler.js`, [VARIABLES.md](VARIABLES.md) §7 |
 | Design / UX | Design + frontend | [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) |

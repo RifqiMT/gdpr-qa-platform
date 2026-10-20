@@ -100,6 +100,31 @@ const DEFAULT_NEWS_FEEDS = [
     name: 'EU Digital Strategy (AI)',
     url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai',
     description: 'European Commission — EU AI Act policy and implementation'
+  },
+  {
+    name: 'Komdigi',
+    url: 'https://www.komdigi.go.id/berita',
+    description: 'Kementerian Komunikasi dan Digital — Indonesian digital policy news'
+  },
+  {
+    name: 'Setkab',
+    url: 'https://setkab.go.id',
+    description: 'Sekretariat Kabinet Republik Indonesia — presidential and cabinet instruments'
+  },
+  {
+    name: 'Satu Data Indonesia',
+    url: 'https://data.go.id',
+    description: 'National One Data Indonesia portal (data.go.id)'
+  },
+  {
+    name: 'Antara (Hukum)',
+    url: 'https://www.antaranews.com/rss/hukum.xml',
+    description: 'LKBN Antara — law and justice (official state news agency)'
+  },
+  {
+    name: 'Antara (Tekno)',
+    url: 'https://www.antaranews.com/rss/tekno.xml',
+    description: 'LKBN Antara — technology and digital policy'
   }
 ];
 
@@ -125,7 +150,7 @@ const {
   listRegulations,
   getRegulationPaths
 } = require('./lib/regulation-content');
-const { getRegulation } = require('./lib/regulations');
+const { getRegulation, ID_REGULATION_IDS } = require('./lib/regulations');
 
 const app = express();
 const PORT = process.env.PORT || 3847;
@@ -218,12 +243,75 @@ function readChapterSummariesPayload(regulationId = 'gdpr') {
   } catch (e) {
     console.warn('chapter-summaries.json unreadable:', e.message);
   }
+  // Never inject GDPR chapter blurbs for AI Act / Data Act / Indonesian instruments.
+  if (String(regulationId || 'gdpr') !== 'gdpr') {
+    return {
+      summaries: {},
+      source: 'missing',
+      llm: false,
+      generatedAt: null
+    };
+  }
   return {
     summaries: { ...FALLBACK_CHAPTER_SUMMARIES },
     source: 'inline-fallback',
     llm: false,
     generatedAt: null
   };
+}
+
+/** Credible sources for a regulation: content meta → structure meta → GDPR-only hard fallback (never for id-*). */
+function resolveCredibleSourcesForRegulation(regId, data) {
+  const id = String(regId || 'gdpr');
+  if (Array.isArray(data?.meta?.sources) && data.meta.sources.length) {
+    return data.meta.sources;
+  }
+  try {
+    const structureFile = getRegulationPaths(id).structureFile;
+    if (structureFile && fs.existsSync(structureFile)) {
+      const st = JSON.parse(fs.readFileSync(structureFile, 'utf8'));
+      if (Array.isArray(st?.meta?.sources) && st.meta.sources.length) {
+        return st.meta.sources;
+      }
+    }
+  } catch (e) {
+    console.warn('structure sources unreadable for', id, e && e.message ? e.message : e);
+  }
+  if (ID_REGULATION_IDS.has(id) || id === 'ai-act' || id === 'data-act') {
+    return [];
+  }
+  return (
+    defaultCredibleSourcesFallback || [
+      {
+        name: 'GDPR-Info',
+        url: 'https://gdpr-info.eu/',
+        description: 'Regulation text and structure.',
+        documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }]
+      },
+      {
+        name: 'EUR-Lex',
+        url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng',
+        description: 'Official EU Regulation.',
+        documents: [
+          {
+            label: 'Regulation (EU) 2016/679',
+            url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng'
+          }
+        ]
+      },
+      {
+        name: 'EDPB',
+        url: 'https://edpb.europa.eu/',
+        description: 'EU body – guidelines and consistency.',
+        documents: [
+          {
+            label: 'Guidelines',
+            url: 'https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en'
+          }
+        ]
+      }
+    ]
+  );
 }
 
 async function generateChapterSummariesWithGroq(contentData, groqKeyOverride, reg) {
@@ -450,16 +538,9 @@ app.get('/api/meta', (req, res) => {
     lastChecked: data.meta?.lastChecked ?? null,
     etl: data.meta?.etl ?? null,
     byokSupported: true,
-    askGroqConfigured: Boolean(normalizeApiKey(process.env.GROQ_API_KEY)),
-    askTavilyConfigured: Boolean(normalizeApiKey(process.env.TAVILY_API_KEY)),
     askGroqServerConfigured: Boolean(normalizeApiKey(process.env.GROQ_API_KEY)),
     askTavilyServerConfigured: Boolean(normalizeApiKey(process.env.TAVILY_API_KEY)),
-    sources: data.meta?.sources ??
-      defaultCredibleSourcesFallback ?? [
-        { name: 'GDPR-Info', url: 'https://gdpr-info.eu/', description: 'Regulation text and structure.', documents: [{ label: 'Full regulation', url: 'https://gdpr-info.eu/' }] },
-        { name: 'EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng', description: 'Official EU Regulation.', documents: [{ label: 'Regulation (EU) 2016/679', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng' }] },
-        { name: 'EDPB', url: 'https://edpb.europa.eu/', description: 'EU body – guidelines and consistency.', documents: [{ label: 'Guidelines', url: 'https://edpb.europa.eu/our-work-tools/general-guidance/gdpr-guidelines-recommendations-best-practices_en' }] }
-      ]
+    sources: resolveCredibleSourcesForRegulation(regId, data)
   });
 });
 
@@ -1018,12 +1099,12 @@ function formatSectorUserBlock(sector) {
     `${anchorLine}` +
     'RELEVANCE & RELIABILITY:\n' +
     '- Write as guidance for controllers/processors in THIS line of business, not generic "any organization".\n' +
-    '- After each main GDPR point, add one short clause tying it to typical processing in this sector (e.g. customers, employees, visitors, subscribers) only where the cited sources give a fair basis — no invented sector-specific statutes.\n' +
-    '- If the excerpts are generic GDPR text only, say that briefly, then still explain how those duties apply to typical activities in this sector at a high level, without new legal claims.\n\n'
+    '- After each main legal point, add one short clause tying it to typical processing in this sector (e.g. customers, employees, visitors, subscribers) only where the cited sources give a fair basis — no invented sector-specific statutes.\n' +
+    '- If the excerpts are generic regulation text only, say that briefly, then still explain how those duties apply to typical activities in this sector at a high level, without new legal claims.\n\n'
   );
 }
 
-function buildLocalContext(data, query, sector) {
+function buildLocalContext(data, query, sector, regulationId) {
   const index = data.searchIndex || [];
   const search = buildBm25Searcher(index, { titleBoost: 1.8 });
   let searchQuery =
@@ -1045,7 +1126,7 @@ function buildLocalContext(data, query, sector) {
       `${query} personal data definition principles lawfulness fairness transparency rights data subject controller processing`.trim();
   }
   let top = search(searchQuery, 40);
-  top = filterScoredResultsForAskQuery(top, query);
+  top = filterScoredResultsForAskQuery(top, query, regulationId);
   if (sector && sector.id !== 'GENERAL' && String(sector.searchTerms || '').trim()) {
     const sectorQ = `${sector.searchTerms} controller processor personal data security breach processing activities lawfulness transparency`.trim();
     const extra = search(sectorQ, 22);
@@ -1146,6 +1227,32 @@ function regulationSearchContext(reg) {
       ddgSuffix: ' EU Data Act Regulation 2023/2854 fair data access',
       sectorRegPhrase: 'EU Data Act data sharing and cloud switching compliance',
       corpusNote: 'Data Act'
+    };
+  }
+  if (r.id === 'id-pdp') {
+    return {
+      tavilyPrefix: 'Indonesia UU 27/2022 Pelindungan Data Pribadi PDP Law:',
+      ddgSuffix: ' Indonesia UU PDP 27 2022 personal data protection',
+      sectorRegPhrase: 'Indonesia PDP Law personal data processing compliance',
+      corpusNote: 'UU PDP'
+    };
+  }
+  if (r.id === 'id-satu-data') {
+    return {
+      tavilyPrefix: 'Indonesia Perpres 39/2019 Satu Data Indonesia:',
+      ddgSuffix: ' Indonesia Satu Data Indonesia Perpres 39 2019 interoperabilitas data',
+      sectorRegPhrase: 'Indonesia Satu Data Indonesia data sharing interoperability',
+      corpusNote: 'Satu Data Indonesia'
+    };
+  }
+  if (r.id === 'id-ai-ethics') {
+    return {
+      tavilyPrefix: 'Indonesia Surat Edaran Kominfo 9/2023 Etika Kecerdasan Artifisial:',
+      ddgSuffix: ' Indonesia SE 9/2023 AI ethics Kominfo Komdigi',
+      sectorRegPhrase: 'Indonesia AI ethics circular electronic system operators',
+      corpusNote: 'SE AI Ethics',
+      softLawNote:
+        'SE Menkominfo 9/2023 is soft-law guidance (Surat Edaran), not a binding UU or Perpres; state legal force accurately.'
     };
   }
   return {
@@ -1273,7 +1380,13 @@ function querySeemsLaypersonExplain(q) {
     /\bwhat\s+is\s+(the\s+)?(eu\s+)?data\s+act\b/i.test(s) ||
     (/\bexplain\b.*\bdata\s+act\b/i.test(s) && !/\barticle\s*\d+/i.test(s)) ||
     /\bproduct\s+data\b.*\b(access|share|right)\b/i.test(s) ||
-    /\bcloud\s+switching\b/i.test(s)
+    /\bcloud\s+switching\b/i.test(s) ||
+    /\bwhat\s+is\s+(the\s+)?(uu\s+)?pdp\b/i.test(s) ||
+    (/\bexplain\b.*\b(uu\s+)?pdp\b/i.test(s) && !/\b(pasal|article)\s*\d+/i.test(s)) ||
+    /\bsatu data indonesia\b/i.test(s) ||
+    /\bperpres\s*39\b/i.test(s) ||
+    /\bse\s*(menkominfo|kominfo)?\s*9\b/i.test(s) ||
+    /\bindonesia.{0,40}ai ethics\b/i.test(s)
   );
 }
 
@@ -1284,16 +1397,17 @@ function queryMentionsChildrenOrMinors(q) {
 }
 
 /** Drop retrieved articles that usually derail unrelated questions (e.g. child's consent vs grandparents). */
-function articleIrrelevantForAskQuery(articleNum, query) {
+function articleIrrelevantForAskQuery(articleNum, query, regulationId) {
   const n = Number(articleNum);
   if (!Number.isFinite(n)) return false;
+  if (regulationId && regulationId !== 'gdpr') return false;
   if (n === 8 && querySeemsLaypersonExplain(query) && !queryMentionsChildrenOrMinors(query)) return true;
   return false;
 }
 
-function filterScoredResultsForAskQuery(scored, query) {
+function filterScoredResultsForAskQuery(scored, query, regulationId) {
   const arr = (scored || []).filter((r) => {
-    if (r && r.type === 'article' && articleIrrelevantForAskQuery(r.number, query)) return false;
+    if (r && r.type === 'article' && articleIrrelevantForAskQuery(r.number, query, regulationId)) return false;
     return true;
   });
   return arr.length ? arr : scored;
@@ -1411,6 +1525,11 @@ SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
     ? `4) For simple explainers, balance ${regLabel} Articles with Recitals when both appear — Recitals often help plain-language context; still cite accurately.`
     : `4) Prefer ${regLabel} Articles (binding provisions) over Recitals when both are available. Use Recitals mainly for context/interpretation.`;
 
+  const softLawRule =
+    regulation.id === 'id-ai-ethics'
+      ? '\n7) LEGAL FORCE: SE Menkominfo 9/2023 is a Surat Edaran (soft-law guidance for electronic system operators), not a binding statute like a UU or Perpres. When describing obligations, say they stem from this circular/guidance unless a cited source clearly states otherwise.'
+      : '';
+
   const systemPrompt = `You are a careful ${regulation.shortName} Q&A assistant (${regulation.fullName}).
 You must answer using ONLY the provided sources below (regulation excerpts and optional web snippets).
 ${sectorLockHeader}
@@ -1420,7 +1539,7 @@ Hard rules (must follow):
 3) Every sentence MUST end with at least one citation like [S1] or [S2]. Multiple citations allowed.
 ${rule4Line}
 5) Prefer official regulation sources when present. Use web snippets only if regulation sources are insufficient.
-6) Do NOT write "Source:" lines. Do NOT quote large passages. Summarize.${sectorRule}${generalModeRule}
+6) Do NOT write "Source:" lines. Do NOT quote large passages. Summarize.${sectorRule}${generalModeRule}${softLawRule}
 
 Output format:
 - 1–2 short paragraphs (5–9 sentences total when a sector is selected; otherwise 4–7).${layperson && sector && sector.id === 'GENERAL' ? ' For this simple explainer with General sector: maximum 4–5 body sentences before "Used sources".' : ''}
@@ -1545,7 +1664,7 @@ function parseTavilyAnswerString(data) {
   return '';
 }
 
-function buildAnswerFromTavilyResults(query, results, reg) {
+function buildAnswerFromTavilyResults(results, reg) {
   if (!Array.isArray(results) || results.length === 0) return '';
   const ctx = regulationSearchContext(reg);
   const lines = [];
@@ -1655,7 +1774,7 @@ async function answerWithTavily(query, sector, tavilyKeyOverride, reg) {
     }
 
     if (lastData && Array.isArray(lastData.results) && lastData.results.length) {
-      const fallback = buildAnswerFromTavilyResults(tavilyQuery, lastData.results, reg);
+      const fallback = buildAnswerFromTavilyResults(lastData.results, reg);
       if (fallback) {
         return { text: fallback, mode: 'search snippets (no Tavily summary)', source: 'tavily-snippets' };
       }
@@ -1844,7 +1963,7 @@ app.post('/api/answer', async (req, res) => {
     webQuery = parts.join(' ').trim();
   }
 
-  const localSources = buildLocalContext(data, query, sector);
+  const localSources = buildLocalContext(data, query, sector, regId);
   let webSources = [];
   const skipWebForLaypersonGeneral =
     includeWeb && (!sector || sector.id === 'GENERAL') && querySeemsLaypersonExplain(query);
@@ -2032,7 +2151,10 @@ if (process.argv.includes('--refresh-only')) {
       await runRegulationScraperAndReloadContent('gdpr');
       await runRegulationScraperAndReloadContent('ai-act');
       await runRegulationScraperAndReloadContent('data-act');
-      console.log('Daily regulation content refresh completed (GDPR + AI Act + Data Act).');
+      await runRegulationScraperAndReloadContent('id-pdp');
+      await runRegulationScraperAndReloadContent('id-satu-data');
+      await runRegulationScraperAndReloadContent('id-ai-ethics');
+      console.log('Daily regulation content refresh completed (EU + Indonesia).');
     } catch (e) {
       console.error('Daily refresh failed:', e.message);
     }

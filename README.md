@@ -1,10 +1,12 @@
-# EU Regulation Q&A Platform
+# Regulation Q&A Platform
 
-**Product documentation · GDPR (EU 2016/679), EU AI Act (EU 2024/1689), and EU Data Act (EU 2023/2854)**
+**Product documentation · Multi-jurisdiction regulatory browse and Ask**  
+**European Union:** GDPR (EU 2016/679), EU AI Act (EU 2024/1689), EU Data Act (EU 2023/2854)  
+**Indonesia:** UU PDP (UU 27/2022), Satu Data Indonesia (Perpres 39/2019), AI Ethics (SE Menkominfo 9/2023)
 
 | Version | Node | Description |
 |---------|------|-------------|
-| 1.2.5   | ≥ 18 | **Multi-regulation** browse and Ask: **GDPR** (99 articles, 173 recitals), **EU AI Act** (113 articles, 180 recitals), and **EU Data Act** (50 articles, 119 recitals). Header regulation switcher; regulation-scoped APIs (`?regulation=`). **Browse hub** on desktop (three regulation overview cards) and **browse welcome** on mobile. **Ask** via BM25 + Groq/Tavily with `[S1]` citations; **BYOK** keys; optional ISIC sector framing; **News** (GDPR/data-protection feeds; relevance filters when AI Act or Data Act is selected); regulation-aware **Credible sources** and **citation sidebar**; reliable **chapters filters** (no hidden GDPR-only filter bleed); chapter summaries; PDF export; **Vercel** deploy. Reader shows **full official article titles**, **regulation-correct recital titles**, and aligned numbered-paragraph layout. **Responsive app chrome** (Tools menu) and **News hero**. **Product documentation standard v2.4** ([PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md)). **Last doc audit:** 2026-07-22. |
+| **1.2.6** | ≥ 18 | **Six instruments** across **EU** and **Indonesia**. Region + Regulation picker; Browse hub; Ask via BM25 + Groq/Tavily with `[S#]` citations; BYOK; News (EU supervisory + Indonesian hubs) with client relevance filters; Credible sources; ETL scrapers (incl. `id-law-scraper.js`); formatting guardrails; Vercel cron for all six; `npm test` Indo parity. **Docs standard v2.5.** **Last doc audit:** 2026-10-20. |
 
 ---
 
@@ -23,59 +25,66 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
-**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.4**) · [docs/README.md](docs/README.md) (full doc map) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
+**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.5**) · [docs/README.md](docs/README.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
-**Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) (data dictionary + relationship diagrams) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) (sample JSON shapes) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
+**Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
 
-**Source refresh & reader formatting:** [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md) — contract between `gdpr-content.json`, `scraper.js`, `document-formatting-guardrails.js`, and `public/app.js`. **Refresh sources** always runs server-side guardrail normalization before writing the corpus.
+**Source refresh & reader formatting:** [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md).
 
 ---
 
 ## 1. Product overview
 
-The **EU Regulation Q&A Platform** is a web application for **browsing** and **asking questions** about EU regulations using **local corpora**, **official links**, and **grounded LLM synthesis**. Users select a regulation in the header (**GDPR**, **EU AI Act**, or **EU Data Act**); all Browse, Ask, and Credible sources flows follow that selection. **Ask** retrieves regulation excerpts (BM25), optionally fetches **web snippets**, and synthesizes answers with **Groq** (primary) or **Tavily** (fallback), with citations **`[S1]`, `[S2]`, …** tied to sources. Optional **industry / sector** (ISIC) framing applies to both regulations. **News** aggregates GDPR and data-protection headlines (with an **AI Act relevance filter** when EU AI Act is selected). No coding is required for end users.
+The **Regulation Q&A Platform** is a web application for **browsing** and **asking questions** about selected EU and Indonesian regulatory instruments using **local corpora**, **official links**, and **grounded LLM synthesis**. Users optionally filter by **region** (All / European Union / Indonesia), then select an instrument; Browse, Ask, and Credible sources follow that selection. **Ask** retrieves corpus excerpts (BM25), optionally fetches **web snippets**, and synthesizes answers with **Groq** (primary) or **Tavily** (fallback), with citations **`[S1]`, `[S2]`, …**. Optional **industry / sector** (ISIC) framing applies. **News** aggregates supervisory and policy headlines with **client-side relevance filters** per instrument. There is **no end-user authentication**. This product is **not legal advice**.
 
 | Aspect | Description |
 |--------|-------------|
-| **Purpose** | Reference and Q&A over **GDPR**, **EU AI Act**, and **EU Data Act** using credible official text; curated supervisory news; traceable citations. |
-| **Users** | Legal, compliance, privacy, AI governance, and data-economy professionals; DPOs; consultants; engineers operating the stack. |
-| **Regulations** | **GDPR** — 173 recitals, 99 articles ([gdpr-info.eu](https://gdpr-info.eu/), EUR-Lex 2016/679). **EU AI Act** — 180 recitals, 113 articles ([ai-act-law.eu](https://ai-act-law.eu/), EUR-Lex 2024/1689). **EU Data Act** — 119 recitals, 50 articles ([data-act-law.eu](https://data-act-law.eu/), EUR-Lex 2023/2854). |
+| **Purpose** | Reference and Q&A over six instruments with credible official text; curated news; traceable citations. |
+| **Users** | Legal, compliance, privacy, AI governance, data-economy, and Indonesian PDP / Satu Data / AI ethics professionals; DPOs; consultants; operators. |
+| **EU instruments** | **GDPR** — 173 recitals, 99 articles ([gdpr-info.eu](https://gdpr-info.eu/), EUR-Lex 2016/679). **EU AI Act** — 180 / 113 ([ai-act-law.eu](https://ai-act-law.eu/), EUR-Lex 2024/1689). **EU Data Act** — 119 / 50 ([data-act-law.eu](https://data-act-law.eu/), EUR-Lex 2023/2854). |
+| **Indonesian instruments** | **UU PDP** — 76 pasal, 4 considering (peraturan.go.id / JDIH Komdigi). **Satu Data** — ~44 pasal (Perpres 39/2019). **AI Ethics** — soft-law SE Menkominfo 9/2023 (7 sections, 9 values). |
 | **Deployment** | Node.js locally (port **3847**); **Vercel** serverless — [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md). |
-| **News scope** | EDPB, EDPS, ICO (UK), European Commission, Council of Europe, EU Digital Strategy (AI policy link). Client-side relevance filters when **AI Act** or **Data Act** is selected; not a dedicated regulation-only news crawler. |
+| **News scope** | EU: EDPB, EDPS, ICO (UK), European Commission, Council of Europe, EU Digital Strategy. Indonesia: Antara, Setkab, Komdigi (best-effort), Satu Data / data.go.id. |
 
-### Knowledge sources (credible organizations)
+### Instrument catalogue
 
-| Source | URL | Role |
-|--------|-----|------|
-| **GDPR-Info** | [gdpr-info.eu](https://gdpr-info.eu/) | Regulation text and structure (unofficial, widely cited) |
-| **EUR-Lex** | [Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng) | Official EU publication of the Regulation |
-| **EDPB** | [edpb.europa.eu](https://edpb.europa.eu/) | European Data Protection Board – guidelines and consistency |
-| **EDPS** | [edps.europa.eu](https://www.edps.europa.eu/) | European Data Protection Supervisor – EU institutions and bodies |
-| **European Commission** | [Data protection](https://commission.europa.eu/law/law-topic/data-protection_en) | Official Commission policy and legal overview |
-| **ICO (UK)** | [UK GDPR guidance](https://ico.org.uk/for-organisations/uk-gdpr-guidance/) | UK supervisory authority guidance |
-| **GDPR.eu** | [gdpr.eu](https://gdpr.eu/) | Readable overview and resources (Proton) |
-| **Council of Europe** | [Data protection](https://www.coe.int/en/web/data-protection) | Convention 108+ and international standards |
+| Id | Short name | Jurisdiction | Binding? | Theme accent |
+|----|------------|--------------|----------|--------------|
+| `gdpr` | GDPR | EU | Binding regulation | Teal `#0f766e` |
+| `ai-act` | EU AI Act | EU | Binding regulation | Indigo `#4f46e5` |
+| `data-act` | EU Data Act | EU | Binding regulation | Sky `#0369a1` |
+| `id-pdp` | ID PDP Law | Indonesia | Binding statute | Red `#c8102e` |
+| `id-satu-data` | ID Satu Data | Indonesia | Binding presidential regulation | Emerald `#047857` |
+| `id-ai-ethics` | ID AI Ethics | Indonesia | **Soft law** (circular) | Amber `#b45309` |
+
+### Knowledge sources (illustrative)
+
+| Source | Role |
+|--------|------|
+| GDPR-Info / AI Act Law / Data Act Law | Readable EU regulation layouts |
+| EUR-Lex | Official EU publication |
+| EDPB, EDPS, European Commission, ICO (UK), Council of Europe | Supervisory / policy (News + Sources for GDPR) |
+| peraturan.go.id, JDIH Komdigi, JDIH Kemenko Infra | Indonesian official publication |
+| Antara, Setkab, Komdigi, Satu Data portal | Indonesian news / policy hubs |
 
 ---
 
 ## 2. Product benefits
 
-- **Single source of truth** — The regulation corpus is fetched from EUR-Lex (via the scraper) and stored locally; Ask retrieves from that corpus before synthesis.
-- **Traceability** — Ask responses return `sources` with stable ids (`S1`…) aligned with citation chips; Browse links to the active regulation’s readable site (GDPR-Info, AI Act Law, Data Act Law) and EUR-Lex throughout.
-- **Grounded synthesis** — LLM prompts require use of provided excerpts only; repair passes and extractive fallback reduce empty or non-compliant formatting.
-- **Data refresh without duplication** — On refresh, recitals and articles are deduplicated by number (last occurrence wins); existing content is merged with newly fetched data so the latest overwrites per provision. Search index is deduplicated by id.
-- **Efficiency** — Browse by structure or ask in natural language; jump from Ask results to the full article/recital in the app and back.
-- **Offline-capable content** — After a refresh, the regulation is stored in `data/gdpr-content.json` and can be searched without calling external sites on each request.
-- **Export** — Export the currently viewed article or recital as PDF from the Browse view (client-side via html2pdf.js).
-- **Topic-based drill-down** — Chapters & Articles can be filtered by **Category** (chapter title), **Sub-category** (topic/keyword-derived, e.g. Consent, Right to erasure, Transfers, DPO), **Chapter**, and **Article**; sub-category options adapt when a chapter is selected.
-- **Centered chapter headers** — Section headers (“Chapter I – General provisions”, etc.) in the grouped chapters list are horizontally centered for a clear, professional layout.
-- **Document navigation** — In article/recital detail view: Prev/Next buttons, label (e.g. “Article 5 of 99”), and a number input with “Go” to jump directly to any article or recital.
-- **Relevant GDPR provisions** — Ask results list regulation sources cited for the answer, with “View in app” links and clickable `[Sn]` chips in the answer body.
-- **Sector-aware Ask** — Optional industry/sector filter expands BM25/web/Tavily context, adds **customization + reliability** instructions in prompts (verbatim sector phrase, sustained sector hooks per sentence, no invented sector statutes), slightly lower LLM temperature, stronger sector repair passes, and a sector-framed extractive fallback.
-- **Cross-references** — Articles show merged “suitable” recitals (editorial map + recitals that cite the article); recitals show related articles.
-- **News from credible sources** — One place to see GDPR-related updates from EDPB, EDPS, ICO (UK), European Commission, and Council of Europe, with summaries and filters by source and topic. Users can switch between **By source** and a blended **All** view (single chronological list across sources). **Refresh news** can load many more items than a single RSS page (still capped by `NEWS_MERGE_CAP`, default 6000).
-- **Credible sources hub** — One tab listing all official and widely cited sources with direct links to key documents (EDPB guidelines, ICO guidance, Commission pages, etc.).
-- **Bring your own key (BYOK)** — Operators and power users can supply **Groq** and **Tavily** API keys in the browser (header **API keys**), validate them before save, and override server `.env` keys for Ask without redeploying the Node process.
+- **Multi-jurisdiction workspace** — One UI for EU privacy/AI/data-economy law and Indonesian PDP / Satu Data / AI ethics guidance.  
+- **Traceability** — Ask returns `sources` with stable ids (`S1`…) aligned with citation chips; Browse links to the active instrument’s official and readable publishers.  
+- **Grounded synthesis** — LLM prompts require use of provided excerpts; repair passes and extractive fallback reduce empty or non-compliant formatting.  
+- **Data refresh without duplication** — Deduplication by provision number; merge with existing JSON; search index deduped by id.  
+- **Efficiency** — Browse by structure or ask in natural language; jump from Ask to full provision and back.  
+- **Offline-capable content** — After refresh, corpora live under `data/` and can be searched without calling external sites on each request.  
+- **Export** — Export the currently viewed article/pasal or recital as PDF (html2pdf.js).  
+- **Topic-based drill-down (GDPR)** — Category / Sub-category filters; cleared on switch away from GDPR so other instruments never show a false empty list.  
+- **Document navigation** — Prev/Next, “Article N of M”, Go-to-number.  
+- **Sector-aware Ask** — Optional ISIC framing with verbatim sector phrase rules (illustrative, not sector-law replacement).  
+- **Cross-references** — GDPR suitable recitals map; other instruments use in-text citation extraction.  
+- **News from credible sources** — EU/UK + Indonesian hubs; URL + semantic dedupe; topic taxonomy; Refresh news.  
+- **BYOK** — Browser-stored Groq/Tavily keys override server env per Ask request.  
+- **Soft-law honesty** — ID AI Ethics prompts and copy state that the instrument is guidance, not a binding regulation.
 
 ---
 
@@ -83,95 +92,52 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ### 3.0 App shell and responsive chrome
 
-- **`#appChrome`** — Sticky header + tab bar on viewports **≤899px**; measured height drives `--app-chrome-height` and reading-pane caps (`ResizeObserver` in `public/app.js`).
-- **Regulation** — Full-width labeled dropdown on phones/tablets; inline on desktop.
-- **Tools menu** — On **≤899px**, **Tools** toggles a **1-column grid** of actions:
-  - **Source freshness** — Subtitle shows last refresh/check from meta; tap opens the **EUR-Lex freshness tooltip** (full timestamps).
-  - **API keys** — Subtitle shows server vs BYOK state; tap opens the **BYOK dialog** (same as desktop).
-  - **Refresh sources** — Primary action for active-regulation ETL.
-- **No duplicate status UI** — There is no second always-visible freshness/keys card row; the **Ask tab** still shows `#askLlmKeysStatus` for Ask-specific guidance.
-- **Tabs** — Compact pill-style segments on small screens (Browse / Ask / Sources / News short labels).
+- **`#appChrome`** — Sticky header + tab bar on viewports **≤899px**; measured height drives `--app-chrome-height`.  
+- **Region + Regulation picker** — Unified chrome: region thumb (All / EU / Indonesia), jurisdiction chip, custom regulation select; selection persists in **`localStorage`** (`gdpr-qa-regulation-v1`).  
+- **Tools menu** — On **≤899px**: Source freshness, API keys (BYOK), Refresh sources.  
+- **Tabs** — Segmented track with sliding active thumb: Browse / Ask / Sources / News.  
+- **Credits bar** — Maintainer attribution (LinkedIn + website).
 
-### 3.1 Browse regulation (GDPR, EU AI Act, or EU Data Act)
+### 3.1 Browse
 
-- **Regulation switcher** — Header **Regulation** dropdown (`gdpr` | `ai-act` | `data-act`) persists in **`localStorage`** (`gdpr-qa-regulation-v1`). Browse labels, filters, reader headings, citation sidebar, and external links update via **`public/regulation-profiles.js`**, **`syncRegulationChrome()`**, and **`syncCitationSidebarChrome()`**.
-- **Browse welcome (overview)** — On first opening Browse (placeholder):
-  - **Desktop (≥900px):** Three cards — **GDPR**, **EU Data Act**, **EU AI Act** — each with regulation-themed accent, short description, theme tags, **Chapters & articles** (primary) and **Recitals** buttons, and EUR-Lex link. Clicking a card selects that regulation; quick actions open the segment.
-  - **Mobile/tablet:** One card for the **currently selected** regulation (`syncBrowseWelcomeSolo`); same actions in **Chapters first, Recitals second** order.
-  - Copy and themes live in **`browseUi`** per profile (`public/regulation-profiles.js`).
-- **Homepage** — Clicking the **“EU Regulation Q&A Platform”** logo resets Browse to the placeholder and clears the reader sidebar.
-- **Browse segments** — **Chapters & articles** and **Recitals** (order in menus and welcome: **chapters first**). Counts: GDPR 1–99 / 1–173; AI Act 1–113 / 1–180; Data Act 1–50 / 1–119. Chapter list shows roman numerals, titles, and article ranges.
-- **Filter bar** — **Category** and **Sub-category** (GDPR only — `hasArticleTopics`); **Chapter** and **Article** for all regulations. Hidden GDPR topic filters are **cleared on regulation switch** so AI Act / Data Act never show a false empty list. On **≤899px**, filters sit behind a collapsible **Filters** control with an active-filter summary. **Clear filters** resets all. Desktop: two-column filter grid; mobile: chapter + article when panel is open.
-- **Recitals list** — Grid of recital cards; click to open full recital text in a detail view with formatted body and citation links.
-- **Chapters & Articles list** — Grouped by chapter; filter by category, sub-category, chapter, and/or article. Section headers (e.g. “Chapter I – General provisions”) and meta (“Articles 1–4”) are centered. Each chapter can show a **short introduction** from `GET /api/chapter-summaries` (file-backed, with inline fallback; regeneratable via Groq on the server). Click an article to open its full text.
-- **Detail view** — Full document view with centered header (regulation label via `regulation-profiles.js`, e.g. “Art. 10 AI Act”, plus the **official title** from the corpus). **Article titles** use `getArticleDisplayTitle()`: GDPR may fall back to `CANONICAL_ARTICLE_TITLES` for short titles; **EU AI Act** and **EU Data Act** always use the **full** scraped `title` from their JSON (no 120-character cap; never GDPR’s article-number map). **Recital titles** use `getRecitalDisplayTitle()` from corpus `title` fields. **Body layout** renders numbered paragraphs (`1.`, `2.`, …) and lettered sub-points `(a)`, `(b)` per [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md). **Document navigation**: Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go”. **Export PDF** exports the current article or recital.
-- **Citation sidebar** — Three collapsible panels update with the active regulation: **Citations & official links** (freshness + publisher links), **Related articles**, **Related recitals**. Copy and site links come from **`citationsUi`** in `regulation-profiles.js` (e.g. Data Act Law, not GDPR-Info, when EU Data Act is selected).
-- **App credits bar** — Bottom bar: maintainer attribution with LinkedIn and website icon links (not a legal disclaimer).
-- **Back to question** — When the user opened the document from Ask (“View in app”), a “Back to question” button appears to return to the Ask tab and scroll to results.
-- **Citations** — Each view links to the active regulation’s readable site and EUR-Lex for the relevant section.
-- **Related panels** — **Related {regulation} articles** / **Related {regulation} recitals** (labels from `citationsUi`) list provisions cited in the text. **GDPR** also merges editorial **suitable recitals** from `article-suitable-recitals.json` and `gdpr-crossrefs.js`; AI Act and Data Act rely on in-text citation extraction only (`hasSuitableRecitals: false`).
+- **Welcome hub** — Desktop: regulation overview cards (EU + Indonesia display order from `REGULATION_DISPLAY_ORDER`); mobile: solo card for active regulation. Copy/themes from **`browseUi`** in `regulation-profiles.js` / `regulation-profiles-id.js`.  
+- **Segments** — Chapters & articles (first), Recitals / considering / values (second).  
+- **Filters** — GDPR: Category + Sub-category + Chapter + Article. Others: Chapter + Article (topic filters hidden / cleared). Mobile: collapsible Filters.  
+- **Detail reader** — Official titles via `getArticleDisplayTitle` / `getRecitalDisplayTitle`; numbered/lettered paragraphs per formatting guardrails; Prev/Next/Go; PDF; citation sidebar (`citationsUi`).  
+- **Suitable recitals** — GDPR only (`hasSuitableRecitals`).
 
-### 3.2 Ask a question
+### 3.2 Ask
 
-- **Search input** — Free-text question (e.g. “What is personal data?”, “Right to erasure”). Submit via button or Enter.
-- **API** — The UI calls **`POST /api/answer`** with `{ query, includeWeb, industrySectorId }`. The server builds **BM25-ranked** context from `searchIndex`, optionally fetches **web excerpts** (DuckDuckGo HTML + page text), then runs **Groq** chat completions; if that fails, **Tavily** search+answer; if that fails, an **extractive** summary from the top regulation excerpts.
-- **Answer panel** — Shows synthesized text with **`[S1]`** citation chips. Regulation chips open the Article or Recital inside Browse; web chips open external URLs. A **status chip** shows Groq/Tavily model info or “Extractive fallback” plus any server `note`.
-- **Industry / sector** — Optional **searchable combobox** (`GET /api/industry-sectors` + `industry-sector-tree.json`): with the tree, the dropdown uses **grouped browse** (expand macro industry → ISIC section → short labels for whole section or divisions); **typing** switches to a **flat filtered list** of full paths for quick lookup. Without the tree file, the list stays a flat section/division catalog. **General** means no sector lock-in; other selections require the model to include a **verbatim phrase** from the sector definition when supported by sources.
-- **Relevant GDPR provisions** — Aside lists regulation `sources` returned with the answer (articles/recitals), each with “View in app”.
-- **Refresh on each ask** — Each new question clears the previous answer, citations panel, and relevant-provisions list.
-- **Legacy search API** — **`POST /api/ask`** still returns simple token-scored matches (full-text excerpts) for scripts or integrations; the Ask **tab** does not use it.
-
-#### 3.2.1 API keys (BYOK)
-
-- **Header control** — **API keys** opens a modal to enable **Use my API keys for Ask**, enter **Groq** (primary LLM) and **Tavily** (fallback) keys, **Save keys**, **Check validity**, or **Clear saved keys**.
-- **Storage** — Keys persist in **`localStorage`** under **`gdpr-qa-byok-v1`** (`useOwnKeys`, `groqApiKey`, `tavilyApiKey`). They are **not** written to the server `.env` file.
-- **Runtime** — When BYOK is enabled and keys are present, **`POST /api/answer`** includes `apiKeys: { groqApiKey?, tavilyApiKey? }`. Non-empty client keys **override** server environment keys for that request. Response **`llm.byokGroq`** / **`llm.byokTavily`** indicate which credentials were used.
-- **Validation** — **Check validity** calls **`POST /api/validate-api-keys`** (Groq models endpoint; Tavily minimal search). Results render in an animated status panel (valid / invalid / skipped per provider).
-- **Status** — The Ask tab shows whether **server** or **BYOK** keys are active (`GET /api/meta` + local settings).
+- **API** — UI calls **`POST /api/answer`** only (`query`, `includeWeb`, `industrySectorId`, `regulation`, optional `apiKeys`).  
+- **Pipeline** — BM25 local context → optional web snippets → **Groq** → **Tavily** → extractive fallback.  
+- **Citations** — `[S#]` chips; Relevant provisions aside; View in app / Back to question.  
+- **Sector** — ISIC combobox from `/api/industry-sectors`.  
+- **BYOK** — `localStorage` `gdpr-qa-byok-v1`; validate via `POST /api/validate-api-keys`.
 
 ### 3.3 Credible sources
 
-- **Sources tab** — **`GET /api/meta?regulation=`** returns **`meta.sources`** for the **active regulation** (from corpus or structure fallback).
-- **GDPR** — GDPR-Info, EUR-Lex, EDPB, EDPS, European Commission (data protection), ICO (UK), GDPR.eu, Council of Europe.
-- **EU AI Act** — AI Act Law, EUR-Lex 2024/1689, European Commission AI regulatory framework (from **`ai-act-structure.json`**).
-- **EU Data Act** — Data Act Law, EUR-Lex 2023/2854, European Commission Data Act policy (from **`data-act-structure.json`**).
-- **UI** — Title, intro, and card descriptions sync on regulation change (`syncAskSourcesNewsChrome`).
+- **`GET /api/meta?regulation=`** returns `meta.sources` for the active instrument (content → structure → **empty**; never GDPR-Info fallback for `id-*` / AI Act / Data Act).
 
-### 3.4 Content and regulation refresh
+### 3.4 Content refresh (ETL)
 
-- **Refresh sources** — **`POST /api/refresh`** with **`regulation`** runs ETL for the **selected** regulation only:
-  - **GDPR:** **`scraper.js`** → **`data/gdpr-content.json`**
-  - **EU AI Act:** **`ai-act-scraper.js`** → **`data/ai-act-content.json`**
-  - **EU Data Act:** **`data-act-scraper.js`** → **`data/data-act-content.json`**
-- **Pipeline** — **`document-formatting-guardrails.js`** **`normalizeCorpus`**, **`validateCorpusFormatting`**, **`buildSearchIndex`**, disk write, **`invalidateRegulationContentCache`**, client reload. See [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md).
-- **GDPR primary source** — **`GDPR_ETL_PRIMARY=gdpr-info`** (default) or **`eur-lex`**.
-- **AI Act primary source** — [ai-act-law.eu](https://ai-act-law.eu/) article/recital pages (`ai-act-scraper.js`).
-- **Data Act primary source** — [data-act-law.eu](https://data-act-law.eu/) article/recital pages (`data-act-scraper.js`).
-- **Force write** — **`GDPR_FORCE_CORPUS_WRITE=1`** / **`AI_ACT_FORCE_CORPUS_WRITE=1`** / **`DATA_ACT_FORCE_CORPUS_WRITE=1`** when hashes unchanged.
-- **Daily refresh** — Local cron (Europe/Brussels 02:00) or Vercel **`/api/cron/daily-regulation-refresh`** (all three regulations).
-- **CLI** — **`npm run refresh`** (GDPR); **`npm run refresh-ai-act`** (AI Act); **`npm run refresh-data-act`** (Data Act).
+| Regulation | Script | Output |
+|------------|--------|--------|
+| GDPR | `scraper.js` | `gdpr-content.json` |
+| EU AI Act | `ai-act-scraper.js` | `ai-act-content.json` |
+| EU Data Act | `data-act-scraper.js` | `data-act-content.json` |
+| ID PDP / Satu Data / AI Ethics | `id-law-scraper.js <id>` | `id-*-content.json` |
 
-### 3.5 News (GDPR & data protection; AI Act and Data Act filters)
+- **`POST /api/refresh`** with `regulation` runs ETL for the selected instrument only.  
+- Always runs **`document-formatting-guardrails.js`** normalize + validate.  
+- Daily cron (local + Vercel) refreshes **all six**.  
+- CLI: `npm run refresh`, `refresh-ai-act`, `refresh-data-act`, `refresh-id-pdp`, `refresh-id-satu-data`, `refresh-id-ai-ethics`.
 
-- **News hero** — Regulation-themed header (`syncNewsHeroChrome`, `newsUi`): compact **bar** (pill, title, **Sync**); on **≤899px** a chevron expands **details** (intro, horizontal-scroll topic tags, scope card) in a **1-column** layout; stats strip when items are loaded.
-- **News tab** — Aggregates GDPR and data-protection headlines from EU/UK supervisory and Commission sources. Each item links to the **original article** on the publisher’s site.
-- **EU AI Act selected** — Hero copy and an info **banner** explain scope; the list is **filtered client-side** for AI governance relevance (AI Act, high-risk AI, GPAI, biometrics, overlapping privacy/AI topics).
-- **EU Data Act selected** — Similar banner and filter for data access, interoperability, cloud switching, IoT product data, B2B data sharing, and related Commission/digital-policy headlines.
-- **GDPR selected** — Full unfiltered news list (subject to topic approval gates on ingest).
-- **Grouping** — News is grouped **by source** (EDPB, EDPS, ICO, European Commission, Council of Europe). Each section has a short plain-language summary describing that source’s role.
-- **Three-paragraph summaries** — Each news card shows a **Summary** block with three paragraphs: (1) high-level summary of the item, (2) attribution to the source and link to full article, (3) relevance (e.g. GDPR compliance). Uses `summaryParagraphs` from data when present, otherwise built from snippet/title and standard sentences.
-- **Topic tags** — Items get a **`topic`** (and **`topicCategory`**) from **`news-topics.js`**: grouped areas such as **Core Rights**, **AI and Emerging Tech**, **Data Transfers**, **Enforcement and Compliance**, **Processing Concepts**, **Sector-Specific Areas**, **Cybersecurity**, and **Oversight Areas**, each with specific leaf labels (e.g. Standard contractual clauses, DPIA, Lead authority processes). Classification uses title, snippet, and URL. The catch‑all **Other GDPR & data protection topics** is hidden on cards to reduce noise. The taxonomy also acts as a **supplemental relevance anchor** in **`newsItemMatchesApprovedTopic`** (with a data-protection context check) so niche phrasing from existing feeds can still pass the gate.
-- **Filters** — **Source** dropdown (All sources / per-source) and **Topic** dropdown with **optgroups** mirroring those categories (All topics / per leaf topic). **Clear filters** resets both and re-applies so all items are shown. Filtering is client-side on the last loaded list (no extra network request). The main filter card sits **above** the article list in normal document flow (no sticky overlap with cards).
-- **Desktop scroll affordance (≥1100px)** — When the main filter toolbar scrolls out of the **`.main`** viewport, a **Quick filters** card appears in the **left column** under “Official site & RSS”: expandable header (chevron), active-filter **badge**, search + source + topic + reset, synced with the main controls. **Session** remembers collapsed/expanded state (`sessionStorage`). **Official site & RSS** is also **expandable/collapsible** (same session persistence) to save vertical space in the sidebar.
-- **Deduplication** — **`news-crawler.js`** merges items by normalized URL, then by **semantic key** (source + date + normalized title fingerprint) so the same story under different URLs (e.g. EDPS news stub vs publications URL) collapses to one row. **`server.js`** runs **`dedupeNewsItemsConsolidated`** on `GET /api/news` and after **`mergeNewsItems`**. **`public/news-dedupe.js`** mirrors that logic in the browser so the UI stays clean even if an older server binary or cached JSON still contained duplicates.
-- **Refresh news** — Button calls **`POST /api/news/refresh`**, which crawls sources, merges with existing JSON, writes `data/gdpr-news.json` (subject to internal storage cap), then reloads the UI from the response.
-- **Data** — `data/gdpr-news.json`: `newsFeeds[]` and `items[]` (title, url, sourceName, sourceUrl, date, snippet, optional `summaryParagraphs[]`, optional `commissionPolicyAreas`, optional **`topic`** / **`topicCategory`** after refresh). Server merges static items with crawled items from `news-crawler.js`; **URL + semantic dedupe**, sorted by date, capped by `NEWS_MERGE_CAP` (response) and a higher cap when persisting on refresh. If file is missing, default feeds apply. Optional topic-enrichment is bounded by `NEWS_TOPIC_ENRICH_*` and is **best-effort** (source-dependent).
-- **API** — `GET /api/news` returns `{ newsFeeds, items, topicTaxonomy }` with **`Cache-Control: no-store, no-cache, must-revalidate`** and **`Pragma: no-cache`** to reduce stale JSON in browsers; optional query **`?live=1`** merges a live crawl within `NEWS_CRAWL_TIMEOUT_MS`. `POST /api/news/refresh` returns merged items, **`topicTaxonomy`**, and persistence metadata. **Attachments** calls `POST /api/news/article-attachments` with JSON `{ "url": "<article URL>" }` and **falls back to** `GET ?url=` if POST fails (older proxies / hosts). **`POST /api/news/attachments-summary`** with `{ "urls": [ … ] }` returns `{ items: [{ url, count }] }` (deduped, capped) so the UI can **hide the Attachments button** when `count === 0`. Load the UI from the **same origin** as `server.js` (`npm start`, e.g. port 3847), or set **`<meta name="gdpr-api-base" content="https://your-api-host">`** in `index.html` when the static UI and API are on different origins (CORS is enabled on the server).
+### 3.5 News
 
-### 3.6 Optional LLM summaries (`POST /api/summarize`)
-
-- **Purpose** — Excerpt-based summaries for integrations: body `{ query, excerpts[] }`, multi-provider order controlled by `LLM_PROVIDER` and available API keys (Anthropic → OpenAI → Gemini → Groq → Mistral → OpenRouter).
-- **Ask tab** — The main Ask experience uses **`/api/answer`** only; it does **not** call `/api/summarize`. Summaries in the old two-column “verbatim + summary” layout are **not** the current primary UX.
+- Shared corpus `data/gdpr-news.json`; crawl via `news-crawler.js` (EU + Indonesian sources).  
+- Client relevance filters when AI Act, Data Act, UU PDP, Satu Data, or AI Ethics is selected.  
+- Filters: source, topic, search; By source / All; attachments APIs; Refresh news.  
+- Komdigi HTML may be WAF-blocked — Indo news is best-effort; empty states prompt Refresh news.
 
 ---
 
@@ -179,103 +145,61 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ### 4.1 Data sources and storage
 
-| File | Regulation | Role |
-|------|------------|------|
-| **`gdpr-structure.json`** / **`gdpr-content.json`** | GDPR | Structure + full corpus (99 articles, 173 recitals); ETL via **`scraper.js`**. |
-| **`ai-act-structure.json`** / **`ai-act-content.json`** | EU AI Act | Structure + full corpus (113 articles, 180 recitals); ETL via **`ai-act-scraper.js`**. |
-| **`data-act-structure.json`** / **`data-act-content.json`** | EU Data Act | Structure + full corpus (50 articles, 119 recitals); ETL via **`data-act-scraper.js`**. |
-| **`lib/regulations.js`** | All | Registry: ids, CELEX, paths, chapter ranges, feature flags (`hasArticleTopics`, `hasSuitableRecitals`). |
-| **`lib/regulation-content.js`** | All | **`loadContent(regId)`**, cache, **`parseRegulationId`**, refresh orchestration. |
-| **`gdpr-news.json`** | News (shared) | `newsFeeds[]`, `items[]`; merged with **`news-crawler.js`**; topics via **`news-topics.js`**. |
-| **`article-suitable-recitals.json`** | GDPR only | Editorial article→recital map for crossrefs. |
-| **`chapter-summaries.json`** / **`chapter-summaries-ai-act.json`** / **`chapter-summaries-data-act.json`** | Per regulation | Chapter intro blurbs for Browse. |
-| **`public/regulation-profiles.js`** | All | Per-regulation UI copy (Ask, Sources, News, reader URLs). |
+| File / module | Role |
+|---------------|------|
+| `*-structure.json` / `*-content.json` | Per-instrument structure + corpus + searchIndex |
+| `lib/regulations.js` | Registry, jurisdictions, flags, paths |
+| `lib/regulation-content.js` | loadContent, cache, ETL orchestration |
+| `lib/paths.js` | `getDataDir()`, Vercel seed (**20** files in `SEED_FILES`) |
+| `gdpr-news.json` | Shared news cache |
+| `article-suitable-recitals.json` | GDPR editorial map |
+| `chapter-summaries*.json` | Per-instrument chapter intros |
+| `regulation-profiles.js` / `regulation-profiles-id.js` | UI copy |
 
-### 4.2 Scraper (`scraper.js`)
+### 4.2 ETL summary
 
-- **Primary source (default):** **GDPR-Info** (`GDPR_ETL_PRIMARY=gdpr-info`) — fetches each article `https://gdpr-info.eu/art-N-gdpr/` and recital `https://gdpr-info.eu/recitals/no-N/` so stored text matches the **same paragraph and line structure** as those pages (see `.entry-content` extraction with `<p>` / `<br>` splitting). This avoids EUR-Lex-only whitespace bugs in the reader.
-- **Alternate:** Set `GDPR_ETL_PRIMARY=eur-lex` to prefer the official EUR-Lex consolidated HTML/TXT parser (`parseEurLexText`) first; GDPR-Info is still used as fallback if EUR-Lex fails or returns an empty parse.
-- Fetches EUR-Lex HTML (or TXT fallback) when that path is selected, strips scripts/styles/nav, normalizes text.
-- **Recitals** — Splits on “(Recital N)”, extracts body, keeps numbers 1–173. Uses a **Map** keyed by number so the **last occurrence wins** (no duplicates).
-- **Articles** — Splits on “Article N”, extracts title and body, maps to chapters via fixed article ranges, caps body length. Uses a **Map** keyed by number so the **last occurrence wins** (no duplicates).
-- **Merge with existing** — If `gdpr-content.json` exists, it is loaded and merged with newly fetched recitals/articles by number. For each number, the **newly fetched data overwrites** the existing one; numbers only in the existing file are kept. Result: one entry per recital/article number, with latest data from the refresh.
-- **Document formatting guardrails** — Before `buildSearchIndex` and every write to `gdpr-content.json`, `document-formatting-guardrails.js` normalizes line endings, NBSP/narrow NBSP to ASCII space, and EUR-Lex “glue” patterns (same rules as the reader’s citation linker). It logs **`logFormattingGuardrailsReport`** and runs §8 smoke checks (counts, Articles 1 / 4 / 89). See [docs/DOCUMENT_FORMATTING_GUARDRAILS.md](docs/DOCUMENT_FORMATTING_GUARDRAILS.md).
-- **Search index** — Built from the normalized recitals and articles; deduplicated by `id` (e.g. `recital-5`, `article-5`) so the index has no duplicate entries.
-- **Exports** — `run`, `fetchUrl`, `parseEurLexText`, `buildSearchIndex`, `mergeWithExisting`.
+- **GDPR:** GDPR-Info (default) or EUR-Lex; Map-by-number merge; guardrails; search index.  
+- **AI / Data Act:** Readable law sites; shared body extraction helpers; guardrails.  
+- **Indonesian laws:** `id-law-scraper.js` from official PDFs/HTML; min counts via `MIN_ID_*` env; force-write flags.  
+- **All writes:** `normalizeCorpus` → `validateCorpusFormatting` → `buildSearchIndex` → disk.
 
-### 4.3 EU AI Act and EU Data Act ETL
+### 4.3 Ask pipeline
 
-- **Scripts:** **`ai-act-scraper.js`** and **`data-act-scraper.js`** fetch article/recital pages from [ai-act-law.eu](https://ai-act-law.eu/) and [data-act-law.eu](https://data-act-law.eu/).
-- **Extraction:** Shared **`getGdprInfoEntryPlainText`** in **`scraper.js`** preserves list markers (`1.`, `(a)`) from HTML; **`joinBodyLines()`** inserts paragraph breaks before numbered/lettered blocks.
-- **Guardrails:** Same **`normalizeCorpus`** / **`validateCorpusFormatting`** path as GDPR before write and on **`loadContent()`** read.
-- **Titles:** Each article’s **`title`** in JSON is the official short title from the source site; the UI must display it for non-GDPR regulations (see **`getArticleDisplayTitle`**).
+1. Parse `regulation` → load corpus → BM25 top excerpts.  
+2. Optional DuckDuckGo + page excerpts (regulation-biased).  
+3. Groq chat with grounded prompt (soft-law framing for `id-ai-ethics`).  
+4. On failure → Tavily search+answer.  
+5. On failure → extractive summary from excerpts.  
+6. Return `{ answer, sources, llm, regulationId, note? }`.
 
-### 4.4 Sub-categories (topics) and Chapters filter (frontend)
+### 4.4 Frontend flows
 
-- **Topic taxonomy** — `ARTICLE_TOPICS` in `app.js`: array of `{ id, label, keywords }` (e.g. Consent, Right to erasure, Transfers, DPO, Security of processing, Remedies & penalties). Keywords are matched case-insensitively against article title and a short text snippet.
-- **Assignment** — `getArticleTopicIds(art)` returns topic ids for each article. On load, `articleTopics` (article number → topic ids) and `topicIdsByChapter` (chapter number → set of topic ids) are built and stored in `window.__chaptersData`.
-- **Filter bar** — Category and Chapter selects are synced (same value). Sub-category dropdown is filled from `ARTICLE_TOPICS`; when a chapter is selected, only topics that have at least one article in that chapter are shown (`fillChaptersSubcategoryDropdown(filterChapter)`). `applyChaptersFilters()` filters articles by category/chapter, article number, and selected sub-category (topic). Clear filters resets all including sub-category.
-- **UI** — Shared `.filter-bar`, `.filter-field`, `.filter-field-label`, `.filter-field-select`, `.filter-actions`, `.filter-clear-btn`. One dropdown per row on small screens; responsive grid (e.g. 2 columns for chapters at 900px, 2 columns for news at 640px).
-
-### 4.5 News crawler (`news-crawler.js`)
-
-- **Sources** — EDPB RSS, EDPB paginated news HTML, **EDPS news RSS** (`feed/news_en`) with URL resolution from feed HTML, ICO (**Umbraco search API** + sitemap gap fill + HTML fallback), Commission **general + per-policy** press RSS (batched) + thematic Press Corner API, CoE RSS/HTML (subject to site availability). Optional env vars tune depth (see `.env.example`). National DPAs other than **ICO (UK)** are intentionally excluded from News and Credible sources.
-- **Output** — Items with `title`, `url`, `sourceName`, `sourceUrl`, `date`, `snippet`, optional **`commissionPolicyAreas`**, and **`topic` / `topicCategory`** from **`news-topics.js`**. **`dedupeNewsItemsConsolidated`**: first pass by **`normalizeNewsUrlKey`**, second pass by **source + date + title fingerprint**; **`mergeNewsDuplicate`** prefers canonical URLs (e.g. EDPS publications path over `/press-news/news/` stub) and richer snippets, and merges topic fields. Sorted by date descending; filtered by **`newsItemMatchesApprovedTopic`** (includes optional **topic-taxonomy anchor** pass).
-- **Merge in server** — `readNewsFilePayload` + **`dedupeNewsItemsConsolidated`** on every **`GET /api/news`**; **`mergeNewsItems`** (static + crawl) ends with the same dedupe. `POST /api/news/refresh` uses **`NEWS_REFRESH_TIMEOUT_MS`**, writes merged items to disk (higher internal cap), returns fresh list.
-
-### 4.6 Server (`server.js`)
-
-- **loadContent(regId)** — Reads **`gdpr-content.json`**, **`ai-act-content.json`**, or **`data-act-content.json`** via **`lib/regulation-content.js`** (mtime-cached), applies **`normalizeCorpus`**, rebuilds **`searchIndex`**. **`contentFor(req)`** / **`parseRegulationId(req)`** select corpus from query/body **`regulation`** (default `gdpr`).
-- **Regulation-aware Ask web context** — **`regulationSearchContext(reg)`** biases DuckDuckGo and Tavily queries per regulation; **`fetchWebSnippets(query, reg)`**, **`answerWithTavily(..., reg)`**.
-- **invalidateRegulationContentCache()** / **runRegulationScraperAndReloadContent()** — After ETL, clears the in-memory corpus cache and reloads from disk (**`POST /api/refresh`**, daily cron, initial missing-file refresh).
-- **Cross-references** — `gdpr-crossrefs.js`: build map of recitals citing articles; merge with `article-suitable-recitals.json` for `suitableRecitals` / `suitableArticles` on article and recital GET routes.
-- **BM25** — `buildBm25Searcher` over `searchIndex` for `buildLocalContext` (Ask). Legacy **`simpleSearch`** still powers **`POST /api/ask`**.
-- **`POST /api/answer`** — Composes local + optional web sources, calls Groq with `buildAnswerPrompt`, optional sector enforcement and citation repair passes, then Tavily, then `buildSummaryFromExcerpts` extractive fallback.
-- **`POST /api/summarize`** — Multi-provider LLM + extractive fallback (see §3.6).
-- **Refresh** — **`POST /api/refresh`** runs **`runRegulationScraperAndReloadContent()`** (scraper + cache bust + **`loadContent`**); returns **`formattingGuardrails`**. Chapter summaries: **`GET` / `POST /api/chapter-summaries*`**.
-- **Industry sectors** — `GET /api/industry-sectors` reads `public/industry-sectors.json` and, when present, `public/industry-sector-tree.json` (cached); response is `{ sectors, tree }` or a legacy array.
-
-### 4.6 Frontend (Ask flow)
-
-- On Ask submit: clear answer HTML, status, citations panel, relevant provisions; show loading state.
-- `POST /api/answer` with `query`, `includeWeb: true`, `industrySectorId`, and **`regulation`** (from header via **`mergeRegulationBody`**).
-- **`syncAskSourcesNewsChrome`** updates Ask hero, placeholders, relevant-provisions labels, and sector explainer when regulation changes.
-- Render answer via `formatAnswerHtml` (citation chips, optional markdown-style `**bold**` callouts).
-- `renderRelevantProvisionsFromAnswer` fills the aside from regulation sources.
-- “View in app” (`a.app-goto-doc`): set `cameFromAsk = true`, switch to Browse, `openArticle` / `openRecital`. “Back to question” returns to Ask.
-
-### 4.7 Frontend (Browse flow)
-
-- Recitals / Chapters loaded from `/api/recitals`, `/api/chapters`, `/api/articles`. Chapters view builds `__chaptersData` (chapters, articles, articleTopics, topicIdsByChapter), populates Category, Sub-category, Chapter, Article dropdowns, and applies filters via `applyChaptersFilters()` (including topic filter). Section headers use `.chapters-group-heading` and `.chapters-group-meta` (centered). Article detail opens from grouped chapter cards via `openArticle()` — there is no separate full-page chapter detail view.
-- **Homepage** — `goToHome()` (triggered by logo link click): switch to Browse tab if not already active; show `browsePlaceholder`, hide all browse sections (recitals, chapters, sources, detail); hide Back, Export PDF, Back to question; clear `currentDoc` and `lastListSection`; clear `chapterList.innerHTML` so the sidebar “Regulation & sources” shows only the original three nav items (Recitals, Chapters & Articles, Credible sources) with no chapter list below.
-- Article/recital detail from **`/api/articles/:number`**, **`/api/recitals/:number`**; articles use **`fmtArticleLine`** (citations + footnote stripping; parenthetical “(Recital N)” removed); recital bodies use **`fmtRecitalLine`** where cross-recital refs are highlighted. **Doc navigation**: **`updateDocNav()`** shows Prev/Next, label (e.g. “Article 5 of 99”), number input and “Go” (**`goToDocNumber`**); Enter in the number input triggers Go. PDF export via **html2pdf.js** on the current detail node.
-- Tab switching: `data-view="browse"` | `data-view="ask"` | `data-view="sources"` | `data-view="news"`; views shown/hidden and `aria-selected` updated.
-
-### 4.8 Frontend (Sources and News flow)
-
-- **Sources** — `loadSources()` → **`GET /api/meta`** (regulation-scoped); cards use **`SOURCE_SUMMARIES`** fallbacks for known org names.
-- **News** — `loadNews()` → **`GET /api/news`** (not regulation-scoped on API); **`itemMatchesNewsRegulationScope`** filters when AI Act selected; **`applyNewsFilters`** applies source/topic/search on top. Dedupe via **`news-dedupe.js`**; expandable feeds sidebar; Quick filters dock on desktop scroll.
+- **Browse:** welcome → chapters/recitals → filters → reader → sidebar / PDF.  
+- **Ask:** submit → `/api/answer` → citation chips + relevant provisions.  
+- **Sources / News:** meta + news APIs; client filters by regulation scope.
 
 ---
 
 ## 5. Business guidelines
 
-- **Use for reference only** — The platform is a convenience tool. For legal certainty, always verify against the official [EUR-Lex](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng) and [GDPR-Info](https://gdpr-info.eu/) sources.
-- **No legal advice** — The app does not provide legal advice. Users are responsible for their own interpretation and compliance.
-- **Credible sources only** — Answer text is limited to the regulation content from EUR-Lex; LLM summaries are constrained to that same text to avoid hallucination. News is limited to defined credible sources (EDPB, EDPS, ICO (UK), European Commission, Council of Europe); other national supervisory authorities are excluded except ICO.
-- **Attribution** — Footer and UI attribute content to gdpr-info.eu and EUR-Lex; links must remain so users can check originals. News items always link to the original article on the publisher’s site.
+- **Reference only — not legal advice.** Users must verify on official publishers.  
+- **Credible sources only** for News and Sources tabs (see BUSINESS_GUIDELINES / GUARDRAILS).  
+- **National EU DPAs** other than ICO (UK) are out of scope for News/Sources (**BG-07**).  
+- **Soft law:** SE AI Ethics must not be presented as a binding regulation.  
+- **Sector framing** is illustrative, not a substitute for sector-specific law.  
+- Full policy: [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md).
 
 ---
 
 ## 6. Tech guidelines
 
-- **Node.js** — Required (engine `>=18`). Uses native `fetch` for LLM and scraper HTTP; axios + cheerio for news crawler.
-- **No build step** — Frontend is vanilla HTML, CSS, and JavaScript; served as static files from `public/`.
-- **Environment** — Optional `.env` or env vars for API keys and `PORT`; see Configuration. No secrets in the repo.
-- **Data directory** — `data/` must be writable by the process for refresh (writes `gdpr-content.json`). `gdpr-structure.json` must exist for the scraper to run. `gdpr-news.json` is optional; if missing, default news feeds and empty items are used.
-- **CORS** — Enabled for the Express app; suitable for same-origin or controlled cross-origin use.
-- **Scheduling** — Cron is optional; if the server is stopped, no automatic refresh runs until the next start.
-- **Accessibility & UX** — Tabs and panels use `role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`; buttons and filters have `aria-label` where needed (e.g. filter bar “Filter documents by category, chapter, and article”, “Filter news”); filter bar uses one dropdown per row and responsive layout; chapter headers are centered for readability; doc nav supports keyboard (Enter in number input).
+- Node.js ≥ 18; no frontend build step.  
+- Secrets only via `.env` / Vercel env / BYOK localStorage — never commit keys.  
+- Writable `data/` (or `/tmp/gdpr-qa-data` on Vercel).  
+- CORS enabled; open APIs (no end-user auth); protect cron with `CRON_SECRET`.  
+- Do not bypass formatting guardrails on corpus write/read.  
+- Ask uses Groq/Tavily only (removed multi-provider summarize path in 1.2.6).  
+- Full standards: [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
 ---
 
@@ -283,26 +207,28 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 | Layer | Technology |
 |-------|------------|
-| **Runtime** | Node.js ≥ 18 |
-| **Backend** | Express 4.x, CORS, `fs`, `path` |
-| **Scheduling** | node-cron (daily refresh, Europe/Brussels 02:00) |
-| **Scraping (regulation)** | axios, cheerio (or built-in https + regex fallback) in `scraper.js` |
-| **News crawling** | axios, cheerio in `news-crawler.js`; timeout wrapper for safe merge |
-| **Frontend** | HTML5, CSS3, vanilla JavaScript (no framework) |
-| **Fonts** | Google Fonts (DM Sans, DM Serif Text) |
-| **PDF export** | html2pdf.js 0.10.1 (CDN), client-side |
-| **LLM (optional)** | REST calls to OpenAI, Anthropic, Google Gemini, Groq, Mistral, OpenRouter (no SDKs; fetch only) |
-| **Data** | JSON files in `data/` (`gdpr-*`, `ai-act-*`, `data-act-*`, `gdpr-news.json`, chapter summaries) |
+| Runtime | Node.js ≥ 18 |
+| Backend | Express 4.x, CORS, dotenv |
+| Scheduling | node-cron (local); Vercel cron |
+| Scraping / news | axios, cheerio |
+| Frontend | HTML5, CSS3, vanilla JS |
+| Fonts | DM Sans, DM Serif Text |
+| PDF | html2pdf.js (CDN) |
+| LLM | Groq (primary), Tavily (fallback), extractive |
+| Data | JSON files in `data/` |
+| Deploy | Vercel (`api/index.js`) |
+| Tests | `node --test` (`test/indo-parity.test.js`) |
 
-### Dependencies (package.json)
+### Dependencies (`package.json`)
 
-| Package   | Purpose                    |
-|----------|----------------------------|
-| express  | HTTP server                |
-| cors     | Cross-origin               |
-| axios    | HTTP client (scraper, news)|
-| cheerio  | HTML/XML parsing (scraper, news) |
-| node-cron| Daily refresh              |
+| Package | Purpose |
+|---------|---------|
+| express | HTTP server |
+| cors | Cross-origin |
+| axios | HTTP client |
+| cheerio | HTML parsing |
+| node-cron | Daily refresh |
+| dotenv | Env loading |
 
 ---
 
@@ -310,68 +236,47 @@ The **EU Regulation Q&A Platform** is a web application for **browsing** and **a
 
 ```
 gdpr-qa-platform/
-├── server.js                 # Express: APIs, BM25 context, Groq/Tavily Ask, summarize, refresh (runRegulationScraperAndReloadContent), news, chapter summaries, cron, static + SPA fallback
+├── server.js                      # Express APIs, BM25, Ask, news, refresh, cron, static
 ├── lib/
-│   ├── regulations.js        # Regulation registry (gdpr, ai-act, data-act)
-│   ├── regulation-content.js # loadContent, parseRegulationId, ETL orchestration
-│   └── paths.js              # data dir; Vercel /tmp handling
-├── scraper.js                # GDPR ETL → gdpr-content.json
-├── ai-act-scraper.js         # EU AI Act ETL → ai-act-content.json
-├── data-act-scraper.js       # EU Data Act ETL → data-act-content.json
+│   ├── regulations.js             # Six-instrument registry + jurisdictions
+│   ├── regulation-content.js      # loadContent, ETL orchestration
+│   └── paths.js                   # getDataDir(); SEED_FILES (20)
+├── scraper.js / ai-act-scraper.js / data-act-scraper.js
+├── id-law-scraper.js              # Indonesian instruments
+├── document-formatting-guardrails.js
+├── gdpr-crossrefs.js
+├── news-crawler.js / news-topics.js / news-article-attachments.js
 ├── api/
-│   ├── index.js              # Vercel serverless entry
-│   └── cron/daily-regulation-refresh.js  # All regulations (GDPR, AI Act, Data Act)
-├── public/regulation-profiles.js  # Per-regulation UI copy and URLs
-├── document-formatting-guardrails.js  # Corpus normalization + validation on every refresh (see docs/DOCUMENT_FORMATTING_GUARDRAILS.md)
-├── news-crawler.js           # News crawl; used by GET/POST news routes
-├── news-topics.js            # News topic taxonomy, classification, supplemental crawl gate
-├── gdpr-crossrefs.js         # Article↔recital suitability helpers
-├── package.json              # prestart, start, refresh, fetch-suitable-recitals
-├── package-lock.json
+│   ├── index.js
+│   └── cron/daily-regulation-refresh.js   # All six + CRON_SECRET
+├── public/
+│   ├── index.html / styles.css / app.js
+│   ├── regulation-profiles.js
+│   ├── regulation-profiles-id.js
+│   ├── news-dedupe.js
+│   ├── industry-sectors.json / industry-sector-tree.json
+│   └── article-suitable-recitals.json
+├── data/                          # EU + ID corpora, news, chapter summaries
+├── scripts/                       # Indo ETL helpers, ISIC, suitable recitals
+├── test/indo-parity.test.js
+├── package.json                   # version 1.2.6
+├── vercel.json
 ├── .env.example
-├── .gitignore
-├── README.md
-├── CHANGELOG.md
-├── PRODUCT_DOCUMENTATION_STANDARD.md
-├── docs/                     # PRD, personas, stories, variables, data schema examples, metrics, design, traceability, guardrails, API, architecture, formatting guardrails, README
-├── scripts/
-│   └── fetch-article-suitable-recitals.js
-├── data/
-│   ├── gdpr-structure.json / gdpr-content.json
-│   ├── ai-act-structure.json / ai-act-content.json
-│   ├── data-act-structure.json / data-act-content.json
-│   ├── gdpr-news.json
-│   ├── article-suitable-recitals.json   # GDPR only
-│   ├── chapter-summaries.json
-│   ├── chapter-summaries-ai-act.json
-│   └── chapter-summaries-data-act.json
-└── public/
-    ├── index.html
-    ├── styles.css
-    ├── app.js
-    ├── news-dedupe.js            # Client mirror of server news dedupe (loaded before app.js)
-    ├── industry-sectors.json
-    ├── industry-sector-tree.json # ISIC Rev.4 macro industry → section → division group → division (Ask UI)
-    └── article-suitable-recitals.json  # Copy from data/ (prestart)
+├── README.md / CHANGELOG.md / PRODUCT_DOCUMENTATION_STANDARD.md
+└── docs/                          # Full professional documentation set
 ```
 
 ### Key source files
 
 | File | Responsibility |
 |------|----------------|
-| **server.js** | `loadContent`; BM25 (`buildBm25Searcher`, `buildLocalContext`); `POST /api/answer` (Groq, Tavily, extractive); `POST /api/ask`, `POST /api/summarize`; article/recital routes with `suitableRecitals` / `suitableArticles`; chapter summaries; industry sectors; news merge/refresh; cron; static. |
-| **gdpr-crossrefs.js** | `buildRecitalsCitingArticlesMap`, `mergedSuitableRecitalsForArticle`, `mergedSuitableArticlesForRecital` (public API only). |
-| **scraper.js** | EUR-Lex fetch/parse, merge, **`document-formatting-guardrails.js`** normalization, `buildSearchIndex`, write `gdpr-content.json`. Public exports: `run`, `fetchText`, `buildSearchIndex`, `mergeWithExisting`, `computeDatasetHash`, and helpers used by AI/Data Act scrapers. |
-| **document-formatting-guardrails.js** | Public exports: `normalizeCorpus`, `validateCorpusFormatting`, `logFormattingGuardrailsReport`. |
-| **news-crawler.js** | `crawlNews`, `dedupeNewsItemsConsolidated`, `normalizeNewsUrlKey`, `sanitizeNewsItemDates`, `withTimeout`; topic assignment via **`news-topics.js`**. |
-| **lib/regulations.js** | Registry (`gdpr`, `ai-act`, `data-act`) with `hasArticleTopics` / `hasSuitableRecitals`; public API: `normalizeRegulationId`, `getRegulation`, `listRegulations`, `getRegulationPaths`, `enrichArticlesWithChapter`. |
-| **lib/paths.js** | `getDataDir()`, `IS_VERCEL`; seeds 11 bundled JSON files to `/tmp` on Vercel cold start. |
-| **news-topics.js** | GDPR/privacy news topic groups, `classifyNewsItemTopic`, `assignNewsTopicFields`, `getTopicTaxonomyForClient`, supplemental **`newsBlobMatchesTopicAnchor`** gate. |
-| **public/news-dedupe.js** | Browser **`GDPR_NEWS_DEDUPE.dedupeNewsItemsConsolidated`** (keep aligned with crawler). |
-| **public/app.js** | Browse (filters, doc nav, cross-links, chapter summaries); **Ask:** `doAsk` → `/api/answer` + BYOK (`withByokApiKeys`, validation UI); Sources; News (dedupe client, expandable feeds + sidebar filters, IO dock); PDF; homepage. |
-| **public/styles.css** | Design tokens, layout, reader, Ask citation chips, **BYOK validation panel**, news layout, sidebar Quick filters card, feeds section toggle, print/PDF hooks. |
-| **data/article-suitable-recitals.json** | `articles` map for editorial suitable recitals per article. |
-| **.env.example** | `PORT`, web/news tuning, LLM keys, `LLM_PROVIDER`. |
+| `server.js` | REST surface, BM25, Ask, news, refresh |
+| `lib/regulations.js` | Registry + `listRegulations()` / `ID_REGULATION_IDS` |
+| `lib/paths.js` | Data dir + Vercel seed |
+| `id-law-scraper.js` | Indonesian ETL |
+| `public/app.js` | SPA (Browse / Ask / Sources / News / BYOK / region picker) |
+| `public/styles.css` | Design tokens + six browse/news themes |
+| `api/cron/daily-regulation-refresh.js` | Authenticated daily ETL for all six |
 
 ---
 
@@ -379,130 +284,93 @@ gdpr-qa-platform/
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| GET | `/health` | Liveness probe (`ok` plain text) |
-| GET | `/api/regulations` | List available regulations (`gdpr`, `ai-act`, `data-act`) with limits and flags |
-| GET | `/api/meta` | Freshness, `byokSupported`, server/BYOK Groq/Tavily flags, `sources[]` — **`?regulation=`** |
-| POST | `/api/validate-api-keys` | Validate Groq/Tavily keys in body (`apiKeys`); keys not stored |
-| GET | `/api/news` | `{ newsFeeds, items }` merged static + crawl (capped) |
-| POST | `/api/news/refresh` | Full crawl, merge, write `gdpr-news.json`, return fresh items |
-| GET/POST | `/api/news/article-attachments` | Attachment links for one allowlisted article URL |
-| POST | `/api/news/attachments-summary` | Batch attachment counts (up to 96 URLs) |
-| GET | `/api/categories` | Categories — **`?regulation=`** |
-| GET | `/api/chapters` | All chapters (+ source URLs) — **`?regulation=`** |
-| GET | `/api/chapters/:number` | One chapter with articles |
-| GET | `/api/chapter-summaries` | Chapter I–XI intro strings + metadata |
-| POST | `/api/chapter-summaries/regenerate` | Regenerate summaries with Groq (requires key); writes JSON |
-| GET | `/api/articles` | All articles |
-| GET | `/api/articles/:number` | One article + `chapter`, `contentAsOf`, **`suitableRecitals`** |
-| GET | `/api/recitals` | All recitals |
-| GET | `/api/recitals/:number` | One recital + URLs, `contentAsOf`, **`suitableArticles`** |
-| GET | `/api/industry-sectors` | Sector list + optional ISIC tree for Ask (`{ sectors, tree }` or array) |
-| POST | `/api/answer` | Body: `{ query, includeWeb?, industrySectorId?, apiKeys?, regulation? }`. Grounded answer + `regulationId` + `sources` + `llm` |
-| POST | `/api/ask` | Body: `{ query, regulation? }`. Legacy simple search |
-| POST | `/api/summarize` | Body: `{ query, excerpts[] }`. LLM/extractive summary (integrations) |
-| POST | `/api/refresh` | ETL for **`regulation`** in body/query; returns **`formattingGuardrails`** |
-| GET | `/article-suitable-recitals.json` | Editorial suitable-recitals map (from `data/`) |
-| GET | `*` (non-file) | SPA fallback → `public/index.html` |
+| GET | `/health` | Liveness (`ok`) |
+| GET | `/api/regulations` | List six instruments + flags + jurisdictions |
+| GET | `/api/meta` | Freshness, BYOK flags, `sources[]` — `?regulation=` |
+| POST | `/api/validate-api-keys` | Validate Groq/Tavily (not stored) |
+| GET | `/api/news` | Feeds + items (+ optional `?live=1`) |
+| POST | `/api/news/refresh` | Full crawl + persist |
+| GET/POST | `/api/news/article-attachments` | Attachment links for one URL |
+| POST | `/api/news/attachments-summary` | Batch attachment counts |
+| GET | `/api/chapters` | Chapters — `?regulation=` |
+| GET | `/api/chapter-summaries` | Chapter intros — `?regulation=` |
+| POST | `/api/chapter-summaries/regenerate` | Groq regenerate summaries |
+| GET | `/api/articles` / `/api/articles/:number` | Articles / pasal |
+| GET | `/api/recitals` / `/api/recitals/:number` | Recitals / considering / values |
+| GET | `/api/industry-sectors` | ISIC sectors + tree |
+| POST | `/api/answer` | Grounded Ask |
+| POST | `/api/refresh` | ETL for one `regulation` |
+| GET | `/article-suitable-recitals.json` | GDPR editorial map |
+| GET | `*` (non-file) | SPA → `index.html` |
 
-Static files under `public/` are served by Express.
+**Removed in 1.2.6 (not available):** `/api/categories`, `/api/chapters/:number`, `/api/ask`, `/api/summarize`.
+
+Full contracts: [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md).
 
 ---
 
 ## 10. Configuration
 
-### 10.1 Environment variables
+### 10.1 Environment variables (active)
 
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Server port (default: `3847`). |
-| `HOST` | Bind address (default: `0.0.0.0`). |
-| `NEWS_CRAWL_TIMEOUT_MS` | Timeout for crawl during `GET /api/news` (default `90000`). |
-| `NEWS_REFRESH_TIMEOUT_MS` | Timeout for `POST /api/news/refresh` (default `180000`). |
-| `NEWS_MERGE_CAP` | Max items returned from merged news list after dedupe (default `6000`). |
-| `NEWS_ATTACHMENTS_CACHE_TTL_MS` | TTL for cached HTML attachment scans (default `900000`). |
-| `NEWS_ATTACHMENTS_CACHE_MAX` | Max entries in the attachments cache (default `150`). |
-| `NEWS_MAX_EDPB_PAGES` | Max EDPB news listing pages to crawl (optional; see `news-crawler.js`). |
-| `NEWS_MAX_ICO_SEARCH_PAGES` | Max ICO search API pages (optional). |
-| `NEWS_MAX_ICO_SITEMAP_FETCHES` | Cap on ICO sitemap follow-up fetches (optional). |
-| `NEWS_MAX_HTML_LINKS_PER_SOURCE` | Max harvested links per HTML listing source (optional). |
-| `NEWS_COMMISSION_RSS_CONCURRENCY` | Parallel Commission RSS/API batch size (optional). |
-| `NEWS_COMMISSION_RSS_PAGE_SIZE` | Commission RSS `pagesize` parameter, clamped in code (optional). |
-| `WEB_TIMEOUT_MS` | HTTP timeout for DuckDuckGo and fetched pages in Ask (default `12000`). |
-| `WEB_MAX_RESULTS` | Max DuckDuckGo HTML results parsed (default `4`). |
-| `WEB_MAX_PAGES` | Max pages to fetch for excerpts (default `3`). |
-| `WEB_SNIPPET_CHARS` | Max chars per web excerpt (default `1400`). |
-| `GDPR_ETL_PRIMARY` | `gdpr-info` (default) or `eur-lex` — which source fills `gdpr-content.json` on refresh first. |
-| `MIN_GDPR_INFO_ARTICLES` | Minimum article count to accept GDPR-Info as primary (default `99`). |
-| `MIN_GDPR_INFO_RECITALS` | Minimum recital count to accept GDPR-Info as primary (default `173`). |
-| `GDPR_MAX_ARTICLE_CHARS` | Optional cap on stored article/recital body length (`scraper.js`; `0` or unset = no cap). |
-| `GDPR_INFO_CONCURRENCY` | Parallel GDPR-Info fetches (default `6`). |
-| `GDPR_FORCE_CORPUS_WRITE` / `GDPR_FORCE_RELOAD_CORPUS` | Set to `1` to force writing `gdpr-content.json` on next refresh even if hash unchanged. |
-| `OPENAI_API_KEY` | OpenAI API key for summaries |
-| `OPENAI_MODEL` | Optional; default `gpt-4o-mini` |
-| `ANTHROPIC_API_KEY` | Anthropic API key |
-| `ANTHROPIC_MODEL` | Optional; default `claude-3-5-sonnet-20241022` |
-| `GOOGLE_GEMINI_API_KEY` | Google Gemini API key |
-| `GOOGLE_GEMINI_MODEL` | Optional; default `gemini-1.5-flash` |
-| `GROQ_API_KEY` | Groq API key (primary Ask LLM) |
-| `GROQ_MODEL` | Optional; one model or comma-separated list tried in order (defaults include `llama-3.3-70b-versatile`, `llama-3.1-8b-instant`, …) |
-| `TAVILY_API_KEY` | Optional Tavily key: Ask falls back to Tavily search+answer if Groq fails |
-| `TAVILY_SEARCH_DEPTH` | Optional: `basic`, `fast`, `advanced`, `ultra-fast` (default `advanced` for Ask fallback) |
-| `TAVILY_INCLUDE_ANSWER` | Optional: `basic`, `advanced`, `true`, or `false` (default `advanced`) |
-| `TAVILY_MAX_RESULTS` | Optional; default `6` |
-| `TAVILY_INCLUDE_DOMAINS` | Optional comma-separated domains to bias search (e.g. `eur-lex.europa.eu,gdpr-info.eu`) |
-| `MISTRAL_API_KEY` | Mistral API key |
-| `MISTRAL_MODEL` | Optional; default `mistral-small-latest` |
-| `OPENROUTER_API_KEY` | OpenRouter API key |
-| `OPENROUTER_MODEL` | Optional; default `anthropic/claude-3.5-sonnet` |
-| `LLM_PROVIDER` | Force single provider: `openai`, `anthropic`, `gemini`, `groq`, `mistral`, `openrouter` |
-| `OPENROUTER_REFERRER` | HTTP Referer sent to OpenRouter (default `http://localhost:3847`; set in production). |
+See **[.env.example](.env.example)** and **[docs/VARIABLES.md](docs/VARIABLES.md)** for the authoritative dictionary.
 
-Copy `.env.example` to `.env` and set keys as needed. When multiple keys are set and `LLM_PROVIDER` is not set, the server tries Anthropic first, then OpenAI, then the rest.
+| Area | Examples |
+|------|----------|
+| Server / deploy | `PORT`, `HOST`, `GDPR_DATA_DIR`, `CRON_SECRET`, `VERCEL` |
+| GDPR ETL | `GDPR_ETL_PRIMARY`, `MIN_GDPR_INFO_*`, `GDPR_*_CONCURRENCY`, `GDPR_FORCE_CORPUS_WRITE` |
+| AI / Data Act ETL | `MIN_AI_ACT_*`, `AI_ACT_*`, `MIN_DATA_ACT_*`, `DATA_ACT_*` |
+| Indonesian ETL | `MIN_ID_PDP_*`, `MIN_ID_SATU_DATA_*`, `MIN_ID_AI_ETHICS_*`, `ID_*_FORCE_CORPUS_WRITE` |
+| Ask web | `WEB_TIMEOUT_MS`, `WEB_MAX_RESULTS`, `WEB_MAX_PAGES`, `WEB_SNIPPET_CHARS` |
+| LLM | `GROQ_API_KEY`, `GROQ_MODEL`, `TAVILY_*` |
+| News | `NEWS_CRAWL_TIMEOUT_MS`, `NEWS_REFRESH_TIMEOUT_MS`, `NEWS_MERGE_CAP`, `NEWS_*` depth knobs |
 
-**BYOK (browser):** Users may instead open **API keys** in the header, save Groq/Tavily keys locally, and enable **Use my API keys for Ask**. Keys are sent to the server only when asking questions (or validating); they are never committed to the repository. See [docs/VARIABLES.md](docs/VARIABLES.md) §4.1 and [docs/GUARDRAILS.md](docs/GUARDRAILS.md) **BG-08** / **TG-LLM-03**.
+**Not used (removed 1.2.6):** `OPENAI_*`, `ANTHROPIC_*`, `GOOGLE_GEMINI_*`, `MISTRAL_*`, `OPENROUTER_*`, `LLM_PROVIDER`.
+
+**BYOK (browser):** `localStorage` key `gdpr-qa-byok-v1` — never commit secrets.
 
 ### 10.2 Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | `prestart` copies `article-suitable-recitals.json` to `public/` if present; starts server; if `gdpr-content.json` is missing, runs scraper once. |
-| `npm run refresh` | Run GDPR scraper only (`node server.js --refresh-only`), then exit. |
-| `npm run refresh-ai-act` | Run `ai-act-scraper.js` for EU AI Act corpus. |
-| `npm run refresh-data-act` | Run `data-act-scraper.js` for EU Data Act corpus. |
-| `npm run fetch-suitable-recitals` | Run `scripts/fetch-article-suitable-recitals.js` to refresh editorial crossrefs (see script header). |
-| `npm run vercel-build` | Pre-deploy copy of recitals map into `public/` (used by Vercel `buildCommand`). |
+| `npm start` | Copy suitable-recitals map; start server |
+| `npm test` | Indo parity + registry/news tests |
+| `npm run refresh` | GDPR ETL only |
+| `npm run refresh-ai-act` / `refresh-data-act` | EU Act ETL |
+| `npm run refresh-id-pdp` / `refresh-id-satu-data` / `refresh-id-ai-ethics` | Indonesian ETL |
+| `npm run fetch-suitable-recitals` | GDPR editorial map refresh |
+| `npm run vercel-build` | Pre-deploy copy for Vercel |
 
 ### 10.3 Deploy to Vercel
 
-1. Connect the GitHub repo to Vercel (root = this folder).
-2. Set environment variables: `GROQ_API_KEY`, `CRON_SECRET`, optional `TAVILY_API_KEY`, `OPENROUTER_REFERRER` = production URL.
-3. Deploy; `vercel.json` routes all pages to the Express app and schedules daily regulation ETL.
+1. Import project (root = this folder).  
+2. Set `GROQ_API_KEY`, `CRON_SECRET`, optional `TAVILY_API_KEY`.  
+3. Deploy; cron hits `/api/cron/daily-regulation-refresh` for all six instruments.
 
-Full steps, limits, and cron auth: **[docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md)**.
+Details: [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md).
 
 ---
 
 ## 11. Quick start
 
-1. **Install and run**
-   ```bash
-   cd gdpr-qa-platform
-   npm install
-   npm start
-   ```
-2. Open **http://localhost:3847** in a browser.
-3. Choose **GDPR**, **EU AI Act**, or **EU Data Act** in the header **Regulation** dropdown.
-4. Click **Refresh sources** to update the selected regulation corpus (bundled JSON is used until then).
-5. Use **Browse** for recitals and chapters/articles (GDPR: category + sub-category filters; AI Act / Data Act: chapter/article filters). Use Prev/Next or **Go** in the reader.
-6. Use **Ask a question** for grounded answers with **`[S#]`** citations and **Relevant provisions** (regulation-aware).
-7. Open **Credible sources** for official links for the active regulation.
-8. Open **News** for supervisory headlines (relevance-filtered when EU AI Act or EU Data Act is selected); **Refresh news** reloads feeds.
-9. (Optional) Set **GROQ_API_KEY** / **TAVILY_API_KEY** in `.env` or use header **API keys** (BYOK).
+```bash
+cd gdpr-qa-platform
+npm install
+npm start
+```
+
+1. Open **http://localhost:3847**.  
+2. Optionally set region to **EU** or **Indonesia**, then pick an instrument.  
+3. **Refresh sources** to update the selected corpus (bundled JSON works until then).  
+4. **Browse** chapters/articles or recitals; use Prev/Next/Go and PDF.  
+5. **Ask** grounded questions with `[S#]` citations (set Groq/Tavily via `.env` or BYOK).  
+6. Open **Credible sources** and **News**; use **Refresh news** if Indo/EU lists look sparse.  
+7. Run **`npm test`** before release when touching registry, Indo corpora, or news helpers.
 
 ---
 
 ## 12. License and disclaimer
 
-This project is for **reference only**. Regulation text is sourced from official EU publications and widely used readable layouts ([GDPR-Info](https://gdpr-info.eu/), [AI Act Law](https://ai-act-law.eu/), [Data Act Law](https://data-act-law.eu/), [EUR-Lex](https://eur-lex.europa.eu/)). Always verify against the official instruments: Regulation (EU) 2016/679, Regulation (EU) 2024/1689, and Regulation (EU) 2023/2854. The maintainers do not provide legal advice.
+This project is for **reference only**. Regulation text is sourced from official publications and widely used readable layouts. Always verify against the official instruments (EU Regulations cited above; Indonesian UU / Perpres / SE as published on peraturan.go.id and JDIH). **SE Menkominfo 9/2023 is soft law.** The maintainers do not provide legal advice.
 
-**Attribution:** The application footer credits **Rifqi Tjahyono** as developer/maintainer with links to [LinkedIn](https://www.linkedin.com/in/rifqi-tjahjono/) and [rifqi-tjahyono.com](https://rifqi-tjahyono.com/).
+**Attribution:** Application credits bar — **Rifqi Tjahyono** ([LinkedIn](https://www.linkedin.com/in/rifqi-tjahjono/), [rifqi-tjahyono.com](https://rifqi-tjahyono.com/)).

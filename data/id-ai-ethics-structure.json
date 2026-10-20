@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "JDIH Kementerian Komunikasi dan Digital",
+        "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+        "description": "Official HTML text of Surat Edaran Menteri Kominfo Nomor 9 Tahun 2023 tentang Etika Kecerdasan Artifisial (19 December 2023). This is currently Indonesia's in-force AI ethics instrument; two Presidential Regulations (AI ethics and AI roadmap 2026–2029) were still awaiting signature as of September 2026.",
+        "documents": [
+          {
+            "label": "SE Menkominfo 9/2023 (JDIH Komdigi)",
+            "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+          },
+          {
+            "label": "JDIH Komdigi home",
+            "url": "https://jdih.komdigi.go.id/"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Komdigi — AI Presidential Regulation drafts",
+        "url": "https://jdih.komdigi.go.id/berita/view/116",
+        "description": "Official Komdigi notice that ministerial discussion of the RPerpres on AI Ethics and the National AI Roadmap 2026–2029 was completed in May 2026.",
+        "documents": [
+          {
+            "label": "RPerpres Etika KA and Peta Jalan KA (Komdigi news)",
+            "url": "https://jdih.komdigi.go.id/berita/view/116"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Nine ethical values",
+      "description": "The nine Etika Kecerdasan Artifisial values in section 6 of SE 9/2023.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "id": "chapters",
+      "title": "Numbered sections",
+      "description": "Sections 1–7 of the circular (Umum through Penutup).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Umum",
+      "articleRange": "1",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Maksud, tujuan, ruang lingkup, dan dasar hukum",
+      "articleRange": "2-4",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Definisi",
+      "articleRange": "5",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Isi edaran (nilai, pelaksanaan, dan tanggung jawab)",
+      "articleRange": "6",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Penutup",
+      "articleRange": "7",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023",
+      "eurLexUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/t/surat+edaran+menteri+komunikasi+dan+informatika+nomor+9+tahun+2023"
+    }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": []
+}

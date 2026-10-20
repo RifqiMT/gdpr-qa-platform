@@ -5,7 +5,7 @@
   <!-- Optional: full origin if the UI is hosted separately from the Node API (e.g. content="https://api.example.com") -->
   <meta name="gdpr-api-base" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EU Regulation Q&amp;A Platform</title>
+  <title>Regulation Q&amp;A Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Text&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
           <div class="header-brand">
             <h1 class="logo">
               <a href="#" class="logo-link" id="logoLink" title="Go to homepage">
-                <span class="logo-text logo-text--long">EU Regulation Q&amp;A Platform</span>
-                <span class="logo-text logo-text--short" aria-hidden="true">EU Reg Q&amp;A</span>
+                <span class="logo-text logo-text--long">Regulation Q&amp;A Platform</span>
+                <span class="logo-text logo-text--short" aria-hidden="true">Reg Q&amp;A</span>
               </a>
             </h1>
             <p class="tagline" id="appTagline">Select a regulation above to browse and ask questions.</p>
@@ -39,95 +39,136 @@
             </svg>
           </button>
         </div>
-        <div class="header-regulation">
-          <label class="regulation-select-wrap" for="regulationSelect">
-            <span class="regulation-select-label">Regulation</span>
-            <select id="regulationSelect" class="regulation-select" title="Switch between GDPR, EU AI Act, and EU Data Act">
-              <option value="gdpr">GDPR</option>
-              <option value="data-act">EU Data Act</option>
-              <option value="ai-act">EU AI Act</option>
-            </select>
-          </label>
-        </div>
-        <div class="header-actions-panel" id="headerActionsPanel">
-          <div class="header-toolbar" role="group" aria-label="App tools">
-            <div class="freshness-tooltip-wrap header-toolbar-cell" id="freshnessTooltipWrap">
-              <button
-                type="button"
-                id="btnFreshnessInfo"
-                class="header-toolbar-btn header-toolbar-btn--freshness btn-freshness-info"
-                aria-expanded="false"
-                aria-controls="freshnessTooltipPanel"
-                aria-label="EUR-Lex consolidated text: show content and check timestamps"
-              >
+        <div class="header-controls" id="headerControls">
+          <div class="header-filters header-regulation" id="headerFilters">
+            <div class="header-instrument-picker" id="headerInstrumentPicker" aria-label="Region and regulation">
+              <div class="header-filter header-filter--region">
+                <p class="header-filter-label" id="regionFilterLabel">Region</p>
+                <div class="region-filter" id="regionFilter" role="radiogroup" aria-labelledby="regionFilterLabel">
+                  <span class="region-filter-thumb" id="regionFilterThumb" aria-hidden="true"></span>
+                  <button type="button" class="region-filter-btn is-active" role="radio" aria-checked="true" aria-label="All regions" data-region="all" id="regionFilterAll">
+                    <span class="region-filter-btn-inner">All</span>
+                  </button>
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="European Union" data-region="eu" id="regionFilterEu">
+                    <span class="region-filter-btn-inner">EU</span>
+                  </button>
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="Indonesia" data-region="id" id="regionFilterId">
+                    <span class="region-filter-btn-inner">
+                      <span class="region-filter-btn-label region-filter-btn-label--long">Indonesia</span>
+                      <span class="region-filter-btn-label region-filter-btn-label--short" aria-hidden="true">ID</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <div class="header-filter-divider" aria-hidden="true"></div>
+              <label class="header-filter header-filter--regulation regulation-select-wrap" for="regulationSelect">
+                <span class="header-filter-label-row">
+                  <span class="header-filter-label regulation-select-label">Regulation</span>
+                  <span class="regulation-jurisdiction-chip" id="regulationJurisdictionChip" data-jurisdiction="eu">European Union</span>
+                </span>
+                <span class="regulation-select-shell">
+                  <select id="regulationSelect" class="regulation-select" aria-describedby="regionFilterLabel regulationJurisdictionChip" title="Switch regulation">
+                    <optgroup label="European Union">
+                      <option value="gdpr">GDPR</option>
+                      <option value="data-act">EU Data Act</option>
+                      <option value="ai-act">EU AI Act</option>
+                    </optgroup>
+                    <optgroup label="Indonesia">
+                      <option value="id-pdp">ID PDP Law</option>
+                      <option value="id-satu-data">ID Satu Data</option>
+                      <option value="id-ai-ethics">ID AI Ethics</option>
+                    </optgroup>
+                  </select>
+                  <svg class="regulation-select-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div class="header-actions-panel" id="headerActionsPanel">
+            <div class="header-toolbar" role="group" aria-label="App tools">
+              <div class="freshness-tooltip-wrap header-toolbar-cell" id="freshnessTooltipWrap">
+                <button
+                  type="button"
+                  id="btnFreshnessInfo"
+                  class="header-toolbar-btn header-toolbar-btn--freshness btn-freshness-info"
+                  aria-expanded="false"
+                  aria-controls="freshnessTooltipPanel"
+                  aria-label="EUR-Lex consolidated text: show content and check timestamps"
+                >
+                  <span class="header-toolbar-btn-icon" aria-hidden="true">
+                    <svg class="btn-freshness-info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>
+                  </span>
+                  <span class="header-toolbar-btn-text">
+                    <span class="header-toolbar-btn-label">Source freshness</span>
+                    <span class="header-toolbar-btn-hint" id="headerFreshnessHint">Loading timestamps…</span>
+                  </span>
+                </button>
+                <div id="freshnessTooltipPanel" class="freshness-tooltip-panel" role="tooltip">
+                  <div id="freshnessTooltipContent" class="freshness-tooltip-content">Loading…</div>
+                </div>
+              </div>
+              <button type="button" id="btnByokSettings" class="header-toolbar-btn header-toolbar-btn--keys btn-byok-settings" title="Bring your own API keys for Groq and Tavily (Ask tab)">
                 <span class="header-toolbar-btn-icon" aria-hidden="true">
-                  <svg class="btn-freshness-info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
                   </svg>
                 </span>
                 <span class="header-toolbar-btn-text">
-                  <span class="header-toolbar-btn-label">Source freshness</span>
-                  <span class="header-toolbar-btn-hint" id="headerFreshnessHint">Loading timestamps…</span>
+                  <span class="header-toolbar-btn-label">API keys</span>
+                  <span class="header-toolbar-btn-hint" id="headerApiKeysHint">Checking key status…</span>
                 </span>
               </button>
-              <div id="freshnessTooltipPanel" class="freshness-tooltip-panel" role="tooltip">
-                <div id="freshnessTooltipContent" class="freshness-tooltip-content">Loading…</div>
-              </div>
+              <button type="button" id="btnRefresh" class="header-toolbar-btn header-toolbar-btn--refresh btn btn-primary btn-refresh-sources" title="Fetch the latest GDPR (Regulation EU 2016/679) text from EUR-Lex">
+                <span class="header-toolbar-btn-icon btn-icon" aria-hidden="true">↻</span>
+                <span class="header-toolbar-btn-text">
+                  <span class="header-toolbar-btn-label btn-text btn-text--full">Refresh sources</span>
+                  <span class="header-toolbar-btn-hint btn-text btn-text--short">Update legal text</span>
+                </span>
+              </button>
             </div>
-            <button type="button" id="btnByokSettings" class="header-toolbar-btn header-toolbar-btn--keys btn-byok-settings" title="Bring your own API keys for Groq and Tavily (Ask tab)">
-              <span class="header-toolbar-btn-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-                </svg>
-              </span>
-              <span class="header-toolbar-btn-text">
-                <span class="header-toolbar-btn-label">API keys</span>
-                <span class="header-toolbar-btn-hint" id="headerApiKeysHint">Checking key status…</span>
-              </span>
-            </button>
-            <button type="button" id="btnRefresh" class="header-toolbar-btn header-toolbar-btn--refresh btn btn-primary btn-refresh-sources" title="Fetch the latest GDPR (Regulation EU 2016/679) text from EUR-Lex">
-              <span class="header-toolbar-btn-icon btn-icon" aria-hidden="true">↻</span>
-              <span class="header-toolbar-btn-text">
-                <span class="header-toolbar-btn-label btn-text btn-text--full">Refresh sources</span>
-                <span class="header-toolbar-btn-hint btn-text btn-text--short">Update legal text</span>
-              </span>
-            </button>
           </div>
         </div>
       </div>
     </header>
 
     <nav class="tabs" role="tablist" aria-label="Main sections">
-      <div class="tab-browse-cluster">
-        <button type="button" class="tab tab--browse-main active" id="tabBrowseMain" data-view="browse" role="tab" aria-selected="true" aria-haspopup="true" aria-expanded="false" aria-controls="viewBrowse browseRegMenu" title="Choose section: GDPR recitals or GDPR chapters &amp; articles">
-          <span class="tab-label tab-label--long">Browse GDPR</span>
-          <span class="tab-label tab-label--short">Browse</span>
-          <span class="tab-browse-cue" aria-hidden="true">▾</span>
-        </button>
-        <div id="browseRegMenu" class="tab-browse-menu" role="menu" hidden aria-label="Browse GDPR sections">
-          <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="chapters">
-            <span class="tab-browse-menu-label">GDPR chapters &amp; articles</span>
-            <span class="tab-browse-menu-meta">1–99</span>
+      <div class="tabs-track" id="tabsTrack">
+        <span class="tabs-track-thumb" id="tabsTrackThumb" aria-hidden="true"></span>
+        <div class="tab-browse-cluster">
+          <button type="button" class="tab tab--browse-main active" id="tabBrowseMain" data-view="browse" role="tab" aria-selected="true" aria-haspopup="true" aria-expanded="false" aria-controls="viewBrowse browseRegMenu" title="Choose section: GDPR recitals or GDPR chapters &amp; articles">
+            <span class="tab-label tab-label--long">Browse GDPR</span>
+            <span class="tab-label tab-label--short">Browse</span>
+            <span class="tab-browse-cue" aria-hidden="true">▾</span>
           </button>
-          <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="recitals">
-            <span class="tab-browse-menu-label">GDPR recitals</span>
-            <span class="tab-browse-menu-meta">1–173</span>
-          </button>
+          <div id="browseRegMenu" class="tab-browse-menu" role="menu" hidden aria-label="Browse GDPR sections">
+            <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="chapters">
+              <span class="tab-browse-menu-label">GDPR chapters &amp; articles</span>
+              <span class="tab-browse-menu-meta">1–99</span>
+            </button>
+            <button type="button" class="tab-browse-menu-item" role="menuitem" data-browse-segment="recitals">
+              <span class="tab-browse-menu-label">GDPR recitals</span>
+              <span class="tab-browse-menu-meta">1–173</span>
+            </button>
+          </div>
         </div>
+        <button type="button" class="tab" data-view="ask" role="tab" aria-selected="false" aria-controls="viewAsk">
+          <span class="tab-label tab-label--long">Ask a question</span>
+          <span class="tab-label tab-label--short">Ask</span>
+        </button>
+        <button type="button" class="tab" data-view="sources" role="tab" aria-selected="false" aria-controls="viewSources">
+          <span class="tab-label tab-label--long">Credible sources</span>
+          <span class="tab-label tab-label--short">Sources</span>
+        </button>
+        <button type="button" class="tab" data-view="news" role="tab" aria-selected="false" aria-controls="viewNews">
+          <span class="tab-label tab-label--long">News</span>
+          <span class="tab-label tab-label--short">News</span>
+        </button>
       </div>
-      <button type="button" class="tab" data-view="ask" role="tab" aria-selected="false" aria-controls="viewAsk">
-        <span class="tab-label tab-label--long">Ask a question</span>
-        <span class="tab-label tab-label--short">Ask</span>
-      </button>
-      <button type="button" class="tab" data-view="sources" role="tab" aria-selected="false" aria-controls="viewSources">
-        <span class="tab-label tab-label--long">Credible sources</span>
-        <span class="tab-label tab-label--short">Sources</span>
-      </button>
-      <button type="button" class="tab" data-view="news" role="tab" aria-selected="false" aria-controls="viewNews">
-        <span class="tab-label tab-label--long">News</span>
-        <span class="tab-label tab-label--short">News</span>
-      </button>
     </nav>
   </div>
 
@@ -136,10 +177,14 @@
       <div class="browse-layout">
         <div class="content-panel">
           <div id="browsePlaceholder" class="placeholder">
-            <p class="browse-welcome-grid-lead" id="browseWelcomeGridLead">
-              Three EU regulations in one workspace—select a card to focus Browse and Ask, or use the header regulation control.
-            </p>
-            <div class="browse-welcome-grid" id="browseWelcomeGrid" role="list" aria-label="EU regulations overview"></div>
+            <header class="browse-welcome-hero" id="browseWelcomeHero">
+              <p class="browse-welcome-hero-kicker">Regulation workspace</p>
+              <h2 class="browse-welcome-hero-title">Choose a regulation</h2>
+              <p class="browse-welcome-grid-lead" id="browseWelcomeGridLead">
+                Six instruments across the European Union and Indonesia. Select a card to focus Browse and Ask, or use the header control.
+              </p>
+            </header>
+            <div class="browse-welcome-grid" id="browseWelcomeGrid" data-layout="" aria-label="Regulations overview"></div>
             <article class="placeholder-content browse-welcome browse-welcome--solo" id="browseWelcome" data-browse-theme="gdpr" aria-labelledby="browseWelcomeTitle">
               <div class="browse-welcome-shell">
                 <div class="browse-welcome-accent" aria-hidden="true"></div>
@@ -175,7 +220,7 @@
               </div>
             </article>
             <p class="placeholder-hint browse-welcome-global-hint" id="browsePlaceholderHint">
-              Use <strong>Refresh sources</strong> in the header to fetch the latest consolidated text for the selected regulation.
+              Official text is cached locally. Use <strong>Refresh sources</strong> in the header when you need a newer consolidation.
             </p>
           </div>
           <div id="browseRecitals" class="browse-section browse-recitals hidden">
@@ -928,6 +973,7 @@
   </footer>
   <script src="news-dedupe.js"></script>
   <script src="regulation-profiles.js"></script>
+  <script src="regulation-profiles-id.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

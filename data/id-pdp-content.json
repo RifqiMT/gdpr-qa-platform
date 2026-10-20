@@ -1,0 +1,1574 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-09-07T00:00:13.236Z",
+    "sources": [
+      {
+        "name": "JDIH Kementerian Komunikasi dan Digital",
+        "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+        "description": "Official legal-documentation network of Komdigi; HTML text of UU 27/2022.",
+        "documents": [
+          {
+            "label": "UU No. 27 Tahun 2022 (JDIH Komdigi)",
+            "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022"
+          },
+          {
+            "label": "JDIH Komdigi home",
+            "url": "https://jdih.komdigi.go.id/"
+          }
+        ]
+      },
+      {
+        "name": "peraturan.go.id (Database Peraturan)",
+        "url": "https://peraturan.go.id/id/uu-no-27-tahun-2022",
+        "description": "Official national regulation database of the Government of Indonesia.",
+        "documents": [
+          {
+            "label": "UU No. 27 Tahun 2022",
+            "url": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Kementerian Koordinator Bidang Infrastruktur",
+        "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/uu/uu-nomor-27-tahun-2022.pdf",
+        "description": "Official PDF salinan of UU 27/2022 (LN 2022 No. 196).",
+        "documents": [
+          {
+            "label": "PDF salinan UU 27/2022",
+            "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/uu/uu-nomor-27-tahun-2022.pdf"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Kementerian Keuangan",
+        "url": "https://jdih.kemenkeu.go.id/dok/uu-27-tahun-2022",
+        "description": "Ministry of Finance legal database entry for UU 27/2022.",
+        "documents": [
+          {
+            "label": "UU 27 Tahun 2022",
+            "url": "https://jdih.kemenkeu.go.id/dok/uu-27-tahun-2022"
+          }
+        ]
+      }
+    ],
+    "regulationId": "id-pdp",
+    "lastChecked": "2026-09-07T00:00:13.236Z",
+    "datasetHash": "84d40a90afc6da42bd1953d0857aaedf6d5855d9673c25891d2d143c82a0cb91",
+    "etl": {
+      "extractedFrom": "jdih-komdigi",
+      "fetched": true,
+      "significant": false,
+      "datasetHash": "84d40a90afc6da42bd1953d0857aaedf6d5855d9673c25891d2d143c82a0cb91",
+      "articleCount": 76,
+      "recitalCount": 4
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Considering (Menimbang)",
+      "description": "Preamble recitals of UU 27/2022 (huruf a–d).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "id": "chapters",
+      "title": "Bab & Pasal",
+      "description": "16 chapters (Bab I–XVI), Articles 1–76.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Ketentuan umum",
+      "articleRange": "1-2",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Asas",
+      "articleRange": "3",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Jenis Data Pribadi",
+      "articleRange": "4",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Hak Subjek Data Pribadi",
+      "articleRange": "5-15",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Pemrosesan Data Pribadi",
+      "articleRange": "16-18",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Kewajiban Pengendali dan Prosesor Data Pribadi",
+      "articleRange": "19-54",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "Transfer Data Pribadi",
+      "articleRange": "55-56",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 8,
+      "roman": "VIII",
+      "title": "Sanksi administratif",
+      "articleRange": "57",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 9,
+      "roman": "IX",
+      "title": "Kelembagaan",
+      "articleRange": "58-61",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 10,
+      "roman": "X",
+      "title": "Kerja sama internasional",
+      "articleRange": "62",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 11,
+      "roman": "XI",
+      "title": "Partisipasi masyarakat",
+      "articleRange": "63",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 12,
+      "roman": "XII",
+      "title": "Penyelesaian sengketa dan hukum acara",
+      "articleRange": "64",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 13,
+      "roman": "XIII",
+      "title": "Larangan dalam penggunaan Data Pribadi",
+      "articleRange": "65-66",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 14,
+      "roman": "XIV",
+      "title": "Ketentuan pidana",
+      "articleRange": "67-73",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 15,
+      "roman": "XV",
+      "title": "Ketentuan peralihan",
+      "articleRange": "74-75",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 16,
+      "roman": "XVI",
+      "title": "Ketentuan penutup",
+      "articleRange": "76",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "Definitions",
+      "text": "Dalam Undang-Undang ini yang dimaksud dengan:\n\nData Pribadi adalah data tentang orang perseorangan yang teridentifikasi atau dapat diidentifikasi secara tersendiri atau dikombinasi dengan informasi lainnya baik secara langsung maupun tidak langsung melalui sistem elektronik atau nonelektronik.\n\nPelindungan Data Pribadi adalah keseluruhan upaya untuk melindungi Data Pribadi dalam rangkaian pemrosesan Data Pribadi guna menjamin hak konstitusional subjek Data Pribadi.\n\nInformasi adalah keterangan, pernyataan, gagasan, dan tanda-tanda yang mengandung nilai, makna, dan pesan, baik data, fakta, maupun penjelasannya yang dapat dilihat, didengar, dan dibaca yang disajikan dalam berbagai kemasan dan format sesuai dengan perkembangan teknologi informasi dan komunikasi secara elektronik ataupun nonelektronik.\n\nPengendali Data Pribadi adalah setiap orang, hadan publik, dan organisasi internasional yang bertindak sendiri-sendiri atau bersama-sama dalam menentukan tujuan dan melakukan kendali pemrosesan Data Pribadi.\n\nProsesor Data Pribadi adalah setiap orang, badan publik, dan organisasi internasional yang bertindak sendiri-sendiri atau bersama-sama dalam melakukan pemrosesan Data Pribadi atas nama Pengendali Data Pribadi.\n\nSubjek Data Pribadi adalah orang perseorangan yang pada dirinya melekat Data Pribadi.\n\nSetiap Orang adalah orang perseorangan atau korporasi.\n\nKorporasi adalah kumpulan orang dan/ atau kekayaan yang terorganisasi baik yang berbadan hukum maupun tidak berbadan hukum.\n\nBadan Publik adalah lembaga eksekutif, legislatif, yudikatif, dan badan lain yang fungsi dan tugas pokoknya berkaitan dengan penyelenggaraan negara, yang sebagian atau seluruh dananya bersumber dari Anggaran Pendapatan dan Belanja Negara dan/ atau Anggaran Pendapatan dan Belanja Daerah, atau organisasi nonpemerintah sepanjang sebagian atau seluruh dananya bersumber dari Anggaran Pendapatan dan Belanja Negara dan/ atau Anggaran Pendapatan dan Belanja Daerah, sumbangan masyarakat, dan/ atau luar negeri.\n\nOrganisasi Internasional adalah organisasi yang diakui sebagai subjek hukum internasional dan mempunyai kapasitas untuk membuat perjanjian internasional.\n\nPemerintah Pusat yang selanjutnya disebut Pemerintah adalah Presiden Republik Indonesia yang memegang kekuasaan pemerintahan Negara Republik Indonesia sebagaimana dimaksud dalam Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 2,
+      "title": "Territorial and material scope",
+      "text": "Undang-Undang ini berlaku untuk Setiap Orang, Badan Publik, dan Organisasi Internasional yang melakukan perbuatan hukum sebagaimana diatur dalam Undang-Undang ini:\n\nyang berada di wilayah hukum Negara Republik Indonesia; dan\n\ndi luar wilayah hukum Negara Republik Indonesia, yang memiliki akibat hukum:\n\ndi wilayah hukum Negara Republik Indonesia; dan/ atau\n\nbagi Subjek Data Pribadi warga negara Indonesia di luar wilayah hukum Negara Republik Indonesia.\n\nUndang-Undang ini tidak berlaku untuk pemrosesan Data Pribadi oleh orang perseorangan dalam kegiatan pribadi atau rumah tangga.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 3,
+      "title": "Principles (asas)",
+      "text": "Undang-Undang ini berasaskan:\n\npelindungan;\n\nkepastian hukum;\n\nkepentingan umum;\n\nkemanfaatan;\n\nkehati-hatian;\n\nkeseimbangan;\n\npertanggungjawaban; dan\n\nkerahasiaan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 4,
+      "title": "Types of personal data",
+      "text": "Data Pribadi terdiri atas:\n\nData Pribadi yang bersifat spesifik; dan\n\nData Pribadi yang bersifat umum.\n\nData Pribadi yang bersifat spesifik sebagaimana dimaksud pada ayat (1) huruf a meliputi:\n\ndata dan informasi kesehatan;\n\ndata biometrik;\n\ndata genetika;\n\ncatatan kejahatan;\n\ndata anak;\n\ndata keuangan pribadi; dan/atau\n\ndata lainnya sesuai dengan ketentuan peraturan perundang-undangan.\n\nData Pribadi yang bersifat umum sebagaimana dimaksud pada ayat (1) huruf b meliputi:\n\nnama lengkap;\n\njenis kelamin;\n\nkewarganegaraan;\n\nagama;\n\nstatus perkawinan; dan/atau\n\nData Pribadi yang dikombinasikan untuk mengidentifikasi seseorang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 5,
+      "title": "Right to information",
+      "text": "Subjek Data Pribadi berhak mendapatkan Informasi tentang kejelasan identitas, dasar kepentingan hukum, tujuan permintaan dan penggunaan Data Pribadi, dan akuntabilitas pihak yang meminta Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 6,
+      "title": "Right to complete, update, and correct",
+      "text": "Subjek Data Pribadi berhak melengkapi, memperbarui, dan/atau memperbaiki kesalahan dan/ atau ketidakakuratan Data Pribadi tentang dirinya sesuai dengan tujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 7,
+      "title": "Right of access and copy",
+      "text": "Subjek Data Pribadi berhak mendapatkan akses dan memperoleh salinan Data Pribadi tentang dirinya sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 8,
+      "title": "Right to end processing, erasure, and destruction",
+      "text": "Subjek Data Pribadi berhak untuk mengakhiri pemrosesan, menghapus, dan/atau memusnahkan Data Pribadi tentang dirinya sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 9,
+      "title": "Right to withdraw consent",
+      "text": "Subjek Data Pribadi berhak menarik kembali persetujuan pemrosesan Data Pribadi tentang dirinya yang telah diberikan kepada Pengendali Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 10,
+      "title": "Right to object to solely automated decisions",
+      "text": "Subjek Data Pribadi berhak untuk mengajukan keberatan atas tindakan pengambilan keputusan yang hanya didasarkan pada pemrosesan secara otomatis, termasuk pemrofilan, yang menimbulkan akibat hukum atau berdampak signifikan pada Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai pengajuan keberatan atas pemrosesan secara otomatis sebagaimana dimaksud pada ayat (1) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 11,
+      "title": "Right to restrict processing",
+      "text": "Subjek Data Pribadi berhak menunda atau membatasi pemrosesan Data Pribadi secara proporsional sesuai dengan tujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 12,
+      "title": "Right to sue and receive compensation",
+      "text": "Subjek Data Pribadi berhak menggugat dan menerima ganti rugi atas pelanggaran pemrosesan Data Pribadi tentang dirinya sesuai dengan ketentuan peraturan perundang-undangan.\n\nKetentuan lebih lanjut mengenai pelanggaran pemrosesan Data Pribadi dan tata cara pengenaan ganti rugi sebagaimana dimaksud pada ayat (1) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 13,
+      "title": "Data portability",
+      "text": "Subjek Data Pribadi berhak mendapatkan dan/atau menggunakan Data Pribadi tentang dirinya dari Pengendali Data Pribadi dalam bentuk yang sesuai dengan struktur dan/atau format yang lazim digunakan atau dapat dibaca oleh sistem elektronik.\n\nSubjek Data Pribadi berhak menggunakan dan mengirimkan Data Pribadi tentang dirinya ke Pengendali Data Pribadi lainnya, sepanjang sistem yang digunakan dapat saling berkomunikasi secara aman sesuai dengan prinsip Pelindungan Data Pribadi berdasarkan Undang-Undang ini.\n\nKetentuan lebih lanjut mengenai hak Subjek Data Pribadi untuk menggunakan dan mengirimkan Data Pribadi sebagaimana dimaksud pada ayat (2) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 14,
+      "title": "Procedure for exercising certain rights",
+      "text": "Pelaksanaan hak Subjek Data Pribadi sebagaimana dimaksud dalam Pasal 6 sampai dengan Pasal 11 diajukan melalui permohonan tercatat yang disampaikan secara elektronik atau nonelektronik kepada Pengendali Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 15,
+      "title": "Exceptions to certain data-subject rights",
+      "text": ". Hak-hak Subjek Data Pribadi sebagaimana dimaksud dalam Pasal 8, Pasal 9, Pasal 10 ayat (1), Pasal 11, dan Pasal 13 ayat (1) dan ayat (2) dikecualikan untuk:\n\nkepentingan pertahanan dan keamanan nasional;\n\nkepentingan proses penegakan hukum;\n\nkepentingan umum dalam rangka penyelenggaraan negara;\n\nkepentingan pengawasan sektor jasa keuangan, moneter, sistem pembayaran, dan stabilitas sistem keuangan yang dilakukan dalam rangka penyelenggaraan negara; atau\n\nkepentingan statistik dan penelitian ilmiah.\n\nPengecualian sebagaimana dimaksud pada ayat (1) dilaksanakan hanya dalam rangka pelaksanaan ketentuan Undang-Undang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 16,
+      "title": "Processing operations and principles",
+      "text": "Pemrosesan Data Pribadi meliputi:\n\npemerolehan dan pengumpulan;\n\npengolahan dan penganalisisan;\n\npenyimpanan;\n\nperbaikan dan pembaruan;\n\npenampilan, pengumuman, transfer, penyebarluasan, atau pengungkapan; dan/atau\n\npenghapusan atau pemusnahan.\n\nPemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan prinsip Pelindungan Data Pribadi meliputi:\n\npengumpulan Data Pribadi dilakukan secara terbatas dan spesifik, sah secara hukum, dan transparan;\n\npemrosesan Data Pribadi dilakukan sesuai dengan tujuannya;\n\npemrosesan Data Pribadi dilakukan dengan menjamin hak Subjek Data Pribadi;\n\npemrosesan Data Pribadi dilakukan secara akurat, lengkap, tidak menyesatkan, mutakhir, dan dapat dipertanggungj awabkan;\n\npemrosesan Data Pribadi dilakukan dengan melindungi keamanan Data Pribadi dari pengaksesan yang tidak sah, pengungkapan yang tidak sah, pengubahan yang tidak sah,penyalahgunaan, perusakan, dan/atau penghilangan Data Pribadi;\n\npemrosesan Data Pribadi dilakukan dengan memberitahukan tujuan dan aktivitas pemrosesan, serta kegagalan Pelindungan Data Pribadi;\n\nData Pribadi dimusnahkan dan/atau dihapus setelah masa retensi berakhir atau berdasarkan permintaan Subjek Data Pribadi, kecuali ditentukan lain oleh peraturan perundang-undangan; dan\n\npemrosesan Data Pribadi dilakukan secara bertanggung jawab dan dapat dibuktikan secara jelas.\n\nKetentuan lebih lanjut mengenai pelaksanaan pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 17,
+      "title": "Visual data processing devices in public places",
+      "text": "Pemasangan alat pemroses atau pengolah data visual di tempat umum dan/atau pada fasilitas pelayanan publik dilakukan dengan ketentuan:\n\nuntuk tujuan keamanan, pencegahan bencana, dan/atau penyelenggaraan lalu lintas atau pengumpulan, analisis, dan pengaturan Informasi lalu lintas;\n\nhares menampilkan Informasi pada area yang telah dipasang alat pemroses atau pengolah data visual; dan\n\ntidak digunakan untuk mengidentifikasi seseorang.\n\nKetentuan sebagaimana dimaksud pada ayat (1) huruf b dan huruf c dikecualikan untuk pencegahan tindak pidana dan proses penegakan hukum sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 18,
+      "title": "Joint controllers",
+      "text": "Pemrosesan Data Pribadi dapat dilakukan oleh 2 (dua) atau lebih Pengendali Data Pribadi.\n\nDalam hal Pemrosesan Data Pribadi dilakukan oleh 2 (dua) atau lebih Pengendali Data Pribadi harus memenuhi syarat minimal:\n\nterdapat perjanjian antara para Pengendali Data Pribadi yang memuat peran, tanggung jawab, dan hubungan antar-Pengendali Data Pribadi;\n\nterdapat tujuan yang saling berkaitan dan cara pemrosesan Data Pribadi yang ditentukan secara bersama; dan\n\nterdapat narahubung yang ditunjuk secara bersama- sama.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 19,
+      "title": "Who may be a controller or processor",
+      "text": "Pengendali Data Pribadi dan Prosesor Data Pribadi meliputi:\n\nSetiap Orang;\n\nBadan Publik; dan\n\nOrganisasi Internasional.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 20,
+      "title": "Legal bases for processing",
+      "text": "Pengendali Data Pribadi wajib memiliki dasar pemrosesan Data Pribadi.\n\nDasar pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) meliputi:\n\npersetujuan yang sah secara eksplisit dari Subjek Data Pribadi untuk 1 (satu) atau beberapa tujuan tertentu yang telah disampaikan oleh Pengendali Data Pribadi kepada Subjek Data Pribadi;\n\npemenuhan kewajiban perjanjian dalam hal Subjek Data Pribadi merupakan salah satu pihak atau untuk memenuhi permintaan Subjek Data Pribadi pada saat akan melakukan perjanjian;\n\npemenuhan kewajiban hukum dan Pengendali Data Pribadi sesuai dengan ketentuan peraturan perundang-undangan;\n\npemenuhan pelindungan kepentingan vital Subjek Data Pribadi;\n\npelaksanaan tugas dalam rangka kepentingan umum, pelayanan publik, atau pelaksanaan kewenangan Pengendali Data Pribadi berdasarkan peraturan perundang-undangan; dan/ atau\n\npemenuhan kepentingan yang sah lainnya dengan memperhatikan tujuan, kebutuhan, dan keseimbangan kepentingan Pengendali Data Pribadi dan hak Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 21,
+      "title": "Information that must accompany consent",
+      "text": "Dalam hal pemrosesan Data Pribadi berdasarkan persetujuan sebagaimana dimaksud dalam Pasal 20 ayat (2) huruf a, Pengendali Data Pribadi wajib menyampaikan Informasi mengenai:\n\nlegalitas dari pemrosesan Data Pribadi;\n\ntujuan pemrosesan Data Pribadi;\n\njenis dan relevansi Data Pribadi yang akan diproses;\n\njangka waktu retensi dokumen yang memuat Data Pribadi;\n\nrincian mengenai Informasi yang dikumpulkan;\n\njangka waktu pemrosesan Data Pribadi; dan\n\nhak Subjek Data Pribadi.\n\nDalam hal terdapat perubahan Informasi sebagaimana dimaksud pada ayat (1), Pengendali Data Pribadi wajib memberitahukan kepada Subjek Data Pribadi sebelum terjadi perubahan Informasi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 22,
+      "title": "Form and validity of consent",
+      "text": "Persetujuan pemrosesan Data Pribadi dilakukan melalui persetujuan tertulis atau terekam.\n\nPersetujuan sebagaimana dimaksud pada ayat (1) dapat disampaikan secara elektronik atau nonelektronik.\n\nPersetujuan sebagaimana dimaksud pada ayat (1) mempunyai kekuatan hukum yang sama.\n\nDalam hal persetujuan sebagaimana dimaksud pada ayat (1) memuat tujuan lain, permintaan persetujuan harus memenuhi ketentuan:\n\ndapat dibedakan secara jelas dengan hal lainnya;\n\ndibuat dengan format yang dapat dipahami dan mudah diakses; dan\n\nmenggunakan bahasa yang sederhana dan jelas.\n\nPersetujuan yang tidak memenuhi ketentuan sebagaimana dimaksud pada ayat (1) dan ayat (4) dinyatakan batal demi hukum.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 23,
+      "title": "Invalid contract clauses requesting processing",
+      "text": "Klausul perjanjian yang di dalamnya terdapat permintaan pemrosesan Data Pribadi yang tidak memuat persetujuan yang sah secara eksplisit dari Subjek Data Pribadi dinyatakan batal demi hukum.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 24,
+      "title": "Duty to demonstrate consent",
+      "text": "Dalam melakukan pemrosesan Data Pribadi, Pengendali Data Pribadi wajib menunjukkan bukti persetujuan yang telah diberikan oleh Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 25,
+      "title": "Processing of children's personal data",
+      "text": "Pemrosesan Data Pribadi anak diselenggarakan secara khusus.\n\nPemrosesan Data Pribadi anak sebagaimana dimaksud pada ayat (1) wajib mendapat persetujuan dari orang tua anak dan/ atau wali anak sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 26,
+      "title": "Processing of personal data of persons with disabilities",
+      "text": "Pemrosesan Data Pribadi penyandang disabilitas diselenggarakan secara khusus.\n\nPemrosesan Data Pribadi penyandang disabilitas sebagaimana dimaksud pada ayat (1) dilakukan melalui komunikasi dengan menggunakan cara tertentu sesuai dengan ketentuan perundang-undangan.\n\nPemrosesan Data Pribadi penyandang disabilitas sebagaimana dimaksud pada ayat (2) wajib mendapat persetujuan dari penyandang disabilitas dan/atau wali penyandang disabilitas sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 27,
+      "title": "Limitation, lawfulness, and transparency",
+      "text": "Pengendali Data Pribadi wajib melakukan pemrosesan Data Pribadi secara terbatas dan spesifik, sah secara hukum, dan transparan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 28,
+      "title": "Purpose limitation",
+      "text": "Pengendali Data Pribadi wajib melakukan pemrosesan Data Pribadi sesuai dengan tujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 29,
+      "title": "Accuracy, completeness, and consistency",
+      "text": "Pengendali Data Pribadi wajib memastikan akurasi, kelengkapan, dan konsistensi Data Pribadi sesuai dengan ketentuan peraturan perundang-undangan.\n\nDalam memastikan akurasi, kelengkapan, dan konsistensi Data Pribadi sebagaimana dimaksud pada ayat (1) Pengendali Data Pribadi wajib melakukan verifikasi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 30,
+      "title": "Updates and corrections (3 x 24 hours)",
+      "text": "Pengendali Data Pribadi wajib memperbarui dan/atau memperbaiki kesalahan dan/atau ketidakakuratan Data Pribadi paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan pembaruan dan/atau perbaikan Data Pribadi.\n\nPengendali Data Pribadi wajib memberitahukan hasil pembaruan dan/atau perbaikan Data Pribadi kepada Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 31,
+      "title": "Records of processing activities",
+      "text": "Pengendali Data Pribadi wajib melakukan perekaman terhadap seluruh kegiatan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 32,
+      "title": "Access to data and processing logs",
+      "text": "Pengendali Data Pribadi wajib memberikan akses kepada Subjek Data Pribadi terhadap Data Pribadi yang diproses beserta rekam jejak pemrosesan Data Pribadi seFuai dengan jangka waktu penyimpanan Data Pribadi.\n\nAkses sebagaimana dimaksud pada ayat (1) diberikan paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan akses.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 33,
+      "title": "Grounds to refuse access or amendment",
+      "text": "Pengendali Data Pribadi wajib menolak memberikan akses perubahan terhadap Data Pribadi kepada Subjek Data Pribadi dalam hal:\n\nmembahayakan keamanan, kesehatan fisik, atau kesehatan mental Subjek Data Pribadi dan/atau orang lain;\n\nberdampak pada pengungkapan Data Pribadi milik orang lain; dan/ atau\n\nbertentangan dengan kepentingan pertahanan dan keamanan nasional.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 34,
+      "title": "Data-protection impact assessment",
+      "text": "Pengendali Data Pribadi wajib melakukan penilaian dampak Pelindungan Data Pribadi dalam hal pemrosesan Data Pribadi memiliki potensi risiko tinggi terhadap Subjek Data Pribadi.\n\nPemrosesan Data Pribadi memiliki potensi risiko tinggi sebagaimana dimaksud pada ayat (1) meliputi:\n\npengambilan keputusan secara otomatis yang memiliki akibat hukum atau dampak yang signifikan terhadap Subjek Data Pribadi;\n\npemrosesan atas Data Pribadi yang bersifat spesifik;\n\npemrosesan Data Pribadi dalam skala besar;\n\npemrosesan Data Pribadi untuk kegiatan evaluasi, penskoran, atau pemantauan yang sistematis terhadap Subjek Data Pribadi;\n\npemrosesan Data Pribadi untuk kegiatan pencocokan atau penggabungan sekelompok data;\n\npenggunaan teknologi baru dalam pemrosesan Data Pribadi; dan/atau\n\npemrosesan Data Pribadi yang membatasi pelaksanaan hak Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai penilaian dampak Pelindungan Data Pribadi diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 35,
+      "title": "Security of processing",
+      "text": "Pengendali Data Pribadi wajib melindungi dan memastikan keamanan Data Pribadi yang diprosesnya, dengan melakukan:\n\npenyusunan dan penerapan langkah teknis operasional untuk melindungi Data Pribadi dari gangguan pemrosesan Data Pribadi yang bertentangan dengan ketentuan peraturan perundang-undangan; dan\n\npenentuan tingkat keamanan Data Pribadi dengan memperhatikan sifat dan risiko dari Data Pribadi yang hams dilindungi dalam pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 36,
+      "title": "Confidentiality",
+      "text": "Dalam melakukan pemrosesan Data Pribadi, Pengendali Data Pribadi wajib menjaga kerahasiaan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 37,
+      "title": "Supervision of parties under the controller",
+      "text": "Pengendali Data Pribadi wajib melakukan pengawasan terhadap setiap pihak yang terlibat dalam pemrosesan Data Pribadi di bawah kendali Pengendali Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 38,
+      "title": "Protection from unlawful processing",
+      "text": "Pengendali Data Pribadi wajib melindungi Data Pribadi dari pemrosesan yang tidak sah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 39,
+      "title": "Prevention of unauthorised access",
+      "text": "Pengendali Data Pribadi wajib mencegah Data Pribadi diakses secara tidak sah.\n\nPencegahan sebagaimana dimaksud pada ayat (1) dilakukan dengan menggunakan sistem keamanan terhadap Data Pribadi yang diproses dan/atau memproses Data Pribadi menggunakan sistem elektronik secara andal, aman, dan bertanggung jawab.\n\nPencegahan sebagaimana dimaksud pada ayat (2) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 40,
+      "title": "Stopping processing after withdrawal of consent",
+      "text": "Pengendali Data Pribadi wajib menghentikan pemrosesan Data Pribadi dalam hal Subjek Data Pribadi menarik kembali persetujuan pemrosesan Data Pribadi.\n\nPenghentian pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan penarikan kembali persetujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 41,
+      "title": "Delaying and restricting processing on request",
+      "text": "Pengendali Data Pribadi wajib melakukan penundaan dan pembatasan pemrosesan Data Pribadi baik sebagian maupun seluruhnya paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan penundaan dan pembatasan pemrosesan Data Pribadi.\n\nPenundaan dan pembatasan pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dikecualikan dalam hal:\n\nterdapat ketentuan peraturan perundang-undangan yang tidak memungkinkan dilakukan penundaan dan pembatasan pemrosesan Data Pribadi;\n\ndapat membahayakan keselamatan pihak lain; dan/atau\n\nSubjek Data Pribadi terikat perjanjian tertulis dengan Pengendali Data Pribadi yang tidak memungkinkan dilakukan penundaan dan pembatasan pemrosesan Data Pribadi.\n\nPengendali Data Pribadi wajib memberitahukan telah dilaksanakan penundaan dan pembatasan pemrosesan Data Pribadi kepada Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 42,
+      "title": "Ending processing",
+      "text": "Pengendali Data Pribadi wajib mengakhiri pemrosesan Data Pribadi dalam hal:\n\ntelah mencapai masa retensi;\n\ntujuan pemrosesan Data Pribadi telah tercapai; atau\n\nterdapat permintaan dari Subjek Data Pribadi.\n\nPengakhiran pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 43,
+      "title": "Erasure of personal data",
+      "text": "Pengendali Data Pribadi wajib menghapus Data Pribadi dalam hal:\n\nData Pribadi tidak lagi diperlukan untuk pencapaian tujuan pemrosesan Data Pribadi;\n\nSubjek Data Pribadi telah melakukan penarikan kembali persetujuan pemrosesan Data Pribadi;\n\nterdapat permintaan dari Subjek Data Pribadi; atau\n\nData Pribadi diperoleh dan/atau diproses dengan cara melawan hukum.\n\nPenghapusan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 44,
+      "title": "Destruction of personal data",
+      "text": "Pengendali Data Pribadi wajib memusnahkan Data Pribadi dalam hal:\n\ntelah habis masa retensinya dan berketerangan dimusnahkan berdasarkan jadwal retensi arsip;\n\nterdapat permintaan dari Subjek Data Pribadi;\n\ntidak berkaitan dengan penyelesaian proses hukum suatu perkara; dan/atau\n\nData Pribadi diperoleh dan/atau diproses dengan cara melawan hukum.\n\nPemusnahan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 45,
+      "title": "Notification of erasure or destruction",
+      "text": "Pengendali Data Pribadi wajib memberitahukan penghapusan dan/atau pemusnahan Data Pribadi kepada Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 46,
+      "title": "Personal data breach notification",
+      "text": "Dalam hal terjadi kegagalan Pelindungan Data Pribadi, Pengendali Data Pribadi wajib menyampaikan pemberitahuan secara tertulis paling lambat 3 x 24 (tiga kali dua puluh empat) jam kepada:\n\nSubjek Data Pribadi; dan\n\nlembaga.\n\nPemberitahuan tertulis sebagaimana dimaksud pada ayat (1) minimal memuat:\n\nData Pribadi yang terungkap;\n\nkapan dan bagaimana Data Pribadi terungkap; dan\n\nupaya penanganan dan pemulihan atas terungkapnya Data Pribadi oleh Pengendali Data Pribadi.\n\nDalam hal tertentu, Pengendali Data Pribadi wajib memberitahukan kepada masyarakat me ngenai kegagalan Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 47,
+      "title": "Accountability of the controller",
+      "text": "Pengendali Data Pribadi wajib bertanggung jawab atas pemrosesan Data Pribadi dan menunjukkan pertanggung jawaban dalam pemenuhan kewajiban pelaksanaan prinsip Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 48,
+      "title": "Merger, division, acquisition, or dissolution",
+      "text": "Pengendali Data Pribadi berbentuk badan hukum yang melakukan penggabungan, pemisahan, pengambilalihan, peleburan, atau pembubaran badan hukum wajib menyampaikan pemberitahuan pengalihan Data Pribadi kepada Subjek Data Pribadi.\n\nPemberitahuan pengalihan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sebelum dan sesudah penggabungan, pemisahan, pengambilalihan, peleburan, atau pembubaran badan hukum.\n\nDalam hal Pengendali Data Pribadi berbentuk badan hukum melakukan pembubaran atau dibubarkan, penyimpanan, pentransferan, penghapusan, atau pemusnahan Data Pribadi dilaksanakan sesuai dengan ketentuan peraturan perundang-undangan.\n\nPenyimpanan, pentransferan, penghapusan, atau pemusnahan Data Pribadi sebagaimana dimaksud pada ayat (3) diberitahukan kepada Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai tata cara pemberitahuan sebagaimana dimaksud pada ayat (1), ayat (2), dan ayat (4) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 49,
+      "title": "Duty to follow orders of the institution",
+      "text": "Pengendali Data Pribadi dan/atau Prosesor Data Pribadi wajib melaksanakan perintah lembaga dalam rangka penyelenggaraan Pelindungan Data Pribadi sesuai dengan Undang-Undang ini.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 50,
+      "title": "Exceptions to certain controller duties",
+      "text": "Kewajiban Pengendali Data Pribadi sebagaimana dimaksud dalam Pasal 30, Pasal 32, Pasal 36, Pasal 42, Pasal 43 ayat (1) huruf a sampai dengan huruf c, Pasal 44 ayat (1) huruf b, Pasal 45, dan Pasal 46 ayat (1) huruf a, dikecualikan untuk:\n\nkepentingan pertahanan dan keamanan nasional;\n\nkepentingan proses penegakan hukum;\n\nkepentingan umum dalam rangka penyelenggaraan negara; atau\n\nkepentingan pengawasan sektor jasa keuangan, moneter, sistem pembayaran, dan stabilitas sistem keuangan yang dilakukan dalam rangka penyelenggaraan negara.\n\nPengecualian sebagaimana dimaksud pada ayat (1) dilaksanakan hanya dalam rangka pelaksanaan ketentuan Undang-Undang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 51,
+      "title": "Processor obligations",
+      "text": "Dalam hal Pengendali Data Pribadi menunjuk Prosesor Data Pribadi, Prosesor Data Pribadi wajib melakukan pemrosesan Data Pribadi berdasarkan perintah Pengendali Data Pribadi.\n\nPemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1), dilaksanakan sesuai ketentuan yang diatur dalam Undang-Undang ini.\n\nPemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) termasuk dalam tanggung jawab Pengendali Data Pribadi.\n\nProsesor Data Pribadi dapat melibatkan Prosesor Data Pribadi lain dalam melakukan pemrosesan Data Pribadi.\n\nProsesor Data Pribadi wajib mendapatkan persetujuan tertulis dan Pengendali Data Pribadi sebelum melibatkan Prosesor Data Pribadi lain sebagaimana dimaksud pada ayat (4).\n\nDalam hal Prosesor Data Pribadi melakukan pemrosesan Data Pribadi di luar perintah dan tujuan yang ditetapkan Pengendali Data Pribadi, pemrosesan Data Pribadi menjadi tanggung jawab Prosesor Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 52,
+      "title": "Controller duties that also apply to processors",
+      "text": "Ketentuan mengenai kewajiban Pengendali Data Pribadi sebagaimana dimaksud dalam Pasal 29, Pasal 31, Pasal 35, Pasal 36, Pasal 37, Pasal 38, dan Pasal 39 berlaku juga terhadap Prosesor Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 53,
+      "title": "Appointment of a data-protection officer",
+      "text": "Pengendali Data Pribadi dan Prosesor Data Pribadi wajib menunjuk pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi dalam hal:\n\npemrosesan Data Pribadi untuk kepentingan pelayanan publik;\n\nkegiatan inti Pengendali Data Pribadi memiliki sifat, ruang lingkup, dan/atau tujuan yang memerlukan pemantauan secara teratur dan sistematis atas Data Pribadi dengan skala besar; dan\n\nkegiatan inti Pengendali Data Pribadi terdiri dari pemrosesan Data Pribadi dalam skala besar untuk Data Pribadi yang bersifat spesifik dan/atau Data Pribadi yang berkaitan dengan tindak pidana.\n\nPejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (1) ditunjuk berdasarkan profesionalitas, pengetahuan mengenai hukum, praktik Pelindungan Data Pribadi, dan kemampuan untuk memenuhi tugas-tugasnya.\n\nPejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (2) dapat berasal dari dalam dan/atau luar Pengendali Data Pribadi atau Prosesor Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 54,
+      "title": "Tasks of the data-protection officer",
+      "text": "Pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi memiliki tugas paling sedikit:\n\nmenginformasikan dan memberikan saran kepada Pengendali Data Pribadi atau Prosesor Data Pribadi agar mematuhi ketentuan dalam Undang-Undang ini;\n\nmemantau dan memastikan kepatuhan terhadap Undang-Undang ini dan kebijakan Pengendali Data Pribadi atau Prosesor Data Pribadi;\n\nmemberikan saran mengenai penilaian dampak Pelindungan Data Pribadi dan memantau kinerja Pengendali Data Pribadi dan Prosesor Data Pribadi; dan\n\nberkoordinasi dan bertindak sebagai narahubung untuk isu yang berkaitan dengan pemrosesan Data Pribadi.\n\nDalam melaksanakan tugas sebagaimana dimaksud pada ayat (1), pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi memperhatikan risiko terkait pemrosesan Data Pribadi, dengan mempertimbangkan sifat, ruang lingkup, konteks, dan tujuan pemrosesan.\n\nKetentuan lebih lanjut mengenai pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 55,
+      "title": "Domestic transfers of personal data",
+      "text": "Pengendali Data Pribadi dapat melakukan transfer Data Pribadi kepada Pengendali Data Pribadi lainnya dalam wilayah hukum Negara Republik Indonesia.\n\nPengendali Data Pribadi yang melakukan transfer Data Pribadi dan yang menerima transfer Data Pribadi wajib melakukan Pelindungan Data Pribadi sebagaimana dimaksud dalam Undang-Undang ini.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 56,
+      "title": "Cross-border transfers of personal data",
+      "text": "Pengendali Data Pribadi dapat melakukan transfer Data Pribadi kepada Pengendali Data Pribadi dan/atau Prosesor Data Pribadi di luar wilayah hukum Negara Republik Indonesia sesuai dengan ketentuan yang diatur dalam Undang-Undang ini.\n\nDalam melakukan transfer Data Pribadi sebagaimana dimaksud pada ayat (1), Pengendali Data Pribadi wajib memastikan negara tempat kedudukan Pengendali Data Pribadi dan/atau Prosesor Data Pribadi yang menerima transfer Data Pribadi memiliki tingkat Pelindungan Data Pribadi yang setara atau lebih tinggi dari yang diatur dalam Undang-Undang ini.\n\nDalam hal ketentuan sebagaimana dimaksud pada ayat (2) tidak terpenuhi, Pengendali Data Pribadi wajib memastikan terdapat Pelindungan Data Pribadi yang memadai dan bersifat mengikat.\n\nDalam hal ketentuan sebagaimana dimaksud pada ayat (2) dan ayat (3) tidak terpenuhi, Pengendali Data Pribadi wajib mendapatkan persetujuan Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai transfer Data Pribadi diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 57,
+      "title": "Administrative sanctions",
+      "text": "Pelanggaran terhadap ketentuan Pasal 20 ayat (1), Pasal 21, Pasal 24, Pasal 25 ayat (2), Pasal 26 ayat (3), Pasal 27, Pasal 28, Pasal 29, Pasal 30, Pasal 31, Pasal 32 ayat (1), Pasal 33, Pasal 34 ayat (1), Pasal 35, Pasal 36, Pasal 37, Pasal 38, Pasal 39 ayat (1), Pasal 40 ayat (1), Pasal 41 ayat (1) dan ayat (3), Pasal 42 ayat (1), Pasal 43 ayat (1), Pasal 44 ayat (1), Pasal 45, Pasal 46 ayat (1) dan ayat (3), Pasal 47, Pasal 48 ayat (1), Pasal 49, Pasal 51 ayat (1) dan ayat (5), Pasal 52, Pasal 53 ayat (1), Pasal 55 ayat (2), dan Pasal 56 ayat (2) sampai dengan ayat (4) dikenai sanksi administratif.\n\nSanksi administratif sebagaimana dimaksud pada ayat (1) berupa:\n\nperingatan tertulis;\n\npenghentian sementara kegiatan pemrosesan Data Pribadi;\n\npenghapusan atau pemusnahan Data Pribadi; dan/atau\n\ndenda administratif.\n\nSanksi administratif berupa denda administratif sebagaimana dimaksud pada ayat (2) huruf d paling tinggi 2 (dua) persen dari pendapatan tahunan atau penerimaan tahunan terhadap variabel pelanggaran.\n\nPenjatuhan sanksi administratif sebagaimana dimaksud pada ayat (2) diberikan oleh lembaga.\n\nKetentuan lebih lanjut mengenai tata cara pengenaan sanksi administratif sebagaimana dimaksud pada ayat (3) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 58,
+      "title": "The personal data protection institution",
+      "text": "Pemerintah berperan dalam mewujudkan penyelenggaraan Pelindungan Data Pribadi sesuai dengan ketentuan Undang-Undang ini.\n\nPenyelenggaraan Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (1) dilaksanakan oleh lembaga.\n\nLembaga sebagaimana dimaksud pada ayat (2) ditetapkan oleh Presiden.\n\nLembaga sebagaimana dimaksud pada ayat (2) bertanggung jawab kepada Presiden.\n\nKetentuan lebih lanjut mengenai lembaga sebagaimana dimaksud pada ayat (2) diatur dengan Peraturan Presiden.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 59,
+      "title": "Functions of the institution",
+      "text": "Lembaga sebagaimana dimaksud dalam Pasal 58 ayat (2) melaksanakan:\n\nperumusan dan penetapan kebijakan dan strategi Pelindungan Data Pribadi yang menjadi panduan bagi Subjek Data Pribadi, Pengendali Data Pribadi, dan Prosesor Data Pribadi;\n\npengawasan terhadap penyelenggaraan Pelindungan Data Pribadi;\n\npenegakan hukum administratif terhadap pelanggaran Undang-Undang ini; dan\n\nfasilitasi penyelesaian sengketa di luar pengadilan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 60,
+      "title": "Powers of the institution",
+      "text": "Lembaga sebagaimana dimaksud dalam Pasal 58 ayat (2) berwenang:\n\nmerumuskan dan menetapkan kebijakan di bidang Pelindungan Data Pribadi;\n\nmelakukan pengawasan terhadap kepatuhan Pengendali Data Pribadi;\n\nmenjatuhkan sanksi administratif atas pelanggaran Pelindungan Data Pribadi yang dilakukan Pengendali Data Pribadi dan/atau Prosesor Data Pribadi;\n\nmembantu aparat penegak hukum dalam penanganan dugaan tindak pidana Data Pribadi sebagaimana dimaksud dalam Undang-Undang ini;\n\nbekerja sama dengan lembaga Pelindungan Data Pribadi negara lain dalam rangka penyelesaian dugaan pelanggaran Pelindungan Data Pribadi lintas negara;\n\nmelakukan penilaian terhadap pemenuhan persyaratan transfer Data Pribadi ke luar wilayah hukum Negara Republik Indonesia;\n\nmemberikan perintah dalam rangka tindak lanjut hasil pengawasan kepada Pengendali Data Pribadi dan/atau Prosesor Data Pribadi;\n\nmelakukan publikasi hasil pelaksanaan pengawasan Pelindungan Data Pribadi sesuai dengan ketentuan peraturan perundang-undangan;\n\nmenerima aduan dan/atau laporan tentang dugaan terjadinya pelanggaran Pelindungan Data Pribadi;\n\nmelakukan pemeriksaan dan penelusuran atas pengaduan, laporan, dan/atau hasil pengawasan terhadap dugaan terjadinya pelanggaran Pelindungan Data Pribadi;\n\nmemanggil dan menghadirkan Setiap Orang dan/atau Badan Publik yang terkait dengan dugaan pelanggaran Pelindungan Data Pribadi;\n\nmeminta keterangan, data, Informasi, dan dokumen dari Setiap Orang dan/atau Badan Publik terkait dugaan pelanggaran Pelindungan Data Pribadi;\n\nmemanggil dan menghadirkan ahli yang diperlukan dalam pemeriksaan dan penelusuran terkait dugaan pelanggaran Pelindungan Data Pribadi;\n\nmelakukan pemeriksaan dan penelusuran terhadap sistem elektronik, sarana, ruang, dan/atau tempat yang digunakan Pengendali Data Pribadi dan/atau Prosesor Data Pribadi, termasuk memperoleh akses terhadap data dan/atau menunjuk pihak ketiga; dan\n\nmeminta bantuan hukum kepada kejaksaan dalam penyelesaian sengketa Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 61,
+      "title": "Implementing rules for institutional powers",
+      "text": "Ketentuan mengenai tata cara pelaksanaan wewenang lembaga sebagaimana dimaksud dalam PaSal 60 diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 62,
+      "title": "International cooperation",
+      "text": "Kerja sama internasional dilakukan oleh Pemerintah dengan pemerintah negara lain atau Organisasi Internasional terkait dengan Pelindungan Data Pribadi.\n\nKerja sama internasional dalam rangka pelaksanaan Undang-Undang ini dilaksanakan sesuai dengan ketentuan peraturan perundang-undangan dan prinsip hukum internasional.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 63,
+      "title": "Public participation",
+      "text": "Masyarakat dapat berperan baik secara langsung maupun tidak langsung dalam mendukung terselenggaranya Pelindungan Data Pribadi.\n\nPelaksanaan peran sebagaimana dimaksud pada ayat (1) dapat dilakukan melalui pendidikan, pelatihan, Edvokasi, so sialisasi, dan/atau pengawasan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 64,
+      "title": "Dispute resolution and procedure",
+      "text": "Penyelesaian sengketa Pelindungan Data Pribadi dilakukan melalui arbitrase, pengadilan, atau lembaga penyelesaian sengketa alternatif lainnya sesuai dengan ketentuan peraturan perundang-undangan.\n\nHukum acara yang berlaku dalam penyelesaian sengketa dan/ atau proses peradilan Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (1) dilaksanakan berdasarkan hukum acara yang berlaku sesuai dengan ketentuan peraturan perundang-undangan.\n\nAlat bukti yang sah dalam Undang-Undang ini meliputi:\n\nalat bukti sebagaimana dimaksud dalam hukum acara; dan\n\nalat bukti lain berupa informasi elektronik dan/atau dokumen elektronik sesuai dengan ketentuan peraturan perundang-undangan.\n\nDalam hal diperlukan untuk melindungi Data Pribadi, proses persidangan dilakukan secara tertutup.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 65,
+      "title": "Prohibited uses of personal data",
+      "text": "Setiap Orang dilarang secara melawan hukum memperoleh atau mengumpulkan Data Pribadi yang bukan miliknya dengan maksud untuk menguntungkan diri sendiri atau orang lain yang dapat mengakibatkan kerugian Subjek Data Pribadi.\n\nSetiap Orang dilarang secara melawan hukum mengungkapkan Data Pribadi yang bukan miliknya.\n\nSetiap Orang dilarang secara melawan hukum menggunakan Data Pribadi yang bukan miliknya.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 66,
+      "title": "Forgery of personal data",
+      "text": "Setiap Orang dilarang membuat Data Pribadi palsu atau memalsukan Data Pribadi dengan maksud untuk menguntungkan din sendiri atau orang lain yang dapat mengakibatkan kerugian bagi orang lain.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 67,
+      "title": "Criminal sanctions for Article 65 offences",
+      "text": "Setiap Orang yang dengan sengaja dan melawan hukum memperoleh atau mengumpulkan Data Pribadi yang bukan miliknya dengan maksud untuk menguntungkan din sendiri atau orang lain yang dapat mengakibatkan kerugian Subjek Data Pribadi sebagaimana dimaksud dalam. Pasal 65 ayat (1) dipidana dengan pidana penjara paling lama 5 (lima) tahun dan/atau pidana denda paling banyak Rp5.000.000.000,00 (lima miliar rupiah).\n\nSetiap Orang yang dengan sengaja dan melawan hukum mengungkapkan Data Pribadi yang bukan miliknya sebagaimana dimaksud dalam Pasal 65 ayat (2) dipidana dengan pidana penjara paling lama 4 (empat) tahun dan/atau pidana denda paling banyak Rp4.000.000.000,00 (empat miliar rupiah).\n\nSetiap Orang yang dengan sengaja dan melawan hukum menggunakan Data Pribadi yang bukan miliknya sebagaimana dimaksud dalam Pasal 65 ayat (3) dipidana dengan pidana penjara paling lama 5 (lima) tahun dan/atau pidana denda paling banyak Rp5.000.000.000,00 (lima miliar rupiah).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 68,
+      "title": "Criminal sanctions for Article 66 offences",
+      "text": "Setiap Orang yang dengan sengaja membuat Data Pribadi palsu atau memalsukan Data Pribadi dengan maksud untuk menguntungkan din sendiri atau orang lain yang dapat mengakibatkan kerugian bagi orang lain sebagaimana dimaksud dalam Pasal 66 dipidana dengan pidana penjara paling lama 6 (enam) tahun dan/atau pidana denda paling banyak Rp6.000.000.000,00 (enam miliar rupiah).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 69,
+      "title": "Additional criminal penalties",
+      "text": "Selain dijatuhi pidana sebagaimana dimaksud dalam Pasal 67 dan Pasal 68 juga dapat dijatuhi pidana tambahan berupa perampasan keuntungan dan/atau harta kekayaan yang diperoleh atau hasil dari tindak pidana dan pembayaran ganti kerugian.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 70,
+      "title": "Corporate criminal liability",
+      "text": "Dalam hal tindak pidana sebagaimana dimaksud dalam Pasal 67 dan Pasal 68 dilakukan oleh Korporasi, pidana dapat dijatuhkan kepada pengurus, pemegang kendali, pemberi perintah, pemilik manfaat, dan/atau Korporasi.\n\nPidana yang dapat dijatuhkan terhadap Korporasi hanya pidana denda.\n\nPidana denda yang dijatuhkan kepada Korporasi paling banyak 10 (sepuluh) kali dari maksimal pidana denda yang diancamkan.\n\nSelain dijatuhi pidana denda sebagaimana dimaksud pada ayat (2), Korporasi dapat dijatuhi pidana tambahan berupa:\n\nperampasan keuntungan dan/ atau harta kekayaan yang diperoleh atau hasil dari tindak pidana;\n\npembekuan seluruh atau sebagian usaha Korporasi;\n\npelarangan permanen melakukan perbuatan tertentu;\n\npenutupan seluruh atau sebagian tempat usaha dan/atau kegiatan Korporasi;\n\nmelaksanakan kewajiban yang telah dilalaikan;\n\npembayaran ganti kerugian;\n\npencabutan izin; dan/ atau\n\npembubaran Korporasi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 71,
+      "title": "Payment of fines and substitute imprisonment",
+      "text": "Dalam hal pengadilan menjatuhkan putusan pidana denda, terpidana diberikan jangka waktu 1 (satu) bulan sejak putusan telah memperoleh kekuatan hukum tetap untuk membayar denda tersebut.\n\nDalam hal terdapat alasan kuat, jangka waktu sebagaimana dimaksud pada ayat (1) dapat diperpanjang untuk waktu paling lama 1 (satu) bulan.\n\nDalam hal terpidana tidak membayar pidana denda dalam jangka waktu sebagaimana dimaksud pada ayat (1) atau ayat (2) maka harta kekayaan atau pendapatan terpidana dapat disita dan dilelang oleh jaksa untuk melunasi pidana denda yang tidak dibayar.\n\nDalam hal penyitaan dan pelelangan harta kekayaan atau pendapatan sebagaimana dimaksud pada ayat (3) tidak cukup atau tidak memungkinkan untuk dilaksanakan, pidana denda yang tidak dibayar diganti dengan pidana penjara paling lama sebagaimana diancamkan untuk tindak pidana yang bersangkutan.\n\nLamanya pidana penjara sebagaimana dimaksud pada ayat (4) yang ditentukan oleh hakim, dicantumkan dalam putusan pengadilan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 72,
+      "title": "Substitute sanctions for corporations",
+      "text": "Dalam hal penyitaan dan pelelangan harta kekayaan atau pendapatan sebagaimana dimaksud dalam Pasal 71 ayat (4) dilakukan terhadap terpidana Korporasi dan tidak cukup untuk melunasi pidana denda, Korporasi dikenakan pidana pengganti berupa pembekuan sebagian atau seluruh kegiatan usaha Korporasi untuk jangka waktu paling lama 5 (lima) tahun.\n\nLamanya pembekuan sebagian atau seluruh kegiatan usaha Korporasi sebagaimana dimaksud pada ayat (1) yang ditentukan oleh hakim, dicantumkan dalam putusan pengadilan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 73,
+      "title": "Additional compensation procedure",
+      "text": "Ketentuan sebagaimana dimaksud dalam Pasal 71 dan Pasal 72 juga berlaku dalam hal penjatuhan pidana tambahan berupa pembayaran ganti kerugian.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 74,
+      "title": "Two-year transitional adjustment",
+      "text": "Pada saat Undang-Undang ini mulai berlaku, Pengendali Data Pribadi, Prosesor Data Pribadi, dan pihak lain yang terkait dengan pemrosesan Data Pribadi, wajib menyesuaikan dengan ketentuan pemrosesan Data Pribadi berdasarkan Undang-Undang ini paling lama 2 (dua) tahun sejak Undang-Undang ini diundangkan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 75,
+      "title": "Continuing effect of existing rules",
+      "text": "Pada saat Undang-Undang ini mulai berlaku, semua ketentuan peraturan perundang-undangan yang mengatur mengenai Pelindungan Data Pribadi, dinyatakan masih tetap berlaku sepanjang tidak bertentangan dengan ketentuan dalam Undang-Undang ini.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 76,
+      "title": "Entry into force",
+      "text": "Undang-Undang ini mulai berlaku pada tanggal diundangkan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Considering (a) — personal data protection as a human right",
+      "text": "bahwa pelindungan data pribadi merupakan salah satu hak asasi manusia yang merupakan bagian dari pelindungan diri pribadi maka perlu diberikan landasan hukum untuk memberikan keamanan atas data pribadi, berdasarkan Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 2,
+      "title": "Considering (b) — guaranteeing citizens' rights and public awareness",
+      "text": "bahwa pelindungan data pribadi ditujukan untuk menjamin hak warga negara atas pelindungan diri pribadi dan menumbuhkan kesadaran masyarakat serta menjamin pengakuan dan penghormatan atas pentingnya pelindungan data pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 3,
+      "title": "Considering (c) — need for a single comprehensive statute",
+      "text": "bahwa pengaturan data pribadi saat ini terdapat di dalam beberapa peraturan perundang-undangan maka untuk meningkatkan efektivitas dalam pelaksanaan pelindungan data pribadi diperlukan pengaturan mengenai pelindungan data pribadi dalam suatu undang-undang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "number": 4,
+      "title": "Considering (d) — enactment of the Personal Data Protection Law",
+      "text": "bahwa berdasarkan pertimbangan sebagaimana dimaksud dalam huruf a, huruf b, dan huruf c, perlu membentuk Undang-Undang tentang Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Considering (a) — personal data protection as a human right",
+      "text": "bahwa pelindungan data pribadi merupakan salah satu hak asasi manusia yang merupakan bagian dari pelindungan diri pribadi maka perlu diberikan landasan hukum untuk memberikan keamanan atas data pribadi, berdasarkan Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — Considering (b) — guaranteeing citizens' rights and public awareness",
+      "text": "bahwa pelindungan data pribadi ditujukan untuk menjamin hak warga negara atas pelindungan diri pribadi dan menumbuhkan kesadaran masyarakat serta menjamin pengakuan dan penghormatan atas pentingnya pelindungan data pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Considering (c) — need for a single comprehensive statute",
+      "text": "bahwa pengaturan data pribadi saat ini terdapat di dalam beberapa peraturan perundang-undangan maka untuk meningkatkan efektivitas dalam pelaksanaan pelindungan data pribadi diperlukan pengaturan mengenai pelindungan data pribadi dalam suatu undang-undang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Considering (d) — enactment of the Personal Data Protection Law",
+      "text": "bahwa berdasarkan pertimbangan sebagaimana dimaksud dalam huruf a, huruf b, dan huruf c, perlu membentuk Undang-Undang tentang Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapterTitle": "",
+      "title": "Definitions",
+      "text": "Definitions Dalam Undang-Undang ini yang dimaksud dengan:\n\nData Pribadi adalah data tentang orang perseorangan yang teridentifikasi atau dapat diidentifikasi secara tersendiri atau dikombinasi dengan informasi lainnya baik secara langsung maupun tidak langsung melalui sistem elektronik atau nonelektronik.\n\nPelindungan Data Pribadi adalah keseluruhan upaya untuk melindungi Data Pribadi dalam rangkaian pemrosesan Data Pribadi guna menjamin hak konstitusional subjek Data Pribadi.\n\nInformasi adalah keterangan, pernyataan, gagasan, dan tanda-tanda yang mengandung nilai, makna, dan pesan, baik data, fakta, maupun penjelasannya yang dapat dilihat, didengar, dan dibaca yang disajikan dalam berbagai kemasan dan format sesuai dengan perkembangan teknologi informasi dan komunikasi secara elektronik ataupun nonelektronik.\n\nPengendali Data Pribadi adalah setiap orang, hadan publik, dan organisasi internasional yang bertindak sendiri-sendiri atau bersama-sama dalam menentukan tujuan dan melakukan kendali pemrosesan Data Pribadi.\n\nProsesor Data Pribadi adalah setiap orang, badan publik, dan organisasi internasional yang bertindak sendiri-sendiri atau bersama-sama dalam melakukan pemrosesan Data Pribadi atas nama Pengendali Data Pribadi.\n\nSubjek Data Pribadi adalah orang perseorangan yang pada dirinya melekat Data Pribadi.\n\nSetiap Orang adalah orang perseorangan atau korporasi.\n\nKorporasi adalah kumpulan orang dan/ atau kekayaan yang terorganisasi baik yang berbadan hukum maupun tidak berbadan hukum.\n\nBadan Publik adalah lembaga eksekutif, legislatif, yudikatif, dan badan lain yang fungsi dan tugas pokoknya berkaitan dengan penyelenggaraan negara, yang sebagian atau seluruh dananya bersumber dari Anggaran Pendapatan dan Belanja Negara dan/ atau Anggaran Pendapatan dan Belanja Daerah, atau organisasi nonpemerintah sepanjang sebagian atau seluruh dananya bersumber dari Anggaran Pendapatan dan Belanja Negara dan/ atau Anggaran Pendapatan dan Belanja Daerah, sumbangan masyarakat, dan/ atau luar negeri.\n\nOrganisasi Internasional adalah organisasi yang diakui sebagai subjek hukum internasional dan mempunyai kapasitas untuk membuat perjanjian internasional.\n\nPemerintah Pusat yang selanjutnya disebut Pemerintah adalah Presiden Republik Indonesia yang memegang kekuasaan pemerintahan Negara Republik Indonesia sebagaimana dimaksud dalam Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapterTitle": "",
+      "title": "Territorial and material scope",
+      "text": "Territorial and material scope Undang-Undang ini berlaku untuk Setiap Orang, Badan Publik, dan Organisasi Internasional yang melakukan perbuatan hukum sebagaimana diatur dalam Undang-Undang ini:\n\nyang berada di wilayah hukum Negara Republik Indonesia; dan\n\ndi luar wilayah hukum Negara Republik Indonesia, yang memiliki akibat hukum:\n\ndi wilayah hukum Negara Republik Indonesia; dan/ atau\n\nbagi Subjek Data Pribadi warga negara Indonesia di luar wilayah hukum Negara Republik Indonesia.\n\nUndang-Undang ini tidak berlaku untuk pemrosesan Data Pribadi oleh orang perseorangan dalam kegiatan pribadi atau rumah tangga.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapterTitle": "",
+      "title": "Principles (asas)",
+      "text": "Principles (asas) Undang-Undang ini berasaskan:\n\npelindungan;\n\nkepastian hukum;\n\nkepentingan umum;\n\nkemanfaatan;\n\nkehati-hatian;\n\nkeseimbangan;\n\npertanggungjawaban; dan\n\nkerahasiaan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapterTitle": "",
+      "title": "Types of personal data",
+      "text": "Types of personal data Data Pribadi terdiri atas:\n\nData Pribadi yang bersifat spesifik; dan\n\nData Pribadi yang bersifat umum.\n\nData Pribadi yang bersifat spesifik sebagaimana dimaksud pada ayat (1) huruf a meliputi:\n\ndata dan informasi kesehatan;\n\ndata biometrik;\n\ndata genetika;\n\ncatatan kejahatan;\n\ndata anak;\n\ndata keuangan pribadi; dan/atau\n\ndata lainnya sesuai dengan ketentuan peraturan perundang-undangan.\n\nData Pribadi yang bersifat umum sebagaimana dimaksud pada ayat (1) huruf b meliputi:\n\nnama lengkap;\n\njenis kelamin;\n\nkewarganegaraan;\n\nagama;\n\nstatus perkawinan; dan/atau\n\nData Pribadi yang dikombinasikan untuk mengidentifikasi seseorang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapterTitle": "",
+      "title": "Right to information",
+      "text": "Right to information Subjek Data Pribadi berhak mendapatkan Informasi tentang kejelasan identitas, dasar kepentingan hukum, tujuan permintaan dan penggunaan Data Pribadi, dan akuntabilitas pihak yang meminta Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapterTitle": "",
+      "title": "Right to complete, update, and correct",
+      "text": "Right to complete, update, and correct Subjek Data Pribadi berhak melengkapi, memperbarui, dan/atau memperbaiki kesalahan dan/ atau ketidakakuratan Data Pribadi tentang dirinya sesuai dengan tujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapterTitle": "",
+      "title": "Right of access and copy",
+      "text": "Right of access and copy Subjek Data Pribadi berhak mendapatkan akses dan memperoleh salinan Data Pribadi tentang dirinya sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapterTitle": "",
+      "title": "Right to end processing, erasure, and destruction",
+      "text": "Right to end processing, erasure, and destruction Subjek Data Pribadi berhak untuk mengakhiri pemrosesan, menghapus, dan/atau memusnahkan Data Pribadi tentang dirinya sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapterTitle": "",
+      "title": "Right to withdraw consent",
+      "text": "Right to withdraw consent Subjek Data Pribadi berhak menarik kembali persetujuan pemrosesan Data Pribadi tentang dirinya yang telah diberikan kepada Pengendali Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapterTitle": "",
+      "title": "Right to object to solely automated decisions",
+      "text": "Right to object to solely automated decisions Subjek Data Pribadi berhak untuk mengajukan keberatan atas tindakan pengambilan keputusan yang hanya didasarkan pada pemrosesan secara otomatis, termasuk pemrofilan, yang menimbulkan akibat hukum atau berdampak signifikan pada Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai pengajuan keberatan atas pemrosesan secara otomatis sebagaimana dimaksud pada ayat (1) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapterTitle": "",
+      "title": "Right to restrict processing",
+      "text": "Right to restrict processing Subjek Data Pribadi berhak menunda atau membatasi pemrosesan Data Pribadi secara proporsional sesuai dengan tujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-12",
+      "number": 12,
+      "chapterTitle": "",
+      "title": "Right to sue and receive compensation",
+      "text": "Right to sue and receive compensation Subjek Data Pribadi berhak menggugat dan menerima ganti rugi atas pelanggaran pemrosesan Data Pribadi tentang dirinya sesuai dengan ketentuan peraturan perundang-undangan.\n\nKetentuan lebih lanjut mengenai pelanggaran pemrosesan Data Pribadi dan tata cara pengenaan ganti rugi sebagaimana dimaksud pada ayat (1) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-13",
+      "number": 13,
+      "chapterTitle": "",
+      "title": "Data portability",
+      "text": "Data portability Subjek Data Pribadi berhak mendapatkan dan/atau menggunakan Data Pribadi tentang dirinya dari Pengendali Data Pribadi dalam bentuk yang sesuai dengan struktur dan/atau format yang lazim digunakan atau dapat dibaca oleh sistem elektronik.\n\nSubjek Data Pribadi berhak menggunakan dan mengirimkan Data Pribadi tentang dirinya ke Pengendali Data Pribadi lainnya, sepanjang sistem yang digunakan dapat saling berkomunikasi secara aman sesuai dengan prinsip Pelindungan Data Pribadi berdasarkan Undang-Undang ini.\n\nKetentuan lebih lanjut mengenai hak Subjek Data Pribadi untuk menggunakan dan mengirimkan Data Pribadi sebagaimana dimaksud pada ayat (2) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-14",
+      "number": 14,
+      "chapterTitle": "",
+      "title": "Procedure for exercising certain rights",
+      "text": "Procedure for exercising certain rights Pelaksanaan hak Subjek Data Pribadi sebagaimana dimaksud dalam Pasal 6 sampai dengan Pasal 11 diajukan melalui permohonan tercatat yang disampaikan secara elektronik atau nonelektronik kepada Pengendali Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-15",
+      "number": 15,
+      "chapterTitle": "",
+      "title": "Exceptions to certain data-subject rights",
+      "text": "Exceptions to certain data-subject rights . Hak-hak Subjek Data Pribadi sebagaimana dimaksud dalam Pasal 8, Pasal 9, Pasal 10 ayat (1), Pasal 11, dan Pasal 13 ayat (1) dan ayat (2) dikecualikan untuk:\n\nkepentingan pertahanan dan keamanan nasional;\n\nkepentingan proses penegakan hukum;\n\nkepentingan umum dalam rangka penyelenggaraan negara;\n\nkepentingan pengawasan sektor jasa keuangan, moneter, sistem pembayaran, dan stabilitas sistem keuangan yang dilakukan dalam rangka penyelenggaraan negara; atau\n\nkepentingan statistik dan penelitian ilmiah.\n\nPengecualian sebagaimana dimaksud pada ayat (1) dilaksanakan hanya dalam rangka pelaksanaan ketentuan Undang-Undang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-16",
+      "number": 16,
+      "chapterTitle": "",
+      "title": "Processing operations and principles",
+      "text": "Processing operations and principles Pemrosesan Data Pribadi meliputi:\n\npemerolehan dan pengumpulan;\n\npengolahan dan penganalisisan;\n\npenyimpanan;\n\nperbaikan dan pembaruan;\n\npenampilan, pengumuman, transfer, penyebarluasan, atau pengungkapan; dan/atau\n\npenghapusan atau pemusnahan.\n\nPemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan prinsip Pelindungan Data Pribadi meliputi:\n\npengumpulan Data Pribadi dilakukan secara terbatas dan spesifik, sah secara hukum, dan transparan;\n\npemrosesan Data Pribadi dilakukan sesuai dengan tujuannya;\n\npemrosesan Data Pribadi dilakukan dengan menjamin hak Subjek Data Pribadi;\n\npemrosesan Data Pribadi dilakukan secara akurat, lengkap, tidak menyesatkan, mutakhir, dan dapat dipertanggungj awabkan;\n\npemrosesan Data Pribadi dilakukan dengan melindungi keamanan Data Pribadi dari pengaksesan yang tidak sah, pengungkapan yang tidak sah, pengubahan yang tidak sah,penyalahgunaan, perusakan, dan/atau penghilangan Data Pribadi;\n\npemrosesan Data Pribadi dilakukan dengan memberitahukan tujuan dan aktivitas pemrosesan, serta kegagalan Pelindungan Data Pribadi;\n\nData Pribadi dimusnahkan dan/atau dihapus setelah masa retensi berakhir atau berdasarkan permintaan Subjek Data Pribadi, kecuali ditentukan lain oleh peraturan perundang-undangan; dan\n\npemrosesan Data Pribadi dilakukan secara bertanggung jawab dan dapat dibuktikan secara jelas.\n\nKetentuan lebih lanjut mengenai pelaksanaan pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-17",
+      "number": 17,
+      "chapterTitle": "",
+      "title": "Visual data processing devices in public places",
+      "text": "Visual data processing devices in public places Pemasangan alat pemroses atau pengolah data visual di tempat umum dan/atau pada fasilitas pelayanan publik dilakukan dengan ketentuan:\n\nuntuk tujuan keamanan, pencegahan bencana, dan/atau penyelenggaraan lalu lintas atau pengumpulan, analisis, dan pengaturan Informasi lalu lintas;\n\nhares menampilkan Informasi pada area yang telah dipasang alat pemroses atau pengolah data visual; dan\n\ntidak digunakan untuk mengidentifikasi seseorang.\n\nKetentuan sebagaimana dimaksud pada ayat (1) huruf b dan huruf c dikecualikan untuk pencegahan tindak pidana dan proses penegakan hukum sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-18",
+      "number": 18,
+      "chapterTitle": "",
+      "title": "Joint controllers",
+      "text": "Joint controllers Pemrosesan Data Pribadi dapat dilakukan oleh 2 (dua) atau lebih Pengendali Data Pribadi.\n\nDalam hal Pemrosesan Data Pribadi dilakukan oleh 2 (dua) atau lebih Pengendali Data Pribadi harus memenuhi syarat minimal:\n\nterdapat perjanjian antara para Pengendali Data Pribadi yang memuat peran, tanggung jawab, dan hubungan antar-Pengendali Data Pribadi;\n\nterdapat tujuan yang saling berkaitan dan cara pemrosesan Data Pribadi yang ditentukan secara bersama; dan\n\nterdapat narahubung yang ditunjuk secara bersama- sama.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-19",
+      "number": 19,
+      "chapterTitle": "",
+      "title": "Who may be a controller or processor",
+      "text": "Who may be a controller or processor Pengendali Data Pribadi dan Prosesor Data Pribadi meliputi:\n\nSetiap Orang;\n\nBadan Publik; dan\n\nOrganisasi Internasional.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-20",
+      "number": 20,
+      "chapterTitle": "",
+      "title": "Legal bases for processing",
+      "text": "Legal bases for processing Pengendali Data Pribadi wajib memiliki dasar pemrosesan Data Pribadi.\n\nDasar pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) meliputi:\n\npersetujuan yang sah secara eksplisit dari Subjek Data Pribadi untuk 1 (satu) atau beberapa tujuan tertentu yang telah disampaikan oleh Pengendali Data Pribadi kepada Subjek Data Pribadi;\n\npemenuhan kewajiban perjanjian dalam hal Subjek Data Pribadi merupakan salah satu pihak atau untuk memenuhi permintaan Subjek Data Pribadi pada saat akan melakukan perjanjian;\n\npemenuhan kewajiban hukum dan Pengendali Data Pribadi sesuai dengan ketentuan peraturan perundang-undangan;\n\npemenuhan pelindungan kepentingan vital Subjek Data Pribadi;\n\npelaksanaan tugas dalam rangka kepentingan umum, pelayanan publik, atau pelaksanaan kewenangan Pengendali Data Pribadi berdasarkan peraturan perundang-undangan; dan/ atau\n\npemenuhan kepentingan yang sah lainnya dengan memperhatikan tujuan, kebutuhan, dan keseimbangan kepentingan Pengendali Data Pribadi dan hak Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-21",
+      "number": 21,
+      "chapterTitle": "",
+      "title": "Information that must accompany consent",
+      "text": "Information that must accompany consent Dalam hal pemrosesan Data Pribadi berdasarkan persetujuan sebagaimana dimaksud dalam Pasal 20 ayat (2) huruf a, Pengendali Data Pribadi wajib menyampaikan Informasi mengenai:\n\nlegalitas dari pemrosesan Data Pribadi;\n\ntujuan pemrosesan Data Pribadi;\n\njenis dan relevansi Data Pribadi yang akan diproses;\n\njangka waktu retensi dokumen yang memuat Data Pribadi;\n\nrincian mengenai Informasi yang dikumpulkan;\n\njangka waktu pemrosesan Data Pribadi; dan\n\nhak Subjek Data Pribadi.\n\nDalam hal terdapat perubahan Informasi sebagaimana dimaksud pada ayat (1), Pengendali Data Pribadi wajib memberitahukan kepada Subjek Data Pribadi sebelum terjadi perubahan Informasi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-22",
+      "number": 22,
+      "chapterTitle": "",
+      "title": "Form and validity of consent",
+      "text": "Form and validity of consent Persetujuan pemrosesan Data Pribadi dilakukan melalui persetujuan tertulis atau terekam.\n\nPersetujuan sebagaimana dimaksud pada ayat (1) dapat disampaikan secara elektronik atau nonelektronik.\n\nPersetujuan sebagaimana dimaksud pada ayat (1) mempunyai kekuatan hukum yang sama.\n\nDalam hal persetujuan sebagaimana dimaksud pada ayat (1) memuat tujuan lain, permintaan persetujuan harus memenuhi ketentuan:\n\ndapat dibedakan secara jelas dengan hal lainnya;\n\ndibuat dengan format yang dapat dipahami dan mudah diakses; dan\n\nmenggunakan bahasa yang sederhana dan jelas.\n\nPersetujuan yang tidak memenuhi ketentuan sebagaimana dimaksud pada ayat (1) dan ayat (4) dinyatakan batal demi hukum.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-23",
+      "number": 23,
+      "chapterTitle": "",
+      "title": "Invalid contract clauses requesting processing",
+      "text": "Invalid contract clauses requesting processing Klausul perjanjian yang di dalamnya terdapat permintaan pemrosesan Data Pribadi yang tidak memuat persetujuan yang sah secara eksplisit dari Subjek Data Pribadi dinyatakan batal demi hukum.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-24",
+      "number": 24,
+      "chapterTitle": "",
+      "title": "Duty to demonstrate consent",
+      "text": "Duty to demonstrate consent Dalam melakukan pemrosesan Data Pribadi, Pengendali Data Pribadi wajib menunjukkan bukti persetujuan yang telah diberikan oleh Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-25",
+      "number": 25,
+      "chapterTitle": "",
+      "title": "Processing of children's personal data",
+      "text": "Processing of children's personal data Pemrosesan Data Pribadi anak diselenggarakan secara khusus.\n\nPemrosesan Data Pribadi anak sebagaimana dimaksud pada ayat (1) wajib mendapat persetujuan dari orang tua anak dan/ atau wali anak sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-26",
+      "number": 26,
+      "chapterTitle": "",
+      "title": "Processing of personal data of persons with disabilities",
+      "text": "Processing of personal data of persons with disabilities Pemrosesan Data Pribadi penyandang disabilitas diselenggarakan secara khusus.\n\nPemrosesan Data Pribadi penyandang disabilitas sebagaimana dimaksud pada ayat (1) dilakukan melalui komunikasi dengan menggunakan cara tertentu sesuai dengan ketentuan perundang-undangan.\n\nPemrosesan Data Pribadi penyandang disabilitas sebagaimana dimaksud pada ayat (2) wajib mendapat persetujuan dari penyandang disabilitas dan/atau wali penyandang disabilitas sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-27",
+      "number": 27,
+      "chapterTitle": "",
+      "title": "Limitation, lawfulness, and transparency",
+      "text": "Limitation, lawfulness, and transparency Pengendali Data Pribadi wajib melakukan pemrosesan Data Pribadi secara terbatas dan spesifik, sah secara hukum, dan transparan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-28",
+      "number": 28,
+      "chapterTitle": "",
+      "title": "Purpose limitation",
+      "text": "Purpose limitation Pengendali Data Pribadi wajib melakukan pemrosesan Data Pribadi sesuai dengan tujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-29",
+      "number": 29,
+      "chapterTitle": "",
+      "title": "Accuracy, completeness, and consistency",
+      "text": "Accuracy, completeness, and consistency Pengendali Data Pribadi wajib memastikan akurasi, kelengkapan, dan konsistensi Data Pribadi sesuai dengan ketentuan peraturan perundang-undangan.\n\nDalam memastikan akurasi, kelengkapan, dan konsistensi Data Pribadi sebagaimana dimaksud pada ayat (1) Pengendali Data Pribadi wajib melakukan verifikasi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-30",
+      "number": 30,
+      "chapterTitle": "",
+      "title": "Updates and corrections (3 x 24 hours)",
+      "text": "Updates and corrections (3 x 24 hours) Pengendali Data Pribadi wajib memperbarui dan/atau memperbaiki kesalahan dan/atau ketidakakuratan Data Pribadi paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan pembaruan dan/atau perbaikan Data Pribadi.\n\nPengendali Data Pribadi wajib memberitahukan hasil pembaruan dan/atau perbaikan Data Pribadi kepada Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-31",
+      "number": 31,
+      "chapterTitle": "",
+      "title": "Records of processing activities",
+      "text": "Records of processing activities Pengendali Data Pribadi wajib melakukan perekaman terhadap seluruh kegiatan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-32",
+      "number": 32,
+      "chapterTitle": "",
+      "title": "Access to data and processing logs",
+      "text": "Access to data and processing logs Pengendali Data Pribadi wajib memberikan akses kepada Subjek Data Pribadi terhadap Data Pribadi yang diproses beserta rekam jejak pemrosesan Data Pribadi seFuai dengan jangka waktu penyimpanan Data Pribadi.\n\nAkses sebagaimana dimaksud pada ayat (1) diberikan paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan akses.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-33",
+      "number": 33,
+      "chapterTitle": "",
+      "title": "Grounds to refuse access or amendment",
+      "text": "Grounds to refuse access or amendment Pengendali Data Pribadi wajib menolak memberikan akses perubahan terhadap Data Pribadi kepada Subjek Data Pribadi dalam hal:\n\nmembahayakan keamanan, kesehatan fisik, atau kesehatan mental Subjek Data Pribadi dan/atau orang lain;\n\nberdampak pada pengungkapan Data Pribadi milik orang lain; dan/ atau\n\nbertentangan dengan kepentingan pertahanan dan keamanan nasional.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-34",
+      "number": 34,
+      "chapterTitle": "",
+      "title": "Data-protection impact assessment",
+      "text": "Data-protection impact assessment Pengendali Data Pribadi wajib melakukan penilaian dampak Pelindungan Data Pribadi dalam hal pemrosesan Data Pribadi memiliki potensi risiko tinggi terhadap Subjek Data Pribadi.\n\nPemrosesan Data Pribadi memiliki potensi risiko tinggi sebagaimana dimaksud pada ayat (1) meliputi:\n\npengambilan keputusan secara otomatis yang memiliki akibat hukum atau dampak yang signifikan terhadap Subjek Data Pribadi;\n\npemrosesan atas Data Pribadi yang bersifat spesifik;\n\npemrosesan Data Pribadi dalam skala besar;\n\npemrosesan Data Pribadi untuk kegiatan evaluasi, penskoran, atau pemantauan yang sistematis terhadap Subjek Data Pribadi;\n\npemrosesan Data Pribadi untuk kegiatan pencocokan atau penggabungan sekelompok data;\n\npenggunaan teknologi baru dalam pemrosesan Data Pribadi; dan/atau\n\npemrosesan Data Pribadi yang membatasi pelaksanaan hak Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai penilaian dampak Pelindungan Data Pribadi diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-35",
+      "number": 35,
+      "chapterTitle": "",
+      "title": "Security of processing",
+      "text": "Security of processing Pengendali Data Pribadi wajib melindungi dan memastikan keamanan Data Pribadi yang diprosesnya, dengan melakukan:\n\npenyusunan dan penerapan langkah teknis operasional untuk melindungi Data Pribadi dari gangguan pemrosesan Data Pribadi yang bertentangan dengan ketentuan peraturan perundang-undangan; dan\n\npenentuan tingkat keamanan Data Pribadi dengan memperhatikan sifat dan risiko dari Data Pribadi yang hams dilindungi dalam pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-36",
+      "number": 36,
+      "chapterTitle": "",
+      "title": "Confidentiality",
+      "text": "Confidentiality Dalam melakukan pemrosesan Data Pribadi, Pengendali Data Pribadi wajib menjaga kerahasiaan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-37",
+      "number": 37,
+      "chapterTitle": "",
+      "title": "Supervision of parties under the controller",
+      "text": "Supervision of parties under the controller Pengendali Data Pribadi wajib melakukan pengawasan terhadap setiap pihak yang terlibat dalam pemrosesan Data Pribadi di bawah kendali Pengendali Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-38",
+      "number": 38,
+      "chapterTitle": "",
+      "title": "Protection from unlawful processing",
+      "text": "Protection from unlawful processing Pengendali Data Pribadi wajib melindungi Data Pribadi dari pemrosesan yang tidak sah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-39",
+      "number": 39,
+      "chapterTitle": "",
+      "title": "Prevention of unauthorised access",
+      "text": "Prevention of unauthorised access Pengendali Data Pribadi wajib mencegah Data Pribadi diakses secara tidak sah.\n\nPencegahan sebagaimana dimaksud pada ayat (1) dilakukan dengan menggunakan sistem keamanan terhadap Data Pribadi yang diproses dan/atau memproses Data Pribadi menggunakan sistem elektronik secara andal, aman, dan bertanggung jawab.\n\nPencegahan sebagaimana dimaksud pada ayat (2) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-40",
+      "number": 40,
+      "chapterTitle": "",
+      "title": "Stopping processing after withdrawal of consent",
+      "text": "Stopping processing after withdrawal of consent Pengendali Data Pribadi wajib menghentikan pemrosesan Data Pribadi dalam hal Subjek Data Pribadi menarik kembali persetujuan pemrosesan Data Pribadi.\n\nPenghentian pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan penarikan kembali persetujuan pemrosesan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-41",
+      "number": 41,
+      "chapterTitle": "",
+      "title": "Delaying and restricting processing on request",
+      "text": "Delaying and restricting processing on request Pengendali Data Pribadi wajib melakukan penundaan dan pembatasan pemrosesan Data Pribadi baik sebagian maupun seluruhnya paling lambat 3 x 24 (tiga kali dua puluh empat) jam terhitung sejak Pengendali Data Pribadi menerima permintaan penundaan dan pembatasan pemrosesan Data Pribadi.\n\nPenundaan dan pembatasan pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dikecualikan dalam hal:\n\nterdapat ketentuan peraturan perundang-undangan yang tidak memungkinkan dilakukan penundaan dan pembatasan pemrosesan Data Pribadi;\n\ndapat membahayakan keselamatan pihak lain; dan/atau\n\nSubjek Data Pribadi terikat perjanjian tertulis dengan Pengendali Data Pribadi yang tidak memungkinkan dilakukan penundaan dan pembatasan pemrosesan Data Pribadi.\n\nPengendali Data Pribadi wajib memberitahukan telah dilaksanakan penundaan dan pembatasan pemrosesan Data Pribadi kepada Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-42",
+      "number": 42,
+      "chapterTitle": "",
+      "title": "Ending processing",
+      "text": "Ending processing Pengendali Data Pribadi wajib mengakhiri pemrosesan Data Pribadi dalam hal:\n\ntelah mencapai masa retensi;\n\ntujuan pemrosesan Data Pribadi telah tercapai; atau\n\nterdapat permintaan dari Subjek Data Pribadi.\n\nPengakhiran pemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-43",
+      "number": 43,
+      "chapterTitle": "",
+      "title": "Erasure of personal data",
+      "text": "Erasure of personal data Pengendali Data Pribadi wajib menghapus Data Pribadi dalam hal:\n\nData Pribadi tidak lagi diperlukan untuk pencapaian tujuan pemrosesan Data Pribadi;\n\nSubjek Data Pribadi telah melakukan penarikan kembali persetujuan pemrosesan Data Pribadi;\n\nterdapat permintaan dari Subjek Data Pribadi; atau\n\nData Pribadi diperoleh dan/atau diproses dengan cara melawan hukum.\n\nPenghapusan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-44",
+      "number": 44,
+      "chapterTitle": "",
+      "title": "Destruction of personal data",
+      "text": "Destruction of personal data Pengendali Data Pribadi wajib memusnahkan Data Pribadi dalam hal:\n\ntelah habis masa retensinya dan berketerangan dimusnahkan berdasarkan jadwal retensi arsip;\n\nterdapat permintaan dari Subjek Data Pribadi;\n\ntidak berkaitan dengan penyelesaian proses hukum suatu perkara; dan/atau\n\nData Pribadi diperoleh dan/atau diproses dengan cara melawan hukum.\n\nPemusnahan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-45",
+      "number": 45,
+      "chapterTitle": "",
+      "title": "Notification of erasure or destruction",
+      "text": "Notification of erasure or destruction Pengendali Data Pribadi wajib memberitahukan penghapusan dan/atau pemusnahan Data Pribadi kepada Subjek Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-46",
+      "number": 46,
+      "chapterTitle": "",
+      "title": "Personal data breach notification",
+      "text": "Personal data breach notification Dalam hal terjadi kegagalan Pelindungan Data Pribadi, Pengendali Data Pribadi wajib menyampaikan pemberitahuan secara tertulis paling lambat 3 x 24 (tiga kali dua puluh empat) jam kepada:\n\nSubjek Data Pribadi; dan\n\nlembaga.\n\nPemberitahuan tertulis sebagaimana dimaksud pada ayat (1) minimal memuat:\n\nData Pribadi yang terungkap;\n\nkapan dan bagaimana Data Pribadi terungkap; dan\n\nupaya penanganan dan pemulihan atas terungkapnya Data Pribadi oleh Pengendali Data Pribadi.\n\nDalam hal tertentu, Pengendali Data Pribadi wajib memberitahukan kepada masyarakat me ngenai kegagalan Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-47",
+      "number": 47,
+      "chapterTitle": "",
+      "title": "Accountability of the controller",
+      "text": "Accountability of the controller Pengendali Data Pribadi wajib bertanggung jawab atas pemrosesan Data Pribadi dan menunjukkan pertanggung jawaban dalam pemenuhan kewajiban pelaksanaan prinsip Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-48",
+      "number": 48,
+      "chapterTitle": "",
+      "title": "Merger, division, acquisition, or dissolution",
+      "text": "Merger, division, acquisition, or dissolution Pengendali Data Pribadi berbentuk badan hukum yang melakukan penggabungan, pemisahan, pengambilalihan, peleburan, atau pembubaran badan hukum wajib menyampaikan pemberitahuan pengalihan Data Pribadi kepada Subjek Data Pribadi.\n\nPemberitahuan pengalihan Data Pribadi sebagaimana dimaksud pada ayat (1) dilakukan sebelum dan sesudah penggabungan, pemisahan, pengambilalihan, peleburan, atau pembubaran badan hukum.\n\nDalam hal Pengendali Data Pribadi berbentuk badan hukum melakukan pembubaran atau dibubarkan, penyimpanan, pentransferan, penghapusan, atau pemusnahan Data Pribadi dilaksanakan sesuai dengan ketentuan peraturan perundang-undangan.\n\nPenyimpanan, pentransferan, penghapusan, atau pemusnahan Data Pribadi sebagaimana dimaksud pada ayat (3) diberitahukan kepada Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai tata cara pemberitahuan sebagaimana dimaksud pada ayat (1), ayat (2), dan ayat (4) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-49",
+      "number": 49,
+      "chapterTitle": "",
+      "title": "Duty to follow orders of the institution",
+      "text": "Duty to follow orders of the institution Pengendali Data Pribadi dan/atau Prosesor Data Pribadi wajib melaksanakan perintah lembaga dalam rangka penyelenggaraan Pelindungan Data Pribadi sesuai dengan Undang-Undang ini.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-50",
+      "number": 50,
+      "chapterTitle": "",
+      "title": "Exceptions to certain controller duties",
+      "text": "Exceptions to certain controller duties Kewajiban Pengendali Data Pribadi sebagaimana dimaksud dalam Pasal 30, Pasal 32, Pasal 36, Pasal 42, Pasal 43 ayat (1) huruf a sampai dengan huruf c, Pasal 44 ayat (1) huruf b, Pasal 45, dan Pasal 46 ayat (1) huruf a, dikecualikan untuk:\n\nkepentingan pertahanan dan keamanan nasional;\n\nkepentingan proses penegakan hukum;\n\nkepentingan umum dalam rangka penyelenggaraan negara; atau\n\nkepentingan pengawasan sektor jasa keuangan, moneter, sistem pembayaran, dan stabilitas sistem keuangan yang dilakukan dalam rangka penyelenggaraan negara.\n\nPengecualian sebagaimana dimaksud pada ayat (1) dilaksanakan hanya dalam rangka pelaksanaan ketentuan Undang-Undang.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-51",
+      "number": 51,
+      "chapterTitle": "",
+      "title": "Processor obligations",
+      "text": "Processor obligations Dalam hal Pengendali Data Pribadi menunjuk Prosesor Data Pribadi, Prosesor Data Pribadi wajib melakukan pemrosesan Data Pribadi berdasarkan perintah Pengendali Data Pribadi.\n\nPemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1), dilaksanakan sesuai ketentuan yang diatur dalam Undang-Undang ini.\n\nPemrosesan Data Pribadi sebagaimana dimaksud pada ayat (1) termasuk dalam tanggung jawab Pengendali Data Pribadi.\n\nProsesor Data Pribadi dapat melibatkan Prosesor Data Pribadi lain dalam melakukan pemrosesan Data Pribadi.\n\nProsesor Data Pribadi wajib mendapatkan persetujuan tertulis dan Pengendali Data Pribadi sebelum melibatkan Prosesor Data Pribadi lain sebagaimana dimaksud pada ayat (4).\n\nDalam hal Prosesor Data Pribadi melakukan pemrosesan Data Pribadi di luar perintah dan tujuan yang ditetapkan Pengendali Data Pribadi, pemrosesan Data Pribadi menjadi tanggung jawab Prosesor Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-52",
+      "number": 52,
+      "chapterTitle": "",
+      "title": "Controller duties that also apply to processors",
+      "text": "Controller duties that also apply to processors Ketentuan mengenai kewajiban Pengendali Data Pribadi sebagaimana dimaksud dalam Pasal 29, Pasal 31, Pasal 35, Pasal 36, Pasal 37, Pasal 38, dan Pasal 39 berlaku juga terhadap Prosesor Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-53",
+      "number": 53,
+      "chapterTitle": "",
+      "title": "Appointment of a data-protection officer",
+      "text": "Appointment of a data-protection officer Pengendali Data Pribadi dan Prosesor Data Pribadi wajib menunjuk pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi dalam hal:\n\npemrosesan Data Pribadi untuk kepentingan pelayanan publik;\n\nkegiatan inti Pengendali Data Pribadi memiliki sifat, ruang lingkup, dan/atau tujuan yang memerlukan pemantauan secara teratur dan sistematis atas Data Pribadi dengan skala besar; dan\n\nkegiatan inti Pengendali Data Pribadi terdiri dari pemrosesan Data Pribadi dalam skala besar untuk Data Pribadi yang bersifat spesifik dan/atau Data Pribadi yang berkaitan dengan tindak pidana.\n\nPejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (1) ditunjuk berdasarkan profesionalitas, pengetahuan mengenai hukum, praktik Pelindungan Data Pribadi, dan kemampuan untuk memenuhi tugas-tugasnya.\n\nPejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (2) dapat berasal dari dalam dan/atau luar Pengendali Data Pribadi atau Prosesor Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-54",
+      "number": 54,
+      "chapterTitle": "",
+      "title": "Tasks of the data-protection officer",
+      "text": "Tasks of the data-protection officer Pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi memiliki tugas paling sedikit:\n\nmenginformasikan dan memberikan saran kepada Pengendali Data Pribadi atau Prosesor Data Pribadi agar mematuhi ketentuan dalam Undang-Undang ini;\n\nmemantau dan memastikan kepatuhan terhadap Undang-Undang ini dan kebijakan Pengendali Data Pribadi atau Prosesor Data Pribadi;\n\nmemberikan saran mengenai penilaian dampak Pelindungan Data Pribadi dan memantau kinerja Pengendali Data Pribadi dan Prosesor Data Pribadi; dan\n\nberkoordinasi dan bertindak sebagai narahubung untuk isu yang berkaitan dengan pemrosesan Data Pribadi.\n\nDalam melaksanakan tugas sebagaimana dimaksud pada ayat (1), pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi memperhatikan risiko terkait pemrosesan Data Pribadi, dengan mempertimbangkan sifat, ruang lingkup, konteks, dan tujuan pemrosesan.\n\nKetentuan lebih lanjut mengenai pejabat atau petugas yang melaksanakan fungsi Pelindungan Data Pribadi diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-55",
+      "number": 55,
+      "chapterTitle": "",
+      "title": "Domestic transfers of personal data",
+      "text": "Domestic transfers of personal data Pengendali Data Pribadi dapat melakukan transfer Data Pribadi kepada Pengendali Data Pribadi lainnya dalam wilayah hukum Negara Republik Indonesia.\n\nPengendali Data Pribadi yang melakukan transfer Data Pribadi dan yang menerima transfer Data Pribadi wajib melakukan Pelindungan Data Pribadi sebagaimana dimaksud dalam Undang-Undang ini.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-56",
+      "number": 56,
+      "chapterTitle": "",
+      "title": "Cross-border transfers of personal data",
+      "text": "Cross-border transfers of personal data Pengendali Data Pribadi dapat melakukan transfer Data Pribadi kepada Pengendali Data Pribadi dan/atau Prosesor Data Pribadi di luar wilayah hukum Negara Republik Indonesia sesuai dengan ketentuan yang diatur dalam Undang-Undang ini.\n\nDalam melakukan transfer Data Pribadi sebagaimana dimaksud pada ayat (1), Pengendali Data Pribadi wajib memastikan negara tempat kedudukan Pengendali Data Pribadi dan/atau Prosesor Data Pribadi yang menerima transfer Data Pribadi memiliki tingkat Pelindungan Data Pribadi yang setara atau lebih tinggi dari yang diatur dalam Undang-Undang ini.\n\nDalam hal ketentuan sebagaimana dimaksud pada ayat (2) tidak terpenuhi, Pengendali Data Pribadi wajib memastikan terdapat Pelindungan Data Pribadi yang memadai dan bersifat mengikat.\n\nDalam hal ketentuan sebagaimana dimaksud pada ayat (2) dan ayat (3) tidak terpenuhi, Pengendali Data Pribadi wajib mendapatkan persetujuan Subjek Data Pribadi.\n\nKetentuan lebih lanjut mengenai transfer Data Pribadi diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-57",
+      "number": 57,
+      "chapterTitle": "",
+      "title": "Administrative sanctions",
+      "text": "Administrative sanctions Pelanggaran terhadap ketentuan Pasal 20 ayat (1), Pasal 21, Pasal 24, Pasal 25 ayat (2), Pasal 26 ayat (3), Pasal 27, Pasal 28, Pasal 29, Pasal 30, Pasal 31, Pasal 32 ayat (1), Pasal 33, Pasal 34 ayat (1), Pasal 35, Pasal 36, Pasal 37, Pasal 38, Pasal 39 ayat (1), Pasal 40 ayat (1), Pasal 41 ayat (1) dan ayat (3), Pasal 42 ayat (1), Pasal 43 ayat (1), Pasal 44 ayat (1), Pasal 45, Pasal 46 ayat (1) dan ayat (3), Pasal 47, Pasal 48 ayat (1), Pasal 49, Pasal 51 ayat (1) dan ayat (5), Pasal 52, Pasal 53 ayat (1), Pasal 55 ayat (2), dan Pasal 56 ayat (2) sampai dengan ayat (4) dikenai sanksi administratif.\n\nSanksi administratif sebagaimana dimaksud pada ayat (1) berupa:\n\nperingatan tertulis;\n\npenghentian sementara kegiatan pemrosesan Data Pribadi;\n\npenghapusan atau pemusnahan Data Pribadi; dan/atau\n\ndenda administratif.\n\nSanksi administratif berupa denda administratif sebagaimana dimaksud pada ayat (2) huruf d paling tinggi 2 (dua) persen dari pendapatan tahunan atau penerimaan tahunan terhadap variabel pelanggaran.\n\nPenjatuhan sanksi administratif sebagaimana dimaksud pada ayat (2) diberikan oleh lembaga.\n\nKetentuan lebih lanjut mengenai tata cara pengenaan sanksi administratif sebagaimana dimaksud pada ayat (3) diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-58",
+      "number": 58,
+      "chapterTitle": "",
+      "title": "The personal data protection institution",
+      "text": "The personal data protection institution Pemerintah berperan dalam mewujudkan penyelenggaraan Pelindungan Data Pribadi sesuai dengan ketentuan Undang-Undang ini.\n\nPenyelenggaraan Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (1) dilaksanakan oleh lembaga.\n\nLembaga sebagaimana dimaksud pada ayat (2) ditetapkan oleh Presiden.\n\nLembaga sebagaimana dimaksud pada ayat (2) bertanggung jawab kepada Presiden.\n\nKetentuan lebih lanjut mengenai lembaga sebagaimana dimaksud pada ayat (2) diatur dengan Peraturan Presiden.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-59",
+      "number": 59,
+      "chapterTitle": "",
+      "title": "Functions of the institution",
+      "text": "Functions of the institution Lembaga sebagaimana dimaksud dalam Pasal 58 ayat (2) melaksanakan:\n\nperumusan dan penetapan kebijakan dan strategi Pelindungan Data Pribadi yang menjadi panduan bagi Subjek Data Pribadi, Pengendali Data Pribadi, dan Prosesor Data Pribadi;\n\npengawasan terhadap penyelenggaraan Pelindungan Data Pribadi;\n\npenegakan hukum administratif terhadap pelanggaran Undang-Undang ini; dan\n\nfasilitasi penyelesaian sengketa di luar pengadilan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-60",
+      "number": 60,
+      "chapterTitle": "",
+      "title": "Powers of the institution",
+      "text": "Powers of the institution Lembaga sebagaimana dimaksud dalam Pasal 58 ayat (2) berwenang:\n\nmerumuskan dan menetapkan kebijakan di bidang Pelindungan Data Pribadi;\n\nmelakukan pengawasan terhadap kepatuhan Pengendali Data Pribadi;\n\nmenjatuhkan sanksi administratif atas pelanggaran Pelindungan Data Pribadi yang dilakukan Pengendali Data Pribadi dan/atau Prosesor Data Pribadi;\n\nmembantu aparat penegak hukum dalam penanganan dugaan tindak pidana Data Pribadi sebagaimana dimaksud dalam Undang-Undang ini;\n\nbekerja sama dengan lembaga Pelindungan Data Pribadi negara lain dalam rangka penyelesaian dugaan pelanggaran Pelindungan Data Pribadi lintas negara;\n\nmelakukan penilaian terhadap pemenuhan persyaratan transfer Data Pribadi ke luar wilayah hukum Negara Republik Indonesia;\n\nmemberikan perintah dalam rangka tindak lanjut hasil pengawasan kepada Pengendali Data Pribadi dan/atau Prosesor Data Pribadi;\n\nmelakukan publikasi hasil pelaksanaan pengawasan Pelindungan Data Pribadi sesuai dengan ketentuan peraturan perundang-undangan;\n\nmenerima aduan dan/atau laporan tentang dugaan terjadinya pelanggaran Pelindungan Data Pribadi;\n\nmelakukan pemeriksaan dan penelusuran atas pengaduan, laporan, dan/atau hasil pengawasan terhadap dugaan terjadinya pelanggaran Pelindungan Data Pribadi;\n\nmemanggil dan menghadirkan Setiap Orang dan/atau Badan Publik yang terkait dengan dugaan pelanggaran Pelindungan Data Pribadi;\n\nmeminta keterangan, data, Informasi, dan dokumen dari Setiap Orang dan/atau Badan Publik terkait dugaan pelanggaran Pelindungan Data Pribadi;\n\nmemanggil dan menghadirkan ahli yang diperlukan dalam pemeriksaan dan penelusuran terkait dugaan pelanggaran Pelindungan Data Pribadi;\n\nmelakukan pemeriksaan dan penelusuran terhadap sistem elektronik, sarana, ruang, dan/atau tempat yang digunakan Pengendali Data Pribadi dan/atau Prosesor Data Pribadi, termasuk memperoleh akses terhadap data dan/atau menunjuk pihak ketiga; dan\n\nmeminta bantuan hukum kepada kejaksaan dalam penyelesaian sengketa Pelindungan Data Pribadi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-61",
+      "number": 61,
+      "chapterTitle": "",
+      "title": "Implementing rules for institutional powers",
+      "text": "Implementing rules for institutional powers Ketentuan mengenai tata cara pelaksanaan wewenang lembaga sebagaimana dimaksud dalam PaSal 60 diatur dalam Peraturan Pemerintah.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-62",
+      "number": 62,
+      "chapterTitle": "",
+      "title": "International cooperation",
+      "text": "International cooperation Kerja sama internasional dilakukan oleh Pemerintah dengan pemerintah negara lain atau Organisasi Internasional terkait dengan Pelindungan Data Pribadi.\n\nKerja sama internasional dalam rangka pelaksanaan Undang-Undang ini dilaksanakan sesuai dengan ketentuan peraturan perundang-undangan dan prinsip hukum internasional.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-63",
+      "number": 63,
+      "chapterTitle": "",
+      "title": "Public participation",
+      "text": "Public participation Masyarakat dapat berperan baik secara langsung maupun tidak langsung dalam mendukung terselenggaranya Pelindungan Data Pribadi.\n\nPelaksanaan peran sebagaimana dimaksud pada ayat (1) dapat dilakukan melalui pendidikan, pelatihan, Edvokasi, so sialisasi, dan/atau pengawasan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-64",
+      "number": 64,
+      "chapterTitle": "",
+      "title": "Dispute resolution and procedure",
+      "text": "Dispute resolution and procedure Penyelesaian sengketa Pelindungan Data Pribadi dilakukan melalui arbitrase, pengadilan, atau lembaga penyelesaian sengketa alternatif lainnya sesuai dengan ketentuan peraturan perundang-undangan.\n\nHukum acara yang berlaku dalam penyelesaian sengketa dan/ atau proses peradilan Pelindungan Data Pribadi sebagaimana dimaksud pada ayat (1) dilaksanakan berdasarkan hukum acara yang berlaku sesuai dengan ketentuan peraturan perundang-undangan.\n\nAlat bukti yang sah dalam Undang-Undang ini meliputi:\n\nalat bukti sebagaimana dimaksud dalam hukum acara; dan\n\nalat bukti lain berupa informasi elektronik dan/atau dokumen elektronik sesuai dengan ketentuan peraturan perundang-undangan.\n\nDalam hal diperlukan untuk melindungi Data Pribadi, proses persidangan dilakukan secara tertutup.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-65",
+      "number": 65,
+      "chapterTitle": "",
+      "title": "Prohibited uses of personal data",
+      "text": "Prohibited uses of personal data Setiap Orang dilarang secara melawan hukum memperoleh atau mengumpulkan Data Pribadi yang bukan miliknya dengan maksud untuk menguntungkan diri sendiri atau orang lain yang dapat mengakibatkan kerugian Subjek Data Pribadi.\n\nSetiap Orang dilarang secara melawan hukum mengungkapkan Data Pribadi yang bukan miliknya.\n\nSetiap Orang dilarang secara melawan hukum menggunakan Data Pribadi yang bukan miliknya.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-66",
+      "number": 66,
+      "chapterTitle": "",
+      "title": "Forgery of personal data",
+      "text": "Forgery of personal data Setiap Orang dilarang membuat Data Pribadi palsu atau memalsukan Data Pribadi dengan maksud untuk menguntungkan din sendiri atau orang lain yang dapat mengakibatkan kerugian bagi orang lain.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-67",
+      "number": 67,
+      "chapterTitle": "",
+      "title": "Criminal sanctions for Article 65 offences",
+      "text": "Criminal sanctions for Article 65 offences Setiap Orang yang dengan sengaja dan melawan hukum memperoleh atau mengumpulkan Data Pribadi yang bukan miliknya dengan maksud untuk menguntungkan din sendiri atau orang lain yang dapat mengakibatkan kerugian Subjek Data Pribadi sebagaimana dimaksud dalam. Pasal 65 ayat (1) dipidana dengan pidana penjara paling lama 5 (lima) tahun dan/atau pidana denda paling banyak Rp5.000.000.000,00 (lima miliar rupiah).\n\nSetiap Orang yang dengan sengaja dan melawan hukum mengungkapkan Data Pribadi yang bukan miliknya sebagaimana dimaksud dalam Pasal 65 ayat (2) dipidana dengan pidana penjara paling lama 4 (empat) tahun dan/atau pidana denda paling banyak Rp4.000.000.000,00 (empat miliar rupiah).\n\nSetiap Orang yang dengan sengaja dan melawan hukum menggunakan Data Pribadi yang bukan miliknya sebagaimana dimaksud dalam Pasal 65 ayat (3) dipidana dengan pidana penjara paling lama 5 (lima) tahun dan/atau pidana denda paling banyak Rp5.000.000.000,00 (lima miliar rupiah).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-68",
+      "number": 68,
+      "chapterTitle": "",
+      "title": "Criminal sanctions for Article 66 offences",
+      "text": "Criminal sanctions for Article 66 offences Setiap Orang yang dengan sengaja membuat Data Pribadi palsu atau memalsukan Data Pribadi dengan maksud untuk menguntungkan din sendiri atau orang lain yang dapat mengakibatkan kerugian bagi orang lain sebagaimana dimaksud dalam Pasal 66 dipidana dengan pidana penjara paling lama 6 (enam) tahun dan/atau pidana denda paling banyak Rp6.000.000.000,00 (enam miliar rupiah).",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-69",
+      "number": 69,
+      "chapterTitle": "",
+      "title": "Additional criminal penalties",
+      "text": "Additional criminal penalties Selain dijatuhi pidana sebagaimana dimaksud dalam Pasal 67 dan Pasal 68 juga dapat dijatuhi pidana tambahan berupa perampasan keuntungan dan/atau harta kekayaan yang diperoleh atau hasil dari tindak pidana dan pembayaran ganti kerugian.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-70",
+      "number": 70,
+      "chapterTitle": "",
+      "title": "Corporate criminal liability",
+      "text": "Corporate criminal liability Dalam hal tindak pidana sebagaimana dimaksud dalam Pasal 67 dan Pasal 68 dilakukan oleh Korporasi, pidana dapat dijatuhkan kepada pengurus, pemegang kendali, pemberi perintah, pemilik manfaat, dan/atau Korporasi.\n\nPidana yang dapat dijatuhkan terhadap Korporasi hanya pidana denda.\n\nPidana denda yang dijatuhkan kepada Korporasi paling banyak 10 (sepuluh) kali dari maksimal pidana denda yang diancamkan.\n\nSelain dijatuhi pidana denda sebagaimana dimaksud pada ayat (2), Korporasi dapat dijatuhi pidana tambahan berupa:\n\nperampasan keuntungan dan/ atau harta kekayaan yang diperoleh atau hasil dari tindak pidana;\n\npembekuan seluruh atau sebagian usaha Korporasi;\n\npelarangan permanen melakukan perbuatan tertentu;\n\npenutupan seluruh atau sebagian tempat usaha dan/atau kegiatan Korporasi;\n\nmelaksanakan kewajiban yang telah dilalaikan;\n\npembayaran ganti kerugian;\n\npencabutan izin; dan/ atau\n\npembubaran Korporasi.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-71",
+      "number": 71,
+      "chapterTitle": "",
+      "title": "Payment of fines and substitute imprisonment",
+      "text": "Payment of fines and substitute imprisonment Dalam hal pengadilan menjatuhkan putusan pidana denda, terpidana diberikan jangka waktu 1 (satu) bulan sejak putusan telah memperoleh kekuatan hukum tetap untuk membayar denda tersebut.\n\nDalam hal terdapat alasan kuat, jangka waktu sebagaimana dimaksud pada ayat (1) dapat diperpanjang untuk waktu paling lama 1 (satu) bulan.\n\nDalam hal terpidana tidak membayar pidana denda dalam jangka waktu sebagaimana dimaksud pada ayat (1) atau ayat (2) maka harta kekayaan atau pendapatan terpidana dapat disita dan dilelang oleh jaksa untuk melunasi pidana denda yang tidak dibayar.\n\nDalam hal penyitaan dan pelelangan harta kekayaan atau pendapatan sebagaimana dimaksud pada ayat (3) tidak cukup atau tidak memungkinkan untuk dilaksanakan, pidana denda yang tidak dibayar diganti dengan pidana penjara paling lama sebagaimana diancamkan untuk tindak pidana yang bersangkutan.\n\nLamanya pidana penjara sebagaimana dimaksud pada ayat (4) yang ditentukan oleh hakim, dicantumkan dalam putusan pengadilan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-72",
+      "number": 72,
+      "chapterTitle": "",
+      "title": "Substitute sanctions for corporations",
+      "text": "Substitute sanctions for corporations Dalam hal penyitaan dan pelelangan harta kekayaan atau pendapatan sebagaimana dimaksud dalam Pasal 71 ayat (4) dilakukan terhadap terpidana Korporasi dan tidak cukup untuk melunasi pidana denda, Korporasi dikenakan pidana pengganti berupa pembekuan sebagian atau seluruh kegiatan usaha Korporasi untuk jangka waktu paling lama 5 (lima) tahun.\n\nLamanya pembekuan sebagian atau seluruh kegiatan usaha Korporasi sebagaimana dimaksud pada ayat (1) yang ditentukan oleh hakim, dicantumkan dalam putusan pengadilan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-73",
+      "number": 73,
+      "chapterTitle": "",
+      "title": "Additional compensation procedure",
+      "text": "Additional compensation procedure Ketentuan sebagaimana dimaksud dalam Pasal 71 dan Pasal 72 juga berlaku dalam hal penjatuhan pidana tambahan berupa pembayaran ganti kerugian.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-74",
+      "number": 74,
+      "chapterTitle": "",
+      "title": "Two-year transitional adjustment",
+      "text": "Two-year transitional adjustment Pada saat Undang-Undang ini mulai berlaku, Pengendali Data Pribadi, Prosesor Data Pribadi, dan pihak lain yang terkait dengan pemrosesan Data Pribadi, wajib menyesuaikan dengan ketentuan pemrosesan Data Pribadi berdasarkan Undang-Undang ini paling lama 2 (dua) tahun sejak Undang-Undang ini diundangkan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-75",
+      "number": 75,
+      "chapterTitle": "",
+      "title": "Continuing effect of existing rules",
+      "text": "Continuing effect of existing rules Pada saat Undang-Undang ini mulai berlaku, semua ketentuan peraturan perundang-undangan yang mengatur mengenai Pelindungan Data Pribadi, dinyatakan masih tetap berlaku sepanjang tidak bertentangan dengan ketentuan dalam Undang-Undang ini.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-76",
+      "number": 76,
+      "chapterTitle": "",
+      "title": "Entry into force",
+      "text": "Entry into force Undang-Undang ini mulai berlaku pada tanggal diundangkan.",
+      "sourceUrl": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+      "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022"
+    }
+  ]
+}

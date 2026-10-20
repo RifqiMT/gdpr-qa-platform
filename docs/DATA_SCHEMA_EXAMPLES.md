@@ -1,9 +1,11 @@
 # Data schema examples  
-## EU Regulation Q&A Platform
+## Regulation Q&A Platform
 
-**Version:** 1.3 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
+**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
 
-Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md).
+Illustrative **JSON fragments** for integrators, covering all **six** corpora (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`). Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md). Text is abbreviated with `…`; Indonesian legal text is kept in **Bahasa Indonesia**, with **English structural titles**.
+
+**Common corpus shape** (all six `data/<id>-content.json` files): `meta` · `categories` · `chapters` · `articles` · `recitals` · `searchIndex`. The `chapter` number on each article is **added at load time** by `enrichArticlesWithChapter` using the registry `chapterRanges`; it is not required in the stored file.
 
 ---
 
@@ -85,7 +87,159 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
 
 ---
 
+## 1d. Indonesia — UU PDP corpus (`data/id-pdp-content.json`) — excerpts
+
+76 *Pasal* in 16 *BAB*; 4 *menimbang* clauses (a–d) stored as `recitals`.
+
+```json
+{
+  "meta": {
+    "regulationId": "id-pdp",
+    "lastRefreshed": "2026-09-07T00:00:13.236Z",
+    "lastChecked": "2026-09-07T00:00:13.236Z",
+    "datasetHash": "84d40a90…",
+    "etl": {
+      "extractedFrom": "jdih-komdigi",
+      "fetched": true,
+      "significant": false,
+      "datasetHash": "84d40a90…",
+      "articleCount": 76,
+      "recitalCount": 4
+    },
+    "sources": [
+      {
+        "name": "JDIH Kementerian Komunikasi dan Digital",
+        "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/832/t/undangundang+nomor+27+tahun+2022",
+        "description": "Official legal-documentation network of Komdigi; HTML text of UU 27/2022.",
+        "documents": [{ "label": "UU No. 27 Tahun 2022 (JDIH Komdigi)", "url": "https://jdih.komdigi.go.id/…" }]
+      }
+    ]
+  },
+  "categories": [{ "id": "recitals", "title": "Considering (Menimbang)", "description": "Preamble recitals of UU 27/2022 (huruf a–d).", "sourceUrl": "…", "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022" }],
+  "chapters": [{ "number": 1, "roman": "I", "title": "Ketentuan umum", "articleRange": "1-2", "sourceUrl": "…", "eurLexUrl": "https://peraturan.go.id/id/uu-no-27-tahun-2022" }],
+  "recitals": [{
+    "number": 1,
+    "title": "Considering (a) — personal data protection as a human right",
+    "text": "bahwa pelindungan data pribadi merupakan salah satu hak asasi manusia …",
+    "sourceUrl": "…#menimbang-1"
+  }],
+  "articles": [{
+    "number": 20,
+    "title": "Legal bases for processing",
+    "text": "Pengendali Data Pribadi wajib memiliki dasar pemrosesan Data Pribadi.\n\nDasar pemrosesan … meliputi:\n\npersetujuan yang sah secara eksplisit …",
+    "sourceUrl": "https://jdih.komdigi.go.id/…#pasal-20",
+    "eurLexUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/uu/uu-nomor-27-tahun-2022.pdf"
+  }],
+  "searchIndex": [{ "type": "recital", "id": "recital-1", "number": 1, "title": "Recital (1) — Considering (a) — …", "text": "…" }]
+}
+```
+
+- `eurLexUrl` / `eurLexTxtUrl` are legacy field names; for Indonesian instruments they hold **peraturan.go.id** or the **official PDF salinan**.
+- Indonesian `articles[].title` is an **English** structural title (e.g. *Definitions*, *Legal bases for processing*); `text` is the Indonesian statutory wording.
+
+---
+
+## 1e. Indonesia — Satu Data corpus (`data/id-satu-data-content.json`) — excerpts
+
+Perpres 39/2019: 44 *Pasal* in 8 *BAB*; 4 *menimbang* clauses. Official PDF text is the primary ETL source.
+
+```json
+{
+  "meta": {
+    "regulationId": "id-satu-data",
+    "etl": { "extractedFrom": "jdih-kemenkoinfra-pdf", "fetched": true, "significant": true, "articleCount": 44, "recitalCount": 4 },
+    "sources": [
+      { "name": "peraturan.go.id", "url": "https://peraturan.go.id/id/perpres-no-39-tahun-2019", "description": "Official national regulation database entry for Perpres 39/2019.", "documents": [] },
+      { "name": "Portal Satu Data Indonesia", "url": "https://data.go.id", "description": "National data-sharing portal implementing Satu Data Indonesia.", "documents": [] }
+    ]
+  },
+  "chapters": [{ "number": 2, "roman": "II", "title": "Prinsip Satu Data Indonesia", "articleRange": "3-10" }],
+  "recitals": [{ "number": 1, "title": "Considering (a) — integrated development needs reliable shareable data", "text": "bahwa untuk mewujudkan keterpaduan perencanaan …" }],
+  "articles": [{
+    "number": 4,
+    "title": "Data standards",
+    "text": "…",
+    "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+    "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+  }]
+}
+```
+
+---
+
+## 1f. Indonesia — SE AI Ethics corpus, soft law (`data/id-ai-ethics-content.json`) — excerpts
+
+SE Menkominfo 9/2023 is **soft law**. Its 7 sections are stored as `articles`; the **nine ethical values** are stored as `recitals`.
+
+```json
+{
+  "meta": {
+    "regulationId": "id-ai-ethics",
+    "etl": { "extractedFrom": "jdih-komdigi", "fetched": true, "significant": false, "articleCount": 7, "recitalCount": 9 },
+    "sources": [
+      {
+        "name": "JDIH Kementerian Komunikasi dan Digital",
+        "url": "https://jdih.komdigi.go.id/produk_hukum/view/id/883/…",
+        "description": "Official HTML text of SE Menkominfo 9/2023 … currently Indonesia's in-force AI ethics instrument; two Presidential Regulations … still awaiting signature as of September 2026.",
+        "documents": []
+      }
+    ]
+  },
+  "chapters": [{ "number": 1, "roman": "I", "title": "Umum", "articleRange": "1" }],
+  "articles": [
+    { "number": 1, "title": "General background (Umum)", "text": "Perkembangan teknologi kecerdasan artifisial telah mengalami peningkatan yang signifikan …" },
+    { "number": 6, "title": "Operative circular (Isi Edaran)", "text": "…" }
+  ],
+  "recitals": [
+    { "number": 1, "title": "Inclusiveness (Inklusivitas)", "text": "Penyelenggaraan Kecerdasan Artifisial perlu memperhatikan nilai kesetaraan, keadilan, dan perdamaian …", "sourceUrl": "…#nilai-1" },
+    { "number": 2, "title": "Humanity (Kemanusiaan)", "text": "…" }
+  ]
+}
+```
+
+Anchors: `#pasal-N` (UU PDP, Satu Data), `#menimbang-N` (preamble), `#bagian-N` (SE sections), `#nilai-N` (SE ethical values).
+
+### 1g. Chapter summaries (`data/chapter-summaries-id-pdp.json`) — excerpt
+
+```json
+{
+  "regulationId": "id-pdp",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": null,
+  "summaries": { "1": "Bab I defines personal data, controllers, processors, data subjects, and the territorial plus extra-territorial scope of Indonesia's PDP Law …" }
+}
+```
+
+Same shape for `chapter-summaries-id-satu-data.json` and `chapter-summaries-id-ai-ethics.json`. Note: the stored `source` value (`inline-fallback` here) comes from the file; the API echoes the file's `source`, and returns `source: "missing"` with `summaries: {}` only when the file is absent for a non-GDPR instrument.
+
+---
+
+## 1h. Regulation catalog entry (`GET /api/regulations`) — Indonesian
+
+```json
+{
+  "id": "id-pdp",
+  "shortName": "ID PDP Law",
+  "legalLabel": "UU PDP",
+  "fullName": "Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi",
+  "maxArticles": 76,
+  "maxRecitals": 4,
+  "maxChapters": 16,
+  "segmentMeta": { "recitals": "Considering a–d", "articles": "Pasal 1–76" },
+  "hasArticleTopics": false,
+  "hasSuitableRecitals": false,
+  "jurisdiction": "id",
+  "jurisdictionLabel": "Indonesia",
+  "officialSiteName": "peraturan.go.id"
+}
+```
+
+---
+
 ## 2. News cache (`data/gdpr-news.json`) — excerpts
+
+One shared cache for EU **and** Indonesian items; per-instrument scope is applied client-side.
 
 ```json
 {
@@ -94,6 +248,11 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
       "name": "European Data Protection Board (EDPB)",
       "url": "https://edpb.europa.eu/feed/publications_en",
       "description": "…"
+    },
+    {
+      "name": "Antara (Hukum)",
+      "url": "https://www.antaranews.com/rss/hukum.xml",
+      "description": "LKBN Antara — law and justice (official state news agency)"
     }
   ],
   "items": [
@@ -108,10 +267,22 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
       "topicCategory": "Supervisory cooperation",
       "commissionPolicyAreas": ["DIGAG"],
       "summaryParagraphs": ["…", "…", "…"]
+    },
+    {
+      "title": "Mengawal pelindungan data pribadi dari regulasi ke pengawasan",
+      "url": "https://www.antaranews.com/berita/5787817/mengawal-pelindungan-data-pribadi-dari-regulasi-ke-pengawasan",
+      "sourceName": "Antara (Hukum)",
+      "sourceUrl": "https://www.antaranews.com/",
+      "date": null,
+      "snippet": "UU PDP pelindungan data pribadi",
+      "topic": "UU PDP and Komdigi supervision",
+      "topicCategory": "Indonesia Personal Data Protection"
     }
   ]
 }
 ```
+
+Indonesian `topicCategory` values: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**. `date` may be `null` when the publisher listing page exposes none.
 
 ---
 
@@ -130,6 +301,17 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
 }
 ```
 
+Indonesian instrument (question may be in Bahasa Indonesia or English):
+
+```json
+{
+  "query": "Apa dasar pemrosesan data pribadi menurut UU PDP?",
+  "regulation": "id-pdp",
+  "includeWeb": false,
+  "industrySectorId": "GENERAL"
+}
+```
+
 ---
 
 ## 4. Ask response (`POST /api/answer`) — illustrative
@@ -141,7 +323,7 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
   "contentAsOf": "2026-07-06T12:00:00.000Z",
   "includeWeb": true,
   "industrySector": { "id": "GENERAL", "label": "General", "isicSection": null, "isicDivision": null },
-  "answer": "Consent must be freely given, specific, informed, and unambiguous … [S1] … [S2]",
+  "answer": "A high-risk AI system is one classified under the Article 6 rules … [S1] … [S2]",
   "sources": [
     { "id": "S1", "kind": "regulation", "type": "article", "number": 6, "title": "Classification rules for high-risk AI systems", "excerpt": "…", "sourceUrl": "https://ai-act-law.eu/article/6/" }
   ],
@@ -155,6 +337,22 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
   }
 }
 ```
+
+Indonesian response fragment (UU PDP; `kind: "regulation"` sources link to JDIH anchors):
+
+```json
+{
+  "query": "Apa dasar pemrosesan data pribadi menurut UU PDP?",
+  "regulationId": "id-pdp",
+  "llm": { "used": true, "provider": "tavily", "model": "search+answer (advanced)", "note": "Used after Groq had no usable answer.", "byokGroq": false, "byokTavily": false },
+  "answer": "Pengendali Data Pribadi wajib memiliki dasar pemrosesan, termasuk persetujuan yang sah secara eksplisit … [S1]",
+  "sources": [
+    { "id": "S1", "kind": "regulation", "type": "article", "number": 20, "title": "Legal bases for processing", "chapterTitle": "…", "sourceUrl": "https://jdih.komdigi.go.id/…#pasal-20", "eurLexUrl": "https://jdih.kemenkoinfra.go.id/…", "excerpt": "…" }
+  ]
+}
+```
+
+`llm.provider` is `groq`, `tavily`, or `null` (extractive fallback, `used: false`). For `id-ai-ethics` the Groq prompt adds a soft-law (LEGAL FORCE) rule.
 
 ---
 
@@ -185,10 +383,14 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
 ```json
 {
   "success": true,
-  "message": "Sources refreshed successfully.",
+  "regulationId": "id-pdp",
+  "lastRefreshed": "2026-10-20T12:00:00.000Z",
+  "lastChecked": "2026-10-20T12:00:05.000Z",
+  "etl": { "extractedFrom": "jdih-komdigi", "fetched": true, "significant": false, "articleCount": 76, "recitalCount": 4 },
+  "message": "ETL ran (no significant changes detected from jdih-komdigi).",
   "formattingGuardrails": {
     "ok": true,
-    "checks": [{ "id": "article-count", "ok": true, "detail": "99" }],
+    "checks": [{ "id": "article-count", "ok": true, "detail": "76" }],
     "warnings": []
   }
 }
@@ -198,6 +400,6 @@ Illustrative **JSON fragments** for integrators. Authoritative fields: [VARIABLE
 
 ## References
 
-- [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) — corpus normalization contract  
+- [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) — corpus normalization contract (all six corpora)  
 - [VARIABLES.md](VARIABLES.md) — full dictionary  
-- [API_CONTRACTS.md](API_CONTRACTS.md) — request/response contracts  
+- [API_CONTRACTS.md](API_CONTRACTS.md) — request/response contracts (live routes only)

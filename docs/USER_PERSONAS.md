@@ -1,9 +1,9 @@
 # User Personas  
-## EU Regulation Q&A Platform
+## Regulation Q&A Platform
 
-Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and **EU Data Act**). They inform features, user stories, and documentation.
+Personas represent primary users of the platform across **European Union** and **Indonesian** instruments. They inform features, user stories, and documentation.
 
-**Version:** 1.6 · **Last updated:** 2026-07-22 · Documentation standard **v2.4** · Product **1.2.5**
+**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**
 
 ---
 
@@ -12,46 +12,85 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Alex (Legal / Compliance) |
-| **Role** | In-house counsel or compliance officer; needs accurate EU regulation text and citations across privacy, AI, and data-access law. |
-| **Goals** | Find the right Article or Recital quickly; cite official sources (EUR-Lex, GDPR-Info, AI Act Law, Data Act Law); avoid unsourced interpretations. |
-| **Pain points** | Long PDFs; confusion between overlapping instruments (GDPR vs AI Act vs Data Act); no single searchable workspace. |
-| **Needs** | Regulation switcher; **Browse welcome hub** (compare three regulations on desktop); Browse with filters; Ask with **`[S#]`** citations; sector framing when relevant; PDF export; credible sources tab; on mobile, **Tools** menu for refresh/keys without cramped header icons. |
-| **Relevant features** | Browse welcome grid, Browse, Ask, Credible sources, Export PDF, Refresh sources, regulation profiles, responsive app chrome (Tools panel). |
+| **Role** | In-house counsel or compliance officer working across privacy, AI, and data-access instruments. |
+| **Goals** | Find the right Article/Pasal or Recital quickly; cite official publishers; compare EU and Indonesian analogues without treating them as legally equivalent. |
+| **Pain points** | Long PDFs; instrument overlap; no single searchable multi-jurisdiction workspace. |
+| **Needs** | Region + regulation picker; Browse welcome hub; Ask with `[S#]` citations; PDF export; Credible sources; mobile Tools menu. |
+| **Relevant features** | Region picker, Browse welcome, Browse, Ask, Sources, Export PDF, Refresh sources, responsive chrome. |
 
 ---
 
-## Persona 2: Data Protection Officer (DPO)
+## Persona 2: Data Protection Officer (DPO) — EU
 
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Sam (DPO) |
-| **Role** | DPO; answers internal questions on GDPR and tracks supervisory guidance. |
-| **Goals** | Citation-grounded answers; stay updated on EDPB/ICO/Commission news; point colleagues to official sources. |
-| **Pain points** | Repeating lookups; ensuring answers trace to regulation text, not blogs. |
-| **Needs** | Ask + Relevant provisions; News filters by source/topic; Credible sources; GDPR suitable recitals where available. |
+| **Role** | EU-focused DPO answering internal GDPR questions and tracking supervisory guidance. |
+| **Goals** | Citation-grounded answers; EDPB/ICO/Commission news; point colleagues to official sources. |
+| **Pain points** | Repeating lookups; blogs without article references. |
+| **Needs** | Ask + Relevant provisions; News filters; GDPR suitable recitals; Credible sources. |
 | **Relevant features** | Ask, News, Credible sources, Browse, Refresh sources. |
 
 ---
 
-## Persona 3: Privacy / Legal Consultant
+## Persona 3: Indonesian Personal Data Protection Lead
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Dewi (PDP Lead) |
+| **Role** | Privacy / compliance lead implementing **UU 27/2022** (Pelindungan Data Pribadi) for an Indonesian controller or processor. |
+| **Goals** | Navigate pasal text quickly; ask grounded questions in Indonesian or English; follow Indonesian policy news on PDP. |
+| **Pain points** | Fragmented JDIH PDFs; EU-centric tools that ignore UU PDP; unclear Soft-law vs statute. |
+| **Needs** | Region = Indonesia → ID PDP Law; Browse pasal/considering; Ask with citations to UU PDP corpus; Indo-filtered News; Credible sources to peraturan.go.id / JDIH. |
+| **Relevant features** | Region picker, `id-pdp` Browse/Ask/Sources/News filter, Refresh sources (`id-law-scraper`). |
+
+---
+
+## Persona 4: Satu Data / Open Government Data Steward
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Bima (Data Steward) |
+| **Role** | Government or enterprise data steward aligning datasets with **Satu Data Indonesia** (Perpres 39/2019). |
+| **Goals** | Understand principles, roles, and interoperability obligations from the Perpres text; monitor Satu Data portal / policy news. |
+| **Pain points** | Dense presidential regulation; confusion with EU Data Act “analogue” marketing. |
+| **Needs** | `id-satu-data` browse; Ask grounded in Perpres corpus; News relevance for Satu Data; clear “not EU Data Act” copy. |
+| **Relevant features** | Browse welcome card, Ask, News filter, Credible sources. |
+
+---
+
+## Persona 5: AI Ethics / Responsible AI Officer (Indonesia)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Sari (AI Ethics Officer) |
+| **Role** | Leads responsible-AI policy using **SE Menkominfo 9/2023** ethical values (soft law). |
+| **Goals** | Map organizational AI practices to the nine ethical values and SE sections; educate stakeholders that the SE is **guidance**, not a binding Act. |
+| **Pain points** | Soft-law documents misquoted as hard law; EU AI Act tools that do not cover Indonesian circulars. |
+| **Needs** | `id-ai-ethics` with soft-law framing in Ask prompts and UI; Browse sections/values; News on etika AI. |
+| **Relevant features** | Soft-law Ask framing, Browse, News filter, Sources (JDIH Komdigi). |
+
+---
+
+## Persona 6: Privacy / Legal Consultant
 
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Jordan (Consultant) |
-| **Role** | External consultant advising clients on EU compliance documentation. |
-| **Goals** | Client-ready answers with exact references; export provisions; show “as of” freshness. |
-| **Pain points** | Generic LLMs without article references; manual EUR-Lex copying. |
-| **Needs** | Ask with citations; View in app; Export PDF; regulation-scoped credible sources. |
+| **Role** | External consultant advising multi-national clients on EU and/or Indonesian compliance documentation. |
+| **Goals** | Client-ready answers with exact references; export provisions; show freshness. |
+| **Pain points** | Generic LLMs without article/pasal references; manual copying from EUR-Lex/JDIH. |
+| **Needs** | Ask with citations; View in app; Export PDF; BYOK for client-controlled keys; multi-instrument switch. |
 | **Relevant features** | Ask, Browse, Export PDF, Credible sources, BYOK validation. |
 
 ---
 
-## Persona 4: Industry specialist (e.g. utilities, health, HR)
+## Persona 7: Industry specialist (sector framing)
 
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Riley (Industry specialist) |
-| **Role** | Sector privacy/compliance lead needing GDPR explained in industry context. |
+| **Role** | Sector privacy/compliance lead (utilities, health, HR, etc.). |
 | **Goals** | Sector-named answers grounded in cited text; no invented sector statutes. |
 | **Pain points** | Generic “organizations must…” answers. |
 | **Needs** | ISIC sector combobox on Ask; Browse for verification. |
@@ -59,55 +98,15 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 
 ---
 
-## Persona 5: General Professional (Developer / Product / Policy)
-
-| Attribute | Description |
-|-----------|-------------|
-| **Name** | Casey (General Professional) |
-| **Role** | Developer, PM, or policy generalist checking regulation wording occasionally. |
-| **Goals** | Quick “what does the law say about X?” with links to verify. |
-| **Pain points** | Not knowing article numbers; fear of outdated text. |
-| **Needs** | Simple Ask; Browse; extractive fallback without API keys. |
-| **Relevant features** | Ask, Browse, Credible sources, Homepage (logo reset). |
-
----
-
-## Persona 6: Stakeholder / Reviewer (Read-heavy)
-
-| Attribute | Description |
-|-----------|-------------|
-| **Name** | Morgan (Stakeholder) |
-| **Role** | Manager or auditor verifying compliance materials. |
-| **Goals** | Confirm cited Articles/Recitals match in-app text and official links. |
-| **Pain points** | Multi-site verification. |
-| **Needs** | Browse doc nav; citations panel; Export PDF. |
-| **Relevant features** | Browse, Credible sources, Export PDF. |
-
----
-
-## Persona 7: Engineering / DevOps
-
-| Attribute | Description |
-|-----------|-------------|
-| **Name** | Taylor (Engineering / DevOps) |
-| **Role** | Deploys and operates the app; owns ETL, env, and observability. |
-| **Goals** | Keep **three** corpora current and formatting-consistent; safe BYOK; predictable cron. |
-| **Pain points** | Wrong regulation overwritten on refresh; stale cache after ETL; long news crawls. |
-| **Needs** | [VARIABLES.md](VARIABLES.md); `POST /api/refresh` per regulation; `npm run refresh-data-act`; Vercel cron; BYOK + validate-api-keys. |
-| **Relevant features** | Refresh pipeline, guardrails, BYOK, `.env.example`, OPERATIONS_RUNBOOK. |
-
----
-
 ## Persona 8: AI governance / compliance lead (EU AI Act)
 
 | Attribute | Description |
 |-----------|-------------|
-| **Name** | Avery (AI governance) |
-| **Role** | Leads AI Act readiness — high-risk systems, GPAI, transparency. |
-| **Goals** | Official AI Act text; scoped Ask; Commission AI framework links; relevant news. |
-| **Pain points** | GDPR vs AI Act confusion; PDF-only workflows. |
-| **Needs** | Select **EU AI Act** (from header or welcome card); Browse 113/180; AI-filtered News; `npm run refresh-ai-act`. |
-| **Relevant features** | Browse welcome (AI Act card/theme), regulation switcher, AI Act Browse/Ask/Sources, News banner + filter. |
+| **Name** | Quinn (AI Governance) |
+| **Role** | Owns EU AI Act readiness (risk tiers, GPAI, transparency). |
+| **Goals** | Jump to AI Act articles/recitals; Ask with AI Act–scoped retrieval; filter News for AI relevance. |
+| **Pain points** | Privacy-only tools; GDPR bleed into AI Act filters. |
+| **Relevant features** | `ai-act` Browse/Ask/Sources, News AI Act filter, theme accent indigo. |
 
 ---
 
@@ -115,27 +114,74 @@ Personas represent primary users of the platform (**GDPR**, **EU AI Act**, and *
 
 | Attribute | Description |
 |-----------|-------------|
-| **Name** | Dana (Data Act lead) |
-| **Role** | Owns Data Act readiness — data access, switching, IoT product data, B2B sharing, cloud contracts. |
-| **Goals** | Read official Data Act articles/recitals; Ask with citations; link to Data Act Law and EUR-Lex 2023/2854. |
-| **Pain points** | Data Act text scattered; overlap with GDPR and sector rules; generic search results. |
-| **Needs** | Select **EU Data Act**; Browse 50/119; Ask with Data Act corpus; Credible sources (Data Act Law, Commission data-act policy); Data Act–filtered News. |
-| **Relevant features** | Regulation switcher, Data Act Browse/Ask/Sources, News filter, `npm run refresh-data-act`. |
+| **Name** | Taylor (Data Economy) |
+| **Role** | Product/legal lead on IoT data access, cloud switching, B2B sharing under the Data Act. |
+| **Goals** | Locate Data Act articles; Ask with Data Act corpus; News filter for interoperability / data sharing. |
+| **Pain points** | Mixed GDPR/Data Act confusion. |
+| **Relevant features** | `data-act` Browse/Ask/Sources, News Data Act filter, sky theme. |
+
+---
+
+## Persona 10: General Professional (Developer / Product / Policy)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Casey (General Professional) |
+| **Role** | Developer, PM, or policy generalist checking wording occasionally. |
+| **Goals** | Quick “what does the instrument say about X?” with links to verify. |
+| **Pain points** | Not knowing article/pasal numbers; fear of outdated text. |
+| **Needs** | Simple Ask; Browse; extractive fallback without API keys. |
+| **Relevant features** | Ask, Browse, Credible sources, Homepage logo reset. |
+
+---
+
+## Persona 11: Stakeholder / Reviewer (Read-heavy)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Morgan (Stakeholder) |
+| **Role** | Manager or auditor verifying compliance materials. |
+| **Goals** | Confirm citations exist; open official links; review PDF exports. |
+| **Pain points** | Unsourced decks. |
+| **Needs** | Credible sources; citation chips; PDF; News as awareness only. |
+| **Relevant features** | Sources, Browse, Ask (read), Export PDF. |
+
+---
+
+## Persona 12: Engineering / DevOps
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Avery (Platform Engineer) |
+| **Role** | Operates Node/Vercel deployment, cron, env, corpora. |
+| **Goals** | Reliable refresh for six instruments; seed on cold start; green `npm test`; documented env. |
+| **Pain points** | Stale docs listing removed APIs; Indo WAF blocking news; `/tmp` ephemerality on Vercel. |
+| **Needs** | OPERATIONS_RUNBOOK; VARIABLES; VERCEL_DEPLOY; CRON_SECRET; Indo refresh scripts; parity tests. |
+| **Relevant features** | ETL CLI, cron, `/health`, Refresh sources/news, documentation set. |
 
 ---
 
 ## Summary matrix
 
-| Persona | Primary use | Key features |
-|---------|-------------|--------------|
-| Legal / Compliance | Multi-regulation lookup | Welcome hub, switcher, Browse, Ask, Sources |
-| DPO | GDPR Q&A + news | Ask, News, Sources |
-| Consultant | Sourced client work | Ask, PDF, Sources |
-| Industry specialist | Sector Ask | Ask + ISIC, Browse |
-| General Professional | Quick check | Ask, Browse |
-| Stakeholder | Verify citations | Browse, PDF |
-| Engineering / DevOps | Operate three ETL paths | Refresh, cron, BYOK, env |
-| AI governance lead | AI Act obligations | `ai-act`, Browse/Ask, News filter |
-| Data Act lead | Data Act obligations | `data-act`, Browse/Ask, News filter |
+| Persona | Primary jurisdiction | Primary instruments | Top jobs |
+|---------|---------------------|---------------------|----------|
+| Alex | Both | All six | Switch, browse, cite |
+| Sam | EU | GDPR | Ask, News, suitable recitals |
+| Dewi | ID | UU PDP | Pasal browse, Ask, Indo news |
+| Bima | ID | Satu Data | Perpres browse, Ask |
+| Sari | ID | AI Ethics (soft law) | Values browse, soft-law Ask |
+| Jordan | Both | Client-dependent | Citations, PDF, BYOK |
+| Riley | Either | Active + sector | Sector Ask |
+| Quinn | EU | AI Act | AI Act Ask + News filter |
+| Taylor | EU | Data Act | Data Act Ask + News filter |
+| Casey | Either | Any | Quick Ask |
+| Morgan | Either | Any | Verify sources |
+| Avery | Ops | All (ETL) | Refresh, deploy, test |
 
-For user stories, see [USER_STORIES.md](USER_STORIES.md). For the product handbook, see [README.md](../README.md).
+---
+
+## See also
+
+- [USER_STORIES.md](USER_STORIES.md)  
+- [PRD.md](PRD.md)  
+- [FEATURE_CATALOG.md](FEATURE_CATALOG.md)

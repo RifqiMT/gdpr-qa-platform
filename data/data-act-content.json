@@ -1,7 +1,7 @@
 {
   "meta": {
     "regulationId": "data-act",
-    "lastRefreshed": "2026-05-26T10:47:36.374Z",
+    "lastRefreshed": "2026-09-07T00:00:10.531Z",
     "sources": [
       {
         "name": "Data Act Law",
@@ -101,13 +101,13 @@
         ]
       }
     ],
-    "lastChecked": "2026-05-26T10:47:36.374Z",
-    "datasetHash": "0624a50f88ed5b167089c34206a06f9213155afd2c45a57ff69ac7d443949472",
+    "lastChecked": "2026-09-07T00:00:10.531Z",
+    "datasetHash": "746d4397ba42e937e373f8838992c52ca8f4459d8469815c2b4b38fe98b8d7df",
     "etl": {
       "extractedFrom": "data-act-law",
       "fetched": true,
       "significant": true,
-      "datasetHash": "0624a50f88ed5b167089c34206a06f9213155afd2c45a57ff69ac7d443949472",
+      "datasetHash": "746d4397ba42e937e373f8838992c52ca8f4459d8469815c2b4b38fe98b8d7df",
       "articleCount": 50,
       "recitalCount": 119
     }
@@ -598,7 +598,7 @@
     {
       "number": 48,
       "title": "Amendment to Directive (EU) 2020/1828",
-      "text": "In Annex I to Directive (EU) 2020/1828 the following point is added:\n‘68. Regulation (EU) 2023/2854 of the European Parliament and of the Council of 13 December 2023 on harmonised rules on fair access to and use of data and amending Regulation (EU) 2017/2394 and Directive (EU) 2020/1828 (Data Act) (OJ L, 2023/2854, 22.12.2023). ’",
+      "text": "In Annex I to Directive (EU) 2020/1828 the following point is added:\n‘(69) Regulation (EU) 2023/2854 of the European Parliament and of the Council of 13 December 2023 on harmonised rules on fair access to and use of data and amending Regulation (EU) 2017/2394 and Directive (EU) 2020/1828 (Data Act) (OJ L, 2023/2854, 22.12.2023). ’",
       "sourceUrl": "https://data-act-law.eu/article/48/",
       "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854",
       "chapter": 11
@@ -3051,7 +3051,7 @@
       "chapter": 11,
       "chapterTitle": "Final provisions",
       "title": "Amendment to Directive (EU) 2020/1828",
-      "text": "Amendment to Directive (EU) 2020/1828 In Annex I to Directive (EU) 2020/1828 the following point is added:\n‘68. Regulation (EU) 2023/2854 of the European Parliament and of the Council of 13 December 2023 on harmonised rules on fair access to and use of data and amending Regulation (EU) 2017/2394 and Directive (EU) 2020/1828 (Data Act) (OJ L, 2023/2854, 22.12.2023). ’",
+      "text": "Amendment to Directive (EU) 2020/1828 In Annex I to Directive (EU) 2020/1828 the following point is added:\n‘(69) Regulation (EU) 2023/2854 of the European Parliament and of the Council of 13 December 2023 on harmonised rules on fair access to and use of data and amending Regulation (EU) 2017/2394 and Directive (EU) 2020/1828 (Data Act) (OJ L, 2023/2854, 22.12.2023). ’",
       "sourceUrl": "https://data-act-law.eu/article/48/",
       "eurLexUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2854"
     },

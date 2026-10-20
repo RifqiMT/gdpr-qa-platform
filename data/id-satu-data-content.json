@@ -1,0 +1,962 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-09-07T00:00:15.504Z",
+    "sources": [
+      {
+        "name": "peraturan.go.id",
+        "url": "https://peraturan.go.id/id/perpres-no-39-tahun-2019",
+        "description": "Official national regulation database entry for Perpres 39/2019.",
+        "documents": [
+          {
+            "label": "Perpres No. 39 Tahun 2019",
+            "url": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+          }
+        ]
+      },
+      {
+        "name": "JDIH Kemenko Infra (PDF salinan)",
+        "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+        "description": "Official PDF of Presidential Regulation No. 39 of 2019 on Satu Data Indonesia.",
+        "documents": [
+          {
+            "label": "PDF Perpres 39/2019",
+            "url": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf"
+          }
+        ]
+      },
+      {
+        "name": "Sekretariat Kabinet",
+        "url": "https://setkab.go.id/presiden-jokowi-tandangani-perpres-no-392019-tentang-satu-data-indonesia/",
+        "description": "Official Cabinet Secretariat announcement of Perpres 39/2019.",
+        "documents": [
+          {
+            "label": "Setkab announcement",
+            "url": "https://setkab.go.id/presiden-jokowi-tandangani-perpres-no-392019-tentang-satu-data-indonesia/"
+          }
+        ]
+      },
+      {
+        "name": "Portal Satu Data Indonesia",
+        "url": "https://data.go.id",
+        "description": "National data-sharing portal implementing Satu Data Indonesia.",
+        "documents": [
+          {
+            "label": "data.go.id",
+            "url": "https://data.go.id"
+          }
+        ]
+      }
+    ],
+    "regulationId": "id-satu-data",
+    "lastChecked": "2026-09-07T00:00:15.504Z",
+    "datasetHash": "29e36df343240de3703a9f4410f1bb1f9b6a47e521540af21a4ffb030c046dab",
+    "etl": {
+      "extractedFrom": "jdih-kemenkoinfra-pdf",
+      "fetched": true,
+      "significant": true,
+      "datasetHash": "29e36df343240de3703a9f4410f1bb1f9b6a47e521540af21a4ffb030c046dab",
+      "articleCount": 44,
+      "recitalCount": 4
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Considering (Menimbang)",
+      "description": "Preamble recitals of Perpres 39/2019 (huruf a–d).",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "id": "chapters",
+      "title": "Bab & Pasal",
+      "description": "8 chapters, Articles 1–44 on government data sharing, standards, metadata, and interoperability.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Ketentuan umum",
+      "articleRange": "1-2",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Prinsip Satu Data Indonesia",
+      "articleRange": "3-10",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Penyelenggara Satu Data Indonesia",
+      "articleRange": "11-24",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Penyelenggaraan Satu Data Indonesia",
+      "articleRange": "25-39",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Pendanaan",
+      "articleRange": "40",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Partisipasi lembaga negara dan badan hukum publik",
+      "articleRange": "41",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "Ketentuan peralihan",
+      "articleRange": "42",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 8,
+      "roman": "VIII",
+      "title": "Ketentuan penutup",
+      "articleRange": "43-44",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "Definitions",
+      "text": "Dalam Peraturan Presiden ini yang dimaksud dengan:\n\n1. Satu Data Indonesia adalah kebijakan tata kelola Data pemerintahuntuk menghasilkan Data yang akurat, mutakhir, terpadu, dan dapat dipertanggungjawabkan, serta mudah diakses dan dibagipakaikan antar Instansi Pusat dan Instansi Daerah melalui pemenuhan Standar Data, Metadata, Interoperabilitas Data, dan menggunakan Kode Referensi dan Data Induk. Data adalah catatan atas kumpulan fakta atau deskripsi berupa angka, karakter, simbol, gambar, peta, tanda, isyarat, tulisan, suara, dan/atau bunyi, yang merepresentasikan keadaan sebenarnya atau menunjukkan suatu ide, objek, kondisi, atau situasi. Data Statistik adalah Data berupa angka tentang karakteristik atau ciri khusus suatu populasi yang diperoleh dengan cara pengumpulan, pengolahan, penyajian, dan analisis. 2 .1\n\n4. Data PRES!DEN REPUBLIK INDONESTA\n\n4 Data Geospasial adalah Data tentang lokasi geografis, dimensi atau ukuran, dan/atau karakteristik objek alam dan/atau buatan manusia yang berada di bawah, pada, atau di atas permukaan bumi. Data Keuangan Negara Tingkat Pusat adalah Data yang disusun oleh Pemerintah Pusat berdasarkan sistem akuntansi pemerintah yang mencakup semua hak dan kewajiban negara yang dapat dinilai dengan uang, serta segala sesuatu baik berupa uang maupun berupa barang yang dapat dijadikan milik negara berhubung dengan pelaksanaan hak dan kewajiban tersebut. Standar Data adalah standar yang mendasari Data tertentu.\n\n7. Metadata adalah informasi dalam bentuk struktur dan format yang baku untuk menggambarkan Data, menjelaskan Data, serta memudahkan pencarian, penggunaan, dan pengelolaan informasi Data.\n\n8. Interoperabilitas Data adalah kemampuan Data untuk dibagipakaikan antar sistem elektronik yang saling berinteraksi.\n\n9. Kode Referensi adalah tanda berisi karakter yang mengandung atau menggambarkan makna, maksud, atau norma tertentu sebagai rujukan identitas Data yang bersifat unik.\n\n10. Data Induk adalah Data yang merepresentasikan objek dalam proses bisnis pemerintah yang ditetapkan sesuai dengan ketentuan dalam Peraturan Presiden ini untuk digunakan bersama. 5 6\n\n1 1. Data\n\n1 1. Data Prioritas adalah Data terpilih yang berasal dari daftar Data yang akan dikumpulkan pada tahun selanjutnya yang disepakati dalam Forum Satu Data Indonesia.\n\n12. Forum Satu Data Indonesia adalah wadah komunikasi dan koordinasi Instansi Pusat dan/atau Instansi Daerah untuk penyelenggaraan Satu Data Indonesia.\n\n13. Portal Satu Data Indonesia adalah media bagi-pakai Data di tingkat nasional yang dapat diakses melalui pemanfaatan teknologi informasi dan komunikasi.\n\n14. Instansi Pusat adalah kementerian, lembaga pemerintah nonkementerian, kesekretariatan lembaga negara, kesekretariatan lembaga nonstruktural, dan lembaga pemerintah lainnya.\n\n15. Pemerintah Daerah adalah kepala daerah sebagai unsur penyelenggara pemerintahan daerah yang memimpin pelaksanaan urusan pemerintahan yang menjadi kewenangan daerah otonom.\n\n16. Instansi Daerah adalah perangkat daerah provinsi dan perangkat daerah kabupaten/kota yang meliputi sekretariat daerah, sekretariat dewan perwakilan rakyat daerah, dinas daerah, dan lembaga teknis daerah.\n\n17. Pembina Data adalah Instansi Pusat yang diberi kewenangan melakukan pembinaan terkait Data atau Instansi Daerah yang diberikan penugasan untuk melakukan pembinaan terkait Data, sebagaimana diatur dalam Peraturan Presiden ini.\n\n18. Walidata\n\n18. Walidata adalah unit pada Instansi Pusat dan Instansi Daerah yang melaksanakan kegiatan pengumpulan, pemeriksaan, dan pengelolaan Data yang disampaikan oleh Produsen Data, serta menyebarluaskan Data.\n\n19. Produsen Data adalah unit pada Instansi Pusat dan Instansi Daerah yang menghasilkan Data berdasarkan kewenangan sesuai dengan ketentuan peraturan perundang-undangan.\n\n20. Pengguna Data adalah Instansi Pusat, Instansi Daerah, perseorangan, kelompok orang, atau badan hukum yang menggunakan Data.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 2,
+      "title": "Purpose and objectives",
+      "text": "(1) Pengaturan Satu Data Indonesia dimaksudkan untuk mengatur penyelenggaraan tata kelola Data yang dihasilkan oleh Instansi Pusat dan Instansi Daerah untuk mendukung perencanaan, pelaksanaan, evaluasi. dan pengendalian pembangunan.\n\n(2) Pengaturan Satu Data Indonesia bertujuan untuk:\n\na. memberikan acuan pelaksanaan dan pedoman bagi Instansi Pusat dan Instansi Daerah dalam rangka penyelenggaraan tata kelola Data untuk mendukung perencanaan, pelaksanaan, evaluasi, dan pengendalian pembangunan;\n\nb. mewujudkan ketersediaan Data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, serta mudah diakses dan dibagipakaikan antar Instansi Pusat dan Instansi Daerah sebagai dasar perencanaan, pelaksanaan, evaluasi, dan pengendalian pembangunan;\n\nc. mendorong\n\nc. mendorong keterbukaan dan transparansi Data sehingga tercipta perencanaan dan perumusan kebijakan pembangunan yang berbasis pada Data; dan\n\nd. mendukung sistem statistik nasional peraturan perundang-undangan. sesuai",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 3,
+      "title": "One Data Indonesia principles",
+      "text": "Satu Data Indonesia harus dilakukan berdasarkan prinsip sebagai berikut:\n\na. Data yang dihasilkan oleh Produsen Data harus memenuhi Standar Data;\n\nb. Data yang dihasilkan oleh Produsen Data harus memiliki Metadata;\n\nc. Data yang dihasilkan oleh Produsen Data harus memenuhi kaidah Interoperabilitas Data; dan\n\nd. Data yang dihasilkan oleh Produsen Data harus . menggunakan Kode Referensi dan/atau Data Induk.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 4,
+      "title": "Data standards",
+      "text": "(1) Data yang dihasilkan oleh produsen Data harus memenuhi Standar Data.\n\n(2) Standar\n\n(2) Standar Data sebagaimana dimaksud pada ayat (1) terdiri atas:\n\na. konsep;\n\nb. definisi;\n\nc. klasifikasi;\n\nd. ukuran; dan\n\ne. satuan.\n\n(3) Konsep sebagaimana dimaksud pada ayat (2) huruf a merupakan ide yang mendasari Data dan tujuan Data tersebut diproduksi.\n\n(4) Definisi sebagaimana dimaksud pada ayat (2) huruf b merupakan penjelasan tentang Data yang memberi batas atau membedakan secara jelas arti dan cakupan Data tertentu dengan Data yang lain.\n\n(5) Klasifikasi sebagaimana dimaksud pada ayat (2) huruf c merupakan penggolongan Data secara sistematis ke dalam kelompok atau kategori berdasarkan kriteria yang ditetapkan oleh Pembina Data atau dibakukan secara luas.\n\n(6) Ukuran sebagaimana dimaksud pada ayat (21 huruf d merupakan unit yang digunakan dalam pengukuran jumlah, kadar, atau cakupan.\n\n(7) Satuan sebagaimana dimaksud pada ayat (2) huruf e merupakan besaran tertentu dalam Data yang digunakan sebagai standar untuk mengukur atau menakar sebagai sebuah keseluruhan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 5,
+      "title": "Sector-specific data standards",
+      "text": "(1) Selain Data Statistik dan Data Geospasial, Standar Data sebagaimana dimaksud dalam pasal 4 dapat disesuaikan standarnya berdasarkan karakteristik atau ciri kl'Lusus Data yang distandarkan tersebut.\n\n(2) Standar\n\n(21 Standar Data untuk Data selain Data Statistik dan Data Geospasial ditetapkan oleh Pembina Data lainnya tingkat pusat.\n\n(3) Pembina Data lainnya tingkat pusat sebagaimana dimaksud pada ayat (2) merupakan salah satu Instansi Pusat yang diberi kewenangan melakukan pembinaan terkait Data sebagaimana diatur dalam Peraturan Presiden ini, selain badan yang melaksanakan tugas pemerintahan di bidang kegiatan statistik atau badan yang melaksanakan tugas pemerintahan di bidang informasi geospasial.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 6,
+      "title": "Who establishes data standards",
+      "text": "(1) Standar Data yang berlaku lintas Instansi Pusat dan/atau Instansi Daerah ditetapkan oleh Pembina Data tingkat pusat.\n\n(2) Menteri atau kepala Instansi Pusat dapat menetapkan Standar Data untuk Data yang pemanfaatannya ditujukan untuk memenuhi kebutuhan instansi sesuai dengan tugas dan fungsinya, sepanjang ditetapkan berdasarkan Standar Data yang telah ditetapkan oleh Pembina Data tingkat pusat.\n\n(3) Ketentuan lebih lanjut mengenai Standar Data sebagaimana dimaksud pada ayat (1) dan ayat (2) diatur dalam Peraturan Menteri, Peraturan Lembaga, atau Peraturan Badan, sesuai dengan kewenangan selaku Pembina Data tingkat pusat.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 7,
+      "title": "Metadata",
+      "text": "(1) Data yang dihasilkan oleh Produsen Data harus dilengkapi dengan Metadata.\n\n(2) Informasi dalam Metadata harus mengikuti struktur yang baku dan format yang baku.\n\n(3) Struktur yang baku sebagaimana dimaksud pada ayat (2) merujuk pada bagian informasi tentang Data yang harus dicakup dalam Metadata.\n\n(4) Format yang baku sebagaimana dimaksud pada ayat\n\n(2) merujuk pada spesihkasi atau standar teknis dari Metadata.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 8,
+      "title": "Data interoperability",
+      "text": "(1) Struktur yang baku dan format yang baku untuk Data yang berlaku lintas Instansi Pusat dan/atau Instansi Daerah ditetapkan oleh Pembina Data tingkat pusat.\n\n(2) Menteri atau kepala Instansi Pusat dapat menetapkan struktur yang baku dan format yang baku untuk Data yang pemanfaatannya ditujukan untuk memenuhi kebutuhan instansi sesuai dengan tugas dan fungsinya, sepanjang ditetapkan berdasarkan struktur yang baku dan format yang baku yang telah ditetapkan oleh Pembina Data tingkat pusat.\n\n(3) Ketentuan lebih lanjut mengenai struktur yang baku dan format yang baku sebagaimana dimaksud pada ayat (1) dan ayat (2) diatur dalam Peraturan Menteri, Peraturan Lembaga, atau Peraturan Badan, sesuai dengan kewenangan selaku Pembina Data tingkat pusat.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 9,
+      "title": "Interoperability requirements",
+      "text": "(1) Data yang dihasilkan oleh Produsen Data harus memenuhi kaidah Interoperabilitas Data.\n\n(2) Untuk memenuhi kaidah Interoperabilitas Data sebagaimana dimaksud pada ayat (1), Data harus:\n\na. konsisten dalam sintak/bentuk, struktur/skema/komposisi penyajian, dan semantik/ artikulasi keterbacaan; dan\n\nb. disimpan dalam format terbuka yang dapat dibaca sistem elektronik.\n\n(3) Ketentuan lebih lanjut mengenai Interoperabilitas Data diatur dengan Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang komunikasi dan informatika.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 10,
+      "title": "Reference codes and master data",
+      "text": "(1) Data yang dihasilkan oleh Produsen Data harus menggunakan Kode Referensi dan/atau Data Induk. (2\\ Kode Referensi dan/atau Data Induk dibahas dalam Forum Satu Data Indonesia tingkat pusat.\n\n(3) Dalam pembahasan sebagaimana dimaksud pada ayat (2), Forum Satu Data Indonesia tingkat pusat menyepakati:\n\na. Kode Referensi dan/atau Data Induk; dan\n\nb. Instansi Pusat yang unit kerjanya menjadi Walidata atas Kode Referensi dan/atau Data Induk tersebut. (4lForum...\n\n(4) Forum Satu Data Indonesia tingkat pusat menyampaikan hasil pembahasan sebagaimana dimaksud pada ayat (3) kepada Pembina Data untuk ditetapkan.\n\n(5) Dewan Pengarah menetapkan Kode Referensi dan/atau Data Induk serta Instansi Pusat yang unit kerjanya menjadi Walidata atas Kode Referensi dan/atau Data Induk dalam hal:\n\na. Data yang Pembina Datanya belum ditetapkan; atau\n\nb. Forum Satu Data tidak mencapai kesepakatan terhadap Kode Referensi dan/atau Data Induk serta Walidata atas Kode Referensi dan/atau Data Induk sebagaimana dimaksud pada ayat (3).\n\n(6) Walidata atas Kode Referensi dan/atau Data Induk menyebarluaskan Kode Referensi dan/atau Data Induk dalam Portal Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 11,
+      "title": "Central-level organisers",
+      "text": "Penyelenggara Satu Data Indonesia tingkat pusat dilaksanakan oleh:\n\na. Dewan\n\nREPUBLTK INDONESIA -t2a. Dewan Pengarah;\n\nb. Pembina Data tingkat pusat;\n\nc. Walidata tingkat pusat; dan\n\nd. Produsen Data tingkat pusat",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 12,
+      "title": "Steering Board (Dewan Pengarah)",
+      "text": "(1) Dengan Peraturan Presiden ini, dibentuk Dewan Pengarah. (21 Dewan Pengarah mempunyai tugas:\n\na. mengoordinasikan dan menetapkan kebijakan terkait Satu Data Indonesia;\n\nb. mengoordinasikan pelaksanaan Satu Data Indonesia;\n\nc. melakukan pemantauan dan evaluasi pelaksanaan Satu Data Indonesia;\n\nd. mengoordinasikan penyelesaian permasalahan dan hambatan pelaksanaan Satu Data Indonesia; dan\n\ne. menyampaikan laporan penyelenggaraan Satu Data Indonesia tingkat pusat dan tingkat daerah kepada Presiden.\n\n(3) Dewan Pengarah terdiri atas:\n\na. Ketua merangkap anggota, yaitu menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional;\n\nb. Anggota, terdiri atas:\n\n1. menteri\n\nREPUELIK INDONESIA\n\n1. menteri yang menyelenggarakan urusan pemerintahan di bidang pendayagunaan aparatur negara;\n\n2. menteri yang menyelenggarakan urusan pemerintahan di bidang komunikasi dan informatika;\n\n3. menteri yang menyelenggarakan urusan pemerintahan dalam negeri;\n\n4. menteri yang menyelenggarakan urusan pemerintahan di bidang keuangan;\n\n5. kepala badan yang melaksanakan tugas pemerintahan di bidang kegiatan statistik; dan\n\n6. kepala badan yang melaksanakan tugas pemerintahan di bidang informasi geospasial. (41 Dalam melaksanakan tugas, Dewan Pengarah dapat melibatkan menteri atau kepala Instansi Pusat terkait lainnya.\n\n(5) Ketentuan lebih lanjut mengenai tata kerja Dewan Pengarah diatur dalam Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional selaku Ketua Dewan Pengarah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 13,
+      "title": "Central data supervisors (Pembina Data)",
+      "text": "(1) Pembina Data tingkat pusat mempunyai tugas:\n\na. menetapkan Standar Data yang berlaku lintas Instansi Pusat dan/atau Instansi Daerah;\n\nb.menetapkan... SK No 00701 1 A\n\nREPUBLIK INDONESIA\n\nb. menetapkan struktur yang baku dan format yang baku dari Metadata yang berlaku lintas Instansi Fusat dan/atau Instansi Daerah;\n\nc. memberikan rekomendasi dalam proses perencanaan pengumpulan Data;\n\nd. melakukan pemeriksaan ulang terhadap Data Prioritas; dan\n\ne. melakukan pembinaan penyelenggaraan Satu Data Indonesia sesuai dengan ketentuan peraturan perundang-undangan.\n\n(2) Untuk Data Statistik tingkat pusat, Pembina Data Statistik tingkat pusat yaitu badan yang melaksanakan tugas pemerintahan di bidang kegiatan statistik.\n\n(3) Untuk Data Geospasial tingkat pusat, Pembina Data Geospasial tingkat pusat yaitu badan yang melaksanakan tugas pemerintahan di bidang informasi geospasial. (41 Untuk Data Keuangan Negara Tingkat Pusat, Pembina Data Keuangan Negara Tingkat Pusat yaitu kementerian yang menyelenggarakan urusan pemerintahan di bidang keuangan negara.\n\n(5) Untuk Data lainnya, penetapan Pembina Data untuk suatu Data lainnya dilakukan dengan mekanisme sebagai berikut:\n\na. Instansi Pusat mengusulkan calon Pembina Data untuk Data lainnya dalam Forum Satu Data Indonesia tingkat pusat;\n\nb. Forum Satu Data Indonesia tingkat pusat membahas usulan Instansi Pusat; SK No OO7O14 A\n\nc.Koordinator...\n\n_15_\n\nc. koordinator Forum Satu Data Indonesia tingkat pusat menyampaikan hasil pembahasan kepada Dewan Pengarah;\n\nd. Ketua Dewan Pengarah menyampaikan usulan Pembina Data untuk Data lainnya kepada Presiden untuk ditetapkan; dan\n\ne. Presiden menetapkan Pembina Data untuk Data lainnya.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 14,
+      "title": "Central data custodians (Walidata)",
+      "text": "(1) Walidata tingkat pusat mempunyai tugas:\n\na. mengumpulkan, memeriksa kesesuaian Data, dan mengelola Data yang disampaikan oleh Produsen Data sesuai dengan prinsip Satu Data Indonesia;\n\nb. menyebarluaskan Data, Metadata, Kode Referensi, dan Data Induk di Portal Satu Data Indonesia; dan\n\nc. membantu Pembina Data dalam membina Produsen Data. (21 Setiap Instansi Pusat hanya memiliki 1 (satu) unit kerja yang melaksanakan tugas Walidata tingkat pusat di masing-masing Instansi Pusat.\n\n(3) Ketentuan lebih lanjut mengenai Walidata tingkat pusat diatur dalam Peraturan Menteri, Peraturan Lembaga, atau Peraturan Badan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 15,
+      "title": "Central data producers",
+      "text": "(1) Produsen Data tingkat pusat mempunyai tugas:\n\na. memberikan masukan kepada Pembina Data dan Menteri atau kepala Instansi Pusat mengenai Standar Data, Metadata, dan Interoperabilitas Data;\n\nb. menghasilkan Data sesuai dengan prinsip Satu Data Indonesia; dan\n\nc. menyampaikan Data dan Metadata kepada Walidata. (21 Ketentuan lebih lanjut mengenai Produsen Data diatur dalam Peraturan Menteri, Peraturan Lembaga, at-au Peraturan Badan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 16,
+      "title": "Central One Data Forum",
+      "text": "(1) Pembina Data tingkat pusat dan Walidata tingkat pusat berkomunikasi dan berkoordinasi melalui Forum Satu Data lndonesia tingkat pusat.\n\n(2) Forum Satu Data Indonesia tingkat pusat dikoordinasikan oleh pimpinan tinggi madya yang berasal dari kemerrterian yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.\n\n(3) Dalam\n\n-t7-\n\n(3) Dalam berkomunikasi dan berkoordinasi, Forum Satu Data Indonesia tingkat pusat dapat menyertakan:\n\na. pejabat tinggi madya dari Instansi Pusat yang Menteri atau kepala Instansi Pusatnya menjadi anggota Dewan Pengarah;\n\nb. Produsen Data; dan/atau\n\nc. pihak lain yang terkait, termasuk selain pemerintah.\n\n(4) Forum Satu Data Indonesia tingkat pusat berkomunikasi dan berkoordinasi dalam penyelenggaraan Satu Data Indonesia mengenai:\n\na. daftar Data yang akan dikumpulkan pada tahun selanjutnya;\n\nb. daftar Data yang menjadi Data Prioritas pada tahun selanjutnya;\n\nc. rencana aksi Satu Data Indonesia;\n\nd. Kode Referensi dan Data Induk;\n\ne. Instansi Pusat yang unit kerjanya melaksanakan tugas Walidata untuk Kode Referensi dan Data Induk;\n\nf. calon Pembina Data untuk Data lainnya berdasarkan usulan Instansi Pusat;\n\ng. pembatasan akses Data yang diusulkan oleh Produsen Data tingkat pusat dan Walidata tingkat pusat; dan\n\nh. permasalahan terkait pelaksanaan Satu Data Indorresia.\n\n(5) Forum Satu Data Indonesia tingkat pusat melaksanakan pertemuan koordinasi secara berkala dalam rangka melaksanakan tugasnya.\n\n(6) Dalam\n\n-18\n\n(6) Dalam hal terdapat permasalahan yang timbul dalam pertemuan koordinasi, khususnya pada saat pengambilan kesepakatan, koordinator Forum Satu Data Indonesia tingkat pusat meminta arahar, Dewan Pengarah.\n\n(7) Ketentuan lebih lanjut mengenai tata kerja Forum Satu Data Indonesia tingkat pusat diatur dalam Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional selaku Ketua Dewan Pengarah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 17,
+      "title": "Central One Data Secretariat",
+      "text": "(1) Dewan Pengarah dan Forum Satu Data Indonesia tingkat pusat dalam pelaksanaan tugasnva dibantu oleh Sekretariat Satu Data Indonesia tingkat pusat.\n\n(2) Sekretariat Satu Data Indonesia tingkat pusat mempunyai tugas:\n\na. memberikan dukungan dan pelayanan teknis operasional dan aclministratif kepada Dewan Pengarah dan Forum Satu Data Indonesia tingkat pusat; dan\n\nb. melaksanakan tugas lain yang diberikan oleh Dewan Pengarah dan Forum Satu Data Indonesia tingkat pusat.\n\n(3) Sekretariat Satu Data Indonesia tingkat pusat bersifat ex-officio, yang secara fungsional dilaksanakan oleh salah satu unit kerja di lingkungan kementerian )ang menyelenggarakan urusan pemerintahan di bidang perencanaan pcmbangunan nasional.\n\n(41 Ketentuan",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 18,
+      "title": "Regional-level organisers",
+      "text": "Penyelenggara Satu Data Indonesia tingkat daerah terdiri atas penyelenggara Satu Data Indonesia tingkat provinsi dan penyelenggara Satu Data Indonesia tingkat kabupaten/kota.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 19,
+      "title": "Regional data supervisors",
+      "text": "Penyelenggara Satu Data Indonesia dilaksanakan oleh:\n\na. Pembina Data tingkat daerah;\n\nb. Walidata tingkat daerah;\n\nc. Walidata pendukung; dan\n\nd. Produsen Data tingkat daerah. tingkat daerah",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 20,
+      "title": "Regional data custodians",
+      "text": "(1) Pembina Data tingkat daerah mempunyai tugas:\n\na. memberikan rekomendasi dalam proses perencanaan pengumpulan Data; dan\n\nb. melakukan\n\nb. rnelakukan pembinaan penyelenggaraan Satu Data Indonesia tingkat daerah sesuai dengan ketentuan peraturan perundang-undangan.\n\n(2) Untuk Data Statistik tingkat daerah, Pembina Data Statistik tingkat daerah yaitu instansi vertikal badan yang melaksanakan tugas pemerintahan di bidang statistik di provinsi atau kabupaten/kota.\n\n(3) Untuk Data Geospasial tingkat daerah, Pembina Data Geospasial tingkat daerah yaitu salah satu Instansi Daerah yang diberikan penugasan sebagai Pengelola Simpul Jaringan Pemerintah Daerah dalam Jaringan Informasi Geospasial Nasional.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 21,
+      "title": "Regional data producers",
+      "text": "(1) Walidata tingkat daerah mempunyai tugas:\n\na. memeriksa kesesuaian Data yang disampaikan oleh Produsen Data tingkat daerah sesuai dengan prinsip Satu Data Indonesia;\n\nb. menyebarluaskan Data dan Metadata di portal Satu Data Indonesia; dan\n\nc. membantu Pembina Data tingkat daerah dalam membina Produsen Data tingkat daerah.\n\n(2) Setiap Pemerintah Daerah hanya menriliki 1 (satu) Instansi Daerah yang meiaksanakan tugas Walidata tingkat daerah.\n\n(3) Walidata tingkat daerah sebagairnana dimaksud pada ayat (2) dilaksanakan oleh Instansi Daerah yang bertugas mengelola dan menyebarluaskan Data.\n\n(4) Walidata . .\n\n(4) Walidata tingkat daerah sebagaimana dimaksud pada ayat (1) dibantu oleh Walidata pendukung yang berkedudukan dalam Instansi Daerah, sesuai penugasan kepala daerah.\n\n(5) Ketentuan lebih lanjut mengenai Walidata tingkat daerah dan Walidata pendukung diatur dalam Peraturan Kepala Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 22,
+      "title": "Regional One Data Forum",
+      "text": "(1) Produsen Data tingkat daerah mempunyai tugas:\n\na. memberikan masukan kepada Pembina Data tingkat daerah mehgerr&i Standar Data, Metadata, dan Interoperabilitas Data;\n\nb. menghasilkan Data sesuai dengan prinsip Satu Data Indonesia; dan\n\nc. menyampaikan Data beserta Metadata kepada Walidata tingkat daerah.\n\n(2) Ketentuan lebih lanjut mengenai Produsen Data tingkat daerah diatur dalam Peraturan Kepala Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 23,
+      "title": "Regional Forum membership",
+      "text": "(1) Pembina Data tingkat daerah, Walidata tingkat daerah, dan Walidata pendukung berkomunikasi dan berkoordinasi melalu-r Forum Satu Data Indonesia tingkat daerah.\n\n(2) Forum...\n\nPRESIDEN REPUBLIK INDONESTA\n\n(2) Forum Satu Data Indonesia tingkat daerah terdiri atas Forum Satu Data Indonesia tingkat provinsi dan I.-onrm Satu Data Indonesia tingkat kabupaten/kota.\n\n(3) Forum Satu Data Indonesia tingkat provinsi dikoordinasikan oleh kepala badan yang mclaksanakan tugas pemerintahan di bidang perencanaan pembangunan daerah provinsi.\n\n(4) Forum Satu Data Indonesia tingkat provinsi terdiri atas:\n\na. Pembina Data tingkat provinsi;\n\nb. Walidata tingkat provinsi;\n\nc. Walidata pendukung provinsi; dan\n\nd. Walidata tingkat kabupaten/kota yang berada di dalam wilayah provinsi.\n\n(5) Forum Satu Data Indonesia tingkat kabupaten/kota dikoordinasikan oleh kepala baclan yang meiaksanakan tugas pemerintahan di bidang perencanaan pembangunan daerah kabupaten/kota.\n\n(6) Forum Satu Data Indonesia tingkat kabupaten/kota terdiri atas:\n\na. Pembina Data tingkat kabupaten/kota;\n\nb. Walidata tingkat kabupaten/kota; dan\n\nc. Walidata pendukung kabupaten/kota.\n\n(7) Forum Satu Data Indonesia tingkat daer.ah dalam pelaksanaan tugasnya dapat menyertakan Produsen Data tingkat dacrah darr/atau pihak lain yang terkait, termasuk selain pemerintah.\n\n(8) Forum Satu Data Indonesia tingkat daerah berkomunikasi dan berkoordinasi dalam rangka menyelesaikan permasalahan terkait penyelenf{garaan Saltu Data Indoncsier tingkat daerah.\n\n(9) Forum\n\n-23\n\n(9) Forum Satu Data Indonesia tingkat daerah melaksanakan perternuan koordinasi secara berkala dalam rangka melaksanakan tugasnya.\n\n(10) Dalam hal terdapat permasalahan yang timbul dalam pertemuan koordinasi, khususnya pada saat pengambilan kesepakatan. koordinator Forum Satu Data Indonesia tingkat daerah meminta arahan kepala daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 24,
+      "title": "Regional One Data Secretariat",
+      "text": "(1) Forum Satu Data Indonesia tingkat daerah dalam pelaksanaan tugasnya dibantu oleh Sekretariat Satu Data Indonesia tingkat daerah.\n\n(2) Sekretariat Satu Data Indonesia tingkat daerah sebagaimana dimaksud pada ayat (1) terdiri atas Sekretariat Satu Data Indonesia tingkat provinsi dan Sekretariat Satu Data Indonesia tingkat kabupaten/kota.\n\n(3) Sekretariat Satu Data Indonesia tingkat daerah mempunyai tugas:\n\na. memberikan dukungan dan pelayanan teknis operasional dan administratif kepada Forum Satu Data Indonesia tingkat daerah; dan\n\nb. melaksanakan tugas lain yang diberikan oleh Forum Satu Data Indonesia tingkat daerah.\n\n(4) Sekretariat Satu Data Indonesia tingkat daerah bersifat ex-officio, yang secara tLngsional dilaksanakan oleh salah satu unit kerja di lingkungan badan yang melaksanakan tugas pemerintahan di bidang perencanaan pembangunan dacrah.\n\n(5) Ketentuan\n\n(5) Ketentuan lebih lanjut mengenai Sekretariat Satu Data Indonesia tingkat daerah diatur dalam Peraturan Kepala Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 25,
+      "title": "Stages of One Data implementation",
+      "text": "Penyelenggaraan Satu Data Indonesia terdiri atas\n\na. perencanaan Data;\n\nb. pengumpulan Data;\n\nc. pemeriksaan Data; dan\n\nd. penyebarluasan Data.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 26,
+      "title": "Data planning",
+      "text": "(1) Instansi Pusat melaksanakan perencanaan Data yang terdiri atas:\n\na. penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya;\n\nb. penentuan daftar Data yang dijadikan Data Prioritas; dan/atau\n\nc. penentuan rencana aksi Satu Data Indonesia.\n\n(2) Instansi Daerah melaksanakan perencanaan Data berupa penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya.\n\n(3) Dalam\n\n(3) Dalam menyusun daftar Data sebagaimana dimaksud pada ayat (2), instansi Daerah mengacu pada daftar Data yang telah ditentukan sebagaimana dimaksud pada ayat (1) huruf a.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 27,
+      "title": "Avoiding duplication in data lists",
+      "text": "(1) Penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya dilakukan dengan menghindari duplikasi.\n\n(2) Penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya dilakukan berdasarkan:\n\na. arsitektur sistem pemerintahan berbasis elektronik sesuai dengan ketentuan peraturan perundang-undangan tentang sistem pemerintahan berbasis elektronik;\n\nb. kesepakatan Forum Satu Data Indonesia; dan/atau\n\nc. rekornendasi Pembina Data.\n\n(3) Daftar Data yang akan dikumpulkan memuat:\n\na. Produsen Data untuk masirrg-masing Data; dan\n\nb. jadwal rilis dan/atau pemutakhiran Data.\n\n(4) Daftar Data yang akan dikr.rmpulkan dapat digunakr,n sebagai dasar dalam perencanaan dan penganggaran bagi Instansi Pusat dan Instansi Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 28,
+      "title": "Priority data",
+      "text": "(1) Penentuan daftar Data yang dijadikan Data prioritas dilakukan berdasarkan :\n\na. usulan Walidata tinqkat pusat; dan\n\nb. arahan dari Dewarr Pengarah.\n\n(2) Data\n\n(2) Data yang dapat diusulkan untuk rnenjadi Data Prioritas harus memenuhi kriteria:\n\na. mendukung prioritas pembangunan dan prioritas Presiden dalam Rencana Pembangunan Jangka Menengah Nasional dan/atau Rencana Kerja Pemerintah;\n\nb. mendukung pencapaian tujuan pembangunan berkelanjutan; dan I atau\n\nc. memenuhi kebutuhan mendesak.\n\n(3) Daftar Data yang menjadi Data Prioritas disepakati dalam Forum Satu Data Indonesia tingkat pusat.\n\n(4) Koordinator Forum Satu Data Indonesia tingkat pusat menyampaikan daftar Data yang menjadi Data Prioritas kepada menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasiclnal.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 29,
+      "title": "One Data Indonesia action plan",
+      "text": "(1) Rencana program dan kegiatan terkait Satu Data Indonesia dituangkan dalam rencana aksi Satu Data Indonesia. (21 Rencana aksi Satu Data Indonesia dapat mencakup:\n\na. pengembangan sumber daya manusia yang kompeten;\n\nb. penyusunan petunjuk teknis pelaksanaan Satu Data Indonesia;\n\nc. kegiatan terkait pengumpulan Data;\n\nd. kegiatan terkait pemeriksaan Data;\n\ne. kegiatan terkait penyebarluasan Data; dan/atau\n\nf. kegiatan . .A\n\nf. kegiatan lain yang mendukung tercapainya Data yang sesuai dengan prinsip Satu Data Indonesia.\n\n(3) Rencana aksi Satu Data Indonesia diusulkan bersama oleh Walidata melalui Forum Satu Data Indonesia tingkat pusat.\n\n(4) Rencana aksi Satu Data Indonesia disepakati dalam Forum Satu Data Indonesia tingkat pusat.\n\n(5) Koordinator Forum Satu Data Indonesia tingkat pusat mengoordinasikan penyusunan rencana aksi Satu Data Indonesia untuk disampaikan kepada menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 30,
+      "title": "Establishment of priority data and the action plan",
+      "text": "(1) Data Prioritas sebagaimana dimaksud dalam pasal 28 ayat (4) dan rencana aksi Satu Data Indonesia sebagaimana dimaksud dalam",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 31,
+      "title": "Data collection",
+      "text": "(1) Peircapaian rencana aksi Satu Data Indonesia dapat digunakan sebagai dasar pertimbangan pemberian insentif dan disinsentif kepada Instansi Pusat dan Instansi Daerah berdasarkan ketentuan peraturan perundang-undangan.\n\n(2) Ketentuan lebih lanjut mengenai insentif dan disinsentif sebagaimana dimaksud pa,1a ayat (1) diatur dalam Peraturan Menteri a-tau Peraturan Badan, sesuai dengan kewenangan selaku anggota Dewan Pengarah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 32,
+      "title": "Collection methods",
+      "text": "(1) Produsen Data melakukan pengumpuian Data sesuai dengan:\n\na. Standar Data;\n\nb. daftar data yang telah ditentukan dalam Forum Satu Data Indoncsia; dan\n\nc. jadwal pemutakhiran Data a1.au rilis Data.\n\n(2) Data yang dikumpulkan oleh Produsen Data disertai dengan Metadata.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 33,
+      "title": "Examination of data",
+      "text": "(1) Data yang telah dikumpulkan oleh Produsen Data disampaikan kepada Walidata.\n\n(2) Penyampaian Data sebagaimana dimaksud pada ayat (1) disertai:\n\na. Data yang telah dikumpulkan;\n\nb. Standar Data yang berlaku untuk Data tersebut; dan\n\nc. Metadata yang melekat pada Data tersebut.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 34,
+      "title": "Examination of non-priority data",
+      "text": "(1) Data yang dihasilkan oleh Produsen Data diperiksa kesesuaiannya dengan prinsip Satu Data Indonesia oleh Walidata.\n\n(2) Dalam hal Data yang disampaikan oleh Produsen Data belum sesuai dengan prinsip Satu Data Indonesia, Walidata mengembalikan Data tersebut kepada Produsen Data.\n\n(3) Produsen Data memperbaiki Data sesuai hasil pemeriksaan sebagaimana dimaksud pada ayat (1).",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 35,
+      "title": "Examination of priority data",
+      "text": "(1) Data Prioritas yang dihasilkan oleh Produsen Data diperiksa kesesuaiannya dengan prinsip Satu Data Indonesia oleh Walidata.\n\n(2) Hasil ,\n\n(2) Hasil pemeriksaan Data Prioritas sebagaimana dimaksud pada ayat (1), diperiksa kembali oleh Pembina Data.\n\n(3) Dalam hal Data Prioritas yang disampaikan oleh Produsen Data belum sesuai dengan prinsip Satu Data Indonesia, Pembina Data mengembalikan Data tersebut kepada Walidata.\n\n(4) Walidata menyampaikan hasil pemeriksaan Pembina Data sebagaimana dimaksud.pada ayat (2) kepada Produsen Data.\n\n(5) Produsen Data memperbaiki Data sesuai hasil pemeriksaan sebagaimana dimaksud pada ayat (1) dan ayat (2).",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 36,
+      "title": "Dissemination of data",
+      "text": "(1) Penyebarluasan Data nrerupakan kegiatan pemberian akses, pendistribusian, dan pertukaran Data. (2t\n\n(3) (4) Penyebarluasan Data dilakukan oleh Walidata. Penyebarluasan Data dilakukan melalui Portal Satu Data Indonesia dan media lainnya sesuai dengan ketentuan peraturan perundang-undangan dan perkembangan ilmu pengetahuan dan teknologi. Portal Satu Data Inctonesia menyediakan akses:\n\na. Kode Referensi;\n\nb. Data Induk;\n\nc. Data . .\n\nc. Data;\n\nd. Metadata;\n\ne. Data Prioritas; dan\n\nf. jadwal rilis dan/atau pemutakhiran Data.\n\n(5) Portal Satu Data Indonesia dikelola oleh kementerian yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.\n\n(6) Ketentuan lebih lanjut mengenai Portal Satu Data Indonesia diatur dalam Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 37,
+      "title": "Access restrictions",
+      "text": "(1) Instansi Pusat dan Instansi Daerah menyediakan akses Data kepada Pengguna Data.\n\n(2) Produsen Data dan Walidata dapat mengajukan pembatasan akses Data tertentu kepada Forum Satu Data Indonesia.\n\n(3) Pembatasan akses Data sebagaimana pada ayat (21 dibahas dalam Forum Indonesia. dimaksud Satu Data\n\n(4) Hasil pembahasan sebagaimana dimaksud pada ayat\n\n(3) disampaikan kepada menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.\n\n(5) Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional menetapkan Data yang dibatasi aksesnya sebagaimana dimaksud pada ayat (2).\n\n(6) Pembatasan\n\n(6) Pembatasan akses terhadap Data di Portal Satu Data Indonesia dilaksanakan oleh:\n\na. Walidata untuk Pengguna Data pada Instansi Pusat dan Instansi Daerah; dan\n\nb. pejabat pengelola informasi dan dokumentasi atau pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi kepada publik untuk Pengguna Data di luar Instansi Pusat dan Instansi Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 38,
+      "title": "Portal Satu Data Indonesia",
+      "text": "Data yang disebarluaskan oleh Walidata tingkat pusat dan Walidata tingkat daerah harus dapat diakses melalui Portal Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 39,
+      "title": "Access without MoU or fees",
+      "text": "(1) Instansi Pusat dan Instansi Daerah mengakses Data di Portal Satu Data Indonesia tidak dipungut biaya. (21 Instansi Pusat dan lnstansi Daerah dalam mengakses Data di Portal Satu Data Indonesia tidak memerlukan dokumen nota kesepahaman, perjanjian kerja sama, dan/atau dokumen surat pernyataan.\n\n(3) Akses Data bagi Pengguna Data selain Instansi Pusat dan Instansi Daerah sebagaimana dimaksud pada ayat (1) dilaksanakan sesuai ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 40,
+      "title": "Funding",
+      "text": "Segala pendanaan yang diperlukan untuk pelaksanaan Peraturan Presiden ini dibebankan kepada Anggaran Pendapatan dan Belanja Negara, Anggaran Pendapatan dan Belanja Daerah, dan/atau sumber pendanaan lain sesuai dengan ketentuan peraturan perundangundangan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 41,
+      "title": "Participation of state institutions and public bodies",
+      "text": "(1) Lembaga negara dan badan hukum publik, yang meliputi Bank Indonesia, Otoritas Jasa Keuangan, Badan Penyelenggara Jaminan Sosial, dan lembaga negara dan badan hukum publik lainnya dapat berpartisipasi dalam penyelenggaraan Satu Data Indonesia.\n\n(2) Partisipasi lembaga negara dan badan hukum publik sebagaimana dimaksud pada ayat (1) tidak mengurangi wewenang dan independensi tugas dan fungsinya sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 42,
+      "title": "Transitional provisions",
+      "text": "Nota kesepahaman, perjanjian dokumen surat pernyataan sama, dan/atau instansi Pusat kerja antar\n\ndan/atau\n\ndan/atau Instansi Daerah yang terkait dengan tata kelola, akses data, dan/atau pemanfaatan Data yang sudah ada pada saat mulai berlakunya Peraturan Presiden ini, masih tetap berlaku dan mempunyai kekuatan hukum mengikat untuk jangka waktu pating lama 1 (satu) tahun terhitung sejak tanggal pengundangan Peraturan Presiden ini.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 43,
+      "title": "Repeals and continuing instruments",
+      "text": "Pada saat Peraturan Presiden ini mulai berlaku:\n\na. kebijakan pemerintah dan semua peraturan perundang-undangan yang mengatr.rr mengenai tata kelola dan/atau pemanfaatan Data yang telah ditetapkan dinyatakan masih tetap berlaku sepanjang tidak bertentangan dengan Peraturan Presiden ini; dan\n\nb. kebijakan pemerintah dan semua peraturan perundang-undangan yang mengatur mengenai tata kelola dan/atau pemanfaatan Data yang telah ditetapkan wajib menyesuaikan dengan ketentuan dalam Peraturan Presiden ini paling lama 1 (satu) tahun terhitung sejak Peraturan presiden ini diundangkan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 44,
+      "title": "Entry into force",
+      "text": "Peraturan Presiden ini mulai berlaku pada tanggal diundangkan.\n\nAgar PRES IDEN REFUBLIK INDONESIA\n\nAgar setiap orang mengetahuinya, memerintahkan pengundangan Peraturan Presiden ini dengan penempatannya dalam Lembaran Negara Republik Indonesia. Ditetapkan di Jakarta Pada tanggal 12 Juni 2Ol9 , ttd JOKO WIDODO Diundangkan di Jakarta pada tanggal 17 Juni 2Ol9 MENTERI HUKUM DAN HAK ASASI MANUSIA REPUBLIK INDONESIA, ttd. YASONNA H. LAOLY LEMBARAN NEGARA REPUBLIK INDONESIA TAHUN 2OI9 NOMOR 112 Salinan sesuai dengan aslinya KEMENTERIAN SEKRETARIAT NEGARA REPUBLIK INDONESIA uti Bidang Hukum dan :1L dang-undangan, ir.l * tK\n\nvanna Djaman",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Considering (a) — integrated development needs reliable shareable data",
+      "text": "bahwa untuk mewujudkan keterpaduan perencanaan, pelaksanaan, evaluasi, dan pengendalian pembangunan, perlu didukung dengan Data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, mudah diakses, dan dibagipakaikan, serta dikelola secara seksama, terintegrasi, dan berkelanjutan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 2,
+      "title": "Considering (b) — improving government data governance through Satu Data",
+      "text": "bahwa untuk memperoleh Data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, mudah diakses, dan dibagipakaikan, diperlukan perbaikan tata kelola Data yang dihasilkan oleh pemerintah melalui penyelenggaraan Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 3,
+      "title": "Considering (c) — absence of a prior Satu Data Indonesia instrument",
+      "text": "bahwa selama ini belum ada ketentuan yang mengatur mengenai Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "number": 4,
+      "title": "Considering (d) — enactment of the Presidential Regulation",
+      "text": "bahwa berdasarkan pertimbangan sebagaimana dimaksud dalam huruf a, huruf b, dan huruf c perlu menetapkan Peraturan Presiden tentang Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Considering (a) — integrated development needs reliable shareable data",
+      "text": "bahwa untuk mewujudkan keterpaduan perencanaan, pelaksanaan, evaluasi, dan pengendalian pembangunan, perlu didukung dengan Data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, mudah diakses, dan dibagipakaikan, serta dikelola secara seksama, terintegrasi, dan berkelanjutan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — Considering (b) — improving government data governance through Satu Data",
+      "text": "bahwa untuk memperoleh Data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, mudah diakses, dan dibagipakaikan, diperlukan perbaikan tata kelola Data yang dihasilkan oleh pemerintah melalui penyelenggaraan Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Considering (c) — absence of a prior Satu Data Indonesia instrument",
+      "text": "bahwa selama ini belum ada ketentuan yang mengatur mengenai Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Considering (d) — enactment of the Presidential Regulation",
+      "text": "bahwa berdasarkan pertimbangan sebagaimana dimaksud dalam huruf a, huruf b, dan huruf c perlu menetapkan Peraturan Presiden tentang Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapterTitle": "",
+      "title": "Definitions",
+      "text": "Definitions Dalam Peraturan Presiden ini yang dimaksud dengan:\n\n1. Satu Data Indonesia adalah kebijakan tata kelola Data pemerintahuntuk menghasilkan Data yang akurat, mutakhir, terpadu, dan dapat dipertanggungjawabkan, serta mudah diakses dan dibagipakaikan antar Instansi Pusat dan Instansi Daerah melalui pemenuhan Standar Data, Metadata, Interoperabilitas Data, dan menggunakan Kode Referensi dan Data Induk. Data adalah catatan atas kumpulan fakta atau deskripsi berupa angka, karakter, simbol, gambar, peta, tanda, isyarat, tulisan, suara, dan/atau bunyi, yang merepresentasikan keadaan sebenarnya atau menunjukkan suatu ide, objek, kondisi, atau situasi. Data Statistik adalah Data berupa angka tentang karakteristik atau ciri khusus suatu populasi yang diperoleh dengan cara pengumpulan, pengolahan, penyajian, dan analisis. 2 .1\n\n4. Data PRES!DEN REPUBLIK INDONESTA\n\n4 Data Geospasial adalah Data tentang lokasi geografis, dimensi atau ukuran, dan/atau karakteristik objek alam dan/atau buatan manusia yang berada di bawah, pada, atau di atas permukaan bumi. Data Keuangan Negara Tingkat Pusat adalah Data yang disusun oleh Pemerintah Pusat berdasarkan sistem akuntansi pemerintah yang mencakup semua hak dan kewajiban negara yang dapat dinilai dengan uang, serta segala sesuatu baik berupa uang maupun berupa barang yang dapat dijadikan milik negara berhubung dengan pelaksanaan hak dan kewajiban tersebut. Standar Data adalah standar yang mendasari Data tertentu.\n\n7. Metadata adalah informasi dalam bentuk struktur dan format yang baku untuk menggambarkan Data, menjelaskan Data, serta memudahkan pencarian, penggunaan, dan pengelolaan informasi Data.\n\n8. Interoperabilitas Data adalah kemampuan Data untuk dibagipakaikan antar sistem elektronik yang saling berinteraksi.\n\n9. Kode Referensi adalah tanda berisi karakter yang mengandung atau menggambarkan makna, maksud, atau norma tertentu sebagai rujukan identitas Data yang bersifat unik.\n\n10. Data Induk adalah Data yang merepresentasikan objek dalam proses bisnis pemerintah yang ditetapkan sesuai dengan ketentuan dalam Peraturan Presiden ini untuk digunakan bersama. 5 6\n\n1 1. Data\n\n1 1. Data Prioritas adalah Data terpilih yang berasal dari daftar Data yang akan dikumpulkan pada tahun selanjutnya yang disepakati dalam Forum Satu Data Indonesia.\n\n12. Forum Satu Data Indonesia adalah wadah komunikasi dan koordinasi Instansi Pusat dan/atau Instansi Daerah untuk penyelenggaraan Satu Data Indonesia.\n\n13. Portal Satu Data Indonesia adalah media bagi-pakai Data di tingkat nasional yang dapat diakses melalui pemanfaatan teknologi informasi dan komunikasi.\n\n14. Instansi Pusat adalah kementerian, lembaga pemerintah nonkementerian, kesekretariatan lembaga negara, kesekretariatan lembaga nonstruktural, dan lembaga pemerintah lainnya.\n\n15. Pemerintah Daerah adalah kepala daerah sebagai unsur penyelenggara pemerintahan daerah yang memimpin pelaksanaan urusan pemerintahan yang menjadi kewenangan daerah otonom.\n\n16. Instansi Daerah",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapterTitle": "",
+      "title": "Purpose and objectives",
+      "text": "Purpose and objectives (1) Pengaturan Satu Data Indonesia dimaksudkan untuk mengatur penyelenggaraan tata kelola Data yang dihasilkan oleh Instansi Pusat dan Instansi Daerah untuk mendukung perencanaan, pelaksanaan, evaluasi. dan pengendalian pembangunan.\n\n(2) Pengaturan Satu Data Indonesia bertujuan untuk:\n\na. memberikan acuan pelaksanaan dan pedoman bagi Instansi Pusat dan Instansi Daerah dalam rangka penyelenggaraan tata kelola Data untuk mendukung perencanaan, pelaksanaan, evaluasi, dan pengendalian pembangunan;\n\nb. mewujudkan ketersediaan Data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, serta mudah diakses dan dibagipakaikan antar Instansi Pusat dan Instansi Daerah sebagai dasar perencanaan, pelaksanaan, evaluasi, dan pengendalian pembangunan;\n\nc. mendorong\n\nc. mendorong keterbukaan dan transparansi Data sehingga tercipta perencanaan dan perumusan kebijakan pembangunan yang berbasis pada Data; dan\n\nd. mendukung sistem statistik nasional peraturan perundang-undangan. sesuai",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapterTitle": "",
+      "title": "One Data Indonesia principles",
+      "text": "One Data Indonesia principles Satu Data Indonesia harus dilakukan berdasarkan prinsip sebagai berikut:\n\na. Data yang dihasilkan oleh Produsen Data harus memenuhi Standar Data;\n\nb. Data yang dihasilkan oleh Produsen Data harus memiliki Metadata;\n\nc. Data yang dihasilkan oleh Produsen Data harus memenuhi kaidah Interoperabilitas Data; dan\n\nd. Data yang dihasilkan oleh Produsen Data harus . menggunakan Kode Referensi dan/atau Data Induk.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapterTitle": "",
+      "title": "Data standards",
+      "text": "Data standards (1) Data yang dihasilkan oleh produsen Data harus memenuhi Standar Data.\n\n(2) Standar\n\n(2) Standar Data sebagaimana dimaksud pada ayat (1) terdiri atas:\n\na. konsep;\n\nb. definisi;\n\nc. klasifikasi;\n\nd. ukuran; dan\n\ne. satuan.\n\n(3) Konsep sebagaimana dimaksud pada ayat (2) huruf a merupakan ide yang mendasari Data dan tujuan Data tersebut diproduksi.\n\n(4) Definisi sebagaimana dimaksud pada ayat (2) huruf b merupakan penjelasan tentang Data yang memberi batas atau membedakan secara jelas arti dan cakupan Data tertentu dengan Data yang lain.\n\n(5) Klasifikasi sebagaimana dimaksud pada ayat (2) huruf c merupakan penggolongan Data secara sistematis ke dalam kelompok atau kategori berdasarkan kriteria yang ditetapkan oleh Pembina Data atau dibakukan secara luas.\n\n(6) Ukuran sebagaimana dimaksud pada ayat (21 huruf d merupakan unit yang digunakan dalam pengukuran jumlah, kadar, atau cakupan.\n\n(7) Satuan sebagaimana dimaksud pada ayat (2) huruf e merupakan besaran tertentu dalam Data yang digunakan sebagai standar untuk mengukur atau menakar sebagai sebuah keseluruhan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapterTitle": "",
+      "title": "Sector-specific data standards",
+      "text": "Sector-specific data standards (1) Selain Data Statistik dan Data Geospasial, Standar Data sebagaimana dimaksud dalam pasal 4 dapat disesuaikan standarnya berdasarkan karakteristik atau ciri kl'Lusus Data yang distandarkan tersebut.\n\n(2) Standar\n\n(21 Standar Data untuk Data selain Data Statistik dan Data Geospasial ditetapkan oleh Pembina Data lainnya tingkat pusat.\n\n(3) Pembina Data lainnya tingkat pusat sebagaimana dimaksud pada ayat (2) merupakan salah satu Instansi Pusat yang diberi kewenangan melakukan pembinaan terkait Data sebagaimana diatur dalam Peraturan Presiden ini, selain badan yang melaksanakan tugas pemerintahan di bidang kegiatan statistik atau badan yang melaksanakan tugas pemerintahan di bidang informasi geospasial.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapterTitle": "",
+      "title": "Who establishes data standards",
+      "text": "Who establishes data standards (1) Standar Data yang berlaku lintas Instansi Pusat dan/atau Instansi Daerah ditetapkan oleh Pembina Data tingkat pusat.\n\n(2) Menteri atau kepala Instansi Pusat dapat menetapkan Standar Data untuk Data yang pemanfaatannya ditujukan untuk memenuhi kebutuhan instansi sesuai dengan tugas dan fungsinya, sepanjang ditetapkan berdasarkan Standar Data yang telah ditetapkan oleh Pembina Data tingkat pusat.\n\n(3) Ketentuan lebih lanjut mengenai Standar Data sebagaimana dimaksud pada ayat (1) dan ayat (2) diatur dalam Peraturan Menteri, Peraturan Lembaga, atau Peraturan Badan, sesuai dengan kewenangan selaku Pembina Data tingkat pusat.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapterTitle": "",
+      "title": "Metadata",
+      "text": "Metadata (1) Data yang dihasilkan oleh Produsen Data harus dilengkapi dengan Metadata.\n\n(2) Informasi dalam Metadata harus mengikuti struktur yang baku dan format yang baku.\n\n(3) Struktur yang baku sebagaimana dimaksud pada ayat (2) merujuk pada bagian informasi tentang Data yang harus dicakup dalam Metadata.\n\n(4) Format yang baku sebagaimana dimaksud pada ayat\n\n(2) merujuk pada spesihkasi atau standar teknis dari Metadata.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapterTitle": "",
+      "title": "Data interoperability",
+      "text": "Data interoperability (1) Struktur yang baku dan format yang baku untuk Data yang berlaku lintas Instansi Pusat dan/atau Instansi Daerah ditetapkan oleh Pembina Data tingkat pusat.\n\n(2) Menteri atau kepala Instansi Pusat dapat menetapkan struktur yang baku dan format yang baku untuk Data yang pemanfaatannya ditujukan untuk memenuhi kebutuhan instansi sesuai dengan tugas dan fungsinya, sepanjang ditetapkan berdasarkan struktur yang baku dan format yang baku yang telah ditetapkan oleh Pembina Data tingkat pusat.\n\n(3) Ketentuan lebih lanjut mengenai struktur yang baku dan format yang baku sebagaimana dimaksud pada ayat (1) dan ayat (2) diatur dalam Peraturan Menteri, Peraturan Lembaga, atau Peraturan Badan, sesuai dengan kewenangan selaku Pembina Data tingkat pusat.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapterTitle": "",
+      "title": "Interoperability requirements",
+      "text": "Interoperability requirements (1) Data yang dihasilkan oleh Produsen Data harus memenuhi kaidah Interoperabilitas Data.\n\n(2) Untuk memenuhi kaidah Interoperabilitas Data sebagaimana dimaksud pada ayat (1), Data harus:\n\na. konsisten dalam sintak/bentuk, struktur/skema/komposisi penyajian, dan semantik/ artikulasi keterbacaan; dan\n\nb. disimpan dalam format terbuka yang dapat dibaca sistem elektronik.\n\n(3) Ketentuan lebih lanjut mengenai Interoperabilitas Data diatur dengan Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang komunikasi dan informatika.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapterTitle": "",
+      "title": "Reference codes and master data",
+      "text": "Reference codes and master data (1) Data yang dihasilkan oleh Produsen Data harus menggunakan Kode Referensi dan/atau Data Induk. (2\\ Kode Referensi dan/atau Data Induk dibahas dalam Forum Satu Data Indonesia tingkat pusat.\n\n(3) Dalam pembahasan sebagaimana dimaksud pada ayat (2), Forum Satu Data Indonesia tingkat pusat menyepakati:\n\na. Kode Referensi dan/atau Data Induk; dan\n\nb. Instansi Pusat yang unit kerjanya menjadi Walidata atas Kode Referensi dan/atau Data Induk tersebut. (4lForum...\n\n(4) Forum Satu Data Indonesia tingkat pusat menyampaikan hasil pembahasan sebagaimana dimaksud pada ayat (3) kepada Pembina Data untuk ditetapkan.\n\n(5) Dewan Pengarah menetapkan Kode Referensi dan/atau Data Induk serta Instansi Pusat yang unit kerjanya menjadi Walidata atas Kode Referensi dan/atau Data Induk dalam hal:\n\na. Data yang Pembina Datanya belum ditetapkan; atau\n\nb. Forum Satu Data tidak mencapai kesepakatan terhadap Kode Referensi dan/atau Data Induk serta Walidata atas Kode Referensi dan/atau Data Induk sebagaimana dimaksud pada ayat (3).\n\n(6) Walidata atas Kode Referensi dan/atau Data Induk menyebarluaskan Kode Referensi dan/atau Data Induk dalam Portal Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapterTitle": "",
+      "title": "Central-level organisers",
+      "text": "Central-level organisers Penyelenggara Satu Data Indonesia tingkat pusat dilaksanakan oleh:\n\na. Dewan\n\nREPUBLTK INDONESIA -t2a. Dewan Pengarah;\n\nb. Pembina Data tingkat pusat;\n\nc. Walidata tingkat pusat; dan\n\nd. Produsen Data tingkat pusat",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-12",
+      "number": 12,
+      "chapterTitle": "",
+      "title": "Steering Board (Dewan Pengarah)",
+      "text": "Steering Board (Dewan Pengarah) (1) Dengan Peraturan Presiden ini, dibentuk Dewan Pengarah. (21 Dewan Pengarah mempunyai tugas:\n\na. mengoordinasikan dan menetapkan kebijakan terkait Satu Data Indonesia;\n\nb. mengoordinasikan pelaksanaan Satu Data Indonesia;\n\nc. melakukan pemantauan dan evaluasi pelaksanaan Satu Data Indonesia;\n\nd. mengoordinasikan penyelesaian permasalahan dan hambatan pelaksanaan Satu Data Indonesia; dan\n\ne. menyampaikan laporan penyelenggaraan Satu Data Indonesia tingkat pusat dan tingkat daerah kepada Presiden.\n\n(3) Dewan Pengarah terdiri atas:\n\na. Ketua merangkap anggota, yaitu menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional;\n\nb. Anggota, terdiri atas:\n\n1. menteri\n\nREPUELIK INDONESIA\n\n1. menteri yang menyelenggarakan urusan pemerintahan di bidang pendayagunaan aparatur negara;\n\n2. menteri yang menyelenggarakan urusan pemerintahan di bidang komunikasi dan informatika;\n\n3. menteri yang menyelenggarakan urusan pemerintahan dalam negeri;\n\n4. menteri yang menyelenggarakan urusan pemerintahan di bidang keuangan;\n\n5. kepala badan yang melaksanakan tugas pemerintahan di bidang kegiatan statistik; dan\n\n6. kepala badan yang melaksanakan tugas pemerintahan di bidang informasi geospasial. (41 Dalam melaksanakan tugas, Dewan Pengarah dapat melibatkan menteri atau kepala Instansi Pusat terkait lainnya.\n\n(5) Ketentuan lebih lanjut mengenai tata kerja Dewan Pengarah diatur dalam Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional selaku Ketua Dewan Pengarah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-13",
+      "number": 13,
+      "chapterTitle": "",
+      "title": "Central data supervisors (Pembina Data)",
+      "text": "Central data supervisors (Pembina Data) (1) Pembina Data tingkat pusat mempunyai tugas:\n\na. menetapkan Standar Data yang berlaku lintas Instansi Pusat dan/atau Instansi Daerah;\n\nb.menetapkan... SK No 00701 1 A\n\nREPUBLIK INDONESIA\n\nb. menetapkan struktur yang baku dan format yang baku dari Metadata yang berlaku lintas Instansi Fusat dan/atau Instansi Daerah;\n\nc. memberikan rekomendasi dalam proses perencanaan pengumpulan Data;\n\nd. melakukan pemeriksaan ulang terhadap Data Prioritas; dan\n\ne. melakukan pembinaan penyelenggaraan Satu Data Indonesia sesuai dengan ketentuan peraturan perundang-undangan.\n\n(2) Untuk Data Statistik tingkat pusat, Pembina Data Statistik tingkat pusat yaitu badan yang melaksanakan tugas pemerintahan di bidang kegiatan statistik.\n\n(3) Untuk Data Geospasial tingkat pusat, Pembina Data Geospasial tingkat pusat yaitu badan yang melaksanakan tugas pemerintahan di bidang informasi geospasial. (41 Untuk Data Keuangan Negara Tingkat Pusat, Pembina Data Keuangan Negara Tingkat Pusat yaitu kementerian yang menyelenggarakan urusan pemerintahan di bidang keuangan negara.\n\n(5) Untuk Data lainnya, penetapan Pembina Data untuk suatu Data lainnya dilakukan dengan mekanisme sebagai berikut:\n\na. Instansi Pusat mengusulkan calon Pembina Data untuk Data lainnya dalam Forum Satu Data Indonesia tingkat pusat;\n\nb. Forum Satu Data Indonesia tingkat pusat membahas usulan Instansi Pusat; SK No OO7O14 A\n\nc.Koordinator...\n\n_15_\n\nc. koordinator Forum Satu Data Indonesia tingkat pusat menyampaikan hasil pembahasan kepada Dewan Pengarah;\n\nd. Ketua Dewan Pengarah menyampaikan usulan Pembina Data untuk Data lainnya kepada Presiden untuk ditetapkan; dan\n\ne. Presiden menetapkan Pembina Data untuk Data lainnya.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-14",
+      "number": 14,
+      "chapterTitle": "",
+      "title": "Central data custodians (Walidata)",
+      "text": "Central data custodians (Walidata) (1) Walidata tingkat pusat mempunyai tugas:\n\na. mengumpulkan, memeriksa kesesuaian Data, dan mengelola Data yang disampaikan oleh Produsen Data sesuai dengan prinsip Satu Data Indonesia;\n\nb. menyebarluaskan Data, Metadata, Kode Referensi, dan Data Induk di Portal Satu Data Indonesia; dan\n\nc. membantu Pembina Data dalam membina Produsen Data. (21 Setiap Instansi Pusat hanya memiliki 1 (satu) unit kerja yang melaksanakan tugas Walidata tingkat pusat di masing-masing Instansi Pusat.\n\n(3) Ketentuan lebih lanjut mengenai Walidata tingkat pusat diatur dalam Peraturan Menteri, Peraturan Lembaga, atau Peraturan Badan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-15",
+      "number": 15,
+      "chapterTitle": "",
+      "title": "Central data producers",
+      "text": "Central data producers (1) Produsen Data tingkat pusat mempunyai tugas:\n\na. memberikan masukan kepada Pembina Data dan Menteri atau kepala Instansi Pusat mengenai Standar Data, Metadata, dan Interoperabilitas Data;\n\nb. menghasilkan Data sesuai dengan prinsip Satu Data Indonesia; dan\n\nc. menyampaikan Data dan Metadata kepada Walidata. (21 Ketentuan lebih lanjut mengenai Produsen Data diatur dalam Peraturan Menteri, Peraturan Lembaga, at-au Peraturan Badan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-16",
+      "number": 16,
+      "chapterTitle": "",
+      "title": "Central One Data Forum",
+      "text": "Central One Data Forum (1) Pembina Data tingkat pusat dan Walidata tingkat pusat berkomunikasi dan berkoordinasi melalui Forum Satu Data lndonesia tingkat pusat.\n\n(2) Forum Satu Data Indonesia tingkat pusat dikoordinasikan oleh pimpinan tinggi madya yang berasal dari kemerrterian yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.\n\n(3) Dalam\n\n-t7-\n\n(3) Dalam berkomunikasi dan berkoordinasi, Forum Satu Data Indonesia tingkat pusat dapat menyertakan:\n\na. pejabat tinggi madya dari Instansi Pusat yang Menteri atau kepala Instansi Pusatnya menjadi anggota Dewan Pengarah;\n\nb. Produsen Data; dan/atau\n\nc. pihak lain yang terkait, termasuk selain pemerintah.\n\n(4) Forum Satu Data Indonesia tingkat pusat berkomunikasi dan berkoordinasi dalam penyelenggaraan Satu Data Indonesia mengenai:\n\na. daftar Data yang akan dikumpulkan pada tahun selanjutnya;\n\nb. daftar Data yang menjadi Data Prioritas pada tahun selanjutnya;\n\nc. rencana aksi Satu Data Indonesia;\n\nd. Kode Referensi dan Data Induk;\n\ne. Instansi Pusat yang unit kerjanya melaksanakan tugas Walidata untuk Kode Referensi dan Data Induk;\n\nf. calon Pembina Data untuk Data lainnya berdasarkan usulan Instansi Pusat;\n\ng. pembatasan akses Data yang diusulkan oleh Produsen Data tingkat pusat dan Walidata tingkat pusat; dan\n\nh. permasalahan terkait pelaksanaan Satu Data Indorresia.\n\n(5) Forum Satu Data Indonesia tingkat pusat melaksanakan pertemuan koordinasi secara berkala dalam rangka melaksanakan tugasnya.\n\n(6) Dalam\n\n-18\n\n(6) Dalam hal terdapat permasalahan yang timbul dalam pertemuan koordinasi, khususnya pada saat pengambilan kesepakatan, koordinator Forum Satu Data Indonesia tingkat pusat meminta arahar, Dewan Pengarah.\n\n(7) Ketentuan lebih lanjut mengenai tata kerja Forum Satu Data Indonesia tingkat pusat diatur dalam Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional selaku Ketua Dewan Pengarah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-17",
+      "number": 17,
+      "chapterTitle": "",
+      "title": "Central One Data Secretariat",
+      "text": "Central One Data Secretariat (1) Dewan Pengarah dan Forum Satu Data Indonesia tingkat pusat dalam pelaksanaan tugasnva dibantu oleh Sekretariat Satu Data Indonesia tingkat pusat.\n\n(2) Sekretariat Satu Data Indonesia tingkat pusat mempunyai tugas:\n\na. memberikan dukungan dan pelayanan teknis operasional dan aclministratif kepada Dewan Pengarah dan Forum Satu Data Indonesia tingkat pusat; dan\n\nb. melaksanakan tugas lain yang diberikan oleh Dewan Pengarah dan Forum Satu Data Indonesia tingkat pusat.\n\n(3) Sekretariat Satu Data Indonesia tingkat pusat bersifat ex-officio, yang secara fungsional dilaksanakan oleh salah satu unit kerja di lingkungan kementerian )ang menyelenggarakan urusan pemerintahan di bidang perencanaan pcmbangunan nasional.\n\n(41 Ketentuan",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-18",
+      "number": 18,
+      "chapterTitle": "",
+      "title": "Regional-level organisers",
+      "text": "Regional-level organisers Penyelenggara Satu Data Indonesia tingkat daerah terdiri atas penyelenggara Satu Data Indonesia tingkat provinsi dan penyelenggara Satu Data Indonesia tingkat kabupaten/kota.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-19",
+      "number": 19,
+      "chapterTitle": "",
+      "title": "Regional data supervisors",
+      "text": "Regional data supervisors Penyelenggara Satu Data Indonesia dilaksanakan oleh:\n\na. Pembina Data tingkat daerah;\n\nb. Walidata tingkat daerah;\n\nc. Walidata pendukung; dan\n\nd. Produsen Data tingkat daerah. tingkat daerah",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-20",
+      "number": 20,
+      "chapterTitle": "",
+      "title": "Regional data custodians",
+      "text": "Regional data custodians (1) Pembina Data tingkat daerah mempunyai tugas:\n\na. memberikan rekomendasi dalam proses perencanaan pengumpulan Data; dan\n\nb. melakukan\n\nb. rnelakukan pembinaan penyelenggaraan Satu Data Indonesia tingkat daerah sesuai dengan ketentuan peraturan perundang-undangan.\n\n(2) Untuk Data Statistik tingkat daerah, Pembina Data Statistik tingkat daerah yaitu instansi vertikal badan yang melaksanakan tugas pemerintahan di bidang statistik di provinsi atau kabupaten/kota.\n\n(3) Untuk Data Geospasial tingkat daerah, Pembina Data Geospasial tingkat daerah yaitu salah satu Instansi Daerah yang diberikan penugasan sebagai Pengelola Simpul Jaringan Pemerintah Daerah dalam Jaringan Informasi Geospasial Nasional.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-21",
+      "number": 21,
+      "chapterTitle": "",
+      "title": "Regional data producers",
+      "text": "Regional data producers (1) Walidata tingkat daerah mempunyai tugas:\n\na. memeriksa kesesuaian Data yang disampaikan oleh Produsen Data tingkat daerah sesuai dengan prinsip Satu Data Indonesia;\n\nb. menyebarluaskan Data dan Metadata di portal Satu Data Indonesia; dan\n\nc. membantu Pembina Data tingkat daerah dalam membina Produsen Data tingkat daerah.\n\n(2) Setiap Pemerintah Daerah hanya menriliki 1 (satu) Instansi Daerah yang meiaksanakan tugas Walidata tingkat daerah.\n\n(3) Walidata tingkat daerah sebagairnana dimaksud pada ayat (2) dilaksanakan oleh Instansi Daerah yang bertugas mengelola dan menyebarluaskan Data.\n\n(4) Walidata . .\n\n(4) Walidata tingkat daerah sebagaimana dimaksud pada ayat (1) dibantu oleh Walidata pendukung yang berkedudukan dalam Instansi Daerah, sesuai penugasan kepala daerah.\n\n(5) Ketentuan lebih lanjut mengenai Walidata tingkat daerah dan Walidata pendukung diatur dalam Peraturan Kepala Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-22",
+      "number": 22,
+      "chapterTitle": "",
+      "title": "Regional One Data Forum",
+      "text": "Regional One Data Forum (1) Produsen Data tingkat daerah mempunyai tugas:\n\na. memberikan masukan kepada Pembina Data tingkat daerah mehgerr&i Standar Data, Metadata, dan Interoperabilitas Data;\n\nb. menghasilkan Data sesuai dengan prinsip Satu Data Indonesia; dan\n\nc. menyampaikan Data beserta Metadata kepada Walidata tingkat daerah.\n\n(2) Ketentuan lebih lanjut mengenai Produsen Data tingkat daerah diatur dalam Peraturan Kepala Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-23",
+      "number": 23,
+      "chapterTitle": "",
+      "title": "Regional Forum membership",
+      "text": "Regional Forum membership (1) Pembina Data tingkat daerah, Walidata tingkat daerah, dan Walidata pendukung berkomunikasi dan berkoordinasi melalu-r Forum Satu Data Indonesia tingkat daerah.\n\n(2) Forum...\n\nPRESIDEN REPUBLIK INDONESTA\n\n(2) Forum Satu Data Indonesia tingkat daerah terdiri atas Forum Satu Data Indonesia tingkat provinsi dan I.-onrm Satu Data Indonesia tingkat kabupaten/kota.\n\n(3) Forum Satu Data Indonesia tingkat provinsi dikoordinasikan oleh kepala badan yang mclaksanakan tugas pemerintahan di bidang perencanaan pembangunan daerah provinsi.\n\n(4) Forum Satu Data Indonesia tingkat provinsi terdiri atas:\n\na. Pembina Data tingkat provinsi;\n\nb. Walidata tingkat provinsi;\n\nc. Walidata pendukung provinsi; dan\n\nd. Walidata tingkat kabupaten/kota yang berada di dalam wilayah provinsi.\n\n(5) Forum Satu Data Indonesia tingkat kabupaten/kota dikoordinasikan oleh kepala baclan yang meiaksanakan tugas pemerintahan di bidang perencanaan pembangunan daerah kabupaten/kota.\n\n(6) Forum Satu Data Indonesia tingkat kabupaten/kota terdiri atas:\n\na. Pembina Data tingkat kabupaten/kota;\n\nb. Walidata tingkat kabupaten/kota; dan\n\nc. Walidata pendukung kabupaten/kota.\n\n(7) Forum Satu Data Indonesia tingkat daer.ah dalam pelaksanaan tugasnya dapat menyertakan Produsen Data tingkat dacrah darr/atau pihak lain yang terkait, termasuk selain pemerintah.\n\n(8) Forum Satu Data Indonesia tingkat daerah berkomunikasi dan berkoordinasi dalam rangka menyelesaikan permasalahan terkait penyelenf{garaan Saltu Data Indoncsier tingkat daerah.\n\n(9) Forum\n\n-23\n\n(9) Forum Satu Data Indonesia tingkat daerah melaksanakan perternuan koordinasi secara berkala dalam rangka melaksanakan tugasnya.\n\n(10) Dalam hal terdapat permasalahan yang timbul dalam pertemuan koordinasi, khususnya pada saat pengambilan kesepakatan. koordinator Forum Satu Data Indonesia tingkat daerah meminta arahan kepala daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-24",
+      "number": 24,
+      "chapterTitle": "",
+      "title": "Regional One Data Secretariat",
+      "text": "Regional One Data Secretariat (1) Forum Satu Data Indonesia tingkat daerah dalam pelaksanaan tugasnya dibantu oleh Sekretariat Satu Data Indonesia tingkat daerah.\n\n(2) Sekretariat Satu Data Indonesia tingkat daerah sebagaimana dimaksud pada ayat (1) terdiri atas Sekretariat Satu Data Indonesia tingkat provinsi dan Sekretariat Satu Data Indonesia tingkat kabupaten/kota.\n\n(3) Sekretariat Satu Data Indonesia tingkat daerah mempunyai tugas:\n\na. memberikan dukungan dan pelayanan teknis operasional dan administratif kepada Forum Satu Data Indonesia tingkat daerah; dan\n\nb. melaksanakan tugas lain yang diberikan oleh Forum Satu Data Indonesia tingkat daerah.\n\n(4) Sekretariat Satu Data Indonesia tingkat daerah bersifat ex-officio, yang secara tLngsional dilaksanakan oleh salah satu unit kerja di lingkungan badan yang melaksanakan tugas pemerintahan di bidang perencanaan pembangunan dacrah.\n\n(5) Ketentuan\n\n(5) Ketentuan lebih lanjut mengenai Sekretariat Satu Data Indonesia tingkat daerah diatur dalam Peraturan Kepala Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-25",
+      "number": 25,
+      "chapterTitle": "",
+      "title": "Stages of One Data implementation",
+      "text": "Stages of One Data implementation Penyelenggaraan Satu Data Indonesia terdiri atas\n\na. perencanaan Data;\n\nb. pengumpulan Data;\n\nc. pemeriksaan Data; dan\n\nd. penyebarluasan Data.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-26",
+      "number": 26,
+      "chapterTitle": "",
+      "title": "Data planning",
+      "text": "Data planning (1) Instansi Pusat melaksanakan perencanaan Data yang terdiri atas:\n\na. penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya;\n\nb. penentuan daftar Data yang dijadikan Data Prioritas; dan/atau\n\nc. penentuan rencana aksi Satu Data Indonesia.\n\n(2) Instansi Daerah melaksanakan perencanaan Data berupa penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya.\n\n(3) Dalam\n\n(3) Dalam menyusun daftar Data sebagaimana dimaksud pada ayat (2), instansi Daerah mengacu pada daftar Data yang telah ditentukan sebagaimana dimaksud pada ayat (1) huruf a.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-27",
+      "number": 27,
+      "chapterTitle": "",
+      "title": "Avoiding duplication in data lists",
+      "text": "Avoiding duplication in data lists (1) Penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya dilakukan dengan menghindari duplikasi.\n\n(2) Penentuan daftar Data yang akan dikumpulkan di tahun selanjutnya dilakukan berdasarkan:\n\na. arsitektur sistem pemerintahan berbasis elektronik sesuai dengan ketentuan peraturan perundang-undangan tentang sistem pemerintahan berbasis elektronik;\n\nb. kesepakatan Forum Satu Data Indonesia; dan/atau\n\nc. rekornendasi Pembina Data.\n\n(3) Daftar Data yang akan dikumpulkan memuat:\n\na. Produsen Data untuk masirrg-masing Data; dan\n\nb. jadwal rilis dan/atau pemutakhiran Data.\n\n(4) Daftar Data yang akan dikr.rmpulkan dapat digunakr,n sebagai dasar dalam perencanaan dan penganggaran bagi Instansi Pusat dan Instansi Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-28",
+      "number": 28,
+      "chapterTitle": "",
+      "title": "Priority data",
+      "text": "Priority data (1) Penentuan daftar Data yang dijadikan Data prioritas dilakukan berdasarkan :\n\na. usulan Walidata tinqkat pusat; dan\n\nb. arahan dari Dewarr Pengarah.\n\n(2) Data\n\n(2) Data yang dapat diusulkan untuk rnenjadi Data Prioritas harus memenuhi kriteria:\n\na. mendukung prioritas pembangunan dan prioritas Presiden dalam Rencana Pembangunan Jangka Menengah Nasional dan/atau Rencana Kerja Pemerintah;\n\nb. mendukung pencapaian tujuan pembangunan berkelanjutan; dan I atau\n\nc. memenuhi kebutuhan mendesak.\n\n(3) Daftar Data yang menjadi Data Prioritas disepakati dalam Forum Satu Data Indonesia tingkat pusat.\n\n(4) Koordinator Forum Satu Data Indonesia tingkat pusat menyampaikan daftar Data yang menjadi Data Prioritas kepada menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasiclnal.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-29",
+      "number": 29,
+      "chapterTitle": "",
+      "title": "One Data Indonesia action plan",
+      "text": "One Data Indonesia action plan (1) Rencana program dan kegiatan terkait Satu Data Indonesia dituangkan dalam rencana aksi Satu Data Indonesia. (21 Rencana aksi Satu Data Indonesia dapat mencakup:\n\na. pengembangan sumber daya manusia yang kompeten;\n\nb. penyusunan petunjuk teknis pelaksanaan Satu Data Indonesia;\n\nc. kegiatan terkait pengumpulan Data;\n\nd. kegiatan terkait pemeriksaan Data;\n\ne. kegiatan terkait penyebarluasan Data; dan/atau\n\nf. kegiatan . .A\n\nf. kegiatan lain yang mendukung tercapainya Data yang sesuai dengan prinsip Satu Data Indonesia.\n\n(3) Rencana aksi Satu Data Indonesia diusulkan bersama oleh Walidata melalui Forum Satu Data Indonesia tingkat pusat.\n\n(4) Rencana aksi Satu Data Indonesia disepakati dalam Forum Satu Data Indonesia tingkat pusat.\n\n(5) Koordinator Forum Satu Data Indonesia tingkat pusat mengoordinasikan penyusunan rencana aksi Satu Data Indonesia untuk disampaikan kepada menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-30",
+      "number": 30,
+      "chapterTitle": "",
+      "title": "Establishment of priority data and the action plan",
+      "text": "Establishment of priority data and the action plan (1) Data Prioritas sebagaimana dimaksud dalam pasal 28 ayat (4) dan rencana aksi Satu Data Indonesia sebagaimana dimaksud dalam",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-31",
+      "number": 31,
+      "chapterTitle": "",
+      "title": "Data collection",
+      "text": "Data collection (1) Peircapaian rencana aksi Satu Data Indonesia dapat digunakan sebagai dasar pertimbangan pemberian insentif dan disinsentif kepada Instansi Pusat dan Instansi Daerah berdasarkan ketentuan peraturan perundang-undangan.\n\n(2) Ketentuan lebih lanjut mengenai insentif dan disinsentif sebagaimana dimaksud pa,1a ayat (1) diatur dalam Peraturan Menteri a-tau Peraturan Badan, sesuai dengan kewenangan selaku anggota Dewan Pengarah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-32",
+      "number": 32,
+      "chapterTitle": "",
+      "title": "Collection methods",
+      "text": "Collection methods (1) Produsen Data melakukan pengumpuian Data sesuai dengan:\n\na. Standar Data;\n\nb. daftar data yang telah ditentukan dalam Forum Satu Data Indoncsia; dan\n\nc. jadwal pemutakhiran Data a1.au rilis Data.\n\n(2) Data yang dikumpulkan oleh Produsen Data disertai dengan Metadata.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-33",
+      "number": 33,
+      "chapterTitle": "",
+      "title": "Examination of data",
+      "text": "Examination of data (1) Data yang telah dikumpulkan oleh Produsen Data disampaikan kepada Walidata.\n\n(2) Penyampaian Data sebagaimana dimaksud pada ayat (1) disertai:\n\na. Data yang telah dikumpulkan;\n\nb. Standar Data yang berlaku untuk Data tersebut; dan\n\nc. Metadata yang melekat pada Data tersebut.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-34",
+      "number": 34,
+      "chapterTitle": "",
+      "title": "Examination of non-priority data",
+      "text": "Examination of non-priority data (1) Data yang dihasilkan oleh Produsen Data diperiksa kesesuaiannya dengan prinsip Satu Data Indonesia oleh Walidata.\n\n(2) Dalam hal Data yang disampaikan oleh Produsen Data belum sesuai dengan prinsip Satu Data Indonesia, Walidata mengembalikan Data tersebut kepada Produsen Data.\n\n(3) Produsen Data memperbaiki Data sesuai hasil pemeriksaan sebagaimana dimaksud pada ayat (1).",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-35",
+      "number": 35,
+      "chapterTitle": "",
+      "title": "Examination of priority data",
+      "text": "Examination of priority data (1) Data Prioritas yang dihasilkan oleh Produsen Data diperiksa kesesuaiannya dengan prinsip Satu Data Indonesia oleh Walidata.\n\n(2) Hasil ,\n\n(2) Hasil pemeriksaan Data Prioritas sebagaimana dimaksud pada ayat (1), diperiksa kembali oleh Pembina Data.\n\n(3) Dalam hal Data Prioritas yang disampaikan oleh Produsen Data belum sesuai dengan prinsip Satu Data Indonesia, Pembina Data mengembalikan Data tersebut kepada Walidata.\n\n(4) Walidata menyampaikan hasil pemeriksaan Pembina Data sebagaimana dimaksud.pada ayat (2) kepada Produsen Data.\n\n(5) Produsen Data memperbaiki Data sesuai hasil pemeriksaan sebagaimana dimaksud pada ayat (1) dan ayat (2).",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-36",
+      "number": 36,
+      "chapterTitle": "",
+      "title": "Dissemination of data",
+      "text": "Dissemination of data (1) Penyebarluasan Data nrerupakan kegiatan pemberian akses, pendistribusian, dan pertukaran Data. (2t\n\n(3) (4) Penyebarluasan Data dilakukan oleh Walidata. Penyebarluasan Data dilakukan melalui Portal Satu Data Indonesia dan media lainnya sesuai dengan ketentuan peraturan perundang-undangan dan perkembangan ilmu pengetahuan dan teknologi. Portal Satu Data Inctonesia menyediakan akses:\n\na. Kode Referensi;\n\nb. Data Induk;\n\nc. Data . .\n\nc. Data;\n\nd. Metadata;\n\ne. Data Prioritas; dan\n\nf. jadwal rilis dan/atau pemutakhiran Data.\n\n(5) Portal Satu Data Indonesia dikelola oleh kementerian yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.\n\n(6) Ketentuan lebih lanjut mengenai Portal Satu Data Indonesia diatur dalam Peraturan Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-37",
+      "number": 37,
+      "chapterTitle": "",
+      "title": "Access restrictions",
+      "text": "Access restrictions (1) Instansi Pusat dan Instansi Daerah menyediakan akses Data kepada Pengguna Data.\n\n(2) Produsen Data dan Walidata dapat mengajukan pembatasan akses Data tertentu kepada Forum Satu Data Indonesia.\n\n(3) Pembatasan akses Data sebagaimana pada ayat (21 dibahas dalam Forum Indonesia. dimaksud Satu Data\n\n(4) Hasil pembahasan sebagaimana dimaksud pada ayat\n\n(3) disampaikan kepada menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional.\n\n(5) Menteri yang menyelenggarakan urusan pemerintahan di bidang perencanaan pembangunan nasional menetapkan Data yang dibatasi aksesnya sebagaimana dimaksud pada ayat (2).\n\n(6) Pembatasan\n\n(6) Pembatasan akses terhadap Data di Portal Satu Data Indonesia dilaksanakan oleh:\n\na. Walidata untuk Pengguna Data pada Instansi Pusat dan Instansi Daerah; dan\n\nb. pejabat pengelola informasi dan dokumentasi atau pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi kepada publik untuk Pengguna Data di luar Instansi Pusat dan Instansi Daerah.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-38",
+      "number": 38,
+      "chapterTitle": "",
+      "title": "Portal Satu Data Indonesia",
+      "text": "Portal Satu Data Indonesia Data yang disebarluaskan oleh Walidata tingkat pusat dan Walidata tingkat daerah harus dapat diakses melalui Portal Satu Data Indonesia.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-39",
+      "number": 39,
+      "chapterTitle": "",
+      "title": "Access without MoU or fees",
+      "text": "Access without MoU or fees (1) Instansi Pusat dan Instansi Daerah mengakses Data di Portal Satu Data Indonesia tidak dipungut biaya. (21 Instansi Pusat dan lnstansi Daerah dalam mengakses Data di Portal Satu Data Indonesia tidak memerlukan dokumen nota kesepahaman, perjanjian kerja sama, dan/atau dokumen surat pernyataan.\n\n(3) Akses Data bagi Pengguna Data selain Instansi Pusat dan Instansi Daerah sebagaimana dimaksud pada ayat (1) dilaksanakan sesuai ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-40",
+      "number": 40,
+      "chapterTitle": "",
+      "title": "Funding",
+      "text": "Funding Segala pendanaan yang diperlukan untuk pelaksanaan Peraturan Presiden ini dibebankan kepada Anggaran Pendapatan dan Belanja Negara, Anggaran Pendapatan dan Belanja Daerah, dan/atau sumber pendanaan lain sesuai dengan ketentuan peraturan perundangundangan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-41",
+      "number": 41,
+      "chapterTitle": "",
+      "title": "Participation of state institutions and public bodies",
+      "text": "Participation of state institutions and public bodies (1) Lembaga negara dan badan hukum publik, yang meliputi Bank Indonesia, Otoritas Jasa Keuangan, Badan Penyelenggara Jaminan Sosial, dan lembaga negara dan badan hukum publik lainnya dapat berpartisipasi dalam penyelenggaraan Satu Data Indonesia.\n\n(2) Partisipasi lembaga negara dan badan hukum publik sebagaimana dimaksud pada ayat (1) tidak mengurangi wewenang dan independensi tugas dan fungsinya sesuai dengan ketentuan peraturan perundang-undangan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-42",
+      "number": 42,
+      "chapterTitle": "",
+      "title": "Transitional provisions",
+      "text": "Transitional provisions Nota kesepahaman, perjanjian dokumen surat pernyataan sama, dan/atau instansi Pusat kerja antar\n\ndan/atau\n\ndan/atau Instansi Daerah yang terkait dengan tata kelola, akses data, dan/atau pemanfaatan Data yang sudah ada pada saat mulai berlakunya Peraturan Presiden ini, masih tetap berlaku dan mempunyai kekuatan hukum mengikat untuk jangka waktu pating lama 1 (satu) tahun terhitung sejak tanggal pengundangan Peraturan Presiden ini.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-43",
+      "number": 43,
+      "chapterTitle": "",
+      "title": "Repeals and continuing instruments",
+      "text": "Repeals and continuing instruments Pada saat Peraturan Presiden ini mulai berlaku:\n\na. kebijakan pemerintah dan semua peraturan perundang-undangan yang mengatr.rr mengenai tata kelola dan/atau pemanfaatan Data yang telah ditetapkan dinyatakan masih tetap berlaku sepanjang tidak bertentangan dengan Peraturan Presiden ini; dan\n\nb. kebijakan pemerintah dan semua peraturan perundang-undangan yang mengatur mengenai tata kelola dan/atau pemanfaatan Data yang telah ditetapkan wajib menyesuaikan dengan ketentuan dalam Peraturan Presiden ini paling lama 1 (satu) tahun terhitung sejak Peraturan presiden ini diundangkan.",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    },
+    {
+      "type": "article",
+      "id": "article-44",
+      "number": 44,
+      "chapterTitle": "",
+      "title": "Entry into force",
+      "text": "Entry into force Peraturan Presiden ini mulai berlaku pada tanggal diundangkan.\n\nAgar PRES IDEN REFUBLIK INDONESIA\n\nAgar setiap orang mengetahuinya, memerintahkan pengundangan Peraturan Presiden ini dengan penempatannya dalam Lembaran Negara Republik Indonesia. Ditetapkan di Jakarta Pada tanggal 12 Juni 2Ol9 , ttd JOKO WIDODO Diundangkan di Jakarta pada tanggal 17 Juni 2Ol9 MENTERI HUKUM DAN HAK ASASI MANUSIA REPUBLIK INDONESIA, ttd. YASONNA H. LAOLY LEMBARAN NEGARA REPUBLIK INDONESIA TAHUN 2OI9 NOMOR 112 Salinan sesuai dengan aslinya KEMENTERIAN SEKRETARIAT NEGARA REPUBLIK INDONESIA uti Bidang Hukum dan :1L dang-undangan, ir.l * tK\n\nvanna Djaman",
+      "sourceUrl": "https://jdih.kemenkoinfra.go.id/cfind/source/files/perpres/2016-2020/perpres-nomor-39-tahun-2019.pdf",
+      "eurLexUrl": "https://peraturan.go.id/id/perpres-no-39-tahun-2019"
+    }
+  ]
+}

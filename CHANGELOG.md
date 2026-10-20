@@ -1,10 +1,46 @@
 # Changelog
 
-All notable changes to the **EU Regulation Q&A Platform** (repository: `gdpr-qa-platform`) are documented in this file. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+All notable changes to the **Regulation Q&A Platform** (repository: `gdpr-qa-platform`) are documented in this file. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
 ## [Unreleased]
+
+---
+
+## [1.2.7] — 2026-10-20
+
+### Added
+
+- **Indonesian jurisdiction (three instruments):** UU PDP (`id-pdp`), Satu Data Indonesia (`id-satu-data`), and AI Ethics circular (`id-ai-ethics`) with corpora, structure JSON, chapter summaries, `id-law-scraper.js`, `public/regulation-profiles-id.js`, and npm refresh scripts.
+- **Region + Regulation picker:** Unified header chrome — region thumb (All / EU / Indonesia), jurisdiction chip, custom regulation select; six-instrument browse welcome grid.
+- **Indonesian news crawl:** Antara policy tag hubs (`uu-pdp`, `data-pribadi`, `satu-data`, `etika-ai`, …), Satu Data portal best-effort harvest, and broader Indo topic gate in `news-crawler.js`.
+- **Tests:** `npm test` → `test/indo-parity.test.js` (registry, corpora/sources, news helpers, persisted Indo items).
+- **Vercel seeding:** `SEED_FILES` expanded for Indonesian corpora/structure/summaries; cron refresh covers ID instruments.
+
+### Fixed
+
+- **Credible sources fallback:** `GET /api/meta` no longer returns GDPR-Info / EUR-Lex / EDPB when `regulation` is `id-*`, `ai-act`, or `data-act` (content → structure → empty).
+- **Chapter summary fallback:** Missing non-GDPR summary files no longer inject GDPR chapter blurbs.
+- **Ask (ID AI Ethics):** Soft-law framing for SE Menkominfo 9/2023 in Groq system prompt.
+
+### Changed
+
+- **News UX:** Empty Indo-filtered states point users to **Refresh news**; refresh status copy includes Indonesian sources.
+- **App chrome polish:** Header controls grouped; teal-only region accents; pill toolbar; segmented tab track with sliding active thumb; quieter borders (12px radii).
+- **Browse workspace width:** Removed `72rem` cap on the regulation card grid; full-width regulation cards and action buttons.
+
+### Removed
+
+- **Dead CSS:** Unused selectors (`.doc-card`, `.chapters-grid`, `.pdf-export-host`, `.filter-field-select`, `.news-sidebar-select*`, `.news-source-heading`, `.news-card-summary*`, `.meta-row`, `.placeholder-icon`, `.point-num`, `.citation-panel-titles`, `.content-as-of-inline`).
+- **Dead export:** `crawlIndonesiaOfficialNews` no longer exported from `news-crawler.js` (still called inside `crawlNews`).
+- **Dead stub:** `crawlIcoSearchQuery` (always returned `[]`) removed from topic enrichment.
+- **Legacy `/api/meta` aliases:** `askGroqConfigured` / `askTavilyConfigured` removed; SPA uses `askGroqServerConfigured` / `askTavilyServerConfigured` only.
+- **Unused param:** `buildAnswerFromTavilyResults(query, …)` → `(results, reg)`.
+
+### Documentation
+
+- **Product documentation standard v2.5 (audit 2026-10-20):** Full alignment of README, PRD v2.7, personas, user stories, VARIABLES (+ Mermaid), metrics/OKRs O1–O12, design guidelines (six theme accents), traceability, guardrails, API contracts, architecture, feature catalog, glossary, ops/runbooks, and supporting docs to multi-jurisdiction scope (EU + Indonesia, six instruments). Removed documentation of dead APIs and removed LLM summarize providers. `SEED_FILES` documented as **20** JSON files.
 
 ---
 

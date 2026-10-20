@@ -1,0 +1,24 @@
+{
+  "regulationId": "id-pdp",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": null,
+  "summaries": {
+    "1": "Bab I defines personal data, controllers, processors, data subjects, and the territorial plus extra-territorial scope of Indonesia's PDP Law — including the household-activity exception.",
+    "2": "Bab II lists the eight asas (principles) that frame all processing: protection, legal certainty, public interest, benefit, prudence, balance, accountability, and confidentiality.",
+    "3": "Bab III distinguishes specific (sensitive) personal data from general personal data.",
+    "4": "Bab IV sets data-subject rights: information, access, correction, erasure, withdrawal of consent, objection to automated decisions, restriction, compensation, and portability, plus exceptions.",
+    "5": "Bab V describes processing operations, processing principles, CCTV-type visual devices in public places, and joint controllers.",
+    "6": "Bab VI is the core operational chapter: legal bases, consent, children's and disability data, DPIA, security, breach notification (3x24 hours), processors, and the DPO.",
+    "7": "Bab VII governs domestic and cross-border transfers, including equivalent-protection, adequate binding protection, and consent fallbacks.",
+    "8": "Bab VIII provides administrative sanctions, including fines of up to 2% of annual revenue.",
+    "9": "Bab IX establishes the presidentially appointed PDP institution, its functions, and its investigative and enforcement powers.",
+    "10": "Bab X authorises international cooperation on personal data protection.",
+    "11": "Bab XI provides for public participation through education, advocacy, and oversight.",
+    "12": "Bab XII covers arbitration, courts, alternative dispute resolution, and electronic evidence.",
+    "13": "Bab XIII prohibits unlawful obtaining, disclosing, using, or forging personal data.",
+    "14": "Bab XIV sets criminal penalties, including corporate liability and additional sanctions.",
+    "15": "Bab XV gave controllers and processors two years from promulgation (until 17 October 2024) to adjust processing.",
+    "16": "Bab XVI provides that the Law entered into force on the date of promulgation (17 October 2022)."
+  }
+}
