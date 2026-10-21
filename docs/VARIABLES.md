@@ -1,7 +1,7 @@
 # Variables and data dictionary
 ## Regulation Q&A Platform (EU and Indonesia)
 
-**Document version:** 2.1 · **Product version:** `package.json` **1.2.6** · **Documentation standard:** **v2.5** · **Audit date:** **2026-10-20**
+**Document version:** 2.1 · **Product version:** `package.json` **1.2.7** · **Documentation standard:** **v2.5** · **Audit date:** **2026-10-21**
 
 **Scope:** Environment variables, bundled data files, regulation registry and UI profile fields, corpus JSON shapes, Ask API and BYOK fields, news item fields and topic taxonomy, app-chrome CSS variables, and relationship diagrams.
 
@@ -293,6 +293,7 @@ Six supported identifiers (registry `lib/regulations.js`). Unknown or empty valu
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `gdpr-qa-regulation-v1` | Selected regulation (localStorage) | Persists the last chosen regulation id. | Valid only if equal to one of the six ids; otherwise falls back to `gdpr`. Written by `saveRegulationId`. | `public/app.js` → `REG_STORAGE_KEY` | `id-pdp` |
 | `gdpr-qa-region-v1` | Region filter (localStorage) | Persists the region filter. | One of `all`, `eu`, `id` (`REGION_IDS`); otherwise `all`. | `public/app.js` → `REGION_STORAGE_KEY` | `eu` |
+| `gdprQaReaderViewMode` | Reader Page \| Full mode (localStorage) | Persists whether the reader shows one provision (**page**) or the entire articles/recitals corpus (**full**). | Exactly `page` or `full`; any other/missing value defaults to **`page`**. Written when the user toggles `#readerViewMode`. | `public/app.js` → `READER_VIEW_MODE_KEY` | `full` |
 | `currentRegion` | Active region filter | In-memory region used to filter the regulation catalog and Browse welcome cards. | `all` (default) shows all six; `eu` shows three EU instruments; `id` shows three Indonesian instruments. Also written to `data-region` on `<html>` and the chrome container. | `public/app.js` → `setCurrentRegion` | `all` |
 | `currentRegulation` | Active regulation | The registry or profile entry currently driving Browse, Ask, News, and Sources. | Resolved from stored id, then reconciled with the region filter. | `public/app.js` | `{ id: 'gdpr', … }` |
 | `defaultRegulationForRegion(region)` | Region default regulation | Picks the regulation when the region changes. | `id` → `id-pdp`; `eu` → `gdpr`; `all` → keep the current regulation if it is in the list, else the first. | `public/app.js` | `id` → `id-pdp` |
@@ -696,7 +697,7 @@ Defined in `public/styles.css` (119 custom-property declarations including respo
 | `--radius`, `--radius-sm`, `--radius-md`, `--radius-lg` | Corner radii | Standard, small, medium, large radii. | px. | `:root` | `14px`, `10px`, `12px`, `18px` |
 | `--shadow`, `--shadow-md`, `--shadow-lg`, `--shadow-inset` | Elevation shadows | Card, raised, overlay, and inset highlight shadows. | Layered slate-tinted shadows. | `:root` | `0 1px 2px rgba(15,23,42,0.04), …` |
 | `--ease-smooth`, `--transition`, `--transition-fast` | Motion tokens | Easing and durations. | `cubic-bezier(0.22,1,0.36,1)`; `0.22s`; `0.16s`. Under `prefers-reduced-motion`: `0.01s` and `ease`. | `:root` | `0.22s var(--ease-smooth)` |
-| `--font-sans`, `--font-serif` | Typography | UI and display font stacks. | DM Sans and DM Serif Text with system fallbacks. | `:root` | `'DM Sans', system-ui, …` |
+| `--font-sans`, `--font-serif` | Typography | UI stack and display-role alias (same face). | Both DM Sans with system fallbacks. | `:root` | `'DM Sans', system-ui, …` |
 
 ### 7.2 App shell and layout variables
 

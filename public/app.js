@@ -152,6 +152,8 @@
   }
 
   var loadChaptersRequestId = 0;
+  var loadRecitalsRequestId = 0;
+  var readerFullLoadToken = 0;
 
   function clearRegulationBrowseCaches() {
     recitalsDataCache = null;
@@ -160,6 +162,44 @@
     window.__chapterSummaries = null;
     articleToRecitalsMapPromise = null;
     loadChaptersRequestId += 1;
+    loadRecitalsRequestId += 1;
+    /* Cancel in-flight Full corpus renders so a prior regulation cannot paint after switch. */
+    readerFullLoadToken += 1;
+  }
+
+  /**
+   * Leave the article/recital reader when the active regulation changes, then
+   * land on the matching list (chapters vs recitals) so reload can fetch the new corpus.
+   */
+  function exitReaderForRegulationChange() {
+    if (!browseDetail || browseDetail.classList.contains('hidden')) return;
+    var resume =
+      currentDoc && currentDoc.type === 'recital'
+        ? browseRecitals
+        : currentDoc && currentDoc.type === 'article'
+          ? browseChapters
+          : lastListSection || browseChapters;
+    citationReturnDoc = null;
+    cameFromAsk = false;
+    currentDoc = null;
+    if (btnBackFromCitation) btnBackFromCitation.classList.add('hidden');
+    if (btnBackToQuestion) btnBackToQuestion.classList.add('hidden');
+    if (btnExportPdf) btnExportPdf.classList.add('hidden');
+    if (btnBack) btnBack.classList.add('hidden');
+    if (detailContent) detailContent.innerHTML = '';
+    if (citationLinks) citationLinks.innerHTML = '';
+    if (relatedArticles) relatedArticles.innerHTML = '';
+    if (relatedRecitals) relatedRecitals.innerHTML = '';
+    if (resume) {
+      lastListSection = resume;
+      showSection(resume);
+    } else if (browsePlaceholder) {
+      browsePlaceholder.classList.remove('hidden');
+      if (browseRecitals) browseRecitals.classList.add('hidden');
+      if (browseChapters) browseChapters.classList.add('hidden');
+      browseDetail.classList.add('hidden');
+      updateBrowseSectionMenu();
+    }
   }
 
   function normalizeChapterNumber(value) {
@@ -705,6 +745,32 @@
     return true;
   }
 
+  function syncSourcesHeroChrome(reg, sourcesUi) {
+    reg = reg || getRegProfile();
+    var sources = sourcesUi || (reg && reg.sourcesUi) || {};
+    var news = (reg && reg.newsUi) || {};
+    var browse = (reg && reg.browseUi) || {};
+    var theme = browse.theme || news.theme || (reg && reg.id) || 'gdpr';
+    var layout = document.getElementById('sourcesLayout');
+    if (layout) layout.setAttribute('data-sources-theme', theme);
+    var hero = document.getElementById('sourcesHero');
+    if (hero) hero.setAttribute('data-sources-theme', theme);
+    var pillLabel = document.getElementById('sourcesRegulationPillLabel');
+    if (pillLabel) pillLabel.textContent = (reg && reg.shortName) || 'Regulation';
+    var eyebrow = document.getElementById('sourcesEyebrow');
+    if (eyebrow) {
+      eyebrow.textContent =
+        sources.eyebrow ||
+        ((reg && regulationJurisdiction(reg) === 'id')
+          ? 'Indonesian official references'
+          : 'Official & specialist references');
+    }
+    var sourcesTitle = document.getElementById('sourcesHeaderTitle');
+    if (sourcesTitle) sourcesTitle.textContent = sources.title || ((reg && reg.shortName) || 'Regulation') + ': credible sources';
+    var sourcesIntro = document.getElementById('sourcesIntro');
+    if (sourcesIntro) sourcesIntro.textContent = sources.intro || '';
+  }
+
   function syncNewsHeroChrome(reg, newsUi) {
     reg = reg || getRegProfile();
     var news = newsUi || reg.newsUi || {};
@@ -826,11 +892,7 @@
     var ql = document.querySelector('label[for="query"]');
     if (ql) ql.textContent = 'Your ' + reg.shortName + ' question';
 
-    var sourcesTitle = document.getElementById('sourcesHeaderTitle');
-    if (sourcesTitle) sourcesTitle.textContent = sources.title || reg.shortName + ': credible sources';
-    var sourcesIntro = document.getElementById('sourcesIntro');
-    if (sourcesIntro) sourcesIntro.textContent = sources.intro || '';
-
+    syncSourcesHeroChrome(reg, sources);
     syncNewsHeroChrome(reg, news);
 
     var genOpt = document.querySelector('#askIndustrySector option[value="GENERAL"]');
@@ -876,8 +938,18 @@
 
   function activateBrowseForRegulation(regId, segment) {
     var match = findRegulationInCatalog(regId);
-    if (match) setCurrentRegulation(match);
-    if (segment) activateBrowseRegulationSegment(segment);
+    /* Batch regulation switch + segment open so syncAppRouteToUrl never writes an
+       intermediate #/browse that a late hashchange can restore as "home". */
+    suppressAppRouteSync = true;
+    try {
+      if (match) setCurrentRegulation(match);
+      if (segment === 'recitals' || segment === 'chapters') {
+        activateBrowseRegulationSegment(segment);
+      }
+    } finally {
+      suppressAppRouteSync = false;
+      syncAppRouteToUrl(true);
+    }
   }
 
   function renderBrowseWelcomeTagsHtml(highlights) {
@@ -1260,6 +1332,7 @@
   function setCurrentRegulation(reg) {
     if (!reg || !reg.id) return;
     var prevId = currentRegulation.id;
+    var switched = prevId !== reg.id;
     currentRegulation = {
       id: reg.id,
       shortName: reg.shortName || reg.id,
@@ -1276,27 +1349,41 @@
     };
     saveRegulationId(reg.id);
     alignRegionWithRegulation(reg);
-    if (prevId !== reg.id) {
+    if (switched) {
       clearRegulationBrowseCaches();
       resetChaptersFilters();
       if (newsFilterTopic) newsFilterTopic.value = '';
       if (newsFilterSource) newsFilterSource.value = '';
+      var sourcesSearch = document.getElementById('sourcesSearch');
+      if (sourcesSearch) sourcesSearch.value = '';
+      sourcesSearchQuery = '';
+      /* Drop stale reader HTML before chrome/API catch up to the new instrument. */
+      exitReaderForRegulationChange();
     }
     syncRegulationChrome();
     loadMeta();
     if (viewSources && viewSources.classList.contains('active')) loadSources();
     if (viewNews && viewNews.classList.contains('active') && lastNewsItems.length) applyNewsFilters();
-    if (browseDetail && !browseDetail.classList.contains('hidden') && btnBack) {
-      btnBack.click();
+    if (switched && viewBrowse && viewBrowse.classList.contains('active')) {
+      reloadActiveBrowseSegment();
     }
-    if (viewBrowse && viewBrowse.classList.contains('active') && !suppressAppRouteSync && !appRouteRestorePending) {
-      syncAppRouteToUrl();
+    if (
+      appRouteReady &&
+      viewBrowse &&
+      viewBrowse.classList.contains('active') &&
+      !suppressAppRouteSync &&
+      !appRouteRestorePending
+    ) {
+      syncAppRouteToUrl(switched);
     }
   }
 
   function reloadActiveBrowseSegment() {
     if (!viewBrowse || !viewBrowse.classList.contains('active')) return;
-    if (browseDetail && !browseDetail.classList.contains('hidden')) return;
+    if (browseDetail && !browseDetail.classList.contains('hidden')) {
+      /* Still on a reader — leave it so we never show the previous regulation's text. */
+      exitReaderForRegulationChange();
+    }
     if (browseChapters && !browseChapters.classList.contains('hidden')) loadChapters();
     else if (browseRecitals && !browseRecitals.classList.contains('hidden')) loadRecitals();
   }
@@ -1790,6 +1877,7 @@
 
     function openDialog() {
       fillFormFromStorage();
+      resetKeyRevealButtons();
       setDialogMessage('');
       renderByokValidationPanel(null);
       if (typeof dialog.showModal === 'function') dialog.showModal();
@@ -1798,6 +1886,32 @@
     function closeDialog() {
       if (typeof dialog.close === 'function') dialog.close();
     }
+
+    function resetKeyRevealButtons() {
+      form.querySelectorAll('.byok-settings-reveal[data-reveal-for]').forEach(function (btn) {
+        var inputId = btn.getAttribute('data-reveal-for');
+        var input = inputId ? document.getElementById(inputId) : null;
+        if (input) input.type = 'password';
+        btn.setAttribute('aria-pressed', 'false');
+        var showLabel = btn.getAttribute('aria-label') || '';
+        if (/Hide /i.test(showLabel)) {
+          btn.setAttribute('aria-label', showLabel.replace(/^Hide /i, 'Show '));
+        }
+      });
+    }
+
+    form.querySelectorAll('.byok-settings-reveal[data-reveal-for]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var inputId = btn.getAttribute('data-reveal-for');
+        var input = inputId ? document.getElementById(inputId) : null;
+        if (!input) return;
+        var showing = input.type === 'text';
+        input.type = showing ? 'password' : 'text';
+        btn.setAttribute('aria-pressed', showing ? 'false' : 'true');
+        var base = (btn.getAttribute('aria-label') || 'API key').replace(/^(Show|Hide)\s+/i, '');
+        btn.setAttribute('aria-label', (showing ? 'Show ' : 'Hide ') + base);
+      });
+    });
 
     if (btnOpen) btnOpen.addEventListener('click', openDialog);
     if (btnClose) btnClose.addEventListener('click', closeDialog);
@@ -1808,6 +1922,7 @@
     dialog.addEventListener('click', function (e) {
       if (e.target === dialog) closeDialog();
     });
+    dialog.addEventListener('close', resetKeyRevealButtons);
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -2066,7 +2181,7 @@
   const docNavNumber = document.getElementById('docNavNumber');
   const docNavSuggestList = document.getElementById('docNavSuggestList');
   const docNavListToggle = document.getElementById('docNavListToggle');
-  const docNavGo = document.getElementById('docNavGo');
+  const docNavGoForm = document.getElementById('docNavGoForm');
   const queryInput = document.getElementById('query');
   const btnAsk = document.getElementById('btnAsk');
   const askComposer = document.getElementById('askComposer');
@@ -2094,10 +2209,23 @@
   /** When set, user opened this article/recital via an in-text citation; "Back" returns there */
   let citationReturnDoc = null;
 
+  /** Reader chrome: 'page' = one provision; 'full' = all articles or all recitals. */
+  var READER_VIEW_MODE_KEY = 'gdprQaReaderViewMode';
+  var readerViewMode = 'page';
+  try {
+    var storedReaderMode = localStorage.getItem(READER_VIEW_MODE_KEY);
+    if (storedReaderMode === 'full' || storedReaderMode === 'page') readerViewMode = storedReaderMode;
+  } catch (eReaderMode) {}
+  var readerViewModeEl = document.getElementById('readerViewMode');
+  var readerViewModePageBtn = document.getElementById('readerViewModePage');
+  var readerViewModeFullBtn = document.getElementById('readerViewModeFull');
+
   var APP_ROUTE_KNOWN_REG_IDS = { gdpr: 1, 'data-act': 1, 'ai-act': 1, 'id-pdp': 1, 'id-satu-data': 1, 'id-ai-ethics': 1 };
   var APP_ROUTE_KNOWN_VIEWS = { browse: 1, ask: 1, news: 1, sources: 1 };
   var suppressAppRouteSync = false;
   var appRouteRestorePending = false;
+  /** False until initial hash restore finishes — prevents setCurrentRegulation from wiping deep links to #/browse. */
+  var appRouteReady = false;
 
   function parseAppRouteFromHash() {
     var raw = (window.location.hash || '').replace(/^#\/?/, '').trim();
@@ -2150,13 +2278,26 @@
     };
   }
 
+  function currentRouteRegulationId() {
+    return currentRegulation && currentRegulation.id ? currentRegulation.id : 'gdpr';
+  }
+
+  /** Deep-link hash for a provision — never use href="#" (that clears the route to home). */
+  function buildDocRouteHash(docType, docNumber, regId) {
+    var id = regId || currentRouteRegulationId();
+    var kind = docType === 'recital' ? 'recital' : 'article';
+    var n = parseInt(docNumber, 10);
+    if (!id || isNaN(n) || n < 1) return '#/browse';
+    return '#/' + id + '/' + kind + '/' + n;
+  }
+
   function buildAppRouteHash() {
     if (viewAsk && viewAsk.classList.contains('active')) return '#/ask';
     if (viewNews && viewNews.classList.contains('active')) return '#/news';
     if (viewSources && viewSources.classList.contains('active')) return '#/sources';
-    var regId = currentRegulation && currentRegulation.id ? currentRegulation.id : 'gdpr';
+    var regId = currentRouteRegulationId();
     if (browseDetail && !browseDetail.classList.contains('hidden') && currentDoc && currentDoc.type && currentDoc.number != null) {
-      return '#/' + regId + '/' + currentDoc.type + '/' + currentDoc.number;
+      return buildDocRouteHash(currentDoc.type, currentDoc.number, regId);
     }
     if (browseChapters && !browseChapters.classList.contains('hidden')) {
       return '#/' + regId + '/chapters';
@@ -2168,20 +2309,35 @@
   }
 
   function syncAppRouteToUrl(replace) {
-    if (suppressAppRouteSync || appRouteRestorePending) return;
+    if (!appRouteReady || suppressAppRouteSync || appRouteRestorePending) return;
     var hash = buildAppRouteHash();
     if (window.location.hash === hash) return;
     suppressAppRouteSync = true;
+    var usedHashAssignment = false;
     try {
       if (replace && history.replaceState) {
+        /* replaceState does not fire hashchange — safe for in-place URL correction. */
         history.replaceState(null, '', hash);
       } else {
+        /* Prefer location.hash so Back still fires hashchange → restoreAppRouteFromHash. */
         window.location.hash = hash;
+        usedHashAssignment = true;
       }
     } catch (err) {
-      window.location.hash = hash;
+      try {
+        window.location.hash = hash;
+        usedHashAssignment = true;
+      } catch (err2) {}
     }
-    suppressAppRouteSync = false;
+    /* location.hash fires hashchange asynchronously; keep suppress until after it
+       so a stale restore cannot overwrite the UI mid-navigation. */
+    if (usedHashAssignment) {
+      setTimeout(function () {
+        suppressAppRouteSync = false;
+      }, 0);
+    } else {
+      suppressAppRouteSync = false;
+    }
   }
 
   function activateMainViewOnly(viewName) {
@@ -2506,10 +2662,15 @@
       var dt1 = document.createElement('dt');
       dt1.textContent = 'Content as of';
       var dd1 = document.createElement('dd');
-      dd1.appendChild(document.createTextNode(refreshedTxt + ' '));
+      dd1.appendChild(document.createTextNode(refreshedTxt));
       var srcSpan = document.createElement('span');
       srcSpan.className = 'freshness-source';
-      srcSpan.textContent = '(EUR-Lex)';
+      var regProfile = getRegProfile();
+      var sourceLabel =
+        (regProfile && regProfile.freshnessSourceLabel) ||
+        (regulationJurisdiction(regProfile) === 'id' ? 'Official text' : 'EUR-Lex');
+      srcSpan.textContent = sourceLabel;
+      dd1.appendChild(document.createTextNode(' '));
       dd1.appendChild(srcSpan);
       row1.appendChild(dt1);
       row1.appendChild(dd1);
@@ -2569,6 +2730,79 @@
       });
   }
 
+  var lastSourcesItems = [];
+  var sourcesSearchQuery = '';
+
+  function sourceHostname(url) {
+    if (!url) return '';
+    try {
+      return new URL(url).hostname.replace(/^www\./, '');
+    } catch (err) {
+      return '';
+    }
+  }
+
+  function sourceMonogram(name) {
+    var clean = String(name || '')
+      .replace(/\(.*?\)/g, ' ')
+      .replace(/[^A-Za-z0-9\s]/g, ' ')
+      .trim();
+    if (!clean) return 'SRC';
+    var parts = clean.split(/\s+/).filter(Boolean);
+    if (parts.length === 1) return parts[0].slice(0, 3).toUpperCase();
+    return (parts[0][0] + (parts[1] ? parts[1][0] : parts[0][1] || '')).toUpperCase();
+  }
+
+  function externalLinkIconSvg() {
+    return (
+      '<svg class="source-card-ext" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+      '<path d="M14 4h6v6"/><path d="M10 14L20 4"/><path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"/>' +
+      '</svg>'
+    );
+  }
+
+  function updateSourcesCount(visible, total) {
+    var el = document.getElementById('sourcesCount');
+    if (!el) return;
+    if (!total) {
+      el.textContent = '0 sources';
+      return;
+    }
+    if (visible === total) el.textContent = total === 1 ? '1 source' : total + ' sources';
+    else el.textContent = visible + ' / ' + total;
+  }
+
+  function sourceMatchesQuery(src, q) {
+    if (!q) return true;
+    var host = sourceHostname(src.url);
+    var docs = (src.documents || [])
+      .map(function (d) {
+        return (d.label || '') + ' ' + (d.url || '');
+      })
+      .join(' ');
+    var blob = [src.name, src.description, host, docs, SOURCE_SUMMARIES[src.name] || ''].join(' ').toLowerCase();
+    return blob.indexOf(q) !== -1;
+  }
+
+  function applySourcesFilter() {
+    if (!sourcesList) return;
+    var q = (sourcesSearchQuery || '').trim().toLowerCase();
+    var cards = sourcesList.querySelectorAll('.source-card');
+    var visible = 0;
+    cards.forEach(function (card) {
+      var idx = parseInt(card.getAttribute('data-source-index'), 10);
+      var src = lastSourcesItems[idx];
+      var show = src ? sourceMatchesQuery(src, q) : false;
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+    updateSourcesCount(visible, lastSourcesItems.length);
+    var empty = document.getElementById('sourcesEmpty');
+    if (empty) empty.hidden = !(q && visible === 0 && lastSourcesItems.length > 0);
+    var clearBtn = document.getElementById('sourcesSearchClear');
+    if (clearBtn) clearBtn.hidden = !q;
+  }
+
   function loadSources() {
     if (!sourcesList) return;
     renderSourcesInto(sourcesList);
@@ -2580,34 +2814,102 @@
     get('/api/meta')
       .then(function (data) {
         const sources = data.sources || [];
+        lastSourcesItems = sources;
         container.innerHTML = '';
-        sources.forEach(function (src) {
-          const card = document.createElement('div');
+        var extIcon = externalLinkIconSvg();
+        sources.forEach(function (src, index) {
+          const card = document.createElement('article');
           card.className = 'source-card';
           card.setAttribute('role', 'listitem');
+          card.setAttribute('data-source-index', String(index));
           const docs = src.documents || (src.url ? [{ label: 'Visit site', url: src.url }] : []);
+          const primaryDocs = docs.filter(function (d) {
+            return d && d.url && d.url !== src.url;
+          });
+          const docsForList = primaryDocs.length ? primaryDocs : docs.filter(function (d) {
+            return d && d.url;
+          });
           let docsHtml = '';
-          if (docs.length) {
-            docsHtml = '<ul class="source-doc-links">' + docs.map(function (d) {
-              return '<li><a href="' + escapeHtml(d.url) + '" target="_blank" rel="noopener">' + escapeHtml(d.label) + '</a></li>';
-            }).join('') + '</ul>';
+          if (docsForList.length) {
+            docsHtml =
+              '<ul class="source-doc-links">' +
+              docsForList
+                .map(function (d) {
+                  return (
+                    '<li><a href="' +
+                    escapeHtml(d.url) +
+                    '" target="_blank" rel="noopener noreferrer">' +
+                    '<span class="source-doc-label">' +
+                    escapeHtml(d.label || 'Open document') +
+                    '</span>' +
+                    extIcon +
+                    '</a></li>'
+                  );
+                })
+                .join('') +
+              '</ul>';
           }
           var desc = src.description || SOURCE_SUMMARIES[src.name] || '';
+          var host = sourceHostname(src.url);
+          var mark = sourceMonogram(src.name);
+          var primaryHref = src.url || (docs[0] && docs[0].url) || '#';
           card.innerHTML =
+            '<div class="source-card-body">' +
+            '<div class="source-card-head">' +
+            '<span class="source-card-mark" aria-hidden="true">' +
+            escapeHtml(mark) +
+            '</span>' +
+            '<div class="source-card-head-copy">' +
             '<h3 class="source-card-title"><a href="' +
-            escapeHtml(src.url) +
-            '" target="_blank" rel="noopener">' +
+            escapeHtml(primaryHref) +
+            '" target="_blank" rel="noopener noreferrer">' +
             escapeHtml(src.name) +
             '</a></h3>' +
+            (host ? '<span class="source-card-host">' + escapeHtml(host) + '</span>' : '') +
+            '</div></div>' +
             (desc ? '<p class="source-card-desc">' + escapeHtml(desc) + '</p>' : '') +
+            (src.url
+              ? '<div class="source-card-actions"><a class="source-card-primary" href="' +
+                escapeHtml(src.url) +
+                '" target="_blank" rel="noopener noreferrer">Open official site' +
+                extIcon +
+                '</a></div>'
+              : '') +
+            '</div>' +
             docsHtml;
           container.appendChild(card);
         });
+        applySourcesFilter();
       })
       .catch(function () {
+        lastSourcesItems = [];
         container.innerHTML = '<p class="excerpt">Could not load sources.</p>';
+        updateSourcesCount(0, 0);
+        var empty = document.getElementById('sourcesEmpty');
+        if (empty) empty.hidden = true;
       });
   }
+
+  (function initSourcesSearch() {
+    var input = document.getElementById('sourcesSearch');
+    var clearBtn = document.getElementById('sourcesSearchClear');
+    if (!input || input.dataset.bound === '1') return;
+    input.dataset.bound = '1';
+    var timer = null;
+    input.addEventListener('input', function () {
+      sourcesSearchQuery = input.value || '';
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(applySourcesFilter, 80);
+    });
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        input.value = '';
+        sourcesSearchQuery = '';
+        applySourcesFilter();
+        input.focus();
+      });
+    }
+  })();
 
   var SOURCE_SUMMARIES = {
     'European Data Protection Board (EDPB)': 'EU-level guidance, opinions, and enforcement news. Covers how national supervisors apply GDPR and coordinate across the EU.',
@@ -2675,6 +2977,7 @@
   var newsAttachmentsSummaryRequestSeq = 0;
 
   var newsBrowseHeading = document.getElementById('newsBrowseHeading');
+  var newsListIntro = document.getElementById('newsListIntro');
   var newsViewBySourceBtn = document.getElementById('newsViewBySourceBtn');
   var newsViewAllBtn = document.getElementById('newsViewAllBtn');
   var NEWS_VIEW_MODE_KEY = 'gdpr_news_view_mode';
@@ -2692,7 +2995,36 @@
     if (newsViewBySourceBtn) newsViewBySourceBtn.setAttribute('aria-pressed', bySource ? 'true' : 'false');
     if (newsViewAllBtn) newsViewAllBtn.setAttribute('aria-pressed', bySource ? 'false' : 'true');
     if (newsBrowseHeading) newsBrowseHeading.textContent = bySource ? 'Articles by source' : 'All articles';
+    if (newsListIntro) {
+      newsListIntro.textContent = bySource
+        ? 'Collapse a source to save space. Jump via On this page when several sources are listed.'
+        : 'One chronological feed across all sources. Narrow with Source, Topic, or search.';
+    }
     if (newsTocNav) newsTocNav.hidden = !bySource;
+  }
+
+  function buildNewsEmptyPanelHtml(opts) {
+    var o = opts || {};
+    var title = o.title || 'Nothing to show';
+    var text = o.text || '';
+    var actions = '';
+    if (o.refresh) {
+      actions +=
+        '<button type="button" class="btn btn-primary news-empty-refresh" data-news-empty-action="refresh">Refresh feeds</button>';
+    }
+    if (o.clear) {
+      actions +=
+        '<button type="button" class="btn btn-secondary news-empty-clear" data-news-empty-action="clear">Clear all filters</button>';
+    }
+    return (
+      '<div class="news-empty-panel" role="status">' +
+      '<p class="news-empty-panel-title">' +
+      escapeHtml(title) +
+      '</p>' +
+      (text ? '<p class="news-empty-panel-text">' + escapeHtml(text) + '</p>' : '') +
+      actions +
+      '</div>'
+    );
   }
 
   function setNewsViewMode(mode) {
@@ -3646,8 +3978,11 @@
     if (!newsSections) return;
     newsSections.innerHTML = '';
     if (!items || items.length === 0) {
-      newsSections.innerHTML =
-        '<p class="news-empty">No articles match the current filters or search. Use <strong>Clear all</strong> or adjust your criteria.</p>';
+      newsSections.innerHTML = buildNewsEmptyPanelHtml({
+        title: 'No matching articles',
+        text: 'Nothing matches the current filters or search. Clear all filters, or try different keywords.',
+        clear: true
+      });
       return;
     }
     var bySource = {};
@@ -3739,8 +4074,11 @@
     if (!newsSections) return;
     newsSections.innerHTML = '';
     if (!items || items.length === 0) {
-      newsSections.innerHTML =
-        '<p class="news-empty">No articles match the current filters or search. Use <strong>Clear all</strong> or adjust your criteria.</p>';
+      newsSections.innerHTML = buildNewsEmptyPanelHtml({
+        title: 'No matching articles',
+        text: 'Nothing matches the current filters or search. Clear all filters, or try different keywords.',
+        clear: true
+      });
       return;
     }
     var copy = items.slice();
@@ -3748,38 +4086,19 @@
       return newsItemSortTime(b) - newsItemSortTime(a);
     });
 
-    // Keep UI consistent with “By source”: same chrome + count header, but one combined section.
     var wrap = document.createElement('section');
-    wrap.className = 'news-by-source-wrap';
+    wrap.className = 'news-all-feed';
     wrap.id = 'news-all';
+    wrap.setAttribute('aria-labelledby', 'news-all-title');
 
-    var details = document.createElement('details');
-    details.className = 'news-by-source';
-    details.open = true;
-
-    var titleId = 'news-all-title';
-    var panelId = 'news-all-panel';
-    var summaryEl = document.createElement('summary');
-    summaryEl.className = 'news-source-details-summary';
-    summaryEl.id = titleId;
-    summaryEl.setAttribute('aria-controls', panelId);
-    summaryEl.innerHTML =
-      '<span class="news-source-details-summary-row">' +
-      '<span class="news-source-chevron" aria-hidden="true"></span>' +
-      '<span class="news-source-name-text">All sources</span>' +
-      '<span class="news-source-article-count">' +
+    var meta = document.createElement('div');
+    meta.className = 'news-all-feed-meta';
+    meta.innerHTML =
+      '<h4 class="news-all-feed-title" id="news-all-title">All sources</h4>' +
+      '<span class="news-all-feed-count">' +
       escapeHtml(String(copy.length)) +
-      '</span></span>';
-
-    var body = document.createElement('div');
-    body.className = 'news-source-details-body';
-    body.id = panelId;
-
-    var pDesc = document.createElement('p');
-    pDesc.className = 'news-source-summary';
-    pDesc.textContent =
-      'A single chronological feed blending all configured sources. Use Source / Topic filters to narrow, and open any card to read the original publication.';
-    body.appendChild(pDesc);
+      '</span>';
+    wrap.appendChild(meta);
 
     var ul = document.createElement('ul');
     ul.className = 'news-list news-list-in-section';
@@ -3793,11 +4112,7 @@
       li.innerHTML = buildNewsCardMarkupHtml(item, 'h5');
       ul.appendChild(li);
     });
-    body.appendChild(ul);
-
-    details.appendChild(summaryEl);
-    details.appendChild(body);
-    wrap.appendChild(details);
+    wrap.appendChild(ul);
     newsSections.appendChild(wrap);
   }
 
@@ -4167,8 +4482,12 @@
         if (newsSearchInputAside) newsSearchInputAside.value = '';
         syncNewsSearchClearVisible();
         teardownNewsToolbarDock();
-        newsSections.innerHTML =
-          '<p class="news-empty">No news items yet. Use the feed links on the left, or tap <strong>Refresh news</strong> to pull EU and Indonesian official/state-agency feeds.</p>';
+        newsSections.innerHTML = buildNewsEmptyPanelHtml({
+          title: 'No news items yet',
+          text:
+            'Use the official feed links, or refresh to pull EU and Indonesian official/state-agency headlines.',
+          refresh: true
+        });
         populateNewsFilters([]);
         refreshNewsFilterDropdownsUi();
         updateNewsHeroStats(0, 0);
@@ -4194,7 +4513,12 @@
       if (newsTocList) newsTocList.innerHTML = '';
     }
     newsFeedsList.innerHTML = '<li class="news-empty">Loading news…</li>';
-    if (newsSections) newsSections.innerHTML = '<p class="news-empty">Loading…</p>';
+    if (newsSections) {
+      newsSections.innerHTML = buildNewsEmptyPanelHtml({
+        title: 'Loading news',
+        text: 'Fetching the latest headlines from configured sources…'
+      });
+    }
     get('/api/news')
       .then(function (data) {
         setNewsRefreshBusy(false);
@@ -4206,8 +4530,11 @@
         if (newsResultStatus) newsResultStatus.textContent = '';
         newsFeedsList.innerHTML = '<li class="news-empty">Could not load news.</li>';
         if (newsSections) {
-          newsSections.innerHTML =
-            '<p class="news-empty">News could not be loaded. Make sure the server is running and try again.</p>';
+          newsSections.innerHTML = buildNewsEmptyPanelHtml({
+            title: 'Could not load news',
+            text: 'Make sure the server is running, then try refreshing feeds.',
+            refresh: true
+          });
         }
       });
   }
@@ -4224,8 +4551,11 @@
     }
     newsFeedsList.innerHTML = '<li class="news-empty">Refreshing all sources…</li>';
     if (newsSections) {
-      newsSections.innerHTML =
-        '<p class="news-empty">Fetching EDPB, EDPS, ICO, Commission, CoE, and Indonesian sources (Antara, Setkab, Komdigi, Satu Data)…</p>';
+      newsSections.innerHTML = buildNewsEmptyPanelHtml({
+        title: 'Refreshing feeds',
+        text:
+          'Fetching EDPB, EDPS, ICO, Commission, CoE, and Indonesian sources (Antara, Setkab, Komdigi, Satu Data)…'
+      });
     }
     post('/api/news/refresh')
       .then(function (data) {
@@ -4244,8 +4574,11 @@
         if (newsResultStatus) newsResultStatus.textContent = '';
         newsFeedsList.innerHTML = '<li class="news-empty">Could not refresh news.</li>';
         if (newsSections) {
-          newsSections.innerHTML =
-            '<p class="news-empty">Refresh failed. Is the server running? Try again in a moment.</p>';
+          newsSections.innerHTML = buildNewsEmptyPanelHtml({
+            title: 'Refresh failed',
+            text: 'Is the server running? Try again in a moment.',
+            refresh: true
+          });
         }
       });
   }
@@ -4697,10 +5030,20 @@
     var toggle = newsFeedsSectionToggle || document.getElementById('newsFeedsSectionToggle');
     if (!top || !toggle) return;
     var collapsed = false;
+    var stored = null;
     try {
-      collapsed = sessionStorage.getItem('gdpr_news_feeds_section_collapsed') === '1';
+      stored = sessionStorage.getItem('gdpr_news_feeds_section_collapsed');
     } catch (err) {
-      collapsed = false;
+      stored = null;
+    }
+    if (stored === '1') collapsed = true;
+    else if (stored === '0') collapsed = false;
+    else {
+      try {
+        collapsed = window.matchMedia('(max-width: 899px)').matches;
+      } catch (errMq) {
+        collapsed = false;
+      }
     }
     top.classList.toggle('news-feeds-aside-top--collapsed', collapsed);
     toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
@@ -4715,15 +5058,27 @@
       var nowCollapsed = top.classList.toggle('news-feeds-aside-top--collapsed');
       toggle.setAttribute('aria-expanded', nowCollapsed ? 'false' : 'true');
       try {
-        if (nowCollapsed) sessionStorage.setItem('gdpr_news_feeds_section_collapsed', '1');
-        else sessionStorage.removeItem('gdpr_news_feeds_section_collapsed');
+        sessionStorage.setItem('gdpr_news_feeds_section_collapsed', nowCollapsed ? '1' : '0');
       } catch (err) {}
     });
   }
 
   initNewsFeedsSectionExpandableOnce();
+  applyNewsFeedsSectionCollapsedPreference();
 
   function onNewsAttachmentsButtonClick(e) {
+    var emptyAction =
+      e.target && e.target.closest && e.target.closest('[data-news-empty-action]');
+    if (emptyAction && newsSections && newsSections.contains(emptyAction)) {
+      e.preventDefault();
+      var action = emptyAction.getAttribute('data-news-empty-action');
+      if (action === 'refresh' && btnRefreshNews) {
+        btnRefreshNews.click();
+      } else if (action === 'clear' && newsFilterClear) {
+        newsFilterClear.click();
+      }
+      return;
+    }
     var btn = e.target && e.target.closest && e.target.closest('.btn-news-attachments');
     if (!btn || !newsSections || !newsSections.contains(btn)) return;
     e.preventDefault();
@@ -4857,6 +5212,7 @@
       btnBack.classList.add('hidden');
       currentDoc = null;
       lastListSection = section;
+      setReaderViewModeControlVisible(false);
       updateDocNav();
     }
     updateBrowseSectionMenu();
@@ -4869,7 +5225,12 @@
     if (recitalsDataCache && recitalsDataCache.length) {
       return Promise.resolve(recitalsDataCache);
     }
+    var regId = currentRegulation.id;
+    var requestId = loadRecitalsRequestId;
     return get('/api/recitals').then(function (recitals) {
+      if (requestId !== loadRecitalsRequestId || currentRegulation.id !== regId) {
+        return recitalsDataCache && recitalsDataCache.length ? recitalsDataCache : [];
+      }
       recitalsDataCache = Array.isArray(recitals) ? recitals : [];
       return recitalsDataCache;
     });
@@ -4881,7 +5242,14 @@
     if (docNavArticlesListCache && docNavArticlesListCache.length) {
       return Promise.resolve(docNavArticlesListCache);
     }
+    var regId = currentRegulation.id;
+    var requestId = loadChaptersRequestId;
     return get('/api/articles').then(function (articles) {
+      if (requestId !== loadChaptersRequestId || currentRegulation.id !== regId) {
+        return docNavArticlesListCache && docNavArticlesListCache.length
+          ? docNavArticlesListCache
+          : [];
+      }
       docNavArticlesListCache = Array.isArray(articles) ? articles : [];
       return docNavArticlesListCache;
     });
@@ -4977,8 +5345,8 @@
       li.addEventListener('click', function () {
         var n = parseInt(li.getAttribute('data-number'), 10);
         closeDocNavSuggestions();
-        if (kind === 'recital') openRecital(n);
-        else openArticle(n);
+        /* navigateDocument respects Page | Full (scroll in Full, open one page in Page). */
+        navigateDocument(kind, n);
       });
       docNavSuggestList.appendChild(li);
     });
@@ -5078,6 +5446,386 @@
     }).catch(closeDocNavSuggestions);
   }
 
+  function getReaderViewMode() {
+    return readerViewMode === 'full' ? 'full' : 'page';
+  }
+
+  function updateReaderViewModeUI() {
+    var mode = getReaderViewMode();
+    var fullOn = mode === 'full';
+    if (readerViewModeEl) {
+      readerViewModeEl.setAttribute('data-mode', mode);
+    }
+    if (readerViewModePageBtn) {
+      var pageOn = !fullOn;
+      readerViewModePageBtn.classList.toggle('is-active', pageOn);
+      readerViewModePageBtn.setAttribute('aria-checked', pageOn ? 'true' : 'false');
+    }
+    if (readerViewModeFullBtn) {
+      readerViewModeFullBtn.classList.toggle('is-active', fullOn);
+      readerViewModeFullBtn.setAttribute('aria-checked', fullOn ? 'true' : 'false');
+    }
+    if (browseDetail) {
+      browseDetail.classList.toggle('reader-view--full', fullOn);
+      browseDetail.classList.toggle('reader-view--page', !fullOn);
+    }
+    // Related panels are provision-scoped; hide in Full corpus view
+    document.querySelectorAll('.citation-panel--articles, .citation-panel--recitals').forEach(function (panel) {
+      if (fullOn) {
+        panel.setAttribute('hidden', '');
+        panel.setAttribute('aria-hidden', 'true');
+        panel.classList.remove('is-expanded');
+        var btn = panel.querySelector('.citation-panel-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      } else {
+        panel.removeAttribute('hidden');
+        panel.removeAttribute('aria-hidden');
+      }
+    });
+  }
+
+  function setReaderViewModeControlVisible(visible) {
+    if (!readerViewModeEl) return;
+    if (visible) readerViewModeEl.classList.remove('hidden');
+    else readerViewModeEl.classList.add('hidden');
+  }
+
+  function setReaderViewMode(mode, opts) {
+    var next = mode === 'full' ? 'full' : 'page';
+    var prev = getReaderViewMode();
+    readerViewMode = next;
+    try {
+      localStorage.setItem(READER_VIEW_MODE_KEY, next);
+    } catch (eSetMode) {}
+    updateReaderViewModeUI();
+    if (opts && opts.skipNavigate) return;
+    if (!currentDoc || !currentDoc.type || currentDoc.number == null) return;
+    if (next === prev && !(opts && opts.force)) return;
+    navigateDocument(currentDoc.type, currentDoc.number, { replaceView: true });
+  }
+
+  function readerSectionId(kind, number) {
+    return kind === 'recital' ? 'reader-rec-' + number : 'reader-art-' + number;
+  }
+
+  function scrollToReaderSection(kind, number) {
+    if (!detailContent) return;
+    detailContent.querySelectorAll('.reader-full-section.is-current').forEach(function (el) {
+      el.classList.remove('is-current');
+    });
+    var el = document.getElementById(readerSectionId(kind, number));
+    if (el) {
+      el.classList.add('is-current');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function buildArticleBodyHtml(data) {
+    var displayTitle = getArticleDisplayTitle(data);
+    var rawText = (data.text || '').trim();
+    var isPlaceholderOrEmpty = !rawText || rawText.indexOf('(Text not extracted') === 0;
+    if (isPlaceholderOrEmpty) {
+      return (
+        '<div class="article-point point-plain"><span class="point-text article-unavailable">Full text for this article was not extracted from the source. Please refer to the official links below for the authoritative text.</span></div>'
+      );
+    }
+    var textToParse = stripLeadingArticleHeadingFromBody(data.number, data.title, displayTitle, rawText);
+    var manual = renderManualNumberedParagraphs(textToParse);
+    if (manual) return manual;
+    var auto = renderAutoArticleBody(data.number, textToParse);
+    if (auto) return auto;
+    return (
+      '<div class="article-point point-plain"><span class="point-text">' +
+      injectRegulationCitationLinks(
+        stripEurLexClauseNumberMarkers(escapeHtml(stripParentheticalRecitalsFromArticlePlain(textToParse)))
+      ) +
+      '</span></div>'
+    );
+  }
+
+  function buildArticleDocumentHtml(data, opts) {
+    var options = opts || {};
+    var displayTitle = getArticleDisplayTitle(data);
+    var profile = getRegProfile();
+    var wrapTag = options.section ? 'section' : 'div';
+    var sectionAttrs = options.section
+      ? ' class="reader-full-section article-doc" id="' +
+        escapeHtml(readerSectionId('article', data.number)) +
+        '" data-type="article" data-number="' +
+        escapeHtml(String(data.number)) +
+        '"'
+      : ' class="article-doc"';
+    return (
+      '<' +
+      wrapTag +
+      sectionAttrs +
+      '>' +
+      '<div class="article-separator"></div>' +
+      '<p class="art-num">' +
+      escapeHtml(profile.articleHeading(data.number)) +
+      '</p>' +
+      '<h2 class="art-subject">' +
+      escapeHtml(displayTitle) +
+      '</h2>' +
+      '<div class="article-separator"></div>' +
+      '<div class="article-body">' +
+      buildArticleBodyHtml(data) +
+      '</div>' +
+      '<div class="article-separator"></div>' +
+      '</' +
+      wrapTag +
+      '>'
+    );
+  }
+
+  function buildRecitalDocumentHtml(data, opts) {
+    var options = opts || {};
+    var recitalTitle = getRecitalDisplayTitle(data);
+    var recitalHtml = renderRecitalDocumentHtml(data.text);
+    var profile = getRegProfile();
+    var wrapTag = options.section ? 'section' : 'div';
+    var sectionAttrs = options.section
+      ? ' class="reader-full-section article-doc recital-doc" id="' +
+        escapeHtml(readerSectionId('recital', data.number)) +
+        '" data-type="recital" data-number="' +
+        escapeHtml(String(data.number)) +
+        '"'
+      : ' class="article-doc recital-doc"';
+    return (
+      '<' +
+      wrapTag +
+      sectionAttrs +
+      '>' +
+      '<div class="article-separator"></div>' +
+      '<p class="art-num">' +
+      escapeHtml(profile.recitalHeading(data.number)) +
+      '</p>' +
+      (recitalTitle ? '<h2 class="art-subject">' + escapeHtml(recitalTitle) + '</h2>' : '') +
+      '<div class="article-separator"></div>' +
+      '<div class="article-body"><div class="prose">' +
+      recitalHtml +
+      '</div></div>' +
+      '<div class="article-separator"></div>' +
+      '</' +
+      wrapTag +
+      '>'
+    );
+  }
+
+  function briefTitleForDoc(kind, data) {
+    if (kind === 'recital') {
+      var recitalTitle = getRecitalDisplayTitle(data);
+      var navBrief = parseRecitalTopicTitle(data.title, data.number);
+      if (!navBrief && recitalTitle) {
+        navBrief = recitalTitle.replace(/^Recital\s*\(\s*\d+\s*\)\s*[—–-]\s*/i, '').trim();
+      }
+      if (!navBrief && recitalTitle) {
+        navBrief = recitalTitle.replace(/^Recital\s*\(\s*\d+\s*\)\s*/i, '').trim();
+      }
+      return navBrief || '';
+    }
+    var artBrief = (getArticleDisplayTitle(data) || '').trim();
+    if (/^Article\s+\d+\s*$/i.test(artBrief)) artBrief = '';
+    return artBrief;
+  }
+
+  function populateFullViewCitations(kind, items) {
+    resetCitationSidebarPanels();
+    if (relatedArticles) relatedArticles.innerHTML = '';
+    if (relatedRecitals) relatedRecitals.innerHTML = '';
+    if (typeof updateRelatedPanelsCountBadge === 'function') {
+      try {
+        updateRelatedPanelsCountBadge(0, 0);
+      } catch (eRelBadge) {}
+    }
+    if (!citationLinks) return;
+    var profile = getRegProfile();
+    var first = items && items[0];
+    var contentAsOfHtml = first && first.contentAsOf
+      ? '<li class="content-as-of">Text as of ' + formatContentDate(first.contentAsOf) + ' (consolidated).</li>'
+      : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest text.</li>';
+    var label =
+      kind === 'recital'
+        ? 'All ' + regulationShortLabel() + ' recitals'
+        : 'All ' + regulationShortLabel() + ' articles';
+    citationLinks.innerHTML =
+      contentAsOfHtml +
+      '<li><a href="' +
+      escapeHtml(profile.infoBaseUrl || profile.eurLexTxtUrl || '#') +
+      '" target="_blank" rel="noopener noreferrer">' +
+      escapeHtml(profile.infoSiteName) +
+      ' – ' +
+      escapeHtml(label) +
+      '</a></li>' +
+      '<li><a href="' +
+      escapeHtml(profile.eurLexTxtUrl || '#') +
+      '" target="_blank" rel="noopener noreferrer">' +
+      escapeHtml(officialSiteName(profile)) +
+      ' – ' +
+      escapeHtml(profile.eurLexLabel) +
+      '</a></li>';
+    updateCitationOfficialSourcesCount();
+  }
+
+  function openFullCorpus(kind, focusNumber, opts) {
+    var options = opts || {};
+    var token = ++readerFullLoadToken;
+    var focus = parseInt(String(focusNumber), 10);
+    if (isNaN(focus) || focus < 1) focus = 1;
+
+    var regIdForFull = currentRegulation && currentRegulation.id ? currentRegulation.id : 'gdpr';
+    var existing =
+      detailContent &&
+      detailContent.querySelector(
+        '.reader-full-doc[data-kind="' +
+          kind +
+          '"][data-regulation="' +
+          regIdForFull +
+          '"]'
+      );
+    if (existing && !options.forceReload) {
+      var focusItem = null;
+      if (kind === 'recital') {
+        ensureRecitalsIndexForSuggest().then(function (recs) {
+          if (token !== readerFullLoadToken) return;
+          focusItem = (recs || []).find(function (r) {
+            return r.number === focus;
+          });
+          currentDoc = {
+            type: kind,
+            number: focus,
+            briefTitle: focusItem ? briefTitleForDoc(kind, focusItem) : ''
+          };
+          showSection(browseDetail);
+          updateReaderViewModeUI();
+          setReaderViewModeControlVisible(true);
+          updateDocNav();
+          scrollToReaderSection(kind, focus);
+          focusDetailContentForReading();
+        });
+      } else {
+        ensureArticlesIndexForSuggest().then(function (arts) {
+          if (token !== readerFullLoadToken) return;
+          focusItem = (arts || []).find(function (a) {
+            return a.number === focus;
+          });
+          currentDoc = {
+            type: kind,
+            number: focus,
+            briefTitle: focusItem ? briefTitleForDoc(kind, focusItem) : ''
+          };
+          showSection(browseDetail);
+          updateReaderViewModeUI();
+          setReaderViewModeControlVisible(true);
+          updateDocNav();
+          scrollToReaderSection(kind, focus);
+          focusDetailContentForReading();
+        });
+      }
+      return;
+    }
+
+    var loader =
+      kind === 'recital' ? ensureRecitalsIndexForSuggest : ensureArticlesIndexForSuggest;
+    if (detailContent) {
+      detailContent.innerHTML =
+        '<p class="docs-browser-loading" role="status"><span class="docs-browser-loading-pulse" aria-hidden="true"></span> Loading full ' +
+        escapeHtml(kind === 'recital' ? 'recitals' : 'articles') +
+        '…</p>';
+    }
+    showSection(browseDetail);
+    setReaderViewModeControlVisible(true);
+    updateReaderViewModeUI();
+
+    loader()
+      .then(function (items) {
+        if (token !== readerFullLoadToken) return;
+        var sorted = (items || []).slice().sort(function (a, b) {
+          return a.number - b.number;
+        });
+        if (!sorted.length) {
+          if (detailContent) {
+            detailContent.innerHTML =
+              '<p class="empty-state" role="status">No ' +
+              escapeHtml(kind === 'recital' ? 'recitals' : 'articles') +
+              ' available for this regulation.</p>';
+          }
+          return;
+        }
+        var maxNum = kind === 'recital' ? regulationMaxRecitals() : regulationMaxArticles();
+        if (focus > maxNum) focus = sorted[sorted.length - 1].number;
+        var html = sorted
+          .map(function (item) {
+            return kind === 'recital'
+              ? buildRecitalDocumentHtml(item, { section: true })
+              : buildArticleDocumentHtml(item, { section: true });
+          })
+          .join('');
+        if (currentRegulation.id !== regIdForFull) return;
+        detailContent.innerHTML =
+          '<div class="reader-full-doc" data-kind="' +
+          escapeHtml(kind) +
+          '" data-regulation="' +
+          escapeHtml(regIdForFull) +
+          '">' +
+          html +
+          '</div>';
+        var focusItem = sorted.find(function (it) {
+          return it.number === focus;
+        }) || sorted[0];
+        focus = focusItem.number;
+        currentDoc = {
+          type: kind,
+          number: focus,
+          briefTitle: briefTitleForDoc(kind, focusItem)
+        };
+        populateFullViewCitations(kind, sorted.map(function (it) {
+          return Object.assign({}, it, {
+            contentAsOf: it.contentAsOf || null
+          });
+        }));
+        // List endpoints omit contentAsOf — fetch meta from a single provision when needed
+        var metaUrl = kind === 'recital' ? '/api/recitals/' + focus : '/api/articles/' + focus;
+        get(metaUrl)
+          .then(function (one) {
+            if (token !== readerFullLoadToken || currentRegulation.id !== regIdForFull) return;
+            if (one && one.contentAsOf && citationLinks) {
+              populateFullViewCitations(kind, [one]);
+            }
+          })
+          .catch(function () {});
+        updateDocNav();
+        updateReaderViewModeUI();
+        setReaderViewModeControlVisible(true);
+        requestAnimationFrame(function () {
+          scrollToReaderSection(kind, focus);
+          focusDetailContentForReading();
+        });
+      })
+      .catch(function (err) {
+        if (token !== readerFullLoadToken) return;
+        console.error('Full corpus load failed', err);
+        if (detailContent) {
+          detailContent.innerHTML =
+            '<p class="empty-state" role="alert">Could not load the full document. Try again or switch to Page view.</p>';
+        }
+      });
+  }
+
+  function navigateDocument(type, number, opts) {
+    var kind = type === 'recital' ? 'recital' : 'article';
+    var num = parseInt(String(number), 10);
+    if (isNaN(num) || num < 1) return;
+    if (opts && opts.fromCitation) applyCitationNavOpts(opts);
+    else if (opts && opts.applyCitationOpts) applyCitationNavOpts(opts);
+    if (getReaderViewMode() === 'full') {
+      openFullCorpus(kind, num, { forceReload: !!(opts && opts.replaceView) });
+      return;
+    }
+    if (kind === 'recital') openRecital(num, opts);
+    else openArticle(num, opts);
+  }
+
   /** Update prev/next document nav based on currentDoc. Show only when viewing a single article or recital. */
   function updateDocNav() {
     if (!docNav || !docNavPrev || !docNavNext || !docNavLabel) return;
@@ -5085,8 +5833,11 @@
     if (!doc || !doc.type || doc.number == null) {
       docNav.classList.add('hidden');
       closeDocNavSuggestions();
+      setReaderViewModeControlVisible(false);
       return;
     }
+    setReaderViewModeControlVisible(true);
+    updateReaderViewModeUI();
     docNav.classList.remove('hidden');
     const isRecital = doc.type === 'recital';
     const num = doc.number;
@@ -5098,17 +5849,53 @@
     docNavPrev.disabled = prevNum < minNum;
     docNavNext.disabled = nextNum > maxNum;
     var sn = regulationShortLabel();
-    docNavPrev.textContent = isRecital ? ('← ' + sn + ' Recital (' + prevNum + ')') : ('← ' + sn + ' Art. ' + prevNum);
-    docNavNext.textContent = isRecital ? (sn + ' Recital (' + nextNum + ') →') : (sn + ' Art. ' + nextNum + ' →');
-    docNavLabel.textContent = isRecital
-      ? (regulationShortLabel() + ' Recital (' + num + ') / ' + regulationMaxRecitals())
-      : (regulationShortLabel() + ' Art. ' + num + ' / ' + regulationMaxArticles());
+    var maxNumLabel = isRecital ? regulationMaxRecitals() : regulationMaxArticles();
+    docNavPrev.setAttribute(
+      'aria-label',
+      isRecital
+        ? 'Previous ' + sn + ' recital (' + prevNum + ')'
+        : 'Previous ' + sn + ' article ' + prevNum
+    );
+    docNavNext.setAttribute(
+      'aria-label',
+      isRecital
+        ? 'Next ' + sn + ' recital (' + nextNum + ')'
+        : 'Next ' + sn + ' article ' + nextNum
+    );
+    if (prevNum < minNum) {
+      docNavPrev.textContent = '←';
+    } else {
+      docNavPrev.textContent = isRecital ? '← Rec. ' + prevNum : '← Art. ' + prevNum;
+    }
+    if (nextNum > maxNum) {
+      docNavNext.textContent = '→';
+    } else {
+      docNavNext.textContent = isRecital ? 'Rec. ' + nextNum + ' →' : 'Art. ' + nextNum + ' →';
+    }
+    docNavLabel.innerHTML = isRecital
+      ? '<span class="doc-nav-label-kind">' +
+        escapeHtml(sn) +
+        ' Recital</span> <span class="doc-nav-label-pos"><strong>' +
+        escapeHtml(String(num)) +
+        '</strong><span class="doc-nav-label-of"> / ' +
+        escapeHtml(String(maxNumLabel)) +
+        '</span></span>'
+      : '<span class="doc-nav-label-kind">' +
+        escapeHtml(sn) +
+        ' Art.</span> <span class="doc-nav-label-pos"><strong>' +
+        escapeHtml(String(num)) +
+        '</strong><span class="doc-nav-label-of"> / ' +
+        escapeHtml(String(maxNumLabel)) +
+        '</span></span>';
     closeDocNavSuggestions();
     if (docNavNumber) {
       docNavNumber.value = buildDocNavInputDisplay(doc);
       docNavNumber.placeholder = isRecital
-        ? ('No. or keywords (1–' + regulationMaxRecitals() + ')')
-        : ('No. or keywords (1–' + regulationMaxArticles() + ')');
+        ? 'Recital 1–' + regulationMaxRecitals() + ' · Enter'
+        : 'Article 1–' + regulationMaxArticles() + ' · Enter';
+      docNavNumber.title = isRecital
+        ? 'Jump to a ' + sn + ' recital — type a number or keywords, then press Enter'
+        : 'Jump to a ' + sn + ' article — type a number or keywords, then press Enter';
       var ariaBrief = truncateBriefTitleForDocNav((doc.briefTitle || '').trim(), 72);
       if (!ariaBrief && detailContent) {
         var subj = detailContent.querySelector('.art-subject');
@@ -5116,11 +5903,11 @@
       }
       docNavNumber.setAttribute(
         'aria-label',
-        (isRecital ? 'Go to ' + sn + ' recital' : 'Go to ' + sn + ' article') +
+        (isRecital ? 'Jump to ' + sn + ' recital' : 'Jump to ' + sn + ' article') +
           '. Current ' +
           (isRecital ? sn + ' recital (' + num + ')' : sn + ' article ' + num) +
           (ariaBrief ? ': ' + ariaBrief + '.' : '.') +
-          ' Type a number or keywords, or open the list.'
+          ' Type a number or keywords, then press Enter, or open the list.'
       );
     }
     if (docNavListToggle) {
@@ -5145,8 +5932,7 @@
       var pick = docNavSuggestItems[docNavSuggestActiveIndex];
       if (pick && pick.number != null) {
         closeDocNavSuggestions();
-        if (currentDoc.type === 'recital') openRecital(pick.number);
-        else openArticle(pick.number);
+        navigateDocument(currentDoc.type, pick.number);
         return;
       }
     }
@@ -5159,27 +5945,38 @@
     const maxNum = isRecital ? regulationMaxRecitals() : regulationMaxArticles();
     if (num < minNum || num > maxNum) return;
     closeDocNavSuggestions();
-    if (currentDoc.type === 'recital') openRecital(num);
-    else openArticle(num);
+    navigateDocument(currentDoc.type, num);
   }
 
   if (docNavPrev) {
     docNavPrev.addEventListener('click', function () {
       if (!currentDoc || this.disabled) return;
-      const num = currentDoc.number - 1;
-      if (currentDoc.type === 'recital') openRecital(num);
-      else openArticle(num);
+      navigateDocument(currentDoc.type, currentDoc.number - 1);
     });
   }
   if (docNavNext) {
     docNavNext.addEventListener('click', function () {
       if (!currentDoc || this.disabled) return;
-      const num = currentDoc.number + 1;
-      if (currentDoc.type === 'recital') openRecital(num);
-      else openArticle(num);
+      navigateDocument(currentDoc.type, currentDoc.number + 1);
     });
   }
-  if (docNavGo) docNavGo.addEventListener('click', goToDocNumber);
+  if (readerViewModePageBtn) {
+    readerViewModePageBtn.addEventListener('click', function () {
+      setReaderViewMode('page');
+    });
+  }
+  if (readerViewModeFullBtn) {
+    readerViewModeFullBtn.addEventListener('click', function () {
+      setReaderViewMode('full');
+    });
+  }
+  updateReaderViewModeUI();
+  if (docNavGoForm) {
+    docNavGoForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      goToDocNumber();
+    });
+  }
   if (docNavListToggle) {
     docNavListToggle.addEventListener('click', function (e) {
       e.preventDefault();
@@ -5503,7 +6300,9 @@
       var ariaLabel =
         sn + ' Recital ' + r.number + (topic ? ': ' + topic : '') + ' — open full text';
       card.innerHTML =
-        '<a href="#" class="recital-card-link" data-type="recital" data-number="' +
+        '<a href="' +
+        buildDocRouteHash('recital', r.number) +
+        '" class="recital-card-link" data-type="recital" data-number="' +
         r.number +
         '" aria-label="' +
         escapeHtml(ariaLabel) +
@@ -5540,6 +6339,8 @@
   }
 
   function loadRecitals() {
+    var regId = currentRegulation.id;
+    var requestId = ++loadRecitalsRequestId;
     if (recitalsList) {
       recitalsList.removeAttribute('role');
       recitalsList.setAttribute('aria-busy', 'true');
@@ -5551,11 +6352,13 @@
     if (recitalsCountEl) recitalsCountEl.textContent = '';
     get('/api/recitals')
       .then(function (recitals) {
+        if (requestId !== loadRecitalsRequestId || currentRegulation.id !== regId) return;
         recitalsDataCache = Array.isArray(recitals) ? recitals : [];
         if (recitalsSearch) recitalsSearch.value = '';
         applyRecitalsFilter('');
       })
       .catch(function () {
+        if (requestId !== loadRecitalsRequestId || currentRegulation.id !== regId) return;
         recitalsDataCache = [];
         if (recitalsList) {
           recitalsList.setAttribute('aria-busy', 'false');
@@ -5614,28 +6417,25 @@
 
   function openRecital(number, opts) {
     applyCitationNavOpts(opts);
+    if (getReaderViewMode() === 'full') {
+      openFullCorpus('recital', number);
+      return;
+    }
+    var regId = currentRegulation.id;
     get('/api/recitals/' + number)
       .then(function (data) {
+        if (currentRegulation.id !== regId) return null;
         return resolveSuitableArticlesForRecital(number, data.suitableArticles).then(function (suitableArticles) {
           return { data: data, suitableArticles: suitableArticles };
         });
       })
       .then(function (bundle) {
+        if (!bundle || currentRegulation.id !== regId) return;
         resetCitationSidebarPanels();
         var data = bundle.data;
         var suitableArticles = bundle.suitableArticles;
-        var recitalTitle = getRecitalDisplayTitle(data);
-        var recitalHtml = renderRecitalDocumentHtml(data.text);
         var profile = getRegProfile();
-        detailContent.innerHTML =
-          '<div class="article-doc recital-doc">' +
-          '<div class="article-separator"></div>' +
-          '<p class="art-num">' + escapeHtml(profile.recitalHeading(data.number)) + '</p>' +
-          (recitalTitle ? '<h2 class="art-subject">' + escapeHtml(recitalTitle) + '</h2>' : '') +
-          '<div class="article-separator"></div>' +
-          '<div class="article-body"><div class="prose">' + recitalHtml + '</div></div>' +
-          '<div class="article-separator"></div>' +
-          '</div>';
+        detailContent.innerHTML = buildRecitalDocumentHtml(data);
         var contentAsOfHtml = data.contentAsOf
           ? '<li class="content-as-of">Text as of ' + formatContentDate(data.contentAsOf) + ' (consolidated).</li>'
           : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest text.</li>';
@@ -5650,14 +6450,7 @@
           '<li><a href="' + escapeHtml(eurLexUrl) + '" target="_blank" rel="noopener noreferrer">' +
           escapeHtml(officialSiteName(profile)) + ' – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
         updateCitationOfficialSourcesCount();
-        var navBrief = parseRecitalTopicTitle(data.title, data.number);
-        if (!navBrief && recitalTitle) {
-          navBrief = recitalTitle.replace(/^Recital\s*\(\s*\d+\s*\)\s*[—–-]\s*/i, '').trim();
-        }
-        if (!navBrief && recitalTitle) {
-          navBrief = recitalTitle.replace(/^Recital\s*\(\s*\d+\s*\)\s*/i, '').trim();
-        }
-        currentDoc = { type: 'recital', number: data.number, briefTitle: navBrief || '' };
+        currentDoc = { type: 'recital', number: data.number, briefTitle: briefTitleForDoc('recital', data) };
         populateRelatedDocsForCurrentDocument(currentDoc, data.text || '', {
           suitableArticles: suitableArticles
         });
@@ -7046,7 +7839,14 @@
         }
         var ariaOpen = 'Open ' + sn + ' Article ' + art.number + (disp ? ': ' + disp : '');
         html += '<li class="item-card" role="listitem">';
-        html += '<a href="#" class="item-card-link" data-type="article" data-number="' + art.number + '" aria-label="' + escapeHtml(ariaOpen) + '">';
+        html +=
+          '<a href="' +
+          buildDocRouteHash('article', art.number) +
+          '" class="item-card-link" data-type="article" data-number="' +
+          art.number +
+          '" aria-label="' +
+          escapeHtml(ariaOpen) +
+          '">';
         html += '<div class="item-card-main">';
         html += '<span class="item-card-num"><span class="item-card-num-label">Art.</span> <span class="item-card-num-value">' + art.number + '</span></span>';
         html += '<span class="item-card-title">' + titleText + '</span>';
@@ -7113,52 +7913,26 @@
 
   function openArticle(number, opts) {
     applyCitationNavOpts(opts);
+    if (getReaderViewMode() === 'full') {
+      openFullCorpus('article', number);
+      return;
+    }
+    var regId = currentRegulation.id;
     get('/api/articles/' + number)
       .then(function (data) {
+        if (currentRegulation.id !== regId) return null;
         return resolveSuitableRecitalsForArticle(number, data.suitableRecitals).then(function (suitableRecitals) {
           return { data: data, suitableRecitals: suitableRecitals };
         });
       })
       .then(function (bundle) {
+        if (!bundle || currentRegulation.id !== regId) return;
         resetCitationSidebarPanels();
         var data = bundle.data;
         var suitableRecitals = bundle.suitableRecitals;
-        var displayTitle = getArticleDisplayTitle(data);
-        const title = escapeHtml(displayTitle);
-        const rawText = (data.text || '').trim();
-        const isPlaceholderOrEmpty = !rawText || rawText.indexOf('(Text not extracted') === 0;
-        var bodyHtml = '';
-        if (isPlaceholderOrEmpty) {
-          bodyHtml = '<div class="article-point point-plain"><span class="point-text article-unavailable">Full text for this article was not extracted from the source. Please refer to the official links below for the authoritative text.</span></div>';
-        } else {
-          var textToParse = stripLeadingArticleHeadingFromBody(data.number, data.title, displayTitle, rawText);
-          var manual = renderManualNumberedParagraphs(textToParse);
-          if (manual) {
-            bodyHtml = manual;
-          } else {
-            var auto = renderAutoArticleBody(data.number, textToParse);
-            if (auto) {
-              bodyHtml = auto;
-            } else {
-              bodyHtml =
-                '<div class="article-point point-plain"><span class="point-text">' +
-                injectRegulationCitationLinks(
-                  formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(textToParse)))
-                ) +
-                '</span></div>';
-            }
-          }
-        }
         var profile = getRegProfile();
-        detailContent.innerHTML =
-          '<div class="article-doc">' +
-          '<div class="article-separator"></div>' +
-          '<p class="art-num">' + escapeHtml(profile.articleHeading(data.number)) + '</p>' +
-          '<h2 class="art-subject">' + title + '</h2>' +
-          '<div class="article-separator"></div>' +
-          '<div class="article-body">' + bodyHtml + '</div>' +
-          '<div class="article-separator"></div>' +
-          '</div>';
+        var rawText = (data.text || '').trim();
+        detailContent.innerHTML = buildArticleDocumentHtml(data);
         var contentAsOfHtml = data.contentAsOf
           ? '<li class="content-as-of">Text as of ' + formatContentDate(data.contentAsOf) + ' (consolidated).</li>'
           : '<li class="content-as-of">Text not yet refreshed. Use Refresh sources to load the latest text.</li>';
@@ -7171,12 +7945,10 @@
           '<li><a href="' + escapeHtml(eurLexArt) + '" target="_blank" rel="noopener">' +
           escapeHtml(officialSiteName(profile)) + ' – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
         updateCitationOfficialSourcesCount();
-        var artBrief = (displayTitle || '').trim();
-        if (/^Article\s+\d+\s*$/i.test(artBrief)) artBrief = '';
         currentDoc = {
           type: 'article',
           number: data.number,
-          briefTitle: artBrief
+          briefTitle: briefTitleForDoc('article', data)
         };
         populateRelatedDocsForCurrentDocument(currentDoc, rawText, {
           suitableRecitals: suitableRecitals
@@ -7212,7 +7984,13 @@
       var url = resolveGdprInfoProvisionUrlForPdf(t, n);
       if (!url) return;
       var href = a.getAttribute('href') || '';
-      if (href === '#' || href === '' || href.indexOf('javascript:') === 0) {
+      /* In-app hashes (#/gdpr/article/1) and bare # must become absolute URLs in print. */
+      if (
+        href === '#' ||
+        href === '' ||
+        href.charAt(0) === '#' ||
+        href.indexOf('javascript:') === 0
+      ) {
         a.setAttribute('href', url);
         a.setAttribute('target', '_blank');
         a.setAttribute('rel', 'noopener noreferrer');
@@ -7236,17 +8014,98 @@
     return copy;
   }
 
+  function appendPdfOfficialSourcesSection(wrap, opts) {
+    var options = opts || {};
+    var hasOfficial = citationLinks && citationLinks.children.length > 0;
+    if (!hasOfficial) return;
+
+    var refSection = document.createElement('section');
+    refSection.className = 'pdf-export-references';
+
+    var refPreface = document.createElement('div');
+    refPreface.className = 'pdf-export-references-preface';
+
+    var refH = document.createElement('h2');
+    refH.className = 'pdf-export-references-title';
+    refH.textContent = options.title || 'Official sources';
+
+    var refLead = document.createElement('p');
+    refLead.className = 'pdf-export-references-lead';
+    refLead.textContent =
+      options.lead ||
+      ('Authoritative online sources for the consolidated text. Links open the corresponding pages on ' +
+        getRegProfile().infoSiteName +
+        ' where available.');
+    refPreface.appendChild(refH);
+    refPreface.appendChild(refLead);
+    refSection.appendChild(refPreface);
+
+    var hOff = document.createElement('h3');
+    hOff.className = 'pdf-export-references-subtitle';
+    hOff.textContent = 'Official sources and document freshness';
+    refSection.appendChild(hOff);
+    refSection.appendChild(
+      cloneElementForPdfExport(citationLinks, 'pdf-export-ref-list pdf-export-ref-list--official')
+    );
+    wrap.appendChild(refSection);
+  }
+
   /**
-   * Build a print-oriented document: main provision text only, then optional
-   * official sources + related articles/recitals (no UI chrome).
+   * Build a print-oriented document matching the active reader mode:
+   * - Page: current provision + official sources + related articles/recitals
+   * - Full: entire articles or recitals corpus currently shown + official sources
    */
   function buildPdfExportElement() {
+    if (!detailContent) return null;
+
     var wrap = document.createElement('div');
     wrap.className = 'pdf-export-root';
 
+    var profile = getRegProfile();
+    var isFullMode = getReaderViewMode() === 'full';
+    var fullDoc = isFullMode ? detailContent.querySelector('.reader-full-doc') : null;
+
     var kicker = document.createElement('p');
     kicker.className = 'pdf-export-kicker';
-    kicker.textContent = getRegProfile().fullName;
+
+    if (isFullMode) {
+      if (!fullDoc) return null;
+      wrap.classList.add('pdf-export-root--full');
+      var fullKind =
+        (fullDoc.getAttribute('data-kind') ||
+          (currentDoc && currentDoc.type === 'recital' ? 'recital' : 'article'));
+      kicker.textContent =
+        profile.fullName +
+        ' · Full ' +
+        (fullKind === 'recital' ? 'recitals' : 'articles');
+      wrap.appendChild(kicker);
+
+      var fullClone = fullDoc.cloneNode(true);
+      convertInAppLinksForPdfClone(fullClone);
+      fullClone.classList.add('pdf-export-full-doc');
+      fullClone.querySelectorAll('.is-current').forEach(function (el) {
+        el.classList.remove('is-current');
+      });
+      fullClone.querySelectorAll('.reader-full-section').forEach(function (sec) {
+        sec.classList.add('pdf-export-article');
+      });
+
+      var fullShell = document.createElement('div');
+      fullShell.className = 'pdf-export-document pdf-export-document--full';
+      fullShell.appendChild(fullClone);
+      wrap.appendChild(fullShell);
+
+      appendPdfOfficialSourcesSection(wrap, {
+        title: 'Sources',
+        lead:
+          'Authoritative online sources for this consolidated ' +
+          (fullKind === 'recital' ? 'recitals' : 'articles') +
+          ' corpus. Related provision panels are omitted in Full export.'
+      });
+      return wrap;
+    }
+
+    kicker.textContent = profile.fullName;
     wrap.appendChild(kicker);
 
     var articleDoc = detailContent.querySelector('.article-doc');
@@ -7290,7 +8149,7 @@
     refLead.className = 'pdf-export-references-lead';
     refLead.textContent =
       'Authoritative online sources for the consolidated text, plus related articles and recitals referenced from this provision. Links open the corresponding pages on ' +
-      getRegProfile().infoSiteName +
+      profile.infoSiteName +
       ' where available.';
     refPreface.appendChild(refH);
     refPreface.appendChild(refLead);
@@ -7324,6 +8183,15 @@
     return wrap;
   }
 
+  function setExportPdfButtonLabel(label) {
+    if (!btnExportPdf) return;
+    var full = btnExportPdf.querySelector('.btn-export-label');
+    var short = btnExportPdf.querySelector('.btn-export-label-short');
+    if (full) full.textContent = label;
+    if (short) short.textContent = label === 'Export PDF' ? 'PDF' : label;
+    if (!full && !short) btnExportPdf.textContent = label;
+  }
+
   /**
    * Export as PDF via the browser print pipeline (vector / native pagination at line boundaries).
    * html2pdf+html2canvas rasterizes a tall bitmap and slices it into pages, which chops lines — avoided here.
@@ -7333,8 +8201,20 @@
     var mount = document.getElementById('pdfPrintMount');
     if (!mount) return;
 
+    var exportEl = buildPdfExportElement();
+    if (!exportEl) {
+      /* Full view still loading — avoid printing an empty/partial shell. */
+      if (getReaderViewMode() === 'full') {
+        setExportPdfButtonLabel('Still loading…');
+        setTimeout(function () {
+          setExportPdfButtonLabel('Export PDF');
+        }, 1600);
+      }
+      return;
+    }
+
     mount.innerHTML = '';
-    mount.appendChild(buildPdfExportElement());
+    mount.appendChild(exportEl);
     document.body.classList.add('is-pdf-export-print');
 
     var cleaned = false;
@@ -7344,7 +8224,7 @@
       document.body.classList.remove('is-pdf-export-print');
       mount.innerHTML = '';
       btnExportPdf.disabled = false;
-      btnExportPdf.textContent = 'Export PDF';
+      setExportPdfButtonLabel('Export PDF');
       window.removeEventListener('afterprint', cleanupPdfExportPrint);
       if (printMqRemove) printMqRemove();
     }
@@ -7372,10 +8252,10 @@
     window.addEventListener('afterprint', cleanupPdfExportPrint);
 
     btnExportPdf.disabled = true;
-    btnExportPdf.textContent = 'Preparing…';
+    setExportPdfButtonLabel('Preparing…');
 
     var runPrint = function () {
-      btnExportPdf.textContent = 'Print dialog…';
+      setExportPdfButtonLabel('Print dialog…');
       try {
         window.print();
       } catch (e) {
@@ -7402,18 +8282,15 @@
 
   function activateBrowseRegulationSegment(seg) {
     closeBrowseRegMenu();
+    /* Prefer activateMainViewOnly — clicking the Browse tab syncs #/browse first and
+       races with the segment hash (intermittent bounce back to the home grid). */
+    if (viewBrowse && !viewBrowse.classList.contains('active')) {
+      activateMainViewOnly('browse');
+    }
     if (seg === 'recitals') {
-      if (viewBrowse && !viewBrowse.classList.contains('active')) {
-        const main = document.getElementById('tabBrowseMain');
-        if (main) main.click();
-      }
       showSection(browseRecitals);
       loadRecitals();
     } else if (seg === 'chapters') {
-      if (viewBrowse && !viewBrowse.classList.contains('active')) {
-        const main = document.getElementById('tabBrowseMain');
-        if (main) main.click();
-      }
       showSection(browseChapters);
       loadChapters();
     }
@@ -7511,13 +8388,12 @@
     const citationReturn = fromInTextCitation
       ? { type: currentDoc.type, number: currentDoc.number }
       : null;
-    const browseTab = document.querySelector('.tab[data-view="browse"]');
-    if (browseTab) browseTab.click();
-    setTimeout(function () {
-      const openOpts = citationReturn ? { citationReturn } : {};
-      if (type === 'recital') openRecital(num, openOpts);
-      else if (type === 'article') openArticle(num, openOpts);
-    }, 0);
+    if (viewBrowse && !viewBrowse.classList.contains('active')) {
+      activateMainViewOnly('browse');
+    }
+    const openOpts = citationReturn ? { citationReturn: citationReturn } : {};
+    if (type === 'recital') openRecital(num, openOpts);
+    else if (type === 'article') openArticle(num, openOpts);
   });
 
   function escapeHtml(s) {
@@ -7710,7 +8586,9 @@
           : '');
       return (
         '<li class="related-doc-item" role="listitem">' +
-        '<a href="#" class="app-goto-doc regulation-citation citation-in-app related-doc-link" data-type="' +
+        '<a href="' +
+        buildDocRouteHash(it.type, it.number) +
+        '" class="app-goto-doc regulation-citation citation-in-app related-doc-link" data-type="' +
         escapeHtml(it.type) +
         '" data-number="' +
         String(it.number) +
@@ -7880,12 +8758,6 @@
     return t;
   }
 
-  /** Normalize EU text markers; clause numbers are stripped, not shown as superscripts. */
-  function formatInlineFootnotes(escapedText) {
-    if (!escapedText) return '';
-    return stripEurLexClauseNumberMarkers(escapedText);
-  }
-
   /**
    * After “Article 12” / “Recital 58”, EU text often continues with “of the Charter”, “of Directive…”, etc.
    * Only link references that plausibly point to GDPR articles/recitals.
@@ -7912,7 +8784,9 @@
     var title = 'Open ' + kind + ' ' + n + ' in this app';
     var titleEsc = escapeHtml(title);
     return (
-      '<a href="#" class="app-goto-doc regulation-citation citation-in-app" data-type="' +
+      '<a href="' +
+      buildDocRouteHash(type, num) +
+      '" class="app-goto-doc regulation-citation citation-in-app" data-type="' +
       escapeHtml(type) +
       '" data-number="' +
       String(num) +
@@ -8368,7 +9242,7 @@
     var lis = items.map(function (txt, idx) {
       var marker = String.fromCharCode(97 + idx); // a,b,c
       var safe = injectRegulationCitationLinks(
-        formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(txt)))
+        stripEurLexClauseNumberMarkers(escapeHtml(stripParentheticalRecitalsFromArticlePlain(txt)))
       );
       return '<li><span class="li-marker">(' + marker + ')</span><span class="li-text">' + safe + '</span></li>';
     }).join('');
@@ -8379,13 +9253,13 @@
   function fmtArticleLine(raw) {
     var t = stripParentheticalRecitalsFromArticlePlain(String(raw || '').trim());
     t = stripCompoundEnumerationAtLineStarts(t);
-    return injectRegulationCitationLinks(formatInlineFootnotes(escapeHtml(t)));
+    return injectRegulationCitationLinks(stripEurLexClauseNumberMarkers(escapeHtml(t)));
   }
 
   /** Recital documents: same as article line plus optional recital-ref line breaks for cross-refs. */
   function fmtRecitalLine(raw) {
     var t = stripCompoundEnumerationAtLineStarts(String(raw || '').trim());
-    return injectRegulationCitationLinks(formatRecitalRefs(formatInlineFootnotes(escapeHtml(t))));
+    return injectRegulationCitationLinks(formatRecitalRefs(stripEurLexClauseNumberMarkers(escapeHtml(t))));
   }
 
   function fmtArticleMultiline(raw) {
@@ -9126,7 +10000,7 @@
       footnoteHtml =
         '<p class="art-footnote">' +
         injectRegulationCitationLinks(
-          formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(footnoteParts.join('\n'))))
+          stripEurLexClauseNumberMarkers(escapeHtml(stripParentheticalRecitalsFromArticlePlain(footnoteParts.join('\n'))))
         ).replace(/\n+/g, '<br>') +
         '</p>';
     }
@@ -9273,7 +10147,7 @@
     var introHtml = '';
     if (introParts.length) {
       var introEsc = injectRegulationCitationLinks(
-        formatInlineFootnotes(escapeHtml(stripParentheticalRecitalsFromArticlePlain(introParts.join('\n\n'))))
+        stripEurLexClauseNumberMarkers(escapeHtml(stripParentheticalRecitalsFromArticlePlain(introParts.join('\n\n'))))
       );
       introHtml = '<div class="prose"><p class="art-intro">' + introEsc.replace(/\n+/g, '<br>') + '</p></div>';
     }
@@ -9455,7 +10329,7 @@
     (Array.isArray(sources) ? sources : []).forEach(function (s) {
       if (s && s.id) map[String(s.id)] = s;
     });
-    var escaped = formatRecitalRefs(formatInlineFootnotes(escapeHtml(raw)));
+    var escaped = formatRecitalRefs(stripEurLexClauseNumberMarkers(escapeHtml(raw)));
     escaped = escaped.replace(/\[S(\d+)\]/g, function (_, n) {
       var id = 'S' + n;
       var s = map[id];
@@ -9475,7 +10349,9 @@
       }
       if (s && s.kind === 'regulation' && s.type && s.number != null) {
         return (
-          '<a href="#" class="app-goto-doc from-ask citation-link citation-chip" data-type="' +
+          '<a href="' +
+          buildDocRouteHash(s.type, s.number) +
+          '" class="app-goto-doc from-ask citation-link citation-chip" data-type="' +
           escapeHtml(s.type) +
           '" data-number="' +
           String(s.number) +
@@ -9553,7 +10429,9 @@
         escapeHtml(label) +
         '</span>' +
         '<div class="ask-relevant-doc-links">' +
-        '<a href="#" class="app-goto-doc from-ask link-in-app" data-type="' +
+        '<a href="' +
+        buildDocRouteHash(s.type, s.number) +
+        '" class="app-goto-doc from-ask link-in-app" data-type="' +
         escapeHtml(s.type) +
         '" data-number="' +
         s.number +
@@ -9607,7 +10485,9 @@
           .slice(0, 12)
           .map(function (r) {
             return (
-              '<a href="#" class="app-goto-doc from-ask link-in-app" data-type="recital" data-number="' +
+              '<a href="' +
+              buildDocRouteHash('recital', r) +
+              '" class="app-goto-doc from-ask link-in-app" data-type="recital" data-number="' +
               r +
               '">(' +
               r +
@@ -9688,7 +10568,14 @@
       var label = s.id || '';
       if (s.kind === 'regulation') {
         var docLine = formatAnswerCitationHeadline(s.type, s.number, s.title || '');
-        var inApp = '<a href="#" class="app-goto-doc from-ask" data-type="' + escapeHtml(s.type) + '" data-number="' + s.number + '">View in app</a>';
+        var inApp =
+          '<a href="' +
+          buildDocRouteHash(s.type, s.number) +
+          '" class="app-goto-doc from-ask" data-type="' +
+          escapeHtml(s.type) +
+          '" data-number="' +
+          s.number +
+          '">View in app</a>';
         var siteName = getRegProfile().infoSiteName || 'Source';
         var links =
           (s.sourceUrl
@@ -9751,9 +10638,10 @@
     if (window.location.hash && window.location.hash.length > 1) {
       restoreAppRouteFromHash();
     }
+    appRouteReady = true;
   });
   window.addEventListener('hashchange', function () {
-    if (suppressAppRouteSync) return;
+    if (suppressAppRouteSync || !appRouteReady) return;
     restoreAppRouteFromHash();
   });
 })();

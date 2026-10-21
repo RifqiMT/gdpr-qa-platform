@@ -9,8 +9,8 @@ This directory contains **professional product, design, and engineering document
 | **Indonesia** | UU PDP · Satu Data Indonesia · AI Ethics (soft law) |
 
 The **canonical operator handbook** is the repository root **[README.md](../README.md)**.  
-**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.5**).  
-**Product version:** `package.json` **1.2.6** · **Last documentation audit:** **2026-10-20**.
+**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.6**).  
+**Product version:** `package.json` **1.2.7** · **Last documentation audit:** **2026-10-21**.
 
 ---
 
@@ -20,7 +20,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 |------|----------|-------------|
 | 1 | [../README.md](../README.md) | Product overview, features, logic, configuration, quick start. |
 | 2 | [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Document index and governance rules. |
-| 3 | [PRD.md](PRD.md) | Formal requirements **v2.7** (region picker, six instruments, Indo news/ETL). |
+| 3 | [PRD.md](PRD.md) | Formal requirements **v2.8** (region picker, six instruments, Page \| Full reader, deep links). |
 | 4 | [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) | Business scope, credible sources, regulation-specific notes. |
 | 5 | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) | Engineering standards, APIs, ETL, security. |
 | 6 | [USER_PERSONAS.md](USER_PERSONAS.md) / [USER_STORIES.md](USER_STORIES.md) | Users and acceptance criteria. |
@@ -72,7 +72,7 @@ The **canonical operator handbook** is the repository root **[README.md](../READ
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Primary product handbook. |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.5**. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v2.6**. |
 | [../CHANGELOG.md](../CHANGELOG.md) | [Keep a Changelog](https://keepachangelog.com/) history. |
 | [../.env.example](../.env.example) | Environment template (EU + ID ETL + News + Groq/Tavily). |
 | [../public/regulation-profiles.js](../public/regulation-profiles.js) | EU UI profiles. |

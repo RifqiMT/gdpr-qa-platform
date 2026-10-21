@@ -3,7 +3,7 @@
 
 Personas represent primary users of the platform across **European Union** and **Indonesian** instruments. They inform features, user stories, and documentation.
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**
 
 ---
 

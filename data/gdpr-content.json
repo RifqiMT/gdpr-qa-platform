@@ -1,29 +1,29 @@
 {
   "meta": {
-    "lastChecked": "2026-10-20T14:51:04.596Z",
-    "lastRefreshed": "2026-09-07T06:34:35.510Z",
+    "lastChecked": "2026-10-21T00:00:02.517Z",
+    "lastRefreshed": "2026-10-21T00:00:02.517Z",
     "etl": {
       "primaryRequested": "gdpr-info",
       "minGdprInfoArticles": 99,
       "minGdprInfoRecitals": 173,
-      "extractedFrom": null,
-      "fetched": false,
-      "significant": false,
-      "datasetHash": "246333341ddbeef4f21b613b1a2cb0e8810597a4261571d776d495a4609fe25f",
-      "candidateHash": null,
+      "extractedFrom": "gdpr-info",
+      "fetched": true,
+      "significant": true,
+      "datasetHash": "d07332b1e944fce8c5aa57fb8bf0556a0a0378283e28e3c0d00df9d9dd8a9efb",
+      "candidateHash": "d07332b1e944fce8c5aa57fb8bf0556a0a0378283e28e3c0d00df9d9dd8a9efb",
       "diff": {
         "recitals": {
-          "changed": 0,
+          "changed": 142,
           "added": 0,
           "removed": 0
         },
         "articles": {
-          "changed": 0,
+          "changed": 8,
           "added": 0,
           "removed": 0
         },
-        "changedItems": 0,
-        "changeRatio": 0
+        "changedItems": 150,
+        "changeRatio": 0.5514705882352942
       }
     },
     "sources": [

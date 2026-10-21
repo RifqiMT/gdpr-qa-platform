@@ -1,10 +1,10 @@
 # Product documentation standard  
 ## Regulation Q&A Platform
 
-**Version:** 2.5  
+**Version:** 2.6  
 **Status:** Active — governance checklist for product, design, compliance, engineering, and operations.  
-**Product release:** `package.json` **1.2.6** (plus Unreleased Indo/chrome work documented in [CHANGELOG.md](CHANGELOG.md)).  
-**Latest doc audit:** **2026-10-20** (full documentation set alignment to multi-jurisdiction product: EU + Indonesia; remove dead APIs; SEED_FILES = 20; design themes for six instruments).
+**Product release:** `package.json` **1.2.7** (plus Unreleased reader/nav/PDF work in [CHANGELOG.md](CHANGELOG.md)).  
+**Latest doc audit:** **2026-10-21** (align docs to **1.2.7**; reader Page \| Full; Go control removed; browse deep-link/routing hardening; DM Sans–only typography; new browse/reader tests).
 
 **Scope:** All material under **`gdpr-qa-platform/`** describing the product, behavior, configuration, verification, and release history.
 
@@ -21,7 +21,7 @@
 | [docs/README.md](docs/README.md) | All | Documentation hub: reading order, map, conventions. |
 | [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) | Product, legal | Positioning, six instruments, credible sources, News policy (EU + Indonesia). |
 | [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md) | Engineering, DevOps | Multi-regulation APIs, six ETL paths, Ask pipeline, BYOK, security, performance. |
-| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.7** — region picker, six instruments, Indo news/ETL, soft-law AI ethics, BYOK, Vercel. |
+| [docs/PRD.md](docs/PRD.md) | Product, engineering | Formal requirements **v2.8** — region picker, six instruments, Page \| Full reader, deep links, Indo news/ETL, soft-law AI ethics, BYOK, Vercel. |
 | [docs/USER_PERSONAS.md](docs/USER_PERSONAS.md) | Product, UX | Personas for EU and Indonesian privacy / data / AI governance users. |
 | [docs/USER_STORIES.md](docs/USER_STORIES.md) | Product, QA | Epics and acceptance-oriented stories traceable to PRD. |
 | [docs/VARIABLES.md](docs/VARIABLES.md) | Engineering, support | Data dictionary + **Mermaid relationship diagrams** (configuration, corpus, Ask, News, jurisdictions). |
@@ -84,7 +84,7 @@
 | Area | Highlights |
 |------|------------|
 | **Shell** | Region + Regulation unified picker; Tools menu (≤899px); freshness; BYOK; refresh; credits bar; segmented tabs. |
-| **Browse** | Welcome hub (EU + ID cards); chapters before recitals; GDPR topic filters only; collapsible mobile Filters; reader; citation sidebar; PDF; suitable recitals (GDPR only). |
+| **Browse** | Welcome hub (EU + ID cards); chapters before recitals; GDPR topic filters only; collapsible mobile Filters; reader **Page \| Full**; jump Enter (no Go button); deep links; citation sidebar; mode-aware PDF; suitable recitals (GDPR only). |
 | **Ask** | `POST /api/answer` only; Groq → Tavily → extractive; web snippets; sector; BYOK; regulation-scoped prompts (incl. soft-law for ID AI Ethics). |
 | **Sources** | `GET /api/meta?regulation=` credible org list per instrument (no GDPR fallback for non-GDPR). |
 | **News** | Multi-source crawl (EU + Indo); filters; relevance filters for AI Act, Data Act, UU PDP, Satu Data, AI Ethics. |
@@ -140,7 +140,7 @@ Node ≥ 18, Express, vanilla frontend, writable `data/`, CORS, optional Groq/Ta
 
 **Canonical detail:** [README §7](README.md#7-tech-stack)
 
-Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans / DM Serif Text, html2pdf.js, Groq + Tavily (fetch), JSON in `data/`, Vercel serverless.
+Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans, html2pdf.js, Groq + Tavily (fetch), JSON in `data/`, Vercel serverless.
 
 ---
 
@@ -180,7 +180,8 @@ Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans / DM Serif Text
 
 | Standard version | Date | Highlights |
 |------------------|------|------------|
-| **2.5** | 2026-10-20 | Multi-jurisdiction (EU + Indonesia, six instruments); product **1.2.6**; remove dead APIs/LLM providers from docs; SEED_FILES = 20; Indo personas/stories/OKRs; six theme accents; region picker chrome. |
+| **2.6** | 2026-10-21 | Product **1.2.7** stamp lockstep; Unreleased reader UX (Page \| Full PDF export, Go removed → Enter/jump, deep-link boot, regulation-switch stale clear, browse hash bounce fix); DM Sans–only type; `test/browse-routes.test.js` + `test/reader-view.test.js` inventory. |
+| **2.5** | 2026-10-20 | Multi-jurisdiction (EU + Indonesia, six instruments); remove dead APIs/LLM providers from docs; SEED_FILES = 20; Indo personas/stories/OKRs; six theme accents; region picker chrome. |
 | **2.4** | 2026-07-22 | Product **1.2.5** version alignment; browse welcome epic (US-W*); DESIGN_GUIDELINES regulation theme rgba tokens; METRICS O10; USER_STORIES Epic 0c. |
 | **2.3** | 2026-07-06 | Module public API documentation; Vercel `SEED_FILES` manifest; dead-code cleanup record. |
 | **2.2** | 2026-05-19 | Browse welcome hub (`browseUi`); desktop cards; chapters filter reset. |

@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)  
 ## Regulation Q&A Platform
 
-**Version:** 2.7  
-**Last updated:** 2026-10-20  
-**Aligned with:** Product documentation standard **v2.5** · `package.json` **1.2.6**
+**Version:** 2.8  
+**Last updated:** 2026-10-21  
+**Aligned with:** Product documentation standard **v2.6** · `package.json` **1.2.7**
 
 ---
 
@@ -93,7 +93,9 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | FR-BRW-02 | Chapters/articles (pasal) grouped list with filters. | P0 |
 | FR-BRW-03 | GDPR: category + sub-category filters (`hasArticleTopics`). | P0 |
 | FR-BRW-04 | Non-GDPR: hide topic filters; clear hidden GDPR filters on switch. | P0 |
-| FR-BRW-05 | Prev/Next/Go navigation; PDF export. | P1 |
+| FR-BRW-05 | Prev/Next + jump search (Enter / suggestion pick); **Page \| Full** reader mode; PDF export follows active mode. | P1 |
+| FR-BRW-05b | Deep-link hashes `#/{reg}/article\|recital/{n}` restore on first paint; regulation switch clears stale reader / Full cache. | P0 |
+| FR-BRW-05c | Browse segment opens must not bounce back to the regulation home grid (hash/`hashchange` race). | P0 |
 | FR-BRW-06 | GDPR: suitable recitals; others: in-text related only. | P1 |
 | FR-BRW-07 | Chapter intros from `/api/chapter-summaries` per regulation (no GDPR blurbs for ID). | P1 |
 | FR-BRW-08 | Article/pasal display titles: GDPR may use canonical map; all others use full corpus `title`. | P0 |
@@ -162,7 +164,7 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | NFR-05 | Responsive layout ≤640 / ≤899 / ≥900 / widescreen. |
 | NFR-06 | Accessible tab roles and labeled controls. |
 | NFR-07 | `npm test` covers Indo registry/corpus/news parity. |
-| NFR-08 | Documentation standard v2.5 kept in lockstep with releases. |
+| NFR-08 | Documentation standard v2.6 kept in lockstep with releases. |
 
 ---
 

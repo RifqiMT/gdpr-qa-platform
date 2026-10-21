@@ -1,7 +1,7 @@
 # Business guidelines
 ## Regulation Q&A Platform
 
-**Version:** 1.6 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**  
+**Version:** 1.6 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**  
 **Audience:** Product, legal/compliance stakeholders, content owners, support  
 **Status:** Active
 

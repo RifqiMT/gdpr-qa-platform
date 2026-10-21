@@ -1,6 +1,6 @@
 {
   "name": "gdpr-qa-platform",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Regulation Q&A Platform — EU GDPR, AI Act, Data Act and Indonesian UU PDP, Satu Data Indonesia, AI ethics; Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
   "main": "server.js",
   "scripts": {

@@ -1,7 +1,7 @@
 # Glossary  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI. Indonesian legal terms are given in *italics* with an English gloss. Sections: [A. Instruments and law](#a-instruments-and-law) · [B. Indonesian legal and institutional terms](#b-indonesian-legal-and-institutional-terms) · [C. EU legal terms](#c-eu-legal-terms) · [D. Product, UI, and engineering terms](#d-product-ui-and-engineering-terms).
 
@@ -107,6 +107,8 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **syncRegulationChrome** | Client function updating Browse/Ask/Sources/News labels, filters, and citation sidebar after regulation switch. |
 | **officialSiteName** | Registry/profile label for the official publication site (`EUR-Lex`, `peraturan.go.id`, `JDIH Komdigi`). |
 | **SEED_FILES** | Internal manifest in `lib/paths.js` — **20** bundled JSON files copied to `/tmp/gdpr-qa-data` on Vercel cold start when missing. |
+| **Page \| Full** | Reader toolbar mode: **Page** shows one article/pasal or recital; **Full** stacks the entire on-screen corpus. Preference: `localStorage` key `gdprQaReaderViewMode`. PDF export follows the active mode. |
+| **Deep link** | Hash route `#/{regulationId}/article\|recital/{n}` that opens a provision on first paint without bouncing to the Browse home grid. |
 | **IS_VERCEL** | Read-only flag (`process.env.VERCEL`) that switches `getDataDir()` to writable `/tmp` with one-time seed copy. |
 | **Module public API** | Documented `module.exports` symbols per Node file; internal helpers must not be imported cross-module (**TG-C01**). |
 | **Groq** | Third-party inference API (OpenAI-compatible) used as the **primary** Ask synthesizer when **`GROQ_API_KEY`** (server) or BYOK **`groqApiKey`** is set. |

@@ -1,7 +1,7 @@
 # Guardrails  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**  
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**  
 **Audience:** Product, engineering, legal/compliance stakeholders
 
 These guardrails define **hard limitations** for business positioning and technical implementation. Violating them creates legal, trust, or reliability risk.
@@ -70,6 +70,9 @@ These guardrails define **hard limitations** for business positioning and techni
 | **TG-F04** | Chapter summary fallback must not inject GDPR blurbs into other instruments. | Content correctness |
 | **TG-F05** | Meta sources fallback: content → structure → **empty** (never GDPR defaults for non-GDPR). | BG / Sources integrity |
 | **TG-F10** | GDPR category/sub-category must not bleed onto AI Act, Data Act, or ID instruments. | Filter reliability |
+| **TG-F11** | PDF export must follow active **Page \| Full** mode (do not always export a single provision). | Export correctness |
+| **TG-F12** | Browse opens must use real provision hashes and must not race `hashchange` back to `#/browse` home. | Navigation reliability |
+| **TG-F13** | Switching regulation while a document is open must clear the prior instrument’s reader/Full cache. | Content correctness |
 
 ---
 

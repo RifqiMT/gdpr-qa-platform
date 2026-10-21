@@ -1,7 +1,7 @@
 # User Stories  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**  
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**  
 **Traceability:** Stories map to [PRD.md](PRD.md) and [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
 ---
@@ -47,7 +47,11 @@
 | US-B-01 | As a user, I can list and open articles/pasal and recitals/considering/values for the active instrument. | P0 |
 | US-B-02 | As a GDPR user, I can filter by category and sub-category topics. | P0 |
 | US-B-03 | As a non-GDPR user, I never see a false empty list caused by leftover GDPR topic filters. | P0 |
-| US-B-04 | As a user, I can navigate with Prev / Next / Go and export PDF. | P1 |
+| US-B-04 | As a user, I can navigate with Prev / Next and the jump search field (Enter or pick a suggestion) and export PDF. | P1 |
+| US-B-04b | As a user, I can toggle **Page \| Full** so PDF export and scrolling match one provision vs the whole corpus. | P1 |
+| US-B-04c | As a user, opening a shared `#/{reg}/article/N` link lands on that provision on first paint. | P0 |
+| US-B-04d | As a user, switching regulation while reading does not leave the previous instrument’s text on screen. | P0 |
+| US-B-04e | As a user, opening Chapters or Recitals from the welcome hub does not bounce me back to the home grid. | P0 |
 | US-B-05 | As a GDPR user, I see suitable recitals; as other users, I see related provisions from text only. | P1 |
 | US-B-06 | As a user, article/pasal titles show the official corpus title (GDPR may use canonical map). | P0 |
 | US-B-07 | As a user, chapter introductions match the active regulation (no GDPR blurbs under ID instruments). | P1 |
@@ -179,6 +183,17 @@
 
 1. Confirm SPA Ask calls only `/api/answer`.  
 2. Confirm documentation does not list `/api/ask` or `/api/summarize` as live.
+
+### AC — Page \| Full + deep link (US-B-04b, US-B-04c)
+
+1. Open an article; toggle **Full** — corpus stacks; Related panels hide; Export PDF includes multiple provisions.  
+2. Toggle **Page** — single provision; Related panels return when applicable.  
+3. Reload with `#/gdpr/article/5` (or another id) — provision opens on first paint without bouncing to home.
+
+### AC — Browse bounce / reg switch (US-B-04d, US-B-04e)
+
+1. From welcome hub, open Chapters — stay on chapters list (no snap back to home).  
+2. Open an article, switch regulation — previous article text must not remain; land on the new instrument’s list.
 
 ---
 

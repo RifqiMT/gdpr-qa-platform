@@ -1,8 +1,8 @@
 # Design guidelines  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**  
-**Source of truth for tokens:** `public/styles.css` (`:root` + `[data-browse-theme]` / `[data-news-theme]`).
+**Version:** 2.3 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**  
+**Source of truth for tokens:** `public/styles.css` (`:root` + `[data-browse-theme]` / `[data-news-theme]` / `[data-sources-theme]`).
 
 ---
 
@@ -46,27 +46,28 @@
 
 **Shadows:** `--shadow`, `--shadow-md`, `--shadow-lg`, `--shadow-inset` (slate-tinted, low elevation).  
 
-**Fonts:** `--font-sans`: DM Sans · `--font-serif`: DM Serif Text  
+**Fonts:** `--font-sans` and `--font-serif` both resolve to **DM Sans** (unified app type). `--font-serif` remains a semantic alias for display/title roles (heavier weight / tighter tracking), not a second typeface.  
 
 **Motion:** `--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1)` · `--transition` / `--transition-fast`
 
-### 2.1 Regulation theme accents (Browse welcome + News hero)
+### 2.1 Regulation theme accents (Browse welcome + News hero + Sources)
 
-Themes set **local** tokens on `.browse-welcome[data-browse-theme]` and `.news-hero[data-news-theme]`. They do **not** override global `--accent` (region chrome stays teal).
+Themes set **local** tokens on `.browse-welcome[data-browse-theme]`, `.news-hero[data-news-theme]`, and `.sources-layout[data-sources-theme]`. They do **not** override global `--accent` (region chrome stays teal).
 
 | Theme id | Accent | Soft (12%) | Browse glow | News glow | Browse gradient A |
 |----------|--------|------------|-------------|-----------|-------------------|
 | `gdpr` (default) | `#0f766e` | `rgba(15,118,110,0.12)` | `0.22` | `0.28` | `rgba(204,251,241,0.42)` |
 | `ai-act` | `#4f46e5` | `rgba(79,70,229,0.12)` | `0.26` | `0.32` | `rgba(199,210,254,0.45)` |
 | `data-act` | `#0369a1` | `rgba(3,105,161,0.12)` | `0.24` | `0.30` | `rgba(186,230,253,0.50)` |
-| `id-pdp` | `#c8102e` | `rgba(200,16,46,0.12)` | `0.24` | `0.30` | `rgba(254,202,202,0.50)` |
-| `id-satu-data` | `#047857` | `rgba(4,120,87,0.12)` | `0.24` | `0.30` | `rgba(167,243,208,0.50)` |
-| `id-ai-ethics` | `#b45309` | `rgba(180,83,9,0.12)` | `0.24` | `0.30` | `rgba(253,230,138,0.50)` |
+| `id-pdp` | `#c8102e` | `rgba(200,16,46,0.12)` | `0.24` | `0.30` | Browse `rgba(254,202,202,0.50)` · News `0.45` |
+| `id-satu-data` | `#047857` | `rgba(4,120,87,0.12)` | `0.24` | `0.30` | Browse `rgba(167,243,208,0.50)` · News `0.45` |
+| `id-ai-ethics` | `#b45309` | `rgba(180,83,9,0.12)` | `0.24` | `0.30` | Browse `rgba(253,230,138,0.50)` · News `0.45` |
 
 **CSS var names**
 
 - Browse: `--browse-accent`, `--browse-accent-soft`, `--browse-accent-glow`, `--browse-gradient-a|b`  
-- News: `--news-hero-accent`, `--news-hero-accent-soft`, `--news-hero-accent-glow`, `--news-hero-gradient-a|b`
+- News: `--news-hero-accent`, `--news-hero-accent-soft`, `--news-hero-accent-glow`, `--news-hero-gradient-a|b`  
+- Sources: `--sources-accent`, `--sources-accent-soft`, `--sources-accent-glow`, `--sources-gradient-a|b` (same accent hexes as table; applied on `#sourcesLayout`)
 
 ### 2.2 Responsive breakpoints and layout density
 
@@ -75,7 +76,8 @@ Themes set **local** tokens on `.browse-welcome[data-browse-theme]` and `.news-h
 | ≤640px | Compact chrome; taller footer block; denser reading pad |
 | ≤899px | Sticky `#appChrome`; Tools menu; collapsible Filters; solo Browse welcome |
 | ≥900px | Desktop toolbar; Browse welcome multi-card grid |
-| ≥1100px | News two-column + Quick filters dock |
+| ≥640px | Sources grid 2 columns |
+| ≥1100px | News two-column + Quick filters dock; Sources grid 3 columns |
 | ≥1200 / ≥1600px | Wider content band; full-width browse grid (no artificial 72rem cap) |
 
 Layout tokens: `--header-height`, `--app-chrome-height`, `--tabs-bar-height`, `--footer-block-min`, `--reading-pane-max-h`, `--content-pad`, `--reading-toolbar-gap`.
@@ -86,11 +88,11 @@ Layout tokens: `--header-height`, `--app-chrome-height`, `--tabs-bar-height`, `-
 
 | Role | Font | Usage |
 |------|------|-------|
-| UI / body | DM Sans | Chrome, forms, answers, news cards |
-| Document titles | DM Serif Text | Reader headings, selected marketing moments |
+| UI / body | DM Sans | Chrome, forms, answers, news cards, provision body |
+| Document / display titles | DM Sans (via `--font-serif` alias), weight 650–700 | Reader headings (e.g. Definitions), browse/Ask heroes, card titles |
 | Meta | DM Sans muted | Freshness, counts, captions |
 
-Avoid Inter / Roboto / system-only stacks for primary UI (system is fallback only).
+Avoid Inter / Roboto / system-only stacks for primary UI (system is fallback only). Do not reintroduce a second display face.
 
 ---
 
@@ -116,6 +118,7 @@ Use `--shadow` for resting cards, `--shadow-md` for raised panels, `--shadow-lg`
 | Region sliding thumb | Jurisdiction change feedback |
 | Tab active thumb | View change |
 | Browse card hover lift | Afford clicking a regulation |
+| Source card hover lift | Afford opening an official site |
 | BYOK validation panel | Status appear/dismiss |
 | Tools panel expand | Mobile disclosure |
 
@@ -131,12 +134,21 @@ Duration ~160–220ms with `--ease-smooth`. Prefer `transform` / `opacity`.
 | Segmented tabs | Full-width track + sliding thumb |
 | Tools menu | ≤899px disclosure for freshness / keys / refresh |
 | Browse welcome cards | Themed; Chapters primary CTA |
-| Filter bar | Desktop grid; mobile collapsible Filters |
+| Browse docs (Chapters / Recitals) | Shared `.browse-docs` chrome (eyebrow + compact header); flat teal toolbar/filter strip; dense chapter panels + article/recital cards; enter motion with reduced-motion off |
+| Filter bar | Desktop grid (chapters: 4-col ≥1100px); mobile collapsible Filters; News keeps richer card shell |
 | Reader | Centered header; numbered paragraphs; citation sidebar |
+| Reader chrome | Single flat strip: ghost Back · Prev · position · jump search (Enter / list pick, no separate Go) · Next · Page\|Full segment · primary Export; no nested nav box; quiet disabled edges; solid fill (no backdrop blur); jump field border on wrap (input borderless) so ellipsis overflow cannot clip the stroke |
+| Reader view mode | **Page** = one article/recital (default); **Full** = continuous scroll of all articles or all recitals (same kind); teal segment control before Export; persists in localStorage; Full uses compact stacked sections (no per-card padding) and hides Related articles/recitals sidebar panels |
+| Export PDF | Matches active reader mode: **Page** exports the open provision + sources/related; **Full** exports the entire on-screen articles or recitals corpus + official sources (no related panels) |
 | Ask answer | `[S#]` chips; status chip for LLM/extractive |
-| BYOK dialog | Modal; validation panel states valid/invalid/skipped |
+| BYOK dialog | Themed header + privacy callout; accent switch; provider cards with reveal toggles; single-row **Check · Clear · Save** (Save primary, flex grow; ≤439px Save full-width on top); validation panel states valid/invalid/skipped |
 | News hero | Themed bar + expandable details on mobile |
-| News cards | Three-paragraph summary pattern; topic tags |
+| News controls | Soft strip: search + Source/Topic + Clear + By source|All (no nested filter card) |
+| News source blocks | Flat details headers + count pill; hairline divider (no box-in-box) |
+| News cards | Title-first; quiet meta/topic; light hover lift + accent bar; flat **All** feed |
+| News empty | Soft teal panel + Refresh / Clear CTAs |
+| Sources hero | Themed shell + regulation pill + live count + filter field |
+| Source cards | Monogram, host chip, primary CTA, document action rows |
 | Credits bar | Attribution icons; not a legal disclaimer |
 
 ### 7.0.1 BYOK validation panel

@@ -6,7 +6,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| **1.2.6** | ≥ 18 | **Six instruments** across **EU** and **Indonesia**. Region + Regulation picker; Browse hub; Ask via BM25 + Groq/Tavily with `[S#]` citations; BYOK; News (EU supervisory + Indonesian hubs) with client relevance filters; Credible sources; ETL scrapers (incl. `id-law-scraper.js`); formatting guardrails; Vercel cron for all six; `npm test` Indo parity. **Docs standard v2.5.** **Last doc audit:** 2026-10-20. |
+| **1.2.7** | ≥ 18 | **Six instruments** across **EU** and **Indonesia**. Region + Regulation picker; Browse hub; Ask via BM25 + Groq/Tavily with `[S#]` citations; BYOK; News (EU + Indonesian hubs) with relevance filters; Credible sources; ETL (incl. `id-law-scraper.js`); reader **Page \| Full**; PDF export follows mode; deep-link hashes; formatting guardrails; Vercel cron for all six; `npm test` (Indo parity + browse routes + reader view). **Docs standard v2.6.** **Last doc audit:** 2026-10-21. |
 
 ---
 
@@ -25,7 +25,7 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
-**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.5**) · [docs/README.md](docs/README.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
+**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v2.6**) · [docs/README.md](docs/README.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
 **Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
 
@@ -79,7 +79,7 @@ The **Regulation Q&A Platform** is a web application for **browsing** and **aski
 - **Offline-capable content** — After refresh, corpora live under `data/` and can be searched without calling external sites on each request.  
 - **Export** — Export the currently viewed article/pasal or recital as PDF (html2pdf.js).  
 - **Topic-based drill-down (GDPR)** — Category / Sub-category filters; cleared on switch away from GDPR so other instruments never show a false empty list.  
-- **Document navigation** — Prev/Next, “Article N of M”, Go-to-number.  
+- **Document navigation** — Prev/Next, “Article N of M”, jump field (Enter or list pick; Page | Full aware).  
 - **Sector-aware Ask** — Optional ISIC framing with verbatim sector phrase rules (illustrative, not sector-law replacement).  
 - **Cross-references** — GDPR suitable recitals map; other instruments use in-text citation extraction.  
 - **News from credible sources** — EU/UK + Indonesian hubs; URL + semantic dedupe; topic taxonomy; Refresh news.  
@@ -103,7 +103,7 @@ The **Regulation Q&A Platform** is a web application for **browsing** and **aski
 - **Welcome hub** — Desktop: regulation overview cards (EU + Indonesia display order from `REGULATION_DISPLAY_ORDER`); mobile: solo card for active regulation. Copy/themes from **`browseUi`** in `regulation-profiles.js` / `regulation-profiles-id.js`.  
 - **Segments** — Chapters & articles (first), Recitals / considering / values (second).  
 - **Filters** — GDPR: Category + Sub-category + Chapter + Article. Others: Chapter + Article (topic filters hidden / cleared). Mobile: collapsible Filters.  
-- **Detail reader** — Official titles via `getArticleDisplayTitle` / `getRecitalDisplayTitle`; numbered/lettered paragraphs per formatting guardrails; Prev/Next/Go; PDF; citation sidebar (`citationsUi`).  
+- **Detail reader** — Official titles via `getArticleDisplayTitle` / `getRecitalDisplayTitle`; numbered/lettered paragraphs per formatting guardrails; **Page \| Full** view mode (preference in `localStorage` `gdprQaReaderViewMode`); Prev/Next + jump search (**Enter** or pick from suggestions — no separate Go button); PDF export follows Page vs Full; citation sidebar (`citationsUi`); Full mode hides Related panels. Deep links `#/{reg}/article|recital/{n}` restore on boot; switching regulation clears a stale open document.  
 - **Suitable recitals** — GDPR only (`hasSuitableRecitals`).
 
 ### 3.2 Ask
@@ -212,7 +212,7 @@ The **Regulation Q&A Platform** is a web application for **browsing** and **aski
 | Scheduling | node-cron (local); Vercel cron |
 | Scraping / news | axios, cheerio |
 | Frontend | HTML5, CSS3, vanilla JS |
-| Fonts | DM Sans, DM Serif Text |
+| Fonts | DM Sans (UI + display) |
 | PDF | html2pdf.js (CDN) |
 | LLM | Groq (primary), Tavily (fallback), extractive |
 | Data | JSON files in `data/` |
@@ -259,7 +259,7 @@ gdpr-qa-platform/
 ├── data/                          # EU + ID corpora, news, chapter summaries
 ├── scripts/                       # Indo ETL helpers, ISIC, suitable recitals
 ├── test/indo-parity.test.js
-├── package.json                   # version 1.2.6
+├── package.json                   # version 1.2.7
 ├── vercel.json
 ├── .env.example
 ├── README.md / CHANGELOG.md / PRODUCT_DOCUMENTATION_STANDARD.md
@@ -362,7 +362,7 @@ npm start
 1. Open **http://localhost:3847**.  
 2. Optionally set region to **EU** or **Indonesia**, then pick an instrument.  
 3. **Refresh sources** to update the selected corpus (bundled JSON works until then).  
-4. **Browse** chapters/articles or recitals; use Prev/Next/Go and PDF.  
+4. **Browse** chapters/articles or recitals; use Prev/Next, jump field (Enter), **Page \| Full**, and Export PDF.  
 5. **Ask** grounded questions with `[S#]` citations (set Groq/Tavily via `.env` or BYOK).  
 6. Open **Credible sources** and **News**; use **Refresh news** if Indo/EU lists look sparse.  
 7. Run **`npm test`** before release when touching registry, Indo corpora, or news helpers.

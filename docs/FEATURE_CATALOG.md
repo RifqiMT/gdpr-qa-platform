@@ -1,7 +1,7 @@
 # Feature catalog  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · **Product version:** `package.json` **1.2.6** · Documentation standard **v2.5** · Audit date **2026-10-20**
+**Version:** 2.1 · **Last updated:** 2026-10-21 · **Product version:** `package.json` **1.2.7** · Documentation standard **v2.6** · Audit date **2026-10-21**
 
 This catalog is the **feature-level inventory** of the shipped product across **six instruments** in two jurisdictions. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md). There is **no end-user authentication** in any feature below.
 
@@ -52,8 +52,11 @@ This catalog is the **feature-level inventory** of the shipped product across **
 | F-BRW-04 | Sub-category filter | ✓ | Hidden | Hidden | Hidden | Hidden | Hidden | Topic keywords (`ARTICLE_TOPICS`) are GDPR-only |
 | F-BRW-05 | Chapter / article filters | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Combobox filters |
 | F-BRW-06 | Reader detail view | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Formatted body, official links |
-| F-BRW-07 | Doc navigation | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Prev / Next / Go (number input) |
-| F-BRW-08 | Export PDF | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | html2pdf.js client-side |
+| F-BRW-07 | Doc navigation | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Prev / Next + jump search (Enter / suggestion pick; **no Go button**) |
+| F-BRW-08 | Export PDF | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | html2pdf.js; **Page** = open provision (+ sources/related); **Full** = entire on-screen corpus (+ official sources) |
+| F-BRW-08b | Page \| Full mode | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Toolbar radiogroup; preference `localStorage` `gdprQaReaderViewMode`; Full hides Related panels |
+| F-BRW-08c | Deep links / hash routes | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `#/{reg}/article\|recital/{n}`; boot restore; browse bounce hardening |
+| F-BRW-08d | Regulation-switch reader clear | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Clears stale article/recital/Full cache; lands on matching list |
 | F-BRW-09 | Related articles/recitals | ✓ | Partial | Partial | Partial | Partial | Partial | Text citations; no suitable-recital map outside GDPR |
 | F-BRW-10 | Suitable recitals panel | ✓ | — | — | — | — | — | `article-suitable-recitals.json` + API (GDPR only) |
 | F-BRW-11 | Chapter introductions | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `chapter-summaries*.json` (six files); Groq regenerate; missing file ⇒ empty, never GDPR text |

@@ -1,7 +1,7 @@
 # Source code inventory  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
 
 Repository file map, **public module APIs**, and simplified dependency overview for **six instruments** (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`). For architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -23,7 +23,7 @@ Authoritative **file-by-file** map of the repository (excluding `node_modules/`,
 | `news-crawler.js` | ETL | Multi-source news crawl and merge; EU publishers + **`crawlIndonesiaOfficialNews`** (Antara tag hubs/RSS, Komdigi, Setkab, data.go.id) |
 | `news-topics.js` | Library | Topic taxonomy (EU + Indonesia categories), classification, crawl gate |
 | `news-article-attachments.js` | Library | SSRF-safe attachment scan for news article URLs |
-| `package.json` | Config | Version **1.2.6**; scripts (`start`, `refresh*`, `test`, …); dependencies; engine ≥18 |
+| `package.json` | Config | Version **1.2.7**; scripts (`start`, `refresh*`, `test`, …); dependencies; engine ≥18 |
 | `package-lock.json` | Config | Locked dependency tree |
 | `vercel.json` | Config | Rewrites, function limits, `includeFiles`, cron schedule |
 | `.vercelignore` | Config | Deploy exclusions: `.env`, `.env.*` (except `.env.example`), `node_modules`, `*.log`, `.DS_Store`, `.cursor` |
@@ -207,7 +207,10 @@ All 20 files are in the `SEED_FILES` manifest (§2.2). Each `*-content.json` has
 
 | Path | Responsibility |
 |------|----------------|
-| **`test/indo-parity.test.js`** | Node built-in test runner (`node --test`). Suites: **Indonesian regulation registry** (all three ids registered, `jurisdiction: 'id'`, listed in `listRegulations()`); **Indonesian corpora for Ask / Browse** (`loadContent` returns searchable corpus for each id); **Indonesian news helpers** (`indonesiaPolicyNewsRe`, `indonesiaNewsItemIsOnScope`, `assignNewsTopicFields` categories); **persisted news corpus** (`gdpr-news.json` contains Antara / Satu Data items). **8 tests, 4 suites** as of 2026-10-20. |
+| **`test/indo-parity.test.js`** | Node built-in test runner (`node --test`). Suites: Indonesian regulation registry; Indonesian corpora for Ask/Browse; Indonesian news helpers; persisted news corpus (Antara / Satu Data). |
+| **`test/browse-routes.test.js`** | Guards browse hash routing: real provision hashes (not `href="#"`), `activateBrowseRegulationSegment` without home-tab click, `suppressAppRouteSync` batching, deep-link / bounce hardening. |
+| **`test/reader-view.test.js`** | Reader **Page \| Full**: GDPR corpus shape for Full render; `#readerViewMode` radiogroup markup; related chrome expectations. |
+| **Test suite (aggregate)** | `npm test` → all `test/*.test.js` (**24 tests / 10 suites** as of 2026-10-21). Expect Indo parity + browse routes + reader view suites green before merge. |
 
 Run: `npm test` (→ `node --test test/*.test.js`). There is currently no browser/E2E harness; UI behaviour is verified with the manual checklists in [TECH_GUIDELINES.md](TECH_GUIDELINES.md) §10 and [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md) §6.
 
@@ -254,6 +257,8 @@ flowchart TB
   end
   subgraph Tests
     TST[test/indo-parity.test.js]
+    TBR[test/browse-routes.test.js]
+    TRV[test/reader-view.test.js]
   end
   HTML --> APP --> PROF
   PROF --> PROFID

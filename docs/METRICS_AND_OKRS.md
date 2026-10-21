@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**
 
 **Important:** The application does **not** currently ship an analytics SDK. Metrics below are **definitions and targets** for the product team. Instrument when approved (privacy-preserving, no secrets).
 
@@ -150,7 +150,7 @@
 
 | KR | Target |
 |----|--------|
-| KR1 | Docs standard v2.5 aligned with package 1.2.6 |
+| KR1 | Docs standard **v2.6** aligned with package **1.2.7** (incl. Page \| Full + browse-route tests) |
 | KR2 | No dead APIs documented as live |
 | KR3 | Module public APIs listed in SOURCE_CODE_INVENTORY |
 

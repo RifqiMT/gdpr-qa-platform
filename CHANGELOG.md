@@ -8,6 +8,31 @@ All notable changes to the **Regulation Q&A Platform** (repository: `gdpr-qa-pla
 
 ---
 
+## [1.2.8] — 2026-10-21
+
+### Fixed
+
+- **Browse navigation bounce to home:** Opening chapters/recitals (welcome CTAs, Browse menu, Ask citations) no longer races through `#/browse` / `href="#"` such that a late `hashchange` snaps back to the regulation home grid. Segment opens use `activateMainViewOnly`, batch URL sync under `suppressAppRouteSync`, and provision links use real `#/{reg}/article|recital/{n}` hashes.
+- **Export PDF vs Page \| Full:** Print export follows the active reader mode — Page exports the current provision (+ sources/related); Full exports the entire on-screen articles or recitals corpus (+ official sources). In-app `#/…` citation links resolve to absolute URLs in the PDF.
+- **Reader Go button removed:** Redundant ghost **Go** control dropped; jump field is a search form — **Enter** or picking from the list navigates (respects Page \| Full). Placeholder/ARIA hint “· Enter”.
+- **Deep-link wipe on boot:** Initial regulation load no longer syncs `#/browse` before the hash is restored — `#/gdpr/article/N` (and siblings) open correctly on first paint.
+- **Regulation switch stale reader:** Changing regulation while an article/recital (or Full corpus) is open now clears the old document, lands on the matching chapters/recitals list, and reloads that corpus. In-flight fetches and Full-view caches are cancelled/keyed by regulation so the previous instrument cannot paint after the switch.
+
+### Changed
+
+- **Typography unify:** Dropped DM Serif Text — headings, article/recital titles, and body use DM Sans only (`--font-serif` is a display-role alias). Title weights bumped so hierarchy stays clear without a second face.
+- **Chapters & Recitals browse:** Shared professional chrome (eyebrow, denser headers); flatter teal filter/search strips; denser chapter panels and article cards (tighter grids, 2-line excerpts); denser recital card grid; enter animation respects `prefers-reduced-motion`.
+
+### Added
+
+- **Tests:** `test/browse-routes.test.js`, `test/reader-view.test.js` (hash routing, reader Page \| Full mode).
+
+### Documentation
+
+- **Product documentation standard v2.6 (audit 2026-10-21):** Full doc-set lockstep — README/PRD/FEATURE_CATALOG/USER_STORIES/VARIABLES/DESIGN/TRACEABILITY/SOURCE_CODE_INVENTORY/OPERATIONS and supporting docs. Captures reader **Page \| Full**, Go-button removal (Enter/jump), deep-link boot, regulation-switch stale clear, browse hash bounce hardening, DM Sans–only typography, and new tests. Corrects reader localStorage key to `gdprQaReaderViewMode` (`page` \| `full`).
+
+---
+
 ## [1.2.7] — 2026-10-20
 
 ### Added
@@ -26,17 +51,32 @@ All notable changes to the **Regulation Q&A Platform** (repository: `gdpr-qa-pla
 
 ### Changed
 
+- **Credible Sources UX:** News-aligned themed hero (pill, count, filter), richer source cards (monogram, host chip, primary CTA, document rows), client-side search, responsive 1/2/3 grid.
+- **Source freshness popover:** Fixed stacking under the tab bar (header `z-index`); click-to-open only (no hover clip); redesigned card layout with clear rows and source chip.
+- **BYOK API keys modal:** Redesigned dialog (themed header, privacy callout, switch toggle, provider field cards with show/hide, clearer action hierarchy); keeps save / validate / clear behavior.
+- **BYOK action bar:** Single-row **Check · Clear · Save** (equal height, nowrap); Save primary with slight flex grow; narrow viewports stack Save on top then Check | Clear.
+- **News UX polish:** Lighter control strip (no nested filter card); flattened source headers; quieter article cards; flat chronological **All** view; empty/loading panels with Refresh/Clear CTAs; Official feeds collapsed by default on ≤899px.
+- **Reader chrome toolbar:** Unified Back · nav cluster · Export strip; quieter Prev/Next labels with full aria; soft Go control; Export remains primary; responsive wrap ≤900px / stack ≤640px.
+- **Reader Go-to field:** Fixed clipped label text (equal-height 2.35rem controls + line-height padding).
+- **Reader chrome v2:** Flattened single strip (no nested nav box); ghost Back/Prev/Next/Go; Export sole primary; quieter disabled edge arrows; Go-to label moved to placeholder/screen reader.
+- **Reader Go-to clip fix:** Line-height matches sibling controls; horizontal-only overflow for ellipsis; dropped chrome `backdrop-filter` that clipped control borders; slight toolbar padding.
+- **Reader Go-to bordered wrap:** Visible border/radius/focus ring moved to `.doc-nav-goto-input-wrap`; borderless search input keeps ellipsis without clipping the stroke.
+- **Reader Page | Full:** Toolbar segment toggles page-based (one provision) vs full corpus (all articles or all recitals); preference in localStorage; Go/Prev/Next scroll within Full.
+- **Reader Full spacing:** Compact stacked sections (no per-card padding/separators); tighter gaps between provisions.
+- **Reader Full sidebar:** Hides Related articles / Related recitals panels (keep Citations & official links only).
 - **News UX:** Empty Indo-filtered states point users to **Refresh news**; refresh status copy includes Indonesian sources.
 - **App chrome polish:** Header controls grouped; teal-only region accents; pill toolbar; segmented tab track with sliding active thumb; quieter borders (12px radii).
 - **Browse workspace width:** Removed `72rem` cap on the regulation card grid; full-width regulation cards and action buttons.
 
 ### Removed
 
-- **Dead CSS:** Unused selectors (`.doc-card`, `.chapters-grid`, `.pdf-export-host`, `.filter-field-select`, `.news-sidebar-select*`, `.news-source-heading`, `.news-card-summary*`, `.meta-row`, `.placeholder-icon`, `.point-num`, `.citation-panel-titles`, `.content-as-of-inline`).
+- **Dead CSS (pass 3):** Legacy PDF capture mode (`#browseDetail.pdf-capture-mode`), `.sub-para-list*`, `.point-text sup.fn`.
+- **Dead CSS (pass 2):** Unused selectors (`.doc-card`, `.chapters-grid`, `.pdf-export-host`, `.filter-field-select`, `.news-sidebar-select*`, `.news-source-heading`, `.news-card-summary*`, `.meta-row`, `.placeholder-icon`, `.point-num`, `.citation-panel-titles`, `.content-as-of-inline`).
 - **Dead export:** `crawlIndonesiaOfficialNews` no longer exported from `news-crawler.js` (still called inside `crawlNews`).
 - **Dead stub:** `crawlIcoSearchQuery` (always returned `[]`) removed from topic enrichment.
 - **Legacy `/api/meta` aliases:** `askGroqConfigured` / `askTavilyConfigured` removed; SPA uses `askGroqServerConfigured` / `askTavilyServerConfigured` only.
 - **Unused param:** `buildAnswerFromTavilyResults(query, …)` → `(results, reg)`.
+- **Misleading alias:** `formatInlineFootnotes` inlined to `stripEurLexClauseNumberMarkers` (never emitted footnote superscripts).
 
 ### Documentation
 

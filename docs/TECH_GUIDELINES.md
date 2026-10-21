@@ -3,7 +3,7 @@
 
 **Version:** 2.0  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v2.5** · Product **1.2.6** · **Last updated:** 2026-10-20 · Audit date **2026-10-20**
+**Status:** Active · Documentation standard **v2.6** · Product **1.2.7** · **Last updated:** 2026-10-21 · Audit date **2026-10-21**
 
 ---
 

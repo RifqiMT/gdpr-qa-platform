@@ -8,7 +8,7 @@
   <title>Regulation Q&amp;A Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Text&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -223,12 +223,13 @@
               Official text is cached locally. Use <strong>Refresh sources</strong> in the header when you need a newer consolidation.
             </p>
           </div>
-          <div id="browseRecitals" class="browse-section browse-recitals hidden">
-            <header class="recitals-header section-header" id="recitalsBrowserTop">
+          <div id="browseRecitals" class="browse-section browse-recitals browse-docs hidden">
+            <header class="recitals-header section-header browse-docs-header" id="recitalsBrowserTop">
+              <p class="browse-docs-eyebrow" id="recitalsEyebrow">Browse</p>
               <h2>GDPR recitals</h2>
               <p class="recitals-lead" id="recitalsLead">Recitals explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.</p>
-              <p class="source-links" id="recitalsSourceLinks">Official sources: …</p>
-              <div class="recitals-toolbar" role="search">
+              <p class="source-links browse-docs-sources" id="recitalsSourceLinks">Official sources: …</p>
+              <div class="recitals-toolbar browse-docs-toolbar" role="search">
                 <div class="recitals-search-wrap">
                   <label for="recitalsSearch" class="visually-hidden">Search GDPR recitals by number or text</label>
                   <svg class="recitals-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -242,11 +243,12 @@
             </header>
             <div id="recitalsList" class="doc-grid recitals-grid" role="list"></div>
           </div>
-          <div id="browseChapters" class="browse-section browse-chapters hidden">
-            <header class="section-header chapters-browser-header">
+          <div id="browseChapters" class="browse-section browse-chapters browse-docs hidden">
+            <header class="section-header chapters-browser-header browse-docs-header">
+              <p class="browse-docs-eyebrow" id="chaptersEyebrow">Browse</p>
               <h2>GDPR chapters &amp; articles</h2>
               <p class="chapters-browser-lead" id="chaptersLead">Articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.</p>
-              <p class="source-links" id="chaptersSourceLinks">Official sources: …</p>
+              <p class="source-links browse-docs-sources" id="chaptersSourceLinks">Official sources: …</p>
             </header>
             <div class="chapters-filters-toolbar">
               <button
@@ -328,32 +330,53 @@
               <div class="reader-chrome-toolbar">
                 <div class="reader-chrome-start" role="toolbar" aria-label="Document actions">
                   <div class="detail-actions-left">
-                    <button type="button" id="btnBack" class="btn-back hidden" aria-label="Back">← Back</button>
-                    <button type="button" id="btnBackToQuestion" class="btn-back btn-back-to-question hidden" aria-label="Back to question">Back to question</button>
-                    <button type="button" id="btnBackFromCitation" class="btn-back btn-back-to-question hidden" aria-label="Back to previous document">Back to previous</button>
+                    <button type="button" id="btnBack" class="btn-back hidden" aria-label="Back">
+                      <span class="btn-back-icon" aria-hidden="true">←</span>
+                      <span class="btn-back-label">Back</span>
+                    </button>
+                    <button type="button" id="btnBackToQuestion" class="btn-back btn-back-to-question hidden" aria-label="Back to question">
+                      <span class="btn-back-icon" aria-hidden="true">←</span>
+                      <span class="btn-back-label">Back to question</span>
+                    </button>
+                    <button type="button" id="btnBackFromCitation" class="btn-back btn-back-to-question hidden" aria-label="Back to previous document">
+                      <span class="btn-back-icon" aria-hidden="true">←</span>
+                      <span class="btn-back-label">Back to previous</span>
+                    </button>
                   </div>
                 </div>
-                <nav id="docNav" class="doc-nav hidden" aria-label="Navigate to previous or next GDPR article or recital">
-                  <button type="button" id="docNavPrev" class="btn btn-secondary btn-doc-nav btn-doc-nav--prev" aria-label="Previous GDPR document">← Previous</button>
+                <nav id="docNav" class="doc-nav hidden" aria-label="Navigate to previous or next article or recital">
+                  <button type="button" id="docNavPrev" class="btn btn-secondary btn-doc-nav btn-doc-nav--prev" aria-label="Previous document">← Prev</button>
                   <div class="doc-nav-center">
                     <span id="docNavLabel" class="doc-nav-label" aria-live="polite"></span>
                     <span class="doc-nav-sep" aria-hidden="true"></span>
-                    <div class="doc-nav-goto doc-nav-goto--combobox">
-                      <label for="docNavNumber" class="doc-nav-goto-label">Go to</label>
+                    <form class="doc-nav-goto doc-nav-goto--combobox" id="docNavGoForm" role="search" action="#" method="get">
+                      <label for="docNavNumber" class="doc-nav-goto-label visually-hidden">Jump to article or recital</label>
                       <div class="doc-nav-goto-input-wrap">
-                        <input type="search" id="docNavNumber" class="doc-nav-input doc-nav-input--search doc-nav-input--with-toggle" autocomplete="off" spellcheck="false" placeholder="No." role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="docNavSuggestList" inputmode="search" aria-label="GDPR article or recital number">
-                        <button type="button" class="doc-nav-list-toggle" id="docNavListToggle" aria-expanded="false" aria-controls="docNavSuggestList" title="Browse all GDPR articles or recitals in a list">
+                        <input type="search" id="docNavNumber" class="doc-nav-input doc-nav-input--search doc-nav-input--with-toggle" autocomplete="off" spellcheck="false" placeholder="Jump…" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="docNavSuggestList" inputmode="search" enterkeyhint="go" title="Type a number or keywords, then press Enter" aria-label="Jump to article or recital number">
+                        <button type="button" class="doc-nav-list-toggle" id="docNavListToggle" aria-expanded="false" aria-controls="docNavSuggestList" title="Browse all articles or recitals in a list">
                           <span class="doc-nav-list-toggle-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Browse list</span>
                         </button>
-                        <ul id="docNavSuggestList" class="doc-nav-suggest" role="listbox" hidden aria-label="GDPR documents"></ul>
+                        <ul id="docNavSuggestList" class="doc-nav-suggest" role="listbox" hidden aria-label="Documents"></ul>
                       </div>
-                      <button type="button" id="docNavGo" class="btn btn-doc-nav-go">Go</button>
-                    </div>
+                    </form>
                   </div>
-                  <button type="button" id="docNavNext" class="btn btn-secondary btn-doc-nav btn-doc-nav--next" aria-label="Next GDPR document">Next →</button>
+                  <button type="button" id="docNavNext" class="btn btn-secondary btn-doc-nav btn-doc-nav--next" aria-label="Next document">Next →</button>
                 </nav>
                 <div class="reader-chrome-end">
-                  <button type="button" id="btnExportPdf" class="btn btn-export btn-export--toolbar hidden" aria-label="Export as PDF" title="Opens the system print dialog — choose Save as PDF for a vector-quality document (no chopped lines)."><span class="btn-export-icon" aria-hidden="true">↓</span> Export PDF</button>
+                  <div class="reader-view-mode hidden" id="readerViewMode" role="radiogroup" aria-label="Document view mode">
+                    <button type="button" class="reader-view-mode-btn is-active" role="radio" aria-checked="true" data-mode="page" id="readerViewModePage" title="One article or recital at a time">
+                      <span class="reader-view-mode-btn-label">Page</span>
+                    </button>
+                    <button type="button" class="reader-view-mode-btn" role="radio" aria-checked="false" data-mode="full" id="readerViewModeFull" title="All articles or all recitals in one scroll">
+                      <span class="reader-view-mode-btn-label">Full</span>
+                    </button>
+                  </div>
+                  <button type="button" id="btnExportPdf" class="btn btn-export btn-export--toolbar hidden" aria-label="Export as PDF" title="Opens the system print dialog — choose Save as PDF for a vector-quality document (no chopped lines).">
+                    <svg class="btn-export-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span class="btn-export-label">Export PDF</span>
+                    <span class="btn-export-label-short" aria-hidden="true">PDF</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -529,13 +552,50 @@
     </section>
 
     <section id="viewSources" class="view" role="tabpanel" hidden>
-      <div class="sources-layout">
-        <header class="sources-header">
-          <div class="sources-header-main">
-            <h2 id="sourcesHeaderTitle">GDPR: credible sources &amp; documents</h2>
+      <div class="sources-layout" id="sourcesLayout" data-sources-theme="gdpr">
+        <a href="#sourcesList" class="sources-skip-link">Skip to sources list</a>
+        <header class="sources-hero" id="sourcesHero">
+          <div class="sources-hero-shell">
+            <div class="sources-hero-bar">
+              <div class="sources-hero-bar-main">
+                <span class="sources-regulation-pill" id="sourcesRegulationPill">
+                  <span class="sources-regulation-pill-dot" aria-hidden="true"></span>
+                  <span id="sourcesRegulationPillLabel">GDPR</span>
+                </span>
+                <div class="sources-hero-bar-copy">
+                  <p class="sources-eyebrow" id="sourcesEyebrow">Official &amp; specialist references</p>
+                  <h2 class="sources-hero-title" id="sourcesHeaderTitle">GDPR: credible sources &amp; documents</h2>
+                </div>
+              </div>
+              <p class="sources-count" id="sourcesCount" aria-live="polite">—</p>
+            </div>
             <p class="sources-intro" id="sourcesIntro">Official and specialist GDPR and data-protection guidance. Every link opens in a new tab.</p>
+            <div class="sources-toolbar" role="search">
+              <label class="sources-search-label" for="sourcesSearch">
+                <span class="visually-hidden">Filter credible sources</span>
+                <span class="sources-search-shell">
+                  <svg class="sources-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <circle cx="11" cy="11" r="7"/>
+                    <path d="M20 20l-3.5-3.5"/>
+                  </svg>
+                  <input
+                    type="search"
+                    id="sourcesSearch"
+                    class="sources-search-input"
+                    placeholder="Filter by name, host, or document…"
+                    autocomplete="off"
+                    spellcheck="false"
+                  >
+                </span>
+              </label>
+              <button type="button" id="sourcesSearchClear" class="sources-search-clear" hidden>Clear</button>
+            </div>
           </div>
         </header>
+        <div id="sourcesEmpty" class="sources-empty" hidden>
+          <p class="sources-empty-title">No matching sources</p>
+          <p class="sources-empty-hint">Try another keyword, or clear the filter to see the full list for this regulation.</p>
+        </div>
         <div id="sourcesList" class="sources-grid" role="list"></div>
       </div>
     </section>
@@ -638,6 +698,7 @@
                 aria-expanded="true"
                 aria-controls="newsFeedsSectionPanel"
                 aria-labelledby="newsFeedsHeading"
+                data-feeds-default-mobile-collapse="1"
               >
                 <span id="newsFeedsHeading" class="news-feeds-heading">Official site &amp; RSS</span>
                 <svg
@@ -771,15 +832,15 @@
             </div>
           </aside>
           <div class="news-main" id="newsMainPanel">
-            <div class="news-controls-panel" id="newsControlsPanel">
+            <div class="news-controls-panel news-controls-strip" id="newsControlsPanel">
               <div class="news-toolbar" role="region" aria-label="Search and filter news">
                 <div class="news-search-wrap">
                   <label for="newsSearchInput" class="visually-hidden">Search news by title or keywords</label>
                   <svg class="news-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-                  <input type="search" id="newsSearchInput" class="news-search-input" placeholder="Search headlines and summaries…" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-describedby="newsSearchHint" />
+                  <input type="search" id="newsSearchInput" class="news-search-input" placeholder="Search headlines and summaries…" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-describedby="newsSearchHint newsResultStatus" />
                   <button type="button" id="newsSearchClear" class="news-search-clear hidden" aria-label="Clear search">Clear</button>
                 </div>
-                <p id="newsSearchHint" class="news-toolbar-hint">Filters and search work together. Use <strong>Clear all</strong> to reset.</p>
+                <p id="newsSearchHint" class="news-toolbar-hint">Search combines with Source and Topic. <strong>Clear all</strong> resets everything.</p>
                 <div class="filter-bar news-filters" role="group" aria-label="Filter news by source and topic">
                   <div class="filter-field filter-field--news">
                     <label for="newsFilterSourceTrigger" class="filter-field-label" id="newsFilterSourceLabel">Source</label>
@@ -837,8 +898,8 @@
                     </button>
                   </div>
                 </div>
-                <p id="newsTopicFilterHint" class="news-topic-filter-hint">
-                  Open <strong>Topic</strong> to pick an area (includes all subtopics) or a specific subtopic—labels match the tag on each card.
+                <p id="newsTopicFilterHint" class="news-topic-filter-hint visually-hidden">
+                  Topic can be an area (all subtopics) or a specific subtopic—labels match the tag on each card.
                 </p>
                 <p id="newsResultStatus" class="news-result-status" aria-live="polite"></p>
               </div>
@@ -846,7 +907,7 @@
             <div class="news-articles-region">
               <div class="news-list-wrap-header">
                 <h3 id="newsBrowseHeading" class="news-browse-title">Articles by source</h3>
-                <p class="news-list-intro">Dates show in your locale when the feed provides them. Collapse a source block to save space; use the table of contents when several sources are listed.</p>
+                <p class="news-list-intro" id="newsListIntro">Collapse a source to save space. Jump via On this page when several sources are listed.</p>
               </div>
               <nav class="news-toc" id="newsTocNav" aria-labelledby="newsTocHeading" hidden>
                 <span class="news-toc-heading" id="newsTocHeading">On this page</span>
@@ -864,33 +925,87 @@
 
   <dialog id="byokSettingsDialog" class="news-attachments-dialog byok-settings-dialog" aria-labelledby="byokSettingsDialogTitle">
     <div class="news-attachments-dialog-inner byok-settings-dialog-inner">
-      <header class="news-attachments-dialog-header">
-        <h3 id="byokSettingsDialogTitle">API keys (bring your own)</h3>
-        <button type="button" id="byokSettingsDialogClose" class="btn btn-secondary news-attachments-dialog-close" aria-label="Close">&times;</button>
+      <header class="byok-settings-header">
+        <div class="byok-settings-header-copy">
+          <p class="byok-settings-kicker">Ask · credentials</p>
+          <h3 id="byokSettingsDialogTitle">API keys</h3>
+          <p class="byok-settings-subtitle">Bring your own Groq and Tavily keys for Ask</p>
+        </div>
+        <button type="button" id="byokSettingsDialogClose" class="byok-settings-close" aria-label="Close API keys dialog">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
       </header>
-      <p class="byok-settings-lead">Keys are saved in <strong>this browser only</strong> (localStorage) and sent to your server when you ask a question—they are not written to the server&apos;s <code>.env</code> file.</p>
+
+      <div class="byok-settings-callout" role="note">
+        <span class="byok-settings-callout-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="11" width="14" height="10" rx="2"/>
+            <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+          </svg>
+        </span>
+        <p class="byok-settings-lead">Keys stay in <strong>this browser only</strong> (localStorage). They are sent with Ask requests and are never written to the server <code>.env</code>.</p>
+      </div>
+
       <form id="byokSettingsForm" class="byok-settings-form">
-        <label class="byok-settings-toggle">
-          <input type="checkbox" id="byokUseOwnKeys" name="useOwnKeys">
-          <span>Use my API keys for Ask (override server keys when set)</span>
+        <label class="byok-settings-switch" for="byokUseOwnKeys">
+          <span class="byok-settings-switch-copy">
+            <span class="byok-settings-switch-title">Use my API keys for Ask</span>
+            <span class="byok-settings-switch-hint">Override server keys when set</span>
+          </span>
+          <span class="byok-settings-switch-control">
+            <input type="checkbox" id="byokUseOwnKeys" name="useOwnKeys">
+            <span class="byok-settings-switch-track" aria-hidden="true"><span class="byok-settings-switch-thumb"></span></span>
+          </span>
         </label>
-        <div class="byok-settings-field">
-          <label for="byokGroqApiKey">Groq API key</label>
-          <input type="password" id="byokGroqApiKey" name="groqApiKey" class="byok-settings-input" autocomplete="off" spellcheck="false" placeholder="gsk_…">
-          <p class="byok-settings-hint"><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Get a Groq key</a> — primary Ask LLM.</p>
+
+        <div class="byok-settings-providers">
+          <div class="byok-settings-field byok-settings-field--groq">
+            <div class="byok-settings-field-head">
+              <label for="byokGroqApiKey">Groq API key</label>
+              <span class="byok-settings-role-badge">Primary LLM</span>
+            </div>
+            <div class="byok-settings-input-shell">
+              <input type="password" id="byokGroqApiKey" name="groqApiKey" class="byok-settings-input" autocomplete="off" spellcheck="false" placeholder="gsk_…">
+              <button type="button" class="byok-settings-reveal" data-reveal-for="byokGroqApiKey" aria-pressed="false" aria-label="Show Groq API key">
+                <svg class="byok-settings-reveal-icon byok-settings-reveal-icon--show" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="byok-settings-reveal-icon byok-settings-reveal-icon--hide" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 0 0 4.2 4.2"/><path d="M9.9 5.1A10.5 10.5 0 0 1 12 5c6.5 0 10 7 10 7a17.7 17.7 0 0 1-3.1 3.9"/><path d="M6.1 6.1C3.9 7.7 2 12 2 12a17.9 17.9 0 0 0 6.7 5.5"/></svg>
+              </button>
+            </div>
+            <p class="byok-settings-hint">
+              <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Get a Groq key</a>
+              <span>Primary model for Ask answers</span>
+            </p>
+          </div>
+
+          <div class="byok-settings-field byok-settings-field--tavily">
+            <div class="byok-settings-field-head">
+              <label for="byokTavilyApiKey">Tavily API key</label>
+              <span class="byok-settings-role-badge byok-settings-role-badge--muted">Fallback</span>
+            </div>
+            <div class="byok-settings-input-shell">
+              <input type="password" id="byokTavilyApiKey" name="tavilyApiKey" class="byok-settings-input" autocomplete="off" spellcheck="false" placeholder="tvly-…">
+              <button type="button" class="byok-settings-reveal" data-reveal-for="byokTavilyApiKey" aria-pressed="false" aria-label="Show Tavily API key">
+                <svg class="byok-settings-reveal-icon byok-settings-reveal-icon--show" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="byok-settings-reveal-icon byok-settings-reveal-icon--hide" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 0 0 4.2 4.2"/><path d="M9.9 5.1A10.5 10.5 0 0 1 12 5c6.5 0 10 7 10 7a17.7 17.7 0 0 1-3.1 3.9"/><path d="M6.1 6.1C3.9 7.7 2 12 2 12a17.9 17.9 0 0 0 6.7 5.5"/></svg>
+              </button>
+            </div>
+            <p class="byok-settings-hint">
+              <a href="https://tavily.com/" target="_blank" rel="noopener noreferrer">Get a Tavily key</a>
+              <span>Optional fallback when Groq is unavailable</span>
+            </p>
+          </div>
         </div>
-        <div class="byok-settings-field">
-          <label for="byokTavilyApiKey">Tavily API key</label>
-          <input type="password" id="byokTavilyApiKey" name="tavilyApiKey" class="byok-settings-input" autocomplete="off" spellcheck="false" placeholder="tvly-…">
-          <p class="byok-settings-hint"><a href="https://tavily.com/" target="_blank" rel="noopener noreferrer">Get a Tavily key</a> — optional fallback when Groq is unavailable.</p>
-        </div>
-        <div class="byok-settings-actions">
-          <button type="submit" class="btn btn-primary">Save keys</button>
+
+        <div class="byok-settings-actions" role="group" aria-label="API key actions">
           <button type="button" id="byokCheckKeys" class="btn btn-secondary btn-byok-check" aria-busy="false">
             <span class="btn-byok-check-label">Check validity</span>
           </button>
-          <button type="button" id="byokClearKeys" class="btn btn-secondary">Clear saved keys</button>
+          <button type="button" id="byokClearKeys" class="btn btn-secondary byok-settings-clear" title="Clear saved keys" aria-label="Clear saved keys">Clear</button>
+          <button type="submit" class="btn btn-primary byok-settings-save">Save keys</button>
         </div>
+
         <div id="byokValidationResults" class="byok-validation-host hidden" role="region" aria-live="polite" aria-label="API key validation results"></div>
         <p id="byokSettingsMessage" class="byok-settings-toast hidden" role="status" aria-live="polite"></p>
       </form>

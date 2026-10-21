@@ -1,6 +1,6 @@
 # Document formatting guardrails (regulation reader)
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
 
 > **Contract scope (v2.5):** this contract applies to **all six corpora** — **GDPR**, **EU AI Act**, **EU Data Act**, **UU PDP** (`id-pdp`), **Satu Data Indonesia** (`id-satu-data`), and **SE AI Ethics** (`id-ai-ethics`) — including every corpus written by **`id-law-scraper.js`**. No ETL path may write `data/<id>-content.json` without running **`normalizeCorpus`** first. Indonesian text is **Bahasa Indonesia legal wording**; the normalizer is language-neutral (line endings, NBSP, orphan-line merges, numbered/lettered clause splits) and must not translate or reword it.
 
@@ -215,4 +215,4 @@ If **citations** break, inspect **entity normalization** (section 4.2) and **lis
 
 ---
 
-*Last aligned 2026-10-20 (product 1.2.6, standard v2.5) with in-app logic in `public/app.js` (article/recital rendering, citation linking, Ask industry sectors) and with all six ETL paths including `id-law-scraper.js`. Update the “Last aligned” note when you change those flows.*
+*Last aligned 2026-10-20 (product 1.2.6, standard v2.6) with in-app logic in `public/app.js` (article/recital rendering, citation linking, Ask industry sectors) and with all six ETL paths including `id-law-scraper.js`. Update the “Last aligned” note when you change those flows.*

@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**
 
 Enterprise-style mapping from **business rules → PRD → user stories → implementation → verification**.
 
@@ -47,7 +47,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 |----|-----|---------|----------------|--------------|
 | BR-EM-01 No dead Ask APIs | FR-ASK-08 | US-A-02, US-D-02 | Removed `/api/ask`, `/api/summarize` | Grep server + docs |
 | BR-EM-02 Public module API | EM-01 | US-D-01 | SOURCE_CODE_INVENTORY | Export audit |
-| BR-EM-03 Docs lockstep | NFR-08 | US-D-01 | PRODUCT_DOCUMENTATION_STANDARD v2.5 | Audit date 2026-10-20 |
+| BR-EM-03 Docs lockstep | NFR-08 | US-D-01 | PRODUCT_DOCUMENTATION_STANDARD v2.6 | Audit date 2026-10-21 · product 1.2.7 |
 
 ---
 
@@ -83,7 +83,9 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 | BR-B-04 Formatting | FR-BRW-09 | US-Q-02 | guardrails + renderer | §8 checklist |
 | BR-B-05 Suitable recitals | FR-BRW-06 | US-Q-01 | `gdpr-crossrefs.js` | GDPR only |
 | BR-B-06 Chapter summaries | FR-BRW-07 | US-B-07 | `/api/chapter-summaries` | No GDPR bleed |
-| BR-B-07 PDF / nav | FR-BRW-05 | US-B-04, US-X-01 | html2pdf, doc nav | Manual |
+| BR-B-07 PDF / nav | FR-BRW-05 | US-B-04, US-X-01 | html2pdf; Page \| Full; jump Enter | Manual |
+| BR-B-08 Deep link / bounce | FR-BRW-05b/c | US-B-04c/e | `buildDocRouteHash`, `suppressAppRouteSync` | `test/browse-routes.test.js` |
+| BR-B-09 Reg-switch clear | FR-BRW-05b | US-B-04d | reader clear on regulation change | Manual + reader-view tests |
 
 ---
 
@@ -141,7 +143,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 | BR-DOC-01 Handbook | — | US-D-01 | `README.md` | Links resolve |
 | BR-DOC-02 Variables | — | US-D-01 | `VARIABLES.md`, `.env.example` | Match env usage |
 | BR-DOC-03 API contracts | — | US-D-02 | `API_CONTRACTS.md` | Match `server.js` routes |
-| BR-DOC-04 Changelog | — | — | `CHANGELOG.md` | Unreleased + 1.2.6 |
+| BR-DOC-04 Changelog | — | — | `CHANGELOG.md` | Unreleased + **1.2.7** + prior |
 
 ---
 

@@ -1,7 +1,7 @@
 # API contracts  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.  
@@ -444,7 +444,7 @@ See [CHANGELOG.md](../CHANGELOG.md) § 1.2.6.
 
 ## Versioning
 
-- No URL version prefix (`/v1`); breaking changes should bump **package.json** version and this document together. Current package version: **1.2.6**.
+- No URL version prefix (`/v1`); breaking changes should bump **package.json** version and this document together. Current package version: **1.2.7**.
 
 ---
 

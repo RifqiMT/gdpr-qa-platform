@@ -1,7 +1,7 @@
 # Operations runbook  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-20 · Documentation standard **v2.5** · Product **1.2.6** · Audit date **2026-10-20**
+**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
 
 Procedures for **local development**, **production (Vercel)**, and **routine maintenance** across **six instruments** (`gdpr`, `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`). Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md). There is **no end-user authentication**; the only secured route is the cron handler.
 
@@ -49,7 +49,7 @@ Exit code **137** on a background task usually means the process was killed duri
 npm test
 ```
 
-Expected (2026-10-20): **8 tests, 4 suites, 0 failures** (`test/indo-parity.test.js`: Indonesian registry, corpora for Ask/Browse, news helpers, persisted Indonesian news). Run on every change touching `lib/regulations.js`, `id-law-scraper.js`, `news-crawler.js`, `news-topics.js`, or `data/*.json`. Unstable tests must be stabilized before merge.
+Expected (2026-10-21): **`npm test` → 24 tests / 10 suites / 0 failures** across **`indo-parity.test.js`**, **`browse-routes.test.js`**, and **`reader-view.test.js`** (registry, corpora, news, hash bounce hardening, Page \| Full chrome, jump-without-Go, PDF mode branch). Run on every change touching `lib/regulations.js`, `id-law-scraper.js`, `news-crawler.js`, `news-topics.js`, `public/app.js` / `index.html` reader chrome, or `data/*.json`. Unstable tests must be stabilized before merge.
 
 ---
 
