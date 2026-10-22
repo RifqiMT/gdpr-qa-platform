@@ -8,6 +8,32 @@ All notable changes to the **Regulation Q&A Platform** (repository: `gdpr-qa-pla
 
 ---
 
+## [1.2.9] — 2026-10-22
+
+### Added
+
+- **United States jurisdiction (three analogues):** California CCPA/CPRA (`us-ccpa`), Colorado ADMT Act SB 26-189 (`us-admt`), and the OPEN Government Data Act (`us-open-data`, Title II of Pub. L. 115-435) with official corpora, structure JSON, chapter summaries, `us-law-scraper.js`, `public/regulation-profiles-us.js`, and npm refresh scripts. Mapping is honest: there is **no federal GDPR or AI Act**; the **2014 DATA Act is not** the EU Data Act analogue.
+- **Region picker USA:** Header region thumb All / EU / Indonesia / USA; welcome grid third row; jurisdiction chip “United States”.
+- **US news crawl:** FTC (RSS/HTML; compatible UA — Chrome-like UAs 404), CPPA/CalPrivacy year announcements, California OAG RSS, Colorado AG ADAI/ADMT hub + rulemaking files, data.gov / Federal Data Strategy listings, plus topic groups (`United States CCPA` / `OPEN Data` / `ADMT`).
+- **Tests:** `test/us-parity.test.js` (registry, corpora/sources, news helpers, persisted US headlines).
+- **Vercel seeding:** `SEED_FILES` expanded for US corpora/structure/summaries; cron refresh covers US instruments.
+
+### Fixed
+
+- **USA News empty / off-scope:** Persisted `gdpr-news.json` now includes official U.S. headlines (CalPrivacy, Colorado ADMT rulemaking, OPEN Data / FDS). Client filters isolate US feeds (no ICO leak), trust CPPA listings for CCPA, and keep FTC/OAG/GSA behind topic keywords. Default feeds use live URLs (Colorado press-room, data.gov home, California OAG, GSA, Federal Data Strategy) instead of `data.gov/meta/` (404).
+- **USA Ask / Sources / Browse nouns:** `GET /api/meta` never falls back to GDPR-Info / EUR-Lex for `us-*`. Ask BM25 uses CCPA / ADMT / OPEN Data layperson and sector expansions (not GDPR “controller/processor”). Ask badges, Browse chrome, and citation cards say **Section / Purpose note** for US instruments. `SOURCE_SUMMARIES` covers CPPA, FTC, California OAG, Colorado AG, govinfo, data.gov, GSA, and Federal Data Strategy.
+
+### Removed
+
+- **Dead export:** `crawlUnitedStatesOfficialNews` no longer exported from `news-crawler.js` (still called inside `crawlNews`; same pattern as Indonesia).
+- **Unused CSS tokens:** `--header-height`, `--tabs-bar-height`, `--doc-readable-max-h`, `--content-max`, `--sources-accent-glow`, `--news-hero-accent-glow` (declared but never consumed).
+
+### Documentation
+
+- Product documentation standard **v2.8** → **v2.9** (audit 2026-10-22): USA feature parity across Ask, News, and Credible sources; full satellite lockstep for **nine instruments** (EU + Indonesia + United States). Personas 12–14, Epic 11 (US-J-01…08), PRD FR-US-01…08, traceability BR-US-01…10, guardrails TG-US-01…07 / BG-20–21, metrics `us_*` / `reader_full_share`, OKR O13. Honest-mapping language standardised. `SEED_FILES` = 29. Test baseline: `npm test` — 40 pass / 17 suites.
+
+---
+
 ## [1.2.8] — 2026-10-21
 
 ### Fixed

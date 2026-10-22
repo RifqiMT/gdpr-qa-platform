@@ -1,0 +1,15 @@
+{
+  "regulationId": "us-admt",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T07:57:39Z",
+  "summaries": {
+    "1": "Definitions of ADMT, covered ADMT, consequential decision, covered domain, developer, deployer, materially influence, meaningful human review, and related terms (C.R.S. 6-1-1701).",
+    "2": "Developer documentation and material-update notices to deployers, plus deployer three-year recordkeeping (C.R.S. 6-1-1702–1703), generally from 1 January 2027.",
+    "3": "Point-of-interaction notice, optional public posting, 30-day post-adverse-outcome disclosures, Attorney General rulemaking, FERPA and ECOA interaction, accessibility (C.R.S. 6-1-1704).",
+    "4": "Consumer rights to correct inaccurate personal data used in a covered ADMT decision and to request meaningful human review and reconsideration (C.R.S. 6-1-1705).",
+    "5": "Attorney General exclusive enforcement as a deceptive trade practice, 60-day cure until 2030, no new private right of action, and relative-fault allocation between developers and deployers with void indemnities (C.R.S. 6-1-1706–1707).",
+    "6": "Insurance, HIPAA covered-entity, FDA device, and GLBA interaction rules; restatement that the part creates no new private right of action (C.R.S. 6-1-1708–1709).",
+    "7": "Conforming CCPA-style deceptive-trade listing, Division of Insurance rule authority, FY 2026–27 appropriation, 1 January 2027 applicability, and the safety clause (SB 26-189 §§ 2–6)."
+  }
+}

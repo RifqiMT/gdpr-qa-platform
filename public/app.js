@@ -13,7 +13,7 @@
 
   var REG_STORAGE_KEY = 'gdpr-qa-regulation-v1';
   var REGION_STORAGE_KEY = 'gdpr-qa-region-v1';
-  var REGION_IDS = { all: 1, eu: 1, id: 1 };
+  var REGION_IDS = { all: 1, eu: 1, id: 1, us: 1 };
   var currentRegion = 'all';
   var currentRegulation = {
     id: 'gdpr',
@@ -41,7 +41,7 @@
     if (kind === 'categories') return 'All ' + sn + ' categories';
     if (kind === 'subcategories') return 'All ' + sn + ' sub-categories';
     if (kind === 'chapters') return 'All ' + sn + ' chapters';
-    if (kind === 'articles') return 'All ' + sn + ' articles';
+    if (kind === 'articles') return 'All ' + sn + ' ' + provisionKindLabels().articles;
     return '';
   }
 
@@ -49,9 +49,52 @@
     return regulationShortLabel() + ' Chapter ' + ch.roman + ' – ' + ch.title;
   }
 
+  function provisionKindLabels() {
+    var id = (getRegProfile() && getRegProfile().id) || '';
+    if (id === 'id-pdp' || id === 'id-satu-data') {
+      return {
+        article: 'Pasal',
+        articles: 'pasal',
+        recital: 'Considering',
+        recitals: 'considering clauses',
+        articleShort: 'Pasal',
+        recitalShort: 'Cons.'
+      };
+    }
+    if (id === 'id-ai-ethics') {
+      return {
+        article: 'Section',
+        articles: 'sections',
+        recital: 'Ethical value',
+        recitals: 'ethical values',
+        articleShort: 'Sec.',
+        recitalShort: 'Value'
+      };
+    }
+    if (id.indexOf('us-') === 0) {
+      return {
+        article: 'Section',
+        articles: 'sections',
+        recital: 'Purpose note',
+        recitals: 'purpose notes',
+        articleShort: '§',
+        recitalShort: 'Note'
+      };
+    }
+    return {
+      article: 'Article',
+      articles: 'articles',
+      recital: 'Recital',
+      recitals: 'recitals',
+      articleShort: 'Art.',
+      recitalShort: 'Rec.'
+    };
+  }
+
   function relatedPanelBadgeAriaLabel(kind, count) {
     var legal = getRegProfile().legalLabel;
-    var noun = kind === 'article' ? 'articles' : 'recitals';
+    var kinds = provisionKindLabels();
+    var noun = kind === 'article' ? kinds.articles : kinds.recitals;
     if (!count) return 'No related ' + legal + ' ' + noun;
     return count + ' related ' + legal + ' ' + noun;
   }
@@ -340,7 +383,18 @@
   function loadStoredRegulationId() {
     try {
       var s = localStorage.getItem(REG_STORAGE_KEY);
-      if (s === 'ai-act' || s === 'gdpr' || s === 'data-act' || s === 'id-pdp' || s === 'id-satu-data' || s === 'id-ai-ethics') return s;
+      if (
+        s === 'ai-act' ||
+        s === 'gdpr' ||
+        s === 'data-act' ||
+        s === 'id-pdp' ||
+        s === 'id-satu-data' ||
+        s === 'id-ai-ethics' ||
+        s === 'us-ccpa' ||
+        s === 'us-admt' ||
+        s === 'us-open-data'
+      )
+        return s;
     } catch (e) {}
     return 'gdpr';
   }
@@ -367,9 +421,13 @@
 
   function regulationJurisdiction(reg) {
     if (!reg) return 'eu';
-    if (reg.jurisdiction === 'id' || reg.jurisdiction === 'eu') return reg.jurisdiction;
+    if (reg.jurisdiction === 'id' || reg.jurisdiction === 'eu' || reg.jurisdiction === 'us') {
+      return reg.jurisdiction;
+    }
     var id = String(reg.id || '');
-    return id.indexOf('id-') === 0 ? 'id' : 'eu';
+    if (id.indexOf('id-') === 0) return 'id';
+    if (id.indexOf('us-') === 0) return 'us';
+    return 'eu';
   }
 
   function catalogForRegion(region) {
@@ -382,7 +440,17 @@
   }
 
   function fallbackRegulationsCatalog() {
-    var ids = ['gdpr', 'data-act', 'ai-act', 'id-pdp', 'id-satu-data', 'id-ai-ethics'];
+    var ids = [
+      'gdpr',
+      'data-act',
+      'ai-act',
+      'id-pdp',
+      'id-satu-data',
+      'id-ai-ethics',
+      'us-ccpa',
+      'us-open-data',
+      'us-admt'
+    ];
     return ids.map(function (id) {
       var p = getRegulationProfileById(id) || { id: id, shortName: id };
       var juris = regulationJurisdiction(p);
@@ -390,7 +458,7 @@
         id: p.id || id,
         shortName: p.shortName || id,
         jurisdiction: juris,
-        jurisdictionLabel: juris === 'id' ? 'Indonesia' : 'European Union'
+        jurisdictionLabel: juris === 'id' ? 'Indonesia' : juris === 'us' ? 'United States' : 'European Union'
       };
     });
   }
@@ -412,6 +480,13 @@
         }) || list[0]
       );
     }
+    if (region === 'us') {
+      return (
+        list.find(function (r) {
+          return r.id === 'us-ccpa';
+        }) || list[0]
+      );
+    }
     return (
       list.find(function (r) {
         return r.id === (currentRegulation && currentRegulation.id);
@@ -428,7 +503,13 @@
       var lastGroup = null;
       var og = null;
       list.forEach(function (r) {
-        var groupLabel = r.jurisdictionLabel || (regulationJurisdiction(r) === 'id' ? 'Indonesia' : 'European Union');
+        var groupLabel =
+          r.jurisdictionLabel ||
+          (regulationJurisdiction(r) === 'id'
+            ? 'Indonesia'
+            : regulationJurisdiction(r) === 'us'
+              ? 'United States'
+              : 'European Union');
         if (groupLabel !== lastGroup) {
           og = document.createElement('optgroup');
           og.label = groupLabel;
@@ -454,7 +535,9 @@
         ? 'Switch Indonesian regulation'
         : currentRegion === 'eu'
           ? 'Switch EU regulation'
-          : 'Switch between EU and Indonesian regulations';
+          : currentRegion === 'us'
+            ? 'Switch United States regulation'
+            : 'Switch between EU, Indonesian, and United States regulations';
   }
 
   function positionRegionFilterThumb() {
@@ -519,7 +602,7 @@
     var jur = regulationJurisdiction(reg);
     var label =
       (reg && reg.jurisdictionLabel) ||
-      (jur === 'id' ? 'Indonesia' : 'European Union');
+      (jur === 'id' ? 'Indonesia' : jur === 'us' ? 'United States' : 'European Union');
     var prev = chip.getAttribute('data-jurisdiction');
     chip.textContent = label;
     chip.setAttribute('data-jurisdiction', jur);
@@ -580,12 +663,19 @@
         lead.textContent =
           'In-force national instruments. Select a card to focus Browse and Ask, or pick another regulation in the header.';
       }
+    } else if (currentRegion === 'us') {
+      if (kicker) kicker.textContent = 'United States';
+      if (title) title.textContent = 'Choose a U.S. analogue';
+      if (lead) {
+        lead.textContent =
+          'In-force U.S. analogues — not federal GDPR, AI Act, or Data Act copies. Select a card to focus Browse and Ask.';
+      }
     } else {
       if (kicker) kicker.textContent = 'Regulation workspace';
       if (title) title.textContent = 'Choose a regulation';
       if (lead) {
         lead.textContent =
-          'Six instruments across the European Union and Indonesia. Filter by region in the header, then select a card.';
+          'Nine instruments across the European Union, Indonesia, and the United States. Filter by region in the header, then select a card.';
       }
     }
   }
@@ -688,6 +778,15 @@
   var ID_AI_ETHICS_NEWS_SCOPE_RE =
     /se\s*(menkominfo|kominfo|komdigi)?\s*(no\.?\s*)?9\s*\/?\s*2023|etika kecerdasan artifisial|etika kecerdasan buatan|etika\s+ai|indonesia.{0,40}(ai ethics|artificial intelligence)|perpres.{0,30}(etika\s*)?ai|rperpres.{0,20}ai|kominfo.{0,40}kecerdasan|komdigi.{0,40}(ai|kecerdasan)|kecerdasan artifisial|kbli\s*62015|roadmap.{0,20}ai.{0,20}indonesia/i;
 
+  var US_CCPA_NEWS_SCOPE_RE =
+    /\bccpa\b|\bcpra\b|calprivacy|california consumer privacy|california privacy protection agency|\bcppa\b|cal\.\s*civ\.\s*code.{0,12}1798|opt[- ]out of sale|california privacy rights act|data broker|commercial surveillance|(?:california|ccpa|cpra).{0,40}sensitive personal information|sensitive personal information.{0,40}(?:california|ccpa|cpra)|23andme/i;
+
+  var US_OPEN_DATA_NEWS_SCOPE_RE =
+    /open government data act|\bopen data act\b|federal data catalogue|federal data catalog|federal data strategy|\bdata\.gov\b|resources\.data\.gov|open government data asset|chief data officer|foundations for evidence-based policymaking|pub(?:lic)?\.\s*l(?:aw)?\.?\s*115-435|44\s*u\.?s\.?c\.?\s*§?\s*3511/i;
+
+  var US_ADMT_NEWS_SCOPE_RE =
+    /\badmt\b|\badai\b|automated decision-making technology|anti-discrimination in ai|colorado.{0,40}(ai act|artificial intelligence)|sb\s*26-189|sb26-189|sb\s*24-205|consequential decision|meaningful human review|colorado attorney general.{0,20}ai|c\.?r\.?s\.?\s*6-1-170/i;
+
   function newsItemTextBlob(item) {
     return (
       (item.title || '') +
@@ -742,6 +841,52 @@
       if (/Indonesia AI Ethics/i.test(cat)) return true;
       return false;
     }
+    if (reg.id === 'us-ccpa') {
+      if (!newsFeedIsUnitedStates({ name: item.sourceName, url: item.url })) return false;
+      if (/cppa\.ca\.gov/i.test(item.url || '') || /^CPPA$/i.test(item.sourceName || '')) return true;
+      if (US_CCPA_NEWS_SCOPE_RE.test(text)) return true;
+      if (/United States CCPA|California Consumer Privacy/i.test(cat)) return true;
+      if (
+        /ftc\.gov/i.test(item.url || '') &&
+        /privacy|ccpa|cpra|data broker|commercial surveillance|personal information|consumer data|\bcoppa\b|children.?s online privacy/i.test(
+          text
+        )
+      ) {
+        return true;
+      }
+      if (
+        /oag\.ca\.gov/i.test(item.url || '') &&
+        /privacy|ccpa|cpra|data broker|consumer data|personal information|23andme/i.test(text)
+      ) {
+        return true;
+      }
+      return false;
+    }
+    if (reg.id === 'us-open-data') {
+      if (!newsFeedIsUnitedStates({ name: item.sourceName, url: item.url })) return false;
+      if (/data\.gov|resources\.data\.gov|strategy\.data\.gov/i.test(item.url || '')) return true;
+      if (US_OPEN_DATA_NEWS_SCOPE_RE.test(text)) return true;
+      if (/United States OPEN Data|OPEN Government Data|Federal Data Strategy/i.test(cat)) return true;
+      if (
+        /gsa\.gov/i.test(item.url || '') &&
+        /open data|data\.gov|federal data|chief data officer|open government data/i.test(text)
+      ) {
+        return true;
+      }
+      return false;
+    }
+    if (reg.id === 'us-admt') {
+      if (!newsFeedIsUnitedStates({ name: item.sourceName, url: item.url })) return false;
+      if (US_ADMT_NEWS_SCOPE_RE.test(text)) return true;
+      if (/United States ADMT|Colorado ADMT/i.test(cat)) return true;
+      if (
+        /ftc\.gov/i.test(item.url || '') &&
+        /artificial intelligence|\bai\b|automated decision|algorithmic|biometric|facial recognition/i.test(text)
+      ) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 
@@ -761,9 +906,11 @@
     if (eyebrow) {
       eyebrow.textContent =
         sources.eyebrow ||
-        ((reg && regulationJurisdiction(reg) === 'id')
+        (reg && regulationJurisdiction(reg) === 'id'
           ? 'Indonesian official references'
-          : 'Official & specialist references');
+          : regulationJurisdiction(reg) === 'us'
+            ? 'United States official references'
+            : 'Official & specialist references');
     }
     var sourcesTitle = document.getElementById('sourcesHeaderTitle');
     if (sourcesTitle) sourcesTitle.textContent = sources.title || ((reg && reg.shortName) || 'Regulation') + ': credible sources';
@@ -901,12 +1048,28 @@
     }
   }
 
-  var BROWSE_WELCOME_GRID_ORDER = ['gdpr', 'data-act', 'ai-act', 'id-pdp', 'id-satu-data', 'id-ai-ethics'];
+  var BROWSE_WELCOME_GRID_ORDER = [
+    'gdpr',
+    'data-act',
+    'ai-act',
+    'id-pdp',
+    'id-satu-data',
+    'id-ai-ethics',
+    'us-ccpa',
+    'us-open-data',
+    'us-admt'
+  ];
   var BROWSE_WELCOME_REGIONS = [
     { id: 'eu', label: 'European Union', hint: 'Binding EU regulations', ids: ['gdpr', 'data-act', 'ai-act'] },
-    { id: 'id', label: 'Indonesia', hint: 'In-force national instruments', ids: ['id-pdp', 'id-satu-data', 'id-ai-ethics'] }
+    { id: 'id', label: 'Indonesia', hint: 'In-force national instruments', ids: ['id-pdp', 'id-satu-data', 'id-ai-ethics'] },
+    {
+      id: 'us',
+      label: 'United States',
+      hint: 'In-force analogues — not federal GDPR, AI Act, or Data Act copies',
+      ids: ['us-ccpa', 'us-open-data', 'us-admt']
+    }
   ];
-  var BROWSE_WELCOME_LAYOUT = 'regions-v1';
+  var BROWSE_WELCOME_LAYOUT = 'regions-v2';
 
   function sortRegulationsCatalog(catalog) {
     if (!catalog || !catalog.length) return catalog || [];
@@ -969,14 +1132,19 @@
     if (id === 'id-ai-ethics') {
       return { articles: 'Sections', recitals: 'Ethical values' };
     }
+    if (id === 'us-ccpa' || id === 'us-admt' || id === 'us-open-data') {
+      return { articles: 'Sections', recitals: 'Purpose notes' };
+    }
     return { articles: 'Articles', recitals: 'Recitals' };
   }
 
   function welcomeJurisdiction(profile) {
     var id = profile && profile.id ? String(profile.id) : '';
     if (profile && profile.jurisdiction === 'id') return { id: 'id', label: 'ID' };
+    if (profile && profile.jurisdiction === 'us') return { id: 'us', label: 'US' };
     if (profile && profile.jurisdiction === 'eu') return { id: 'eu', label: 'EU' };
     if (id.indexOf('id-') === 0) return { id: 'id', label: 'ID' };
+    if (id.indexOf('us-') === 0) return { id: 'us', label: 'US' };
     return { id: 'eu', label: 'EU' };
   }
 
@@ -1116,7 +1284,7 @@
     });
     grid.innerHTML = html;
     grid.setAttribute('data-layout', BROWSE_WELCOME_LAYOUT);
-    grid.dataset.built = '3';
+    grid.dataset.built = String(BROWSE_WELCOME_REGIONS.length);
   }
 
   function syncBrowseWelcomeGridActive(activeRegId) {
@@ -1205,6 +1373,9 @@
     var reg = getRegProfile();
     var sn = reg.shortName;
     var sm = reg.segmentMeta || {};
+    var ctas = welcomeCtaLabels(reg);
+    var articlesNoun = String(ctas.articles || 'Articles').toLowerCase();
+    var recitalsNoun = String(ctas.recitals || 'Recitals').toLowerCase();
 
     var tagline = document.getElementById('appTagline') || document.querySelector('.tagline');
     if (tagline) tagline.textContent = reg.fullName;
@@ -1220,7 +1391,7 @@
         '</span><span class="tab-label tab-label--short">' +
         escapeHtml(sn) +
         '</span> <span class="tab-browse-cue" aria-hidden="true">▾</span>';
-      tabBrowse.title = 'Choose section: ' + sn + ' recitals or chapters & articles';
+      tabBrowse.title = 'Choose section: ' + sn + ' ' + recitalsNoun + ' or chapters & ' + articlesNoun;
     }
 
     var menu = document.getElementById('browseRegMenu');
@@ -1229,12 +1400,12 @@
       var chaptersItem = menu.querySelector('[data-browse-segment="chapters"]');
       var recitalsItem = menu.querySelector('[data-browse-segment="recitals"]');
       if (chaptersItem) {
-        chaptersItem.querySelector('.tab-browse-menu-label').textContent = sn + ' chapters & articles';
+        chaptersItem.querySelector('.tab-browse-menu-label').textContent = sn + ' chapters & ' + articlesNoun;
         var mCh = chaptersItem.querySelector('.tab-browse-menu-meta');
         if (mCh) mCh.textContent = sm.articles;
       }
       if (recitalsItem) {
-        recitalsItem.querySelector('.tab-browse-menu-label').textContent = sn + ' recitals';
+        recitalsItem.querySelector('.tab-browse-menu-label').textContent = sn + ' ' + recitalsNoun;
         var mRec = recitalsItem.querySelector('.tab-browse-menu-meta');
         if (mRec) mRec.textContent = sm.recitals;
       }
@@ -1245,30 +1416,32 @@
     var qa = document.querySelector('.browse-quick-actions');
     if (qa) qa.setAttribute('aria-label', 'Open ' + sn + ' regulation sections');
     if (qr) {
-      qr.querySelector('.browse-quick-btn-label').textContent = sn + ' recitals';
+      qr.querySelector('.browse-quick-btn-label').textContent = sn + ' ' + recitalsNoun;
       qr.querySelector('.browse-quick-btn-meta').textContent = sm.recitals;
     }
     if (qc) {
-      qc.querySelector('.browse-quick-btn-label').textContent = sn + ' chapters & articles';
+      qc.querySelector('.browse-quick-btn-label').textContent = sn + ' chapters & ' + articlesNoun;
       qc.querySelector('.browse-quick-btn-meta').textContent = sm.articles;
     }
 
     syncBrowseWelcomeChrome(reg);
 
     var rh = document.querySelector('#browseRecitals .recitals-header h2');
-    if (rh) rh.textContent = sn + ' recitals';
+    if (rh) rh.textContent = sn + ' ' + recitalsNoun;
     var rl = document.getElementById('recitalsLead');
     if (rl) {
       rl.textContent =
         sn +
-        ' recitals (' +
+        ' ' +
+        recitalsNoun +
+        ' (' +
         sm.recitals +
         ') explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.';
     }
     renderRegulationSourceLinks(document.getElementById('recitalsSourceLinks'), reg);
 
     var ch = document.querySelector('#browseChapters .chapters-browser-header h2');
-    if (ch) ch.textContent = sn + ' chapters & articles';
+    if (ch) ch.textContent = sn + ' chapters & ' + articlesNoun;
     var cl = document.getElementById('chaptersLead');
     if (cl) {
       cl.textContent =
@@ -1276,15 +1449,17 @@
         sm.articles +
         ' ' +
         sn +
-        ' articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.';
+        ' ' +
+        articlesNoun +
+        ' are grouped by chapter. Filter by category, chapter, or section number—then open any card for the full legal text.';
     }
     renderRegulationSourceLinks(document.getElementById('chaptersSourceLinks'), reg);
 
     if (recitalsSearch) {
       recitalsSearch.placeholder =
-        'Search ' + sn + ' recitals by number (e.g. 12) or keywords…';
+        'Search ' + sn + ' ' + recitalsNoun + ' by number (e.g. 12) or keywords…';
       var rsLabel = document.querySelector('label[for="recitalsSearch"]');
-      if (rsLabel) rsLabel.textContent = 'Search ' + sn + ' recitals by number or text';
+      if (rsLabel) rsLabel.textContent = 'Search ' + sn + ' ' + recitalsNoun + ' by number or text';
     }
 
     if (detailContent) {
@@ -1316,7 +1491,25 @@
     }
     var cfBar = document.querySelector('.chapters-filters');
     if (cfBar) {
-      cfBar.setAttribute('aria-label', 'Filter ' + sn + ' documents by category, chapter, and article');
+      cfBar.setAttribute('aria-label', 'Filter ' + sn + ' documents by category, chapter, and ' + articlesNoun.replace(/s$/, ''));
+    }
+    var artFilterLabel = document.querySelector('label[for="chaptersFilterArticleInput"]');
+    if (artFilterLabel) {
+      artFilterLabel.textContent = String(ctas.articles || 'Articles').replace(/s$/, '') || 'Article';
+    }
+    var grouped = document.getElementById('chaptersArticlesGrouped');
+    if (grouped) {
+      grouped.setAttribute('aria-label', sn + ' ' + articlesNoun + ' by chapter');
+    }
+    var jumpLabel = document.querySelector('label[for="docNavNumber"]');
+    if (jumpLabel) {
+      jumpLabel.textContent = 'Jump to ' + articlesNoun.replace(/s$/, '') + ' or ' + recitalsNoun.replace(/s$/, '');
+    }
+    if (docNavNumber) {
+      docNavNumber.setAttribute(
+        'aria-label',
+        'Jump to ' + articlesNoun.replace(/s$/, '') + ' or ' + recitalsNoun.replace(/s$/, '') + ' number'
+      );
     }
 
     var sel = document.getElementById('regulationSelect');
@@ -2220,7 +2413,17 @@
   var readerViewModePageBtn = document.getElementById('readerViewModePage');
   var readerViewModeFullBtn = document.getElementById('readerViewModeFull');
 
-  var APP_ROUTE_KNOWN_REG_IDS = { gdpr: 1, 'data-act': 1, 'ai-act': 1, 'id-pdp': 1, 'id-satu-data': 1, 'id-ai-ethics': 1 };
+  var APP_ROUTE_KNOWN_REG_IDS = {
+    gdpr: 1,
+    'data-act': 1,
+    'ai-act': 1,
+    'id-pdp': 1,
+    'id-satu-data': 1,
+    'id-ai-ethics': 1,
+    'us-ccpa': 1,
+    'us-admt': 1,
+    'us-open-data': 1
+  };
   var APP_ROUTE_KNOWN_VIEWS = { browse: 1, ask: 1, news: 1, sources: 1 };
   var suppressAppRouteSync = false;
   var appRouteRestorePending = false;
@@ -2568,17 +2771,18 @@
   }
 
   function getArticleDisplayTitle(art) {
-    if (!art || art.number == null) return 'Article';
+    if (!art || art.number == null) return provisionKindLabels().article;
     var profile = getRegProfile();
+    var fallback = typeof profile.articleHeading === 'function' ? profile.articleHeading(art.number) : 'Article ' + art.number;
     var t = (art.title || '').trim();
     if (profile.id === 'gdpr') {
       var canonical = CANONICAL_ARTICLE_TITLES[art.number];
       if (canonical) return canonical;
-      if (!t) return 'Article ' + art.number;
-      if (t.length > 120 || /^\(Recital\s+\d+\)/i.test(t) || /^\(.*\)\s*of\s+Directive/i.test(t)) return 'Article ' + art.number;
+      if (!t) return fallback;
+      if (t.length > 120 || /^\(Recital\s+\d+\)/i.test(t) || /^\(.*\)\s+of\s+Directive/i.test(t)) return fallback;
       return t;
     }
-    if (!t) return 'Article ' + art.number;
+    if (!t) return fallback;
     return t;
   }
 
@@ -2929,7 +3133,29 @@
     'Data Act Law':
       'Readable English layout of Regulation (EU) 2023/2854 with articles, recitals, chapters, and annexes.',
     'European Commission':
-      'Official EU policy on the Data Act, fair access to data, and the European data strategy (also data protection when selected for GDPR).'
+      'Official EU policy on the Data Act, fair access to data, and the European data strategy (also data protection when selected for GDPR).',
+    FTC: 'U.S. Federal Trade Commission press releases on consumer privacy, data brokers, COPPA, and AI/automated decision-making.',
+    CPPA: 'California Privacy Protection Agency (CalPrivacy) announcements — CCPA/CPRA rulemaking, data-broker enforcement, and Delete Act updates.',
+    'California OAG': 'California Attorney General consumer-privacy news, including CCPA enforcement and related settlements.',
+    'Colorado AG':
+      'Colorado Attorney General — ADAI / ADMT Act rulemaking, automated decision-making technology, and consumer-protection AI policy.',
+    'data.gov': 'Federal data catalogue (data.gov) and resources.data.gov guidance under the OPEN Government Data Act.',
+    GSA: 'U.S. General Services Administration newsroom — open government data and data.gov operations.',
+    'Federal Data Strategy': 'Federal Data Strategy action plans and progress for open Government data assets.',
+    'California Privacy Protection Agency':
+      'Official CPPA compilation and landing pages for Cal. Civ. Code Title 1.81.5 (CCPA/CPRA).',
+    'California Legislative Information (leginfo)': 'Official California Civil Code Title 1.81.5 as maintained by the Legislative Counsel.',
+    'California Department of Justice — Office of the Attorney General':
+      'Attorney General CCPA guidance and enforcement landing page for consumers and businesses.',
+    'Colorado General Assembly — SB26-189 (became law)':
+      'Official bill page for Colorado SB 26-189 (Automated Decision-Making Technology Act).',
+    'Colorado General Assembly — Session Laws Chapter 131':
+      'Enrolled session-law text of SB 26-189 (C.R.S. 6-1-1701 et seq.).',
+    'Colorado Attorney General — AI / ADMT': 'Colorado Department of Law ADAI / ADMT rulemaking and enforcement hub (coag.gov/ai).',
+    'U.S. Government Publishing Office (govinfo)':
+      'Official HTML/PDF of Public Law 115-435, including Title II (OPEN Government Data Act).',
+    'data.gov — Federal data catalogue': 'Public interface maintained under 44 U.S.C. § 3511 as the Federal data catalogue.',
+    'U.S. General Services Administration': 'GSA administers the Federal data catalogue interface required by the OPEN Government Data Act.'
   };
 
   /** Catch-all leaf topic; must match `NEWS_TOPIC_FALLBACK` in `news-topics.js`. */
@@ -2949,6 +3175,13 @@
     'Antara (Tekno)',
     'Antara (English)',
     'Satu Data Indonesia',
+    'FTC',
+    'CPPA',
+    'California OAG',
+    'Colorado AG',
+    'data.gov',
+    'GSA',
+    'Federal Data Strategy',
     'European Data Protection Board (EDPB)',
     'EDPB',
     'European Data Protection Supervisor (EDPS)',
@@ -3952,10 +4185,18 @@
       msg = '';
     } else if (shown === 0 && loaded > 0) {
       var regNews = getRegProfile().newsUi || {};
+      var jx = regulationJurisdiction(getRegProfile());
+      var refreshHint =
+        jx === 'id'
+          ? 'Tap Refresh news to pull Indonesian official/state-agency feeds, or clear topic/source filters.'
+          : jx === 'us'
+            ? 'Tap Refresh news to pull U.S. official feeds (FTC, CPPA/CalPrivacy, California OAG, Colorado AG, data.gov), or clear topic/source filters.'
+            : 'Tap Refresh news, or clear topic/source filters.';
       msg = regNews.filterForRegulation
         ? 'No headlines match the ' +
           (getRegProfile().shortName || 'regulation') +
-          ' relevance filter yet. Tap Refresh news to pull Indonesian official/state-agency feeds, or clear topic/source filters.'
+          ' relevance filter yet. ' +
+          refreshHint
         : 'No articles match your filters or search. Try clearing all or using different keywords.';
     } else {
       var head = q
@@ -4173,15 +4414,30 @@
     return /komdigi|setkab|data\.go\.id|antara|jdih|indonesia/i.test(blob);
   }
 
+  function newsFeedIsUnitedStates(feed) {
+    var blob =
+      String((feed && feed.name) || '') +
+      ' ' +
+      String((feed && feed.url) || '') +
+      ' ' +
+      String((feed && feed.description) || '');
+    return /ftc\.gov|\bcppa\b|cppa\.ca\.gov|calprivacy|coag\.gov|\bcolorado ag\b|colorado attorney general|federal trade commission|california privacy protection|oag\.ca\.gov|california oag|california attorney general|data\.gov|gsa\.gov|federal data strategy|resources\.data\.gov/i.test(
+      blob
+    );
+  }
+
   function newsFeedsForCurrentScope(feeds) {
     var list = Array.isArray(feeds) ? feeds : [];
     var id = (getRegProfile() && getRegProfile().id) || 'gdpr';
     if (currentRegion === 'id' || String(id).indexOf('id-') === 0) {
       return list.filter(newsFeedIsIndonesian);
     }
+    if (currentRegion === 'us' || String(id).indexOf('us-') === 0) {
+      return list.filter(newsFeedIsUnitedStates);
+    }
     if (currentRegion === 'eu' || id === 'ai-act' || id === 'data-act') {
       return list.filter(function (f) {
-        return !newsFeedIsIndonesian(f);
+        return !newsFeedIsIndonesian(f) && !newsFeedIsUnitedStates(f);
       });
     }
     return list;
@@ -4207,6 +4463,17 @@
       allow = { 'EU Artificial Intelligence Act': 1, 'AI and Emerging Tech': 1, General: 1 };
     } else if (id === 'data-act') {
       allow = { 'EU Data Act': 1, General: 1 };
+    } else if (id === 'us-ccpa') {
+      allow = {
+        'United States CCPA': 1,
+        'Core Rights': 1,
+        'Enforcement and Compliance': 1,
+        General: 1
+      };
+    } else if (id === 'us-open-data') {
+      allow = { 'United States OPEN Data': 1, General: 1 };
+    } else if (id === 'us-admt') {
+      allow = { 'United States ADMT': 1, 'AI and Emerging Tech': 1, General: 1 };
     }
     if (!allow) return groups;
     return groups.filter(function (g) {
@@ -4485,7 +4752,7 @@
         newsSections.innerHTML = buildNewsEmptyPanelHtml({
           title: 'No news items yet',
           text:
-            'Use the official feed links, or refresh to pull EU and Indonesian official/state-agency headlines.',
+            'Use the official feed links, or refresh to pull EU, Indonesian, and United States official/state-agency headlines.',
           refresh: true
         });
         populateNewsFilters([]);
@@ -4554,7 +4821,7 @@
       newsSections.innerHTML = buildNewsEmptyPanelHtml({
         title: 'Refreshing feeds',
         text:
-          'Fetching EDPB, EDPS, ICO, Commission, CoE, and Indonesian sources (Antara, Setkab, Komdigi, Satu Data)…'
+          'Fetching EDPB, EDPS, ICO, Commission, CoE, Indonesian sources (Antara, Setkab, Komdigi, Satu Data), and U.S. sources (FTC, CPPA, Colorado AG, data.gov)…'
       });
     }
     post('/api/news/refresh')
@@ -5307,8 +5574,8 @@
       'aria-label',
       opts.browseAll
         ? kind === 'recital'
-          ? 'All ' + regulationShortLabel() + ' recitals'
-          : 'All ' + regulationShortLabel() + ' articles'
+          ? 'All ' + regulationShortLabel() + ' ' + provisionKindLabels().recitals
+          : 'All ' + regulationShortLabel() + ' ' + provisionKindLabels().articles
         : 'Matching ' + regulationShortLabel() + ' documents'
     );
     docNavSuggestList.innerHTML = '';
@@ -5319,7 +5586,9 @@
       li.setAttribute('data-number', item.number);
       li.className = 'doc-nav-suggest__option';
       li.setAttribute('tabindex', '-1');
-      var badge = kind === 'recital' ? 'Rec. ' + item.number : 'Art. ' + item.number;
+      var kinds = provisionKindLabels();
+      var badge =
+        kind === 'recital' ? kinds.recitalShort + ' ' + item.number : kinds.articleShort + ' ' + item.number;
       var title = '';
       var sub = '';
       if (kind === 'recital') {
@@ -5853,36 +6122,45 @@
     docNavPrev.setAttribute(
       'aria-label',
       isRecital
-        ? 'Previous ' + sn + ' recital (' + prevNum + ')'
-        : 'Previous ' + sn + ' article ' + prevNum
+        ? 'Previous ' + sn + ' ' + provisionKindLabels().recital.toLowerCase() + ' (' + prevNum + ')'
+        : 'Previous ' + sn + ' ' + provisionKindLabels().article.toLowerCase() + ' ' + prevNum
     );
     docNavNext.setAttribute(
       'aria-label',
       isRecital
-        ? 'Next ' + sn + ' recital (' + nextNum + ')'
-        : 'Next ' + sn + ' article ' + nextNum
+        ? 'Next ' + sn + ' ' + provisionKindLabels().recital.toLowerCase() + ' (' + nextNum + ')'
+        : 'Next ' + sn + ' ' + provisionKindLabels().article.toLowerCase() + ' ' + nextNum
     );
+    var kindsNav = provisionKindLabels();
     if (prevNum < minNum) {
       docNavPrev.textContent = '←';
     } else {
-      docNavPrev.textContent = isRecital ? '← Rec. ' + prevNum : '← Art. ' + prevNum;
+      docNavPrev.textContent = isRecital
+        ? '← ' + kindsNav.recitalShort + ' ' + prevNum
+        : '← ' + kindsNav.articleShort + ' ' + prevNum;
     }
     if (nextNum > maxNum) {
       docNavNext.textContent = '→';
     } else {
-      docNavNext.textContent = isRecital ? 'Rec. ' + nextNum + ' →' : 'Art. ' + nextNum + ' →';
+      docNavNext.textContent = isRecital
+        ? kindsNav.recitalShort + ' ' + nextNum + ' →'
+        : kindsNav.articleShort + ' ' + nextNum + ' →';
     }
     docNavLabel.innerHTML = isRecital
       ? '<span class="doc-nav-label-kind">' +
         escapeHtml(sn) +
-        ' Recital</span> <span class="doc-nav-label-pos"><strong>' +
+        ' ' +
+        escapeHtml(kindsNav.recital) +
+        '</span> <span class="doc-nav-label-pos"><strong>' +
         escapeHtml(String(num)) +
         '</strong><span class="doc-nav-label-of"> / ' +
         escapeHtml(String(maxNumLabel)) +
         '</span></span>'
       : '<span class="doc-nav-label-kind">' +
         escapeHtml(sn) +
-        ' Art.</span> <span class="doc-nav-label-pos"><strong>' +
+        ' ' +
+        escapeHtml(kindsNav.articleShort) +
+        '</span> <span class="doc-nav-label-pos"><strong>' +
         escapeHtml(String(num)) +
         '</strong><span class="doc-nav-label-of"> / ' +
         escapeHtml(String(maxNumLabel)) +
@@ -6309,7 +6587,7 @@
         '">' +
         '<div class="recital-card-body">' +
         '<div class="recital-card-top">' +
-        '<span class="recital-card-badge"><span class="recital-card-badge-label">' + escapeHtml(sn) + ' Recital</span> <span class="recital-card-badge-num">' +
+        '<span class="recital-card-badge"><span class="recital-card-badge-label">' + escapeHtml(sn) + ' ' + escapeHtml(provisionKindLabels().recital) + '</span> <span class="recital-card-badge-num">' +
         r.number +
         '</span></span>' +
         '</div>' +
@@ -6528,12 +6806,18 @@
   }
 
   function chaptersFilterArticleOptionLabel(art) {
+    var kinds = provisionKindLabels();
+    var profile = getRegProfile();
+    var heading =
+      profile && typeof profile.articleHeading === 'function'
+        ? profile.articleHeading(art.number)
+        : kinds.article + ' ' + art.number;
     var disp = getArticleDisplayTitle(art);
     var tail =
-      disp && disp !== 'Article ' + art.number
+      disp && disp !== heading && disp !== 'Article ' + art.number
         ? ' – ' + (disp.length > 52 ? disp.slice(0, 52) + '…' : disp)
         : '';
-    return regulationShortLabel() + ' Article ' + art.number + tail;
+    return regulationShortLabel() + ' ' + kinds.article + ' ' + art.number + tail;
   }
 
   function chaptersFilterRepopulateArticleSelect() {
@@ -7787,6 +8071,9 @@
     var profile = getRegProfile();
     var sn = profile.shortName;
     var site = profile.infoSiteName;
+    var kindsCh = provisionKindLabels();
+    var articleNoun = kindsCh.articles;
+    var articleNounOne = kindsCh.article.toLowerCase();
     let html = '';
     const sortedChapters = chapters.slice();
     sortedChapters.forEach(function (ch) {
@@ -7797,8 +8084,8 @@
       var totalInCh = totalArticlesByChapter.get(chKey) || list.length;
       var countLabel =
         list.length === totalInCh
-          ? list.length + ' ' + sn + ' article' + (list.length !== 1 ? 's' : '') + ' in this section'
-          : 'Showing ' + list.length + ' of ' + totalInCh + ' ' + sn + ' articles (filters applied)';
+          ? list.length + ' ' + sn + ' ' + (list.length !== 1 ? articleNoun : articleNounOne) + ' in this section'
+          : 'Showing ' + list.length + ' of ' + totalInCh + ' ' + sn + ' ' + articleNoun + ' (filters applied)';
       var chapterUrl =
         ch.sourceUrl ||
         ch.gdprInfoChapterUrl ||
@@ -7806,7 +8093,7 @@
       var summaryText = getChapterSummaryForSection(ch.number, chapterSumm);
       if (!summaryText) {
         summaryText =
-          'This ' + sn + ' chapter covers Articles ' +
+          'This ' + sn + ' chapter covers ' + kindsCh.article + 's ' +
           ch.articleRange +
           ' (' +
           ch.title +
@@ -7815,7 +8102,7 @@
       html += '<section class="chapters-group-section chapters-group-section--panel" data-chapter="' + ch.number + '" role="region" aria-label="' + escapeHtml(sn) + ' Chapter ' + ch.roman + '">';
       html += '<header class="chapters-group-banner">';
       html += '<h3 class="chapters-group-heading"><span class="chapters-group-roman" aria-hidden="true">' + ch.roman + '</span> <span class="chapters-group-heading-text">' + escapeHtml(sn) + ' Chapter ' + ch.roman + ' – ' + escapeHtml(ch.title) + '</span></h3>';
-      html += '<p class="chapters-group-meta">' + escapeHtml(sn) + ' Articles ' + escapeHtml(ch.articleRange) + '</p>';
+      html += '<p class="chapters-group-meta">' + escapeHtml(sn) + ' ' + escapeHtml(kindsCh.article) + 's ' + escapeHtml(ch.articleRange) + '</p>';
       html += '<p class="chapters-group-summary" data-chapter-summary="' + ch.number + '">' + escapeHtml(summaryText) + '</p>';
       html += '<p class="chapters-group-count" role="status">' + escapeHtml(countLabel) + '</p>';
       html +=
@@ -7835,9 +8122,9 @@
           excerptHtml =
             escapeHtml(exSrc.replace(/\s+/g, ' ').trim().slice(0, 200)).trim() + '…';
         } else {
-          excerptHtml = escapeHtml('Open to read the full article text.');
+          excerptHtml = escapeHtml('Open to read the full ' + articleNounOne + ' text.');
         }
-        var ariaOpen = 'Open ' + sn + ' Article ' + art.number + (disp ? ': ' + disp : '');
+        var ariaOpen = 'Open ' + sn + ' ' + kindsCh.article + ' ' + art.number + (disp ? ': ' + disp : '');
         html += '<li class="item-card" role="listitem">';
         html +=
           '<a href="' +
@@ -7848,7 +8135,7 @@
           escapeHtml(ariaOpen) +
           '">';
         html += '<div class="item-card-main">';
-        html += '<span class="item-card-num"><span class="item-card-num-label">Art.</span> <span class="item-card-num-value">' + art.number + '</span></span>';
+        html += '<span class="item-card-num"><span class="item-card-num-label">' + escapeHtml(kindsCh.articleShort) + '</span> <span class="item-card-num-value">' + art.number + '</span></span>';
         html += '<span class="item-card-title">' + titleText + '</span>';
         html += '<p class="item-card-excerpt">' + excerptHtml + '</p>';
         html += '</div><span class="item-card-arrow" aria-hidden="true"></span></a></li>';
@@ -7872,10 +8159,14 @@
           '<div class="chapters-filter-empty chapters-filter-empty--filters" role="status">' +
           '<p class="chapters-filter-empty-title">No ' +
           escapeHtml(sn) +
-          ' articles match your filters</p>' +
+          ' ' +
+          escapeHtml(articleNoun) +
+          ' match your filters</p>' +
           '<p class="chapters-filter-empty-lead">Active: <strong>' +
           escapeHtml(filterDesc) +
-          '</strong>. Open <strong>Filters</strong> to adjust, or clear below to show all articles.</p>' +
+          '</strong>. Open <strong>Filters</strong> to adjust, or clear below to show all ' +
+          escapeHtml(articleNoun) +
+          '.</p>' +
           '<button type="button" class="btn btn-primary btn-sm chapters-filter-empty-clear" id="chaptersEmptyClearFilters">Clear all filters</button></div>';
         var toggle = document.getElementById('chaptersFiltersToggle');
         var panel = document.getElementById('chaptersFiltersPanel');
@@ -7941,7 +8232,7 @@
         citationLinks.innerHTML =
           contentAsOfHtml +
           '<li><a href="' + escapeHtml(infoArtUrl) + '" target="_blank" rel="noopener">' +
-          escapeHtml(profile.infoSiteName) + ' – Article ' + data.number + '</a></li>' +
+          escapeHtml(profile.infoSiteName) + ' – ' + escapeHtml(provisionKindLabels().article) + ' ' + data.number + '</a></li>' +
           '<li><a href="' + escapeHtml(eurLexArt) + '" target="_blank" rel="noopener">' +
           escapeHtml(officialSiteName(profile)) + ' – ' + escapeHtml(profile.eurLexLabel) + '</a></li>';
         updateCitationOfficialSourcesCount();
@@ -8561,13 +8852,15 @@
   }
 
   function renderRelatedDocsListItems(items, kind) {
+    var kinds = provisionKindLabels();
     var emptyMsg =
       kind === 'article'
-        ? 'No related articles (none cited here and no suggestions for this recital).'
-        : 'No related recitals (none cited here and no suggestions for this article).';
+        ? 'No related ' + kinds.articles + ' (none cited here and no suggestions for this ' + kinds.recital.toLowerCase() + ').'
+        : 'No related ' + kinds.recitals + ' (none cited here and no suggestions for this ' + kinds.article.toLowerCase() + ').';
     if (!items || !items.length) return '<li class="related-panel-empty">' + emptyMsg + '</li>';
     return items.map(function (it) {
-      var numLabel = it.type === 'recital' ? 'Recital ' + it.number : 'Art. ' + it.number;
+      var numLabel =
+        it.type === 'recital' ? kinds.recital + ' ' + it.number : kinds.articleShort + ' ' + it.number;
       var topicRaw =
         it.type === 'recital'
           ? parseRecitalTopicTitle(it.title, it.number) || ''
@@ -8575,7 +8868,7 @@
       var topicShort = shortenTitleForRelatedPanel(topicRaw, it.type === 'recital' ? 56 : 50);
       var desc = it.desc ? escapeHtml(it.desc) : '';
       var openTitle =
-        'Open ' + (it.type === 'recital' ? 'Recital' : 'Article') + ' ' + it.number + ' in this app';
+        'Open ' + (it.type === 'recital' ? kinds.recital : kinds.article) + ' ' + it.number + ' in this app';
       var openTitleEsc = escapeHtml(openTitle);
       var inner =
         '<span class="related-doc-num">' +
@@ -10420,8 +10713,12 @@
       li.style.setProperty('--stagger', String(idx));
       var badge =
         s.type === 'recital'
-          ? '<span class="ask-relevant-doc-badge ask-relevant-doc-badge--recital">Recital</span>'
-          : '<span class="ask-relevant-doc-badge ask-relevant-doc-badge--article">Article</span>';
+          ? '<span class="ask-relevant-doc-badge ask-relevant-doc-badge--recital">' +
+            escapeHtml(provisionKindLabels().recital) +
+            '</span>'
+          : '<span class="ask-relevant-doc-badge ask-relevant-doc-badge--article">' +
+            escapeHtml(provisionKindLabels().article) +
+            '</span>';
       li.innerHTML =
         badge +
         '<div class="ask-relevant-doc-card-body">' +
@@ -10496,9 +10793,15 @@
           })
           .join(', ');
         li.innerHTML =
-          '<span class="ask-relevant-doc-badge ask-relevant-doc-badge--article">Article ' +
+          '<span class="ask-relevant-doc-badge ask-relevant-doc-badge--article">' +
+          escapeHtml(provisionKindLabels().article) +
+          ' ' +
           p.num +
-          '</span><div class="ask-relevant-doc-card-body"><span class="ask-relevant-doc-label">Suitable recitals</span>' +
+          '</span><div class="ask-relevant-doc-card-body"><span class="ask-relevant-doc-label">' +
+          escapeHtml(
+            (regProf.askUi && regProf.askUi.crossrefTitle) || provisionKindLabels().recitals
+          ) +
+          '</span>' +
           '<div class="ask-relevant-doc-links ask-relevant-doc-links--wrap">' +
           links +
           '</div></div>';
@@ -10524,17 +10827,19 @@
         t = t.replace(new RegExp('^Recital\\s*\\(\\s*' + esc + '\\s*\\)\\s*(?:[—–-]\\s*)+', 'i'), '').trim();
         t = t.replace(new RegExp('^Recital\\s*\\(\\s*' + esc + '\\s*\\)\\s*$', 'i'), '').trim();
         t = t.replace(new RegExp('^Recital\\s+' + esc + '\\b\\s*(?:[—–-]\\s*)+', 'i'), '').trim();
+        t = t.replace(new RegExp('^Purpose\\s+note\\s*\\(\\s*' + esc + '\\s*\\)\\s*(?:[—–-]\\s*)+', 'i'), '').trim();
+        t = t.replace(new RegExp('^Considering\\s*\\(\\s*' + esc + '\\s*\\)\\s*(?:[—–-]\\s*)+', 'i'), '').trim();
       } else {
         t = t.replace(
-          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act|Data Act))?\\s*(?:[—–-]\\s*)+', 'i'),
+          new RegExp('^(?:Article|Art\\.?|Section|Pasal|CCPA\\s*§|ADMT\\s*§|OPEN Data\\s*§)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act|Data Act|CCPA|CPRA|ADMT))?\\s*(?:[—–-]\\s*)+', 'i'),
           ''
         ).trim();
         t = t.replace(
-          new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act|Data Act))?\\s+', 'i'),
+          new RegExp('^(?:Article|Art\\.?|Section|Pasal|CCPA\\s*§|ADMT\\s*§|OPEN Data\\s*§)\\s*' + esc + '\\b(?:\\s*(?:GDPR|AI Act|Data Act|CCPA|CPRA|ADMT))?\\s+', 'i'),
           ''
         ).trim();
-        t = t.replace(new RegExp('^(?:Article|Art\\.?)\\s*' + esc + '\\b\\s*$', 'i'), '').trim();
-        t = t.replace(/^(?:GDPR|AI Act|Data Act)\s+/i, '').trim();
+        t = t.replace(new RegExp('^(?:Article|Art\\.?|Section|Pasal|CCPA\\s*§|ADMT\\s*§|OPEN Data\\s*§)\\s*' + esc + '\\b\\s*$', 'i'), '').trim();
+        t = t.replace(/^(?:GDPR|AI Act|Data Act|CCPA|CPRA|ADMT|OPEN Data)\s+/i, '').trim();
       }
     } while (t !== prev && t.length && i < 12);
     return t;

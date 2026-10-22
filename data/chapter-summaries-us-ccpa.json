@@ -1,0 +1,15 @@
+{
+  "regulationId": "us-ccpa",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T07:57:39Z",
+  "summaries": {
+    "1": "Consumer rights and general business duties: notice at collection, purpose limitation, reasonable security, deletion, correction, access, sale/share disclosure, opt-out, limit on sensitive PI, and non-retaliation (Cal. Civ. Code §§ 1798.100–1798.125).",
+    "2": "Operational methods: 12-month lookback notices, verifiable consumer requests, service-provider contracts, and required opt-out / limit-use links and mechanisms (§§ 1798.130–1798.135).",
+    "3": "Definitions that drive the statute, including business, consumer, personal information, sensitive personal information, sale, share, service provider, contractor, and dark patterns (§ 1798.140).",
+    "4": "Exemptions, including HIPAA/CMIA, Gramm-Leach-Bliley, and the Driver’s Privacy Protection Act, plus other enumerated carve-outs (§§ 1798.145–1798.148).",
+    "5": "Private right of action for certain security breaches, CPPA/AG administrative enforcement, and the Consumer Privacy Fund (§§ 1798.150–1798.160).",
+    "6": "Liberal construction, statewide preemption of local privacy ordinances, CPPA rulemaking, anti-avoidance, and non-waiver (§§ 1798.175–1798.198).",
+    "7": "California Privacy Protection Agency: five-member board, investigative and administrative powers, penalties, and coordination with the Attorney General (§§ 1798.199–1798.199.100)."
+  }
+}

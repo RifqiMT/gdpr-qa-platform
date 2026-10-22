@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "California Privacy Protection Agency",
+        "url": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+        "description": "Unofficial compilation of the California Consumer Privacy Act of 2018 as amended (Cal. Civ. Code Title 1.81.5), posted January 2025 after SB 1223, AB 1008, and AB 1824.",
+        "documents": [
+          {
+            "label": "CCPA text (CPPA PDF, Jan 2025)",
+            "url": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf"
+          },
+          {
+            "label": "CPPA home",
+            "url": "https://cppa.ca.gov/"
+          }
+        ]
+      },
+      {
+        "name": "California Legislative Information (leginfo)",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article=",
+        "description": "Official California Civil Code Title 1.81.5 (CCPA/CPRA) as maintained by the Legislative Counsel.",
+        "documents": [
+          {
+            "label": "Cal. Civ. Code Title 1.81.5",
+            "url": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+          }
+        ]
+      },
+      {
+        "name": "California Department of Justice — Office of the Attorney General",
+        "url": "https://oag.ca.gov/privacy/ccpa",
+        "description": "Attorney General CCPA landing page (consumer and business guidance; enforcement alongside the CPPA).",
+        "documents": [
+          {
+            "label": "OAG CCPA page",
+            "url": "https://oag.ca.gov/privacy/ccpa"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Statutory purpose excerpts from Cal. Civ. Code Title 1.81.5 and a jurisdiction note that the United States has no federal GDPR.",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "id": "chapters",
+      "title": "Civil Code sections",
+      "description": "Cal. Civ. Code §§ 1798.100–1798.199.100, grouped for Browse.",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Consumer rights and business duties",
+      "articleRange": "1-8",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Notice, disclosure, and opt-out methods",
+      "articleRange": "9-10",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Definitions",
+      "articleRange": "11",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Exemptions",
+      "articleRange": "12-14",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Security breaches, administrative enforcement, and the Consumer Privacy Fund",
+      "articleRange": "15-17",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Construction, preemption, regulations, and anti-avoidance",
+      "articleRange": "18-23",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "California Privacy Protection Agency",
+      "articleRange": "24-33",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=3.&title=1.81.5.&part=4.&chapter=&article="
+    }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": [],
+  "regulation": {
+    "id": "us-ccpa"
+  }
+}

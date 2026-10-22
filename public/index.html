@@ -58,6 +58,12 @@
                       <span class="region-filter-btn-label region-filter-btn-label--short" aria-hidden="true">ID</span>
                     </span>
                   </button>
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="United States" data-region="us" id="regionFilterUs">
+                    <span class="region-filter-btn-inner">
+                      <span class="region-filter-btn-label region-filter-btn-label--long">USA</span>
+                      <span class="region-filter-btn-label region-filter-btn-label--short" aria-hidden="true">US</span>
+                    </span>
+                  </button>
                 </div>
               </div>
               <div class="header-filter-divider" aria-hidden="true"></div>
@@ -77,6 +83,11 @@
                       <option value="id-pdp">ID PDP Law</option>
                       <option value="id-satu-data">ID Satu Data</option>
                       <option value="id-ai-ethics">ID AI Ethics</option>
+                    </optgroup>
+                    <optgroup label="United States">
+                      <option value="us-ccpa">US CCPA</option>
+                      <option value="us-open-data">US OPEN Data</option>
+                      <option value="us-admt">US CO ADMT</option>
                     </optgroup>
                   </select>
                   <svg class="regulation-select-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -181,7 +192,7 @@
               <p class="browse-welcome-hero-kicker">Regulation workspace</p>
               <h2 class="browse-welcome-hero-title">Choose a regulation</h2>
               <p class="browse-welcome-grid-lead" id="browseWelcomeGridLead">
-                Six instruments across the European Union and Indonesia. Select a card to focus Browse and Ask, or use the header control.
+                Nine instruments across the European Union, Indonesia, and the United States. Select a card to focus Browse and Ask, or use the header control.
               </p>
             </header>
             <div class="browse-welcome-grid" id="browseWelcomeGrid" data-layout="" aria-label="Regulations overview"></div>
@@ -1089,6 +1100,7 @@
   <script src="news-dedupe.js"></script>
   <script src="regulation-profiles.js"></script>
   <script src="regulation-profiles-id.js"></script>
+  <script src="regulation-profiles-us.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

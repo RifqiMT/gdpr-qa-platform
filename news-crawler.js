@@ -2,7 +2,8 @@
  * Crawl GDPR / data protection / digital-policy news from credible sources.
  * EDPB (RSS + parallel paginated news HTML), EDPS (RSS), ICO (Umbraco /api/search + sitemap),
  * Commission Press Corner (general + per-policy RSS + thematic API; policy areas for topic gate), CoE (RSS + HTML, Referer),
- * Indonesian official and state-agency sources (Antara RSS; Komdigi/Setkab best-effort).
+ * Indonesian official and state-agency sources (Antara RSS; Komdigi/Setkab best-effort),
+ * and United States official sources (FTC, CPPA/CalPrivacy, California OAG, Colorado AG, data.gov / GSA).
  */
 
 const axios = require('axios');
@@ -212,6 +213,17 @@ const RSS_REQUEST_HEADERS = {
   'User-Agent': BROWSER_HEADERS['User-Agent'],
   Accept: 'application/rss+xml, application/xml, application/atom+xml, text/xml, */*;q=0.8',
   'Accept-Language': BROWSER_HEADERS['Accept-Language']
+};
+
+/** FTC (and some .gov hosts) 404 Chrome-like UAs; a short compatible token is accepted. */
+const US_OFFICIAL_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (compatible; GDPRQnAPlatform/1.2.9)',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9'
+};
+const US_OFFICIAL_RSS_HEADERS = {
+  ...US_OFFICIAL_HEADERS,
+  Accept: 'application/rss+xml, application/xml, application/atom+xml, text/xml, */*;q=0.8'
 };
 
 async function fetchRss(url, sourceName, sourceUrl, extraHeaders) {
@@ -495,6 +507,18 @@ function newsItemMatchesApprovedTopic(item) {
   }
   if (indonesiaPolicyNewsRe().test(b)) return true;
 
+  if (/cppa\.ca\.gov\/announcements\/\d{4}\//i.test(url)) return true;
+  if (/coag\.gov\/ai\b|coag\.gov\/.*adai/i.test(url)) return true;
+  if (/resources\.data\.gov|strategy\.data\.gov|catalog\.data\.gov/i.test(url)) return true;
+  if (/ftc\.gov/i.test(url) && usFtcOnScopeTextRe().test(`${title} ${snippet}`)) return true;
+  if (
+    /ftc\.gov|cppa\.ca\.gov|coag\.gov|oag\.ca\.gov|data\.gov|gsa\.gov/i.test(url) &&
+    unitedStatesPolicyNewsRe().test(b)
+  ) {
+    return true;
+  }
+  if (unitedStatesNewsItemIsOnScope({ title, snippet, url })) return true;
+
   return false;
 }
 
@@ -505,6 +529,30 @@ function indonesiaPolicyNewsRe() {
 function indonesiaNewsItemIsOnScope(item) {
   const b = `${item && item.title ? item.title : ''} ${item && item.snippet ? item.snippet : ''} ${item && item.url ? item.url : ''}`;
   return indonesiaPolicyNewsRe().test(b);
+}
+
+function unitedStatesPolicyNewsRe() {
+  return /ccpa|cpra|calprivacy|california consumer privacy|california privacy protection agency|california privacy rights act|opt[- ]out of sale|(?:california|ccpa|cpra).{0,40}sensitive personal information|data broker|commercial surveillance|\bcoppa\b|open government data act|federal data (?:catalogu?e|strategy)|\bdata\.gov\b|open government data asset|chief data officer|resources\.data\.gov|automated decision-making technology|\badmt\b|\badai\b|consequential decision|sb\s*26-189|sb\s*24-205|colorado.{0,40}(\bai\b|artificial intelligence|anti-discrimination)|federal trade commission.{0,24}(privacy|\bai\b|data)|ftc.{0,24}(privacy|\bai\b|data broker)|algorithmic.{0,16}(discrimination|decision)|23andme/i;
+}
+
+function usFtcOnScopeTextRe() {
+  return /privacy|coppa|data broker|personal information|commercial surveillance|artificial intelligence|\bai\b|biometric|facial recognition|children.?s (online )?privacy|consumer data|health data|genetic|sensitive data|algorithmic/i;
+}
+
+function unitedStatesNewsItemIsOnScope(item) {
+  const title = (item && item.title) || '';
+  const snippet = (item && item.snippet) || '';
+  const url = (item && item.url) || '';
+  const b = `${title} ${snippet} ${url}`;
+  if (unitedStatesPolicyNewsRe().test(b)) return true;
+  if (/ftc\.gov/i.test(url) && usFtcOnScopeTextRe().test(`${title} ${snippet}`)) return true;
+  if (
+    /oag\.ca\.gov/i.test(url) &&
+    /privacy|ccpa|cpra|data broker|consumer data|personal information|23andme/i.test(`${title} ${snippet}`)
+  ) {
+    return true;
+  }
+  return false;
 }
 
 /** Antara tag hubs — topical archives beat category RSS for PDP / Satu Data / AI ethics recall. */
@@ -668,6 +716,294 @@ async function crawlIndonesiaOfficialNews() {
     if (!item || !item.title || !item.url) continue;
     const fromTrustedTag = Boolean(item.snippet && /UU PDP|data pribadi|Satu Data|etika kecerdasan/i.test(item.snippet));
     if (!fromTrustedTag && !indonesiaNewsItemIsOnScope(item)) continue;
+    const key = normalizeNewsUrlKey(item.url);
+    if (!key) continue;
+    const prev = byKey.get(key);
+    if (!prev) byKey.set(key, { ...item });
+    else byKey.set(key, mergeNewsDuplicate(prev, item));
+  }
+  return Array.from(byKey.values());
+}
+
+async function crawlHtmlListing(pageUrl, sourceName, sourceUrl, hrefTest, scopeHint, extraHeaders) {
+  const items = [];
+  try {
+    const { data, status } = await axios.get(pageUrl, {
+      timeout: Math.min(CRAWL_TIMEOUT_MS, 18000),
+      headers: { ...BROWSER_HEADERS, 'Accept-Language': 'en-US,en;q=0.9', ...(extraHeaders || {}) },
+      responseType: 'text',
+      validateStatus: (s) => s >= 200 && s < 500
+    });
+    if (status !== 200 || !data) {
+      console.warn('News crawler (' + sourceName + '): HTTP ' + status);
+      return items;
+    }
+    const $ = cheerio.load(data);
+    const seen = new Set();
+    $('a[href]').each((_, el) => {
+      let href = ($(el).attr('href') || '').trim();
+      if (!href) return;
+      try {
+        href = new URL(href, pageUrl).href;
+      } catch (_) {
+        return;
+      }
+      href = href.split('#')[0];
+      if (!hrefTest(href)) return;
+      const k = normalizeNewsUrlKey(href);
+      if (!k || seen.has(k)) return;
+      const title = String($(el).text() || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (!title || title.length < 12 || title.length > 240) return;
+      if (
+        /^skip to\b|^click here if you are not redirected|^(media center|comment form|contact us|home|privacy policy)$/i.test(
+          title
+        )
+      ) {
+        return;
+      }
+      seen.add(k);
+      items.push({
+        title,
+        url: href,
+        sourceName,
+        sourceUrl,
+        date: null,
+        snippet: scopeHint || sourceName
+      });
+    });
+  } catch (err) {
+    console.warn('News crawler (' + sourceName + '):', err.message || err);
+  }
+  return items;
+}
+
+async function fetchWordpressPosts(apiUrl, sourceName, sourceUrl, extraParams) {
+  const items = [];
+  try {
+    const { data, status } = await axios.get(apiUrl, {
+      timeout: CRAWL_TIMEOUT_MS,
+      headers: { ...BROWSER_HEADERS, Accept: 'application/json' },
+      params: { per_page: 40, _fields: 'date,link,title,excerpt', ...(extraParams || {}) },
+      validateStatus: (s) => s >= 200 && s < 500
+    });
+    if (status !== 200 || !Array.isArray(data)) {
+      console.warn('News crawler (' + sourceName + ' WP): HTTP ' + status);
+      return items;
+    }
+    for (const p of data) {
+      const title = stripTagsAndCollapse(p && p.title && p.title.rendered);
+      const url = String((p && p.link) || '').trim();
+      if (!title || title.length < 12 || !url) continue;
+      let date = null;
+      if (p.date) {
+        const d = new Date(p.date);
+        if (!isNaN(d.getTime())) date = d.toISOString().slice(0, 10);
+      }
+      const snippet = stripTagsAndCollapse(p && p.excerpt && p.excerpt.rendered).slice(0, SNIPPET_MAX_LEN) || null;
+      items.push({ title, url, sourceName, sourceUrl, date, snippet });
+    }
+  } catch (err) {
+    console.warn('News crawler (' + sourceName + ' WP):', err.message || err);
+  }
+  return items;
+}
+
+function usOfficialNewsUrlIsTrusted(url) {
+  const u = String(url || '');
+  return (
+    /cppa\.ca\.gov\/announcements\/\d{4}\//i.test(u) ||
+    /coag\.gov\/ai\b/i.test(u) ||
+    /coag\.gov\/app\/uploads\//i.test(u)
+  );
+}
+
+async function crawlColoradoAgAiHub() {
+  const pageUrl = 'https://coag.gov/ai/';
+  const sourceName = 'Colorado AG';
+  const items = [];
+  try {
+    const { data, status } = await axios.get(pageUrl, {
+      timeout: Math.min(CRAWL_TIMEOUT_MS, 18000),
+      headers: { ...US_OFFICIAL_HEADERS },
+      responseType: 'text',
+      validateStatus: (s) => s >= 200 && s < 500
+    });
+    if (status !== 200 || !data) {
+      console.warn('News crawler (Colorado AG AI hub): HTTP ' + status);
+      return items;
+    }
+    const $ = cheerio.load(data);
+    const h1 = $('h1')
+      .first()
+      .text()
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (h1 && h1.length >= 12) {
+      items.push({
+        title: h1,
+        url: pageUrl,
+        sourceName,
+        sourceUrl: pageUrl,
+        date: null,
+        snippet: 'Colorado ADMT ADAI automated decision-making technology rulemaking SB 26-189'
+      });
+    }
+    const seen = new Set();
+    $('a[href]').each((_, el) => {
+      let href = ($(el).attr('href') || '').trim();
+      if (!href) return;
+      try {
+        href = new URL(href, pageUrl).href;
+      } catch (_) {
+        return;
+      }
+      href = href.split('#')[0];
+      if (!/coag\.gov\/app\/uploads\//i.test(href)) return;
+      if (!/\.(pdf|docx?)($|\?)/i.test(href)) return;
+      const k = normalizeNewsUrlKey(href);
+      if (!k || seen.has(k)) return;
+      let title = String($(el).text() || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (!title || title.length < 8 || title.length > 240) return;
+      if (usNewsTitleLooksLikeNav(title)) return;
+      if (!/admt|adai|automated decision|chatbot|rulemaking|considerations|regulatory analysis/i.test(title)) {
+        title = title + ' (Colorado ADMT / ADAI rulemaking)';
+      }
+      seen.add(k);
+      items.push({
+        title,
+        url: href,
+        sourceName,
+        sourceUrl: pageUrl,
+        date: null,
+        snippet: 'Colorado ADMT ADAI automated decision-making technology rulemaking'
+      });
+    });
+  } catch (err) {
+    console.warn('News crawler (Colorado AG AI hub):', err.message || err);
+  }
+  return items;
+}
+
+function usNewsTitleLooksLikeNav(title) {
+  return /^(media center|comment form|contact us|home|privacy policy|colorado open records act)/i.test(
+    String(title || '').trim()
+  );
+}
+
+async function crawlUnitedStatesOfficialNews() {
+  const cppaHref = (href) => /cppa\.ca\.gov\/announcements\/\d{4}\//i.test(href);
+  const cppaHint = 'CCPA CPRA CalPrivacy California Privacy Protection Agency';
+  const nested = await Promise.all([
+    fetchRss(
+      'https://www.ftc.gov/feeds/press-release.xml',
+      'FTC',
+      'https://www.ftc.gov/news-events/news/press-releases',
+      US_OFFICIAL_RSS_HEADERS
+    ).catch(() => []),
+    crawlHtmlListing(
+      'https://www.ftc.gov/news-events/news/press-releases',
+      'FTC',
+      'https://www.ftc.gov/news-events/news/press-releases',
+      (href) => /ftc\.gov\/news-events\/news\/press-releases\/\d{4}\//i.test(href),
+      'FTC press release',
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://www.ftc.gov/news-events/topics/protecting-consumer-privacy-security',
+      'FTC',
+      'https://www.ftc.gov/news-events/news/press-releases',
+      (href) => /ftc\.gov\/news-events\/news\/press-releases\/\d{4}\//i.test(href),
+      'FTC consumer privacy',
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://cppa.ca.gov/announcements/',
+      'CPPA',
+      'https://cppa.ca.gov/announcements/',
+      cppaHref,
+      cppaHint,
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://cppa.ca.gov/announcements/2026/',
+      'CPPA',
+      'https://cppa.ca.gov/announcements/',
+      cppaHref,
+      cppaHint,
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://cppa.ca.gov/announcements/2025/',
+      'CPPA',
+      'https://cppa.ca.gov/announcements/',
+      cppaHref,
+      cppaHint,
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://cppa.ca.gov/announcements/2024/',
+      'CPPA',
+      'https://cppa.ca.gov/announcements/',
+      cppaHref,
+      cppaHint,
+      US_OFFICIAL_HEADERS
+    ),
+    fetchRss('https://coag.gov/feed/', 'Colorado AG', 'https://coag.gov/media-center/press-room/', US_OFFICIAL_RSS_HEADERS).catch(
+      () => []
+    ),
+    fetchWordpressPosts('https://coag.gov/wp-json/wp/v2/posts', 'Colorado AG', 'https://coag.gov/ai/', {
+      search: 'ADMT ADAI artificial intelligence'
+    }),
+    crawlColoradoAgAiHub(),
+    fetchRss(
+      'https://oag.ca.gov/news/feed',
+      'California OAG',
+      'https://oag.ca.gov/privacy/ccpa',
+      US_OFFICIAL_RSS_HEADERS
+    ).catch(() => []),
+    crawlHtmlListing(
+      'https://www.gsa.gov/about-us/newsroom/news-releases',
+      'GSA',
+      'https://www.gsa.gov/about-us/newsroom/news-releases',
+      (href) => /gsa\.gov\/about-us\/newsroom\/news-releases\//i.test(href),
+      'GSA newsroom',
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://strategy.data.gov/',
+      'Federal Data Strategy',
+      'https://strategy.data.gov/',
+      (href) => /strategy\.data\.gov\/(20\d{2}|overview|action-plan)/i.test(href),
+      'Federal Data Strategy OPEN Government Data Act data.gov',
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://resources.data.gov/',
+      'data.gov',
+      'https://www.data.gov/',
+      (href) =>
+        /resources\.data\.gov\/(categories|guidance|playbooks?|case-stud|standards|tools|resources)\//i.test(href),
+      'OPEN Government Data Act federal data catalogue resources.data.gov',
+      US_OFFICIAL_HEADERS
+    ),
+    crawlHtmlListing(
+      'https://resources.data.gov/categories/case-studies-examples/',
+      'data.gov',
+      'https://www.data.gov/',
+      (href) => /resources\.data\.gov\//i.test(href) && /case-stud|example|guidance|playbook/i.test(href),
+      'OPEN Government Data Act federal data catalogue resources.data.gov',
+      US_OFFICIAL_HEADERS
+    )
+  ]);
+  const byKey = new Map();
+  for (const item of nested.flat()) {
+    if (!item || !item.title || !item.url) continue;
+    if (usNewsTitleLooksLikeNav(item.title)) continue;
+    if (!usOfficialNewsUrlIsTrusted(item.url) && !unitedStatesNewsItemIsOnScope(item)) continue;
     const key = normalizeNewsUrlKey(item.url);
     if (!key) continue;
     const prev = byKey.get(key);
@@ -1826,7 +2162,7 @@ function dedupeNewsItemsConsolidated(items) {
 }
 
 async function crawlNews() {
-  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems, indonesiaItems] =
+  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems, indonesiaItems, usItems] =
     await Promise.all([
       crawlEdpbRss(),
       crawlEdpbHtml(),
@@ -1834,7 +2170,8 @@ async function crawlNews() {
       crawlIco(),
       crawlCommissionPress(),
       crawlCouncilOfEurope(),
-      crawlIndonesiaOfficialNews()
+      crawlIndonesiaOfficialNews(),
+      crawlUnitedStatesOfficialNews()
     ]);
   const combined = [
     ...edpbRssItems,
@@ -1843,7 +2180,8 @@ async function crawlNews() {
     ...icoItems,
     ...commissionItems,
     ...coeItems,
-    ...indonesiaItems
+    ...indonesiaItems,
+    ...usItems
   ];
   const byKey = new Map();
   combined.forEach((item) => {
@@ -1904,6 +2242,9 @@ module.exports = {
   crawlNews,
   indonesiaPolicyNewsRe,
   indonesiaNewsItemIsOnScope,
+  unitedStatesPolicyNewsRe,
+  unitedStatesNewsItemIsOnScope,
+  newsItemMatchesApprovedTopic,
   withTimeout,
   normalizeNewsUrlKey,
   dedupeNewsItemsConsolidated,

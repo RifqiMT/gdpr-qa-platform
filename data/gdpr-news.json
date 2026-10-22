@@ -55,6 +55,41 @@
       "name": "Antara (Tekno)",
       "url": "https://www.antaranews.com/rss/tekno.xml",
       "description": "LKBN Antara — technology and digital policy"
+    },
+    {
+      "name": "FTC",
+      "url": "https://www.ftc.gov/news-events/news/press-releases",
+      "description": "U.S. Federal Trade Commission — press releases (privacy, AI, consumer protection)"
+    },
+    {
+      "name": "CPPA",
+      "url": "https://cppa.ca.gov/announcements/",
+      "description": "California Privacy Protection Agency — announcements"
+    },
+    {
+      "name": "Colorado AG",
+      "url": "https://coag.gov/media-center/press-room/",
+      "description": "Colorado Attorney General — press releases (ADMT / consumer protection)"
+    },
+    {
+      "name": "California OAG",
+      "url": "https://oag.ca.gov/privacy/ccpa",
+      "description": "California Department of Justice — Attorney General CCPA / consumer-privacy news"
+    },
+    {
+      "name": "data.gov",
+      "url": "https://www.data.gov/",
+      "description": "Federal data catalogue (OPEN Government Data Act / 44 U.S.C. § 3511)"
+    },
+    {
+      "name": "GSA",
+      "url": "https://www.gsa.gov/about-us/newsroom/news-releases",
+      "description": "U.S. General Services Administration newsroom (data.gov / open government data)"
+    },
+    {
+      "name": "Federal Data Strategy",
+      "url": "https://strategy.data.gov/",
+      "description": "Federal Data Strategy — OPEN Government Data Act implementation"
     }
   ],
   "items": [
@@ -291,6 +326,16 @@
         "AGRI",
         "NEAR"
       ],
+      "topic": "Other GDPR & data protection topics",
+      "topicCategory": "General"
+    },
+    {
+      "title": "Attorney General Bonta Secures $6 Million Settlement in 23andMe Litigation",
+      "url": "https://oag.ca.gov/news/press-releases/attorney-general-bonta-secures-6-million-settlement-23andme-litigation",
+      "sourceName": "California OAG",
+      "sourceUrl": "https://oag.ca.gov/privacy/ccpa",
+      "date": "2026-10-19",
+      "snippet": "October 19, 2026 Contact: (916) 210-6000, agpressoffice@doj.ca.gov Consumers maintain right to ask company to delete their data OAKLAND — California Attorney General Rob Bonta today secured a $6 million settlement with Chrome Holding Co., formerly known as 23andMe. The settlement, which was filed in the U.S. Bankruptcy Court in the Eastern District of Missouri and is pending court approval, resolves allegations that the company failed to protect its customers’ personal inform",
       "topic": "Other GDPR & data protection topics",
       "topicCategory": "General"
     },
@@ -3044,6 +3089,16 @@
         "AGRI",
         "NEAR"
       ],
+      "topic": "Other GDPR & data protection topics",
+      "topicCategory": "General"
+    },
+    {
+      "title": "FTC Returns More than $15.8 Million to Consumers Misled by  Cash Advance App Company Cleo AI",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-returns-more-158-million-consumers-misled-cash-advance-app-company-cleo-ai",
+      "sourceName": "FTC",
+      "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases",
+      "date": "2026-10-08",
+      "snippet": "Agency charged that the company deceptively marketed cash advance services and obstructed cancellations The Federal Trade Commission is sending more than $15.8 million to consumers impacted by cash advance app company Cleo AI’s deceptive claims about the amounts and timing of available cash advances and the company’s hard-to-cancel subscriptions. View Press Release",
       "topic": "Other GDPR & data protection topics",
       "topicCategory": "General"
     },
@@ -22079,6 +22134,1216 @@
       "snippet": null,
       "topic": "Guidelines and regulatory publications",
       "topicCategory": "Policy and Litigation"
+    },
+    {
+      "title": "FTC Order Preserves Competition in Digital Advertising Ecosystem as Part of Publicis’s Acquisition of LiveRamp",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-order-preserves-competition-digital-advertising-ecosystem-part-publiciss-acquisition-liveramp",
+      "sourceName": "FTC",
+      "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases",
+      "date": null,
+      "snippet": "FTC consumer privacy",
+      "topic": "Ad tech and online advertising",
+      "topicCategory": "Sector-Specific Areas"
+    },
+    {
+      "title": "Assembly Speaker’s Office Appoints Nicole Ozer to the CPPA Board",
+      "url": "https://cppa.ca.gov/announcements/2026/20260112.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CalPrivacy Brings New Round of Enforcement Actions Against Data Brokers",
+      "url": "https://cppa.ca.gov/announcements/2026/20260108.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CalPrivacy Issues Enforcement Advisory Highlighting Data Broker Registration",
+      "url": "https://cppa.ca.gov/announcements/2025/20251217.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CalPrivacy Fines Marketing Firm for Selling Custom Audiences Without Data Broker Registration",
+      "url": "https://cppa.ca.gov/announcements/2025/20251203.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CalPrivacy Opposes New Federal Efforts to Block State Protections",
+      "url": "https://cppa.ca.gov/announcements/2025/20251120.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CalPrivacy Launches Data Broker Enforcement Strike Force",
+      "url": "https://cppa.ca.gov/announcements/2025/20251119.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Approves Delete Act Regulations",
+      "url": "https://cppa.ca.gov/announcements/2025/20251113.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CalPrivacy Launches Privacy Tips to Help Californians Protect Their Personal Data",
+      "url": "https://cppa.ca.gov/announcements/2025/20251105.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Governor Signs Groundbreaking Privacy Bill Making It Easier for Californians to Protect Their Personal Data",
+      "url": "https://cppa.ca.gov/announcements/2025/20251008_2.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Minnesota and New Hampshire Join Bipartisan Consortium as Privacy Collaboration Continues Growing Nationwide",
+      "url": "https://cppa.ca.gov/announcements/2025/20251008.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Nation's Largest Rural Lifestyle Retailer to Pay $1.35M Over CCPA Violations",
+      "url": "https://cppa.ca.gov/announcements/2025/20250930.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Finalizes Regulations to Strengthen Consumers' Privacy",
+      "url": "https://cppa.ca.gov/announcements/2025/20250923.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Governor Newsom Has Appointed Jill Hamer to the California Privacy Protection Agency Board",
+      "url": "https://cppa.ca.gov/announcements/2025/20250915.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Legislature Advances Bill Empowering Consumers to Easily Exercise Privacy Rights at Scale",
+      "url": "https://cppa.ca.gov/announcements/2025/20250911.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Announces Joint Investigative Privacy Sweep",
+      "url": "https://cppa.ca.gov/announcements/2025/20250909.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Fortune 500 Company Faces Subpoena Enforcement Action",
+      "url": "https://cppa.ca.gov/announcements/2025/20250806.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Washington Data Broker Agrees to Pay Fine for Failing to Register",
+      "url": "https://cppa.ca.gov/announcements/2025/20250729.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Opposes Enforcement Moratorium in House Energy & Commerce Budget Reconciliation Bill",
+      "url": "https://cppa.ca.gov/announcements/2025/20250513.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Opens Public Comment Period for Regulation Package Modifications",
+      "url": "https://cppa.ca.gov/announcements/2025/20250509.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Orders Florida Data Broker to Pay Fine",
+      "url": "https://cppa.ca.gov/announcements/2025/20250508.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Orders Clothing Retailer Todd Snyder to Pay Six–Figure Fine, Overhaul Privacy Practices",
+      "url": "https://cppa.ca.gov/announcements/2025/20250506.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Board Votes to Support Four California Bills",
+      "url": "https://cppa.ca.gov/announcements/2025/20250502.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "The CPPA and UK ICO Sign Declaration of Cooperation to Enhance Privacy Protections",
+      "url": "https://cppa.ca.gov/announcements/2025/20250429.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Opens Public Comment Period for Proposed DROP Regulations",
+      "url": "https://cppa.ca.gov/announcements/2025/20250425.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "State Regulators Form Bipartisan Consortium to Collaborate on Privacy Issues",
+      "url": "https://cppa.ca.gov/announcements/2025/20250416.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Names Tom Kemp as Executive Director",
+      "url": "https://cppa.ca.gov/announcements/2025/20250314.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Honda Settles with CPPA Over Privacy Violations",
+      "url": "https://cppa.ca.gov/announcements/2025/20250312.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Data Broker Promoting Ability to Dig Up “Scary” Amounts of Information Agrees to Shut Down",
+      "url": "https://cppa.ca.gov/announcements/2025/20250227.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Brings Enforcement Action Against Florida Data Broker",
+      "url": "https://cppa.ca.gov/announcements/2025/20250220.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Sponsors Crucial Personal Information Protection Bill",
+      "url": "https://cppa.ca.gov/announcements/2025/20250213.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Speaker Robert Rivas Has Appointed Brandie Nonnecke, PhD to the California Privacy Protection Agency Board",
+      "url": "https://cppa.ca.gov/announcements/2025/20250203.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA's Enforcement Division Inks Settlement with Fifth Data Broker",
+      "url": "https://cppa.ca.gov/announcements/2025/20250129.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Formal Public Comment Period for Draft Regulations Extended to February 19, 2025",
+      "url": "https://cppa.ca.gov/announcements/2025/20250116.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "The PIPC and CPPA Come Together to Advance Privacy and Data Protection: Declaration of Cooperation Signed",
+      "url": "https://cppa.ca.gov/announcements/2025/20250113.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Additional Data Brokers Settle With CPPA",
+      "url": "https://cppa.ca.gov/announcements/2024/20241223.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Announces 2025 Increases for CCPA Fines and Penalties",
+      "url": "https://cppa.ca.gov/announcements/2024/20241217.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Formal Public Comment Period for Draft ADMT Regulations Opens",
+      "url": "https://cppa.ca.gov/announcements/2024/20241122.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Settles With First Set of Data Brokers",
+      "url": "https://cppa.ca.gov/announcements/2024/20241114.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Adopts New Regulations for Data Brokers and Advances ADMT Rulemaking Package",
+      "url": "https://cppa.ca.gov/announcements/2024/20241108_2.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Executive Director To Depart in Early 2025",
+      "url": "https://cppa.ca.gov/announcements/2024/20241108.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA's Enforcement Division to Review Data Broker Compliance with the Delete Act",
+      "url": "https://cppa.ca.gov/announcements/2024/20241030.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Enforcement Advisory Stresses the Importance of Avoiding Dark Patterns",
+      "url": "https://cppa.ca.gov/announcements/2024/20240904.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Legislature Advances Bill to Make it Easier to Exercise Privacy Rights",
+      "url": "https://cppa.ca.gov/announcements/2024/20240829.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Releases Notice of Proposed Regulatory Action for Data Broker Registration",
+      "url": "https://cppa.ca.gov/announcements/2024/20240705.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "The California Privacy Protection Agency Opposes the American Privacy Rights Act",
+      "url": "https://cppa.ca.gov/announcements/2024/20240626.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Announces Cooperation with French Data Protection Authority",
+      "url": "https://cppa.ca.gov/announcements/2024/20240625.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA to Hold Virtual Preliminary Stakeholder Session Regarding Data Broker Accessible Deletion Mechanism",
+      "url": "https://cppa.ca.gov/announcements/2024/20240531.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA to Hold Three Statewide Pre–Rulemaking Stakeholder Sessions",
+      "url": "https://cppa.ca.gov/announcements/2024/20240424.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "The Senate Rules Committee Has Appointed Drew Liebert, J.D. to the California Privacy Protection Agency Board",
+      "url": "https://cppa.ca.gov/announcements/2024/20240422.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Releases Letter Outlining Weaknesses in the American Privacy Rights Act Discussion Draft",
+      "url": "https://cppa.ca.gov/announcements/2024/20240416.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Enforcement Division Issues First Advisory",
+      "url": "https://cppa.ca.gov/announcements/2024/20240402.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Joins Federal and State Agencies in Effort to Strengthen Tech Capacity in Government",
+      "url": "https://cppa.ca.gov/announcements/2024/20240326.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Applauds Introduction of Bill to Expand Access to Opt–Out Preference Signals",
+      "url": "https://cppa.ca.gov/announcements/2024/20240226.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Wins Court of Appeal Decision Against the California Chamber of Commerce",
+      "url": "https://cppa.ca.gov/announcements/2024/20240209.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Launches privacy.ca.gov, a Website Dedicated to Privacy Information",
+      "url": "https://cppa.ca.gov/announcements/2024/20240118.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Board Approves Legislative Proposal to Require Browsers to Offer Opt–out Preference Signals",
+      "url": "https://cppa.ca.gov/announcements/2023/20231211.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "A New Landmark for Consumer Control Over Their Personal Information: CPPA Proposes Regulatory Framework for Automated Decisionmaking Technology",
+      "url": "https://cppa.ca.gov/announcements/2023/20231127.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Applauds Governor Newsom for Approving the California Delete Act",
+      "url": "https://cppa.ca.gov/announcements/2023/20231011.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Board Selects Dr. Jennifer King to Join California Children's Data Protection Working Group",
+      "url": "https://cppa.ca.gov/announcements/2023/20230912.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Recognized By Dubai International Financial Centre Due to Data Protection Law and Regulations",
+      "url": "https://cppa.ca.gov/announcements/2023/20230809.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Seeks to Overturn Superior Court Decision Delaying Enforcement of Consumer Privacy Regulations",
+      "url": "https://cppa.ca.gov/announcements/2023/20230804.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Governor Gavin Newsom Has Appointed Jeffrey Worthe to the California Privacy Protection Agency Board",
+      "url": "https://cppa.ca.gov/announcements/2023/20230802.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA to Review Privacy Practices of Connected Vehicles and Related Technologies",
+      "url": "https://cppa.ca.gov/announcements/2023/20230731.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Board Votes Unanimously to Support Four California Privacy Bills",
+      "url": "https://cppa.ca.gov/announcements/2023/20230719.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Admitted into Asia Pacific Privacy Authorities (APPA)",
+      "url": "https://cppa.ca.gov/announcements/2023/20230512.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California's Office of Administrative Law Approves CCPA Regulations",
+      "url": "https://cppa.ca.gov/announcements/2023/20230330.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Attorney General Bonta, Governor Newsom and CPPA File Letter Opposing Federal Privacy Preemption",
+      "url": "https://cppa.ca.gov/announcements/2023/20230228.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Files Proposed Regulations with the Office of Administrative Law (OAL)",
+      "url": "https://cppa.ca.gov/announcements/2023/20230214.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Issues Invitation for Preliminary Comments on Cybersecurity Audits, Risk Assessments, and Automated Decision making",
+      "url": "https://cppa.ca.gov/announcements/2023/20230210.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Board Unanimously Votes to Advance Regulations",
+      "url": "https://cppa.ca.gov/announcements/2023/20230203.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Chris Thompson Departs the California Privacy Protection Agency Board",
+      "url": "https://cppa.ca.gov/announcements/2022/20221220.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Admitted into Global Privacy Assembly",
+      "url": "https://cppa.ca.gov/announcements/2022/20221027.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Attorney General Bonta Has Appointed Alastair Mactaggart to the California Privacy Protection Agency Board",
+      "url": "https://cppa.ca.gov/announcements/2022/20221011.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Applauds Speaker Pelosi for her Statement on Federal Privacy Legislation",
+      "url": "https://cppa.ca.gov/announcements/2022/20220901.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Releases Letter Opposing H.R. 8152, the American Data Privacy and Protection Act",
+      "url": "https://cppa.ca.gov/announcements/2022/20220815.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "California Privacy Protection Agency Board Votes to Oppose H.R. 8152, the American Data Privacy Protection Act",
+      "url": "https://cppa.ca.gov/announcements/2022/20220728.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA will be holding a Special Meeting on Jul 28",
+      "url": "https://cppa.ca.gov/announcements/2022/20220726.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "CPPA Releases Notice of Proposed Regulatory Action Implementing New Consumer Privacy Law",
+      "url": "https://cppa.ca.gov/announcements/2022/20220708.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Rulemaking Authority Transferred to the California Privacy Protection Agency",
+      "url": "https://cppa.ca.gov/announcements/2022/20220525.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Ashkan Soltani Selected as California Privacy Protection Agency Executive Director",
+      "url": "https://cppa.ca.gov/announcements/2021/20211004.html",
+      "sourceName": "CPPA",
+      "sourceUrl": "https://cppa.ca.gov/announcements/",
+      "date": null,
+      "snippet": "CCPA CPRA CalPrivacy California Privacy Protection Agency",
+      "topic": "CCPA / CPRA and CPPA",
+      "topicCategory": "United States CCPA"
+    },
+    {
+      "title": "Colorado Automated Decision-Making Technology & Chatbot Safety Rulemaking",
+      "url": "https://coag.gov/ai/",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking SB 26-189",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "considerations paper (PDF)",
+      "url": "https://coag.gov/app/uploads/2026/06/ADMT-Chatbot-Pre-Rulemaking-Considerations-Document.pdf",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "Automated Decision-Making Technology & Conversational Artificial Intelligence Service rules (docx)",
+      "url": "https://coag.gov/app/uploads/2026/08/2026.08.11-ADMT-Chatbot-Act-Rulemaking.docx",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "Read the notice of rulemaking hearing (docx),",
+      "url": "https://coag.gov/app/uploads/2026/08/2026.08.11-Notice-of-Hearing.docx",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "the statement of basis, authority, and purpose (docx). (Colorado ADMT / ADAI rulemaking)",
+      "url": "https://coag.gov/app/uploads/2026/08/2026.08.11-Statement-of-Basis-and-Purpose-ADMT-Chatbot-Safety-Act-Rules.docx",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "interim draft of the rules (PDF) (Colorado ADMT / ADAI rulemaking)",
+      "url": "https://coag.gov/app/uploads/2026/10/2026.10.06-ADMT-Chatbot-Act-Rulemaking-Interim-Draft-Redline.pdf",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "cover page with additional considerations (docx).",
+      "url": "https://coag.gov/app/uploads/2026/10/2026.09.28-Interim-Rules-Cover-Letter_updated-v2.docx",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "Regulatory Analysis (PDF)",
+      "url": "https://coag.gov/app/uploads/2026/10/2026.10.21-Final-Regulatory-Analysis.pdf",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "Colorado ADMT ADAI automated decision-making technology rulemaking",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "2021 Action Plan",
+      "url": "https://strategy.data.gov/2021/action-plan/",
+      "sourceName": "Federal Data Strategy",
+      "sourceUrl": "https://strategy.data.gov/",
+      "date": null,
+      "snippet": "Federal Data Strategy OPEN Government Data Act data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "2020 Action Plan",
+      "url": "https://strategy.data.gov/2020/action-plan/",
+      "sourceName": "Federal Data Strategy",
+      "sourceUrl": "https://strategy.data.gov/",
+      "date": null,
+      "snippet": "Federal Data Strategy OPEN Government Data Act data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "2021 Action Progress",
+      "url": "https://strategy.data.gov/2021/progress/",
+      "sourceName": "Federal Data Strategy",
+      "sourceUrl": "https://strategy.data.gov/",
+      "date": null,
+      "snippet": "Federal Data Strategy OPEN Government Data Act data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "2020 Action Progress",
+      "url": "https://strategy.data.gov/2020/progress/",
+      "sourceName": "Federal Data Strategy",
+      "sourceUrl": "https://strategy.data.gov/",
+      "date": null,
+      "snippet": "Federal Data Strategy OPEN Government Data Act data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "About the Strategy",
+      "url": "https://strategy.data.gov/overview/",
+      "sourceName": "Federal Data Strategy",
+      "sourceUrl": "https://strategy.data.gov/",
+      "date": null,
+      "snippet": "Federal Data Strategy OPEN Government Data Act data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "2020 Plan Archive",
+      "url": "https://strategy.data.gov/action-plan/",
+      "sourceName": "Federal Data Strategy",
+      "sourceUrl": "https://strategy.data.gov/",
+      "date": null,
+      "snippet": "Federal Data Strategy OPEN Government Data Act data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Data management & governance",
+      "url": "https://resources.data.gov/categories/data-management-governance",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Publishing and harvesting help",
+      "url": "https://resources.data.gov/categories/publishing-and-harvesting-help",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Harvester Help",
+      "url": "https://resources.data.gov/resources/harvester-what-is-harvesting/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "DCAT-US 3.0 Overview",
+      "url": "https://resources.data.gov/resources/dcat-us3/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "DCAT-US Priorities",
+      "url": "https://resources.data.gov/resources/dcat-us-priorities/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Catalog",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/catalog/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Dataset",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/dataset/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Distribution",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/distribution/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Agents",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/agents/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Constraints and Restrictions",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/constraints-and-restrictions/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Dataset Series",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/dataset-series/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Identifiers and Relationships",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/identifiers-and-relationships/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Quality and Governance",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/quality-governance/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Schema DCAT-US 3.0 Temporal, Spatial, and Metrics",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us-3/temporal-spatial-metrics/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "DCAT-US v1.1",
+      "url": "https://resources.data.gov/standards/catalog/dcat-us/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "DCAT-US 3 Tools, Schedule, and Maintenance Plan",
+      "url": "https://resources.data.gov/resources/dcat-us-3-updates/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Migrating from DCAT-US v1.1 to v3.0",
+      "url": "https://resources.data.gov/resources/dcat-us-3-migration/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Implementation Guide",
+      "url": "https://resources.data.gov/resources/dcat-us-3-implementation/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "M-25-05 Crosswalk",
+      "url": "https://resources.data.gov/resources/dcat-us-3-crosswalk/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "General Information",
+      "url": "https://resources.data.gov/resources/documenting-apis/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Browse Data incubator >",
+      "url": "https://resources.data.gov/categories/data-incubator/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Browse Data standards >",
+      "url": "https://resources.data.gov/categories/data-standards/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Browse Data tools >",
+      "url": "https://resources.data.gov/categories/data-tools/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Browse Guidance >",
+      "url": "https://resources.data.gov/categories/guidance/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Federal CDO Data Skills Training Program Case Studies",
+      "url": "https://resources.data.gov/resources/cdoc-case-study/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
+    },
+    {
+      "title": "Return to top",
+      "url": "https://resources.data.gov/categories/case-studies-examples/",
+      "sourceName": "data.gov",
+      "sourceUrl": "https://www.data.gov/",
+      "date": null,
+      "snippet": "OPEN Government Data Act federal data catalogue resources.data.gov",
+      "topic": "OPEN Government Data Act and data.gov",
+      "topicCategory": "United States OPEN Data"
     },
     {
       "title": "KSAD minta prajurit hukum beradaptasi dengan AI dan KUHP Baru",

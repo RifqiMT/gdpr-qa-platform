@@ -1,7 +1,7 @@
 {
   "name": "gdpr-qa-platform",
-  "version": "1.2.8",
-  "description": "Regulation Q&A Platform — EU GDPR, AI Act, Data Act and Indonesian UU PDP, Satu Data Indonesia, AI ethics; Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
+  "version": "1.2.9",
+  "description": "Regulation Q&A Platform — EU, Indonesian, and US analogues (CCPA/CPRA, Colorado ADMT, OPEN Government Data Act); Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
   "main": "server.js",
   "scripts": {
     "prestart": "node -e \"const fs=require('fs'),p=require('path');const a=p.join('data','article-suitable-recitals.json'),b=p.join('public','article-suitable-recitals.json');try{if(fs.existsSync(a))fs.copyFileSync(a,b);}catch(e){}\"",
@@ -13,6 +13,9 @@
     "refresh-id-pdp": "node id-law-scraper.js id-pdp",
     "refresh-id-satu-data": "node id-law-scraper.js id-satu-data",
     "refresh-id-ai-ethics": "node id-law-scraper.js id-ai-ethics",
+    "refresh-us-ccpa": "node us-law-scraper.js us-ccpa",
+    "refresh-us-admt": "node us-law-scraper.js us-admt",
+    "refresh-us-open-data": "node us-law-scraper.js us-open-data",
     "fetch-suitable-recitals": "node scripts/fetch-article-suitable-recitals.js",
     "test": "node --test test/*.test.js"
   },

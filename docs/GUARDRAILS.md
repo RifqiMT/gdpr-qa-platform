@@ -1,7 +1,7 @@
 # Guardrails  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**  
+**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22** · Nine instruments (EU + Indonesia + United States)  
 **Audience:** Product, engineering, legal/compliance stakeholders
 
 These guardrails define **hard limitations** for business positioning and technical implementation. Violating them creates legal, trust, or reliability risk.
@@ -15,12 +15,19 @@ These guardrails define **hard limitations** for business positioning and techni
 | **BG-01** | Product is **reference only** — never market as legal advice or compliance certification. | Liability; user trust |
 | **BG-02** | Always enable verification via official publisher links. | Traceability |
 | **BG-03** | Do not invent sector-specific statutes in Ask when sector framing is on. | Hallucination risk |
-| **BG-04** | Do not claim legal equivalence between EU and Indonesian instruments (analogues are marketing-only). | Jurisdictional accuracy |
+| **BG-04** | Do not claim legal equivalence between EU, Indonesian, and U.S. instruments (analogues are mapping-only). | Jurisdictional accuracy |
 | **BG-05** | **`id-ai-ethics` is soft law** — UI and Ask must not present SE Menkominfo 9/2023 as a binding Act. | Legal force honesty |
 | **BG-06** | News is awareness, not an exhaustive press monitor. | Scope honesty |
 | **BG-07** | National EU DPAs other than **ICO (UK)** are excluded from News/Sources by policy. | Curated credibility |
 | **BG-08** | BYOK keys remain in the browser; never write them to server `.env` or git. | Secret safety |
 | **BG-09** | Indonesian Komdigi HTML crawl is **best-effort** (WAF possible) — do not promise complete Indo news. | Ops honesty |
+| **BG-10** | **No invented U.S. federal GDPR / AI Act / Data Act.** Use CCPA/CPRA (California), Colorado SB 26-189, and the OPEN Government Data Act (Pub. L. 115-435 Title II). Never present the 2014 DATA Act (Digital Accountability and Transparency Act) as the EU Data Act analogue. Ask prompts, profile copy, and docs must state California / Colorado / public-sector-open-data scope. | Legal mapping honesty |
+| **BG-20** | U.S. instruments are **state or sector analogues**, not nationwide privacy or AI law; do not generalize CCPA to other states or ADMT (effective 1 Jan 2027) to other jurisdictions. | Jurisdictional accuracy |
+| **BG-21** | U.S. news is **awareness only** from FTC, CPPA/CalPrivacy, California OAG, Colorado AG, and data.gov / GSA / FDS; FTC press items outside privacy/AI/data topics are filtered out. | Scope honesty |
+
+---
+
+> **Numbering note:** BG-01 … BG-10 and BG-20 … BG-21 are canonical here. [BUSINESS_GUIDELINES.md §9](BUSINESS_GUIDELINES.md#9-business-guideline-index-bg) extends the scheme with BG-14 … BG-19 (multi-jurisdiction scope, soft-law labelling, best-effort Indonesian news, jurisdiction isolation, single provider chain, no authentication); BG-15 restates **BG-05**, and BG-17 restates **TG-F05 / TG-US-01**.
 
 ---
 
@@ -33,6 +40,7 @@ These guardrails define **hard limitations** for business positioning and techni
 | **TG-LLM-03** | Client `apiKeys` override env for that request only; never persist to disk. | BYOK safety |
 | **TG-LLM-04** | Soft-law system framing required for `id-ai-ethics`. | BG-05 |
 | **TG-LLM-05** | SPA must call **`POST /api/answer` only** for Ask (no `/api/ask`). | Dead API hygiene |
+| **TG-LLM-06** | Jurisdiction framing required for `us-ccpa`, `us-admt`, and `us-open-data` (not federal GDPR / AI Act / 2014 DATA Act). | BG-10 |
 
 ---
 
@@ -41,11 +49,13 @@ These guardrails define **hard limitations** for business positioning and techni
 | ID | Guardrail | Rationale |
 |----|-----------|-----------|
 | **TG-E01** | Every corpus write runs `normalizeCorpus` + `validateCorpusFormatting`. | Reader integrity |
-| **TG-E02** | Refresh updates **one** selected regulation; cron updates **all six**. | Predictable ops |
-| **TG-E03** | Min article/recital counts enforced per instrument env (`MIN_*`). | Incomplete scrape protection |
-| **TG-E04** | Vercel `SEED_FILES` must include EU + ID corpora (20 files). | Cold start |
+| **TG-E02** | Refresh updates **one** selected regulation; cron updates **all nine**. | Predictable ops |
+| **TG-E03** | Min article/recital counts enforced per instrument env (`MIN_*`, including `MIN_US_CCPA_*`, `MIN_US_ADMT_*`, `MIN_US_OPEN_DATA_*`). | Incomplete scrape protection |
+| **TG-E04** | Vercel `SEED_FILES` must include EU + ID + US corpora (29 files). | Cold start |
 | **TG-E05** | Do not bypass guardrails for “quick” writes. | TG-E01 |
 | **TG-E06** | Indonesian ETL via `id-law-scraper.js` only for `id-*` ids. | Clear ownership |
+| **TG-E07** | United States ETL via `us-law-scraper.js` only for `us-*` ids; it must run `normalizeCorpus` before every write and must not overwrite the bundled corpus when the floor is not met. | Clear ownership; reader integrity |
+| **TG-E08** | `vercel.json` `includeFiles` must list every scraper required at runtime (`ai-act`, `data-act`, `id-law`, `us-law`) for both `api/index.js` and the cron function. | Serverless refresh works |
 
 ---
 
@@ -68,8 +78,8 @@ These guardrails define **hard limitations** for business positioning and techni
 | **TG-F02** | Clear/hide GDPR topic filters when `hasArticleTopics` is false. | False-empty bug |
 | **TG-F03** | Citation sidebar sync on every regulation change. | No GDPR-Info bleed |
 | **TG-F04** | Chapter summary fallback must not inject GDPR blurbs into other instruments. | Content correctness |
-| **TG-F05** | Meta sources fallback: content → structure → **empty** (never GDPR defaults for non-GDPR). | BG / Sources integrity |
-| **TG-F10** | GDPR category/sub-category must not bleed onto AI Act, Data Act, or ID instruments. | Filter reliability |
+| **TG-F05** | Meta sources fallback: content → structure → **empty** (never GDPR defaults for non-GDPR, **including every `us-*` id**). | BG / Sources integrity |
+| **TG-F10** | GDPR category/sub-category must not bleed onto AI Act, Data Act, ID, or US instruments. | Filter reliability |
 | **TG-F11** | PDF export must follow active **Page \| Full** mode (do not always export a single provision). | Export correctness |
 | **TG-F12** | Browse opens must use real provision hashes and must not race `hashchange` back to `#/browse` home. | Navigation reliability |
 | **TG-F13** | Switching regulation while a document is open must clear the prior instrument’s reader/Full cache. | Content correctness |
@@ -125,12 +135,27 @@ These guardrails define **hard limitations** for business positioning and techni
 
 ---
 
+## 6e. United States instrument guardrails
+
+| ID | Guardrail |
+|----|-----------|
+| **TG-US-01** | **No GDPR fallback for `us-*`:** `GET /api/meta`, chapter summaries, Ask sources, and citation sidebars must never fall back to GDPR-Info / EUR-Lex / EDPB for `us-ccpa`, `us-admt`, or `us-open-data` (`US_REGULATION_IDS`; BG-10). |
+| **TG-US-02** | `us-open-data` is Title II of Pub. L. 115-435; its registry `fullName` must not reference the Digital Accountability and Transparency Act (2014 DATA Act). |
+| **TG-US-03** | Ask retrieval for `us-*` uses CCPA / ADMT / OPEN Data layperson and sector expansions (`laypersonSearchExpansion`), never GDPR "controller / processor" wording. |
+| **TG-US-04** | US provision labels are **Section / Purpose note** (`CCPA § N`, `ADMT § N`, `OPEN Data § N`); *Article* / *Recital* wording must not appear on US surfaces. |
+| **TG-US-05** | US news fetches FTC with a compatible (non-Chrome) user agent and use live default URLs; do not reintroduce `data.gov/meta/` (404). USA News must not show ICO / EDPB items. |
+| **TG-US-06** | `us-parity` tests in `test/us-parity.test.js` must stay green (registry, corpora/sources without EU bleed, news helpers, persisted US headlines, Ask retrieval, UI blurbs). |
+| **TG-US-07** | Theme accents stay distinct: `us-ccpa` `#1d4ed8`, `us-open-data` `#0f766e`, `us-admt` `#6d28d9`. |
+
+---
+
 ## 7. Out-of-scope reminders (do not commit roadmap as promise)
 
 - Multi-tenant SaaS, SSO, audit trails  
 - Analytics SDK (until explicitly approved)  
 - Automated DPIA / conformity assessment  
 - Restoring `/api/summarize` multi-provider stack as core UX  
+- Additional U.S. state privacy/AI statutes beyond the three bundled instruments  
 
 ---
 
@@ -140,7 +165,8 @@ These guardrails define **hard limitations** for business positioning and techni
 |----|-----------|
 | **TG-DOC-01** | Code wins over stale docs; fix docs in the same change set when possible. |
 | **TG-DOC-02** | Never document removed 1.2.6 endpoints as live. |
-| **TG-DOC-03** | Documentation standard version and product version must stay aligned on major audits. |
+| **TG-DOC-03** | Documentation standard version and product version must stay aligned on major audits (current: standard **v2.9**, product **1.2.9**, audit **2026-10-22**). |
+| **TG-DOC-04** | Counts quoted in docs (nine instruments, `SEED_FILES` = 29, `npm test` = 40 pass / 17 suites) must be re-verified at each audit. |
 
 ---
 

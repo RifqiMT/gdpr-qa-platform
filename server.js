@@ -125,6 +125,41 @@ const DEFAULT_NEWS_FEEDS = [
     name: 'Antara (Tekno)',
     url: 'https://www.antaranews.com/rss/tekno.xml',
     description: 'LKBN Antara — technology and digital policy'
+  },
+  {
+    name: 'FTC',
+    url: 'https://www.ftc.gov/news-events/news/press-releases',
+    description: 'U.S. Federal Trade Commission — press releases (privacy, AI, consumer protection)'
+  },
+  {
+    name: 'CPPA',
+    url: 'https://cppa.ca.gov/announcements/',
+    description: 'California Privacy Protection Agency — announcements'
+  },
+  {
+    name: 'Colorado AG',
+    url: 'https://coag.gov/media-center/press-room/',
+    description: 'Colorado Attorney General — press releases (ADMT / consumer protection)'
+  },
+  {
+    name: 'California OAG',
+    url: 'https://oag.ca.gov/privacy/ccpa',
+    description: 'California Department of Justice — Attorney General CCPA / consumer-privacy news'
+  },
+  {
+    name: 'data.gov',
+    url: 'https://www.data.gov/',
+    description: 'Federal data catalogue (OPEN Government Data Act / 44 U.S.C. § 3511)'
+  },
+  {
+    name: 'GSA',
+    url: 'https://www.gsa.gov/about-us/newsroom/news-releases',
+    description: 'U.S. General Services Administration newsroom (data.gov / open government data)'
+  },
+  {
+    name: 'Federal Data Strategy',
+    url: 'https://strategy.data.gov/',
+    description: 'Federal Data Strategy — OPEN Government Data Act implementation'
   }
 ];
 
@@ -150,7 +185,7 @@ const {
   listRegulations,
   getRegulationPaths
 } = require('./lib/regulation-content');
-const { getRegulation, ID_REGULATION_IDS } = require('./lib/regulations');
+const { getRegulation, ID_REGULATION_IDS, US_REGULATION_IDS } = require('./lib/regulations');
 
 const app = express();
 const PORT = process.env.PORT || 3847;
@@ -260,7 +295,7 @@ function readChapterSummariesPayload(regulationId = 'gdpr') {
   };
 }
 
-/** Credible sources for a regulation: content meta → structure meta → GDPR-only hard fallback (never for id-*). */
+/** Credible sources for a regulation: content meta → structure meta → GDPR-only hard fallback (never for id-* / us-* / AI Act / Data Act). */
 function resolveCredibleSourcesForRegulation(regId, data) {
   const id = String(regId || 'gdpr');
   if (Array.isArray(data?.meta?.sources) && data.meta.sources.length) {
@@ -277,7 +312,7 @@ function resolveCredibleSourcesForRegulation(regId, data) {
   } catch (e) {
     console.warn('structure sources unreadable for', id, e && e.message ? e.message : e);
   }
-  if (ID_REGULATION_IDS.has(id) || id === 'ai-act' || id === 'data-act') {
+  if (ID_REGULATION_IDS.has(id) || US_REGULATION_IDS.has(id) || id === 'ai-act' || id === 'data-act') {
     return [];
   }
   return (
@@ -1122,13 +1157,12 @@ function buildLocalContext(data, query, sector, regulationId) {
     }
   }
   if ((!sector || sector.id === 'GENERAL') && querySeemsLaypersonExplain(query)) {
-    searchQuery =
-      `${query} personal data definition principles lawfulness fairness transparency rights data subject controller processing`.trim();
+    searchQuery = `${query} ${laypersonSearchExpansion(regulationId)}`.trim();
   }
   let top = search(searchQuery, 40);
   top = filterScoredResultsForAskQuery(top, query, regulationId);
   if (sector && sector.id !== 'GENERAL' && String(sector.searchTerms || '').trim()) {
-    const sectorQ = `${sector.searchTerms} controller processor personal data security breach processing activities lawfulness transparency`.trim();
+    const sectorQ = sectorBlendSearchQuery(regulationId, sector.searchTerms);
     const extra = search(sectorQ, 22);
     const seen = new Set(top.map((r) => `${r.type}-${r.number}`));
     for (const r of extra) {
@@ -1189,7 +1223,7 @@ function buildLocalContext(data, query, sector, regulationId) {
       kind: 'regulation',
       type: r.type,
       number: r.number,
-      title: title || (r.type === 'recital' ? `Recital (${r.number})` : `Article ${r.number}`),
+      title: title || defaultProvisionTitle(r.type, r.number, regulationId),
       chapterTitle,
       sourceUrl: r.sourceUrl,
       eurLexUrl: r.eurLexUrl,
@@ -1253,6 +1287,36 @@ function regulationSearchContext(reg) {
       corpusNote: 'SE AI Ethics',
       softLawNote:
         'SE Menkominfo 9/2023 is soft-law guidance (Surat Edaran), not a binding UU or Perpres; state legal force accurately.'
+    };
+  }
+  if (r.id === 'us-ccpa') {
+    return {
+      tavilyPrefix: 'California Consumer Privacy Act CCPA CPRA Civil Code 1798.100:',
+      ddgSuffix: ' California CCPA CPRA consumer privacy CPPA',
+      sectorRegPhrase: 'California CCPA CPRA personal information compliance',
+      corpusNote: 'CCPA/CPRA',
+      jurisdictionNote:
+        'The United States has no federal GDPR. CCPA/CPRA is binding California Civil Code Title 1.81.5, extra-territorial only as to California consumers meeting the statutory tests.'
+    };
+  }
+  if (r.id === 'us-admt') {
+    return {
+      tavilyPrefix: 'Colorado SB 26-189 Automated Decision-Making Technology ADMT C.R.S. 6-1-1701:',
+      ddgSuffix: ' Colorado ADMT Act SB26-189 consequential decisions',
+      sectorRegPhrase: 'Colorado ADMT automated decision-making consequential decisions',
+      corpusNote: 'Colorado ADMT Act',
+      jurisdictionNote:
+        'The United States has no federal AI Act. Colorado SB 26-189 repealed and reenacted SB 24-205; developer and deployer duties generally apply from 1 January 2027.'
+    };
+  }
+  if (r.id === 'us-open-data') {
+    return {
+      tavilyPrefix: 'OPEN Government Data Act Public Law 115-435 Title II 44 USC 3511:',
+      ddgSuffix: ' OPEN Government Data Act data.gov Federal data catalogue',
+      sectorRegPhrase: 'US OPEN Government Data Act open government data assets',
+      corpusNote: 'OPEN Government Data Act',
+      jurisdictionNote:
+        'Do not confuse with the 2014 DATA Act (federal spending transparency). Title II of Pub. L. 115-435 is the public-sector open-data analogue; there is no federal private-sector IoT/cloud-switching Data Act.'
     };
   }
   return {
@@ -1386,8 +1450,76 @@ function querySeemsLaypersonExplain(q) {
     /\bsatu data indonesia\b/i.test(s) ||
     /\bperpres\s*39\b/i.test(s) ||
     /\bse\s*(menkominfo|kominfo)?\s*9\b/i.test(s) ||
-    /\bindonesia.{0,40}ai ethics\b/i.test(s)
+    /\bindonesia.{0,40}ai ethics\b/i.test(s) ||
+    /\bwhat\s+is\s+(the\s+)?(ccpa|cpra|calprivacy)\b/i.test(s) ||
+    (/\bexplain\b.*\b(ccpa|cpra)\b/i.test(s) && !/\b(article|section|§)\s*\d+/i.test(s)) ||
+    /\bwhat\s+is\s+(the\s+)?(open\s+government\s+data act|open data act)\b/i.test(s) ||
+    (/\bexplain\b.*\bopen (government )?data act\b/i.test(s) && !/\b(article|section|title)\s*\d+/i.test(s)) ||
+    /\bwhat\s+is\s+(an?\s+)?(open government data asset|federal data catalogu?e)\b/i.test(s) ||
+    /\bwhat\s+is\s+(the\s+)?(colorado\s+)?(admt|adai)\b/i.test(s) ||
+    (/\bexplain\b.*\b(admt|adai|automated decision-making)\b/i.test(s) && !/\b(article|section|§)\s*\d+/i.test(s)) ||
+    /\bwhat\s+is\s+(a\s+)?(covered admt|consequential decision)\b/i.test(s)
   );
+}
+
+function laypersonSearchExpansion(regulationId) {
+  const id = String(regulationId || 'gdpr');
+  if (id === 'us-ccpa') {
+    return 'consumer personal information rights delete correct opt-out sale share sensitive personal information CPPA CPRA';
+  }
+  if (id === 'us-admt') {
+    return 'automated decision-making technology consequential decision developer deployer meaningful human review consumer notice';
+  }
+  if (id === 'us-open-data') {
+    return 'open government data asset federal data catalogue inventory chief data officer machine-readable data.gov';
+  }
+  if (id === 'id-pdp') {
+    return 'data pribadi pelindungan pengendali subjek data persetujuan hak';
+  }
+  if (id === 'id-satu-data') {
+    return 'satu data indonesia walidata interoperabilitas standar data portal data.go.id';
+  }
+  if (id === 'id-ai-ethics') {
+    return 'etika kecerdasan artifisial nilai etika PSE KBLI 62015';
+  }
+  if (id === 'ai-act') {
+    return 'high-risk AI system prohibited practice GPAI provider deployer transparency';
+  }
+  if (id === 'data-act') {
+    return 'connected product data cloud switching fair access user rights';
+  }
+  return 'personal data definition principles lawfulness fairness transparency rights data subject controller processing';
+}
+
+function defaultProvisionTitle(type, number, regulationId) {
+  const id = String(regulationId || 'gdpr');
+  if (type === 'recital') {
+    if (id.startsWith('us-')) return `Purpose note (${number})`;
+    if (id === 'id-pdp' || id === 'id-satu-data') return `Considering (${number})`;
+    if (id === 'id-ai-ethics') return `Ethical value (${number})`;
+    return `Recital (${number})`;
+  }
+  if (id === 'us-ccpa') return `CCPA § ${number}`;
+  if (id === 'us-admt') return `ADMT § ${number}`;
+  if (id === 'us-open-data') return `OPEN Data § ${number}`;
+  if (id === 'id-pdp' || id === 'id-satu-data') return `Pasal ${number}`;
+  if (id === 'id-ai-ethics') return `Section ${number}`;
+  return `Article ${number}`;
+}
+
+function sectorBlendSearchQuery(regulationId, searchTerms) {
+  const st = String(searchTerms || '').trim();
+  const id = String(regulationId || 'gdpr');
+  if (id === 'us-open-data') {
+    return `${st} open government data asset inventory catalogue machine-readable chief data officer`.trim();
+  }
+  if (id === 'us-admt') {
+    return `${st} automated decision-making consequential decision developer deployer consumer`.trim();
+  }
+  if (id === 'us-ccpa') {
+    return `${st} personal information consumer rights opt-out sale share sensitive business`.trim();
+  }
+  return `${st} controller processor personal data security breach processing activities lawfulness transparency`.trim();
 }
 
 function queryMentionsChildrenOrMinors(q) {
@@ -1528,7 +1660,13 @@ SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
   const softLawRule =
     regulation.id === 'id-ai-ethics'
       ? '\n7) LEGAL FORCE: SE Menkominfo 9/2023 is a Surat Edaran (soft-law guidance for electronic system operators), not a binding statute like a UU or Perpres. When describing obligations, say they stem from this circular/guidance unless a cited source clearly states otherwise.'
-      : '';
+      : regulation.id === 'us-ccpa'
+        ? '\n7) JURISDICTION: The United States has no federal GDPR. This corpus is the California Consumer Privacy Act / CPRA (Cal. Civ. Code Title 1.81.5). State that it is California law applying to businesses that meet the statutory thresholds with respect to California residents, not a US-wide GDPR.'
+        : regulation.id === 'us-admt'
+          ? '\n7) JURISDICTION: The United States has no federal AI Act. This corpus is Colorado SB 26-189 (C.R.S. 6-1-1701 et seq.), which repealed and reenacted SB 24-205. Duties generally apply from 1 January 2027. Do not describe it as a federal statute.'
+          : regulation.id === 'us-open-data'
+            ? '\n7) JURISDICTION: Do not confuse this with the 2014 DATA Act (federal spending transparency). This corpus is Title II of Pub. L. 115-435 (OPEN Government Data Act / 44 U.S.C. §§ 3502, 3504, 3506, 3511). It is a public-sector open-data law, not a private-sector IoT or cloud-switching analogue to the EU Data Act.'
+            : '';
 
   const systemPrompt = `You are a careful ${regulation.shortName} Q&A assistant (${regulation.fullName}).
 You must answer using ONLY the provided sources below (regulation excerpts and optional web snippets).
@@ -2154,7 +2292,10 @@ if (process.argv.includes('--refresh-only')) {
       await runRegulationScraperAndReloadContent('id-pdp');
       await runRegulationScraperAndReloadContent('id-satu-data');
       await runRegulationScraperAndReloadContent('id-ai-ethics');
-      console.log('Daily regulation content refresh completed (EU + Indonesia).');
+      await runRegulationScraperAndReloadContent('us-ccpa');
+      await runRegulationScraperAndReloadContent('us-admt');
+      await runRegulationScraperAndReloadContent('us-open-data');
+      console.log('Daily regulation content refresh completed (EU + Indonesia + United States).');
     } catch (e) {
       console.error('Daily refresh failed:', e.message);
     }
@@ -2189,3 +2330,5 @@ if (process.argv.includes('--refresh-only')) {
 
 module.exports = app;
 module.exports.runRegulationScraperAndReloadContent = runRegulationScraperAndReloadContent;
+module.exports.resolveCredibleSourcesForRegulation = resolveCredibleSourcesForRegulation;
+module.exports.buildLocalContext = buildLocalContext;

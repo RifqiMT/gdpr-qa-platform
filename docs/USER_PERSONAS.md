@@ -1,9 +1,9 @@
 # User Personas  
 ## Regulation Q&A Platform
 
-Personas represent primary users of the platform across **European Union** and **Indonesian** instruments. They inform features, user stories, and documentation.
+Personas represent primary users of the platform across **European Union**, **Indonesian**, and **United States** instruments. They inform features, user stories, and documentation.
 
-**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**
+**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22** · Instruments: nine (EU + Indonesia + United States)
 
 ---
 
@@ -13,7 +13,7 @@ Personas represent primary users of the platform across **European Union** and *
 |-----------|-------------|
 | **Name** | Alex (Legal / Compliance) |
 | **Role** | In-house counsel or compliance officer working across privacy, AI, and data-access instruments. |
-| **Goals** | Find the right Article/Pasal or Recital quickly; cite official publishers; compare EU and Indonesian analogues without treating them as legally equivalent. |
+| **Goals** | Find the right Article/Pasal or Recital quickly; cite official publishers; compare EU, Indonesian, and United States analogues without treating them as legally equivalent. |
 | **Pain points** | Long PDFs; instrument overlap; no single searchable multi-jurisdiction workspace. |
 | **Needs** | Region + regulation picker; Browse welcome hub; Ask with `[S#]` citations; PDF export; Credible sources; mobile Tools menu. |
 | **Relevant features** | Region picker, Browse welcome, Browse, Ask, Sources, Export PDF, Refresh sources, responsive chrome. |
@@ -77,7 +77,7 @@ Personas represent primary users of the platform across **European Union** and *
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Jordan (Consultant) |
-| **Role** | External consultant advising multi-national clients on EU and/or Indonesian compliance documentation. |
+| **Role** | External consultant advising multi-national clients on EU, Indonesian, and/or United States compliance documentation. |
 | **Goals** | Client-ready answers with exact references; export provisions; show freshness. |
 | **Pain points** | Generic LLMs without article/pasal references; manual copying from EUR-Lex/JDIH. |
 | **Needs** | Ask with citations; View in app; Export PDF; BYOK for client-controlled keys; multi-instrument switch. |
@@ -148,15 +148,54 @@ Personas represent primary users of the platform across **European Union** and *
 
 ---
 
-## Persona 12: Engineering / DevOps
+## Persona 12: California privacy counsel (CCPA / CPRA)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Cameron (CCPA Counsel) |
+| **Role** | In-house or outside counsel advising businesses on the **California Consumer Privacy Act** as amended by the **CPRA** (Cal. Civ. Code Title 1.81.5, §§ 1798.100–1798.199.95) and CPPA / CalPrivacy rulemaking. |
+| **Goals** | Cite the exact Civil Code section for notice-at-collection, opt-out of sale/sharing, sensitive personal information, and enforcement; follow CPPA and California OAG announcements; explain to EU colleagues that CCPA is a **state-level analogue**, not a federal GDPR. |
+| **Pain points** | Fragmented U.S. landscape; EU-centric tools that force "controller / processor / data subject" vocabulary; no federal omnibus privacy law to anchor answers. |
+| **Needs** | Region = USA → `us-ccpa`; Browse **Sections** and **Purpose notes**; Ask with `[S#]` citations to CCPA text and CPPA / leginfo links; CCPA-filtered News (CPPA/CalPrivacy, California OAG, FTC privacy items); Credible sources (CPPA compilation, leginfo, OAG). |
+| **Relevant features** | Region picker USA, `us-ccpa` Browse / Ask / Sources / News filter, US jurisdiction answer rule (F-ASK-14), `refresh-us-ccpa`. |
+
+---
+
+## Persona 13: Colorado ADMT / AI governance lead
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Devon (ADMT / AI Governance) |
+| **Role** | Responsible-AI, product-legal, or procurement lead preparing for the **Colorado Automated Decision-Making Technology Act** (SB 26-189; C.R.S. 6-1-1701 et seq.; duties from 1 Jan 2027). |
+| **Goals** | Locate definitions (adverse outcome, consequential decision), developer / deployer duties, disclosure and meaningful human review provisions; track Colorado AG (ADAI) rulemaking; contrast with the EU AI Act without implying equivalence. |
+| **Pain points** | Confusing ADMT with a general AI Act; no federal AI statute; rapidly moving state rulemaking. |
+| **Needs** | `us-admt` Browse; Ask scoped to consequential decisions (never GDPR controller/processor wording); ADMT-filtered News (Colorado AG ADAI hub, FTC AI items); Credible sources (Colorado General Assembly, session laws, coag.gov/ai). |
+| **Relevant features** | `us-admt` Browse / Ask / Sources / News filter, F-NEWS-16 / F-NEWS-17, `refresh-us-admt`, theme accent violet `#6d28d9`. |
+
+---
+
+## Persona 14: Federal open-data steward (OPEN Government Data Act)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Priya (Federal Open-Data Steward) |
+| **Role** | Agency data officer, contractor, or civic-tech analyst implementing the **OPEN Government Data Act** (Title II of the Foundations for Evidence-Based Policymaking Act, Pub. L. 115-435; 44 U.S.C. § 3511 et seq.). |
+| **Goals** | Understand machine-readable, open-license, and comprehensive data inventory duties; monitor data.gov, GSA, and Federal Data Strategy updates; explain to EU and Indonesian peers how it differs from the EU Data Act and Satu Data. |
+| **Pain points** | **False friend:** the 2014 **DATA Act** (Digital Accountability and Transparency Act, federal spending transparency) is **not** this instrument and **not** the EU Data Act analogue; no private-sector data-sharing mandate exists federally. |
+| **Needs** | `us-open-data` Browse; Ask grounded in Title II text; OPEN Data-filtered News (data.gov, GSA, Federal Data Strategy); Credible sources (govinfo, Congress.gov, data.gov). |
+| **Relevant features** | `us-open-data` Browse / Ask / Sources / News filter, Business honesty copy, `refresh-us-open-data`, theme accent teal `#0f766e`. |
+
+---
+
+## Persona 15: Engineering / DevOps
 
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Avery (Platform Engineer) |
 | **Role** | Operates Node/Vercel deployment, cron, env, corpora. |
-| **Goals** | Reliable refresh for six instruments; seed on cold start; green `npm test`; documented env. |
+| **Goals** | Reliable refresh for nine instruments; seed on cold start (`SEED_FILES` = 29); green `npm test`; documented env (`MIN_US_*`, `US_*_FORCE_CORPUS_WRITE`). |
 | **Pain points** | Stale docs listing removed APIs; Indo WAF blocking news; `/tmp` ephemerality on Vercel. |
-| **Needs** | OPERATIONS_RUNBOOK; VARIABLES; VERCEL_DEPLOY; CRON_SECRET; Indo refresh scripts; parity tests. |
+| **Needs** | OPERATIONS_RUNBOOK; VARIABLES; VERCEL_DEPLOY; CRON_SECRET; Indonesian and US refresh scripts (`refresh-id-*`, `refresh-us-*`); parity tests (40 pass / 17 suites). |
 | **Relevant features** | ETL CLI, cron, `/health`, Refresh sources/news, documentation set. |
 
 ---
@@ -165,18 +204,21 @@ Personas represent primary users of the platform across **European Union** and *
 
 | Persona | Primary jurisdiction | Primary instruments | Top jobs |
 |---------|---------------------|---------------------|----------|
-| Alex | Both | All six | Switch, browse, cite |
+| Alex | EU / ID / US | All nine | Switch, browse, cite |
 | Sam | EU | GDPR | Ask, News, suitable recitals |
 | Dewi | ID | UU PDP | Pasal browse, Ask, Indo news |
 | Bima | ID | Satu Data | Perpres browse, Ask |
 | Sari | ID | AI Ethics (soft law) | Values browse, soft-law Ask |
-| Jordan | Both | Client-dependent | Citations, PDF, BYOK |
-| Riley | Either | Active + sector | Sector Ask |
+| Jordan | EU / ID / US | Client-dependent | Citations, PDF, BYOK |
+| Riley | Any | Active + sector | Sector Ask |
 | Quinn | EU | AI Act | AI Act Ask + News filter |
 | Taylor | EU | Data Act | Data Act Ask + News filter |
-| Casey | Either | Any | Quick Ask |
-| Morgan | Either | Any | Verify sources |
-| Avery | Ops | All (ETL) | Refresh, deploy, test |
+| Casey | Any | Any | Quick Ask |
+| Morgan | Any | Any | Verify sources |
+| Cameron | US (California) | CCPA/CPRA | Cite Civil Code sections; CPPA / OAG news |
+| Devon | US (Colorado) | ADMT | Consequential-decision duties; ADAI rulemaking news |
+| Priya | US (federal) | OPEN Data Act | Data inventory / open-data duties; avoid the 2014 DATA Act false friend |
+| Avery | Ops | All nine (ETL) | Refresh, deploy, test |
 
 ---
 

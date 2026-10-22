@@ -1,0 +1,456 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-10-22T08:08:40.908Z",
+    "sources": [
+      {
+        "name": "Colorado General Assembly — SB26-189 (became law)",
+        "url": "https://leg.colorado.gov/bills/sb26-189",
+        "description": "Official bill page for Senate Bill 26-189, Automated Decision-Making Technology; signed 14 May 2026.",
+        "documents": [
+          {
+            "label": "SB26-189 bill page",
+            "url": "https://leg.colorado.gov/bills/sb26-189"
+          },
+          {
+            "label": "2026 Session Laws ch. 131 (download)",
+            "url": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download"
+          }
+        ]
+      },
+      {
+        "name": "Colorado General Assembly — Session Laws Chapter 131",
+        "url": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+        "description": "Enrolled session-law text of SB 26-189 as approved 14 May 2026 (C.R.S. 6-1-1701 et seq.).",
+        "documents": [
+          {
+            "label": "Chapter 131 PDF/HTML",
+            "url": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download"
+          }
+        ]
+      },
+      {
+        "name": "Colorado Attorney General — AI / ADMT",
+        "url": "https://coag.gov/ai/",
+        "description": "Colorado Department of Law page on artificial intelligence and automated decision-making technology (rulemaking and enforcement).",
+        "documents": [
+          {
+            "label": "coag.gov/ai",
+            "url": "https://coag.gov/ai/"
+          }
+        ]
+      }
+    ],
+    "regulationId": "us-admt",
+    "lastChecked": "2026-10-22T08:08:40.908Z",
+    "datasetHash": "51ca6979646ea9deddc75f4c38d652a8d5fdd50b783df243161ceb2a534b3278",
+    "etl": {
+      "extractedFrom": "colo-sess-laws-2026-ch131",
+      "fetched": true,
+      "significant": true,
+      "datasetHash": "51ca6979646ea9deddc75f4c38d652a8d5fdd50b783df243161ceb2a534b3278",
+      "articleCount": 14,
+      "recitalCount": 5
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Long title, legislative declaration, effective-date clause, safety clause, and a jurisdiction note that the United States has no federal AI Act.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "id": "chapters",
+      "title": "C.R.S. part 17 and bill sections",
+      "description": "C.R.S. 6-1-1701 through 6-1-1709 plus SB 26-189 §§ 2–6.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Definitions",
+      "articleRange": "1",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Developer and deployer duties",
+      "articleRange": "2-3",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Deployer disclosures",
+      "articleRange": "4",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Consumer rights",
+      "articleRange": "5",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Enforcement and allocation of fault",
+      "articleRange": "6-7",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Compliance with other legal obligations",
+      "articleRange": "8-9",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "Conforming amendments, appropriation, and effective date",
+      "articleRange": "10-14",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "C.R.S. 6-1-1701 — Definitions",
+      "text": "As used in this part 17, unless the context otherwise requires: (1) \"adverse outcome\" means: (a) a decision that denies, terminates, revokes, or materially reduces or restricts a consumer's access to, eligibility for, selection for, compensation for, or the provision of an opportunity or service; or (b) a decision that results in materially less favorable differentiated price, cost, compensation, or other material terms that are reasonably likely to materially limit, delay, or effectively deny, or otherwise fundamentally alter, a consumer's access to, eligibility for, selection for, compensation for, or the provision of an opportunity or service compared to terms offered to similarly situated consumers.If a decision outcome imposes materially less favorable differentiated pricing or terms, the decision outcome materially influences price, cost sharing, compensation, or material terms. (2) (A) \"automated decision-making technology\" or \"ADMT\" means a technology that processes personal data and uses computation to generate output, including predictions, recommendations, classifications, rankings, scores, or other information that is used to make, guide, or assist a decision, judgment, or determination concerning an individual. (B) \"automated decision-making technology\" or \"ADMT\" does not include: (i) the following technologies: (a) anti-malware; (b) anti-virus; (c) calculators; (d) databases; (e) data storage; (f) firewalls; (g) internet domain registration; (h) internet website loading; (i) networking; (j) spam- and robocall-filtering; (k) spell-checking; (l) spreadsheets that require human analysis and do not use machine learning, foundation models, or large language models; (m) web caching; or (n) web hosting; (ii) a tool used by an individual solely to summarize, organize, translate, draft, route, or present information for human review of administrative processing; or (iii) technology that communicates with consumers in natural language or other means readily understood by an average consumer for the purpose of providing consumers with information, making referrals or recommendations,answeringquestions,or generatingother content, if: (a) the technology is not contracted, advertised, marketed, configured, or intended by a person to be used in a consequential decision; and (b) the technology is subject to an acceptable use policy that prohibits generated content to be used in a consequential decision. (3) (A) \"consequential decision\" means: (i) a decision, determination, or action made about a consumer that relates to the provision of or a consumer's access to, eligibility for, selection for, or compensation for a covered domain; or (ii) a decision,determination,or action about a consumer that relates to a differentiated price, cost sharing, compensation, or other material terms in a manner that is reasonably likely to materially limit, delay, effectively deny, or otherwise fundamentally alter the consumer's access, eligibility, or opportunity for a covered domain. (B) \"consequential decision\" does not include: (i) low-stakes or routine decisions, actions, and business processes that do not materially influence eligibility for, selection for, denial of, compensation for, pricing of, or access to an opportunity or service for a covered domain, including routine scheduling, classroom personalization, administrative routing, customer service triage, communication of decisions, or workflow management; (ii) advertising, marketing, differentiated product recommendations, search, or content moderation; (iii) spreadsheets that require manual human analysis and do not use machine learning, foundation models, or large language models; (iv) actions in which an ADMT is used to summarize, organize, or present information for human review and the system does not produce a score, ranking, recommendation, classification, prediction, or other inference that materially influences an outcome or a decision; (v) narrow procedural tasks or data-processingfunctions that do not generate a prediction or inference about a consumer or materially influence a consequential decision or consequential decision process; (vi) activities relating to technologies used for cybersecurity, spam- and robo-call filtering, system reliability, and anti-money laundering and counter-terrorist financing controls; (vii) activities relating to technologies used for economic sanctions compliance, including under the federal \"bank secrecy act\", 12 U.S.C. Sec. 1951 Et seq.; The federal \"usa patriot act\", Pub. L. 107-56; The federal trade commission's red flags rule, 16 CFR 681, as amended; and sanctions programs administered by theunited states department of the treasury, excluding facial recognition unless the sole purpose of which is to confirm an individual's identity; (viii) activities relating to technologies used for fraud prevention, includingidentity verification,consumer identification,monitoring,and reporting controls required under state or federal law; or (ix) routine academic administration and student support processes that do not materially influence a consequential decision. (4) (A) \"consumer\" has the meaning set forth in section 6-1-1303 (6)(a). (B) \"consumer\"includes an employee,a job applicant who is a colorado resident, and any individual whose access to, eligibility for, or opportunity in colorado is evaluated in a consequential decision by a person doing business in colorado. (5) \"Covered ADMT\" means automated decision-making technology that is used to materially influence a consequential decision. (6) \"Covered domain\" means: (a) an education enrollment or an education opportunity; (b) employment or an employment opportunity that creates or may create an employer-employee relationship; (c) the lease or purchase of residential real estate in colorado; (d) a financial or lending service; (e) insurance, including underwriting, pricing, coverage, claims adjudication, or other determinations that materially affect access to benefits; (f) health-care services; or (g) essential government services and public benefits, including eligibility and renewal determinations. (7) \"Deployer\"means a person doing business in colorado that deploys a covered ADMT. (8) (A) \"developer\" means a person doing business in colorado that: (i) develops, offers, sells, leases, licenses, or otherwise makes commercially available a covered ADMT; (ii) develops a component that is designed, marketed, intended, documented, advertised, configured, or contracted to be used as part of a covered ADMT; or (iii) intentionally and substantially modifies an ADMT such that it becomes a covered ADMT. (B) \"developer\" does not include a person that: (i) develops and uses an ADMT: (a) solely for research purposes and the ADMT is not used in a consequential decision in the research; or (b) for internal purposes, such as use and development activities by affiliates and commercial support functions, and that does not make the system available to another person for use in a consequential decision; (ii) is a preceding developer that makes an ADMT commercially available and an unaffiliated person modifies the covered ADMT in a manner that changes the system's intended, documented, marketed, advertised, configured, or contracted use; or (iii) has designed, marketed, intended, documented, advertised, configured, or contracted a component that is used as part of an ADMT, but the component is integrated into a covered admtwithout the actual knowledge of the person. (9) \"Employee\" has the meaning set forth in section 8-4-101 (5). (10) \"Employer\" has the meaning set forth in section 8-4-101 (6). (11) \"FERPA\" means the federal \"family educational rights and privacy act of 1974\", 20 U.S.C. Sec. 1232G et seq., And its implementing regulations. (12) \"Intentional and substantial modification\" means a deliberate change made to an ADMT that results in a material change to the system's intended, documented, advertised, configured, or contracted use. (13) (A) \"materially influence\" means: (i) an ADMT output is a non-de minimis factor that is used in making a consequential decision; and (ii) an ADMT output affects the outcome of a consequential decision, including by constraining, ranking, scoring, recommending, classifying, or otherwise meaningfully altering how a consequential decision is made. (B) \"materially influence\" does not include incidental, trivial, or clerical uses. (14)(A) \"material update\"means an update, patch,release,revision, or new version of a covered ADMT, including associated software, model parameters,default settings,or documentation,that a developer knows or reasonably should know is likely to materially affect: (i) the covered ADMT's outputs or performance in a manner relevant to its intended use; or (ii) the developer's stated intended use for the covered ADMT. (B) \"material update\" does not include routine maintenance, cosmetic changes, or bug fixes that do not materially influence: (i) a covered ADMT's outputs or performance in a manner relevant to its intended use; or (ii) a developer's stated intended use for the covered ADMT. (15) \"Meaningful human review\" means review by a individual designated by the deployer who has authority to approve, modify, or override a consequential decision and who: (a) considers relevant, available primary evidence; (b) is trained to conduct the review; (c) does not default to the system output; and (d) has access to sufficient information to understand: (i) the output's: (a) intended use; (b) material limitations; and (c) categories of inputs; and (ii) the principal factors used to generate the output, without requiringdisclosure ofproprietary source code,model weights,or other trade secrets. (16) \"Personal data\" has the meaning set forth in section 6-1-1303 (17). (17) \"Trade secret\" has the meaning set forth in section 7-74-102 (4).",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 2,
+      "title": "C.R.S. 6-1-1702 — Developer responsibilities — documentation",
+      "text": "(1) On and after january 1, 2027, a developer shall make available to each deployer of a covered ADMT developed by the developer, in a form and manner that is reasonably understandable to a deployer and that protects trade secrets or information protected from disclosure by state or federal law: (a) a general statement describing the intended uses and known harmful or inappropriate uses of the covered ADMT; (b) a description of the categories of data, including personal data, used to train the covered ADMT, to the extent known; (c) known limitations of the covered ADMT,including known risks and circumstances in which the covered ADMT should not be used; (d) instructions for the deployer's appropriate use, monitoring, and meaningful human review, where applicable; (e) information reasonably necessary for the deployer to comply with section 6-1-1704. If information is withheld, the developer shall notify the deployer. (2) (A) a developer shall provide to each deployer of a covered ADMT developed by the developer a notice ofmaterial updates,intentional and substantial modifications,and changes to the intended use of,limitations for, or risk mitigation for the covered ADMT within a reasonable time. (B) a developer may use public release notes containing the information required by subsection (2)(a) of this section to comply with this subsection (2) if the developer provides direct notice of the public release to each deployer of the covered ADMT. (3) A developer is subject to the disclosure requirements described in subsections (1) and (2) of this section only for a deployer's use of a covered ADMT where the ADMT was marketed, advertised, configured, contracted, sold, or licensed to be used to materially influence a consequential decision. (4) A developer shall retain, for not less than three years after the creation of a record required or created under this section or for a longer period if required by applicable state or federal law, records reasonably necessary to demonstrate compliance with this section. Records include system version identifiers, changelogs, and documentation and notices of material updates provided to deployers pursuant to subsection (2) of this section. (5) This section applies when a developer creates a covered admtthat is intended, documented, marketed, advertised, configured, or contracted to be used to make consequential decisions or when the developer becomes aware that the covered ADMT is being used to make consequential decisions in a manner consistent with the intended and contracted uses.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 3,
+      "title": "C.R.S. 6-1-1703 — Deployer record keeping",
+      "text": "A deployer shall retain, for not less than three years after the date of a consequential decision or for a longer period if required by applicable state or federal law, records reasonably necessary to demonstrate compliance with this part 17. Records may include, as applicable, covered ADMT version identifiers, changelogs, and documentation of material mitigation changes.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 4,
+      "title": "C.R.S. 6-1-1704 — Deployer disclosures — point-of-interaction notice, public posting, and post-adverse-outcome disclosures",
+      "text": "(1) Prior to a deployer using a covered admtto materially influence a consequential decision, the deployer shall provide a clear and conspicuous notice to a consumer that the deployer used or will use a covered ADMT in a consequential decision affecting the consumer and instructions regarding how the consumer may obtain the additional information described in this section. (2) A deployer complies with subsection (1) of this section by maintaining a prominent public notice that is reasonably accessible at points of consumer interaction, including through a link or posting that is reasonably proximate to the interaction or transaction in which a consequential decision may occur. (3) If a deployer uses a covered ADMT to materially influence a consequential decision that results in an adverse outcome for a consumer,the deployer shall provide within thirty days after makingthe decision: (a) a plain language description of the consequential decision and the role the covered ADMT played in the consequential decision; (b) instructions and a simple-to-follow process to request additional information about the covered ADMT and the inputs,including the name of the covered ADMT, the covered ADMT version number, if applicable, the covered ADMT developer, and the types, categories, and sources of personal data used, to the extent the deployer receives the necessary information from the developer in compliance with section 6-1-1702; and (c) an explanation of the consumer rights described in section 6-1-1705 and how to exercise them. (4)(A) the general assembly finds that the specific content and format of post-adverse outcome disclosures may vary across consequential decision domains.The general assembly intends that the specific elements of post-adverse outcome disclosures be further clarified through rule-making that accounts for sector-specific practices while ensuring that consumers receive meaningful and understandable information about consequential decisions. (B) on or before january 1, 2027, the attorney general shall adopt rules to clarify and implement the post-adverse outcome disclosure requirements set forth in subsection (3) of this section. Rules adopted pursuant to this subsection (4) may include, as appropriate: (i) rules clarifying the content of required disclosures related to the types, sources, or categories of personal data that a deployer must provide to a consumer following an adverse outcome involving a covered ADMT pursuant to subsection (3) of this section; (ii) sector-specific guidance or illustrative examples tailored to different covered domains; (iii) standards for describing the role of the covered ADMT in a consequential decision in a manner that is reasonably understandable to a consumer; and (iv) guidance addressing how the disclosure requirements described in this section interact with federal or state laws that require or govern notices, explanations, or adverse outcome disclosures. (5) Nothing in this section requires a deployer to disclose a trade secret or information protected from disclosure by state or federal law. If a deployer withholds information pursuant to this subsection (5), the deployer shall notify the consumer. (6) (A) a creditor, with respect to a consequential decision involving the offering, the denial, the pricing, the servicing, or other material terms of credit, that is required to provide and that provides a notice to a consumer pursuant to the federal \"equal credit opportunity act\", 15 U.S.C. Sec. 1691 Et seq., And its implementing regulations, including regulation b,12cfr1002, and,when applicable,the federal \"fair credit reporting act\", 15 U.S.C. Sec. 1681 Et seq., Complies with the notice or disclosure requirements of this section that relate to the same decision or adverse outcome if the notice provided to the consumer pursuant to the federal laws and regulations described in this subsection (6)(a) also satisfies the notice or disclosure requirements of this section. (B) if a creditor complies with the federal laws and regulations described in subsection (6)(a) of this section and complies with subsection (6)(a) of this section,the creditor is not required to provide a separate or duplicative notice pursuant to this section. (C) nothing in this subsection (6) shall be construed to require a creditor to provide any notice or disclosure in a manner that is prohibited by federal law. (D) for purposes of this subsection (6), a notice that complies with the federal laws and regulations described in subsection (6)(a) of this section and complies with subsection (6)(a) of this section may include a brief statement indicating that a covered admtwas used to materially influence the consequential decision and instructions for how the consumer may obtain any additional information or exercise any rights provided under this part 17. (7) This part 17 shall not be construed to require a person to make a disclosure,provide an explanation,or furnish information to a consumer to the extent doing so would be prohibited by federal law or would compromise the confidentiality or integrity of cybersecurity, fraud prevention, anti-money laundering, counter-terrorist financing, or economic sanctions compliance programs required by law. (8) A deployer or developer shall provide the notices and disclosures required by this part 17 in a manner that is reasonably accessible to consumers with disabilities and consumers with limited english proficiency, consistent with applicable state and federal law. (9) (A) for a consequential decision relating to education, a deployer that is subject to ferpasatisfies the notice and disclosure requirements of this section by providing notice and disclosures through processes and channels that are consistent with FERPA and the deployer's FERPA notices and student record access procedures, including, where applicable, notice to a parent or guardian or an eligible student. (B) a deployer that is subject to FERPA is not required to establish a separate or duplicative notice or disclosure process if the deployer has established a notice or disclosure process to comply with FERPA.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 5,
+      "title": "C.R.S. 6-1-1705 — Consumer rights — correction, human review, and reconsideration",
+      "text": "(1) (A) when a consumer experiences an adverse outcome resulting from a consequential decision in which a covered ADMT materially influences the consequential decision,the consumer may request and the deployer shall provide in response to the request: (i) instructions for requesting personal data and correcting factually incorrect or materially inaccurate personal data used in a consequential decision that used a covered ADMT consistent with section 6-1-1306; and (ii) an opportunity for meaningful human review and reconsideration of the consequential decision, to the extent commercially reasonable. (B) for the purposes of this subsection (1), the exceptions to the definition of \"consumer\" in section 6-1-1303 (6)(b) and the exceptions in section 6-1-1304 (2)(k), (2)(n), and (2)(o) do not apply to the right to request correction of factually incorrect or materially inaccurate personal data pursuant to this subsection (1). (C) subsection (1)(a) of this section does not require correction of opinions, predictions, scores, or protected evaluations. (2) (A) for a consequential decision relating to education, a deployer that is subject to ferpacomplies with the requirements of subsection (1) of this section through the deployer's existing student record inspection, review,and amendment procedures and any applicable district complaint or appeal process, if the deployer offers a reasonable mechanism for a parent, guardian, or eligible student to request correction of materially inaccurate personal data and reconsideration where applicable under this part 17. (B) a deployer that is subject to FERPA is not required to establish a separate or duplicative correction or human review and reconsideration process ifthe deployer has established a correction or human review and reconsideration process to comply with FERPA. (3) On or before january 1, 2027, the attorney general shall adopt rules to clarify and implement the requirements of this section.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 6,
+      "title": "C.R.S. 6-1-1706 — Enforcement by the attorney general — deceptive trade practice, right to cure, no private right of action",
+      "text": "(1) (A) the attorney general shall enforce this part 17 through the \"colorado consumer protection act\", this article 1. (B) violations of the disclosure requirements and consumer rights described in sections 6-1-1702, 6-1-1703, 6-1-1704, and 6-1-1705 are enforceable exclusively by the attorney general without regard to any other provision in this title 6. (2) (A) a violation of this part 17 is a deceptive trade practice and is subject to the provisions of the \"colorado consumer protection act\", this article 1. (B) any provision of the \"colorado consumer protection act\", this article 1, that is inconsistent with the exclusive enforcement authority granted to the attorney general in this section for a violation of this part 17 does not apply to any such violation. (3) (A) prior to any enforcement action for a violation of this part 17, the attorney general shall issue a notice of violation to a developer or deployer if a cure is deemed possible by the attorney general. (B) if the developer or deployer fails to cure a violation within sixty days after receipt of a notice of violation, the attorney general may bring an action pursuant to this section. (C) if the attorney general finds and can demonstrate that a developer or deployer knowingly violated this part 17or a developer or deployer repeatedly violated this part 17, the attorney general is not required to provide a cure period before seeking penalties or other relief. (D) if a violation is discovered in the course of an enforcement action, a court may consider that a developer or deployer cured the violation within sixty days after receipt of written notice as a mitigating factor in determining civil penalties or other monetary relief, if any. (E) beginning in january 2028, and in january every year thereafter, the attorney general shall include, as part of the department of law's presentation duringits \"smartact\"hearing required by section 2-7-203, a report concerning enforcement actions brought and cure periods offered by the attorney general related to violations of this part 17, including: (i) the number of actions filed by the attorney general against developers and deployers, respectively; (ii) the number of actions filed by the attorney general against developers and deployers, respectively, that were completed; (iii) the number of cure periods offered by the attorney general to developers and deployers, respectively; (iv) the number of cure periods offered by the attorney general that were not met by developers and deployers, respectively; and (v) the number of violations filed by the attorney general against developers and deployers, respectively, where a cure period was not deemed possible. (F) this subsection (3) is repealed, effective january 1, 2030. (4) Nothing in this part 17 creates a new private right of action. Nothing in this part 17 limits or reduces any existing rights or remedies available under state or federal law, including the \"colorado anti-discrimination act\", parts 3 to 8 of article 34 of title 24; the \"colorado consumer protection act\", this article 1; product liability law; or other applicable law. (5) (A) the attorney general may adopt rules as necessary to implement and clarify this part 17. (B) the attorney general may adopt rules to clarify the application of the definition of \"materially influence\", as defined in section 6-1-1701 (13), including presumptions, illustrative examples, and objective indicators. (C) in adopting rules pursuant to this part 17, the attorney general shall utilize a process that meaningfully engages stakeholders, including consumer advocates, deployers, developers, and sector regulators,through public notice,opportunity for written comment,and at least one public hearing and shall adopt rules in accordance with section 24-4-103. (6) Nothing in this part 17 limits the ability of a party to join necessary or permissive parties under the colorado rules of civil procedure, including rules 19and 20of thecolorado rules of civil procedure,in any action arising under existing law.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 7,
+      "title": "C.R.S. 6-1-1707 — Liability — fault allocation; indemnification prohibited",
+      "text": "(1) A developer or deployer may be held liable in an action alleging unlawful discrimination under state anti-discrimination laws,including the \"colorado anti-discrimination act\", parts 3to 8of article 34 of title 24, arising from a consequential decision materially influenced by a covered ADMT. (2) In an action described in subsection (1) of this section, fault shall be allocated among deployers and developers based on their relative fault for the violation. (3) Nothing in this section shall be construed to apportion liability to a claimant where such apportionment is not provided for under existing law. (4) Nothing in this section shall be construed to create joint and several liability, except to the extent permitted under existing law. (5) (A) a developer is liable in an action described in subsection (1) of this section only to the extent that: (i) the developer's covered ADMT was used by a deployer in a manner that was intended, documented, marketed, advertised, configured, or contracted for by the developer; and (ii) the developer's covered ADMT materially influenced a consequential decision that gave rise to the violation of existing law. (B) a developer is not liable under this section for violations of existing law arising from a deployer's use of a covered admtin a manner that was not intended, documented, marketed, advertised, configured, or contracted for by the developer. (6) Nothing in this section shall be construed to limit the liability of a deployer for the deployer's independent acts or omissions in a consequential decision materially influenced by a covered ADMT, including using an admtin a manner that was not intended,documented, marketed, advertised, configured, or contracted for by the developer if the developer of the covered ADMT complied with section 6-1-1702. (7) (A) notwithstanding any other provision of law, if a provision of a contract for the use of automated decision-makingtechnology in making a consequential decision or any other contract between a developer and deployer purports to indemnify, defend, or hold harmless or has the effect of indemnifying, defending, or holding harmless the indemnitee from or against any liability for damages pursuant to this section resulting from the developer's or deployer's own acts or omissions related to the use of automated decision-making technology in making c o n seq u en tial d ecisio ns in v io la tio n of the \"co lo r a d o anti-discrimination act\", parts 3 to 8 of article 34 of title 24, or other colorado anti-discrimination law, the provision is contrary to public policy and void. (B) the limitations of subsection (7)(a) of this section do not apply to a developer where the use of the covered admtin making a consequential decision was not intended, documented, marketed, advertised, configured, or contracted for by the developer if the developer of the covered ADMT complied with section 6-1-1702. (C) this subsection (7) does not otherwise limit the enforceability of contract terms between parties acting in a commercial or business capacity, except to the extent otherwise provided by applicable law. (D) this subsection (7) does not prohibit or limit any person from obtaining or making a claim on applicable insurance for any applicable alleged liabilities or related losses. (8) Nothing in this section shall be construed to limit, displace, or otherwise affect any liability that a developer or a deployer may have, separate and apart from liability under this section, for a violation of state law. Compliance with the requirements of this part 17 is not a defense to and does not otherwise excuse noncompliance with any applicable law. (9) The use of an ADMT in a consequential decision does not excuse, justify, or provide a defense to any obligation or liability under state or federal law, including obligations and liability related to discrimination or consumer protection.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 8,
+      "title": "C.R.S. 6-1-1708 — Compliance with other legal obligations — insurers and covered entities",
+      "text": "(1) (A) an insurer, as defined in section 10-1-102 (13), and affiliated entities that are subject to the requirements of section 10-3-1104.9 Are in compliance with this part 17 in the practice of insurance. (B) if an insurer is not deemed in compliance pursuant to subsection (1)(a) of this section, the insurer shall provide notice and disclosure of its use of a covered ADMT in materially influencing a consequential decision regarding the practice of insurance pursuant to the disclosure requirements of section 6-1-1704 (3), to the extent applicable. (2) This section does not limit the applicability of this part 17 to uses of covered admtrelated to insurer employment or insurer employment opportunities by insurers and affiliated entities that are subject to the requirements of section 10-3-1104.9. (3) (A) sections 6-1-1701, 6-1-1702, 6-1-1703, 6-1-1704, 6-1-1705, and 6-1-1706 do not apply to a covered entity within the meaning of the federal \"health insurance portability and accountability act of 1996\", 42 U.S.C. Secs. 1320D to 1320d-9, and the regulations promulgated under the federal act, or a covered entity's business associates for any services rendered to a covered entity, to the extent the covered entity is doing business in colorado, except for a consequential decision related to employment or an employment opportunity. (B) notwithstanding subsection (3)(a) of this section, for a covered entity that is a health-care provider, as defined in 45 CFR 160.103, This subsection (3) applies only if the health-care provider is operating from a location within colorado. (C) a covered entity shall provide patients with a general notice of use of advanced technologies,including a covered ADMT.The notice may be incorporated with other notices describing patient rights and how the covered entity provides care. (D) notwithstanding subsection (3)(a) of this section, a covered entity that uses a covered ADMT to determine a patient's eligibility for financial assistance, including discounted care as described in section 25.5-3-502, Shall provide a patient the following disclosures: (i) a plain language description of the consequential decision and the role of the covered ADMT in the consequential decision; (ii) the types of information about the individual the covered entity relied upon in making its determination of eligibility, except for trade secrets and other confidential or legally protected information; (iii) information on how to request correction of materially inaccurate personal data held by the covered entity consistent with the federal \"health insurance portability and accountability act of 1996\", 42 U.S.C. Secs. 1320D to 1320d-9 and section 25.5-3-502; And (iv) information on how to request meaningful human review or reconsideration, where applicable. (E) a covered entity may comply with subsection (3)(d) of this section through either an advance general disclosure of the information required by subsection (3)(d) of this section or through a notice provided within thirty calendar days after an adverse outcome.This section does not create a separate and duplicative disclosure process or appeal process if the review opportunities and information described in subsection (3)(d) of this section are provided. (4) Sections 6-1-1701, 6-1-1702, 6-1-1703, 6-1-1704, 6-1-1705, and 6-1-1706 do not apply to a medical device subject to oversight by the united states food and drug administration or a pharmaceutical or medical device manufacturer's research and development activities that are subject to oversight by the united states food and drug administration, including clinical investigations conducted under 21 CFR 312. (5) Nothing in this part 17 requires a covered entity or business associate, as those terms are defined under the federal \"health insurance portability and accountability act of 1996\", 42 U.S.C. Secs. 1320D to 1320d-9, to disclose protected health information or other information in a manner that would violate federal law. To the extent compliance with section 6-1-1704or 6-1-1705would conflict with federal health privacy requirements,the deployer shall comply with applicable federal law and provide disclosures and access consistent with that law. (6) This part 17 does not require a person to disclose nonpublic personal information in a manner that would violate the federal \"gramm-leach-bliley act\",15u.S.C. Sec. 6801 Et seq., Or its implementing regulations.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 9,
+      "title": "C.R.S. 6-1-1709 — No new private right of action — application of other law",
+      "text": "(1) Nothing in this part 17 creates a new private right of action. (2) Compliance with this part 17 does not constitute a defense to and does not excuse noncompliance with any applicable law.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 10,
+      "title": "SB26-189 § 2 — Unfair or deceptive trade practices — C.R.S. 6-1-105(1)(uuuu)",
+      "text": "SECTION 2. In Colorado Revised Statutes, 6-1-105, add (1)(uuuu) asfollows: 6-1-105. Unfair or deceptive trade practices. (1) A person engages in a deceptive trade practice when, in the course of the person's business, vocation, or occupation, the person: (uuuu) VIOLATES PART 17 OF THIS ARTICLE 1.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 11,
+      "title": "SB26-189 § 3 — Insurers’ use of external consumer data — C.R.S. 10-3-1104.9(3)(e)",
+      "text": "SECTION 3. InColoradoRevised Statutes, 10-3-1104.9, add (3)(e) asfollows: 10-3-1104.9. Insurers' use of external consumer data and information sources, algorithms, and predictive models- unfair discrimination prohibited - rules - stakeholder process required - investigations - definitions. (3) (e) THE COMMISSIONER MAY ADOPT NEW RULES OR UPDATE EXISTING RULES REGARDING NOTICE AND DISCLOSURES FROM INSURERS TO CONSUMERS.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 12,
+      "title": "SB26-189 § 4 — Appropriation",
+      "text": "SECTION 4. Appropriation. For the 2026-27 state fiscal year, $46,190 is appropriated to the department of law. This appropriation is from the general fund and is based on an assumption that the department will require an additional 0.4 FTE.Toimplementthis act,thedepartmentmayuse this appropriationfor consumer protection, antitrust, and civil rights.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 13,
+      "title": "SB26-189 § 5 — Effective date and applicability",
+      "text": "SECTION 5. Effective date - applicability. (1) Except as otherwise provided in subsection (2) of this section, this act takes effect January 1, 2027. (2) Sections 6-1-1704 (4), 6-1-1705 (3), and 6-1-1706 (6), Colorado Revised Statutes, as amended in section 1 of this act, section 10-3-1104.9 (3)(e), Colorado Revised Statutes, as enacted in section 3 of this act, section 4 of this act, this section, and section 6 of this act take effect upon passage. (3) This act appliesto consequential decisions made on or afterJanuary 1, 2027.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 14,
+      "title": "SB26-189 § 6 — Safety clause",
+      "text": "SECTION 6. Safety clause. The general assembly finds, determines, and declaresthatthis actis necessaryforthe immediate preservation ofthe public peace, health, or safety or for appropriations for the support and maintenance of the departments of the state and state institutions. Approved: May 14, 2026",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Long title",
+      "text": "Concerning the use of automated decision-making technology in consequential decisions, and, in connection therewith, making an appropriation. Be it enacted by the General Assembly of the State of Colorado.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 2,
+      "title": "Legislative declaration — post-adverse-outcome disclosures",
+      "text": "The General Assembly finds that the specific content and format of post-adverse outcome disclosures may vary across consequential decision domains. The General Assembly intends that the specific elements of post-adverse outcome disclosures be further clarified through rule-making that accounts for sector-specific practices while ensuring that consumers receive meaningful and understandable information about consequential decisions. On or before January 1, 2027, the Attorney General shall adopt rules to clarify and implement the post-adverse outcome disclosure requirements. (C.R.S. 6-1-1704(4).)",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 3,
+      "title": "Effective date — consequential decisions on or after 1 January 2027",
+      "text": "Except as otherwise provided, this act takes effect January 1, 2027. Rulemaking authorities in C.R.S. 6-1-1704(4), 6-1-1705(3), and 6-1-1706(6), the insurance conforming amendment, the appropriation, the effective-date section, and the safety clause take effect upon passage. This act applies to consequential decisions made on or after January 1, 2027. Approved: May 14, 2026. (SB 26-189 §§ 5–6; 2026 Colo. Sess. Laws ch. 131.)",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 4,
+      "title": "Safety clause",
+      "text": "The general assembly finds, determines, and declares that this act is necessary for the immediate preservation of the public peace, health, or safety or for appropriations for the support and maintenance of the departments of the state and state institutions.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 5,
+      "title": "Jurisdiction note — Colorado analogue, not a federal AI Act",
+      "text": "The United States has no federal statute equivalent to the EU Artificial Intelligence Act. Senate Bill 24-205 (the 2024 Colorado AI Act) was delayed and then repealed and reenacted by Senate Bill 26-189, signed 14 May 2026 as 2026 Colorado Session Laws Chapter 131. The in-force analogue in this workspace is C.R.S. part 17 of article 1 of title 6 (Automated Decision-Making Technology in Consequential Decisions), with developer and deployer duties generally applicable from 1 January 2027.",
+      "sourceUrl": "https://leg.colorado.gov/bills/sb26-189",
+      "eurLexUrl": "https://coag.gov/ai/"
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Long title",
+      "text": "Concerning the use of automated decision-making technology in consequential decisions, and, in connection therewith, making an appropriation. Be it enacted by the General Assembly of the State of Colorado.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — Legislative declaration — post-adverse-outcome disclosures",
+      "text": "The General Assembly finds that the specific content and format of post-adverse outcome disclosures may vary across consequential decision domains. The General Assembly intends that the specific elements of post-adverse outcome disclosures be further clarified through rule-making that accounts for sector-specific practices while ensuring that consumers receive meaningful and understandable information about consequential decisions. On or before January 1, 2027, the Attorney General shall adopt rules to clarify and implement the post-adverse outcome disclosure requirements. (C.R.S. 6-1-1704(4).)",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Effective date — consequential decisions on or after 1 January 2027",
+      "text": "Except as otherwise provided, this act takes effect January 1, 2027. Rulemaking authorities in C.R.S. 6-1-1704(4), 6-1-1705(3), and 6-1-1706(6), the insurance conforming amendment, the appropriation, the effective-date section, and the safety clause take effect upon passage. This act applies to consequential decisions made on or after January 1, 2027. Approved: May 14, 2026. (SB 26-189 §§ 5–6; 2026 Colo. Sess. Laws ch. 131.)",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Safety clause",
+      "text": "The general assembly finds, determines, and declares that this act is necessary for the immediate preservation of the public peace, health, or safety or for appropriations for the support and maintenance of the departments of the state and state institutions.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "recital",
+      "id": "recital-5",
+      "number": 5,
+      "title": "Recital (5) — Jurisdiction note — Colorado analogue, not a federal AI Act",
+      "text": "The United States has no federal statute equivalent to the EU Artificial Intelligence Act. Senate Bill 24-205 (the 2024 Colorado AI Act) was delayed and then repealed and reenacted by Senate Bill 26-189, signed 14 May 2026 as 2026 Colorado Session Laws Chapter 131. The in-force analogue in this workspace is C.R.S. part 17 of article 1 of title 6 (Automated Decision-Making Technology in Consequential Decisions), with developer and deployer duties generally applicable from 1 January 2027.",
+      "sourceUrl": "https://leg.colorado.gov/bills/sb26-189",
+      "eurLexUrl": "https://coag.gov/ai/"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1701 — Definitions",
+      "text": "C.R.S. 6-1-1701 — Definitions As used in this part 17, unless the context otherwise requires: (1) \"adverse outcome\" means: (a) a decision that denies, terminates, revokes, or materially reduces or restricts a consumer's access to, eligibility for, selection for, compensation for, or the provision of an opportunity or service; or (b) a decision that results in materially less favorable differentiated price, cost, compensation, or other material terms that are reasonably likely to materially limit, delay, or effectively deny, or otherwise fundamentally alter, a consumer's access to, eligibility for, selection for, compensation for, or the provision of an opportunity or service compared to terms offered to similarly situated consumers.If a decision outcome imposes materially less favorable differentiated pricing or terms, the decision outcome materially influences price, cost sharing, compensation, or material terms. (2) (A) \"automated decision-making technology\" or \"ADMT\" means a technology that processes personal data and uses computation to generate output, including predictions, recommendations, classifications, rankings, scores, or other information that is used to make, guide, or assist a decision, judgment, or determination concerning an individual. (B) \"automated decision-making technology\" or \"ADMT\" does not include: (i) the following technologies: (a) anti-malware; (b) anti-virus; (c) calculators; (d) databases; (e) data storage; (f) firewalls; (g) internet domain registration; (h) internet website loading; (i) networking; (j) spam- and robocall-filtering; (k) spell-checking; (l) spreadsheets that require human analysis and do not use machine learning, foundation models, or large language models; (m) web caching; or (n) web hosting; (ii) a tool used by an individual solely to summarize, organize, translate, draft, route, or present information for human review of administrative processing; or (iii) technology that communicates with consumers in natural language or other means readily understood by an average consumer for the purpose of providing consumers with information, making referrals or recommendations,answeringquestions,or generatingother content, if: (a) the technology is not contracted, advertised, marketed, configured, or intended by a person to be used in a consequential decision; and (b) the technology is subject to an acceptable use policy that prohibits generated content to be used in a consequential decision. (3) (A) \"consequential decision\" means: (i) a decision, determination, or action made about a consumer that relates to the provision of or a consumer's access to, eligibility for, selection for, or compensation for a covered domain; or (ii) a decision,determination,or action about a consumer that relates to a differentiated price, cost sharing, compensation, or other material terms in a manner that is reasonably likely to materially limit, delay, effectively deny, or otherwise fundamentally alter the consumer's access, ",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1702 — Developer responsibilities — documentation",
+      "text": "C.R.S. 6-1-1702 — Developer responsibilities — documentation (1) On and after january 1, 2027, a developer shall make available to each deployer of a covered ADMT developed by the developer, in a form and manner that is reasonably understandable to a deployer and that protects trade secrets or information protected from disclosure by state or federal law: (a) a general statement describing the intended uses and known harmful or inappropriate uses of the covered ADMT; (b) a description of the categories of data, including personal data, used to train the covered ADMT, to the extent known; (c) known limitations of the covered ADMT,including known risks and circumstances in which the covered ADMT should not be used; (d) instructions for the deployer's appropriate use, monitoring, and meaningful human review, where applicable; (e) information reasonably necessary for the deployer to comply with section 6-1-1704. If information is withheld, the developer shall notify the deployer. (2) (A) a developer shall provide to each deployer of a covered ADMT developed by the developer a notice ofmaterial updates,intentional and substantial modifications,and changes to the intended use of,limitations for, or risk mitigation for the covered ADMT within a reasonable time. (B) a developer may use public release notes containing the information required by subsection (2)(a) of this section to comply with this subsection (2) if the developer provides direct notice of the public release to each deployer of the covered ADMT. (3) A developer is subject to the disclosure requirements described in subsections (1) and (2) of this section only for a deployer's use of a covered ADMT where the ADMT was marketed, advertised, configured, contracted, sold, or licensed to be used to materially influence a consequential decision. (4) A developer shall retain, for not less than three years after the creation of a record required or created under this section or for a longer period if required by applicable state or federal law, records reasonably necessary to demonstrate compliance with this section. Records include system version identifiers, changelogs, and documentation and notices of material updates provided to deployers pursuant to subsection (2) of this section. (5) This section applies when a developer creates a covered admtthat is intended, documented, marketed, advertised, configured, or contracted to be used to make consequential decisions or when the developer becomes aware that the covered ADMT is being used to make consequential decisions in a manner consistent with the intended and contracted uses.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1703 — Deployer record keeping",
+      "text": "C.R.S. 6-1-1703 — Deployer record keeping A deployer shall retain, for not less than three years after the date of a consequential decision or for a longer period if required by applicable state or federal law, records reasonably necessary to demonstrate compliance with this part 17. Records may include, as applicable, covered ADMT version identifiers, changelogs, and documentation of material mitigation changes.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1704 — Deployer disclosures — point-of-interaction notice, public posting, and post-adverse-outcome disclosures",
+      "text": "C.R.S. 6-1-1704 — Deployer disclosures — point-of-interaction notice, public posting, and post-adverse-outcome disclosures (1) Prior to a deployer using a covered admtto materially influence a consequential decision, the deployer shall provide a clear and conspicuous notice to a consumer that the deployer used or will use a covered ADMT in a consequential decision affecting the consumer and instructions regarding how the consumer may obtain the additional information described in this section. (2) A deployer complies with subsection (1) of this section by maintaining a prominent public notice that is reasonably accessible at points of consumer interaction, including through a link or posting that is reasonably proximate to the interaction or transaction in which a consequential decision may occur. (3) If a deployer uses a covered ADMT to materially influence a consequential decision that results in an adverse outcome for a consumer,the deployer shall provide within thirty days after makingthe decision: (a) a plain language description of the consequential decision and the role the covered ADMT played in the consequential decision; (b) instructions and a simple-to-follow process to request additional information about the covered ADMT and the inputs,including the name of the covered ADMT, the covered ADMT version number, if applicable, the covered ADMT developer, and the types, categories, and sources of personal data used, to the extent the deployer receives the necessary information from the developer in compliance with section 6-1-1702; and (c) an explanation of the consumer rights described in section 6-1-1705 and how to exercise them. (4)(A) the general assembly finds that the specific content and format of post-adverse outcome disclosures may vary across consequential decision domains.The general assembly intends that the specific elements of post-adverse outcome disclosures be further clarified through rule-making that accounts for sector-specific practices while ensuring that consumers receive meaningful and understandable information about consequential decisions. (B) on or before january 1, 2027, the attorney general shall adopt rules to clarify and implement the post-adverse outcome disclosure requirements set forth in subsection (3) of this section. Rules adopted pursuant to this subsection (4) may include, as appropriate: (i) rules clarifying the content of required disclosures related to the types, sources, or categories of personal data that a deployer must provide to a consumer following an adverse outcome involving a covered ADMT pursuant to subsection (3) of this section; (ii) sector-specific guidance or illustrative examples tailored to different covered domains; (iii) standards for describing the role of the covered ADMT in a consequential decision in a manner that is reasonably understandable to a consumer; and (iv) guidance addressing how the disclosure requirements described in this section interact with federal or state law",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1705 — Consumer rights — correction, human review, and reconsideration",
+      "text": "C.R.S. 6-1-1705 — Consumer rights — correction, human review, and reconsideration (1) (A) when a consumer experiences an adverse outcome resulting from a consequential decision in which a covered ADMT materially influences the consequential decision,the consumer may request and the deployer shall provide in response to the request: (i) instructions for requesting personal data and correcting factually incorrect or materially inaccurate personal data used in a consequential decision that used a covered ADMT consistent with section 6-1-1306; and (ii) an opportunity for meaningful human review and reconsideration of the consequential decision, to the extent commercially reasonable. (B) for the purposes of this subsection (1), the exceptions to the definition of \"consumer\" in section 6-1-1303 (6)(b) and the exceptions in section 6-1-1304 (2)(k), (2)(n), and (2)(o) do not apply to the right to request correction of factually incorrect or materially inaccurate personal data pursuant to this subsection (1). (C) subsection (1)(a) of this section does not require correction of opinions, predictions, scores, or protected evaluations. (2) (A) for a consequential decision relating to education, a deployer that is subject to ferpacomplies with the requirements of subsection (1) of this section through the deployer's existing student record inspection, review,and amendment procedures and any applicable district complaint or appeal process, if the deployer offers a reasonable mechanism for a parent, guardian, or eligible student to request correction of materially inaccurate personal data and reconsideration where applicable under this part 17. (B) a deployer that is subject to FERPA is not required to establish a separate or duplicative correction or human review and reconsideration process ifthe deployer has established a correction or human review and reconsideration process to comply with FERPA. (3) On or before january 1, 2027, the attorney general shall adopt rules to clarify and implement the requirements of this section.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1706 — Enforcement by the attorney general — deceptive trade practice, right to cure, no private right of action",
+      "text": "C.R.S. 6-1-1706 — Enforcement by the attorney general — deceptive trade practice, right to cure, no private right of action (1) (A) the attorney general shall enforce this part 17 through the \"colorado consumer protection act\", this article 1. (B) violations of the disclosure requirements and consumer rights described in sections 6-1-1702, 6-1-1703, 6-1-1704, and 6-1-1705 are enforceable exclusively by the attorney general without regard to any other provision in this title 6. (2) (A) a violation of this part 17 is a deceptive trade practice and is subject to the provisions of the \"colorado consumer protection act\", this article 1. (B) any provision of the \"colorado consumer protection act\", this article 1, that is inconsistent with the exclusive enforcement authority granted to the attorney general in this section for a violation of this part 17 does not apply to any such violation. (3) (A) prior to any enforcement action for a violation of this part 17, the attorney general shall issue a notice of violation to a developer or deployer if a cure is deemed possible by the attorney general. (B) if the developer or deployer fails to cure a violation within sixty days after receipt of a notice of violation, the attorney general may bring an action pursuant to this section. (C) if the attorney general finds and can demonstrate that a developer or deployer knowingly violated this part 17or a developer or deployer repeatedly violated this part 17, the attorney general is not required to provide a cure period before seeking penalties or other relief. (D) if a violation is discovered in the course of an enforcement action, a court may consider that a developer or deployer cured the violation within sixty days after receipt of written notice as a mitigating factor in determining civil penalties or other monetary relief, if any. (E) beginning in january 2028, and in january every year thereafter, the attorney general shall include, as part of the department of law's presentation duringits \"smartact\"hearing required by section 2-7-203, a report concerning enforcement actions brought and cure periods offered by the attorney general related to violations of this part 17, including: (i) the number of actions filed by the attorney general against developers and deployers, respectively; (ii) the number of actions filed by the attorney general against developers and deployers, respectively, that were completed; (iii) the number of cure periods offered by the attorney general to developers and deployers, respectively; (iv) the number of cure periods offered by the attorney general that were not met by developers and deployers, respectively; and (v) the number of violations filed by the attorney general against developers and deployers, respectively, where a cure period was not deemed possible. (F) this subsection (3) is repealed, effective january 1, 2030. (4) Nothing in this part 17 creates a new private right of action. Nothing in this part 17 limits or reduces a",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1707 — Liability — fault allocation; indemnification prohibited",
+      "text": "C.R.S. 6-1-1707 — Liability — fault allocation; indemnification prohibited (1) A developer or deployer may be held liable in an action alleging unlawful discrimination under state anti-discrimination laws,including the \"colorado anti-discrimination act\", parts 3to 8of article 34 of title 24, arising from a consequential decision materially influenced by a covered ADMT. (2) In an action described in subsection (1) of this section, fault shall be allocated among deployers and developers based on their relative fault for the violation. (3) Nothing in this section shall be construed to apportion liability to a claimant where such apportionment is not provided for under existing law. (4) Nothing in this section shall be construed to create joint and several liability, except to the extent permitted under existing law. (5) (A) a developer is liable in an action described in subsection (1) of this section only to the extent that: (i) the developer's covered ADMT was used by a deployer in a manner that was intended, documented, marketed, advertised, configured, or contracted for by the developer; and (ii) the developer's covered ADMT materially influenced a consequential decision that gave rise to the violation of existing law. (B) a developer is not liable under this section for violations of existing law arising from a deployer's use of a covered admtin a manner that was not intended, documented, marketed, advertised, configured, or contracted for by the developer. (6) Nothing in this section shall be construed to limit the liability of a deployer for the deployer's independent acts or omissions in a consequential decision materially influenced by a covered ADMT, including using an admtin a manner that was not intended,documented, marketed, advertised, configured, or contracted for by the developer if the developer of the covered ADMT complied with section 6-1-1702. (7) (A) notwithstanding any other provision of law, if a provision of a contract for the use of automated decision-makingtechnology in making a consequential decision or any other contract between a developer and deployer purports to indemnify, defend, or hold harmless or has the effect of indemnifying, defending, or holding harmless the indemnitee from or against any liability for damages pursuant to this section resulting from the developer's or deployer's own acts or omissions related to the use of automated decision-making technology in making c o n seq u en tial d ecisio ns in v io la tio n of the \"co lo r a d o anti-discrimination act\", parts 3 to 8 of article 34 of title 24, or other colorado anti-discrimination law, the provision is contrary to public policy and void. (B) the limitations of subsection (7)(a) of this section do not apply to a developer where the use of the covered admtin making a consequential decision was not intended, documented, marketed, advertised, configured, or contracted for by the developer if the developer of the covered ADMT complied with section 6-1-1702.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1708 — Compliance with other legal obligations — insurers and covered entities",
+      "text": "C.R.S. 6-1-1708 — Compliance with other legal obligations — insurers and covered entities (1) (A) an insurer, as defined in section 10-1-102 (13), and affiliated entities that are subject to the requirements of section 10-3-1104.9 Are in compliance with this part 17 in the practice of insurance. (B) if an insurer is not deemed in compliance pursuant to subsection (1)(a) of this section, the insurer shall provide notice and disclosure of its use of a covered ADMT in materially influencing a consequential decision regarding the practice of insurance pursuant to the disclosure requirements of section 6-1-1704 (3), to the extent applicable. (2) This section does not limit the applicability of this part 17 to uses of covered admtrelated to insurer employment or insurer employment opportunities by insurers and affiliated entities that are subject to the requirements of section 10-3-1104.9. (3) (A) sections 6-1-1701, 6-1-1702, 6-1-1703, 6-1-1704, 6-1-1705, and 6-1-1706 do not apply to a covered entity within the meaning of the federal \"health insurance portability and accountability act of 1996\", 42 U.S.C. Secs. 1320D to 1320d-9, and the regulations promulgated under the federal act, or a covered entity's business associates for any services rendered to a covered entity, to the extent the covered entity is doing business in colorado, except for a consequential decision related to employment or an employment opportunity. (B) notwithstanding subsection (3)(a) of this section, for a covered entity that is a health-care provider, as defined in 45 CFR 160.103, This subsection (3) applies only if the health-care provider is operating from a location within colorado. (C) a covered entity shall provide patients with a general notice of use of advanced technologies,including a covered ADMT.The notice may be incorporated with other notices describing patient rights and how the covered entity provides care. (D) notwithstanding subsection (3)(a) of this section, a covered entity that uses a covered ADMT to determine a patient's eligibility for financial assistance, including discounted care as described in section 25.5-3-502, Shall provide a patient the following disclosures: (i) a plain language description of the consequential decision and the role of the covered ADMT in the consequential decision; (ii) the types of information about the individual the covered entity relied upon in making its determination of eligibility, except for trade secrets and other confidential or legally protected information; (iii) information on how to request correction of materially inaccurate personal data held by the covered entity consistent with the federal \"health insurance portability and accountability act of 1996\", 42 U.S.C. Secs. 1320D to 1320d-9 and section 25.5-3-502; And (iv) information on how to request meaningful human review or reconsideration, where applicable. (E) a covered entity may comply with subsection (3)(d) of this section through either an advance general di",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapterTitle": "",
+      "title": "C.R.S. 6-1-1709 — No new private right of action — application of other law",
+      "text": "C.R.S. 6-1-1709 — No new private right of action — application of other law (1) Nothing in this part 17 creates a new private right of action. (2) Compliance with this part 17 does not constitute a defense to and does not excuse noncompliance with any applicable law.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapterTitle": "",
+      "title": "SB26-189 § 2 — Unfair or deceptive trade practices — C.R.S. 6-1-105(1)(uuuu)",
+      "text": "SB26-189 § 2 — Unfair or deceptive trade practices — C.R.S. 6-1-105(1)(uuuu) SECTION 2. In Colorado Revised Statutes, 6-1-105, add (1)(uuuu) asfollows: 6-1-105. Unfair or deceptive trade practices. (1) A person engages in a deceptive trade practice when, in the course of the person's business, vocation, or occupation, the person: (uuuu) VIOLATES PART 17 OF THIS ARTICLE 1.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapterTitle": "",
+      "title": "SB26-189 § 3 — Insurers’ use of external consumer data — C.R.S. 10-3-1104.9(3)(e)",
+      "text": "SB26-189 § 3 — Insurers’ use of external consumer data — C.R.S. 10-3-1104.9(3)(e) SECTION 3. InColoradoRevised Statutes, 10-3-1104.9, add (3)(e) asfollows: 10-3-1104.9. Insurers' use of external consumer data and information sources, algorithms, and predictive models- unfair discrimination prohibited - rules - stakeholder process required - investigations - definitions. (3) (e) THE COMMISSIONER MAY ADOPT NEW RULES OR UPDATE EXISTING RULES REGARDING NOTICE AND DISCLOSURES FROM INSURERS TO CONSUMERS.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-12",
+      "number": 12,
+      "chapterTitle": "",
+      "title": "SB26-189 § 4 — Appropriation",
+      "text": "SB26-189 § 4 — Appropriation SECTION 4. Appropriation. For the 2026-27 state fiscal year, $46,190 is appropriated to the department of law. This appropriation is from the general fund and is based on an assumption that the department will require an additional 0.4 FTE.Toimplementthis act,thedepartmentmayuse this appropriationfor consumer protection, antitrust, and civil rights.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-13",
+      "number": 13,
+      "chapterTitle": "",
+      "title": "SB26-189 § 5 — Effective date and applicability",
+      "text": "SB26-189 § 5 — Effective date and applicability SECTION 5. Effective date - applicability. (1) Except as otherwise provided in subsection (2) of this section, this act takes effect January 1, 2027. (2) Sections 6-1-1704 (4), 6-1-1705 (3), and 6-1-1706 (6), Colorado Revised Statutes, as amended in section 1 of this act, section 10-3-1104.9 (3)(e), Colorado Revised Statutes, as enacted in section 3 of this act, section 4 of this act, this section, and section 6 of this act take effect upon passage. (3) This act appliesto consequential decisions made on or afterJanuary 1, 2027.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "type": "article",
+      "id": "article-14",
+      "number": 14,
+      "chapterTitle": "",
+      "title": "SB26-189 § 6 — Safety clause",
+      "text": "SB26-189 § 6 — Safety clause SECTION 6. Safety clause. The general assembly finds, determines, and declaresthatthis actis necessaryforthe immediate preservation ofthe public peace, health, or safety or for appropriations for the support and maintenance of the departments of the state and state institutions. Approved: May 14, 2026",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    }
+  ],
+  "regulation": {
+    "id": "us-admt"
+  }
+}

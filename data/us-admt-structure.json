@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "Colorado General Assembly — SB26-189 (became law)",
+        "url": "https://leg.colorado.gov/bills/sb26-189",
+        "description": "Official bill page for Senate Bill 26-189, Automated Decision-Making Technology; signed 14 May 2026.",
+        "documents": [
+          {
+            "label": "SB26-189 bill page",
+            "url": "https://leg.colorado.gov/bills/sb26-189"
+          },
+          {
+            "label": "2026 Session Laws ch. 131 (download)",
+            "url": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download"
+          }
+        ]
+      },
+      {
+        "name": "Colorado General Assembly — Session Laws Chapter 131",
+        "url": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+        "description": "Enrolled session-law text of SB 26-189 as approved 14 May 2026 (C.R.S. 6-1-1701 et seq.).",
+        "documents": [
+          {
+            "label": "Chapter 131 PDF/HTML",
+            "url": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download"
+          }
+        ]
+      },
+      {
+        "name": "Colorado Attorney General — AI / ADMT",
+        "url": "https://coag.gov/ai/",
+        "description": "Colorado Department of Law page on artificial intelligence and automated decision-making technology (rulemaking and enforcement).",
+        "documents": [
+          {
+            "label": "coag.gov/ai",
+            "url": "https://coag.gov/ai/"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Long title, legislative declaration, effective-date clause, safety clause, and a jurisdiction note that the United States has no federal AI Act.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "id": "chapters",
+      "title": "C.R.S. part 17 and bill sections",
+      "description": "C.R.S. 6-1-1701 through 6-1-1709 plus SB 26-189 §§ 2–6.",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Definitions",
+      "articleRange": "1",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Developer and deployer duties",
+      "articleRange": "2-3",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Deployer disclosures",
+      "articleRange": "4",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Consumer rights",
+      "articleRange": "5",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Enforcement and allocation of fault",
+      "articleRange": "6-7",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 6,
+      "roman": "VI",
+      "title": "Compliance with other legal obligations",
+      "articleRange": "8-9",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    },
+    {
+      "number": 7,
+      "roman": "VII",
+      "title": "Conforming amendments, appropriation, and effective date",
+      "articleRange": "10-14",
+      "sourceUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+      "eurLexUrl": "https://leg.colorado.gov/bills/sb26-189"
+    }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": [],
+  "regulation": {
+    "id": "us-admt"
+  }
+}

@@ -1,9 +1,9 @@
 # Architecture overview  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
+**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22**
 
-The platform is a single Node.js/Express application serving a vanilla-JS SPA over **six instruments** in two jurisdictions (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`). There is **no database** and **no end-user authentication**.
+The platform is a single Node.js/Express application serving a vanilla-JS SPA over **nine instruments** in three jurisdictions (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`). There is **no database** and **no end-user authentication**.
 
 ## System context
 
@@ -24,6 +24,11 @@ flowchart LR
     idNews[Antara tags and RSS / Setkab / Komdigi / data.go.id]
   end
 
+  subgraph US["United States sources"]
+    usLaw[CPPA / leginfo / Colorado session laws / govinfo / Congress.gov]
+    usNews[FTC / CPPA CalPrivacy / California OAG / Colorado AG / data.gov / GSA / FDS]
+  end
+
   groq[Groq API]
   tavily[Tavily API]
   ddg[DuckDuckGo HTML]
@@ -35,6 +40,8 @@ flowchart LR
   app --> jdih
   app --> euNews
   app --> idNews
+  app --> usLaw
+  app --> usNews
   app --> groq
   app --> tavily
   app --> ddg
@@ -46,24 +53,25 @@ flowchart LR
 
 | Layer | Components | Responsibility |
 |-------|------------|----------------|
-| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, **`regulation-profiles-id.js`**, `news-dedupe.js`, `styles.css` | `#appChrome`; **region picker** (All / EU / Indonesia) + jurisdiction chip + regulation select; **Tools** panel; **browse welcome grid** (desktop, six cards) / solo card (mobile); chapters filter panel + `resetChaptersFilters`; News hero; regulation-aware Browse/Ask/Sources/News |
+| **Client** | `index.html`, `app.js`, `regulation-profiles.js`, **`regulation-profiles-id.js`**, **`regulation-profiles-us.js`**, `news-dedupe.js`, `styles.css` | `#appChrome`; **region picker** (All / EU / Indonesia / USA) + jurisdiction chip + regulation select; **Tools** panel; **browse welcome grid** (desktop, nine cards in three region rows) / solo card (mobile); reader **Page \| Full** (`gdprQaReaderViewMode`); chapters filter panel + `resetChaptersFilters`; News hero; regulation-aware Browse/Ask/Sources/News |
 | **API** | `server.js` | REST; `parseRegulationId`; BM25; Groq/Tavily with `regulationSearchContext`; credible-source resolver; news merge |
-| **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Six-entry registry (+ `jurisdiction`, `REGULATION_DISPLAY_ORDER`, `ID_REGULATION_IDS`); `loadContent(regId)`; ETL dispatch; Vercel `/tmp` + **`SEED_FILES`** (**20** JSON files) |
+| **Registry** | `lib/regulations.js`, `lib/regulation-content.js`, `lib/paths.js` | Nine-entry registry (+ `jurisdiction`, `REGULATION_DISPLAY_ORDER`, `ID_REGULATION_IDS`, `US_REGULATION_IDS`); `loadContent(regId)`; ETL dispatch; Vercel `/tmp` + **`SEED_FILES`** (**29** JSON files) |
 | **ETL GDPR** | `scraper.js` + **`document-formatting-guardrails.js`** | → `gdpr-content.json` |
 | **ETL AI Act** | `ai-act-scraper.js` | → `ai-act-content.json` |
 | **ETL Data Act** | `data-act-scraper.js` | → `data-act-content.json` |
 | **ETL Indonesia (×3)** | **`id-law-scraper.js`** `run(id)` | → `id-pdp-content.json`, `id-satu-data-content.json`, `id-ai-ethics-content.json` (bundled official corpus preferred when live JDIH HTML is thin) |
-| **ETL bootstrap (maintainer)** | `scripts/build-id-corpora.py` | One-off builder for Indonesian corpora from JDIH HTML + Perpres PDF (scratch dir `tmp-id-etl/`, git-ignored) |
-| **News** | `news-crawler.js` (EU + `crawlIndonesiaOfficialNews`), `news-topics.js`, `server.js` (merge, dedupe, routes), `public/news-dedupe.js` | Parallel fetches (RSS/HTML/API) → relevance gate (EU topic gate + **Indonesian policy gate**) → topic assignment → merge → **consolidated dedupe** → API + client mirror |
+| **ETL United States (×3)** | **`us-law-scraper.js`** `run(id)` | → `us-ccpa-content.json`, `us-admt-content.json`, `us-open-data-content.json` (bundled official corpus is authoritative; source reachability ping only; no GDPR fallback) |
+| **ETL bootstrap (maintainer)** | `scripts/build-id-corpora.py`, `scripts/build-us-corpora.py` | One-off builders: Indonesian corpora from JDIH HTML + Perpres PDF (`tmp-id-etl/`); United States analogues from CPPA / Colorado session laws / govinfo (`tmp-us-etl/`) |
+| **News** | `news-crawler.js` (EU + `crawlIndonesiaOfficialNews` + **`crawlUnitedStatesOfficialNews`**), `news-topics.js`, `server.js` (merge, dedupe, routes), `public/news-dedupe.js` | Parallel fetches (RSS/HTML/API) → relevance gate (EU topic gate + **Indonesian policy gate** + **United States policy gate**) → topic assignment → merge → **consolidated dedupe** → API + client mirror |
 | **Crossrefs** | `gdpr-crossrefs.js` | GDPR article↔recital suitability and citation extraction |
-| **Tests** | `test/indo-parity.test.js` (`npm test`) | Registry, Indonesian corpora, news helpers, persisted Indonesian news |
-| **Data** | `data/*.json` (20 files), `public/industry-sectors.json` | Corpora, structure, news cache, chapter summaries, sectors |
+| **Tests** | `test/indo-parity.test.js`, `test/us-parity.test.js`, `test/browse-routes.test.js`, `test/reader-view.test.js` (`npm test`) | Registry, Indonesian and US corpora, news helpers, persisted news, Ask retrieval and sources fallback, browse hash routing, reader Page \| Full — **40 pass / 17 suites** |
+| **Data** | `data/*.json` (29 files), `public/industry-sectors.json` | Corpora, structure, news cache, chapter summaries, sectors |
 
 ---
 
-## Six ETL paths
+## Nine ETL paths
 
-Every instrument has exactly one ETL entry point, selected by `runRegulationScraperAndReloadContent(id)` (`lib/regulation-content.js`). All six paths run **`normalizeCorpus`** before `buildSearchIndex` and before writing JSON.
+Every instrument has exactly one ETL entry point, selected by `runRegulationScraperAndReloadContent(id)` (`lib/regulation-content.js`). All nine paths run **`normalizeCorpus`** before `buildSearchIndex` and before writing JSON.
 
 ```mermaid
 flowchart TB
@@ -78,7 +86,11 @@ flowchart TB
   disp -->|id-satu-data| S5["id-law-scraper.js run(id-satu-data)\nPerpres 39/2019 PDF / peraturan.go.id"]
   disp -->|id-ai-ethics| S6["id-law-scraper.js run(id-ai-ethics)\nJDIH Komdigi · SE 9/2023"]
 
-  S1 & S2 & S3 & S4 & S5 & S6 --> NORM["document-formatting-guardrails.normalizeCorpus"]
+  disp -->|us-ccpa| S7["us-law-scraper.js run(us-ccpa)\nCPPA · Cal. Civ. Code 1798.100–199.95"]
+  disp -->|us-admt| S8["us-law-scraper.js run(us-admt)\nColorado SB 26-189 · C.R.S. 6-1-1701"]
+  disp -->|us-open-data| S9["us-law-scraper.js run(us-open-data)\nPub. L. 115-435 Title II · govinfo"]
+
+  S1 & S2 & S3 & S4 & S5 & S6 & S7 & S8 & S9 --> NORM["document-formatting-guardrails.normalizeCorpus"]
   NORM --> IDX["buildSearchIndex (BM25 rows)"]
   IDX --> OUT["data/<id>-content.json"]
   OUT --> RELOAD["invalidate cache + loadContent(id)"]
@@ -92,6 +104,9 @@ flowchart TB
 | 4 | `id-pdp` | `id-law-scraper.js id-pdp` | `id-pdp-content.json` | `id-pdp-structure.json` | `npm run refresh-id-pdp` |
 | 5 | `id-satu-data` | `id-law-scraper.js id-satu-data` | `id-satu-data-content.json` | `id-satu-data-structure.json` | `npm run refresh-id-satu-data` |
 | 6 | `id-ai-ethics` | `id-law-scraper.js id-ai-ethics` | `id-ai-ethics-content.json` | `id-ai-ethics-structure.json` | `npm run refresh-id-ai-ethics` |
+| 7 | `us-ccpa` | `us-law-scraper.js us-ccpa` | `us-ccpa-content.json` | `us-ccpa-structure.json` | `npm run refresh-us-ccpa` |
+| 8 | `us-admt` | `us-law-scraper.js us-admt` | `us-admt-content.json` | `us-admt-structure.json` | `npm run refresh-us-admt` |
+| 9 | `us-open-data` | `us-law-scraper.js us-open-data` | `us-open-data-content.json` | `us-open-data-structure.json` | `npm run refresh-us-open-data` |
 
 ### Indonesian ETL behaviour (`id-law-scraper.js`)
 
@@ -104,6 +119,17 @@ flowchart TB
 
 ---
 
+### United States ETL behaviour (`us-law-scraper.js`)
+
+1. Load the structure file (chapters, `meta.sources`) and the existing content file; reject ids outside `US_REGULATION_IDS`.
+2. `pingOfficialSource` fetches `reg.infoBaseUrl` (CPPA, Colorado General Assembly, govinfo) and records reachability only. The **bundled official corpus** (built offline by `scripts/build-us-corpora.py`) is the source of truth; live HTML is not parsed into the corpus.
+3. Floors come from `MIN_<US_CCPA|US_ADMT|US_OPEN_DATA>_ARTICLES` / `_RECITALS` (defaults 30/5, 12/5, 8/4). If the existing corpus is below the article floor the run throws `<shortName> ETL incomplete` (→ `POST /api/refresh` **500**) and does not overwrite the bundle.
+4. `mergeWithExisting` → `normalizeCorpus` → `buildSearchIndex` → hash compare; write only when the hash changed, `<PREFIX>_FORCE_CORPUS_WRITE=1` / `GDPR_FORCE_CORPUS_WRITE=1`, the file is missing, or the index is empty.
+5. `meta.etl.extractedFrom` is carried from the bundled corpus (`cppa-jan2025-compilation`, `colo-sess-laws-2026-ch131`, `govinfo-plaw-115publ435`) and defaults to `bundled-official` when absent.
+6. **Honesty constraints:** there is no federal GDPR / AI Act; the OPEN Government Data Act is not the 2014 DATA Act; `GET /api/meta` never falls back to GDPR sources for `us-*`.
+
+---
+
 ## Region picker and regulation selection (client flow)
 
 The **region** is a **client-only** UX filter; the **regulation id** is what reaches the API.
@@ -111,8 +137,8 @@ The **region** is a **client-only** UX filter; the **regulation id** is what rea
 ```mermaid
 flowchart LR
   subgraph chrome["#headerInstrumentPicker"]
-    region["Region radiogroup\nAll · EU · Indonesia\n(localStorage gdpr-qa-region-v1)"]
-    chip["Jurisdiction chip\nEuropean Union | Indonesia"]
+    region["Region radiogroup\nAll · EU · Indonesia · USA\n(localStorage gdpr-qa-region-v1)"]
+    chip["Jurisdiction chip\nEuropean Union | Indonesia | United States"]
     select["Regulation select\n(optgroups when region = All)\n(localStorage gdpr-qa-regulation-v1)"]
   end
   catalog["GET /api/regulations\njurisdiction + jurisdictionLabel"]
@@ -125,9 +151,9 @@ flowchart LR
   setReg --> api["appendRegulationParam()\n?regulation=id on /api/* (not regulations, news, sectors, validate)"]
 ```
 
-- `defaultRegulationForRegion(region)` picks the first instrument for a region (`gdpr` for EU, `id-pdp` for Indonesia).
+- `defaultRegulationForRegion(region)` picks the first instrument for a region (`gdpr` for EU, `id-pdp` for Indonesia, `us-ccpa` for USA; `all` keeps the current regulation).
 - `itemMatchesNewsRegulationScope` filters News client-side per instrument.
-- Profiles: EU in `regulation-profiles.js`; Indonesian profiles in **`regulation-profiles-id.js`**, which extends `window.REGULATION_PROFILES` (and sets `officialSiteName`).
+- Profiles: EU in `regulation-profiles.js`; Indonesian profiles in **`regulation-profiles-id.js`**, and United States profiles in **`regulation-profiles-us.js`**; both extend `window.REGULATION_PROFILES` (and set `officialSiteName`).
 
 ---
 
@@ -144,7 +170,7 @@ sequenceDiagram
 
   UI->>S: POST /api/refresh { regulation }
   S->>R: runRegulationScraperAndReloadContent(id)
-  R->>SCR: scraper | ai-act | data-act | id-law-scraper(id)
+  R->>SCR: scraper | ai-act | data-act | id-law-scraper(id) | us-law-scraper(id)
   SCR->>DF: normalizeCorpus(recitals, articles)
   DF-->>SCR: normalized arrays
   SCR->>SCR: buildSearchIndex
@@ -159,12 +185,12 @@ sequenceDiagram
 
 ## Browse welcome (client flow)
 
-When Browse shows the placeholder (no article/recital open), the client renders regulation overview UI from **`browseUi`** in `regulation-profiles.js` / `regulation-profiles-id.js`:
+When Browse shows the placeholder (no article/recital open), the client renders regulation overview UI from **`browseUi`** in `regulation-profiles.js` / `regulation-profiles-id.js` / `regulation-profiles-us.js`:
 
 ```mermaid
 flowchart TB
   subgraph desktop["Desktop ≥900px"]
-    grid["#browseWelcomeGrid\n6 themed cards in 2 region sections\nGDPR · Data Act · AI Act | UU PDP · Satu Data · SE AI Ethics"]
+    grid["#browseWelcomeGrid\n9 themed cards in 3 region sections\nGDPR · Data Act · AI Act | UU PDP · Satu Data · SE AI Ethics | CCPA · OPEN Data · ADMT"]
     grid --> pick["User clicks card or quick action"]
   end
   subgraph mobile["Mobile ≤899px"]
@@ -212,13 +238,14 @@ sequenceDiagram
 
 ---
 
-## News pipeline (EU + Indonesia)
+## News pipeline (EU + Indonesia + United States)
 
 ```mermaid
 flowchart LR
   subgraph crawl["crawlNews() in news-crawler.js (parallel)"]
     eu["EDPB RSS/HTML · EDPS RSS · ICO · Commission · Council of Europe"]
     ind["crawlIndonesiaOfficialNews()"]
+    usn["crawlUnitedStatesOfficialNews()"]
   end
   subgraph indDetail["Indonesian sources"]
     tags["Antara tag hubs\nuu-pdp · data-pribadi · Satu Data · AI ethics · komdigi"]
@@ -227,9 +254,18 @@ flowchart LR
     set["Setkab feed"]
     sd["data.go.id portal (best-effort)"]
   end
+  subgraph usDetail["United States sources"]
+    ftc["FTC press releases (RSS/HTML, compatible UA)"]
+    cppa["CPPA / CalPrivacy year announcements"]
+    oag["California OAG RSS"]
+    coag["Colorado AG ADAI / ADMT hub + rulemaking files"]
+    fds["data.gov · Federal Data Strategy · GSA"]
+  end
   ind --- tags & rss & kom & set & sd
+  usn --- ftc & cppa & oag & coag & fds
   eu --> gate
-  ind --> gate["Relevance gates\nEU topic gate · indonesiaPolicyNewsRe"]
+  ind --> gate["Relevance gates\nEU topic gate · indonesiaPolicyNewsRe · unitedStatesNewsItemIsOnScope"]
+  usn --> gate
   gate --> topics["news-topics.js\ntopic + topicCategory"]
   topics --> merge["mergeNewsItems + dedupeNewsItemsConsolidated"]
   merge --> file["data/gdpr-news.json"]
@@ -238,15 +274,16 @@ flowchart LR
 ```
 
 - Trusted Antara tag hubs skip the keyword gate; broad tags/RSS still require `indonesiaPolicyNewsRe`.
-- Taxonomy categories added for Indonesia: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**.
-- A single shared cache (`gdpr-news.json`) holds EU and Indonesian items; scope is applied in the browser.
+- Taxonomy categories added for Indonesia: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**; for the United States: **United States CCPA**, **United States OPEN Data**, **United States ADMT**.
+- United States gate: CPPA/CalPrivacy and `data.gov` / `resources.data.gov` / `strategy.data.gov` URLs are trusted; FTC, California OAG, and GSA items require topic keywords (`unitedStatesPolicyNewsRe`). FTC fetches use a compatible (non-Chrome) user agent because Chrome-like UAs receive 404. Persisted `gdpr-news.json` ships with official U.S. headlines so USA News is non-empty before the first refresh.
+- A single shared cache (`gdpr-news.json`) holds EU, Indonesian, and United States items; scope is applied in the browser.
 
 ---
 
 ## Deployment model
 
-- **Local / VM** — One Node.js process (`npm start`) serves API and static files; `node-cron` runs daily ETL for **all six** instruments at 02:00 `Europe/Brussels`.
-- **Vercel** — Express app exported via `api/index.js`; all routes rewrite to that function; bundled `data/` is seeded into `/tmp/gdpr-qa-data` per instance (`lib/paths.js` **`SEED_FILES`** manifest — **20** JSON files: six corpora, six structures, news, six chapter-summary files, GDPR suitable recitals). `vercel.json` `includeFiles` ships `data/**`, `ai-act-scraper.js`, `data-act-scraper.js`, **`id-law-scraper.js`**. Daily ETL uses Vercel Cron → `api/cron/daily-regulation-refresh.js` (all six, sequential) with `CRON_SECRET`. See [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
+- **Local / VM** — One Node.js process (`npm start`) serves API and static files; `node-cron` runs daily ETL for **all nine** instruments at 02:00 `Europe/Brussels`.
+- **Vercel** — Express app exported via `api/index.js`; all routes rewrite to that function; bundled `data/` is seeded into `/tmp/gdpr-qa-data` per instance (`lib/paths.js` **`SEED_FILES`** manifest — **29** JSON files: nine corpora, nine structures, one news store, nine chapter-summary files, GDPR suitable recitals). `vercel.json` `includeFiles` ships `data/**`, `ai-act-scraper.js`, `data-act-scraper.js`, **`id-law-scraper.js`**, **`us-law-scraper.js`**. Daily ETL uses Vercel Cron → `api/cron/daily-regulation-refresh.js` (all nine, sequential) with `CRON_SECRET`. See [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 - **Stateful files (local)** — `data/` should persist on disk between restarts (content + news cache). On Vercel, treat committed `data/` as source of truth; `/tmp` writes are ephemeral.
 - **Secrets** — Environment variables only; no database required for core features. BYOK keys stay in the browser. **No end-user auth.**
 
@@ -276,10 +313,10 @@ sequenceDiagram
 
 ## Extension points
 
-- **New regulation (either jurisdiction):** add an entry to `lib/regulations.js` (incl. `jurisdiction`, `jurisdictionLabel`, `officialSiteName`, `etlEnvPrefix`, `chapterRanges`), a structure + content JSON, a chapter-summaries file, add the files to `SEED_FILES`, add a profile (`regulation-profiles*.js`), and extend `REGULATION_DISPLAY_ORDER` / `BROWSE_WELCOME_GRID_ORDER`. For Indonesian instruments extend `ID_REGULATION_IDS` (so `id-law-scraper.js` accepts the id) and the `id-*` branch in `runRegulationScraperAndReloadContent`. Add the new id to the cron handler (`api/cron/daily-regulation-refresh.js`) and the `node-cron` block in `server.js`; touch `vercel.json` `includeFiles` only if a new scraper module is introduced. Add a test in `test/`.
+- **New regulation (any jurisdiction):** add an entry to `lib/regulations.js` (incl. `jurisdiction`, `jurisdictionLabel`, `officialSiteName`, `etlEnvPrefix`, `chapterRanges`), a structure + content JSON, a chapter-summaries file, add the files to `SEED_FILES`, add a profile (`regulation-profiles*.js`), and extend `REGULATION_DISPLAY_ORDER` / `BROWSE_WELCOME_GRID_ORDER`. For Indonesian instruments extend `ID_REGULATION_IDS` (ETL via `id-law-scraper.js`); for United States analogues extend `US_REGULATION_IDS` and the `us-*` branch in `runRegulationScraperAndReloadContent`. Add the new id to the cron handler (`api/cron/daily-regulation-refresh.js`) and the `node-cron` block in `server.js`; touch `vercel.json` `includeFiles` only if a new scraper module is introduced. Add a test in `test/`.
 - **New LLM provider for Ask:** Extend `server.js` with a parallel path to Groq/Tavily (keep citation contract; do **not** revive the removed `/api/summarize`).
 - **BYOK providers:** Extend **`resolveLlmKeys`** and validation helpers; never persist client keys server-side.
-- **Additional news sources:** Implement fetch/parser in `news-crawler.js` (add Indonesian feeds inside `crawlIndonesiaOfficialNews`) and add feed metadata to defaults or JSON.
+- **Additional news sources:** Implement fetch/parser in `news-crawler.js` (add Indonesian feeds inside `crawlIndonesiaOfficialNews` and U.S. feeds inside `crawlUnitedStatesOfficialNews`) and add feed metadata to defaults or JSON.
 - **Sector list:** Edit `public/industry-sectors.json` (and optional server copy if split later).
 
 ---

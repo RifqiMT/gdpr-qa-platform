@@ -1,0 +1,13 @@
+{
+  "regulationId": "us-open-data",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T07:57:39Z",
+  "summaries": {
+    "1": "Title II short title: Open, Public, Electronic, and Necessary Government Data Act (OPEN Government Data Act).",
+    "2": "New and amended 44 U.S.C. § 3502 definitions, including data, data asset, machine-readable, metadata, open Government data asset, open license, and public data asset.",
+    "3": "OMB Director duties to issue open-data standards and guidance, and agency CIO/information-resources duties to collect and publish data as open Government data assets by default (44 U.S.C. §§ 3504, 3506).",
+    "4": "Agency comprehensive data inventories and GSA’s Federal data catalogue (data.gov) under 44 U.S.C. § 3511, agency Chief Data Officers and the CDO Council, plus reporting.",
+    "5": "P.L. 115-435 Title IV: rule of construction, use of existing resources, and delayed effective date (generally 180 days after enactment of 14 January 2019)."
+  }
+}

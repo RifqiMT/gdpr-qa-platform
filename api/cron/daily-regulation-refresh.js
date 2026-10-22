@@ -17,6 +17,9 @@ module.exports = async (req, res) => {
     const idPdp = await runRegulationScraperAndReloadContent('id-pdp');
     const idSatuData = await runRegulationScraperAndReloadContent('id-satu-data');
     const idAiEthics = await runRegulationScraperAndReloadContent('id-ai-ethics');
+    const usCcpa = await runRegulationScraperAndReloadContent('us-ccpa');
+    const usAdmt = await runRegulationScraperAndReloadContent('us-admt');
+    const usOpenData = await runRegulationScraperAndReloadContent('us-open-data');
     res.json({
       ok: true,
       job: 'daily-regulation-refresh',
@@ -43,6 +46,18 @@ module.exports = async (req, res) => {
       idAiEthics: {
         lastRefreshed: idAiEthics.meta?.lastRefreshed ?? null,
         lastChecked: idAiEthics.meta?.lastChecked ?? null
+      },
+      usCcpa: {
+        lastRefreshed: usCcpa.meta?.lastRefreshed ?? null,
+        lastChecked: usCcpa.meta?.lastChecked ?? null
+      },
+      usAdmt: {
+        lastRefreshed: usAdmt.meta?.lastRefreshed ?? null,
+        lastChecked: usAdmt.meta?.lastChecked ?? null
+      },
+      usOpenData: {
+        lastRefreshed: usOpenData.meta?.lastRefreshed ?? null,
+        lastChecked: usOpenData.meta?.lastChecked ?? null
       }
     });
   } catch (e) {

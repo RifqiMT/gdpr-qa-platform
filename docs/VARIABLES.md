@@ -1,7 +1,7 @@
 # Variables and data dictionary
-## Regulation Q&A Platform (EU and Indonesia)
+## Regulation Q&A Platform (EU, Indonesia, and United States)
 
-**Document version:** 2.1 · **Product version:** `package.json` **1.2.7** · **Documentation standard:** **v2.5** · **Audit date:** **2026-10-21**
+**Document version:** 2.9 · **Product version:** `package.json` **1.2.9** · **Documentation standard:** **v2.9** · **Audit date:** **2026-10-22** · **Instruments:** nine (EU + Indonesia + United States) · **`SEED_FILES`:** 29
 
 **Scope:** Environment variables, bundled data files, regulation registry and UI profile fields, corpus JSON shapes, Ask API and BYOK fields, news item fields and topic taxonomy, app-chrome CSS variables, and relationship diagrams.
 
@@ -29,6 +29,7 @@
    - [1.4 EU AI Act ETL](#14-eu-ai-act-etl)
    - [1.5 EU Data Act ETL](#15-eu-data-act-etl)
    - [1.6 Indonesian ETL](#16-indonesian-etl)
+   - [1.6a United States ETL](#16a-united-states-etl)
    - [1.7 Ask: web snippet retrieval](#17-ask-web-snippet-retrieval)
    - [1.8 Groq](#18-groq)
    - [1.9 Tavily](#19-tavily)
@@ -89,16 +90,25 @@ Variables are loaded by `dotenv` in `server.js` from the first existing file amo
 | 10 | `id-satu-data-structure.json` | Satu Data structure skeleton | Chapters, categories, and sources. | ETL input and fallback. | `id-law-scraper.js` | 8 chapters |
 | 11 | `id-ai-ethics-content.json` | ID AI Ethics corpus | SE Menkominfo 9/2023 sections, ethical values, chapters, `searchIndex`. | Written by `id-law-scraper.js id-ai-ethics`. | `lib/regulation-content.js` | 7 sections, 9 values |
 | 12 | `id-ai-ethics-structure.json` | ID AI Ethics structure skeleton | Chapters, categories, and sources. | ETL input and fallback. | `id-law-scraper.js` | 5 chapters |
-| 13 | `gdpr-news.json` | News store | Persisted merged news list plus `newsFeeds` and `description`. | Read by `GET /api/news`; rewritten by `POST /api/news/refresh`. | `server.js` (`NEWS_FILE`) | 1,216 items in the 2026-10-20 snapshot |
-| 14 | `chapter-summaries.json` | GDPR chapter summaries | LLM-generated chapter blurbs for GDPR. | `{ summaries: { "<chapter>": text }, source, llm, generatedAt }`. | `GET /api/chapter-summaries` | Chapter I summary |
-| 15 | `chapter-summaries-ai-act.json` | AI Act chapter summaries | Chapter blurbs for the AI Act. | Same shape as row 14. | `GET /api/chapter-summaries?regulation=ai-act` | 13 chapters |
-| 16 | `chapter-summaries-data-act.json` | Data Act chapter summaries | Chapter blurbs for the Data Act. | Same shape as row 14. | `GET /api/chapter-summaries?regulation=data-act` | 11 chapters |
-| 17 | `chapter-summaries-id-pdp.json` | UU PDP chapter summaries | Chapter blurbs for UU PDP. | Same shape as row 14. | `GET /api/chapter-summaries?regulation=id-pdp` | 16 chapters |
-| 18 | `chapter-summaries-id-satu-data.json` | Satu Data chapter summaries | Chapter blurbs for Satu Data. | Same shape as row 14. | `GET /api/chapter-summaries?regulation=id-satu-data` | 8 chapters |
-| 19 | `chapter-summaries-id-ai-ethics.json` | ID AI Ethics chapter summaries | Chapter blurbs for the AI ethics circular. | Same shape as row 14. | `GET /api/chapter-summaries?regulation=id-ai-ethics` | 5 chapters |
-| 20 | `article-suitable-recitals.json` | GDPR suitable-recitals map | Editorial map from GDPR article number to suggested recital numbers (GDPR-Info). | `{ source, fetchedAt, licenseNote, articles: { "<n>": [recitalNumbers] }, errors }`. Also copied to `public/` by `prestart` and `vercel-build`. | `server.js` (`/article-suitable-recitals.json`), `gdpr-crossrefs.js` | `"1": [1, 2, 3, …]` |
+| 13 | `us-ccpa-content.json` | US CCPA/CPRA corpus | Civil Code §§ 1798.100–1798.199.95 articles, recitals, chapters, `searchIndex`. | Written by `us-law-scraper.js us-ccpa`. | `lib/regulation-content.js` | 33 articles, 5 recitals |
+| 14 | `us-ccpa-structure.json` | US CCPA structure skeleton | Chapters, categories, and sources (CPPA, leginfo). | ETL input and fallback. | `us-law-scraper.js` | 7 chapters |
+| 15 | `us-admt-content.json` | Colorado ADMT corpus | SB 26-189 / C.R.S. 6-1-1701 et seq. | Written by `us-law-scraper.js us-admt`. | `lib/regulation-content.js` | 14 articles, 5 recitals |
+| 16 | `us-admt-structure.json` | Colorado ADMT structure skeleton | Chapters, categories, and sources (Colorado session laws). | ETL input and fallback. | `us-law-scraper.js` | 7 chapters |
+| 17 | `us-open-data-content.json` | OPEN Government Data Act corpus | Title II of Pub. L. 115-435 (not the 2014 DATA Act). | Written by `us-law-scraper.js us-open-data`. | `lib/regulation-content.js` | 10 articles, 4 recitals |
+| 18 | `us-open-data-structure.json` | OPEN Data structure skeleton | Chapters, categories, and sources (govinfo, data.gov). | ETL input and fallback. | `us-law-scraper.js` | 5 chapters |
+| 19 | `gdpr-news.json` | News store | Persisted merged news list plus `newsFeeds` and `description` (EU + Indonesia + United States). | Read by `GET /api/news`; rewritten by `POST /api/news/refresh`. | `server.js` (`NEWS_FILE`) | ~1,546 items after 2026-10-22 US seed |
+| 20 | `chapter-summaries.json` | GDPR chapter summaries | LLM-generated chapter blurbs for GDPR. | `{ summaries: { "<chapter>": text }, source, llm, generatedAt }`. | `GET /api/chapter-summaries` | Chapter I summary |
+| 21 | `chapter-summaries-ai-act.json` | AI Act chapter summaries | Chapter blurbs for the AI Act. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=ai-act` | 13 chapters |
+| 22 | `chapter-summaries-data-act.json` | Data Act chapter summaries | Chapter blurbs for the Data Act. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=data-act` | 11 chapters |
+| 23 | `chapter-summaries-id-pdp.json` | UU PDP chapter summaries | Chapter blurbs for UU PDP. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=id-pdp` | 16 chapters |
+| 24 | `chapter-summaries-id-satu-data.json` | Satu Data chapter summaries | Chapter blurbs for Satu Data. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=id-satu-data` | 8 chapters |
+| 25 | `chapter-summaries-id-ai-ethics.json` | ID AI Ethics chapter summaries | Chapter blurbs for the AI ethics circular. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=id-ai-ethics` | 5 chapters |
+| 26 | `chapter-summaries-us-ccpa.json` | US CCPA chapter summaries | Chapter blurbs for CCPA/CPRA. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=us-ccpa` | 7 chapters |
+| 27 | `chapter-summaries-us-admt.json` | Colorado ADMT chapter summaries | Chapter blurbs for SB 26-189. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=us-admt` | 7 chapters |
+| 28 | `chapter-summaries-us-open-data.json` | OPEN Data chapter summaries | Chapter blurbs for Title II of P.L. 115-435. | Same shape as row 20. | `GET /api/chapter-summaries?regulation=us-open-data` | 5 chapters |
+| 29 | `article-suitable-recitals.json` | GDPR suitable-recitals map | Editorial map from GDPR article number to suggested recital numbers (GDPR-Info). | `{ source, fetchedAt, licenseNote, articles: { "<n>": [recitalNumbers] }, errors }`. Also copied to `public/` by `prestart` and `vercel-build`. | `server.js` (`/article-suitable-recitals.json`), `gdpr-crossrefs.js` | `"1": [1, 2, 3, …]` |
 
-**Integrity checks:** 6 regulations × 2 files (content + structure) = **12**; 6 summary files; 1 news store; 1 cross-reference file; total **20**.
+**Integrity checks:** 9 regulations × 2 files (content + structure) = **18**; 9 summary files; 1 news store; 1 cross-reference file; total **29**.
 
 ### 1.2 Server and runtime
 
@@ -120,7 +130,7 @@ Applies to `scraper.js` (Refresh sources for `gdpr`, `npm run refresh`, daily cr
 | `MIN_GDPR_INFO_RECITALS` | Minimum recitals for GDPR-Info acceptance | Same for recitals (full Regulation = 173). | `max(1, parseInt(env \|\| '173')) \|\| 173`. | `scraper.js` → `run()` | `173` |
 | `GDPR_MAX_ARTICLE_CHARS` | Max stored characters per provision | Cap on article and recital body length when serialized. | Unset or empty → `500000`. Value `<= 0` or non-numeric → **no cap**. Otherwise `body.slice(0, max)`. Also the fallback for AI Act and Data Act caps. | `scraper.js` → `capGdprBodyText` | `500000` |
 | `GDPR_INFO_CONCURRENCY` | GDPR-Info fetch parallelism | Concurrent HTTP workers for article and recital pages. | `max(1, parseInt(env \|\| '6'))`. Also the fallback for AI Act and Data Act concurrency. | `scraper.js` → `fetchGdprInfoDataset` | `6` |
-| `GDPR_FORCE_CORPUS_WRITE` | Force corpus write | Writes `gdpr-content.json` on the next run even if the dataset hash is unchanged. Also forces writes for AI Act, Data Act, and all Indonesian corpora. | `env === '1'`. | `scraper.js`, `ai-act-scraper.js`, `data-act-scraper.js`, `id-law-scraper.js` | `1` |
+| `GDPR_FORCE_CORPUS_WRITE` | Force corpus write | Writes `gdpr-content.json` on the next run even if the dataset hash is unchanged. Also forces writes for AI Act, Data Act, Indonesian, and United States corpora. | `env === '1'`. | `scraper.js`, `ai-act-scraper.js`, `data-act-scraper.js`, `id-law-scraper.js`, `us-law-scraper.js` | `1` |
 | `GDPR_FORCE_RELOAD_CORPUS` | Force reload (alias) | Same effect as `GDPR_FORCE_CORPUS_WRITE` **for GDPR only**. | `env === '1'`. | `scraper.js` | `1` |
 
 ### 1.4 EU AI Act ETL
@@ -175,6 +185,35 @@ Applies to `id-law-scraper.js <id-pdp | id-satu-data | id-ai-ethics>` (`npm run 
 4. After merge, `normalizeCorpus` (see [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)) runs, `searchIndex` is rebuilt, and a SHA-256 `datasetHash` is computed.
 5. Write occurs when `newHash !== oldHash` **or** force flag **or** no file **or** empty `searchIndex`; otherwise the write is skipped.
 6. If articles are still below `minArt`, the run throws `<shortName> ETL incomplete`.
+
+### 1.6a United States ETL
+
+Applies to `us-law-scraper.js <us-ccpa | us-admt | us-open-data>` (`npm run refresh-us-ccpa`, `refresh-us-admt`, `refresh-us-open-data`, Refresh sources, in-process cron, Vercel Cron). Variable names are **derived** from each registry entry's `etlEnvPrefix` (`US_CCPA`, `US_ADMT`, `US_OPEN_DATA`) using the same pattern as the Indonesian ETL:
+
+- Minimum articles: `` `MIN_${etlEnvPrefix}_ARTICLES` ``, default `reg.minArticles`.
+- Minimum recitals (purpose notes): `` `MIN_${etlEnvPrefix}_RECITALS` ``, default `reg.minRecitals`.
+- Force write: `` `${etlEnvPrefix}_FORCE_CORPUS_WRITE` `` **or** `GDPR_FORCE_CORPUS_WRITE`.
+
+| Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
+|----------------|---------------|------------|----------------|-----------------|---------|
+| `MIN_US_CCPA_ARTICLES` | Minimum CCPA sections | Minimum Civil Code sections for the CCPA/CPRA corpus to count as complete. | `max(1, parseInt(env \|\| '30'))`; registry `minArticles` = **30** (registry `maxArticles` = 33). | `us-law-scraper.js` | `30` |
+| `MIN_US_CCPA_RECITALS` | Minimum CCPA purpose notes | Minimum purpose notes (stored as `recitals`). | Default **5**. | `us-law-scraper.js` | `5` |
+| `MIN_US_ADMT_ARTICLES` | Minimum ADMT sections | Minimum C.R.S. 6-1-1701 et seq. sections (SB 26-189). | Default **12** (registry `maxArticles` = 14). | `us-law-scraper.js` | `12` |
+| `MIN_US_ADMT_RECITALS` | Minimum ADMT purpose notes | Minimum purpose notes. | Default **5**. | `us-law-scraper.js` | `5` |
+| `MIN_US_OPEN_DATA_ARTICLES` | Minimum OPEN Data sections | Minimum Title II sections of Pub. L. 115-435. | Default **8** (registry `maxArticles` = 10). | `us-law-scraper.js` | `8` |
+| `MIN_US_OPEN_DATA_RECITALS` | Minimum OPEN Data purpose notes | Minimum purpose notes. | Default **4**. | `us-law-scraper.js` | `4` |
+| `US_CCPA_FORCE_CORPUS_WRITE` | Force CCPA write | Forces a write even if the hash matches. | `env === '1'` or `GDPR_FORCE_CORPUS_WRITE === '1'`. | `us-law-scraper.js` | `1` |
+| `US_ADMT_FORCE_CORPUS_WRITE` | Force ADMT write | Same for Colorado ADMT. | Same rule. | `us-law-scraper.js` | `1` |
+| `US_OPEN_DATA_FORCE_CORPUS_WRITE` | Force OPEN Data write | Same for the OPEN Government Data Act. | Same rule. | `us-law-scraper.js` | `1` |
+
+**United States ETL decision logic**
+
+1. `existingOk = existing.articles.length >= minArt AND existing.recitals.length >= minRec`.
+2. `pingOfficialSource` fetches `reg.infoBaseUrl` (CPPA, Colorado General Assembly, govinfo) and treats the source as reachable when the response exceeds 500 bytes. The ping is **informational**: unlike `id-law-scraper.js`, the US scraper does **not** parse live HTML into the corpus.
+3. The bundled official corpus (built offline by `scripts/build-us-corpora.py` from the CPPA compilation, Colorado session laws, and govinfo) is kept as the source of truth. If articles or recitals fall below the floor, the run falls back to `existing` and throws `<shortName> ETL incomplete` when articles are still below `minArt`.
+4. After `mergeWithExisting`, `normalizeCorpus` runs ([DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md)), `searchIndex` is rebuilt, and a SHA-256 `datasetHash` is computed.
+5. Write occurs when `newHash !== oldHash` **or** the force flag **or** no file **or** empty `searchIndex`; otherwise the write is skipped.
+6. There is **no GDPR-Info / EUR-Lex fallback** for any `us-*` id.
 
 ### 1.7 Ask: web snippet retrieval
 
@@ -250,7 +289,7 @@ These are **not** in `.env.example`; they are provided by the platform or CLI.
 
 ### 1.14 Documentation notes on defaults
 
-Verified against source on 2026-10-20. Where `.env.example` comments and code differ, **code is authoritative**.
+Verified against source on 2026-10-22. Where `.env.example` comments and code differ, **code is authoritative**.
 
 | Variable | `.env.example` comment | Code default | Action |
 |----------|------------------------|--------------|--------|
@@ -258,6 +297,7 @@ Verified against source on 2026-10-20. Where `.env.example` comments and code di
 | `NEWS_COMMISSION_RSS_MAX_PAGES` | `12` | `10` (clamp 2 to 250) | Same. |
 | `GDPR_ETL_PRIMARY` | `gdpr-info` or `eur-lex` | `gdpr-info` | No action. |
 | `GDPR_DATA_DIR` | "seeded from bundled `data/`" | Seeding applies **only** when the variable is unset on Vercel | If you set `GDPR_DATA_DIR` on Vercel, pre-populate that directory; `SEED_FILES` are not copied automatically. |
+| `MIN_US_*` / `US_*_FORCE_CORPUS_WRITE` | Documented in `.env.example` (commented) | Derived from `etlEnvPrefix` in `us-law-scraper.js` | No action. |
 | Cron schedules | n/a | In-process `node-cron` uses `0 2 * * *` in `Europe/Brussels`; Vercel Cron uses `0 2 * * *` in UTC (`vercel.json`) | Document the timezone when reporting freshness. |
 
 ---
@@ -266,7 +306,7 @@ Verified against source on 2026-10-20. Where `.env.example` comments and code di
 
 ### 2.1 Regulation id enum
 
-Six supported identifiers (registry `lib/regulations.js`). Unknown or empty values normalize to `gdpr` (`normalizeRegulationId`). Display order (`REGULATION_DISPLAY_ORDER`): `gdpr`, `data-act`, `ai-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`.
+**Nine** supported identifiers (registry `lib/regulations.js`). Unknown or empty values normalize to `gdpr` (`normalizeRegulationId`). Display order (`REGULATION_DISPLAY_ORDER`): `gdpr`, `data-act`, `ai-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-open-data`, `us-admt`.
 
 | Technical name (`regulation` id) | Friendly name | Jurisdiction | Instrument | Corpus size (articles / recitals) | Chapters | Content file | Example |
 |----------------------------------|---------------|--------------|------------|-----------------------------------|----------|--------------|---------|
@@ -276,27 +316,32 @@ Six supported identifiers (registry `lib/regulations.js`). Unknown or empty valu
 | `id-pdp` | ID PDP Law (UU PDP) | `id` | UU No. 27 Tahun 2022 | 76 / 4 | 16 | `id-pdp-content.json` | `?regulation=id-pdp` |
 | `id-satu-data` | ID Satu Data | `id` | Perpres No. 39 Tahun 2019 | 44 / 4 | 8 | `id-satu-data-content.json` | `?regulation=id-satu-data` |
 | `id-ai-ethics` | ID AI Ethics | `id` | SE Menkominfo No. 9 Tahun 2023 (soft law) | 7 / 9 | 5 | `id-ai-ethics-content.json` | `?regulation=id-ai-ethics` |
+| `us-ccpa` | US CCPA/CPRA | `us` | Cal. Civ. Code Title 1.81.5 (§§ 1798.100–1798.199.95) | 33 / 5 | 7 | `us-ccpa-content.json` | `?regulation=us-ccpa` |
+| `us-open-data` | US OPEN Data | `us` | OPEN Government Data Act, Title II of Pub. L. 115-435 (**not** the 2014 DATA Act) | 10 / 4 | 5 | `us-open-data-content.json` | `?regulation=us-open-data` |
+| `us-admt` | US CO ADMT | `us` | Colorado ADMT Act, SB 26-189 (C.R.S. 6-1-1701 et seq.) | 14 / 5 | 7 | `us-admt-content.json` | `?regulation=us-admt` |
 
-`ID_REGULATION_IDS = { id-pdp, id-satu-data, id-ai-ethics }` selects the Indonesian ETL path and the Indonesian reader behavior.
+`ID_REGULATION_IDS = { id-pdp, id-satu-data, id-ai-ethics }` selects the Indonesian ETL path and the Indonesian reader behavior. `US_REGULATION_IDS = { us-ccpa, us-admt, us-open-data }` selects `us-law-scraper.js`, the US source blurbs, and the **no-GDPR-fallback** rule in `GET /api/meta`.
+
+**Honesty note:** there is no federal GDPR or AI Act in the United States. `us-ccpa` is the closest *analogue* to GDPR, `us-admt` to the AI Act (automated decision-making only), and `us-open-data` to the EU Data Act (public-sector open data only). The 2014 DATA Act (Digital Accountability and Transparency Act) is a different statute and is not modelled.
 
 ### 2.2 Jurisdiction
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `jurisdiction` | Jurisdiction code | Enum on each registry entry: `eu` or `id`. | Server: set explicitly. Client fallback: `id` if `reg.id` starts with `id-`, otherwise `eu` (`regulationJurisdiction`). | `lib/regulations.js`, `public/app.js` | `id` |
-| `jurisdictionLabel` | Jurisdiction label | Human label for the chip in the header picker. | `European Union` or `Indonesia`. | `lib/regulations.js` → `listRegulations` | `Indonesia` |
-| `officialSiteName` | Official source label | Name of the authoritative publisher shown in links. | `EUR-Lex` (EU), `peraturan.go.id` (UU PDP, Satu Data), `JDIH Komdigi` (AI ethics). | Registry and profiles | `EUR-Lex` |
+| `jurisdiction` | Jurisdiction code | Enum on each registry entry: `eu`, `id`, or `us`. | Server: set explicitly. Client fallback: `id-` prefix → `id`, `us-` prefix → `us`, otherwise `eu` (`regulationJurisdiction`). | `lib/regulations.js`, `public/app.js` | `us` |
+| `jurisdictionLabel` | Jurisdiction label | Human label for the chip in the header picker. | `European Union`, `Indonesia`, or `United States`. | `lib/regulations.js` → `listRegulations` | `United States` |
+| `officialSiteName` | Official source label | Name of the authoritative publisher shown in links. | `EUR-Lex` (EU), `peraturan.go.id` (UU PDP, Satu Data), `JDIH Komdigi` (AI ethics), `California Legislative Information` (CCPA), `Colorado General Assembly` (ADMT), `govinfo` (OPEN Data). | Registry and profiles | `govinfo` |
 
 ### 2.3 Client selection state
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `gdpr-qa-regulation-v1` | Selected regulation (localStorage) | Persists the last chosen regulation id. | Valid only if equal to one of the six ids; otherwise falls back to `gdpr`. Written by `saveRegulationId`. | `public/app.js` → `REG_STORAGE_KEY` | `id-pdp` |
-| `gdpr-qa-region-v1` | Region filter (localStorage) | Persists the region filter. | One of `all`, `eu`, `id` (`REGION_IDS`); otherwise `all`. | `public/app.js` → `REGION_STORAGE_KEY` | `eu` |
+| `gdpr-qa-regulation-v1` | Selected regulation (localStorage) | Persists the last chosen regulation id. | Valid only if equal to one of the nine ids; otherwise falls back to `gdpr`. Written by `saveRegulationId`. | `public/app.js` → `REG_STORAGE_KEY` | `id-pdp` |
+| `gdpr-qa-region-v1` | Region filter (localStorage) | Persists the region filter. | One of `all`, `eu`, `id`, `us` (`REGION_IDS`); otherwise `all`. | `public/app.js` → `REGION_STORAGE_KEY` | `us` |
 | `gdprQaReaderViewMode` | Reader Page \| Full mode (localStorage) | Persists whether the reader shows one provision (**page**) or the entire articles/recitals corpus (**full**). | Exactly `page` or `full`; any other/missing value defaults to **`page`**. Written when the user toggles `#readerViewMode`. | `public/app.js` → `READER_VIEW_MODE_KEY` | `full` |
-| `currentRegion` | Active region filter | In-memory region used to filter the regulation catalog and Browse welcome cards. | `all` (default) shows all six; `eu` shows three EU instruments; `id` shows three Indonesian instruments. Also written to `data-region` on `<html>` and the chrome container. | `public/app.js` → `setCurrentRegion` | `all` |
+| `currentRegion` | Active region filter | In-memory region used to filter the regulation catalog and Browse welcome cards. | `all` (default) shows all nine; `eu` / `id` / `us` each show three instruments. Also written to `data-region` on `<html>` and the chrome container. | `public/app.js` → `setCurrentRegion` | `all` |
 | `currentRegulation` | Active regulation | The registry or profile entry currently driving Browse, Ask, News, and Sources. | Resolved from stored id, then reconciled with the region filter. | `public/app.js` | `{ id: 'gdpr', … }` |
-| `defaultRegulationForRegion(region)` | Region default regulation | Picks the regulation when the region changes. | `id` → `id-pdp`; `eu` → `gdpr`; `all` → keep the current regulation if it is in the list, else the first. | `public/app.js` | `id` → `id-pdp` |
+| `defaultRegulationForRegion(region)` | Region default regulation | Picks the regulation when the region changes. | `id` → `id-pdp`; `eu` → `gdpr`; `us` → `us-ccpa`; `all` → keep the current regulation if it is in the list, else the first. | `public/app.js` | `us` → `us-ccpa` |
 | `regulation` (HTTP) | Request regulation selector | Query parameter or JSON body field on corpus routes. | `parseRegulationId(req)` reads `req.query.regulation` then `req.body.regulation`, then `normalizeRegulationId`. **Not** used by `/api/regulations`, `/api/news*`, `/api/industry-sectors`, `/api/validate-api-keys`. | `lib/regulation-content.js` | `?regulation=ai-act` |
 
 **Session-only UI state (`sessionStorage`)**
@@ -315,7 +360,7 @@ Six supported identifiers (registry `lib/regulations.js`). Unknown or empty valu
 | `shortName` | Short name | Compact name for selectors and pills. | String. | Registry, API, UI | `EU AI Act` |
 | `legalLabel` | Legal label | Label used in headings and citations. | String. | Registry, UI | `UU PDP` |
 | `fullName` | Full name | Official instrument title. | String. | Registry, UI | `Data Act (EU) 2023/2854` |
-| `celex` | CELEX number | EUR-Lex identifier. | EU only; `null` for Indonesia. | Registry | `32024R1689` |
+| `celex` | CELEX number | EUR-Lex identifier. | EU only; `null` for Indonesia and the United States. | Registry | `32024R1689` |
 | `contentFile` | Content file name | Corpus JSON inside the data directory. | `<dataDir>/<contentFile>`. | `getRegulationPaths` | `gdpr-content.json` |
 | `structureFile` | Structure file name | Skeleton JSON. | Same resolution. | `getRegulationPaths` | `gdpr-structure.json` |
 | `suitableRecitalsFile` | Suitable-recitals file | GDPR editorial cross-reference file. | Non-null only for GDPR. | Registry | `article-suitable-recitals.json` |
@@ -326,16 +371,16 @@ Six supported identifiers (registry `lib/regulations.js`). Unknown or empty valu
 | `minArticles` | Minimum articles (ETL floor) | Default for `MIN_*_ARTICLES`. | Integer. | Registry, scrapers | `113` |
 | `minRecitals` | Minimum recitals (ETL floor) | Default for `MIN_*_RECITALS`. | Integer. | Registry, scrapers | `180` |
 | `segmentMeta` | Segment labels | Display ranges for the Browse segment control. | `{ recitals, articles }`. | Registry, profiles | `{ recitals: 'Considering a–d', articles: 'Pasal 1–76' }` |
-| `infoBaseUrl` | Info site base URL | Secondary readable source (GDPR-Info, AI Act Law, Data Act Law, JDIH). | URL. | Registry, scrapers | `https://gdpr-info.eu` |
+| `infoBaseUrl` | Info site base URL | Secondary readable source (GDPR-Info, AI Act Law, Data Act Law, JDIH, CPPA, Colorado General Assembly, govinfo). | URL. | Registry, scrapers | `https://gdpr-info.eu` |
 | `infoSiteName` | Info site name | Label for `infoBaseUrl`. | String. | Registry, UI | `JDIH Komdigi` |
-| `eurLexUrl` | Official landing URL | Official publication (EUR-Lex ELI, peraturan.go.id, or JDIH). | URL. | Registry, UI | `https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng` |
+| `eurLexUrl` | Official landing URL | Official publication (EUR-Lex ELI, peraturan.go.id, JDIH, leginfo, Colorado session laws, or Congress.gov). Field name kept for compatibility. | URL. | Registry, UI | `https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng` |
 | `eurLexTxtUrl` | Official full-text URL | Full-text or PDF URL used in `searchIndex.eurLexUrl`. | URL. | Registry, ETL | `https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679` |
 | `eurLexLabel` | Official link label | Anchor text for the official link. | String. | Registry, UI | `Regulation (EU) 2016/679` |
 | `recitalsIndexUrl` | Recitals index URL | Landing URL for recitals or considering clauses (Indonesian entries). | URL; optional. | Registry, `buildSearchIndex` | JDIH view URL |
-| `articlePath(n)` | Article path builder | Relative path for article `n` on the info site. | EU: `/art-N-gdpr/` or `/article/N/`; ID: `#pasal-N` or `#bagian-N`. | Registry, scrapers | `/article/12/` |
-| `recitalPath(n)` | Recital path builder | Relative path for recital `n`. | EU: `/recitals/no-N/` or `/recital/N/`; ID: `#menimbang-N` or `#nilai-N`. | Registry, scrapers | `#menimbang-1` |
+| `articlePath(n)` | Article path builder | Relative path for article `n` on the info site. | EU: `/art-N-gdpr/` or `/article/N/`; ID: `#pasal-N` or `#bagian-N`; US: `#section-N`. | Registry, scrapers | `/article/12/` |
+| `recitalPath(n)` | Recital path builder | Relative path for recital `n`. | EU: `/recitals/no-N/` or `/recital/N/`; ID: `#menimbang-N` or `#nilai-N`; US: `#purpose-N`. | Registry, scrapers | `#purpose-1` |
 | `chapterRanges` | Chapter article ranges | Inclusive `[from, to]` article ranges per chapter. | `enrichArticlesWithChapter` assigns `article.chapter` = 1-based index of the matching range. | Registry, `loadContent` | `[[1, 4], [5, 5], …]` |
-| `etlEnvPrefix` | ETL environment prefix | Namespace for derived env names. | `GDPR`, `AI_ACT`, `DATA_ACT`, `ID_PDP`, `ID_SATU_DATA`, `ID_AI_ETHICS`. | Registry, `id-law-scraper.js` | `ID_PDP` |
+| `etlEnvPrefix` | ETL environment prefix | Namespace for derived env names. | `GDPR`, `AI_ACT`, `DATA_ACT`, `ID_PDP`, `ID_SATU_DATA`, `ID_AI_ETHICS`, **`US_CCPA`**, **`US_ADMT`**, **`US_OPEN_DATA`**. | Registry, `id-law-scraper.js`, `us-law-scraper.js` | `US_CCPA` |
 | `hasArticleTopics` | Article topics flag | Whether article topic chips are supported. | `true` for GDPR only. | Registry, API, UI | `false` |
 | `hasSuitableRecitals` | Suitable-recitals flag | Whether editorial cross-references exist. | `true` for GDPR only. | Registry, API, UI | `false` |
 
@@ -343,7 +388,7 @@ Six supported identifiers (registry `lib/regulations.js`). Unknown or empty valu
 
 ## 3. UI profiles
 
-Client-side profiles are defined in `public/regulation-profiles.js` (**EU: `gdpr`, `ai-act`, `data-act`**) and extended by `public/regulation-profiles-id.js` (**Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`**). Both attach to `window.REGULATION_PROFILES`; `getRegulationProfile(id)` returns `PROFILES[id]` or the GDPR profile. `getRegProfile()` in `app.js` merges profile fields with `GET /api/regulations`.
+Client-side profiles are defined in `public/regulation-profiles.js` (**EU: `gdpr`, `ai-act`, `data-act`**) `public/regulation-profiles-id.js` (**Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`**), and `public/regulation-profiles-us.js` (**United States: `us-ccpa`, `us-open-data`, `us-admt`**). All three attach to `window.REGULATION_PROFILES`; `getRegulationProfile(id)` returns `PROFILES[id]` or the GDPR profile. `getRegProfile()` in `app.js` merges profile fields with `GET /api/regulations`.
 
 ### 3.1 Profile root fields
 
@@ -355,8 +400,8 @@ Client-side profiles are defined in `public/regulation-profiles.js` (**EU: `gdpr
 | `hasArticleTopics`, `hasSuitableRecitals` | Capability flags | Feature flags for GDPR-only features. | `true` for GDPR only. | Profile root | `false` |
 | `articleUrl(n)` | Article URL builder | Deep link to article `n`. | EU: per-article URL (e.g. `https://gdpr-info.eu/art-5-gdpr/`). ID: **document-level** URL (no per-pasal deep link). | Profile root | `https://ai-act-law.eu/article/6/` |
 | `recitalUrl(n)` | Recital URL builder | Deep link to recital `n`. | EU: per-recital URL. ID: document-level URL. | Profile root | `https://gdpr-info.eu/recitals/no-1/` |
-| `articleHeading(n)` | Article heading | Heading text in the reader. | `Art. N GDPR`, `Art. N AI Act`, `Art. N Data Act`, `Pasal N UU PDP`, `Pasal N Satu Data`, `Section N SE 9/2023`. | Profile root | `Pasal 4 UU PDP` |
-| `recitalHeading(n)` | Recital heading | Heading text for recitals. | `GDPR Recital (N)`, `Recital N`, `Considering (N)`, `Ethical value N`. | Profile root | `Considering (2)` |
+| `articleHeading(n)` | Article heading | Heading text in the reader. | `Art. N GDPR`, `Art. N AI Act`, `Art. N Data Act`, `Pasal N UU PDP`, `Pasal N Satu Data`, `Section N SE 9/2023`, `CCPA § N`, `OPEN Data § N`, `ADMT § N`. | Profile root | `Pasal 4 UU PDP` |
+| `recitalHeading(n)` | Recital heading | Heading text for recitals. | `GDPR Recital (N)`, `Recital N`, `Considering (N)`, `Ethical value N`, `Purpose note (N)` (all `us-*`). | Profile root | `Considering (2)` |
 | `bodyStripPrefixes(n, dataTitle, displayTitle)` | Body prefix list | Prefixes removed from body text so headings are not duplicated. | Returns an array; includes `dataTitle`, the heading pattern (and `Pasal N` for Indonesian), and `displayTitle` when present. | Profile root | `['Art. 5 GDPR', …]` |
 
 ### 3.2 `browseUi`
@@ -365,13 +410,13 @@ Drives the Browse welcome card and hero.
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `browseUi.theme` | Browse theme key | Sets `data-browse-theme` on `.browse-welcome` to select the accent variables. | One of the six ids. | `app.js`, `styles.css` | `ai-act` |
+| `browseUi.theme` | Browse theme key | Sets `data-browse-theme` on `.browse-welcome` to select the accent variables. | One of the nine ids. | `app.js`, `styles.css` | `ai-act` |
 | `browseUi.eyebrow` | Eyebrow | Small label above the title. | String. | Browse welcome | `EU artificial intelligence law` |
 | `browseUi.title` | Title | Main heading. | String. | Browse welcome | `EU AI Act` |
 | `browseUi.subtitle` | Subtitle | Instrument citation. | String. | Browse welcome | `Regulation (EU) 2024/1689` |
 | `browseUi.description` | Description | Paragraph summarizing the instrument. | String. | Browse welcome | See profile |
 | `browseUi.highlights` | Highlight chips | Short topic chips. | Array of four strings. | Browse welcome | `['Lawfulness & consent', …]` |
-| `browseUi.mark` | Card mark | Short monogram on the card. | `GDPR`, `AI`, `DA`, `PDP`, `SDI`, `AI`. | Browse welcome cards | `PDP` |
+| `browseUi.mark` | Card mark | Short monogram on the card. | `GDPR`, `AI`, `DA`, `PDP`, `SDI`, `AI`, `CA` (CCPA), `OG` (OPEN Data), `CO` (ADMT). | Browse welcome cards | `PDP` |
 
 ### 3.3 `askUi`
 
@@ -396,22 +441,22 @@ Drives the Browse welcome card and hero.
 | `sourcesUi.title` | Sources title | Heading of the Credible sources view. | String. | Sources tab | `EU AI Act: credible sources & documents` |
 | `sourcesUi.intro` | Sources intro | Introductory paragraph. | String. | Sources tab | See profile |
 
-Source lists themselves come from `GET /api/meta` (`meta.sources`, falling back to content, then structure; never GDPR sources for non-GDPR regulations).
+Source lists themselves come from `GET /api/meta` (`meta.sources`, falling back to content, then structure; never GDPR sources for non-GDPR regulations; for `us-*` there is no GDPR-Info / EUR-Lex fallback).
 
 ### 3.5 `newsUi`
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `newsUi.theme` | News theme key | Sets `data-news-theme` on `#newsHero`. | One of the six ids. | `app.js`, `styles.css` | `id-pdp` |
+| `newsUi.theme` | News theme key | Sets `data-news-theme` on `#newsHero`. | One of the nine ids. | `app.js`, `styles.css` | `id-pdp` |
 | `newsUi.eyebrow`, `newsUi.title`, `newsUi.intro` | Hero copy | Eyebrow, title, and description. | Strings. | News hero | `PDP Law–relevant news` |
-| `newsUi.filterForRegulation` | Client filter switch | Whether the News list is narrowed by regulation relevance. | `false` for GDPR (full corpus); `true` for the other five. | `itemMatchesNewsRegulationScope` | `true` |
+| `newsUi.filterForRegulation` | Client filter switch | Whether the News list is narrowed by regulation relevance. | `false` for GDPR (full corpus); `true` for the other eight. | `itemMatchesNewsRegulationScope` | `true` |
 | `newsUi.scopeMode` | Scope mode | Mode of the scope card. | `full` (GDPR) or `filtered`; default derived from `filterForRegulation`. | `syncNewsHeroChrome` | `filtered` |
 | `newsUi.scopeEyebrow`, `scopeTitle`, `scopeText` | Scope card copy | Explains the active scope. | Strings. | News scope card | `Relevance filter active` |
-| `newsUi.switchToRegulationId` | Switch target id | Regulation id of the "view other news" shortcut. | Empty for GDPR; `gdpr` for AI Act and Data Act; `id-satu-data` for UU PDP; `id-ai-ethics` for Satu Data; `id-pdp` for AI ethics. | News scope card | `id-satu-data` |
+| `newsUi.switchToRegulationId` | Switch target id | Regulation id of the "view other news" shortcut. | Empty for GDPR; `gdpr` for AI Act and Data Act; `id-satu-data` for UU PDP; `id-ai-ethics` for Satu Data; `id-pdp` for AI ethics; `us-open-data` for CCPA; `us-admt` for OPEN Data; `us-ccpa` for ADMT. | News scope card | `id-satu-data` |
 | `newsUi.switchToLabel` | Switch button label | Text for the shortcut. | String. | News scope card | `View Satu Data news` |
 | `newsUi.tags` | Hero tags | Five tag chips. | Array of strings. | News hero | `['UU PDP', …]` |
 | `newsUi.refreshLabel`, `newsUi.refreshHint` | Refresh copy | Button label and tooltip. | Strings. | News hero | `Refresh feeds` |
-| `newsUi.viewModeLabel` | View mode pill | Label of the active scope pill. | `Full index`, `AI Act filter`, `Data Act filter`, `UU PDP filter`, `Satu Data filter`, `AI ethics filter`. | News hero | `AI Act filter` |
+| `newsUi.viewModeLabel` | View mode pill | Label of the active scope pill. | `Full index`, `AI Act filter`, `Data Act filter`, `UU PDP filter`, `Satu Data filter`, `AI ethics filter`, `CCPA filter`, `OPEN Data filter`, `ADMT filter`. | News hero | `AI Act filter` |
 
 ### 3.6 `citationsUi`
 
@@ -436,6 +481,9 @@ Source lists themselves come from `GET /api/meta` (`meta.sources`, falling back 
 | `id-pdp` | `id-pdp` | `PDP` | `true` | `id-satu-data` | `Pasal N UU PDP` | `Considering (N)` |
 | `id-satu-data` | `id-satu-data` | `SDI` | `true` | `id-ai-ethics` | `Pasal N Satu Data` | `Considering (N)` |
 | `id-ai-ethics` | `id-ai-ethics` | `AI` | `true` | `id-pdp` | `Section N SE 9/2023` | `Ethical value N` |
+| `us-ccpa` | `us-ccpa` | `CA` | `true` | `us-open-data` | `CCPA § N` | `Purpose note (N)` |
+| `us-open-data` | `us-open-data` | `OG` | `true` | `us-admt` | `OPEN Data § N` | `Purpose note (N)` |
+| `us-admt` | `us-admt` | `CO` | `true` | `us-ccpa` | `ADMT § N` | `Purpose note (N)` |
 
 ---
 
@@ -488,7 +536,7 @@ Each content file has the top-level keys `meta`, `categories`, `chapters`, `reci
 
 GDPR recitals carry only `number`, `title`, and `text`; AI Act and Data Act recitals also include `sourceUrl` and `eurLexUrl`.
 
-### 4.5 `searchIndex[]` (all six corpora)
+### 4.5 `searchIndex[]` (all nine corpora)
 
 Built by `buildSearchIndex(recitals, articles, chapters, { recitalsIndexUrl, eurLexTxtUrl })`. One entry per recital and per article; duplicates by `id` are skipped. This array is the **only** input to BM25.
 
@@ -504,7 +552,7 @@ Built by `buildSearchIndex(recitals, articles, chapters, { recitalsIndexUrl, eur
 | `chapter` | Chapter number | Articles only. | From the article. | Ask sources | `11` |
 | `chapterTitle` | Chapter title | Articles only. | Lookup in `chapters` by `chapter`; `''` if not found. | Ask sources | `Final provisions` |
 
-Bundled snapshot sizes: GDPR 272 (99 + 173), UU PDP 80 (76 + 4), AI Act 293 (113 + 180), AI ethics 16 (7 + 9).
+Bundled snapshot sizes: GDPR 272 (99 + 173), UU PDP 80 (76 + 4), AI Act 293 (113 + 180), AI ethics 16 (7 + 9), US CCPA 38 (33 + 5), US ADMT 19 (14 + 5), US OPEN Data 14 (10 + 4).
 
 ### 4.6 Indonesian corpora: Pasal and Considering (Menimbang)
 
@@ -518,6 +566,18 @@ Indonesian corpora reuse the **same field names** as the EU shape so the engine,
 | `sourceUrl` | Document-level JDIH or peraturan.go.id URL | `articlePath(n)` yields anchors (`#pasal-N`, `#bagian-N`, `#menimbang-N`, `#nilai-N`) that are informational; there are no per-pasal deep links. |
 | `eurLexUrl` | Official PDF or database URL | Field name kept for compatibility; value points to peraturan.go.id or JDIH. |
 | Cross references | No `article-suitable-recitals.json` | `hasSuitableRecitals = false`; related-recital links rely on text mentions. |
+
+### 4.6a United States corpora: Sections and Purpose notes
+
+The three US corpora also reuse the **EU field names** (`articles[]`, `recitals[]`, `searchIndex[]`) so BM25 and the reader work unchanged. Semantics:
+
+| EU concept | United States field mapping | Notes |
+|------------|-----------------------------|-------|
+| `articles[]` | **Sections** — Cal. Civ. Code §§ 1798.100–1798.199.95 (`us-ccpa`), C.R.S. 6-1-1701–1709 (`us-admt`), Title II §§ 201–202 (`us-open-data`) | `title` carries the citation and caption (for example `Cal. Civ. Code § 1798.100 — General Duties of Businesses that Collect Personal Information`). Reader heading from `articleHeading(n)` (`CCPA § N`, `ADMT § N`, `OPEN Data § N`). Body is English statutory text, normalized by `normalizeCorpus`. |
+| `recitals[]` | **Purpose notes** (5 / 5 / 4) — editorial summaries of legislative purpose, not statutory recitals | Reader heading `Purpose note (N)`; anchors `#purpose-N`. UI labels say **Section / Purpose note** for US instruments. |
+| `sourceUrl`, `eurLexUrl` | CPPA / leginfo / Colorado session laws / govinfo / Congress.gov | Field names kept for compatibility. `meta.sources[]` **must not** contain GDPR-Info or EUR-Lex GDPR URLs (asserted by `test/us-parity.test.js`). |
+| Cross references | No `article-suitable-recitals.json` | `hasSuitableRecitals = false`. |
+| `meta.etl` | `{ extractedFrom, fetched, significant, datasetHash, articleCount, recitalCount }` | Written by `us-law-scraper.js`. `extractedFrom` is carried from the bundled corpus (`cppa-jan2025-compilation`, `colo-sess-laws-2026-ch131`, `govinfo-plaw-115publ435`) and defaults to `bundled-official` when absent. |
 
 ### 4.7 Related data files
 
@@ -607,9 +667,9 @@ Full route contract: [API_CONTRACTS.md](API_CONTRACTS.md).
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `description` | Store description | Free-text description of the file. | String. | `data/gdpr-news.json` | `GDPR and data protection news…` |
 | `newsFeeds[]` | Feed catalog | Configured feeds shown in the News UI. | `{ name, url, description }`; merged with `DEFAULT_NEWS_FEEDS` by `mergeNewsFeedsWithDefaults`. | `server.js` | `{ name: 'EDPB', url: 'https://edpb.europa.eu/news_en', … }` |
-| `items[]` | News items | Persisted merged items (see 6.2). | Stored cap `max(NEWS_MERGE_CAP + 400, 2000)`. | Store | 1,216 items (audit snapshot) |
+| `items[]` | News items | Persisted merged items (see 6.2). | Stored cap `max(NEWS_MERGE_CAP + 400, 2000)`. | Store | 1,546 items (2026-10-22 audit snapshot) |
 | `topicTaxonomy` | Topic taxonomy payload | Returned by `GET /api/news` and refresh. | `{ groups: [{ category, topics: [{ label }] }], fallbackTopic }`. | `getTopicTaxonomyForClient` | See 6.4 |
-| `ok`, `mergedTotal`, `stored`, `error` | Refresh status fields | Returned by `POST /api/news/refresh`. | `ok: false` with `error` on crawl failure (HTTP 200 with static items). | `server.js` | `{ ok: true, mergedTotal: 1216 }` |
+| `ok`, `mergedTotal`, `stored`, `error` | Refresh status fields | Returned by `POST /api/news/refresh`. | `ok: false` with `error` on crawl failure (HTTP 200 with static items). | `server.js` | `{ ok: true, mergedTotal: 1546 }` |
 
 ### 6.2 News item fields
 
@@ -617,7 +677,7 @@ Full route contract: [API_CONTRACTS.md](API_CONTRACTS.md).
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `title` | Headline | Article title. | Required; items without title or URL are dropped. | Crawler, UI | `EDPB adopts…` |
 | `url` | Article URL | Canonical link to the original article. | Required; basis of the URL dedupe key. | Crawler, UI | `https://ec.europa.eu/commission/presscorner/detail/en/mex_26_1802` |
-| `sourceName` | Source name | Publisher label used for grouping. | Observed: `European Commission`, `ICO (UK)`, `European Data Protection Board (EDPB)`, `European Data Protection Supervisor (EDPS)`, `Council of Europe`, `Antara (Hukum)`, `Antara (Tekno)`, `Satu Data Indonesia`. | Crawler, UI | `ICO (UK)` |
+| `sourceName` | Source name | Publisher label used for grouping. | Observed: `European Commission`, `ICO (UK)`, `European Data Protection Board (EDPB)`, `European Data Protection Supervisor (EDPS)`, `Council of Europe`, `Antara (Hukum)`, `Antara (Tekno)`, `Satu Data Indonesia`, `FTC`, `CPPA`, `Colorado AG`, `California OAG`, `data.gov`, `GSA`, `Federal Data Strategy`. | Crawler, UI | `ICO (UK)` |
 | `sourceUrl` | Source home URL | Publisher home page. | URL. | Crawler, UI | `https://commission.europa.eu/` |
 | `date` | Publication date | Item date. | `YYYY-MM-DD`; normalized by `sanitizeNewsItemDates` (ICO blog dates, impossible future dates clamped). Newest first. | Crawler, UI | `2026-09-07` |
 | `snippet` | Summary snippet | Short description. | Maximum **480** characters (`SNIPPET_MAX_LEN`); richer snippet wins on merge. | Crawler, UI | `European Commission Daily news…` |
@@ -646,6 +706,9 @@ Classification (`classifyNewsItemTopic`): (1) search blob = title + snippet + me
 | `Indonesia Personal Data Protection` | Indonesia PDP | UU PDP and Komdigi supervision; Data-subject rights (Indonesia); Cross-border transfers (Indonesia); Breach notification and sanctions (Indonesia) |
 | `Indonesia Satu Data` | Indonesia Satu Data | Satu Data Indonesia and data.go.id; Walidata, producers, and data standards; Perpres 39/2019 data sharing |
 | `Indonesia AI Ethics` | Indonesia AI Ethics | SE Kominfo 9/2023 AI ethics; Indonesian AI roadmap and Perpres; PSE duties and humanitarian AI limits |
+| `United States CCPA` | United States CCPA | CCPA / CPRA and CPPA; California consumer rights; CPPA enforcement and regulations |
+| `United States OPEN Data` | United States OPEN Data | OPEN Government Data Act and data.gov; Federal data inventory and Chief Data Officers |
+| `United States ADMT` | United States ADMT | Colorado ADMT Act; Consequential decisions and human review |
 | `Core Rights` | Core rights | Children's data and minors; Direct marketing and communications; Access, rectification, and erasure; Data portability; Restrictions on rights; Automated decision-making and profiling |
 | `EU Data Act` | EU Data Act | Product and related service data access; Cloud switching and data processing services; Unfair data contract terms (B2B); Public sector exceptional need for data; Data Act governance and EDIB |
 | `EU Artificial Intelligence Act` | EU AI Act | High-risk AI systems and conformity; Prohibited and unacceptable AI practices; General-purpose AI and systemic risk; AI Act governance and AI Office; Transparency, deepfakes, and deployer duties |
@@ -659,7 +722,7 @@ Classification (`classifyNewsItemTopic`): (1) search blob = title + snippet + me
 | `Oversight Areas` | Oversight areas | Institutional data protection; Consistency mechanisms; Legislative proposals; International data protection cooperation; Data protection policy and supervisory news |
 | `General` | General (catch-all) | Other GDPR & data protection topics |
 
-Totals: **15 categories**, **76 leaf labels** (including the fallback). Constants: `NEWS_TOPIC_FALLBACK = 'Other GDPR & data protection topics'`, `UMBRELLA_TOPIC_LABEL = 'Data protection policy and supervisory news'`.
+Totals: **18 categories**, **83 leaf labels** (including the fallback; three United States groups). Constants: `NEWS_TOPIC_FALLBACK = 'Other GDPR & data protection topics'`, `UMBRELLA_TOPIC_LABEL = 'Data protection policy and supervisory news'`.
 
 ### 6.5 Client-side relevance filter by regulation
 
@@ -671,6 +734,10 @@ Totals: **15 categories**, **76 leaf labels** (including the fallback). Constant
 | `ID_PDP_NEWS_SCOPE_RE` | UU PDP scope regex | Keyword pattern. | Also passes if category matches `Indonesia Personal Data Protection`. | `public/app.js` | `data pribadi` |
 | `ID_SATU_DATA_NEWS_SCOPE_RE` | Satu Data scope regex | Keyword pattern. | Also passes if category matches `Indonesia Satu Data`. | `public/app.js` | `walidata` |
 | `ID_AI_ETHICS_NEWS_SCOPE_RE` | AI ethics scope regex | Keyword pattern. | Also passes if category matches `Indonesia AI Ethics`. | `public/app.js` | `etika kecerdasan artifisial` |
+| `US_CCPA_NEWS_SCOPE_RE` | CCPA scope regex | Keyword pattern (CalPrivacy, data broker, CPRA). | US source required; all CPPA URLs pass; FTC/OAG need privacy keywords. | `public/app.js` | `CalPrivacy` |
+| `US_OPEN_DATA_NEWS_SCOPE_RE` | OPEN Data scope regex | Keyword pattern (data.gov, Federal Data Strategy). | US source required; `data.gov` / `resources.data.gov` / `strategy.data.gov` URLs pass. | `public/app.js` | `Federal Data Strategy` |
+| `US_ADMT_NEWS_SCOPE_RE` | ADMT scope regex | Keyword pattern (ADAI, SB 26-189, consequential decisions). | US source required; FTC AI/automated/algorithmic items also pass. | `public/app.js` | `ADAI` |
+| `newsFeedIsUnitedStates(feed)` | USA feed detector | True for FTC, CPPA, California OAG, Colorado AG, data.gov, GSA, FDS. | Regex on name + url + description. | `public/app.js` | `Colorado AG` |
 
 ### 6.6 Crawl sources
 
@@ -678,6 +745,7 @@ Totals: **15 categories**, **76 leaf labels** (including the fallback). Constant
 |-------|-------------------------------------------|
 | EU and UK | EDPB RSS and HTML listing (`crawlEdpbRss`, `crawlEdpbHtml`, `crawlEdpbSearch`), EDPS RSS and search (`crawlEdpsRss`, `crawlEdpsSearch`), ICO search API, HTML, and sitemap (`crawlIco`), European Commission Press Corner (`crawlCommissionPress`), Council of Europe (`crawlCouncilOfEurope`). |
 | Indonesia | `crawlIndonesiaOfficialNews`: Antara policy tag hubs (`crawlAntaraPolicyTagPages`), Satu Data portal best effort (`crawlSatuDataPortalBestEffort`), Komdigi HTML best effort (`crawlKomdigiHtmlBestEffort`, may be WAF-blocked), Setkab feed best effort (`crawlSetkabFeedBestEffort`). |
+| United States | `crawlUnitedStatesOfficialNews`: FTC RSS/HTML (compatible UA), CPPA/CalPrivacy year pages, California OAG RSS, Colorado AG ADAI hub (`crawlColoradoAgAiHub`), Federal Data Strategy, `resources.data.gov`. |
 
 ---
 
@@ -703,22 +771,18 @@ Defined in `public/styles.css` (119 custom-property declarations including respo
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `--header-height` | Header height | Height of the top header. | `72px` default; `3.25rem` below 900px. | `:root`, media queries | `72px` |
 | `--app-chrome-height` | App chrome height | Combined header and region/regulation picker band. | `7.5rem` default; `6.25rem` and `6rem` on small screens; `7.75rem` on wide screens. | `:root`, media queries | `7.5rem` |
-| `--tabs-bar-height` | Tab bar height | Segmented tab track height. | `3.375rem` default; `2.625rem` small screens. | `:root`, media queries | `3.375rem` |
 | `--footer-block-min` | Credits bar minimum height | Reserved height of the credits bar. | `2.85rem` default; `3.35rem` on mid screens. | `:root`, media queries | `2.85rem` |
 | `--main-vertical-pad` | Main vertical padding | Vertical padding of the main area. | `3.25rem` default; `2.15rem` small; `4rem` wide. | `:root`, media queries | `3.25rem` |
 | `--app-shell-vertical` | Shell vertical budget | Total vertical space consumed by chrome. | `calc(var(--app-chrome-height) + var(--footer-block-min) + var(--main-vertical-pad))`. | `:root` | derived |
 | `--reading-pane-max-h` | Reading pane max height | Height cap for reader stacks inside main. | `min(70dvh, calc(100dvh - var(--app-shell-vertical)))` (74dvh and 72dvh variants on smaller screens). | `:root` | derived |
-| `--doc-readable-max-h` | Document body max height | Alias of `--reading-pane-max-h`. | `var(--reading-pane-max-h)`. | `:root` | derived |
-| `--content-max` | Content max width | Full-width canvas. | `100%`. | `:root` | `100%` |
 | `--content-pad` | Content horizontal padding | Side padding. | `1.25rem` default; `2rem` and `2.5rem` on wide screens; `0.85rem` on narrow phones. | `:root`, media queries | `1.25rem` |
 | `--reading-toolbar-gap` | Reader toolbar gap | Gap between tab bar and content or toolbar and article body. | `1.35rem` default (varies `1rem` to `2rem`). | `:root`, media queries | `1.35rem` |
 | `--reader-to-document-gap` | Reader-to-document gap | Extra spacing between the reader strip and the document card. | `calc(var(--reading-toolbar-gap) + 0.5rem)`. | `:root` | derived |
 
 ### 7.3 Regulation theme accents
 
-Theme variables are scoped to components, not `:root`: `.browse-welcome[data-browse-theme='<id>']` sets `--browse-accent`, `--browse-accent-soft`, `--browse-accent-glow`, `--browse-gradient-a`, `--browse-gradient-b`; `.news-hero[data-news-theme='<id>']` sets the matching `--news-hero-*` variables.
+Theme variables are scoped to components, not `:root`: `.browse-welcome[data-browse-theme='<id>']` sets `--browse-accent`, `--browse-accent-soft`, `--browse-accent-glow`, `--browse-gradient-a`, `--browse-gradient-b`; `.news-hero[data-news-theme='<id>']` sets the matching `--news-hero-*` variables; `.sources-layout[data-sources-theme='<id>']` carries the same accent for Credible sources. `us-open-data` shares teal `#0f766e` with `gdpr` but uses a lighter cyan-teal gradient.
 
 | Regulation | Accent (`--browse-accent` / `--news-hero-accent`) | Soft (12% alpha) | Browse glow | Browse gradient A | News glow | News gradient A |
 |------------|-----------------------------------------------------|------------------|-------------|-------------------|-----------|-----------------|
@@ -728,6 +792,9 @@ Theme variables are scoped to components, not `:root`: `.browse-welcome[data-bro
 | `id-pdp` | `#c8102e` | `rgba(200,16,46,0.12)` | `rgba(200,16,46,0.24)` | `rgba(254,202,202,0.5)` | `rgba(200,16,46,0.3)` | `rgba(254,202,202,0.45)` |
 | `id-satu-data` | `#047857` | `rgba(4,120,87,0.12)` | `rgba(4,120,87,0.24)` | `rgba(167,243,208,0.5)` | `rgba(4,120,87,0.3)` | `rgba(167,243,208,0.45)` |
 | `id-ai-ethics` | `#b45309` | `rgba(180,83,9,0.12)` | `rgba(180,83,9,0.24)` | `rgba(253,230,138,0.5)` | `rgba(180,83,9,0.3)` | `rgba(253,230,138,0.45)` |
+| `us-ccpa` | `#1d4ed8` | `rgba(29,78,216,0.12)` | `rgba(29,78,216,0.24)` | `rgba(191,219,254,0.5)` | `rgba(29,78,216,0.3)` | `rgba(191,219,254,0.45)` |
+| `us-open-data` | `#0f766e` | `rgba(15,118,110,0.12)` | `rgba(15,118,110,0.24)` | `rgba(153,246,228,0.5)` | `rgba(15,118,110,0.3)` | `rgba(153,246,228,0.45)` |
+| `us-admt` | `#6d28d9` | `rgba(109,40,217,0.12)` | `rgba(109,40,217,0.24)` | `rgba(221,214,254,0.5)` | `rgba(109,40,217,0.3)` | `rgba(221,214,254,0.45)` |
 
 `--browse-gradient-b` and `--news-hero-gradient-b` are `rgba(255,255,255,0.98)` for all themes.
 
@@ -735,8 +802,8 @@ Theme variables are scoped to components, not `:root`: `.browse-welcome[data-bro
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `data-region` | Region attribute | Set on `<html>`, the app chrome, and `#regionFilter` to `all`, `eu`, or `id`. | Mirrors `currentRegion`. | `public/app.js`, `styles.css` | `eu` |
-| `.region-filter-thumb` background | Region thumb gradient | Sliding indicator color. | `eu`: `linear-gradient(180deg, #14b8a6, #0f766e)`; `id`: `linear-gradient(180deg, #0f766e, #0d5c56)`. | `styles.css` | n/a |
+| `data-region` | Region attribute | Set on `<html>`, the app chrome, and `#regionFilter` to `all`, `eu`, `id`, or `us`. | Mirrors `currentRegion`. | `public/app.js`, `styles.css` | `eu` |
+| `.region-filter-thumb` background | Region thumb gradient | Sliding indicator color. | `eu`: `linear-gradient(180deg, #14b8a6, #0f766e)`; `id`: `linear-gradient(180deg, #0f766e, #0d5c56)`; `us`: `linear-gradient(180deg, #1d4ed8, #1e3a8a)`. | `styles.css` | n/a |
 | `data-browse-theme`, `data-news-theme` | Theme attributes | Select accent variables for Browse and News. | Value equals the regulation id. | `styles.css` | `id-pdp` |
 
 ---
@@ -745,17 +812,20 @@ Theme variables are scoped to components, not `:root`: `.browse-welcome[data-bro
 
 Diagrams are in Mermaid. If a viewer does not render Mermaid, use the tables above as the source of truth.
 
-### 8.1 Data and retrieval flow (six corpora to BM25 to Ask)
+### 8.1 Data and retrieval flow (nine corpora to BM25 to Ask)
 
 ```mermaid
 flowchart LR
-  subgraph Corpora["Six corpora in data directory"]
+  subgraph Corpora["Nine corpora in data directory"]
     C1["gdpr-content.json"]
     C2["data-act-content.json"]
     C3["ai-act-content.json"]
     C4["id-pdp-content.json"]
     C5["id-satu-data-content.json"]
     C6["id-ai-ethics-content.json"]
+    C7["us-ccpa-content.json"]
+    C8["us-open-data-content.json"]
+    C9["us-admt-content.json"]
   end
 
   REQ["POST /api/answer<br/>query, regulation, includeWeb,<br/>industrySectorId, apiKeys"]
@@ -778,6 +848,9 @@ flowchart LR
   C4 --> LOAD
   C5 --> LOAD
   C6 --> LOAD
+  C7 --> LOAD
+  C8 --> LOAD
+  C9 --> LOAD
   LOAD --> IDX --> BM25 --> PICK --> SRC
   REQ -->|"includeWeb true"| WEB --> SRC
   SRC --> GROQ
@@ -798,7 +871,7 @@ flowchart TD
     T2["npm run refresh<br/>server.js --refresh-only"]
     T3["node-cron 02:00 Europe/Brussels"]
     T4["Vercel Cron 02:00 UTC<br/>Bearer CRON_SECRET"]
-    T5["npm run refresh-ai-act / data-act / id-*"]
+    T5["npm run refresh-ai-act / data-act / id-* / us-*"]
   end
 
   DISPATCH["runRegulationScraperAndReloadContent<br/>lib/regulation-content.js"]
@@ -808,6 +881,7 @@ flowchart TD
     S2["ai-act-scraper.js<br/>MIN_AI_ACT_*, AI_ACT_*"]
     S3["data-act-scraper.js<br/>MIN_DATA_ACT_*, DATA_ACT_*"]
     S4["id-law-scraper.js<br/>MIN_ID_*, ID_*_FORCE_CORPUS_WRITE<br/>JDIH HTML parse of Pasal"]
+    S5["us-law-scraper.js<br/>MIN_US_CCPA_*, MIN_US_ADMT_*, MIN_US_OPEN_DATA_*<br/>US_*_FORCE_CORPUS_WRITE<br/>bundled official corpus + source ping"]
   end
 
   GATE{"Count gate<br/>articles >= MIN and<br/>recitals >= MIN"}
@@ -823,6 +897,7 @@ flowchart TD
   ENV --> S2
   ENV --> S3
   ENV --> S4
+  ENV --> S5
   T1 --> DISPATCH
   T2 --> DISPATCH
   T3 --> DISPATCH
@@ -830,14 +905,17 @@ flowchart TD
   T5 --> S2
   T5 --> S3
   T5 --> S4
+  T5 --> S5
   DISPATCH --> S1
   DISPATCH --> S2
   DISPATCH --> S3
   DISPATCH --> S4
+  DISPATCH --> S5
   S1 --> GATE
   S2 --> GATE
   S3 --> GATE
   S4 --> GATE
+  S5 --> GATE
   GATE -->|"fail"| KEEP
   GATE -->|"pass"| GUARD --> IDX --> WRITE
   WRITE -->|"yes"| JSON --> INV
@@ -848,13 +926,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  LS1["localStorage<br/>gdpr-qa-region-v1<br/>all / eu / id"]
-  LS2["localStorage<br/>gdpr-qa-regulation-v1<br/>six ids"]
+  LS1["localStorage<br/>gdpr-qa-region-v1<br/>all / eu / id / us"]
+  LS2["localStorage<br/>gdpr-qa-regulation-v1<br/>nine ids"]
 
   subgraph Region["Region filter"]
     ALL["all"]
     EU["eu"]
     ID["id"]
+    US["us"]
   end
 
   subgraph EUReg["EU registry entries"]
@@ -869,9 +948,16 @@ flowchart TD
     AE["id-ai-ethics"]
   end
 
+  subgraph USReg["United States registry entries"]
+    CCPA["us-ccpa"]
+    OPEN["us-open-data"]
+    ADMT["us-admt"]
+  end
+
   subgraph Profiles["Client profiles"]
     P1["regulation-profiles.js<br/>gdpr, ai-act, data-act"]
     P2["regulation-profiles-id.js<br/>id-pdp, id-satu-data, id-ai-ethics"]
+    P3["regulation-profiles-us.js<br/>us-ccpa, us-open-data, us-admt"]
   end
 
   API["GET /api/regulations<br/>listRegulations"]
@@ -890,18 +976,25 @@ flowchart TD
   LS1 --> ALL
   LS1 --> EU
   LS1 --> ID
+  LS1 --> US
   ALL --> GDPR
   ALL --> DA
   ALL --> AI
   ALL --> PDP
   ALL --> SD
   ALL --> AE
+  ALL --> CCPA
+  ALL --> OPEN
+  ALL --> ADMT
   EU --> GDPR
   EU --> DA
   EU --> AI
   ID --> PDP
   ID --> SD
   ID --> AE
+  US --> CCPA
+  US --> OPEN
+  US --> ADMT
   LS2 --> MERGE
   GDPR --> API
   DA --> API
@@ -909,9 +1002,13 @@ flowchart TD
   PDP --> API
   SD --> API
   AE --> API
+  CCPA --> API
+  OPEN --> API
+  ADMT --> API
   API --> MERGE
   P1 --> MERGE
   P2 --> MERGE
+  P3 --> MERGE
   MERGE --> BR
   MERGE --> ASK
   MERGE --> SRCUI
@@ -965,6 +1062,7 @@ flowchart TD
     COM["Commission Press Corner RSS"]
     COE["Council of Europe"]
     IDN["Indonesia: Antara, Satu Data,<br/>Komdigi, Setkab"]
+    USN["United States: FTC, CPPA, California OAG,<br/>Colorado AG, data.gov, GSA, FDS"]
   end
 
   URLK["Dedupe by normalizeNewsUrlKey<br/>mergeNewsDuplicate"]
@@ -987,6 +1085,7 @@ flowchart TD
   COM --> CRAWL
   COE --> CRAWL
   IDN --> CRAWL
+  USN --> CRAWL
   CRAWL --> URLK --> SEM --> GATE --> ENR --> MERGE --> STORE
   STORE --> API --> CLIENT --> FILT
   FILT -->|"false"| FULL --> VIEW
@@ -1007,13 +1106,13 @@ sequenceDiagram
   participant Cron as Vercel Cron (02:00 UTC)
 
   Build->>Build: npm run vercel-build (copy article-suitable-recitals.json to public)
-  Build->>Bundle: includeFiles data/** and ETL scrapers
+  Build->>Bundle: includeFiles data/**, ai-act / data-act / id-law / us-law scrapers
   Inst->>Paths: first request, VERCEL is set
   alt GDPR_DATA_DIR is set
     Paths-->>Inst: use override path, no seeding
   else GDPR_DATA_DIR unset
     Paths->>Tmp: mkdir -p
-    loop each of the 20 SEED_FILES
+    loop each of the 29 SEED_FILES
       Paths->>Tmp: copy from bundle only if destination missing
     end
     Paths-->>Inst: /tmp/gdpr-qa-data
@@ -1046,4 +1145,5 @@ Update this document whenever any of the following change.
 **Verification commands (informational, run from the repository root)**
 
 - `node -e "require('./news-topics').getTopicTaxonomyForClient()"` confirms the taxonomy shape.
-- `npm test` runs `node --test test/*.test.js`.
+- `npm test` runs `node --test test/*.test.js` (**40 tests / 17 suites** passing at the 2026-10-22 audit: `indo-parity`, `us-parity`, `browse-routes`, `reader-view`).
+- `SEED_FILES` in `lib/paths.js` is not exported; count its entries by reading the file (**29** at this audit).

@@ -1,7 +1,7 @@
 # Design guidelines  
 ## Regulation Q&A Platform
 
-**Version:** 2.3 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7**  
+**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22** · Nine theme accents (EU · Indonesia · United States)  
 **Source of truth for tokens:** `public/styles.css` (`:root` + `[data-browse-theme]` / `[data-news-theme]` / `[data-sources-theme]`).
 
 ---
@@ -62,12 +62,34 @@ Themes set **local** tokens on `.browse-welcome[data-browse-theme]`, `.news-hero
 | `id-pdp` | `#c8102e` | `rgba(200,16,46,0.12)` | `0.24` | `0.30` | Browse `rgba(254,202,202,0.50)` · News `0.45` |
 | `id-satu-data` | `#047857` | `rgba(4,120,87,0.12)` | `0.24` | `0.30` | Browse `rgba(167,243,208,0.50)` · News `0.45` |
 | `id-ai-ethics` | `#b45309` | `rgba(180,83,9,0.12)` | `0.24` | `0.30` | Browse `rgba(253,230,138,0.50)` · News `0.45` |
+| `us-ccpa` (US · California, blue) | `#1d4ed8` | `rgba(29,78,216,0.12)` | `0.24` | `0.30` | Browse `rgba(191,219,254,0.50)` · News/Sources `0.45` |
+| `us-open-data` (US · federal, teal-cyan) | `#0f766e` | `rgba(15,118,110,0.12)` | `0.24` | `0.30` | Browse `rgba(153,246,228,0.50)` · News/Sources `0.45` |
+| `us-admt` (US · Colorado, violet) | `#6d28d9` | `rgba(109,40,217,0.12)` | `0.24` | `0.30` | Browse `rgba(221,214,254,0.50)` · News/Sources `0.45` |
+
+**United States theme notes**
+
+- `us-open-data` deliberately shares the teal accent `#0f766e` with `gdpr` and the global `--accent`; it is distinguished by the cyan-leaning gradient wash, the **USA** region context, and the `OG` card monogram. Do not reuse `#0f766e` for any other US theme.
+- `us-ccpa` blue (`#1d4ed8`) and `us-admt` violet (`#6d28d9`) must remain distinct from the EU indigo (`ai-act` `#4f46e5`) and sky (`data-act` `#0369a1`) so jurisdiction can be inferred at a glance; verify contrast on `#ffffff` surfaces (both exceed WCAG AA for large and normal text).
+- Card monograms: `CA` (CCPA), `OG` (OPEN Data), `CO` (ADMT). Headings use **Section / Purpose note** nouns, never *Article / Recital*, in US surfaces.
 
 **CSS var names**
 
 - Browse: `--browse-accent`, `--browse-accent-soft`, `--browse-accent-glow`, `--browse-gradient-a|b`  
-- News: `--news-hero-accent`, `--news-hero-accent-soft`, `--news-hero-accent-glow`, `--news-hero-gradient-a|b`  
-- Sources: `--sources-accent`, `--sources-accent-soft`, `--sources-accent-glow`, `--sources-gradient-a|b` (same accent hexes as table; applied on `#sourcesLayout`)
+- News: `--news-hero-accent`, `--news-hero-accent-soft`, `--news-hero-gradient-a|b`  
+- Sources: `--sources-accent`, `--sources-accent-soft`, `--sources-gradient-a|b` (same accent hexes as table; applied on `#sourcesLayout`)
+
+### 2.1a Region picker thumb colors
+
+The region radiogroup (`#regionFilter`: **All · EU · Indonesia · USA**) uses a sliding thumb whose fill follows `data-region`:
+
+| `data-region` | Thumb fill |
+|---------------|------------|
+| `all` | `var(--accent)` (`#0f766e`) |
+| `eu` | `linear-gradient(180deg, #14b8a6, #0f766e)` |
+| `id` | `linear-gradient(180deg, #0f766e, #0d5c56)` |
+| `us` | `linear-gradient(180deg, #1d4ed8, #1e3a8a)` |
+
+The global `--accent` is **not** overridden by region or regulation theme; only the thumb and themed surfaces change.
 
 ### 2.2 Responsive breakpoints and layout density
 
@@ -80,7 +102,7 @@ Themes set **local** tokens on `.browse-welcome[data-browse-theme]`, `.news-hero
 | ≥1100px | News two-column + Quick filters dock; Sources grid 3 columns |
 | ≥1200 / ≥1600px | Wider content band; full-width browse grid (no artificial 72rem cap) |
 
-Layout tokens: `--header-height`, `--app-chrome-height`, `--tabs-bar-height`, `--footer-block-min`, `--reading-pane-max-h`, `--content-pad`, `--reading-toolbar-gap`.
+Layout tokens: `--app-chrome-height`, `--footer-block-min`, `--reading-pane-max-h`, `--content-pad`, `--reading-toolbar-gap`.
 
 ---
 
@@ -98,7 +120,7 @@ Avoid Inter / Roboto / system-only stacks for primary UI (system is fallback onl
 
 ## 4. Layout and spacing
 
-- Content band uses `--content-max: 100%` with horizontal `--content-pad`.  
+- Content band is full-width with horizontal `--content-pad`.  
 - Reading pane height capped by `--reading-pane-max-h` so chrome never clips text.  
 - Browse welcome cards: left accent bar + radial gradient wash; full-width action buttons.  
 - Do not reintroduce nested “pill inside pill” chrome; prefer one control surface.
@@ -130,10 +152,10 @@ Duration ~160–220ms with `--ease-smooth`. Prefer `transform` / `opacity`.
 
 | Component | Notes |
 |-----------|-------|
-| Region + Regulation picker | Unified shell; teal region accents; custom select |
+| Region + Regulation picker | Unified shell; region thumb (teal EU/ID, blue USA); custom select grouped by jurisdiction under **All**; jurisdiction chip (European Union / Indonesia / United States) |
 | Segmented tabs | Full-width track + sliding thumb |
 | Tools menu | ≤899px disclosure for freshness / keys / refresh |
-| Browse welcome cards | Themed; Chapters primary CTA |
+| Browse welcome cards | Themed; Chapters primary CTA; nine cards in three region rows (EU, Indonesia, USA) |
 | Browse docs (Chapters / Recitals) | Shared `.browse-docs` chrome (eyebrow + compact header); flat teal toolbar/filter strip; dense chapter panels + article/recital cards; enter motion with reduced-motion off |
 | Filter bar | Desktop grid (chapters: 4-col ≥1100px); mobile collapsible Filters; News keeps richer card shell |
 | Reader | Centered header; numbered paragraphs; citation sidebar |
@@ -159,7 +181,7 @@ Light theme only: success uses `--success`; errors use clear red text/border (no
 
 ## 8. Print and PDF export
 
-PDF export uses html2pdf.js on the current reader node. Prefer high-contrast text; hide chrome chrome (tabs/tools) from the export root. Print CSS hooks live in `styles.css`.
+PDF export uses the browser print dialog on a cloned `#pdfPrintMount` tree (not a canvas/html2pdf raster). Prefer high-contrast text; hide app chrome from the export root. Print CSS hooks live in `styles.css`.
 
 ---
 
@@ -171,13 +193,14 @@ Inline SVG for Tools chevron, credits social icons, freshness. No emoji in core 
 
 ## 10. Future theming (optional)
 
-Dark mode and per-tenant branding are **out of scope**. If introduced later: extend token tables without breaking regulation accent contracts; keep soft-law / jurisdiction signals intact.
+Dark mode and per-tenant branding are **out of scope**. If introduced later: extend token tables without breaking regulation accent contracts; keep soft-law (`id-ai-ethics`) and jurisdiction (EU / Indonesia / USA) signals intact.
 
 ---
 
 ## References
 
 - `public/styles.css`  
-- `public/regulation-profiles.js` / `public/regulation-profiles-id.js`  
+- `public/regulation-profiles.js` / `public/regulation-profiles-id.js` / `public/regulation-profiles-us.js`  
+- [VARIABLES.md §7.3](VARIABLES.md#73-regulation-theme-accents) — token values by theme  
 - [FEATURE_CATALOG.md](FEATURE_CATALOG.md)  
 - [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)

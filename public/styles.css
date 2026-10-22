@@ -34,10 +34,8 @@
   /* Single type family app-wide — display/title roles still use --font-serif as a semantic alias. */
   --font-sans: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --header-height: 72px;
   --app-chrome-height: 7.5rem;
   /* Viewport shell: header + tab bar + credits bar + main vertical padding (credits always visible; main scrolls) */
-  --tabs-bar-height: 3.375rem;
   --footer-block-min: 2.85rem;
   --main-vertical-pad: 3.25rem;
   --app-shell-vertical: calc(
@@ -45,10 +43,6 @@
   );
   /* Reading stacks live inside main — cap to remaining viewport */
   --reading-pane-max-h: min(70dvh, calc(100dvh - var(--app-shell-vertical)));
-  /* Article card body (alias) */
-  --doc-readable-max-h: var(--reading-pane-max-h);
-  /* Full-width canvas to remove side dead space */
-  --content-max: 100%;
   --content-pad: 1.25rem;
   /* Same vertical band as main padding-top: tab bar → page content == document toolbar → article body */
   --reading-toolbar-gap: 1.35rem;
@@ -58,8 +52,6 @@
 
 @media (max-width: 899px) {
   :root {
-    --header-height: 3.25rem;
-    --tabs-bar-height: 2.625rem;
     --app-chrome-height: 6.25rem;
     --main-vertical-pad: 2.15rem;
     --reading-toolbar-gap: 1rem;
@@ -67,7 +59,6 @@
       var(--app-chrome-height) + var(--footer-block-min) + var(--main-vertical-pad)
     );
     --reading-pane-max-h: min(74dvh, calc(100dvh - var(--app-shell-vertical)));
-    --doc-readable-max-h: var(--reading-pane-max-h);
   }
 }
 
@@ -79,7 +70,6 @@
       var(--app-chrome-height) + var(--footer-block-min) + var(--main-vertical-pad)
     );
     --reading-pane-max-h: min(72dvh, calc(100dvh - var(--app-shell-vertical)));
-    --doc-readable-max-h: var(--reading-pane-max-h);
   }
 }
 
@@ -98,7 +88,6 @@
       var(--app-chrome-height) + var(--footer-block-min) + var(--main-vertical-pad)
     );
     --reading-pane-max-h: min(70dvh, calc(100dvh - var(--app-shell-vertical)));
-    --doc-readable-max-h: var(--reading-pane-max-h);
   }
 }
 
@@ -524,6 +513,12 @@ body {
   border-color: color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
+.regulation-jurisdiction-chip[data-jurisdiction='us'] {
+  color: #1e3a8a;
+  background: color-mix(in srgb, #dbeafe 78%, #fff);
+  border-color: color-mix(in srgb, #1d4ed8 28%, transparent);
+}
+
 .regulation-jurisdiction-chip.is-updating {
   transform: translateY(-1px) scale(1.02);
 }
@@ -573,6 +568,10 @@ body {
 
 .region-filter[data-region='eu'] .region-filter-thumb {
   background: linear-gradient(180deg, #14b8a6 0%, #0f766e 100%);
+}
+
+.region-filter[data-region='us'] .region-filter-thumb {
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e3a8a 100%);
 }
 
 .region-filter-btn {
@@ -2620,6 +2619,27 @@ body {
   --browse-accent-soft: rgba(180, 83, 9, 0.12);
   --browse-accent-glow: rgba(180, 83, 9, 0.24);
   --browse-gradient-a: rgba(253, 230, 138, 0.5);
+}
+
+.browse-welcome[data-browse-theme='us-ccpa'] {
+  --browse-accent: #1d4ed8;
+  --browse-accent-soft: rgba(29, 78, 216, 0.12);
+  --browse-accent-glow: rgba(29, 78, 216, 0.24);
+  --browse-gradient-a: rgba(191, 219, 254, 0.5);
+}
+
+.browse-welcome[data-browse-theme='us-open-data'] {
+  --browse-accent: #0f766e;
+  --browse-accent-soft: rgba(15, 118, 110, 0.12);
+  --browse-accent-glow: rgba(15, 118, 110, 0.24);
+  --browse-gradient-a: rgba(153, 246, 228, 0.5);
+}
+
+.browse-welcome[data-browse-theme='us-admt'] {
+  --browse-accent: #6d28d9;
+  --browse-accent-soft: rgba(109, 40, 217, 0.12);
+  --browse-accent-glow: rgba(109, 40, 217, 0.24);
+  --browse-gradient-a: rgba(221, 214, 254, 0.5);
 }
 
 .browse-welcome-shell {
@@ -7074,7 +7094,6 @@ a.external-eu-law-link:focus-visible {
 .sources-layout {
   --sources-accent: #0f766e;
   --sources-accent-soft: rgba(15, 118, 110, 0.12);
-  --sources-accent-glow: rgba(15, 118, 110, 0.28);
   --sources-gradient-a: rgba(204, 251, 241, 0.35);
   --sources-gradient-b: rgba(255, 255, 255, 0.98);
   width: 100%;
@@ -7087,36 +7106,49 @@ a.external-eu-law-link:focus-visible {
 .sources-layout[data-sources-theme='ai-act'] {
   --sources-accent: #4f46e5;
   --sources-accent-soft: rgba(79, 70, 229, 0.12);
-  --sources-accent-glow: rgba(79, 70, 229, 0.32);
   --sources-gradient-a: rgba(199, 210, 254, 0.45);
 }
 
 .sources-layout[data-sources-theme='data-act'] {
   --sources-accent: #0369a1;
   --sources-accent-soft: rgba(3, 105, 161, 0.12);
-  --sources-accent-glow: rgba(3, 105, 161, 0.3);
   --sources-gradient-a: rgba(186, 230, 253, 0.5);
 }
 
 .sources-layout[data-sources-theme='id-pdp'] {
   --sources-accent: #c8102e;
   --sources-accent-soft: rgba(200, 16, 46, 0.12);
-  --sources-accent-glow: rgba(200, 16, 46, 0.3);
   --sources-gradient-a: rgba(254, 202, 202, 0.45);
 }
 
 .sources-layout[data-sources-theme='id-satu-data'] {
   --sources-accent: #047857;
   --sources-accent-soft: rgba(4, 120, 87, 0.12);
-  --sources-accent-glow: rgba(4, 120, 87, 0.3);
   --sources-gradient-a: rgba(167, 243, 208, 0.45);
 }
 
 .sources-layout[data-sources-theme='id-ai-ethics'] {
   --sources-accent: #b45309;
   --sources-accent-soft: rgba(180, 83, 9, 0.12);
-  --sources-accent-glow: rgba(180, 83, 9, 0.3);
   --sources-gradient-a: rgba(253, 230, 138, 0.45);
+}
+
+.sources-layout[data-sources-theme='us-ccpa'] {
+  --sources-accent: #1d4ed8;
+  --sources-accent-soft: rgba(29, 78, 216, 0.12);
+  --sources-gradient-a: rgba(191, 219, 254, 0.45);
+}
+
+.sources-layout[data-sources-theme='us-open-data'] {
+  --sources-accent: #0f766e;
+  --sources-accent-soft: rgba(15, 118, 110, 0.12);
+  --sources-gradient-a: rgba(153, 246, 228, 0.45);
+}
+
+.sources-layout[data-sources-theme='us-admt'] {
+  --sources-accent: #6d28d9;
+  --sources-accent-soft: rgba(109, 40, 217, 0.12);
+  --sources-gradient-a: rgba(221, 214, 254, 0.45);
 }
 
 .sources-skip-link {
@@ -7646,7 +7678,6 @@ a.external-eu-law-link:focus-visible {
 .news-hero {
   --news-hero-accent: #0f766e;
   --news-hero-accent-soft: rgba(15, 118, 110, 0.12);
-  --news-hero-accent-glow: rgba(15, 118, 110, 0.28);
   --news-hero-gradient-a: rgba(204, 251, 241, 0.35);
   --news-hero-gradient-b: rgba(255, 255, 255, 0.98);
   margin-bottom: 1rem;
@@ -7660,36 +7691,49 @@ a.external-eu-law-link:focus-visible {
 .news-hero[data-news-theme='ai-act'] {
   --news-hero-accent: #4f46e5;
   --news-hero-accent-soft: rgba(79, 70, 229, 0.12);
-  --news-hero-accent-glow: rgba(79, 70, 229, 0.32);
   --news-hero-gradient-a: rgba(199, 210, 254, 0.45);
 }
 
 .news-hero[data-news-theme='data-act'] {
   --news-hero-accent: #0369a1;
   --news-hero-accent-soft: rgba(3, 105, 161, 0.12);
-  --news-hero-accent-glow: rgba(3, 105, 161, 0.3);
   --news-hero-gradient-a: rgba(186, 230, 253, 0.5);
 }
 
 .news-hero[data-news-theme='id-pdp'] {
   --news-hero-accent: #c8102e;
   --news-hero-accent-soft: rgba(200, 16, 46, 0.12);
-  --news-hero-accent-glow: rgba(200, 16, 46, 0.3);
   --news-hero-gradient-a: rgba(254, 202, 202, 0.45);
 }
 
 .news-hero[data-news-theme='id-satu-data'] {
   --news-hero-accent: #047857;
   --news-hero-accent-soft: rgba(4, 120, 87, 0.12);
-  --news-hero-accent-glow: rgba(4, 120, 87, 0.3);
   --news-hero-gradient-a: rgba(167, 243, 208, 0.45);
 }
 
 .news-hero[data-news-theme='id-ai-ethics'] {
   --news-hero-accent: #b45309;
   --news-hero-accent-soft: rgba(180, 83, 9, 0.12);
-  --news-hero-accent-glow: rgba(180, 83, 9, 0.3);
   --news-hero-gradient-a: rgba(253, 230, 138, 0.45);
+}
+
+.news-hero[data-news-theme='us-ccpa'] {
+  --news-hero-accent: #1d4ed8;
+  --news-hero-accent-soft: rgba(29, 78, 216, 0.12);
+  --news-hero-gradient-a: rgba(191, 219, 254, 0.45);
+}
+
+.news-hero[data-news-theme='us-open-data'] {
+  --news-hero-accent: #0f766e;
+  --news-hero-accent-soft: rgba(15, 118, 110, 0.12);
+  --news-hero-gradient-a: rgba(153, 246, 228, 0.45);
+}
+
+.news-hero[data-news-theme='us-admt'] {
+  --news-hero-accent: #6d28d9;
+  --news-hero-accent-soft: rgba(109, 40, 217, 0.12);
+  --news-hero-gradient-a: rgba(221, 214, 254, 0.45);
 }
 
 .news-hero-shell {

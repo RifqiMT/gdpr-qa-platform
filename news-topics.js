@@ -88,6 +88,63 @@ const NEWS_TOPIC_GROUPS = [
     ]
   },
   {
+    category: 'United States CCPA',
+    topics: [
+      {
+        label: 'CCPA / CPRA and CPPA',
+        patterns: [
+          /\bccpa\b|\bcpra\b|calprivacy|california consumer privacy|california privacy rights act|california privacy protection agency|\bcppa\b|cal\.\s*civ\.\s*code.{0,16}1798|data broker/i
+        ]
+      },
+      {
+        label: 'California consumer rights',
+        patterns: [
+          /right to delete.{0,20}(ccpa|california)|opt[- ]out of (sale|sharing)|do not sell|limit the use.{0,12}sensitive|(?:california|ccpa|cpra).{0,40}sensitive personal information/i
+        ]
+      },
+      {
+        label: 'CPPA enforcement and regulations',
+        patterns: [
+          /cppa.{0,40}(enforcement|fine|regulation|rulemaking)|california privacy.{0,20}(enforcement|fine|penalty)|attorney general.{0,20}ccpa/i
+        ]
+      }
+    ]
+  },
+  {
+    category: 'United States OPEN Data',
+    topics: [
+      {
+        label: 'OPEN Government Data Act and data.gov',
+        patterns: [
+          /open government data act|\bopen data act\b|federal data catalogu?e|federal data strategy|\bdata\.gov\b|resources\.data\.gov|open government data asset|pub(?:lic)?\.\s*l(?:aw)?\.?\s*115-435|foundations for evidence-based policymaking/i
+        ]
+      },
+      {
+        label: 'Federal data inventory and Chief Data Officers',
+        patterns: [
+          /comprehensive data inventory|chief data officer|\bcdo council\b|machine-readable.{0,20}(federal|agency) data|44\s*u\.?s\.?c\.?\s*§?\s*3511/i
+        ]
+      }
+    ]
+  },
+  {
+    category: 'United States ADMT',
+    topics: [
+      {
+        label: 'Colorado ADMT Act',
+        patterns: [
+          /\badmt\b|\badai\b|automated decision-making technology|sb\s*26-189|sb26-189|sb\s*24-205|colorado.{0,30}(ai act|artificial intelligence|anti-discrimination in ai)|c\.?r\.?s\.?\s*6-1-170/i
+        ]
+      },
+      {
+        label: 'Consequential decisions and human review',
+        patterns: [
+          /consequential decision|meaningful human review|adverse outcome.{0,20}(admt|automated)|developer.{0,20}deployer.{0,20}(ai|admt)/i
+        ]
+      }
+    ]
+  },
+  {
     category: 'Core Rights',
     topics: [
       {
@@ -751,7 +808,7 @@ function newsBlobMatchesTopicAnchor(normalizedBlob) {
     .trim();
   if (b.length < 14) return false;
   const dp =
-    /\b(personal data|data protection|privacy|\bgdpr\b|data subject|supervisory authorit|information commissioner|\bedpb\b|\bedps\b|data pribadi|pelindungan data|satu data|kecerdasan artifisial|komdigi|kominfo)\b/.test(
+    /\b(personal data|data protection|privacy|\bgdpr\b|data subject|supervisory authorit|information commissioner|\bedpb\b|\bedps\b|data pribadi|pelindungan data|satu data|kecerdasan artifisial|komdigi|kominfo|ccpa|cpra|calprivacy|admt|open government data)\b/.test(
       b
     );
   if (!dp) return false;

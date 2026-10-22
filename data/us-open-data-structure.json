@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "U.S. Government Publishing Office (govinfo)",
+        "url": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+        "description": "Official HTML of Public Law 115-435, Foundations for Evidence-Based Policymaking Act of 2018, including Title II (OPEN Government Data Act).",
+        "documents": [
+          {
+            "label": "P.L. 115-435 HTML",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm"
+          },
+          {
+            "label": "P.L. 115-435 PDF (Congress.gov)",
+            "url": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+          }
+        ]
+      },
+      {
+        "name": "data.gov — Federal data catalogue",
+        "url": "https://data.gov/",
+        "description": "Public interface maintained under 44 U.S.C. § 3511 as the Federal data catalogue.",
+        "documents": [
+          {
+            "label": "data.gov",
+            "url": "https://data.gov/"
+          }
+        ]
+      },
+      {
+        "name": "U.S. General Services Administration",
+        "url": "https://www.gsa.gov/policy-regulations/policy/information-technology-policy",
+        "description": "GSA administers the Federal data catalogue interface required by the OPEN Government Data Act.",
+        "documents": [
+          {
+            "label": "GSA IT policy",
+            "url": "https://www.gsa.gov/policy-regulations/policy/information-technology-policy"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "P.L. 115-435 purpose, open-data-asset default, Federal data catalogue, and a jurisdiction note distinguishing the 2014 DATA Act.",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    },
+    {
+      "id": "chapters",
+      "title": "Title II and general provisions",
+      "description": "OPEN Government Data Act (Title II) plus Title IV clauses that govern construction and effective date.",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Short title",
+      "articleRange": "1",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Definitions",
+      "articleRange": "2",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "OMB and agency open-data duties",
+      "articleRange": "3-4",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Federal data catalogue, Chief Data Officers, and reports",
+      "articleRange": "5-8",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "General provisions and effective date",
+      "articleRange": "9-10",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/PLAW-115publ435/html/PLAW-115publ435.htm",
+      "eurLexUrl": "https://www.congress.gov/115/plaws/publ435/PLAW-115publ435.pdf"
+    }
+  ],
+  "articles": [],
+  "recitals": [],
+  "searchIndex": [],
+  "regulation": {
+    "id": "us-open-data"
+  }
+}

@@ -1,11 +1,11 @@
 # Data schema examples  
 ## Regulation Q&A Platform
 
-**Version:** 2.0 · **Last updated:** 2026-10-21 · Documentation standard **v2.6** · Product **1.2.7** · Audit date **2026-10-21**
+**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22**
 
-Illustrative **JSON fragments** for integrators, covering all **six** corpora (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`). Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md). Text is abbreviated with `…`; Indonesian legal text is kept in **Bahasa Indonesia**, with **English structural titles**.
+Illustrative **JSON fragments** for integrators, covering all **nine** corpora (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`). Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md). Text is abbreviated with `…`; Indonesian legal text is kept in **Bahasa Indonesia**, with **English structural titles**; United States text is English statutory language.
 
-**Common corpus shape** (all six `data/<id>-content.json` files): `meta` · `categories` · `chapters` · `articles` · `recitals` · `searchIndex`. The `chapter` number on each article is **added at load time** by `enrichArticlesWithChapter` using the registry `chapterRanges`; it is not required in the stored file.
+**Common corpus shape** (all nine `data/<id>-content.json` files): `meta` · `categories` · `chapters` · `articles` · `recitals` · `searchIndex`. The `chapter` number on each article is **added at load time** by `enrichArticlesWithChapter` using the registry `chapterRanges`; it is not required in the stored file.
 
 ---
 
@@ -237,9 +237,90 @@ Same shape for `chapter-summaries-id-satu-data.json` and `chapter-summaries-id-a
 
 ---
 
+## 1i. United States — CCPA/CPRA corpus (`data/us-ccpa-content.json`) — excerpts
+
+United States corpora reuse the EU field names. **Articles are Sections** (citation + caption in `title`); **recitals are Purpose notes**. Text is English. The same shape applies to `us-admt-content.json` (C.R.S. 6-1-1701 et seq.) and `us-open-data-content.json` (Pub. L. 115-435 Title II).
+
+```json
+{
+  "meta": {
+    "regulationId": "us-ccpa",
+    "lastRefreshed": "2026-10-22T08:08:39.610Z",
+    "lastChecked": "2026-10-22T08:08:39.610Z",
+    "datasetHash": "b51271c6…",
+    "etl": {
+      "extractedFrom": "cppa-jan2025-compilation",
+      "fetched": true,
+      "significant": true,
+      "datasetHash": "b51271c6…",
+      "articleCount": 33,
+      "recitalCount": 5
+    },
+    "sources": [
+      {
+        "name": "California Privacy Protection Agency",
+        "url": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+        "description": "Unofficial compilation of the CCPA as amended (Cal. Civ. Code Title 1.81.5), posted January 2025 …",
+        "documents": [{ "label": "CCPA text (CPPA PDF, Jan 2025)", "url": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf" }]
+      }
+    ]
+  },
+  "chapters": [
+    { "number": 1, "roman": "I", "title": "Consumer rights and business duties", "articleRange": "1-8", "sourceUrl": "https://cppa.ca.gov/…", "eurLexUrl": "https://leginfo.legislature.ca.gov/…" }
+  ],
+  "recitals": [
+    { "number": 1, "title": "Purpose — notice, purpose limitation, and reasonable security", "text": "A business that controls the collection of a consumer’s personal information shall … ", "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf", "eurLexUrl": "https://leginfo.legislature.ca.gov/…" }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "Cal. Civ. Code § 1798.100 — General Duties of Businesses that Collect Personal Information",
+      "text": "(a) A business that controls the collection of a consumer’s personal information shall, at or before the point of collection, inform consumers of the following:\n(1) The categories of personal information to be collected …",
+      "sourceUrl": "https://cppa.ca.gov/regulations/pdf/ccpa_text.pdf",
+      "eurLexUrl": "https://leginfo.legislature.ca.gov/…"
+    }
+  ],
+  "searchIndex": [
+    { "type": "recital", "id": "recital-1", "number": 1, "title": "Recital (1) — Purpose — notice, purpose limitation, and reasonable security", "text": "…", "sourceUrl": "https://cppa.ca.gov/…", "eurLexUrl": "https://leginfo.legislature.ca.gov/…" }
+  ]
+}
+```
+
+Notes: `extractedFrom` values per corpus — `us-ccpa`: `cppa-jan2025-compilation`; `us-admt`: `colo-sess-laws-2026-ch131`; `us-open-data`: `govinfo-plaw-115publ435`. `eurLexUrl` is a compatibility field name and points to leginfo / Colorado session laws / Congress.gov — **never** to EUR-Lex or GDPR-Info. Reader headings are built client-side (`CCPA § N`, `ADMT § N`, `OPEN Data § N`, `Purpose note (N)`); anchors are `#section-N` and `#purpose-N`. The stored `searchIndex` here is illustrative: `loadContent` rebuilds it on every read.
+
+---
+
+## 1j. Regulation catalog entry (`GET /api/regulations`) — United States
+
+```json
+{
+  "id": "us-admt",
+  "shortName": "US CO ADMT",
+  "legalLabel": "CO ADMT",
+  "fullName": "Colorado Automated Decision-Making Technology Act (SB 26-189; 2026 Colo. Sess. Laws ch. 131; C.R.S. 6-1-1701 et seq.)",
+  "maxArticles": 14,
+  "maxRecitals": 5,
+  "maxChapters": 7,
+  "segmentMeta": { "recitals": "Purpose notes 1–5", "articles": "C.R.S. 6-1-1701–1709" },
+  "infoBaseUrl": "https://leg.colorado.gov/bills/sb26-189",
+  "infoSiteName": "Colorado General Assembly",
+  "eurLexUrl": "https://www.leg.colorado.gov/laws/session-laws/SB26-189/131/download",
+  "eurLexLabel": "2026 Colo. Sess. Laws ch. 131",
+  "hasArticleTopics": false,
+  "hasSuitableRecitals": false,
+  "jurisdiction": "us",
+  "jurisdictionLabel": "United States",
+  "officialSiteName": "Colorado General Assembly"
+}
+```
+
+For `us-ccpa` and `us-open-data` only `id`, names, counts (`33 / 5 / 7` and `10 / 4 / 5`), source URLs, and `officialSiteName` (`California Legislative Information`, `govinfo`) differ.
+
+---
+
 ## 2. News cache (`data/gdpr-news.json`) — excerpts
 
-One shared cache for EU **and** Indonesian items; per-instrument scope is applied client-side.
+One shared cache for EU, Indonesian, **and** United States items; per-instrument scope is applied client-side.
 
 ```json
 {
@@ -277,12 +358,22 @@ One shared cache for EU **and** Indonesian items; per-instrument scope is applie
       "snippet": "UU PDP pelindungan data pribadi",
       "topic": "UU PDP and Komdigi supervision",
       "topicCategory": "Indonesia Personal Data Protection"
+    },
+    {
+      "title": "Colorado Automated Decision-Making Technology & Chatbot Safety Rulemaking",
+      "url": "https://coag.gov/ai/",
+      "sourceName": "Colorado AG",
+      "sourceUrl": "https://coag.gov/ai/",
+      "date": null,
+      "snippet": "…",
+      "topic": "Colorado ADMT Act",
+      "topicCategory": "United States ADMT"
     }
   ]
 }
 ```
 
-Indonesian `topicCategory` values: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**. `date` may be `null` when the publisher listing page exposes none.
+Indonesian `topicCategory` values: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**. United States `topicCategory` values: **United States CCPA**, **United States ADMT**, **United States OPEN Data**. `date` may be `null` when the publisher listing page exposes none.
 
 ---
 
@@ -400,6 +491,6 @@ Indonesian response fragment (UU PDP; `kind: "regulation"` sources link to JDIH 
 
 ## References
 
-- [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) — corpus normalization contract (all six corpora)  
+- [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) — corpus normalization contract (all nine corpora)  
 - [VARIABLES.md](VARIABLES.md) — full dictionary  
 - [API_CONTRACTS.md](API_CONTRACTS.md) — request/response contracts (live routes only)
