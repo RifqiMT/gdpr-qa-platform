@@ -8,7 +8,7 @@
 
 | Version | Node | Description |
 |---------|------|-------------|
-| **1.3.0** | ≥ 18 | **Thirteen instruments** across **EU**, **Indonesia**, the **United States**, and **International** standards. Region + Regulation picker (All / EU / Indonesia / USA / INTL); Browse hub; Ask via BM25 + Groq/Tavily with `[S#]` citations; BYOK; News (EU + Indonesian + US + ISO/AICPA official hubs) with relevance filters; Credible sources (ISO.org / AICPA — never GDPR-Info on `iso-*` / `soc2`); ETL (`id-law-scraper.js`, `us-law-scraper.js`, `iso-soc-scraper.js`); reader **Page \| Full**; PDF export follows mode; deep-link hashes; formatting guardrails; Vercel cron for all thirteen; `npm test` (Indo + US + ISO/SOC2 parity + browse routes + reader view). **Docs standard v3.1.** **Last doc audit:** 2026-10-22. |
+| **1.3.0** | ≥ 18 | **Thirteen instruments** across **EU**, **Indonesia**, the **United States**, and **International** standards. Region + Regulation picker (All / EU / Indonesia / USA / INTL); Browse hub with per-instrument `policySummary`; Ask via BM25 + Groq/Tavily with `[S#]` citations; BYOK; News (EU + Indonesian + US + ISO/AICPA official hubs) with **relevance filters for every instrument including GDPR** (regional feeds + primary hubs); Credible sources (ISO.org / AICPA — never GDPR-Info on `iso-*` / `soc2`); ETL (`id-law-scraper.js`, `us-law-scraper.js`, `iso-soc-scraper.js`); reader **Page \| Full**; PDF export follows mode; deep-link hashes; formatting guardrails; Vercel cron for all thirteen; `npm test` (Indo + US + ISO/SOC2 parity + browse routes + reader view). **Docs standard v3.2.** **Last doc audit:** 2026-10-23. |
 
 ---
 
@@ -27,7 +27,7 @@
 11. [Quick start](#11-quick-start)  
 12. [License and disclaimer](#12-license-and-disclaimer)  
 
-**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v3.1**) · [docs/README.md](docs/README.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
+**Documentation index:** [PRODUCT_DOCUMENTATION_STANDARD.md](PRODUCT_DOCUMENTATION_STANDARD.md) (**v3.2**) · [docs/README.md](docs/README.md) · [docs/FEATURE_CATALOG.md](docs/FEATURE_CATALOG.md) · [docs/OPERATIONS_RUNBOOK.md](docs/OPERATIONS_RUNBOOK.md) · [docs/BUSINESS_GUIDELINES.md](docs/BUSINESS_GUIDELINES.md) · [docs/TECH_GUIDELINES.md](docs/TECH_GUIDELINES.md).
 
 **Deep dives:** [docs/VARIABLES.md](docs/VARIABLES.md) · [docs/DATA_SCHEMA_EXAMPLES.md](docs/DATA_SCHEMA_EXAMPLES.md) · [docs/METRICS_AND_OKRS.md](docs/METRICS_AND_OKRS.md) · [docs/DESIGN_GUIDELINES.md](docs/DESIGN_GUIDELINES.md) · [docs/TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md) · [docs/GUARDRAILS.md](docs/GUARDRAILS.md) · [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/SOURCE_CODE_INVENTORY.md](docs/SOURCE_CODE_INVENTORY.md) · [CHANGELOG.md](CHANGELOG.md).
 
@@ -108,7 +108,7 @@ The **Regulation Q&A Platform** is a web application for **browsing** and **aski
 
 ### 3.0 App shell and responsive chrome
 
-- **`#appChrome`** — Sticky header + tab bar on viewports **≤899px**; measured height drives `--app-chrome-height`.  
+- **`#appChrome`** — Sticky header + tab bar on viewports **≤899px**; resize repositions the segmented-tab thumb.  
 - **Region + Regulation picker** — Unified chrome: region thumb (All / EU / Indonesia / USA / INTL), jurisdiction chip, custom regulation select; selection persists in **`localStorage`** (`gdpr-qa-regulation-v1`).  
 - **Tools menu** — On **≤899px**: Source freshness, API keys (BYOK), Refresh sources.  
 - **Tabs** — Segmented track with sliding active thumb: Browse / Ask / Sources / News.  

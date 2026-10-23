@@ -11,10 +11,10 @@ This directory contains **professional product, design, and engineering document
 | **International** | ISO/IEC 27701 · ISO/IEC 19941 · ISO/IEC 23894 · SOC 2 (AICPA Trust Services Criteria) — **voluntary standards, not laws** |
 
 The **canonical operator handbook** is the repository root **[README.md](../README.md)**.  
-**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v3.1**).  
-**Hub version:** **3.1** · **Product version:** `package.json` **1.3.0** · **Last documentation audit:** **2026-10-22** · **Instruments:** thirteen (EU + Indonesia + United States + International) · **`SEED_FILES`:** 41 · **Tests:** `npm test` → 58 pass / 24 suites.
+**Governance standard:** [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) (**v3.2**).  
+**Hub version:** **3.2** · **Product version:** `package.json` **1.3.0** · **Last documentation audit:** **2026-10-23** · **Instruments:** thirteen (EU + Indonesia + United States + International) · **`SEED_FILES`:** 41 · **Tests:** `npm test` → 58 pass / 24 suites.
 
-Every document in this folder is stamped **product 1.3.0 · standard v3.1 · audit 2026-10-22**. If a document disagrees with shipped code, the code wins and the document must be fixed.
+Every document in this folder is stamped **product 1.3.0 · standard v3.2 · audit 2026-10-23**. If a document disagrees with shipped code, the code wins and the document must be fixed.
 
 ---
 
@@ -49,14 +49,14 @@ Every document in this folder is stamped **product 1.3.0 · standard v3.1 · aud
 
 | Document | Description |
 |----------|-------------|
-| [PRD.md](PRD.md) | Product requirements aligned with standard **v3.1** — thirteen instruments, four jurisdictions, region picker, Indo/US/ISO-SOC ETL/news, soft-law AI ethics, US and International honesty (voluntary standards, not laws). |
+| [PRD.md](PRD.md) | Product requirements aligned with standard **v3.2** — thirteen instruments, four jurisdictions, region picker, Indo/US/ISO-SOC ETL/news, soft-law AI ethics, US and International honesty (voluntary standards, not laws). |
 | [BUSINESS_GUIDELINES.md](BUSINESS_GUIDELINES.md) | Business scope, credible sources, News policy per jurisdiction. |
 | [TECH_GUIDELINES.md](TECH_GUIDELINES.md) | Stack, regulation APIs, thirteen-instrument ETL (incl. `iso-soc-scraper.js`), LLM, performance. |
 | [USER_PERSONAS.md](USER_PERSONAS.md) | Personas (EU + Indonesian + United States + International: PIMS lead, cloud portability architect, AI risk manager, SOC 2 auditor). |
 | [USER_STORIES.md](USER_STORIES.md) | Epics: region/regulation, browse, Ask, News, BYOK, Indonesian parity, United States parity, International standards. |
 | [VARIABLES.md](VARIABLES.md) | Env vars (incl. `MIN_ID_*`, `MIN_US_*`, `MIN_ISO_*` / force-write flags), profiles, `SEED_FILES` (41), Mermaid charts (thirteen corpora). |
 | [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md) | Illustrative API and corpus payloads. |
-| [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md) | Product + operational metrics; OKRs **O1–O13**. |
+| [METRICS_AND_OKRS.md](METRICS_AND_OKRS.md) | Product + operational metrics; OKRs **O1–O14** (incl. News scope tightness / GDPR scoped News). |
 | [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) | Tokens, thirteen regulation theme accents, region picker, News hero. |
 | [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md) | BR ↔ PRD ↔ stories ↔ implementation ↔ verification. |
 | [GLOSSARY.md](GLOSSARY.md) | Acronyms (GDPR, UU PDP, Satu Data, SE AI Ethics, ISO 27701 / 19941 / 23894, SOC 2, TSC, PIMS, BYOK, …). |
@@ -76,7 +76,7 @@ Every document in this folder is stamped **product 1.3.0 · standard v3.1 · aud
 | Document | Description |
 |----------|-------------|
 | [../README.md](../README.md) | Primary product handbook. |
-| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v3.1**. |
+| [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md) | Documentation standard **v3.2**. |
 | [../CHANGELOG.md](../CHANGELOG.md) | [Keep a Changelog](https://keepachangelog.com/) history. |
 | [../.env.example](../.env.example) | Environment template (EU + ID + US + ISO/SOC 2 ETL + News + Groq/Tavily). |
 | [../public/regulation-profiles.js](../public/regulation-profiles.js) | EU UI profiles. |

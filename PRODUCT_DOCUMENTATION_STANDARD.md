@@ -1,10 +1,10 @@
 # Product documentation standard  
 ## Regulation Q&A Platform
 
-**Version:** 3.1  
+**Version:** 3.2  
 **Status:** Active — governance checklist for product, design, compliance, engineering, and operations.  
 **Product release:** `package.json` **1.3.0**.  
-**Latest doc audit:** **2026-10-22** (full body + satellite lockstep for **thirteen** instruments — EU + Indonesia + United States + International; `SEED_FILES` = **41**; region All/EU/Indonesia/USA/INTL; ISO/SOC2 ETL env; copyright-safe voluntary corpora).
+**Latest doc audit:** **2026-10-23** (satellite lockstep for product **1.3.0** / **thirteen** instruments — EU + Indonesia + United States + International; `SEED_FILES` = **41**; Unreleased News relevance for **all** instruments including GDPR; regional feed allowlists + primary hubs; Browse `policySummary` + full-width summary panel; equal-width five-segment region thumb tokens).
 
 **Scope:** All material under **`gdpr-qa-platform/`** describing the product, behavior, configuration, verification, and release history.
 
@@ -155,6 +155,7 @@ Node.js, Express, node-cron, axios/cheerio, HTML/CSS/JS, DM Sans, browser print 
 
 | Standard version | Date | Highlights |
 |------------------|------|------------|
+| **3.2** | 2026-10-23 | Unreleased News/Browse UX lockstep: GDPR + all instruments use `filterForRegulation` / regional source pool / primary hubs; `browseUi.policySummary`; region thumb gradients `165deg` (`all`/`eu`/`id` teal, `us` `#3b82f6→#1e40af`, `intl` `#64748b→#334155`); VARIABLES / FEATURE / PRD / TECH / DESIGN / GUARDRAILS / TRACEABILITY / stories / metrics stamps. |
 | **3.1** | 2026-10-22 | Full body + satellite lockstep for **1.3.0** / thirteen instruments; SEED **41**; region `intl`; ISO/SOC2 ETL env in VARIABLES + `.env.example`; inventory `regulation-profiles-iso.js` / `iso-soc-scraper.js`; test baseline 58/24. |
 | **3.0** | 2026-10-22 | International jurisdiction (ISO 27701 / 19941 / 23894 / SOC 2); copyright-safe corpora; INTL region. |
 | **2.9** | 2026-10-22 | USA nine-instrument satellite lockstep; SEED 29. |

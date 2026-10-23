@@ -106,6 +106,8 @@
       subtitle: 'ISO/IEC 27701:2025',
       description:
         'The closest international analogue to the EU GDPR: a standalone Privacy Information Management System (PIMS) for PII controllers and processors, published 14 October 2025 (64 pages, JTC 1/SC 27). Voluntary — not a law, and not a substitute for GDPR. Full text is sold by ISO; this app uses the public catalogue plus an educational clause map.',
+      policySummary:
+        'ISO/IEC 27701:2025 is the closest international analogue to the EU GDPR: a standalone Privacy Information Management System (PIMS) for PII controllers and processors (JTC 1/SC 27; published 14 October 2025). It extends privacy controls in an ISO 27001-compatible management-system form. It is voluntary—not a law and not a substitute for GDPR. Full normative text is sold by ISO; this workspace uses the public catalogue plus an educational clause and purpose-note map.',
       highlights: ['Standalone PIMS', 'PII controller / processor', 'ISO 27001 compatible', 'Not a law'],
       mark: 'PIMS'
     }
@@ -209,6 +211,8 @@
       subtitle: 'ISO/IEC 19941:2017',
       description:
         'The closest international analogue to the EU Data Act’s cloud-switching themes: types of cloud interoperability and portability, and common terminology for cloud service customers, providers, and partners. Confirmed 2023; ISO.org expects replacement by ISO/IEC 19941-1 around November 2026. Voluntary — not the Data Act.',
+      policySummary:
+        'ISO/IEC 19941:2017 is the closest international analogue to the EU Data Act’s cloud-switching themes. It defines types of cloud interoperability and portability and shared terminology for cloud service customers (CSC), providers (CSP), and partners (CSN). Confirmed in 2023; ISO.org expects replacement by ISO/IEC 19941-1 around November 2026. Voluntary guidance—not the Data Act. This browse view presents an educational clause map and purpose notes from public catalogue material.',
       highlights: ['Interoperability types', 'Portability types', 'CSC / CSP / CSN', 'Not a law'],
       mark: 'CLOUD'
     }
@@ -312,6 +316,8 @@
       subtitle: 'ISO/IEC 23894:2023',
       description:
         'The closest international analogue to the EU AI Act: guidance on managing AI-related risk, using ISO 31000 as the foundation (JTC 1/SC 42, 26 pages, February 2023). Related certifiable AIMS: ISO/IEC 42001 (not shipped as a fifth instrument). Voluntary guidance — not Union law.',
+      policySummary:
+        'ISO/IEC 23894:2023 is the closest international analogue to the EU AI Act’s risk themes: guidance on managing AI-related risk using ISO 31000 as the foundation (JTC 1/SC 42, February 2023). Related certifiable AIMS work includes ISO/IEC 42001 (not shipped here as a separate instrument). It is voluntary guidance—not Union law. This browse view offers an educational clause and purpose-note map based on public catalogue information.',
       highlights: ['ISO 31000 overlay', 'AI life-cycle risk', 'Related ISO 42001', 'Not a law'],
       mark: 'AI'
     }
@@ -419,6 +425,8 @@
       subtitle: 'AICPA Trust Services Criteria 2017 / 2022',
       description:
         'A CPA attestation report over the Trust Services Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy). Type 1 is design at a point in time; Type 2 adds operating effectiveness over a period. Not GDPR, not ISO certification, not a statute. Criterion titles only — Points of Focus remain AICPA copyright.',
+      policySummary:
+        'SOC 2 is a CPA attestation over the AICPA Trust Services Criteria (Security, Availability, Processing Integrity, Confidentiality, and Privacy). Type 1 assesses design at a point in time; Type 2 adds operating effectiveness over a period. It is not GDPR, not an ISO certification, and not a statute. This workspace lists criterion titles and purpose notes only—Points of Focus tables remain AICPA copyright and are not reproduced.',
       highlights: ['Common Criteria', 'Type 1 / Type 2', 'Optional categories', 'Not a law'],
       mark: 'SOC'
     }

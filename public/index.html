@@ -43,32 +43,26 @@
           <div class="header-filters header-regulation" id="headerFilters">
             <div class="header-instrument-picker" id="headerInstrumentPicker" aria-label="Region and regulation">
               <div class="header-filter header-filter--region">
-                <p class="header-filter-label" id="regionFilterLabel">Region</p>
-                <div class="region-filter" id="regionFilter" role="radiogroup" aria-labelledby="regionFilterLabel">
+                <div class="header-filter-label-row header-filter-label-row--region">
+                  <p class="header-filter-label" id="regionFilterLabel">Region</p>
+                  <span class="region-filter-current" id="regionFilterCurrent" aria-live="polite">All regions</span>
+                </div>
+                <div class="region-filter" id="regionFilter" role="radiogroup" aria-labelledby="regionFilterLabel" aria-describedby="regionFilterCurrent">
                   <span class="region-filter-thumb" id="regionFilterThumb" aria-hidden="true"></span>
-                  <button type="button" class="region-filter-btn is-active" role="radio" aria-checked="true" aria-label="All regions" data-region="all" id="regionFilterAll">
+                  <button type="button" class="region-filter-btn is-active" role="radio" aria-checked="true" aria-label="All regions" title="All regions" data-region="all" id="regionFilterAll">
                     <span class="region-filter-btn-inner">All</span>
                   </button>
-                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="European Union" data-region="eu" id="regionFilterEu">
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="European Union" title="European Union" data-region="eu" id="regionFilterEu">
                     <span class="region-filter-btn-inner">EU</span>
                   </button>
-                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="Indonesia" data-region="id" id="regionFilterId">
-                    <span class="region-filter-btn-inner">
-                      <span class="region-filter-btn-label region-filter-btn-label--long">Indonesia</span>
-                      <span class="region-filter-btn-label region-filter-btn-label--short" aria-hidden="true">ID</span>
-                    </span>
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="Indonesia" title="Indonesia" data-region="id" id="regionFilterId">
+                    <span class="region-filter-btn-inner">ID</span>
                   </button>
-                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="United States" data-region="us" id="regionFilterUs">
-                    <span class="region-filter-btn-inner">
-                      <span class="region-filter-btn-label region-filter-btn-label--long">USA</span>
-                      <span class="region-filter-btn-label region-filter-btn-label--short" aria-hidden="true">US</span>
-                    </span>
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="United States" title="United States" data-region="us" id="regionFilterUs">
+                    <span class="region-filter-btn-inner">US</span>
                   </button>
-                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="International standards" data-region="intl" id="regionFilterIntl">
-                    <span class="region-filter-btn-inner">
-                      <span class="region-filter-btn-label region-filter-btn-label--long">INTL</span>
-                      <span class="region-filter-btn-label region-filter-btn-label--short" aria-hidden="true">INTL</span>
-                    </span>
+                  <button type="button" class="region-filter-btn" role="radio" aria-checked="false" aria-label="International standards" title="International standards" data-region="intl" id="regionFilterIntl">
+                    <span class="region-filter-btn-inner">INTL</span>
                   </button>
                 </div>
               </div>
@@ -244,7 +238,11 @@
             <header class="recitals-header section-header browse-docs-header" id="recitalsBrowserTop">
               <p class="browse-docs-eyebrow" id="recitalsEyebrow">Browse</p>
               <h2>GDPR recitals</h2>
-              <p class="recitals-lead" id="recitalsLead">Recitals explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.</p>
+              <div class="browse-docs-summary-block">
+                <p class="recitals-lead browse-docs-summary" id="recitalsLead">The General Data Protection Regulation sets EU-wide rules for processing personal data.</p>
+                <ul class="browse-docs-themes" id="recitalsThemes" aria-label="Key themes" hidden></ul>
+              </div>
+              <p class="browse-docs-hint" id="recitalsHint">Recitals explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.</p>
               <p class="source-links browse-docs-sources" id="recitalsSourceLinks">Official sources: …</p>
               <div class="recitals-toolbar browse-docs-toolbar" role="search">
                 <div class="recitals-search-wrap">
@@ -264,7 +262,11 @@
             <header class="section-header chapters-browser-header browse-docs-header">
               <p class="browse-docs-eyebrow" id="chaptersEyebrow">Browse</p>
               <h2>GDPR chapters &amp; articles</h2>
-              <p class="chapters-browser-lead" id="chaptersLead">Articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.</p>
+              <div class="browse-docs-summary-block">
+                <p class="chapters-browser-lead browse-docs-summary" id="chaptersLead">The General Data Protection Regulation sets EU-wide rules for processing personal data.</p>
+                <ul class="browse-docs-themes" id="chaptersThemes" aria-label="Key themes" hidden></ul>
+              </div>
+              <p class="browse-docs-hint" id="chaptersHint">Articles are grouped by chapter. Filter by category, chapter, or article number—then open any card for the full legal text.</p>
               <p class="source-links browse-docs-sources" id="chaptersSourceLinks">Official sources: …</p>
             </header>
             <div class="chapters-filters-toolbar">
@@ -655,6 +657,7 @@
             </div>
             <p id="newsRefreshHint" class="visually-hidden">Fetches the latest headlines from configured EU and UK supervisory sources.</p>
             <div class="news-hero-stats" id="newsHeroMeta" hidden aria-live="polite">
+              <span class="news-scope-badge news-scope-badge--full" id="newsScopeBadge">Full corpus</span>
               <span class="news-hero-stat">
                 <span class="news-hero-stat-value" id="newsHeroStatCount">—</span>
                 <span class="news-hero-stat-label">articles</span>
@@ -666,7 +669,7 @@
               </span>
               <span class="news-hero-stat-dot" aria-hidden="true">·</span>
               <span class="news-hero-stat news-hero-stat--muted" id="newsHeroStatView">
-                <span class="news-hero-stat-value" id="newsHeroStatViewLabel">All topics</span>
+                <span class="news-hero-stat-value" id="newsHeroStatViewLabel">Full corpus</span>
               </span>
             </div>
             <div class="news-hero-details" id="newsHeroDetails">

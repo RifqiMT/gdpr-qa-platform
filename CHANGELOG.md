@@ -8,6 +8,29 @@ All notable changes to the **Regulation Q&A Platform** (repository: `gdpr-qa-pla
 
 ---
 
+## [1.3.1] — 2026-10-23
+
+### Changed
+
+- **Region filter chrome:** Equal-width five-segment sliding control (All · EU · ID · US · INTL) with refined track/thumb, live jurisdiction readout beside the Region label, consistent short codes + full `aria-label`/`title`, and responsive full-width layout on small screens. Behavior and radiogroup keyboard model unchanged.
+- **News relevance + chrome:** Filter badges, hero article/source counts, and status “loaded” use the regulation-scoped set (not the full shared corpus). AI Act scope regex tightened (no bare algorithmic/ADM matches); EU AI Act / Data Act also exclude ID/US/ISO feed items. Slimmer collapsible hero with always-visible scope badge; two-column News layout from 960px; refined card rail.
+- **News feed ↔ regulation alignment:** Official site/RSS sidebar and headline gating use per-regulation source allowlists (e.g. AI Act → Digital Strategy AI + Commission + AI-related EDPB/EDPS; GDPR → EDPB/EDPS/ICO/CoE/Commission). GDPR now filters instead of showing the full multi-jurisdiction corpus; broad “AI and Emerging Tech” / “General” topic auto-passes removed.
+- **News regional coverage:** Each regulation’s News sidebar lists **all credible feeds for its jurisdiction** (EU/UK, Indonesia, US, or International). Headlines stay inside that regional pool; primary hubs (e.g. EDPB/ICO for GDPR, Digital Strategy AI for AI Act, CPPA for CCPA, data.gov for OPEN Data) are included in full, with keyword filters on broader megasources.
+- **Browse section policy summaries:** Chapters/articles and recitals (or pasal / considering / purpose notes / clauses) headers show a comprehensive `policySummary` for every instrument, plus a short how-to hint—replacing generic “grouped by chapter” / “explain the context” copy.
+- **Browse summary layout:** Removed the 72ch width cap that left a large empty right gutter; summary now spans the content column in a full-width panel, with key themes as chips under the prose.
+
+### Removed
+
+- **Unused CSS shell tokens:** `--app-chrome-height`, `--footer-block-min`, `--main-vertical-pad`, `--app-shell-vertical`, `--reading-pane-max-h` (declared/written but never consumed for layout).
+- **Legacy CSS:** `.region-filter-btn-label--short` / `--long` (current markup uses `.region-filter-btn-inner`).
+- **Dead JS write:** `syncAppChromeHeight` no longer sets `--app-chrome-height`; chrome resize only repositions the tab thumb.
+
+### Documentation
+
+- Product documentation standard **v3.1** → **v3.2** (audit 2026-10-23): lockstep News/Browse UX — GDPR and all instruments use `filterForRegulation` with regional source pools and primary hubs; `browseUi.policySummary` + full-width summary panel; region thumb tokens; VARIABLES, FEATURE_CATALOG, PRD, TECH/DESIGN/GUARDRAILS, TRACEABILITY, personas/stories, metrics OKR O3 KR4, and API contracts updated end to end.
+
+---
+
 ## [1.3.0] — 2026-10-23
 
 ### Added

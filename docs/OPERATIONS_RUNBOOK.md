@@ -1,7 +1,7 @@
 # Operations runbook  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23**
 
 Procedures for **local development**, **production (Vercel)**, and **routine maintenance** across **thirteen instruments** (`gdpr`, `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-open-data`, `us-admt`, `iso-27701`, `iso-19941`, `iso-23894`, `soc2`). Pair with [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md), [TECH_GUIDELINES.md](TECH_GUIDELINES.md), and [GUARDRAILS.md](GUARDRAILS.md). There is **no end-user authentication**; the only secured route is the cron handler.
 
@@ -49,7 +49,7 @@ Exit code **137** on a background task usually means the process was killed duri
 npm test
 ```
 
-Expected (2026-10-22): **`npm test` → 58 tests / 24 suites / 0 failures** across **`indo-parity.test.js`**, **`us-parity.test.js`** (incl. Ask retrieval + sources fallback), **`iso-parity.test.js`**, **`browse-routes.test.js`**, and **`reader-view.test.js`**. Run on every change touching `lib/regulations.js`, `id-law-scraper.js`, `us-law-scraper.js`, `iso-soc-scraper.js`, `news-crawler.js`, `news-topics.js`, `public/app.js` / `index.html` reader chrome, or `data/*.json`. Unstable tests must be stabilized before merge.
+Expected (2026-10-23): **`npm test` → 58 tests / 24 suites / 0 failures** across **`indo-parity.test.js`**, **`us-parity.test.js`** (incl. Ask retrieval + sources fallback), **`iso-parity.test.js`**, **`browse-routes.test.js`**, and **`reader-view.test.js`**. Run on every change touching `lib/regulations.js`, `id-law-scraper.js`, `us-law-scraper.js`, `iso-soc-scraper.js`, `news-crawler.js`, `news-topics.js`, `public/app.js` / `index.html` reader chrome, or `data/*.json`. Unstable tests must be stabilized before merge.
 
 ---
 

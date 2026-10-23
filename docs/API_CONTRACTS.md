@@ -1,7 +1,7 @@
 # API contracts  
 ## Regulation Q&A Platform
 
-**Version:** 2.2 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
+**Version:** 2.3 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23**
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.  
@@ -38,7 +38,7 @@ Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (PO
 - **Unknown or missing values** are coerced to **`gdpr`** by `normalizeRegulationId` (no `400`).
 - **Excluded from regulation scoping:** `/api/regulations`, `/api/news*`, `/api/industry-sectors`, `/api/validate-api-keys` (the SPA does not append `regulation=` to these).
 - **Client behaviour:** `appendRegulationParam()` adds `?regulation=` to every `/api/*` request except the excluded set; `mergeRegulationBody()` additionally sets `body.regulation` for **`POST /api/refresh`** and **`POST /api/answer`** only.
-- **Region picker is client-only:** the header **Region** control has four options — **All / EU / Indonesia / USA / INTL** — and filters which instruments the UI lists. The choice is stored in `localStorage` under **`gdpr-qa-region-v1`** with values **`all`** | **`eu`** | **`id`** | **`us`** | **`intl`** and is **never** sent to the API. The API contract exposes `jurisdiction` / `jurisdictionLabel` per instrument so any client can implement the same grouping (`all` = no filter; `eu`/`id`/`us`/`intl` map 1:1 to `jurisdiction`). Choosing **INTL** selects the default regulation **`iso-27701`**.
+- **Region picker is client-only:** the header **Region** control has **five** UI values — **All / EU / Indonesia / USA / INTL** — and filters which instruments the UI lists. The choice is stored in `localStorage` under **`gdpr-qa-region-v1`** with values **`all`** | **`eu`** | **`id`** | **`us`** | **`intl`** and is **never** sent to the API. The API contract exposes `jurisdiction` / `jurisdictionLabel` per instrument so any client can implement the same grouping (`all` = no filter; `eu`/`id`/`us`/`intl` map 1:1 to `jurisdiction`). Choosing **INTL** selects the default regulation **`iso-27701`**.
 
 ### General
 
@@ -536,7 +536,7 @@ See [CHANGELOG.md](../CHANGELOG.md) § 1.2.6.
 
 ## Versioning
 
-- No URL version prefix (`/v1`); breaking changes should bump **package.json** version and this document together. Current package version: **1.3.0** (documentation standard **v3.1**, audit **2026-10-22**).
+- No URL version prefix (`/v1`); breaking changes should bump **package.json** version and this document together. Current package version: **1.3.0** (documentation standard **v3.2**, audit **2026-10-23**).
 
 ---
 

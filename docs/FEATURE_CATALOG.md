@@ -1,7 +1,7 @@
 # Feature catalog  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · **Product version:** `package.json` **1.3.0** · Documentation standard **v3.1** · Audit date **2026-10-22** · **`SEED_FILES`** = 41 · `npm test` **58 pass / 24 suites**
+**Version:** 3.2 · **Last updated:** 2026-10-23 · **Product version:** `package.json` **1.3.0** · Documentation standard **v3.2** · Audit date **2026-10-23** · **`SEED_FILES`** = 41 · `npm test` **58 pass / 24 suites**
 
 This catalog is the **feature-level inventory** of the shipped product across **thirteen instruments** in four jurisdictions. For requirements and acceptance criteria, see [PRD.md](PRD.md) and [USER_STORIES.md](USER_STORIES.md). For implementation mapping, see [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md). There is **no end-user authentication** in any feature below.
 
@@ -37,10 +37,10 @@ This catalog is the **feature-level inventory** of the shipped product across **
 | F-SHELL-06 | Homepage (logo) | Resets Browse to placeholder; clears reader state. | `goToHome()` in `app.js` |
 | F-SHELL-07 | App credits bar | Maintainer attribution; LinkedIn and website icon links. | `.app-credits` in `index.html` |
 | F-SHELL-08 | Regulation-aware citation sidebar | Browse detail panels sync via `citationsUi` + `syncCitationSidebarChrome`; official-site label from `officialSiteName` (EUR-Lex / peraturan.go.id / JDIH Komdigi / California Legislative Information / Colorado General Assembly / govinfo / ISO / AICPA). | `#citationsSidebar`, `regulation-profiles*.js` |
-| F-SHELL-09 | Responsive app chrome | Sticky `#appChrome`; Tools menu; 1-column toolbar ≤899px; `--app-chrome-height` via `ResizeObserver`. | `index.html`, `styles.css`, `initHeaderActionsToggle` |
+| F-SHELL-09 | Responsive app chrome | Sticky `#appChrome`; Tools menu; 1-column toolbar ≤899px; `ResizeObserver` repositions tab thumb. | `index.html`, `styles.css`, `initHeaderActionsToggle` |
 | F-SHELL-10 | Toolbar live status hints | Freshness + API key subtitles in Tools rows (`syncHeaderToolbarStatus`); no duplicate status strip. | `#headerFreshnessHint`, `#headerApiKeysHint`, `app.js` |
 | F-SHELL-11 | Compact mobile tabs | Short tab labels; pill container; horizontal scroll. | `.tabs`, `.tab-label--short` |
-| F-SHELL-12 | **Region picker** | Radio group **All · EU · Indonesia · USA · INTL** with sliding thumb (`#regionFilter`; INTL thumb gradient `#475569` → `#334155`); filters which instruments appear in the regulation select and welcome hub; `data-region` on chrome/`<html>`; persists in `localStorage` (`gdpr-qa-region-v1` ∈ `all\|eu\|id\|us\|intl`); choosing INTL defaults the regulation to `iso-27701`; **client-only** (never sent to API). | `#regionFilter`, `catalogForRegion`, `syncRegionFilterUi` |
+| F-SHELL-12 | **Region picker** | Equal-width five-segment radio group **All · EU · ID · US · INTL** with sliding thumb (`#regionFilter`; gradients `165deg`: `all` `#0d9488→#0f766e`, `eu` `#2dd4bf→#0f766e`, `id` `#0f766e→#0d5c56`, `us` `#3b82f6→#1e40af`, `intl` `#64748b→#334155`); live jurisdiction readout beside the Region label; filters which instruments appear in the regulation select and welcome hub; `data-region` on chrome/`<html>`; persists in `localStorage` (`gdpr-qa-region-v1` ∈ `all\|eu\|id\|us\|intl`); choosing INTL defaults the regulation to `iso-27701`; **client-only** (never sent to API). | `#regionFilter`, `catalogForRegion`, `syncRegionFilterUi` |
 | F-SHELL-13 | Jurisdiction chip | Chip beside the select showing **European Union**, **Indonesia**, **United States**, or **International** for the active instrument (`data-jurisdiction`); region auto-aligns when a regulation is chosen from outside the current region (`alignRegionWithRegulation`). | `#regulationJurisdictionChip` |
 | F-SHELL-14 | Grouped regulation select (All region) | With region **All**, the select groups options under European Union / Indonesia / United States / International (`jurisdictionLabel`). | `app.js` regulation select builder |
 | F-SHELL-15 | Thirteen theme accents | Per-instrument themes (EU, ID, `us-ccpa` / `us-open-data` / `us-admt`, and International `iso-27701` `#0f766e`, `iso-19941` `#0369a1`, `iso-23894` `#5b21b6`, `soc2` `#b45309`) for welcome cards, News hero, Credible sources, and chrome. See [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md). | `browseUi.theme`, `newsUi.theme`, `styles.css` |
@@ -75,6 +75,7 @@ This catalog is the **feature-level inventory** of the shipped product across **
 | F-BRW-17 | Regulation-aware citation sidebar | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `citationsUi`; official + related panel copy |
 | F-BRW-18 | Full long article titles (non-GDPR) | — | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | No 120-char fallback in `getArticleDisplayTitle` |
 | F-BRW-19 | Browse welcome overview | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `browseUi`; themed description + tags + official-source link |
+| F-BRW-19b | Browse policy summary panel | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Chapters/Recitals headers show `browseUi.policySummary` (full-width panel, no 72ch cap) + theme chips from `browseUi.highlights` + how-to hint |
 | F-BRW-20 | Desktop regulation hub | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `#browseWelcomeGrid`; thirteen cards in four region sections — EU, Indonesia, USA, INTL (`BROWSE_WELCOME_GRID_ORDER`); region sections (`.browse-welcome-region`) hide/show with the region picker. United States and International instruments share this Browse matrix (no GDPR topic filters). |
 | F-BRW-21 | Chapters filter reliability | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `resetChaptersFilters`; hidden GDPR topic filter guard |
 | F-BRW-22 | Mobile collapsible chapter filters | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | `#chaptersFiltersToggle`; active-filter banner |
@@ -137,13 +138,13 @@ All features apply to **all thirteen instruments** unless noted. **Ask is `POST 
 | F-NEWS-03 | Source / topic filters | Client-side on `lastNewsItems` |
 | F-NEWS-04 | By source / All views | Segmented toggle; chronological **All** mode |
 | F-NEWS-05 | URL + semantic dedupe | Server + `news-dedupe.js` client mirror |
-| F-NEWS-06 | Refresh news | `POST /api/news/refresh` → `gdpr-news.json` (EU + Indonesia + United States + International merged; 1,553 items at the 2026-10-22 audit) |
+| F-NEWS-06 | Refresh news | `POST /api/news/refresh` → `gdpr-news.json` (EU + Indonesia + United States + International merged; 1,553 items at the 2026-10-23 audit) |
 | F-NEWS-07 | Attachments discovery | Per-article scan; batch summary hides empty actions |
 | F-NEWS-08 | Quick filters dock | Desktop sidebar when main filters scroll away |
-| F-NEWS-09 | Regulation relevance filter | `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-admt`, `us-open-data`, `iso-27701`, `iso-19941`, `iso-23894`, `soc2`: `itemMatchesNewsRegulationScope` + banner (GDPR shows the full list) |
+| F-NEWS-09 | Regulation relevance filter | **All thirteen** instruments (including GDPR): `newsUi.filterForRegulation: true` → `itemMatchesNewsRegulationScope` (regional source pool + primary hubs + instrument regex/category). Hero counts, badges, and “loaded” status use the scoped set. Always-visible scope badge (**Relevant to …**). |
 | F-NEWS-10 | Three-paragraph summaries | Card summary blocks from data or heuristics |
-| F-NEWS-11 | Responsive news hero | Compact bar; collapsible details ≤899px; `newsUi` themes; 1-column intro/scope panels; stats strip. |
-| F-NEWS-12 | Region-scoped feed list | Indonesian regs / Indonesia region show Antara–Komdigi–Setkab–Satu Data; USA region / `us-*` regs show FTC, CPPA, California OAG, Colorado AG, data.gov / GSA / FDS; INTL region / `iso-*` / `soc2` show ISO.org, ISO Insights, and AICPA feeds |
+| F-NEWS-11 | Responsive news hero | Compact / collapsible themed bar; always-visible scope badge; `newsUi` themes; two-column News layout from ≥960px; scoped stats strip. |
+| F-NEWS-12 | Region-scoped feed list | Sidebar lists **all credible feeds for the regulation’s jurisdiction** (EU/UK, Indonesia, US, or International). Headlines stay in that regional pool; primary hubs (e.g. EDPB/ICO for GDPR, Digital Strategy AI for AI Act, CPPA for CCPA, data.gov for OPEN Data, AICPA for SOC 2) pass in full; broader megasources need keyword filters. |
 | F-NEWS-13 | **Indonesian news crawl** | `crawlIndonesiaOfficialNews`: Antara policy **tag hubs** (`uu-pdp`, `data-pribadi`, Satu Data, AI ethics, `komdigi`), Antara RSS (Hukum, Tekno, English), Komdigi HTML and Satu Data portal (best-effort), Setkab feed |
 | F-NEWS-16 | **United States news crawl** | `crawlUnitedStatesOfficialNews`: FTC RSS/HTML (compatible UA), CPPA/CalPrivacy year announcements, California OAG RSS, Colorado AG ADAI hub + rulemaking files, Federal Data Strategy, resources.data.gov |
 | F-NEWS-17 | United States policy gate | `unitedStatesPolicyNewsRe` / `unitedStatesNewsItemIsOnScope` keep CCPA / ADMT / OPEN Data headlines |
@@ -185,7 +186,7 @@ All features apply to **all thirteen instruments** unless noted. **Ask is `POST 
 | F-OPS-03 | Ephemeral data on Vercel | `GDPR_DATA_DIR` / `/tmp` seed from bundled `data/` (**`SEED_FILES` = 41** JSON files) |
 | F-OPS-04 | Health check | `GET /health` |
 | F-OPS-05 | CORS | Enabled for API consumers |
-| F-OPS-06 | Automated tests | `npm test` → `node --test test/*.test.js` (`indo-parity`, `us-parity` and `iso-parity` including Ask retrieval + sources fallback, `browse-routes`, `reader-view`); **58 pass / 24 suites** at the 2026-10-22 audit |
+| F-OPS-06 | Automated tests | `npm test` → `node --test test/*.test.js` (`indo-parity`, `us-parity` and `iso-parity` including Ask retrieval + sources fallback, `browse-routes`, `reader-view`); **58 pass / 24 suites** at the 2026-10-23 audit |
 | F-OPS-07 | No end-user auth | Public read access; only cron route is secret-protected |
 
 ---

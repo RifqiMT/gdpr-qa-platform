@@ -1,6 +1,6 @@
 {
   "name": "gdpr-qa-platform",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Regulation Q&A Platform — EU, Indonesian, US analogues, and International standards (ISO/IEC 27701, 19941, 23894, SOC 2); Browse, Ask (BM25 + Groq/Tavily), BYOK, news, credible sources; Vercel-ready",
   "main": "server.js",
   "scripts": {

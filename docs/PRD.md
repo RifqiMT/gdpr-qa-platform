@@ -1,10 +1,10 @@
 # Product Requirements Document (PRD)  
 ## Regulation Q&A Platform
 
-**Version:** 3.1  
-**Last updated:** 2026-10-22  
-**Audit date:** 2026-10-22  
-**Aligned with:** Product documentation standard **v3.1** · `package.json` **1.3.0** · thirteen instruments (EU + Indonesia + United States + International) · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
+**Version:** 3.2  
+**Last updated:** 2026-10-23  
+**Audit date:** 2026-10-23  
+**Aligned with:** Product documentation standard **v3.2** · `package.json` **1.3.0** · thirteen instruments (EU + Indonesia + United States + International) · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
 
 ---
 
@@ -86,7 +86,7 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | FR-SHELL-01 | Header exposes **region** filter (**All · EU · Indonesia · USA · INTL**, ids `all` / `eu` / `id` / `us` / `intl`; persisted `gdpr-qa-region-v1`; client-only; INTL defaults the regulation to `iso-27701`) and **regulation** select from `GET /api/regulations`. | P0 |
 | FR-SHELL-02 | Regulation selection persists (`gdpr-qa-regulation-v1`). | P0 |
 | FR-SHELL-03 | On viewports **≤899px**, **Tools** toggles toolbar (freshness, API keys, refresh). | P0 |
-| FR-SHELL-04 | `#appChrome` sticky on ≤899px; reading pane respects `--app-chrome-height`. | P1 |
+| FR-SHELL-04 | `#appChrome` sticky on ≤899px; chrome resize keeps tab thumb aligned. | P1 |
 | FR-SHELL-05 | Toolbar live subtitles for freshness and API keys; no duplicate always-visible status strip. | P1 |
 | FR-SHELL-06 | Tab bar: Browse / Ask / Sources / News with segmented active thumb. | P1 |
 | FR-SHELL-07 | Logo resets Browse to welcome placeholder (`goToHome`). | P1 |
@@ -125,6 +125,7 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | FR-BRW-11 | Quick actions: Chapters first, Recitals second. | P1 |
 | FR-BRW-12 | `loadChapters` ignores stale responses on mid-flight regulation change. | P1 |
 | FR-BRW-13 | Mobile collapsible Filters + empty-state differentiation. | P1 |
+| FR-BRW-14 | Chapters/Recitals (and jurisdiction analogues) headers show a comprehensive `browseUi.policySummary` plus theme chips and a short how-to hint; summary panel is full-width (no 72ch content cap). | P1 |
 
 ### 2.3 Ask (FR-ASK)
 
@@ -161,7 +162,8 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | FR-NEWS-03 | Indonesian sources: Antara, Setkab, Komdigi (best-effort), Satu Data portal. | P0 |
 | FR-NEWS-03b | United States sources: FTC, CPPA/CalPrivacy, California OAG, Colorado AG (ADAI/ADMT), data.gov / Federal Data Strategy / GSA. | P0 |
 | FR-NEWS-03c | International sources: ISO news, ISO Insights, AICPA SOC for Service Organizations (catalogue seed + best-effort live search; `scripts/seed-iso-soc-news.js`). | P0 |
-| FR-NEWS-04 | Client relevance filters for `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-admt`, `us-open-data`, `iso-27701`, `iso-19941`, `iso-23894`, `soc2`. | P0 |
+| FR-NEWS-04 | Client relevance filters for **all thirteen** instruments including `gdpr`: regional credible-source pool, primary-hub pass-through, then instrument regex/category; hero metrics reflect the scoped set. | P0 |
+| FR-NEWS-04b | News sidebar lists all credible feeds for the regulation’s jurisdiction; headlines never leave that regional pool (no ID/US/INTL leakage into EU AI Act / Data Act, and vice versa). | P0 |
 | FR-NEWS-05 | Topic taxonomy + source/topic/search filters; dedupe URL + semantic. | P1 |
 | FR-NEWS-06 | Attachments APIs; hide Attachments when count is 0. | P2 |
 | FR-NEWS-07 | Empty Indo- and USA-filtered states guide users to Refresh news. | P1 |
@@ -191,7 +193,7 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | FR-INTL-06 | Theme accents: `iso-27701` `#0f766e`, `iso-19941` `#0369a1`, `iso-23894` `#5b21b6`, `soc2` `#b45309`. | P2 |
 | FR-INTL-07 | `test/iso-parity.test.js` passes. | P0 |
 | FR-INTL-08 | Duplicate user mention of ISO 23894 is one instrument; ISO/IEC 42001 is a related note only, not a separately shipped corpus. | P1 |
-| FR-INTL-09 | Region **INTL** thumb is slate (`#475569` → `#334155`); chip reads **International**; default regulation for `intl` is `iso-27701`. | P1 |
+| FR-INTL-09 | Region **INTL** thumb is slate (`#64748b` → `#334155` at `165deg`); chip reads **International**; default regulation for `intl` is `iso-27701`. | P1 |
 | FR-INTL-10 | ETL env derived from `etlEnvPrefix` (`ISO_27701`, `ISO_19941`, `ISO_23894`, `SOC2`): `MIN_*_ARTICLES` / `MIN_*_RECITALS` (14/5, 11/4, 12/5, 20/6) and `*_FORCE_CORPUS_WRITE`; ETL never writes paywalled body text. | P1 |
 | FR-INTL-11 | UI profiles live in `public/regulation-profiles-iso.js` and extend `REGULATION_PROFILES`; `jurisdiction: 'intl'` with Clause / Criterion / Purpose-note headings. | P1 |
 
@@ -223,8 +225,8 @@ Users optionally filter by **region**, then select the active instrument. The pr
 | NFR-04 | Secrets never committed; BYOK stays in browser storage. |
 | NFR-05 | Responsive layout ≤640 / ≤899 / ≥900 / widescreen. |
 | NFR-06 | Accessible tab roles and labeled controls. |
-| NFR-07 | `npm test` covers Indo, US, and International registry/corpus/news parity, browse routes, and reader view (**58 pass / 24 suites** at the 2026-10-22 1.3.0 audit). |
-| NFR-08 | Documentation standard **v3.1** kept in lockstep with releases across every satellite document. |
+| NFR-07 | `npm test` covers Indo, US, and International registry/corpus/news parity, browse routes, and reader view (**58 pass / 24 suites** at the 2026-10-23 1.3.0 audit). |
+| NFR-08 | Documentation standard **v3.2** kept in lockstep with releases across every satellite document (including Unreleased News/Browse UX). |
 | NFR-09 | Reader view mode persists as `gdprQaReaderViewMode` (`page` \| `full`); no Go button. |
 
 ---

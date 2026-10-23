@@ -1,7 +1,7 @@
 # User Stories  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments (EU + Indonesia + United States + International)  
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen instruments (EU + Indonesia + United States + International)  
 **Traceability:** Stories map to [PRD.md](PRD.md) and [TRACEABILITY_MATRIX.md](TRACEABILITY_MATRIX.md).
 
 ---
@@ -60,6 +60,7 @@
 | US-B-08 | As an Indonesian user, I can browse UU PDP pasal, Satu Data pasal, and AI Ethics sections/values. | P0 |
 | US-B-09 | As a United States user, I can browse CCPA sections, ADMT sections, and OPEN Data Title II sections with **Section / Purpose note** labels (never *Article / Recital*). | P0 |
 | US-B-10 | As an International-standards user, I can browse ISO 27701 / ISO 19941 / ISO 23894 clauses and SOC 2 criteria with **Clause / Criterion / Purpose note** labels (never *Article / Recital*) and no GDPR topic filters. | P0 |
+| US-B-11 | As a user, Chapters and Recitals (or pasal / considering / purpose notes / clauses) headers show a full-width `browseUi.policySummary`, theme chips, and a short how-to hint for the active instrument. | P1 |
 
 ---
 
@@ -96,7 +97,7 @@
 | ID | Story | Priority |
 |----|-------|----------|
 | US-N-01 | As a user, I can browse supervisory/policy news with source and topic filters. | P0 |
-| US-N-02 | As an AI Act / Data Act / UU PDP / Satu Data / AI Ethics / CCPA / ADMT / OPEN Data / ISO 27701 / ISO 19941 / ISO 23894 / SOC 2 user, I see a relevance-filtered list and banner. | P0 |
+| US-N-02 | As a user of **any** of the thirteen instruments (including GDPR), I see a relevance-filtered News list, an always-visible **Relevant to …** scope badge, and hero counts for the scoped set (regional feeds + primary hubs + keyword/category rules). | P0 |
 | US-N-03 | As a user, I can Refresh news to re-crawl EU, Indonesian, United States, and International (ISO / AICPA) official hubs. | P0 |
 | US-N-04 | As an Indonesian, United States, or International user, empty filtered states tell me to Refresh news when feeds are sparse. | P1 |
 | US-N-05 | As a user, duplicate stories collapse (URL + semantic dedupe). | P1 |
@@ -148,7 +149,7 @@
 |----|-------|----------|
 | US-Q-01 | As a GDPR user, related + suitable recitals appear where mapped. | P1 |
 | US-Q-02 | As any user, reader numbered paragraphs match source layout after refresh. | P0 |
-| US-Q-03 | As engineering, `npm test` validates Indonesian, United States, and International registry/corpus/news parity plus browse-route and reader-view behaviour (**58 pass / 24 suites** at the 2026-10-22 audit). | P0 |
+| US-Q-03 | As engineering, `npm test` validates Indonesian, United States, and International registry/corpus/news parity plus browse-route and reader-view behaviour (**58 pass / 24 suites** at the 2026-10-23 audit). | P0 |
 
 ---
 
@@ -187,7 +188,7 @@
 | US-I-05 | As a user, Ask/Sources for `iso-*` / `soc2` never fall back to GDPR-Info / EUR-Lex. | P0 |
 | US-I-06 | As a user, International News shows ISO.org / AICPA items filtered per instrument. | P0 |
 | US-I-07 | As an operator, I can run `npm run refresh-iso-27701` (and siblings) and `npm run build-iso-soc-corpora`. | P0 |
-| US-I-08 | As a user, choosing INTL selects `iso-27701` by default and the chip reads **International**; the region thumb is slate (`#475569` → `#334155`) and `gdpr-qa-region-v1` stores `intl`. | P1 |
+| US-I-08 | As a user, choosing INTL selects `iso-27701` by default and the chip reads **International**; the region thumb is slate (`#64748b` → `#334155` at `165deg`) and `gdpr-qa-region-v1` stores `intl`. | P1 |
 | US-I-09 | As a user, every International surface (Browse, Ask, Sources, News) states these are **voluntary standards / attestation criteria, not laws**, and not substitutes for the GDPR, Data Act, or AI Act. | P0 |
 | US-I-10 | As a rights-holder-conscious product owner, the International corpora are **copyright-safe educational overlays** (catalogue abstracts, Harmonized Structure titles, AICPA TSC category names) and ETL never scrapes paywalled ISO / AICPA body text. | P0 |
 | US-I-11 | As an operator, I can tune floors with `MIN_ISO_27701_*` (14/5), `MIN_ISO_19941_*` (11/4), `MIN_ISO_23894_*` (12/5), `MIN_SOC2_*` (20/6) and force a write with `ISO_27701_FORCE_CORPUS_WRITE` / `ISO_19941_FORCE_CORPUS_WRITE` / `ISO_23894_FORCE_CORPUS_WRITE` / `SOC2_FORCE_CORPUS_WRITE`. | P1 |

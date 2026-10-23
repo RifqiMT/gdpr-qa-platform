@@ -1,7 +1,7 @@
 # Design guidelines  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen theme accents (EU · Indonesia · United States · International)  
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen theme accents · News scoped for all instruments · Region thumb `165deg` tokens  
 **Source of truth for tokens:** `public/styles.css` (`:root` + `[data-browse-theme]` / `[data-news-theme]` / `[data-sources-theme]`).
 
 ---
@@ -89,19 +89,19 @@ Themes set **local** tokens on `.browse-welcome[data-browse-theme]`, `.news-hero
 - News: `--news-hero-accent`, `--news-hero-accent-soft`, `--news-hero-gradient-a|b`  
 - Sources: `--sources-accent`, `--sources-accent-soft`, `--sources-gradient-a|b` (same accent hexes as table; applied on `#sourcesLayout`)
 
-### 2.1a Region picker thumb colors
+### 2.1a Region picker
 
-The region radiogroup (`#regionFilter`: **All · EU · Indonesia · USA · INTL**) uses a sliding thumb whose fill follows `data-region`:
+Equal-width five-segment sliding radiogroup (`#regionFilter`) with short segment labels **All · EU · ID · US · INTL**, full names via `aria-label` / `title`, and a live readout `#regionFilterCurrent` beside the Region label. Thumb fill follows `data-region`:
 
 | `data-region` | Thumb fill |
 |---------------|------------|
-| `all` | `var(--accent)` (`#0f766e`) |
-| `eu` | `linear-gradient(180deg, #14b8a6, #0f766e)` |
-| `id` | `linear-gradient(180deg, #0f766e, #0d5c56)` |
-| `us` | `linear-gradient(180deg, #1d4ed8, #1e3a8a)` |
-| `intl` | `linear-gradient(180deg, #475569, #334155)` (slate) |
+| `all` | `linear-gradient(165deg, #0d9488, #0f766e)` |
+| `eu` | `linear-gradient(165deg, #2dd4bf, #0f766e)` |
+| `id` | `linear-gradient(165deg, #0f766e, #0d5c56)` |
+| `us` | `linear-gradient(165deg, #3b82f6, #1e40af)` |
+| `intl` | `linear-gradient(165deg, #64748b, #334155)` (slate) |
 
-The global `--accent` is **not** overridden by region or regulation theme; only the thumb and themed surfaces change.
+Track: inset soft fill, 12px radius, teal-tinted border. Segments use CSS grid `repeat(5, minmax(0, 1fr))` so spacing stays even; on narrow viewports the control spans full filter width with slightly tighter type. The global `--accent` is **not** overridden by region or regulation theme; only the thumb and themed surfaces change.
 
 ### 2.2 Responsive breakpoints and layout density
 
@@ -111,10 +111,11 @@ The global `--accent` is **not** overridden by region or regulation theme; only 
 | ≤899px | Sticky `#appChrome`; Tools menu; collapsible Filters; solo Browse welcome |
 | ≥900px | Desktop toolbar; Browse welcome multi-card grid |
 | ≥640px | Sources grid 2 columns |
-| ≥1100px | News two-column + Quick filters dock; Sources grid 3 columns |
+| ≥960px | News two-column + Quick filters dock |
+| ≥1100px | Sources grid 3 columns |
 | ≥1200 / ≥1600px | Wider content band; full-width browse grid (no artificial 72rem cap) |
 
-Layout tokens: `--app-chrome-height`, `--footer-block-min`, `--reading-pane-max-h`, `--content-pad`, `--reading-toolbar-gap`.
+Layout tokens: `--content-pad`, `--reading-toolbar-gap`, `--reader-to-document-gap`.
 
 ---
 
@@ -133,7 +134,7 @@ Avoid Inter / Roboto / system-only stacks for primary UI (system is fallback onl
 ## 4. Layout and spacing
 
 - Content band is full-width with horizontal `--content-pad`.  
-- Reading pane height capped by `--reading-pane-max-h` so chrome never clips text.  
+- Main and reader stacks scroll under sticky `#appChrome`; spacing uses `--reading-toolbar-gap` / `--reader-to-document-gap`.  
 - Browse welcome cards: left accent bar + radial gradient wash; full-width action buttons.  
 - Do not reintroduce nested “pill inside pill” chrome; prefer one control surface.
 
@@ -164,11 +165,11 @@ Duration ~160–220ms with `--ease-smooth`. Prefer `transform` / `opacity`.
 
 | Component | Notes |
 |-----------|-------|
-| Region + Regulation picker | Unified shell; region thumb (teal EU/ID, blue USA, slate INTL); custom select grouped by jurisdiction under **All**; jurisdiction chip (European Union / Indonesia / United States / International; INTL chip text `#334155`, border tint `#475569`) |
+| Region + Regulation picker | Unified shell; equal-width five-segment region thumb (All · EU · ID · US · INTL) with live jurisdiction readout; thumb gradients at `165deg` — `all` `#0d9488→#0f766e`, `eu` `#2dd4bf→#0f766e`, `id` `#0f766e→#0d5c56`, `us` `#3b82f6→#1e40af`, `intl` `#64748b→#334155`; custom select grouped by jurisdiction under **All**; jurisdiction chip (European Union / Indonesia / United States / International; INTL chip text `#334155`, border tint `#475569`) |
 | Segmented tabs | Full-width track + sliding thumb |
 | Tools menu | ≤899px disclosure for freshness / keys / refresh |
 | Browse welcome cards | Themed; Chapters primary CTA; thirteen cards in four region rows (EU, Indonesia, USA, International) |
-| Browse docs (Chapters / Recitals) | Shared `.browse-docs` chrome (eyebrow + compact header); flat teal toolbar/filter strip; dense chapter panels + article/recital cards; enter motion with reduced-motion off |
+| Browse docs (Chapters / Recitals) | Shared `.browse-docs` chrome; full-width summary panel (no 72ch cap) with `browseUi.policySummary` prose + theme chips in a side rail from ~880px; muted how-to hint underneath; flat teal toolbar/filter strip; dense chapter panels + provision cards |
 | Filter bar | Desktop grid (chapters: 4-col ≥1100px); mobile collapsible Filters; News keeps richer card shell |
 | Reader | Centered header; numbered paragraphs; citation sidebar |
 | Reader chrome | Single flat strip: ghost Back · Prev · position · jump search (Enter / list pick, no separate Go) · Next · Page\|Full segment · primary Export; no nested nav box; quiet disabled edges; solid fill (no backdrop blur); jump field border on wrap (input borderless) so ellipsis overflow cannot clip the stroke |
@@ -176,10 +177,11 @@ Duration ~160–220ms with `--ease-smooth`. Prefer `transform` / `opacity`.
 | Export PDF | Matches active reader mode: **Page** exports the open provision + sources/related; **Full** exports the entire on-screen articles or recitals corpus + official sources (no related panels) |
 | Ask answer | `[S#]` chips; status chip for LLM/extractive |
 | BYOK dialog | Themed header + privacy callout; accent switch; provider cards with reveal toggles; single-row **Check · Clear · Save** (Save primary, flex grow; ≤439px Save full-width on top); validation panel states valid/invalid/skipped |
-| News hero | Themed bar + expandable details on mobile |
-| News controls | Soft strip: search + Source/Topic + Clear + By source \| All (no nested filter card) |
+| News hero | Compact themed bar; collapsible overview on all widths; always-visible scope badge (**Relevant to …** vs **Full corpus**); article/source counts reflect the scoped set |
+| News relevance | Every regulation filters the shared corpus client-side. Sidebar = all credible feeds for that regulation’s region; headlines = regional pool + relevance (primary hubs in full; megasources via keyword/category) |
+| News controls | Soft strip: search + Source/Topic + Clear + By source \| All; filter badges scoped to relevance set; aside dock from ≥960px |
 | News source blocks | Flat details headers + count pill; hairline divider (no box-in-box) |
-| News cards | Title-first; quiet meta/topic; light hover lift + accent bar; flat **All** feed |
+| News cards | Title-first; quiet meta/topic; soft teal rail + light hover; flat **All** feed |
 | News empty | Soft teal panel + Refresh / Clear CTAs |
 | Sources hero | Themed shell + regulation pill + live count + filter field |
 | Source cards | Monogram, host chip, primary CTA, document action rows |

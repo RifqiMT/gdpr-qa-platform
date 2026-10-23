@@ -106,6 +106,8 @@
       subtitle: 'Cal. Civ. Code Title 1.81.5',
       description:
         'The closest in-force U.S. analogue to the EU GDPR: California consumer rights of access, deletion, correction, opt-out of sale/share, and limit on sensitive personal information, plus CPPA administrative enforcement. Binding California law — not a federal GDPR.',
+      policySummary:
+        'The California Consumer Privacy Act / California Privacy Rights Act (Cal. Civ. Code Title 1.81.5) is the leading in-force U.S. analogue to the EU GDPR. It gives California consumers rights of access, deletion, correction, opt-out of sale or sharing, and limits on sensitive personal information, with CPPA rulemaking and enforcement. It is binding California law—not a federal GDPR. This browse view organises statutory sections and purpose notes with official California Legislative Information links.',
       highlights: ['Consumer rights', 'Sale / share opt-out', 'Sensitive PI', 'CPPA enforcement'],
       mark: 'CA'
     }
@@ -211,6 +213,8 @@
       subtitle: 'Pub. L. 115-435 Title II',
       description:
         'The OPEN Government Data Act requires federal agencies to inventory data assets and publish public data as open Government data assets by default, and directs GSA to maintain the Federal data catalogue (data.gov). It is the public-sector analogue to the EU Data Act — not the 2014 DATA Act on spending transparency.',
+      policySummary:
+        'Title II of Pub. L. 115-435 (OPEN Government Data Act) requires U.S. federal agencies to inventory data assets and publish public data as open Government data assets by default, and directs GSA to maintain the Federal data catalogue (data.gov), with Chief Data Officer roles and machine-readable expectations. It is the public-sector analogue to the EU Data Act’s sharing agenda—not the 2014 DATA Act on federal spending transparency. This browse view covers the Act’s sections and purpose notes with govinfo references.',
       highlights: ['Open by default', 'Federal data catalogue', 'Chief Data Officers', 'Machine-readable'],
       mark: 'OG'
     }
@@ -316,6 +320,8 @@
       subtitle: 'SB 26-189 · C.R.S. 6-1-1701 et seq.',
       description:
         'Colorado’s in-force analogue to the EU AI Act: developer documentation, deployer notices, consumer correction and meaningful human review after adverse ADMT outcomes in education, employment, housing, credit, insurance, health care, and essential government services. Signed 14 May 2026; duties generally from 1 January 2027. Not a federal AI Act.',
+      policySummary:
+        'Colorado SB 26-189 (C.R.S. 6-1-1701 et seq.) is the state’s in-force analogue to the EU AI Act for automated decision-making technology (ADMT). It requires developer documentation, deployer notices, and consumer correction plus meaningful human review after adverse ADMT outcomes in education, employment, housing, credit, insurance, health care, and essential government services. Signed 14 May 2026 with duties generally from 1 January 2027—it is not a federal AI Act. This browse view maps sections and purpose notes to the Colorado General Assembly text.',
       highlights: ['Covered ADMT', 'Consequential decisions', 'Human review', 'AG enforcement'],
       mark: 'CO'
     }

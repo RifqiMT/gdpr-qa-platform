@@ -47,7 +47,7 @@
         queryAriaLabel: 'Ask a GDPR question',
         signalCorpus: 'Local GDPR corpus & EUR-Lex alignment',
         sectorExplainer:
-          'Choose <strong>General</strong> for balanced GDPR answers, or <strong>expand a macro industry</strong>, then an <strong>ISIC section</strong>, and pick <strong>Whole ISIC section</strong> or a <strong>division</strong>. <strong>Type in the box</strong> to search paths, codes, and keywords.',
+          'Leave on <strong>General</strong> for balanced GDPR answers, or browse / search ISIC sectors to frame examples for your industry.',
         metaHtml:
           'Consolidated EU law text is loaded from your cache; use <strong>Refresh sources</strong> in the page header to pull the latest from <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">EUR-Lex</a>.',
         relevantTitle: 'Relevant GDPR provisions',
@@ -66,19 +66,19 @@
         eyebrow: 'EU & UK supervisory news',
         title: 'GDPR & data protection news',
         intro:
-          'Curated headlines from EDPB, EDPS, ICO (UK), European Commission, and Council of Europe—grouped by source, tagged by topic, with attachments when available.',
-        filterForRegulation: false,
-        scopeMode: 'full',
-        scopeEyebrow: 'Full corpus',
-        scopeTitle: 'All configured data-protection feeds',
+          'All relevant headlines from EU/UK credible sources (EDPB, EDPS, ICO, Commission, Council of Europe, Digital Strategy)—scoped to personal-data supervision, not other jurisdictions.',
+        filterForRegulation: true,
+        scopeMode: 'filtered',
+        scopeEyebrow: 'Relevant to GDPR',
+        scopeTitle: 'EU/UK credible sources',
         scopeText:
-          'You are viewing the complete news index. Switch to EU AI Act or EU Data Act in the header to see a relevance-filtered subset for those regulations.',
+          'Official links list every configured EU/UK news hub. Headlines keep EDPB/EDPS/ICO/CoE in full and add Commission / Digital Strategy items when they match data-protection themes.',
         switchToRegulationId: '',
         switchToLabel: '',
-        tags: ['Supervisory guidance', 'Enforcement', 'Rights & consent', 'Transfers', 'AI overlap'],
+        tags: ['Supervisory guidance', 'Enforcement', 'Rights & consent', 'Transfers', 'Breach'],
         refreshLabel: 'Refresh feeds',
         refreshHint: 'Pulls the latest items from each regulator feed (may take a few seconds).',
-        viewModeLabel: 'Full index'
+        viewModeLabel: 'GDPR filter'
       },
       citationsUi: {
         asideAriaLabel: 'GDPR: official links and cross-references',
@@ -100,6 +100,8 @@
         subtitle: 'Regulation (EU) 2016/679',
         description:
           'The General Data Protection Regulation sets EU-wide rules for processing personal data—lawfulness and transparency, data-subject rights, accountability, and international transfers. Browse recitals and articles with official links, or use Ask for answers cited to this corpus.',
+        policySummary:
+          'Regulation (EU) 2016/679 (GDPR) is the EU’s primary personal-data law. It sets when controllers and processors may process personal data (lawfulness, fairness, transparency), what rights individuals hold (access, erasure, objection, portability, and more), and how organisations must demonstrate accountability—including records, DPIAs, security, and breach notification. It also frames international transfers, supervisory cooperation, and administrative fines. This browse view opens the consolidated articles and recitals with official EUR-Lex / GDPR-Info links.',
         highlights: ['Lawfulness & consent', 'Data-subject rights', 'Accountability & DPIAs', 'International transfers'],
         mark: 'GDPR'
       }
@@ -164,19 +166,19 @@
       },
       newsUi: {
         theme: 'ai-act',
-        eyebrow: 'AI governance & data protection',
+        eyebrow: 'AI governance',
         title: 'AI Act–relevant news',
         intro:
-          'Headlines from EU regulators and the Commission, ranked for artificial intelligence governance—high-risk systems, GPAI, biometrics, and privacy overlap.',
+          'All AI Act–relevant headlines from EU/UK credible sources—Digital Strategy (AI), Commission, EDPB, EDPS, ICO, and Council of Europe—when the story matches high-risk AI, GPAI, AI Office, or related themes.',
         filterForRegulation: true,
         scopeMode: 'filtered',
-        scopeEyebrow: 'Relevance filter active',
-        scopeTitle: 'Showing EU AI Act–related items',
+        scopeEyebrow: 'Relevant to EU AI Act',
+        scopeTitle: 'EU credible sources · AI Act filter',
         scopeText:
-          'This list is narrowed from the shared supervisory news corpus. Topics such as high-risk AI, GPAI, and biometric identification are prioritised.',
+          'Official links show the full EU/UK news hub set. Digital Strategy (AI) items are included in full; other EU sources appear when the headline is AI Act–related (not general GDPR-only enforcement).',
         switchToRegulationId: 'gdpr',
-        switchToLabel: 'View full GDPR news',
-        tags: ['High-risk AI', 'GPAI', 'Biometrics', 'AI Office', 'Data protection overlap'],
+        switchToLabel: 'View GDPR news',
+        tags: ['High-risk AI', 'GPAI', 'Biometrics', 'AI Office', 'Generative AI'],
         refreshLabel: 'Refresh feeds',
         refreshHint: 'Updates the shared corpus, then reapplies the AI Act relevance filter.',
         viewModeLabel: 'AI Act filter'
@@ -201,6 +203,8 @@
         subtitle: 'Regulation (EU) 2024/1689',
         description:
           'The Artificial Intelligence Act introduces a risk-based framework for AI systems on the EU market—prohibited practices, requirements for high-risk AI, transparency duties, and rules for general-purpose AI models and governance roles.',
+        policySummary:
+          'Regulation (EU) 2024/1689 (EU AI Act) is the Union’s horizontal AI law. It bans certain AI practices, imposes strict duties on high-risk AI systems (data governance, transparency, human oversight, conformity assessment), and sets obligations for general-purpose AI (GPAI) models and providers/deployers. Governance includes the AI Office, market surveillance, and penalties. This browse view maps the Act’s articles and recitals for structured reading alongside official AI Act Law / EUR-Lex text.',
         highlights: ['Risk-based classification', 'High-risk AI systems', 'GPAI obligations', 'Providers & deployers'],
         mark: 'AI'
       }
@@ -274,9 +278,9 @@
         scopeEyebrow: 'Relevance filter active',
         scopeTitle: 'Showing EU Data Act–related items',
         scopeText:
-          'This list is narrowed from the shared supervisory news corpus. Data access, IoT product data, cloud portability, and B2B sharing themes are prioritised.',
+          'Official links show the full EU/UK news hub set. Headlines are kept when they match Data Act themes (access, cloud switching, connected products) from those regional sources.',
         switchToRegulationId: 'gdpr',
-        switchToLabel: 'View full GDPR news',
+        switchToLabel: 'View GDPR news',
         tags: ['Data access', 'Cloud switching', 'Connected products', 'Interoperability', 'B2B data sharing'],
         refreshLabel: 'Refresh feeds',
         refreshHint: 'Updates the shared corpus, then reapplies the Data Act relevance filter.',
@@ -302,6 +306,8 @@
         subtitle: 'Regulation (EU) 2023/2854',
         description:
           'The Data Act governs fair access to and use of data across the EU—user rights over connected-product data, cloud switching, B2B data sharing, interoperability, and protection against unfair terms in data-related contracts.',
+        policySummary:
+          'Regulation (EU) 2023/2854 (EU Data Act) is the EU’s data-economy framework for fair access to and use of data. It gives users rights over data from connected products and related services, facilitates B2B sharing and public-sector access in defined cases, enables switching between data-processing services (including cloud), and promotes interoperability while guarding against unfair contractual terms. This browse view covers the Act’s chapters, articles, and recitals with official Data Act Law / EUR-Lex references.',
         highlights: ['Connected-product data', 'Cloud switching', 'B2B data sharing', 'Interoperability'],
         mark: 'DA'
       }

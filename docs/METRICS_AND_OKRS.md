@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen instruments · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
 
 **Important:** The application does **not** currently ship an analytics SDK. Metrics below are **definitions and targets** for the product team. Instrument when approved (privacy-preserving, no secrets).
 
@@ -27,6 +27,8 @@
 | `browse_to_ask_rate` | Browse→Ask conversion | Sessions that Browse then Ask | `sessions_browse_then_ask / sessions_browse` | client funnel | `0.35` |
 | `citation_click_rate` | Citation engagement | Asks where user opens a `[S#]` or View in app | `asks_with_citation_nav / asks_with_sources` | client | `0.45` |
 | `news_refresh_success` | News refresh success | Successful `POST /api/news/refresh` | `refresh_ok / refresh_attempts` | server logs | `0.90` |
+| `news_scope_ratio` | News scope tightness | Share of shared corpus retained after `itemMatchesNewsRegulationScope` for the active regulation | `scoped_count / shared_corpus_count` by `regulation_id` | client filter | GDPR ≈ regional DP subset; AI Act / Data Act tighter |
+| `gdpr_news_nonempty_rate` | GDPR news non-empty | GDPR-filtered lists with ≥1 item after load | `nonempty_gdpr_views / gdpr_news_views` | client filter | `≥0.80` |
 | `indo_news_nonempty_rate` | Indo news non-empty | Indo-filtered lists with ≥1 item after load | `nonempty_indo_views / indo_news_views` | client filter | `0.70` (best-effort) |
 | `etl_success_rate` | ETL success rate | Successful `POST /api/refresh` / cron per instrument | `ok / attempts` by `regulation` | server / cron | `≥0.95` |
 | `soft_law_ask_share` | Soft-law Ask share | Ask under `id-ai-ethics` | `asks_id_ai_ethics / asks_total` | regulation param | monitor only |
@@ -60,7 +62,7 @@
 | SEED completeness | Vercel seed has 41 files (26 corpus/structure + 13 summaries + news + suitable recitals) | `len(SEED_FILES)=41` |
 | International corpus floors | International corpora meet registry mins | `iso-27701 ≥ 14 / 5`, `iso-19941 ≥ 11 / 4`, `iso-23894 ≥ 12 / 5`, `soc2 ≥ 20 / 6` (articles / recitals) |
 | US corpus floors | US corpora meet registry mins | `us-ccpa ≥ 30 / 5`, `us-admt ≥ 12 / 5`, `us-open-data ≥ 8 / 4` (articles / recitals) |
-| Parity and UI tests | `npm test` green | **58 pass / 0 fail / 24 suites** (indo-parity, us-parity, iso-parity, browse-routes, reader-view; verified 2026-10-22) |
+| Parity and UI tests | `npm test` green | **58 pass / 0 fail / 24 suites** (indo-parity, us-parity, iso-parity, browse-routes, reader-view; verified 2026-10-23) |
 
 ---
 
@@ -101,6 +103,7 @@
 | KR1 | News refresh success ≥ 90% |
 | KR2 | Dedupe collapses known stub/canonical duplicates |
 | KR3 | Wrong-sources fallback incidents = 0 |
+| KR4 | GDPR (and every other instrument) News uses scoped relevance — zero “full shared corpus” regressions; cross-jurisdiction leakage = 0 |
 
 ### Objective O4: Regulation text stays structurally sound after every refresh.
 
@@ -164,7 +167,7 @@
 
 | KR | Target |
 |----|--------|
-| KR1 | Docs standard **v3.1** aligned with package **1.3.0** (incl. Page \| Full, browse-route tests, thirteen-instrument lockstep, `SEED_FILES` = 41) |
+| KR1 | Docs standard **v3.2** aligned with package **1.3.0** (incl. Page \| Full, browse-route tests, thirteen-instrument lockstep, News scoped for all regs, Browse `policySummary`, `SEED_FILES` = 41) |
 | KR2 | No dead APIs documented as live |
 | KR3 | Module public APIs listed in SOURCE_CODE_INVENTORY |
 

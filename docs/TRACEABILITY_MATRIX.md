@@ -1,7 +1,7 @@
 # Traceability matrix  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments · `npm test` 58 pass / 24 suites
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen instruments · `npm test` 58 pass / 24 suites
 
 Enterprise-style mapping from **business rules → PRD → user stories → implementation → verification**.
 
@@ -72,7 +72,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 | BR-INTL-08 ISO/SOC 2 parity tests | NFR-07, FR-INTL-07, EM-04 | US-I-07, US-Q-03 | `test/iso-parity.test.js` | `npm test` (58 pass / 24 suites) |
 | BR-INTL-09 Voluntary-standard honesty | FR-INTL-04, FR-ASK-03c, G8 | US-I-09, US-A-09 | System-prompt LEGAL FORCE branch in `server.js`; `regulation-profiles-iso.js` copy | Ask on each `iso-*` / `soc2`: "voluntary / attestation, not a law" |
 | BR-INTL-10 International ETL guard | FR-ETL-02d, FR-ETL-07, FR-INTL-10 | US-I-11, US-E-02 | `MIN_ISO_27701_*` (14/5), `MIN_ISO_19941_*` (11/4), `MIN_ISO_23894_*` (12/5), `MIN_SOC2_*` (20/6), `*_FORCE_CORPUS_WRITE`; npm `refresh-iso-*` / `refresh-soc2` | `.env.example`; CLI run; `ETL incomplete` on floor breach |
-| BR-INTL-11 Region INTL + themes | FR-SHELL-01, FR-INTL-06, FR-INTL-09 | US-R-07, US-I-08, US-I-13 | `REGION_IDS` incl. `intl`; `styles.css` `intl` thumb (`#475569` → `#334155`) and `iso-*` / `soc2` theme blocks | Visual: teal / sky / violet / amber; INTL → `iso-27701` |
+| BR-INTL-11 Region INTL + themes | FR-SHELL-01, FR-INTL-06, FR-INTL-09 | US-R-07, US-I-08, US-I-13 | `REGION_IDS` incl. `intl`; `styles.css` `intl` thumb (`#64748b` → `#334155` @ `165deg`) and `iso-*` / `soc2` theme blocks | Visual: teal / sky / violet / amber; INTL → `iso-27701` |
 | BR-INTL-12 SEED + Vercel bundle | FR-ETL-06, FR-ETL-08 | US-E-05 | `lib/paths.js` `SEED_FILES` (41 files incl. 8 corpus/structure + 4 summary files International); `vercel.json` `includeFiles` lists `iso-soc-scraper.js` | Count = 41; cold start; function bundle contains scraper |
 | BR-INTL-13 International profiles | FR-INTL-11, FR-BRW-10c | US-B-10, US-I-14 | `public/regulation-profiles-iso.js` (`ISO N clause N`, `SOC 2 criterion N`, `Purpose note (N)`) | `iso-parity` UI blurbs test |
 
@@ -84,7 +84,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 |----|-----|---------|----------------|--------------|
 | BR-EM-01 No dead Ask APIs | FR-ASK-08 | US-A-02, US-D-02 | Removed `/api/ask`, `/api/summarize` | Grep server + docs |
 | BR-EM-02 Public module API | EM-01 | US-D-01 | SOURCE_CODE_INVENTORY | Export audit |
-| BR-EM-03 Docs lockstep | NFR-08 | US-D-01 | PRODUCT_DOCUMENTATION_STANDARD **v3.1**; every `docs/*.md` stamped product 1.3.0 · standard v3.1 | Audit date 2026-10-22 · product 1.3.0 · thirteen instruments · `SEED_FILES` = 41 · 58 pass / 24 suites |
+| BR-EM-03 Docs lockstep | NFR-08 | US-D-01 | PRODUCT_DOCUMENTATION_STANDARD **v3.2**; every `docs/*.md` stamped product 1.3.0 · standard v3.2 | Audit date 2026-10-23 · product 1.3.0 · thirteen instruments · News scoped for all regs · `SEED_FILES` = 41 · 58 pass / 24 suites |
 
 ---
 
@@ -93,7 +93,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 | BR | PRD | Stories | Implementation | Verification |
 |----|-----|---------|----------------|--------------|
 | BR-S-01 Tools menu | FR-SHELL-03 | US-S-01 | `#headerActionsToggle` | ≤899px |
-| BR-S-02 Chrome height | FR-SHELL-04 | US-S-02 | `--app-chrome-height` ResizeObserver | Reader not clipped |
+| BR-S-02 Chrome resize | FR-SHELL-04 | US-S-02 | `#appChrome` ResizeObserver → tab thumb | Tab thumb stays aligned |
 | BR-S-03 Tabs | FR-SHELL-06 | US-S-03 | Segmented tab track | Visual |
 | BR-S-04 Logo home | FR-SHELL-07 | US-H-01 | `goToHome()` | Click logo |
 
@@ -123,6 +123,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 | BR-B-07 PDF / nav | FR-BRW-05 | US-B-04, US-X-01 | Browser print PDF; Page \| Full; jump Enter | Manual |
 | BR-B-08 Deep link / bounce | FR-BRW-05b/c | US-B-04c/e | `buildDocRouteHash`, `suppressAppRouteSync` | `test/browse-routes.test.js` |
 | BR-B-09 Reg-switch clear | FR-BRW-05b | US-B-04d | reader clear on regulation change | Manual + reader-view tests |
+| BR-B-10 Browse policy summary | FR-BRW-14 | US-B-11 | `browseUi.policySummary` + theme chips; full-width summary panel in `styles.css` | Open Chapters/Recitals per instrument |
 
 ---
 
@@ -146,7 +147,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 |----|-----|---------|----------------|--------------|
 | BR-SRC-01 Scoped sources | FR-SRC-01–06 | US-C-01–05 | `/api/meta` | Per regulation (US: no GDPR-Info) |
 | BR-N-01 Shared crawl | FR-NEWS-01 | US-N-01/03 | `news-crawler.js` | Refresh |
-| BR-N-02 Relevance filters | FR-NEWS-04 | US-N-02 | `itemMatchesNewsRegulationScope` (incl. `US_*_NEWS_SCOPE_RE`, `ISO_*_NEWS_SCOPE_RE`, `SOC2_NEWS_SCOPE_RE`) | Switch regs |
+| BR-N-02 Relevance filters | FR-NEWS-04, FR-NEWS-04b | US-N-02 | `itemMatchesNewsRegulationScope` + regional/primary helpers (incl. `GDPR_NEWS_SCOPE_RE`, `US_*_NEWS_SCOPE_RE`, `ISO_*_NEWS_SCOPE_RE`, `SOC2_NEWS_SCOPE_RE`); all thirteen profiles `filterForRegulation: true` | Switch regs; GDPR scoped ≠ full corpus |
 | BR-N-03 Dedupe | FR-NEWS-05 | US-N-05 | server + `news-dedupe.js` | Dup URLs |
 | BR-N-04 Policy BG-07 | FR-NEWS-02 | — | crawler source list | No extra DPAs |
 
@@ -181,7 +182,7 @@ Enterprise-style mapping from **business rules → PRD → user stories → impl
 | BR-DOC-01 Handbook | — | US-D-01 | `README.md` | Links resolve |
 | BR-DOC-02 Variables | — | US-D-01 | `VARIABLES.md`, `.env.example` | Match env usage |
 | BR-DOC-03 API contracts | — | US-D-02 | `API_CONTRACTS.md` | Match `server.js` routes |
-| BR-DOC-04 Changelog | — | — | `CHANGELOG.md` | Unreleased (documentation v3.1 lockstep, 1.3.0) + **1.3.0** + prior |
+| BR-DOC-04 Changelog | — | — | `CHANGELOG.md` | Unreleased (UX + documentation v3.2 lockstep) + **1.3.0** + prior |
 
 ---
 

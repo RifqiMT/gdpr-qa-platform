@@ -1,7 +1,7 @@
 # Data schema examples  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23**
 
 Illustrative **JSON fragments** for integrators, covering all **thirteen** corpora (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`; International voluntary standards: `iso-27701`, `iso-19941`, `iso-23894`, `soc2`). Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md). Text is abbreviated with `…`; Indonesian legal text is kept in **Bahasa Indonesia**, with **English structural titles**; United States text is English statutory language; International text is an English **educational overlay** (not the paywalled ISO / AICPA standard text).
 

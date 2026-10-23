@@ -667,6 +667,14 @@
     }
   }
 
+  var REGION_FILTER_LABELS = {
+    all: 'All regions',
+    eu: 'European Union',
+    id: 'Indonesia',
+    us: 'United States',
+    intl: 'International'
+  };
+
   function syncRegionFilterUi() {
     var root = document.getElementById('regionFilter');
     if (root) {
@@ -681,6 +689,10 @@
         positionRegionFilterThumb();
         requestAnimationFrame(positionRegionFilterThumb);
       });
+    }
+    var currentEl = document.getElementById('regionFilterCurrent');
+    if (currentEl) {
+      currentEl.textContent = REGION_FILTER_LABELS[currentRegion] || REGION_FILTER_LABELS.all;
     }
     var chrome = document.getElementById('appChrome');
     if (chrome) chrome.setAttribute('data-region', currentRegion);
@@ -822,9 +834,13 @@
     }).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
   }
 
+  /** Headlines that match GDPR / EU personal-data supervision in the News tab. */
+  var GDPR_NEWS_SCOPE_RE =
+    /\bgdpr\b|general data protection regulation|regulation\s*\(eu\)\s*2016\s*\/\s*679|\bedpb\b|\bedps\b|data protection|personal data|data subject|controller|processor|schrems|adequacy decision|standard contractual|international transfer|data breach|dpia|legitimate interest|right to erasure|right to be forgotten|supervisory authority|privacy.?enhancing|pseudonymisation|anonymisation/i;
+
   /** Headlines that match EU AI Act selection in the News tab (title, snippet, topic). */
   var AI_ACT_NEWS_SCOPE_RE =
-    /ai\s+act|artificial intelligence act|regulation\s*\(eu\)\s*2024\s*\/\s*1689|high[- ]risk\s+ai|general[- ]purpose\s+ai|\bgpai\b|ai\s+office|foundation\s+model|prohibited\s+ai|conformity\s+assessment.*ai|market\s+surveillance.*ai|deployer.*ai\s+system|provider.*ai\s+system|algorithmic|automated\s+decision/i;
+    /ai\s+act|artificial intelligence act|regulation\s*\(eu\)\s*2024\s*\/\s*1689|high[- ]risk\s+ai|general[- ]purpose\s+ai|\bgpai\b|ai\s+office|european\s+ai\s+office|foundation\s+model|prohibited\s+ai|conformity\s+assessment.{0,40}ai|market\s+surveillance.{0,40}ai|deployer.{0,30}ai\s+system|provider.{0,30}ai\s+system|ai\s+system\s+(provider|deployer)|ai\s+liability|ai\s+board|generative\s+ai|web scraping.{0,40}(?:generative\s+)?ai|ai[- ]generated/i;
 
   var DATA_ACT_NEWS_SCOPE_RE =
     /data\s+act|regulation\s*\(eu\)\s*2023\s*\/\s*2854|fair\s+access\s+to\s+and\s+use\s+of\s+data|product\s+data|related\s+service\s+data|data\s+holder|data\s+recipient|cloud\s+switching|switching\s+between\s+data\s+processing|interoperability.*data\s+space|connected\s+product|internet\s+of\s+things.*data|edib|european\s+data\s+innovation\s+board/i;
@@ -875,17 +891,102 @@
     );
   }
 
+  function newsItemFeedLike(item) {
+    return { name: (item && item.sourceName) || '', url: (item && item.url) || '', description: '' };
+  }
+
+  function newsFeedTextBlob(feed) {
+    return (
+      String((feed && feed.name) || '') +
+      ' ' +
+      String((feed && feed.url) || '') +
+      ' ' +
+      String((feed && feed.description) || '')
+    );
+  }
+
+  /** Credible news hubs for a jurisdiction (sidebar lists the full regional set). */
+  function newsFeedIsRegionCredible(feed, jurisdiction) {
+    var jx = jurisdiction || 'eu';
+    if (jx === 'id') return newsFeedIsIndonesian(feed);
+    if (jx === 'us') return newsFeedIsUnitedStates(feed);
+    if (jx === 'intl') return newsFeedIsInternational(feed);
+    return !newsFeedIsIndonesian(feed) && !newsFeedIsUnitedStates(feed) && !newsFeedIsInternational(feed);
+  }
+
+  function newsJurisdictionForRegulationId(regId) {
+    var id = regId || 'gdpr';
+    if (String(id).indexOf('id-') === 0) return 'id';
+    if (String(id).indexOf('us-') === 0) return 'us';
+    if (String(id).indexOf('iso-') === 0 || id === 'soc2') return 'intl';
+    return 'eu';
+  }
+
+  /**
+   * Feed sidebar: all credible sources in the regulation’s region.
+   * Item gate uses the same regional pool, then relevance / primary-source rules.
+   */
+  function newsFeedAlignedToRegulation(feed, regId) {
+    return newsFeedIsRegionCredible(feed, newsJurisdictionForRegulationId(regId));
+  }
+
+  function newsItemSourceAlignedToRegulation(item, regId) {
+    return newsFeedAlignedToRegulation(newsItemFeedLike(item), regId);
+  }
+
+  function newsSourceIsTrustedDpAuthority(item) {
+    var blob = newsFeedTextBlob(newsItemFeedLike(item));
+    return /\bedpb\b|edpb\.europa\.eu|\bedps\b|edps\.europa\.eu|ico\.org\.uk|\bico\b|council of europe|coe\.int/i.test(
+      blob
+    );
+  }
+
+  /** Primary official sources: include their regional coverage without extra keyword cuts. */
+  function newsItemFromPrimaryRegulationSource(item, regId) {
+    var blob = newsFeedTextBlob(newsItemFeedLike(item));
+    var id = regId || 'gdpr';
+    if (id === 'gdpr') return newsSourceIsTrustedDpAuthority(item);
+    if (id === 'ai-act') {
+      return /digital-strategy\.ec\.europa\.eu|regulatory-framework-ai|eu digital strategy \(ai\)/i.test(blob);
+    }
+    if (id === 'id-satu-data') {
+      return /data\.go\.id|satu data indonesia/i.test(blob);
+    }
+    if (id === 'us-ccpa') {
+      return /cppa\.ca\.gov|\bcppa\b/i.test(blob);
+    }
+    if (id === 'us-open-data') {
+      return /data\.gov|resources\.data\.gov|strategy\.data\.gov|federal data strategy/i.test(blob);
+    }
+    if (id === 'us-admt') {
+      return /coag\.gov|colorado ag|colorado attorney general/i.test(blob);
+    }
+    if (id === 'soc2') {
+      return /aicpa-cima\.com|\baicpa\b/i.test(blob);
+    }
+    return false;
+  }
+
   function itemMatchesNewsRegulationScope(item) {
     var reg = getRegProfile();
     if (!reg.newsUi || !reg.newsUi.filterForRegulation) return true;
+    var id = reg.id || 'gdpr';
+    /* Keep every headline inside the regulation’s regional credible-source pool. */
+    if (!newsItemSourceAlignedToRegulation(item, id)) return false;
+    if (newsItemFromPrimaryRegulationSource(item, id)) return true;
     var text = newsItemTextBlob(item);
     var cat = String(item.topicCategory || '');
     var topic = String(item.topic || '');
-    if (reg.id === 'ai-act') {
+    if (id === 'gdpr') {
+      if (GDPR_NEWS_SCOPE_RE.test(text)) return true;
+      if (/Core Rights|Data Transfers|Enforcement and Compliance|Consent|Lawfulness/i.test(cat)) return true;
+      return false;
+    }
+    if (id === 'ai-act') {
       if (AI_ACT_NEWS_SCOPE_RE.test(text)) return true;
-      if (/EU Artificial Intelligence Act|AI and Emerging Tech/i.test(cat)) return true;
+      if (/^EU Artificial Intelligence Act$/i.test(cat)) return true;
       if (
-        /high-risk|prohibited|gpai|general-purpose|ai office|ai act|foundation model|deepfake|facial recognition|biometric|artificial intelligence/i.test(
+        /high-risk\s+ai|prohibited\s+ai|\bgpai\b|general-purpose\s+ai|ai office|ai act|foundation model|deepfake|facial recognition|biometric identification|artificial intelligence act|generative ai/i.test(
           topic
         )
       ) {
@@ -893,28 +994,27 @@
       }
       return false;
     }
-    if (reg.id === 'data-act') {
+    if (id === 'data-act') {
       if (DATA_ACT_NEWS_SCOPE_RE.test(text)) return true;
       if (/^EU Data Act$/i.test(cat)) return true;
       return false;
     }
-    if (reg.id === 'id-pdp') {
+    if (id === 'id-pdp') {
       if (ID_PDP_NEWS_SCOPE_RE.test(text)) return true;
       if (/Indonesia Personal Data Protection/i.test(cat)) return true;
       return false;
     }
-    if (reg.id === 'id-satu-data') {
+    if (id === 'id-satu-data') {
       if (ID_SATU_DATA_NEWS_SCOPE_RE.test(text)) return true;
       if (/Indonesia Satu Data/i.test(cat)) return true;
       return false;
     }
-    if (reg.id === 'id-ai-ethics') {
+    if (id === 'id-ai-ethics') {
       if (ID_AI_ETHICS_NEWS_SCOPE_RE.test(text)) return true;
       if (/Indonesia AI Ethics/i.test(cat)) return true;
       return false;
     }
-    if (reg.id === 'us-ccpa') {
-      if (!newsFeedIsUnitedStates({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'us-ccpa') {
       if (/cppa\.ca\.gov/i.test(item.url || '') || /^CPPA$/i.test(item.sourceName || '')) return true;
       if (US_CCPA_NEWS_SCOPE_RE.test(text)) return true;
       if (/United States CCPA|California Consumer Privacy/i.test(cat)) return true;
@@ -934,8 +1034,7 @@
       }
       return false;
     }
-    if (reg.id === 'us-open-data') {
-      if (!newsFeedIsUnitedStates({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'us-open-data') {
       if (/data\.gov|resources\.data\.gov|strategy\.data\.gov/i.test(item.url || '')) return true;
       if (US_OPEN_DATA_NEWS_SCOPE_RE.test(text)) return true;
       if (/United States OPEN Data|OPEN Government Data|Federal Data Strategy/i.test(cat)) return true;
@@ -947,8 +1046,7 @@
       }
       return false;
     }
-    if (reg.id === 'us-admt') {
-      if (!newsFeedIsUnitedStates({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'us-admt') {
       if (US_ADMT_NEWS_SCOPE_RE.test(text)) return true;
       if (/United States ADMT|Colorado ADMT/i.test(cat)) return true;
       if (
@@ -959,30 +1057,26 @@
       }
       return false;
     }
-    if (reg.id === 'iso-27701') {
-      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'iso-27701') {
       if (ISO_27701_NEWS_SCOPE_RE.test(text)) return true;
       if (/International ISO 27701|ISO\/IEC 27701|Privacy information management/i.test(cat)) return true;
       if (/iso\.org/i.test(item.url || '') && /27701|pims|privacy information|sc\s*27/i.test(text)) return true;
       return false;
     }
-    if (reg.id === 'iso-19941') {
-      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'iso-19941') {
       if (ISO_19941_NEWS_SCOPE_RE.test(text)) return true;
       if (/International ISO 19941|ISO\/IEC 19941|cloud interoperability/i.test(cat)) return true;
       if (/iso\.org/i.test(item.url || '') && /19941|interoperability|portability|cloud computing/i.test(text)) return true;
       return false;
     }
-    if (reg.id === 'iso-23894') {
-      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'iso-23894') {
       if (ISO_23894_NEWS_SCOPE_RE.test(text)) return true;
       if (/International ISO 23894|ISO\/IEC 23894|AI risk management/i.test(cat)) return true;
       if (/iso\.org/i.test(item.url || '') && /23894|42001|ai risk|artificial intelligence.{0,20}risk|sc\s*42/i.test(text))
         return true;
       return false;
     }
-    if (reg.id === 'soc2') {
-      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+    if (id === 'soc2') {
       if (SOC2_NEWS_SCOPE_RE.test(text)) return true;
       if (/International SOC 2|Trust Services Criteria|SOC for Service Organizations/i.test(cat)) return true;
       if (/aicpa-cima\.com/i.test(item.url || '') && /soc\s*2|trust services|service organization/i.test(text)) return true;
@@ -1058,6 +1152,7 @@
     var scopeCard = document.getElementById('newsScopeCard');
     var scopeMode = news.scopeMode || (news.filterForRegulation ? 'filtered' : 'full');
     var showScope = scopeMode === 'filtered' || scopeMode === 'full';
+    var shortName = reg.shortName || reg.legalLabel || 'this regulation';
     if (scopeCard) {
       if (!showScope) {
         scopeCard.classList.add('hidden');
@@ -1066,12 +1161,34 @@
         scopeCard.classList.toggle('news-scope-card--filtered', scopeMode === 'filtered');
         scopeCard.classList.toggle('news-scope-card--full', scopeMode === 'full');
         var scopeEyebrow = document.getElementById('newsScopeCardEyebrow');
-        if (scopeEyebrow) scopeEyebrow.textContent = news.scopeEyebrow || (scopeMode === 'filtered' ? 'Relevance filter' : 'Coverage');
+        if (scopeEyebrow) {
+          scopeEyebrow.textContent =
+            news.scopeEyebrow || (scopeMode === 'filtered' ? 'Relevant to ' + shortName : 'Full corpus');
+        }
         var scopeTitle = document.getElementById('newsScopeCardTitle');
-        if (scopeTitle) scopeTitle.textContent = news.scopeTitle || '';
+        if (scopeTitle) {
+          scopeTitle.textContent =
+            news.scopeTitle ||
+            (scopeMode === 'filtered'
+              ? 'Headlines matched to ' + shortName
+              : 'All configured data-protection feeds');
+        }
         var scopeText = document.getElementById('newsScopeCardText');
-        if (scopeText) scopeText.textContent = news.scopeText || '';
+        if (scopeText) {
+          scopeText.textContent =
+            news.scopeText ||
+            (scopeMode === 'filtered'
+              ? 'Only stories that match this regulation’s themes and jurisdiction are listed. Source and topic counts reflect that scoped set.'
+              : 'You are viewing the complete shared news index. Switch regulation in the header to narrow by relevance.');
+        }
       }
+    }
+    var scopeBadge = document.getElementById('newsScopeBadge');
+    if (scopeBadge) {
+      scopeBadge.hidden = false;
+      scopeBadge.classList.toggle('news-scope-badge--filtered', scopeMode === 'filtered');
+      scopeBadge.classList.toggle('news-scope-badge--full', scopeMode === 'full');
+      scopeBadge.textContent = scopeMode === 'filtered' ? 'Relevant to ' + shortName : 'Full corpus';
     }
     var switchBtn = document.getElementById('newsScopeSwitchBtn');
     var switchLabel = document.getElementById('newsScopeSwitchLabel');
@@ -1086,10 +1203,13 @@
       }
     }
     var viewLabel = document.getElementById('newsHeroStatViewLabel');
-    if (viewLabel) viewLabel.textContent = news.viewModeLabel || (scopeMode === 'filtered' ? 'Filtered' : 'Full index');
+    if (viewLabel) {
+      viewLabel.textContent =
+        news.viewModeLabel || (scopeMode === 'filtered' ? 'Relevant to ' + shortName : 'Full corpus');
+    }
   }
 
-  function updateNewsHeroStats(visibleCount, loadedCount) {
+  function updateNewsHeroStats(visibleCount, loadedCount, scopedItems) {
     var meta = document.getElementById('newsHeroMeta');
     if (!meta) return;
     var loaded = typeof loadedCount === 'number' ? loadedCount : 0;
@@ -1106,7 +1226,12 @@
     }
     var sourcesEl = document.getElementById('newsHeroStatSources');
     if (sourcesEl) {
-      var srcs = getOrderedSourcesFromItems(lastNewsItems || []);
+      var pool = Array.isArray(scopedItems)
+        ? scopedItems
+        : Array.isArray(lastNewsScopedItems) && lastNewsScopedItems.length
+          ? lastNewsScopedItems
+          : lastNewsItems || [];
+      var srcs = getOrderedSourcesFromItems(pool);
       sourcesEl.textContent = String(srcs.length || '—');
     }
   }
@@ -1547,25 +1672,59 @@
 
     syncBrowseWelcomeChrome(reg);
 
+    var browseUi = reg.browseUi || {};
+    var policySummary =
+      browseUi.policySummary ||
+      browseUi.description ||
+      sn + ' is the selected instrument in this workspace.';
+    var themeBits = Array.isArray(browseUi.highlights)
+      ? browseUi.highlights.filter(Boolean).slice(0, 4)
+      : [];
+
+    function fillBrowseThemes(listEl, themes) {
+      if (!listEl) return;
+      listEl.innerHTML = '';
+      if (!themes.length) {
+        listEl.hidden = true;
+        listEl.setAttribute('aria-hidden', 'true');
+        return;
+      }
+      listEl.hidden = false;
+      listEl.removeAttribute('aria-hidden');
+      listEl.setAttribute('aria-label', 'Key themes for ' + sn);
+      themes.forEach(function (label) {
+        var li = document.createElement('li');
+        li.className = 'browse-docs-theme';
+        li.textContent = label;
+        listEl.appendChild(li);
+      });
+    }
+
     var rh = document.querySelector('#browseRecitals .recitals-header h2');
     if (rh) rh.textContent = sn + ' ' + recitalsNoun;
     var rl = document.getElementById('recitalsLead');
-    if (rl) {
-      rl.textContent =
+    if (rl) rl.textContent = policySummary;
+    fillBrowseThemes(document.getElementById('recitalsThemes'), themeBits);
+    var rHint = document.getElementById('recitalsHint');
+    if (rHint) {
+      rHint.textContent =
         sn +
         ' ' +
         recitalsNoun +
         ' (' +
         sm.recitals +
-        ') explain the context and objectives of the regulation. Search by number or keyword, then open a card for the full text.';
+        ') explain context and objectives. Search by number or keyword, then open a card for the full text.';
     }
     renderRegulationSourceLinks(document.getElementById('recitalsSourceLinks'), reg);
 
     var ch = document.querySelector('#browseChapters .chapters-browser-header h2');
     if (ch) ch.textContent = sn + ' chapters & ' + articlesNoun;
     var cl = document.getElementById('chaptersLead');
-    if (cl) {
-      cl.textContent =
+    if (cl) cl.textContent = policySummary;
+    fillBrowseThemes(document.getElementById('chaptersThemes'), themeBits);
+    var cHint = document.getElementById('chaptersHint');
+    if (cHint) {
+      cHint.textContent =
         'All ' +
         sm.articles +
         ' ' +
@@ -3339,8 +3498,10 @@
   ];
 
   var lastNewsItems = [];
+  /** Regulation-scoped working set (relevance filter); drives list, filter badges, and hero counts. */
+  var lastNewsScopedItems = [];
   var lastNewsFeedsAll = [];
-  /** Per-source and per-topic leaf counts for the loaded corpus (`lastNewsItems`); drives filter badges. */
+  /** Per-source and per-topic leaf counts for the scoped corpus (`lastNewsScopedItems`); drives filter badges. */
   var lastNewsFilterCounts = {
     source: {},
     topicLeaf: {},
@@ -4095,8 +4256,14 @@
     markNewsFilterOptionSelected(panelEl, selectEl.value);
   }
 
-  function rebuildAllNewsFilterPanels() {
+  function getNewsScopedItemsForUi() {
+    if (Array.isArray(lastNewsScopedItems) && lastNewsScopedItems.length) return lastNewsScopedItems;
     var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
+    return items.filter(itemMatchesNewsRegulationScope);
+  }
+
+  function rebuildAllNewsFilterPanels() {
+    var items = getNewsScopedItemsForUi();
     var topicVal = newsFilterTopic ? newsFilterTopic.value : '';
     var sourceVal = newsFilterSource ? newsFilterSource.value : '';
     var q = newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : '';
@@ -4215,7 +4382,7 @@
   }
 
   function isNewsSidebarDockAllowed() {
-    return typeof window.matchMedia !== 'undefined' && window.matchMedia('(min-width: 1100px)').matches;
+    return typeof window.matchMedia !== 'undefined' && window.matchMedia('(min-width: 960px)').matches;
   }
 
   function setNewsSidebarFiltersDockVisible(show) {
@@ -4349,7 +4516,20 @@
       var head = q
         ? 'Showing ' + shown + (shown === 1 ? ' article' : ' articles') + ' matching your search'
         : 'Showing ' + shown + (shown === 1 ? ' article' : ' articles');
-      msg = loaded !== shown ? head + ' (' + loaded + ' loaded in total).' : head + '.';
+      var regNewsMsg = getRegProfile().newsUi || {};
+      if (loaded !== shown) {
+        msg =
+          head +
+          (regNewsMsg.filterForRegulation
+            ? ' (' + loaded + ' relevant to ' + (getRegProfile().shortName || 'this regulation') + ').'
+            : ' (' + loaded + ' in the full corpus).');
+      } else {
+        msg =
+          head +
+          (regNewsMsg.filterForRegulation
+            ? ' relevant to ' + (getRegProfile().shortName || 'this regulation') + '.'
+            : '.');
+      }
     }
     if (newsResultStatus) newsResultStatus.textContent = msg;
     if (newsResultStatusAside) newsResultStatusAside.textContent = msg;
@@ -4526,6 +4706,7 @@
     var q = newsSearchInput ? newsSearchInput.value.trim().toLowerCase() : '';
     var items = Array.isArray(lastNewsItems) ? lastNewsItems : [];
     var scoped = items.filter(itemMatchesNewsRegulationScope);
+    lastNewsScopedItems = scoped;
     populateNewsFilters(scoped);
     renderNewsFeedsList(lastNewsFeedsAll);
     var allowedLeafSet = buildTopicAllowedLeafSetFromTopicVal(topicVal);
@@ -4543,8 +4724,9 @@
       renderNewsSections(filtered);
       renderNewsToc(getOrderedSourcesFromItems(filtered));
     }
-    updateNewsResultStatus(filtered.length, items.length, q);
-    updateNewsHeroStats(filtered.length, items.length);
+    /* Status / hero “loaded” = regulation-scoped set, not the full shared corpus. */
+    updateNewsResultStatus(filtered.length, scoped.length, q);
+    updateNewsHeroStats(filtered.length, scoped.length, scoped);
     syncNewsSearchClearVisible();
     syncAllAsideFromMain();
     refreshNewsFilterDropdownsUi();
@@ -4586,6 +4768,11 @@
   function newsFeedsForCurrentScope(feeds) {
     var list = Array.isArray(feeds) ? feeds : [];
     var id = (getRegProfile() && getRegProfile().id) || 'gdpr';
+    var aligned = list.filter(function (f) {
+      return newsFeedAlignedToRegulation(f, id);
+    });
+    if (aligned.length) return aligned;
+    /* Fallback: region bucket if a profile has no tagged feeds yet. */
     if (currentRegion === 'id' || String(id).indexOf('id-') === 0) {
       return list.filter(newsFeedIsIndonesian);
     }
@@ -4595,7 +4782,7 @@
     if (currentRegion === 'intl' || String(id).indexOf('iso-') === 0 || id === 'soc2') {
       return list.filter(newsFeedIsInternational);
     }
-    if (currentRegion === 'eu' || id === 'ai-act' || id === 'data-act') {
+    if (currentRegion === 'eu' || id === 'gdpr' || id === 'ai-act' || id === 'data-act') {
       return list.filter(function (f) {
         return !newsFeedIsIndonesian(f) && !newsFeedIsUnitedStates(f) && !newsFeedIsInternational(f);
       });
@@ -4607,41 +4794,47 @@
     var groups = (lastNewsTopicTaxonomy && lastNewsTopicTaxonomy.groups) || [];
     var id = (getRegProfile() && getRegProfile().id) || 'gdpr';
     var allow = null;
-    if (id === 'id-pdp') {
+    if (id === 'gdpr') {
+      allow = {
+        'Core Rights': 1,
+        'Data Transfers': 1,
+        'Enforcement and Compliance': 1,
+        Consent: 1,
+        Lawfulness: 1
+      };
+    } else if (id === 'id-pdp') {
       allow = {
         'Indonesia Personal Data Protection': 1,
         'Core Rights': 1,
         'Data Transfers': 1,
-        'Enforcement and Compliance': 1,
-        General: 1
+        'Enforcement and Compliance': 1
       };
     } else if (id === 'id-satu-data') {
-      allow = { 'Indonesia Satu Data': 1, General: 1 };
+      allow = { 'Indonesia Satu Data': 1 };
     } else if (id === 'id-ai-ethics') {
-      allow = { 'Indonesia AI Ethics': 1, 'AI and Emerging Tech': 1, General: 1 };
+      allow = { 'Indonesia AI Ethics': 1 };
     } else if (id === 'ai-act') {
-      allow = { 'EU Artificial Intelligence Act': 1, 'AI and Emerging Tech': 1, General: 1 };
+      allow = { 'EU Artificial Intelligence Act': 1 };
     } else if (id === 'data-act') {
-      allow = { 'EU Data Act': 1, General: 1 };
+      allow = { 'EU Data Act': 1 };
     } else if (id === 'us-ccpa') {
       allow = {
         'United States CCPA': 1,
         'Core Rights': 1,
-        'Enforcement and Compliance': 1,
-        General: 1
+        'Enforcement and Compliance': 1
       };
     } else if (id === 'us-open-data') {
-      allow = { 'United States OPEN Data': 1, General: 1 };
+      allow = { 'United States OPEN Data': 1 };
     } else if (id === 'us-admt') {
-      allow = { 'United States ADMT': 1, 'AI and Emerging Tech': 1, General: 1 };
+      allow = { 'United States ADMT': 1 };
     } else if (id === 'iso-27701') {
-      allow = { 'International ISO 27701': 1, General: 1 };
+      allow = { 'International ISO 27701': 1 };
     } else if (id === 'iso-19941') {
-      allow = { 'International ISO 19941': 1, General: 1 };
+      allow = { 'International ISO 19941': 1 };
     } else if (id === 'iso-23894') {
-      allow = { 'International ISO 23894': 1, 'AI and Emerging Tech': 1, General: 1 };
+      allow = { 'International ISO 23894': 1 };
     } else if (id === 'soc2') {
-      allow = { 'International SOC 2': 1, General: 1 };
+      allow = { 'International SOC 2': 1 };
     }
     if (!allow) return groups;
     return groups.filter(function (g) {
@@ -4906,6 +5099,7 @@
       newsSections.innerHTML = '';
       if (items.length === 0) {
         lastNewsItems = [];
+        lastNewsScopedItems = [];
         scheduleNewsAttachmentsSummaryForItems([]);
         if (newsTocNav) {
           newsTocNav.hidden = true;
@@ -5076,13 +5270,8 @@
     var panel = document.getElementById('headerActionsPanel');
     if (!toggle || !panel) return;
 
-    function syncAppChromeHeight() {
-      var chromeEl = document.getElementById('appChrome');
-      if (!chromeEl) return;
-      var h = chromeEl.getBoundingClientRect().height;
-      if (h > 0) {
-        document.documentElement.style.setProperty('--app-chrome-height', Math.ceil(h) + 'px');
-      }
+    /** Reposition the segmented-tab active thumb when chrome size/layout changes. */
+    function syncTabsTrackAfterChromeChange() {
       scheduleTabsTrackThumb();
     }
 
@@ -5090,7 +5279,7 @@
       panel.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.setAttribute('aria-label', open ? 'Hide tools and settings' : 'Show tools and settings');
-      requestAnimationFrame(syncAppChromeHeight);
+      requestAnimationFrame(syncTabsTrackAfterChromeChange);
     }
 
     function isDesktopChrome() {
@@ -5115,18 +5304,18 @@
     var mqDesktop = window.matchMedia('(min-width: 900px)');
     function onChromeBreakpoint() {
       if (mqDesktop.matches) setHeaderActionsOpen(false);
-      syncAppChromeHeight();
+      syncTabsTrackAfterChromeChange();
     }
     if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', onChromeBreakpoint);
     else if (mqDesktop.addListener) mqDesktop.addListener(onChromeBreakpoint);
 
     var chromeEl = document.getElementById('appChrome');
     if (chromeEl && typeof ResizeObserver !== 'undefined') {
-      var chromeRo = new ResizeObserver(syncAppChromeHeight);
+      var chromeRo = new ResizeObserver(syncTabsTrackAfterChromeChange);
       chromeRo.observe(chromeEl);
     }
-    syncAppChromeHeight();
-    window.addEventListener('resize', syncAppChromeHeight, { passive: true });
+    syncTabsTrackAfterChromeChange();
+    window.addEventListener('resize', syncTabsTrackAfterChromeChange, { passive: true });
   })();
 
   if (btnFreshnessInfo && freshnessTooltipWrap) {
@@ -5336,26 +5525,12 @@
       );
     }
 
-    function applyNewsHeroLayoutMode() {
-      var desktop = window.matchMedia('(min-width: 900px)').matches;
-      if (desktop) {
-        setDetailsOpen(true);
-        toggle.hidden = true;
-      } else {
-        toggle.hidden = false;
-        setDetailsOpen(false);
-      }
-    }
+    toggle.hidden = false;
+    setDetailsOpen(false);
 
     toggle.addEventListener('click', function () {
       setDetailsOpen(!details.classList.contains('is-expanded'));
     });
-
-    var mqNewsHero = window.matchMedia('(min-width: 900px)');
-    if (mqNewsHero.addEventListener) mqNewsHero.addEventListener('change', applyNewsHeroLayoutMode);
-    else if (mqNewsHero.addListener) mqNewsHero.addListener(applyNewsHeroLayoutMode);
-
-    applyNewsHeroLayoutMode();
   })();
 
   var newsScopeSwitchBtn = document.getElementById('newsScopeSwitchBtn');

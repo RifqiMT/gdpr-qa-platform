@@ -1,7 +1,7 @@
 # Architecture overview  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen instruments · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
 
 The platform is a single Node.js/Express application serving a vanilla-JS SPA over **thirteen instruments** in four jurisdictions (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`; International: `iso-27701`, `iso-19941`, `iso-23894`, `soc2`). There is **no database** and **no end-user authentication**.
 

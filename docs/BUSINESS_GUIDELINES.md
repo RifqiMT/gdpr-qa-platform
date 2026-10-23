@@ -1,7 +1,7 @@
 # Business guidelines
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments  
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen instruments  
 **Audience:** Product, legal/compliance stakeholders, content owners, support  
 **Status:** Active
 
@@ -120,7 +120,7 @@ These guidelines define **how the product should be positioned, scoped, and used
 - **Indonesian feeds:** Antara (Hukum), Antara (Tekno) plus Antara policy tag hubs, **Setkab**, **Komdigi** (best-effort; site may WAF-block), **Satu Data Indonesia / data.go.id** (best-effort SPA harvest).  
 - **United States feeds:** FTC, California Privacy Protection Agency (CPPA/CalPrivacy), California Attorney General, Colorado Attorney General (ADAI / ADMT), data.gov, GSA, Federal Data Strategy.  
 - **International feeds:** ISO.org news, ISO Insights, AICPA & CIMA SOC for Service Organizations hub, plus an official catalogue seed (ISO/IEC 27701:2025, 19941:2017, 23894:2023, ISO/IEC 42001 related note, 2017 TSC / 2022 Points of Focus listing).  
-- When a non-GDPR instrument is selected, the UI **filters** headlines for relevance and shows an explanatory banner. Indonesian, United States, and International instruments additionally pass jurisdiction topic gates in the crawler.  
+- When **any** instrument is selected (including GDPR), the UI **filters** headlines for relevance (regional credible-source pool + primary hubs + keyword/category rules) and shows an always-visible **Relevant to …** scope badge. Hero counts reflect the scoped set. Indonesian, United States, and International instruments additionally pass jurisdiction topic gates in the crawler.  
 - Do not market News as a complete press monitor for any single instrument.
 
 ### 4.8 United States — CCPA/CPRA (`us-ccpa`)

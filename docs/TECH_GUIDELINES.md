@@ -1,9 +1,9 @@
 # Technical guidelines  
 ## Regulation Q&A Platform
 
-**Version:** 3.1  
+**Version:** 3.2  
 **Audience:** Engineering, DevOps, security review  
-**Status:** Active · Documentation standard **v3.1** · Product **1.3.0** · **Last updated:** 2026-10-22 · Audit date **2026-10-22** · Thirteen instruments (EU + Indonesia + United States + International)
+**Status:** Active · Documentation standard **v3.2** · Product **1.3.0** · **Last updated:** 2026-10-23 · Audit date **2026-10-23** · Thirteen instruments (EU + Indonesia + United States + International)
 
 ---
 
@@ -141,7 +141,7 @@ Single entry point: **`POST /api/answer`** (body `regulation` selects the corpus
 - **International gate:** `internationalPolicyNewsRe` / `internationalNewsItemIsOnScope`; ISO.org and `aicpa-cima.com` items must match the ISO 27701 / 19941 / 23894 / 42001 / PIMS / SOC 2 / Trust Services Criteria / JTC 1 SC 27 / SC 42 pattern (or an in-scope ISO standard URL); the catalogue seed is always prepended.  
 - **Classification:** `news-topics.js` (includes **EU Artificial Intelligence Act**, **EU Data Act**, **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**, **United States CCPA**, **United States OPEN Data**, **United States ADMT**, and **International ISO 27701 / ISO 19941 / ISO 23894 / SOC 2** categories; 22 categories / 91 leaf labels).  
 - **Dedupe:** `dedupeNewsItemsConsolidated` server + `news-dedupe.js` client.  
-- **Regulation UI filters:** `itemMatchesNewsRegulationScope` in `app.js` when any non-GDPR instrument is selected (client-side, not server-side; GDPR shows the full list). US instruments also require `newsFeedIsUnitedStates`; International instruments use `ISO_27701_NEWS_SCOPE_RE`, `ISO_19941_NEWS_SCOPE_RE`, `ISO_23894_NEWS_SCOPE_RE`, `SOC2_NEWS_SCOPE_RE`, and `newsFeedIsInternational`.
+- **Regulation UI filters (all thirteen, including GDPR):** `itemMatchesNewsRegulationScope` in `app.js` (client-side). Order: (1) regional source alignment via `newsItemSourceAlignedToRegulation` / `newsFeedIsRegionCredible`; (2) primary-hub pass via `newsItemFromPrimaryRegulationSource`; (3) instrument regex (`GDPR_NEWS_SCOPE_RE`, `AI_ACT_NEWS_SCOPE_RE`, … `SOC2_NEWS_SCOPE_RE`) and matching `topicCategory` / high-signal topics. Sidebar feeds use `newsFeedAlignedToRegulation` (full regional credible set). Hero counts and badges use the scoped list. AI Act scope regex is tightened (no bare algorithmic/ADM-only matches; no auto-pass for `AI and Emerging Tech` / `General`).
 
 ---
 
@@ -175,7 +175,7 @@ Single entry point: **`POST /api/answer`** (body `regulation` selects the corpus
 | Concern | Implementation |
 |---------|----------------|
 | **Breakpoint** | `max-width: 899px` — sticky `#appChrome`, collapsible `#headerActionsPanel`, compact tab labels. |
-| **Chrome height** | `ResizeObserver` on `#appChrome` → CSS variable `--app-chrome-height` for `--reading-pane-max-h`. |
+| **Chrome resize** | `ResizeObserver` on `#appChrome` → reposition segmented-tab active thumb (`scheduleTabsTrackThumb`). |
 | **Status without duplication** | `syncHeaderToolbarStatus()` updates `#headerFreshnessHint` / `#headerApiKeysHint` only; full freshness in tooltip; Ask narrative on `#askLlmKeysStatus`; no `#headerStatusStrip` (one surface per status type; see [BUSINESS_GUIDELINES.md §9](BUSINESS_GUIDELINES.md#9-business-guideline-index-bg)). |
 | **News hero** | `newsUi` in `regulation-profiles.js`; `syncNewsHeroChrome`, `initNewsHeroDetails`, `updateNewsHeroStats`; `.news-detail-grid` single column on small viewports. |
 | **Init** | `initHeaderActionsToggle()` from `app.js` DOM ready; re-run height sync on panel toggle and window resize. |
@@ -250,7 +250,8 @@ Full consumer map: [SOURCE_CODE_INVENTORY.md](SOURCE_CODE_INVENTORY.md).
 - [ ] Switch GDPR ↔ AI Act — Browse lists correct counts.  
 - [ ] Ask on AI Act: “What is a high-risk AI system?” — cites AI Act articles.  
 - [ ] Sources tab shows AI Act Law + EUR-Lex when AI Act selected.  
-- [ ] News with AI Act or an Indonesian instrument: banner visible; filtered count < full corpus; Indonesian empty state hints **Refresh news**.  
+- [ ] News with GDPR, AI Act, or an Indonesian instrument: scope badge **Relevant to …**; filtered count ≤ shared corpus; Indonesian empty state hints **Refresh news**.  
+- [ ] GDPR News excludes ID/US/INTL hubs and non–data-protection Commission noise; primary EDPB/EDPS/ICO/CoE items remain.  
 - [ ] `POST /api/refresh` per regulation succeeds.  
 - [ ] BYOK validate + Ask with client keys.  
 - [ ] `GET /health` returns `ok`.

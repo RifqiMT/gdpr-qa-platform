@@ -1,7 +1,7 @@
 # Glossary  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23**
 
 Short definitions of **acronyms and product-specific terms** used across documentation and the UI. Indonesian legal terms are given in *italics* with an English gloss. Sections: [A. Instruments and law](#a-instruments-and-law) · [B. Indonesian legal and institutional terms](#b-indonesian-legal-and-institutional-terms) · [C. EU legal terms](#c-eu-legal-terms) · [C2. United States legal and institutional terms](#c2-united-states-legal-and-institutional-terms) · [C3. International standards terms](#c3-international-standards-terms) · [D. Product, UI, and engineering terms](#d-product-ui-and-engineering-terms).
 
@@ -207,7 +207,7 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **indo-parity.test.js** | `test/indo-parity.test.js` — `npm test` suite covering Indonesian registry, corpora, news helpers, and persisted news. |
 | **us-parity.test.js** | `test/us-parity.test.js` — registry, corpora/sources without EU bleed, news helpers, persisted US headlines, Ask retrieval, and UI source blurbs for the United States instruments. |
 | **iso-parity.test.js** | `test/iso-parity.test.js` — registry, honest analogue mapping, corpora/sources without EU bleed, news helpers, persisted ISO / AICPA headlines, Ask retrieval, and UI source blurbs for the International instruments. |
-| **browse-routes.test.js / reader-view.test.js** | Guards for browse hash routing and the reader Page \| Full mode. Together with the parity suites: `npm test` = **58 pass / 24 suites** (2026-10-22). |
+| **browse-routes.test.js / reader-view.test.js** | Guards for browse hash routing and the reader Page \| Full mode. Together with the parity suites: `npm test` = **58 pass / 24 suites** (2026-10-23). |
 
 ---
 

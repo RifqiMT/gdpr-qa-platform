@@ -110,6 +110,8 @@
       subtitle: 'UU No. 27 Tahun 2022',
       description:
         'Indonesia’s comprehensive personal data protection statute — data-subject rights, controller and processor duties, cross-border transfers, administrative fines, and criminal offences. Browse pasal with official JDIH and peraturan.go.id links, or use Ask for answers cited to this corpus.',
+      policySummary:
+        'Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) is Indonesia’s comprehensive personal-data statute and the closest national analogue to the EU GDPR. It defines personal and specific personal data, sets lawful bases and consent rules, grants data-subject rights, and assigns duties to controllers and processors—including security, breach notification, and cross-border transfer conditions. It also establishes administrative fines and criminal offences. This browse view opens pasal and considering clauses with official JDIH Komdigi / peraturan.go.id links.',
       highlights: ['Data-subject rights', 'Legal bases & consent', 'Cross-border transfers', 'Fines & criminal sanctions'],
       mark: 'PDP'
     }
@@ -216,6 +218,8 @@
       subtitle: 'Perpres No. 39 Tahun 2019',
       description:
         'Satu Data Indonesia is the national framework for accurate, up-to-date, shareable government data — standards, metadata, interoperability, reference codes, and Portal Satu Data Indonesia (data.go.id). It is the closest in-force analogue to the EU Data Act’s data-sharing and interoperability agenda in the public sector.',
+      policySummary:
+        'Peraturan Presiden Nomor 39 Tahun 2019 tentang Satu Data Indonesia is the national public-sector framework for accurate, up-to-date, and interoperable government data. It assigns roles to pembina data, walidata, and produsen data; requires data standards, metadata, and reference codes; and channels sharing through Portal Satu Data Indonesia (data.go.id), including access without MoU in defined cases. It is the closest in-force Indonesian analogue to the EU Data Act’s sharing and interoperability agenda for government data—not a private-sector IoT data law.',
       highlights: ['Data standards', 'Interoperability', 'Walidata & producers', 'Portal access without MoU'],
       mark: 'SDI'
     }
@@ -323,6 +327,8 @@
       subtitle: 'SE Menkominfo No. 9 Tahun 2023',
       description:
         'The 2023 ministerial circular is Indonesia’s official in-force AI ethics instrument: nine values, implementation duties, and developer responsibilities for KBLI 62015 programmers and public/private electronic system operators. It is not legally binding in itself; UU ITE and UU PDP remain the hard-law backbone. Forthcoming Perpres on AI ethics and the 2026–2029 AI roadmap are tracked via Komdigi.',
+      policySummary:
+        'Surat Edaran Menkominfo Nomor 9 Tahun 2023 is Indonesia’s in-force AI ethics instrument. It sets nine ethical values, implementation duties for public and private electronic system operators, and developer responsibilities (including KBLI 62015 programmers), and it discourages sole AI decisions on humanitarian matters. Soft-law status means UU ITE and UU PDP remain the hard-law backbone; Komdigi tracks related Perpres and roadmap work. This browse view covers the circular’s sections and ethical values with official JDIH references.',
       highlights: ['Nine ethical values', 'PSE & KBLI 62015', 'No sole humanitarian AI decisions', 'Soft-law status'],
       mark: 'AI'
     }

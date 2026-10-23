@@ -1,7 +1,7 @@
 # Source code inventory  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23**
 
 Repository file map, **public module APIs**, and simplified dependency overview for **thirteen instruments** (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`; International: `iso-27701`, `iso-19941`, `iso-23894`, `soc2`). For architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -263,7 +263,7 @@ All 41 files are in the `SEED_FILES` manifest (`lib/paths.js`). Each `*-content.
 | **`test/iso-parity.test.js`** | International registry, copyright-safe corpora/sources (ISO 27701 / 19941 / 23894 / SOC 2), news helpers, Ask retrieval, no GDPR-Info fallback. |
 | **`test/browse-routes.test.js`** | Guards browse hash routing: real provision hashes (not `href="#"`), `activateBrowseRegulationSegment` without home-tab click, `suppressAppRouteSync` batching, deep-link / bounce hardening. |
 | **`test/reader-view.test.js`** | Reader **Page \| Full**: GDPR corpus shape for Full render; `#readerViewMode` radiogroup markup; related chrome expectations. |
-| **Test suite (aggregate)** | `npm test` → all `test/*.test.js` (**58 tests / 24 suites / 0 failures** as of 2026-10-22). Expect all five files green before merge. |
+| **Test suite (aggregate)** | `npm test` → all `test/*.test.js` (**58 tests / 24 suites / 0 failures** as of 2026-10-23). Expect all five files green before merge. |
 
 Run: `npm test` (→ `node --test test/*.test.js`). There is currently no browser/E2E harness; UI behaviour is verified with the manual checklists in [TECH_GUIDELINES.md](TECH_GUIDELINES.md) §10 and [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md) §6.
 

@@ -1,7 +1,7 @@
 # Variables and data dictionary
 ## Regulation Q&A Platform (EU, Indonesia, United States, and International)
 
-**Document version:** 3.1 · **Product version:** `package.json` **1.3.0** · **Documentation standard:** **v3.1** · **Audit date:** **2026-10-22** · **Instruments:** thirteen (EU + Indonesia + United States + International) · **`SEED_FILES`:** 41
+**Document version:** 3.2 · **Product version:** `package.json` **1.3.0** · **Documentation standard:** **v3.2** · **Audit date:** **2026-10-23** · **Instruments:** thirteen (EU + Indonesia + United States + International) · **`SEED_FILES`:** 41
 
 **Scope:** Environment variables, bundled data files, regulation registry and UI profile fields, corpus JSON shapes, Ask API and BYOK fields, news item fields and topic taxonomy, app-chrome CSS variables, and relationship diagrams.
 
@@ -105,7 +105,7 @@ Variables are loaded by `dotenv` in `server.js` from the first existing file amo
 | 24 | `iso-23894-structure.json` | ISO 23894 structure skeleton | Chapters, categories, and official-source metadata (ISO.org / AICPA). | ETL input and fallback. | `iso-soc-scraper.js` | 5 chapters |
 | 25 | `soc2-content.json` | SOC 2 corpus | AICPA 2017 Trust Services Criteria (CC / A / C / PI / P) criterion names and purpose notes — attestation criteria, not a law. | Built by `scripts/build-iso-soc-corpora.js`; refreshed (ping-only) by `iso-soc-scraper.js soc2`. | `lib/regulation-content.js` | 20 criteria, 6 purpose notes |
 | 26 | `soc2-structure.json` | SOC 2 structure skeleton | Chapters, categories, and official-source metadata (ISO.org / AICPA). | ETL input and fallback. | `iso-soc-scraper.js` | 5 chapters |
-| 27 | `gdpr-news.json` | News store | Persisted merged news list plus `newsFeeds` and `description` (EU + Indonesia + United States + International ISO / AICPA hubs). | Read by `GET /api/news`; rewritten by `POST /api/news/refresh`; International items seeded by `scripts/seed-iso-soc-news.js`. | `server.js` (`NEWS_FILE`) | 1,553 items at the 2026-10-22 audit |
+| 27 | `gdpr-news.json` | News store | Persisted merged news list plus `newsFeeds` and `description` (EU + Indonesia + United States + International ISO / AICPA hubs). | Read by `GET /api/news`; rewritten by `POST /api/news/refresh`; International items seeded by `scripts/seed-iso-soc-news.js`. | `server.js` (`NEWS_FILE`) | 1,553 items at the 2026-10-23 audit |
 | 28 | `chapter-summaries.json` | GDPR chapter summaries | LLM-generated chapter blurbs for GDPR. | `{ summaries: { "<chapter>": text }, source, llm, generatedAt }`. | `GET /api/chapter-summaries` | Chapter I summary |
 | 29 | `chapter-summaries-ai-act.json` | AI Act chapter summaries | Chapter blurbs for the AI Act. | Same shape as the GDPR file. | `GET /api/chapter-summaries?regulation=ai-act` | 13 chapters |
 | 30 | `chapter-summaries-data-act.json` | Data Act chapter summaries | Chapter blurbs for the Data Act. | Same shape. | `GET /api/chapter-summaries?regulation=data-act` | 11 chapters |
@@ -121,7 +121,7 @@ Variables are loaded by `dotenv` in `server.js` from the first existing file amo
 | 40 | `chapter-summaries-soc2.json` | SOC 2 chapter summaries | Chapter blurbs for the SOC 2 Trust Services Criteria groups. | Same shape. | `GET /api/chapter-summaries?regulation=soc2` | 5 chapters |
 | 41 | `article-suitable-recitals.json` | GDPR suitable-recitals map | Editorial map from GDPR article number to suggested recital numbers (GDPR-Info). | `{ source, fetchedAt, licenseNote, articles: { "<n>": [recitalNumbers] }, errors }`. Also copied to `public/` by `prestart` and `vercel-build`. | `server.js` (`/article-suitable-recitals.json`), `gdpr-crossrefs.js` | `"1": [1, 2, 3, …]` |
 
-**Integrity checks:** 13 regulations × 2 files (content + structure) = **26**; 1 news store; 13 chapter-summary files; 1 GDPR cross-reference file; total **26 + 1 + 13 + 1 = 41** (matches `SEED_FILES.length` in `lib/paths.js`, verified 2026-10-22). Row order above mirrors the array order in `lib/paths.js`.
+**Integrity checks:** 13 regulations × 2 files (content + structure) = **26**; 1 news store; 13 chapter-summary files; 1 GDPR cross-reference file; total **26 + 1 + 13 + 1 = 41** (matches `SEED_FILES.length` in `lib/paths.js`, verified 2026-10-23). Row order above mirrors the array order in `lib/paths.js`.
 
 ### 1.2 Server and runtime
 
@@ -344,7 +344,7 @@ These are **not** in `.env.example`; they are provided by the platform or CLI.
 
 ### 1.14 Documentation notes on defaults
 
-Verified against source on 2026-10-22 (product 1.3.0, standard v3.1). Where `.env.example` comments and code differ, **code is authoritative**.
+Verified against source on 2026-10-23 (product 1.3.0, standard v3.2). Where `.env.example` comments and code differ, **code is authoritative**.
 
 | Variable | `.env.example` comment | Code default | Action |
 |----------|------------------------|--------------|--------|
@@ -477,7 +477,8 @@ Drives the Browse welcome card and hero.
 | `browseUi.title` | Title | Main heading. | String. | Browse welcome | `EU AI Act` |
 | `browseUi.subtitle` | Subtitle | Instrument citation. | String. | Browse welcome | `Regulation (EU) 2024/1689` |
 | `browseUi.description` | Description | Paragraph summarizing the instrument. | String. | Browse welcome | See profile |
-| `browseUi.highlights` | Highlight chips | Short topic chips. | Array of four strings. | Browse welcome | `['Lawfulness & consent', …]` |
+| `browseUi.policySummary` | Policy summary | Longer prose shown as the Chapters/Recitals (or pasal / considering / purpose notes / clauses) section lead. | Prefer `policySummary`; fall back to `description`, then a short generated sentence. | `#recitalsLead`, `#chaptersLead` via `syncBrowseSectionChrome` in `app.js` | `Regulation (EU) 2016/679 (GDPR) is the EU’s primary personal-data law…` |
+| `browseUi.highlights` | Highlight chips / key themes | Short topic chips on the welcome card and as theme chips under the Browse summary panel. | Array of up to four strings. | Browse welcome + `#recitalsThemes` / `#chaptersThemes` | `['Lawfulness & consent', …]` |
 | `browseUi.mark` | Card mark | Short monogram on the card. | `GDPR`, `AI`, `DA`, `PDP`, `SDI`, `AI`, `CA` (CCPA), `OG` (OPEN Data), `CO` (ADMT), `PIMS` (ISO 27701), `CLOUD` (ISO 19941), `AI` (ISO 23894), `SOC` (SOC 2). | Browse welcome cards | `PDP` |
 
 ### 3.3 `askUi`
@@ -511,14 +512,14 @@ Source lists themselves come from `GET /api/meta` (`meta.sources`, falling back 
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `newsUi.theme` | News theme key | Sets `data-news-theme` on `#newsHero`. | One of the thirteen ids. | `app.js`, `styles.css` | `id-pdp` |
 | `newsUi.eyebrow`, `newsUi.title`, `newsUi.intro` | Hero copy | Eyebrow, title, and description. | Strings. | News hero | `PDP Law–relevant news` |
-| `newsUi.filterForRegulation` | Client filter switch | Whether the News list is narrowed by regulation relevance. | `false` for GDPR (full corpus); `true` for the other twelve. | `itemMatchesNewsRegulationScope` | `true` |
-| `newsUi.scopeMode` | Scope mode | Mode of the scope card. | `full` (GDPR) or `filtered`; default derived from `filterForRegulation`. | `syncNewsHeroChrome` | `filtered` |
-| `newsUi.scopeEyebrow`, `scopeTitle`, `scopeText` | Scope card copy | Explains the active scope. | Strings. | News scope card | `Relevance filter active` |
+| `newsUi.filterForRegulation` | Client filter switch | Whether the News list is narrowed by regulation relevance. | **`true` for all thirteen instruments** (including GDPR). When false, the list would show the full shared corpus (no current profile uses false). | `itemMatchesNewsRegulationScope` | `true` |
+| `newsUi.scopeMode` | Scope mode | Mode of the scope card / always-visible scope badge. | `filtered` (all shipped profiles) or `full`; default derived from `filterForRegulation`. | `syncNewsHeroChrome` | `filtered` |
+| `newsUi.scopeEyebrow`, `scopeTitle`, `scopeText` | Scope card copy | Explains the active scope (regional feeds + relevance). | Strings. | News scope card | `Relevant to GDPR` / `EU/UK credible sources` |
 | `newsUi.switchToRegulationId` | Switch target id | Regulation id of the "view other news" shortcut. | Empty for GDPR; `gdpr` for AI Act and Data Act; `id-satu-data` for UU PDP; `id-ai-ethics` for Satu Data; `id-pdp` for AI ethics; `us-open-data` for CCPA; `us-admt` for OPEN Data; `us-ccpa` for ADMT; `iso-19941` for ISO 27701; `iso-23894` for ISO 19941; `soc2` for ISO 23894; `iso-27701` for SOC 2. | News scope card | `id-satu-data` |
 | `newsUi.switchToLabel` | Switch button label | Text for the shortcut. | String. | News scope card | `View Satu Data news` |
 | `newsUi.tags` | Hero tags | Five tag chips. | Array of strings. | News hero | `['UU PDP', …]` |
 | `newsUi.refreshLabel`, `newsUi.refreshHint` | Refresh copy | Button label and tooltip. | Strings. | News hero | `Refresh feeds` |
-| `newsUi.viewModeLabel` | View mode pill | Label of the active scope pill. | `Full index`, `AI Act filter`, `Data Act filter`, `UU PDP filter`, `Satu Data filter`, `AI ethics filter`, `CCPA filter`, `OPEN Data filter`, `ADMT filter`, `ISO 27701 filter`, `ISO 19941 filter`, `ISO 23894 filter`, `SOC 2 filter`. | News hero | `AI Act filter` |
+| `newsUi.viewModeLabel` | View mode pill | Label of the active scope pill. | `GDPR filter`, `AI Act filter`, `Data Act filter`, `UU PDP filter`, `Satu Data filter`, `AI ethics filter`, `CCPA filter`, `OPEN Data filter`, `ADMT filter`, `ISO 27701 filter`, `ISO 19941 filter`, `ISO 23894 filter`, `SOC 2 filter`. | News hero | `GDPR filter` |
 
 ### 3.6 `citationsUi`
 
@@ -537,7 +538,7 @@ Source lists themselves come from `GET /api/meta` (`meta.sources`, falling back 
 
 | Regulation | `newsUi.theme` / `browseUi.theme` | `browseUi.mark` | `filterForRegulation` | `switchToRegulationId` | `articleHeading(n)` | `recitalHeading(n)` |
 |------------|-----------------------------------|-----------------|-----------------------|------------------------|---------------------|---------------------|
-| `gdpr` | `gdpr` | `GDPR` | `false` | *(empty)* | `Art. N GDPR` | `GDPR Recital (N)` |
+| `gdpr` | `gdpr` | `GDPR` | `true` | *(empty)* | `Art. N GDPR` | `GDPR Recital (N)` |
 | `ai-act` | `ai-act` | `AI` | `true` | `gdpr` | `Art. N AI Act` | `Recital N` |
 | `data-act` | `data-act` | `DA` | `true` | `gdpr` | `Art. N Data Act` | `Recital N` |
 | `id-pdp` | `id-pdp` | `PDP` | `true` | `id-satu-data` | `Pasal N UU PDP` | `Considering (N)` |
@@ -808,13 +809,27 @@ Totals: **22 categories**, **91 leaf labels** (including the fallback; three Uni
 
 ### 6.5 Client-side relevance filter by regulation
 
+Every shipped profile sets `newsUi.filterForRegulation: true` and `scopeMode: 'filtered'`. Hero article/source counts, filter badges, and status “loaded” use the **regulation-scoped** set (not the full shared corpus).
+
+**Formula for `itemMatchesNewsRegulationScope(item)`**
+
+1. If `newsUi.filterForRegulation` is false → **true** (unused by current profiles).  
+2. Else require **regional source alignment**: `newsItemSourceAlignedToRegulation` → `newsFeedIsRegionCredible` for the regulation’s jurisdiction (`eu` | `id` | `us` | `intl`). Sidebar feeds list the **full credible set for that region**.  
+3. If the item is from a **primary hub** for that instrument (`newsItemFromPrimaryRegulationSource`) → **true** without further keyword cuts (e.g. GDPR → EDPB/EDPS/ICO/CoE; AI Act → Digital Strategy AI; CCPA → CPPA; OPEN Data → data.gov / FDS; ADMT → Colorado AG; SOC 2 → AICPA).  
+4. Else test the text blob (`title + snippet + topic + topicCategory + sourceName + url`) against the instrument regex and/or a matching `topicCategory` / high-signal topic.  
+5. EU AI Act and Data Act additionally exclude Indonesian / US / International feed items via the regional gate in step 2. AI Act **no longer** auto-passes bare `AI and Emerging Tech` or `General` categories.
+
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `itemMatchesNewsRegulationScope(item)` | Regulation news filter | Decides whether an item appears for the current regulation. | If `newsUi.filterForRegulation` is false → **true** (GDPR sees all). Else test the text blob (`title + snippet + topic + topicCategory + sourceName + url`) against the regulation regex, **or** a matching `topicCategory`. | `public/app.js` | n/a |
-| `AI_ACT_NEWS_SCOPE_RE` | AI Act scope regex | Keyword pattern. | Also passes if category matches `EU Artificial Intelligence Act` or `AI and Emerging Tech`, or the topic matches high-risk, GPAI, AI Office, deepfake, facial recognition, biometric, and similar terms. | `public/app.js` | `high-risk AI` |
+| `itemMatchesNewsRegulationScope(item)` | Regulation news filter | Decides whether an item appears for the current regulation. | See numbered formula above. | `public/app.js` | n/a |
+| `newsItemSourceAlignedToRegulation(item, regId)` | Regional source gate | Keeps headlines inside the regulation’s jurisdiction pool. | `newsFeedIsRegionCredible(feedLike, newsJurisdictionForRegulationId(regId))`. | `public/app.js` | GDPR item from `edpb.europa.eu` |
+| `newsItemFromPrimaryRegulationSource(item, regId)` | Primary hub pass | Trusted official hubs for that instrument pass without keyword cuts. | Per-id allowlist on source name/url (see formula step 3). | `public/app.js` | CCPA + `cppa.ca.gov` |
+| `newsFeedAlignedToRegulation(feed, regId)` | Sidebar feed gate | Official site/RSS sidebar lists all credible feeds for the regulation’s region. | Same regional credibility helpers as item gate. | `public/app.js` | All EU/UK hubs under GDPR |
+| `GDPR_NEWS_SCOPE_RE` | GDPR scope regex | Keyword pattern for personal-data / supervisory themes. | Also passes if `topicCategory` matches Core Rights, Data Transfers, Enforcement and Compliance, Consent, or Lawfulness. Primary hubs (EDPB/EDPS/ICO/CoE) pass via step 3. | `public/app.js` | `adequacy decision` |
+| `AI_ACT_NEWS_SCOPE_RE` | AI Act scope regex | Keyword pattern (tightened; no bare algorithmic/ADM-only matches). | Also passes if category equals `EU Artificial Intelligence Act`, or the topic matches high-risk, GPAI, AI Office, deepfake, facial recognition, biometric, and similar terms. Does **not** auto-pass `AI and Emerging Tech` or `General`. | `public/app.js` | `high-risk AI` |
 | `DATA_ACT_NEWS_SCOPE_RE` | Data Act scope regex | Keyword pattern. | Also passes if category equals `EU Data Act`. | `public/app.js` | `cloud switching` |
 | `ID_PDP_NEWS_SCOPE_RE` | UU PDP scope regex | Keyword pattern. | Also passes if category matches `Indonesia Personal Data Protection`. | `public/app.js` | `data pribadi` |
-| `ID_SATU_DATA_NEWS_SCOPE_RE` | Satu Data scope regex | Keyword pattern. | Also passes if category matches `Indonesia Satu Data`. | `public/app.js` | `walidata` |
+| `ID_SATU_DATA_NEWS_SCOPE_RE` | Satu Data scope regex | Keyword pattern. | Also passes if category matches `Indonesia Satu Data`; `data.go.id` / Satu Data primary hubs pass via step 3. | `public/app.js` | `walidata` |
 | `ID_AI_ETHICS_NEWS_SCOPE_RE` | AI ethics scope regex | Keyword pattern. | Also passes if category matches `Indonesia AI Ethics`. | `public/app.js` | `etika kecerdasan artifisial` |
 | `US_CCPA_NEWS_SCOPE_RE` | CCPA scope regex | Keyword pattern (CalPrivacy, data broker, CPRA). | US source required; all CPPA URLs pass; FTC/OAG need privacy keywords. | `public/app.js` | `CalPrivacy` |
 | `US_OPEN_DATA_NEWS_SCOPE_RE` | OPEN Data scope regex | Keyword pattern (data.gov, Federal Data Strategy). | US source required; `data.gov` / `resources.data.gov` / `strategy.data.gov` URLs pass. | `public/app.js` | `Federal Data Strategy` |
@@ -856,11 +871,6 @@ Defined in `public/styles.css` (119 custom-property declarations including respo
 
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
-| `--app-chrome-height` | App chrome height | Combined header and region/regulation picker band. | `7.5rem` default; `6.25rem` and `6rem` on small screens; `7.75rem` on wide screens. | `:root`, media queries | `7.5rem` |
-| `--footer-block-min` | Credits bar minimum height | Reserved height of the credits bar. | `2.85rem` default; `3.35rem` on mid screens. | `:root`, media queries | `2.85rem` |
-| `--main-vertical-pad` | Main vertical padding | Vertical padding of the main area. | `3.25rem` default; `2.15rem` small; `4rem` wide. | `:root`, media queries | `3.25rem` |
-| `--app-shell-vertical` | Shell vertical budget | Total vertical space consumed by chrome. | `calc(var(--app-chrome-height) + var(--footer-block-min) + var(--main-vertical-pad))`. | `:root` | derived |
-| `--reading-pane-max-h` | Reading pane max height | Height cap for reader stacks inside main. | `min(70dvh, calc(100dvh - var(--app-shell-vertical)))` (74dvh and 72dvh variants on smaller screens). | `:root` | derived |
 | `--content-pad` | Content horizontal padding | Side padding. | `1.25rem` default; `2rem` and `2.5rem` on wide screens; `0.85rem` on narrow phones. | `:root`, media queries | `1.25rem` |
 | `--reading-toolbar-gap` | Reader toolbar gap | Gap between tab bar and content or toolbar and article body. | `1.35rem` default (varies `1rem` to `2rem`). | `:root`, media queries | `1.35rem` |
 | `--reader-to-document-gap` | Reader-to-document gap | Extra spacing between the reader strip and the document card. | `calc(var(--reading-toolbar-gap) + 0.5rem)`. | `:root` | derived |
@@ -892,7 +902,9 @@ Theme variables are scoped to components, not `:root`: `.browse-welcome[data-bro
 | Technical name | Friendly name | Definition | Formula / rule | Location in app | Example |
 |----------------|---------------|------------|----------------|-----------------|---------|
 | `data-region` | Region attribute | Set on `<html>`, the app chrome, and `#regionFilter` to `all`, `eu`, `id`, `us`, or `intl`. | Mirrors `currentRegion`. | `public/app.js`, `styles.css` | `eu` |
-| `.region-filter-thumb` background | Region thumb gradient | Sliding indicator color. | `eu`: `linear-gradient(180deg, #14b8a6, #0f766e)`; `id`: `linear-gradient(180deg, #0f766e, #0d5c56)`; `us`: `linear-gradient(180deg, #1d4ed8, #1e3a8a)`; `intl`: `linear-gradient(180deg, #475569, #334155)`. | `styles.css` | n/a |
+| `.region-filter` | Region track | Equal-width five-segment radiogroup track (`repeat(5, minmax(0, 1fr))`) with `--region-track-pad: 0.22rem`. | Full width on small screens. | `styles.css`, `#regionFilter` | n/a |
+| `.region-filter-thumb` background | Region thumb gradient | Sliding indicator color (`165deg`). | `all`: `#0d9488 → #0f766e`; `eu`: `#2dd4bf → #0f766e`; `id`: `#0f766e → #0d5c56`; `us`: `#3b82f6 → #1e40af`; `intl`: `#64748b → #334155`. | `styles.css` | n/a |
+| `#regionJurisdictionReadout` | Live jurisdiction readout | Short text beside the Region label reflecting the active region. | Derived from `currentRegion`. | `public/index.html`, `app.js` | `European Union` |
 | `data-browse-theme`, `data-news-theme` | Theme attributes | Select accent variables for Browse and News. | Value equals the regulation id. | `styles.css` | `id-pdp` |
 
 ---
@@ -1199,10 +1211,12 @@ flowchart TD
   STORE["Write data/gdpr-news.json<br/>cap max NEWS_MERGE_CAP+400, 2000"]
   API["GET /api/news<br/>items + topicTaxonomy<br/>cap NEWS_MERGE_CAP"]
   CLIENT["Client dedupe<br/>public/news-dedupe.js"]
-  FILT{"newsUi.filterForRegulation?"}
-  FULL["GDPR: full index"]
-  SCOPE["itemMatchesNewsRegulationScope<br/>regex + topicCategory"]
-  VIEW["News list<br/>by source or all"]
+  FILT{"newsUi.filterForRegulation?<br/>(true for all thirteen)"}
+  REGION["newsItemSourceAlignedToRegulation<br/>regional credible pool"]
+  PRIMARY["newsItemFromPrimaryRegulationSource<br/>primary hubs pass"]
+  SCOPE["Instrument regex + topicCategory<br/>GDPR_NEWS_SCOPE_RE … SOC2_NEWS_SCOPE_RE"]
+  VIEW["Scoped News list<br/>by source or all<br/>hero counts = scoped set"]
+  UNUSED["Unused path:<br/>full shared corpus"]
 
   TRIG --> CRAWL
   EDPB --> CRAWL
@@ -1215,8 +1229,10 @@ flowchart TD
   INTN --> CRAWL
   CRAWL --> URLK --> SEM --> GATE --> ENR --> MERGE --> STORE
   STORE --> API --> CLIENT --> FILT
-  FILT -->|"false"| FULL --> VIEW
-  FILT -->|"true"| SCOPE --> VIEW
+  FILT -->|"false (unused)"| UNUSED --> VIEW
+  FILT -->|"true"| REGION --> PRIMARY
+  PRIMARY -->|"hub match"| VIEW
+  PRIMARY -->|"else"| SCOPE --> VIEW
 ```
 
 ### 8.6 SEED_FILES cold start on Vercel
@@ -1273,5 +1289,5 @@ Update this document whenever any of the following change.
 **Verification commands (informational, run from the repository root)**
 
 - `node -e "require('./news-topics').getTopicTaxonomyForClient()"` confirms the taxonomy shape.
-- `npm test` runs `node --test test/*.test.js` (**58 tests / 24 suites / 0 failures** at the 2026-10-22 audit: `indo-parity`, `us-parity`, `iso-parity`, `browse-routes`, `reader-view`).
+- `npm test` runs `node --test test/*.test.js` (**58 tests / 24 suites / 0 failures** at the 2026-10-23 audit: `indo-parity`, `us-parity`, `iso-parity`, `browse-routes`, `reader-view`).
 - `SEED_FILES` in `lib/paths.js` is not exported; count its entries by reading the file (**41** at this audit).

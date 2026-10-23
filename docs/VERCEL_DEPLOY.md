@@ -1,6 +1,6 @@
 # Deploying to Vercel (production)
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · `SEED_FILES` = 41
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · `SEED_FILES` = 41
 
 This guide covers deploying the **Regulation Q&A Platform** (thirteen instruments: GDPR, EU AI Act, EU Data Act, UU PDP, Satu Data Indonesia, SE AI Ethics, US CCPA, US OPEN Data, US CO ADMT, ISO 27701, ISO 19941, ISO 23894, SOC 2) as a **Vercel serverless** Node app. Local development (`npm start`) is unchanged. The app has **no end-user authentication**; only the cron route is secret-protected.
 

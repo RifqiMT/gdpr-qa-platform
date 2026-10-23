@@ -1,7 +1,7 @@
 # Guardrails  
 ## Regulation Q&A Platform
 
-**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments (EU + Indonesia + United States + International)  
+**Version:** 3.2 · **Last updated:** 2026-10-23 · Documentation standard **v3.2** · Product **1.3.0** · Audit date **2026-10-23** · Thirteen instruments (EU + Indonesia + United States + International)  
 **Audience:** Product, engineering, legal/compliance stakeholders
 
 These guardrails define **hard limitations** for business positioning and technical implementation. Violating them creates legal, trust, or reliability risk.
@@ -72,6 +72,8 @@ These guardrails define **hard limitations** for business positioning and techni
 | **TG-N02** | Respect `NEWS_MERGE_CAP` and refresh timeouts. | Stability |
 | **TG-N03** | Client relevance filters must not mutate the shared JSON schema incorrectly. | Multi-instrument safety |
 | **TG-N04** | Attachment fetch allowlist / caps apply; hide Attachments when count = 0. | UX + safety |
+| **TG-N05** | Every regulation (including GDPR) sets `newsUi.filterForRegulation: true`; hero counts and badges must use the scoped list, never silently reintroduce a “GDPR = full corpus” path. | Scope honesty |
+| **TG-N06** | Headlines must stay inside the regulation’s regional credible-source pool; primary hubs pass in full; megasources require keyword/category matches. AI Act must not auto-pass bare `AI and Emerging Tech` / `General`. | Jurisdiction isolation |
 
 ---
 
@@ -164,7 +166,7 @@ These guardrails define **hard limitations** for business positioning and techni
 | **TG-INTL-04** | Ask retrieval for `iso-*` / `soc2` uses PIMS / cloud-portability / AI-risk / Trust-Services-Criteria expansions (`laypersonSearchExpansion`), never GDPR "controller / processor" wording beyond PII controller / processor in ISO 27701. |
 | **TG-INTL-05** | ISO/IEC 42001 is a **related note only** under `iso-23894` (no separate corpus, no separate registry id). A duplicate ISO 23894 request resolves to one instrument. |
 | **TG-INTL-06** | `test/iso-parity.test.js` must stay green (registry, honest analogue mapping, corpora/sources without EU bleed, news helpers, persisted International headlines, Ask retrieval, UI blurbs) within the **58 pass / 24 suites** baseline. |
-| **TG-INTL-07** | Theme accents and region thumb stay as shipped: `iso-27701` `#0f766e`, `iso-19941` `#0369a1`, `iso-23894` `#5b21b6`, `soc2` `#b45309`; `intl` thumb `#475569` → `#334155`. |
+| **TG-INTL-07** | Theme accents and region thumb stay as shipped: `iso-27701` `#0f766e`, `iso-19941` `#0369a1`, `iso-23894` `#5b21b6`, `soc2` `#b45309`; `intl` thumb `linear-gradient(165deg, #64748b, #334155)`. |
 | **TG-INTL-08** | `gdpr-qa-region-v1` accepts only `all`, `eu`, `id`, `us`, `intl`; INTL defaults the regulation to `iso-27701`. |
 
 ---
@@ -186,7 +188,7 @@ These guardrails define **hard limitations** for business positioning and techni
 |----|-----------|
 | **TG-DOC-01** | Code wins over stale docs; fix docs in the same change set when possible. |
 | **TG-DOC-02** | Never document removed 1.2.6 endpoints as live. |
-| **TG-DOC-03** | Documentation standard version and product version must stay aligned on major audits (current: standard **v3.1**, product **1.3.0**, audit **2026-10-22**). |
+| **TG-DOC-03** | Documentation standard version and product version must stay aligned on major audits (current: standard **v3.2**, product **1.3.0**, audit **2026-10-23**). |
 | **TG-DOC-04** | Counts quoted in docs (thirteen instruments, `SEED_FILES` = 41, `npm test` = 58 pass / 24 suites) must be re-verified at each audit. |
 
 ---
