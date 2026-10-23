@@ -217,7 +217,7 @@ const RSS_REQUEST_HEADERS = {
 
 /** FTC (and some .gov hosts) 404 Chrome-like UAs; a short compatible token is accepted. */
 const US_OFFICIAL_HEADERS = {
-  'User-Agent': 'Mozilla/5.0 (compatible; GDPRQnAPlatform/1.2.9)',
+  'User-Agent': 'Mozilla/5.0 (compatible; GDPRQnAPlatform/1.3.0)',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
   'Accept-Language': 'en-US,en;q=0.9'
 };
@@ -519,6 +519,10 @@ function newsItemMatchesApprovedTopic(item) {
   }
   if (unitedStatesNewsItemIsOnScope({ title, snippet, url })) return true;
 
+  if (/iso\.org/i.test(url) && internationalPolicyNewsRe().test(b)) return true;
+  if (/aicpa-cima\.com/i.test(url) && internationalPolicyNewsRe().test(b)) return true;
+  if (internationalNewsItemIsOnScope({ title, snippet, url })) return true;
+
   return false;
 }
 
@@ -553,6 +557,119 @@ function unitedStatesNewsItemIsOnScope(item) {
     return true;
   }
   return false;
+}
+
+function internationalPolicyNewsRe() {
+  return /iso\/?iec\s*(27701|19941|23894|42001|27001)|\b27701\b|\b19941\b|\b23894\b|\b42001\b|privacy information management system|\bpims\b|cloud computing.{0,24}(interoperability|portability)|ai risk management|artificial intelligence.{0,24}risk management|\bsoc\s*2\b|trust services criteria|soc for service organizations|jtc\s*1\/?sc\s*(27|42)|points of focus.{0,12}2022/i;
+}
+
+function internationalNewsItemIsOnScope(item) {
+  const title = (item && item.title) || '';
+  const snippet = (item && item.snippet) || '';
+  const url = (item && item.url) || '';
+  const b = `${title} ${snippet} ${url}`;
+  if (internationalPolicyNewsRe().test(b)) return true;
+  if (/iso\.org\/standard\/(27701|66639|77304|81230|65694)/i.test(url)) return true;
+  if (/aicpa-cima\.com/i.test(url) && /soc|trust services|service organization/i.test(b)) return true;
+  return false;
+}
+
+/** Official catalogue notices always available when live ISO/AICPA listings are thin. */
+function internationalCatalogueNewsSeed() {
+  const iso = 'https://www.iso.org/news.html';
+  const aicpa =
+    'https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations';
+  return [
+    {
+      title: 'ISO/IEC 27701:2025 Privacy information management systems — Requirements and guidance',
+      url: 'https://www.iso.org/standard/27701',
+      sourceName: 'ISO',
+      sourceUrl: iso,
+      date: '2025-10-14',
+      snippet: 'ISO.org catalogue: standalone PIMS, 2nd edition, published 14 October 2025, JTC 1/SC 27, 64 pages.'
+    },
+    {
+      title: 'ISO/IEC 19941:2017 Cloud computing — Interoperability and portability',
+      url: 'https://www.iso.org/standard/66639.html',
+      sourceName: 'ISO',
+      sourceUrl: iso,
+      date: '2017-01-01',
+      snippet: 'ISO.org catalogue: cloud interoperability and portability types; confirmed 2023; replacement ISO/IEC 19941-1 forthcoming.'
+    },
+    {
+      title: 'ISO/IEC 23894:2023 Artificial intelligence — Guidance on risk management',
+      url: 'https://www.iso.org/standard/77304.html',
+      sourceName: 'ISO',
+      sourceUrl: iso,
+      date: '2023-02-01',
+      snippet: 'ISO.org catalogue: AI risk-management guidance overlaying ISO 31000; JTC 1/SC 42; 26 pages.'
+    },
+    {
+      title: 'ISO/IEC 42001 Artificial intelligence management system (related AIMS)',
+      url: 'https://www.iso.org/standard/81230.html',
+      sourceName: 'ISO',
+      sourceUrl: iso,
+      date: null,
+      snippet: 'Related certifiable AIMS — distinct from ISO/IEC 23894 risk-management guidance.'
+    },
+    {
+      title: 'ISO Insights: Standards world featuring ISO/IEC 27701:2025',
+      url: 'https://www.iso.org/insights/standards-world',
+      sourceName: 'ISO Insights',
+      sourceUrl: 'https://www.iso.org/insights/standards-world',
+      date: null,
+      snippet: 'ISO Standards world highlights published International Standards including ISO/IEC 27701:2025 privacy information management.'
+    },
+    {
+      title: '2017 Trust Services Criteria with Revised Points of Focus — 2022',
+      url: 'https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022',
+      sourceName: 'AICPA',
+      sourceUrl: aicpa,
+      date: '2022-01-01',
+      snippet: 'AICPA TSC for Security, Availability, Processing Integrity, Confidentiality, and Privacy used in SOC 2 reports.'
+    },
+    {
+      title: 'SOC for Service Organizations (SOC 2)',
+      url: 'https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations',
+      sourceName: 'AICPA',
+      sourceUrl: aicpa,
+      date: null,
+      snippet: 'Official AICPA landing page for System and Organization Controls reports, including SOC 2 Type 1 and Type 2.'
+    }
+  ];
+}
+
+async function crawlInternationalOfficialNews() {
+  const isoHref = (href) => /iso\.org\/(news|contents\/news|insights|standard\/)/i.test(href);
+  const aicpaHref = (href) => /aicpa-cima\.com\/(resources|topic|news|interestareas)/i.test(href);
+  const nested = await Promise.all([
+    crawlHtmlListing(
+      'https://www.iso.org/news.html',
+      'ISO',
+      'https://www.iso.org/news.html',
+      isoHref,
+      'ISO International Standard privacy AI cloud',
+      null
+    ),
+    crawlHtmlListing(
+      'https://www.iso.org/insights/standards-world',
+      'ISO Insights',
+      'https://www.iso.org/insights/standards-world',
+      isoHref,
+      'ISO/IEC 27701 privacy information management',
+      null
+    ),
+    crawlHtmlListing(
+      'https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations',
+      'AICPA',
+      'https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations',
+      aicpaHref,
+      'SOC 2 Trust Services Criteria service organizations',
+      null
+    )
+  ]);
+  const live = nested.flat().filter((item) => internationalNewsItemIsOnScope(item) || /iso\.org\/standard\//i.test(item.url || ''));
+  return [...internationalCatalogueNewsSeed(), ...live];
 }
 
 /** Antara tag hubs — topical archives beat category RSS for PDP / Satu Data / AI ethics recall. */
@@ -2162,8 +2279,17 @@ function dedupeNewsItemsConsolidated(items) {
 }
 
 async function crawlNews() {
-  const [edpbRssItems, edpbHtmlItems, edpsRssItems, icoItems, commissionItems, coeItems, indonesiaItems, usItems] =
-    await Promise.all([
+  const [
+    edpbRssItems,
+    edpbHtmlItems,
+    edpsRssItems,
+    icoItems,
+    commissionItems,
+    coeItems,
+    indonesiaItems,
+    usItems,
+    intlItems
+  ] = await Promise.all([
       crawlEdpbRss(),
       crawlEdpbHtml(),
       crawlEdpsRss(),
@@ -2171,7 +2297,8 @@ async function crawlNews() {
       crawlCommissionPress(),
       crawlCouncilOfEurope(),
       crawlIndonesiaOfficialNews(),
-      crawlUnitedStatesOfficialNews()
+      crawlUnitedStatesOfficialNews(),
+      crawlInternationalOfficialNews()
     ]);
   const combined = [
     ...edpbRssItems,
@@ -2181,7 +2308,8 @@ async function crawlNews() {
     ...commissionItems,
     ...coeItems,
     ...indonesiaItems,
-    ...usItems
+    ...usItems,
+    ...intlItems
   ];
   const byKey = new Map();
   combined.forEach((item) => {
@@ -2244,6 +2372,9 @@ module.exports = {
   indonesiaNewsItemIsOnScope,
   unitedStatesPolicyNewsRe,
   unitedStatesNewsItemIsOnScope,
+  internationalPolicyNewsRe,
+  internationalNewsItemIsOnScope,
+  internationalCatalogueNewsSeed,
   newsItemMatchesApprovedTopic,
   withTimeout,
   normalizeNewsUrlKey,

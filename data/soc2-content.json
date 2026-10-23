@@ -1,0 +1,601 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-10-22T15:20:28.491Z",
+    "sources": [
+      {
+        "name": "AICPA — 2017 Trust Services Criteria with 2022 Points of Focus",
+        "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+        "description": "Official AICPA & CIMA download page for the 2017 Trust Services Criteria for Security, Availability, Processing Integrity, Confidentiality, and Privacy, with revised Points of Focus 2022 (TSP section 100). This is attestation criteria, not a statute.",
+        "documents": [
+          {
+            "label": "TSC 2017 with 2022 Points of Focus (AICPA download)",
+            "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+          }
+        ]
+      },
+      {
+        "name": "AICPA — SOC for Service Organizations",
+        "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+        "description": "Official AICPA landing page for System and Organization Controls (SOC) for Service Organizations, including SOC 2 reports that use the Trust Services Criteria.",
+        "documents": [
+          {
+            "label": "SOC for Service Organizations",
+            "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+          }
+        ]
+      }
+    ],
+    "regulationId": "soc2",
+    "lastChecked": "2026-10-22T15:20:28.491Z",
+    "datasetHash": "3d02c9c9e653f2714c1640760c2312cc48817e94a240bd165524e4f135eaa878",
+    "etl": {
+      "extractedFrom": "aicpa-tsc-2017-pof-2022-catalogue",
+      "fetched": false,
+      "significant": true,
+      "datasetHash": "3d02c9c9e653f2714c1640760c2312cc48817e94a240bd165524e4f135eaa878",
+      "articleCount": 20,
+      "recitalCount": 6,
+      "copyrightNote": "Educational overlay from public catalogue abstracts and publicly listed clause/criterion titles. Not the paid ISO or AICPA standard text."
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Attestation vs law, Type 1/Type 2, five TSC categories, GDPR honesty, 2017/2022 edition, copyright.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "id": "chapters",
+      "title": "Trust Services Criteria map",
+      "description": "Educational map of publicly listed TSC category and criterion names (CC, A, C, PI, P).",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Security — Common Criteria (CC1–CC9)",
+      "articleRange": "1–9",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Availability (A1)",
+      "articleRange": "10",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Confidentiality (C1)",
+      "articleRange": "11",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Processing Integrity (PI1)",
+      "articleRange": "12",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Privacy (P1–P8)",
+      "articleRange": "13–20",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "SOC 2 is an attestation, not a law",
+      "text": "SOC 2 is a System and Organization Controls report issued by a CPA under AICPA attestation standards, using the Trust Services Criteria (TSC). It is not a statute, not GDPR, and not an ISO management-system certification. A service organization commissions a SOC 2 report to give customers assurance over controls. This workspace includes SOC 2 because users asked for it as an international analogue alongside ISO privacy, cloud, and AI standards.",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "number": 2,
+      "title": "Type 1 vs Type 2",
+      "text": "In public AICPA descriptions, a Type 1 SOC 2 report describes the system and tests whether controls are suitably designed at a point in time. A Type 2 report also tests whether those controls operated effectively over a period. Buyers often prefer Type 2 for ongoing assurance. This overlay does not reproduce examination procedures from the attestation standards.",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "number": 3,
+      "title": "Five TSC categories; Security is the usual core",
+      "text": "The AICPA Trust Services Criteria address five categories: Security, Availability, Processing Integrity, Confidentiality, and Privacy. Security (the Common Criteria, CC) is typically in every SOC 2. The other categories are included when they are relevant to the system and the report’s commitments. Criterion titles used in this corpus are the publicly listed TSC names, not the paid Points of Focus tables.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 4,
+      "title": "Not a GDPR analogue in the legal sense; Privacy category is TSC Privacy",
+      "text": "SOC 2 Privacy (P1–P8) is about whether the service organization meets its privacy commitments using TSC Privacy criteria (notice, choice and consent, collection, use/retention/disposal, access, disclosure, quality, monitoring). That is not the EU GDPR. ISO/IEC 27701 is this product’s GDPR analogue. SOC 2 is included as an additional international assurance instrument that customers often ask for next to ISO certifications.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 5,
+      "title": "2017 TSC with 2022 Points of Focus; copyright AICPA",
+      "text": "The current public AICPA download is titled “2017 Trust Services Criteria for Security, Availability, Processing Integrity, Confidentiality, and Privacy (with Revised Points of Focus — 2022)” (TSP section 100). AICPA holds copyright. This corpus uses category and criterion names plus original educational summaries. It does not copy Points of Focus, illustrative controls, or examination text. Obtain the TSC from AICPA for engagements.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 6,
+      "title": "How this sits next to ISO 27701 / 19941 / 23894",
+      "text": "ISO/IEC 27701 is a certifiable-style PIMS standard; ISO/IEC 19941 is cloud interoperability vocabulary; ISO/IEC 23894 is AI risk-management guidance; SOC 2 is a CPA attestation over TSC. A company may hold ISO certificates and also issue a SOC 2 report. None of them is EU law. Use the EU instruments in this app for GDPR, the Data Act, and the AI Act.",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "CC1 — Control Environment",
+      "text": "Public Trust Services Criteria (TSC) category Security / Common Criteria name: Control Environment. Educational summary: the service organization demonstrates integrity, ethical values, board and management oversight, and a structure that makes security (and other in-scope Trust Services Criteria categories) possible. Without a sound control environment, later access and operations criteria have nothing to hang on. Not a GDPR accountability article.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 2,
+      "title": "CC2 — Communication and Information",
+      "text": "Public TSC name: Communication and Information. Educational summary: the organization obtains and internally communicates the information needed to support the functioning of controls, and communicates with external parties (customers, regulators, subprocessors) as needed for the system’s commitments. Relevant to how SOC 2 system descriptions and trust-services commitments are explained to user entities.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 3,
+      "title": "CC3 — Risk Assessment",
+      "text": "Public TSC name: Risk Assessment. Educational summary: the organization identifies and assesses risks to achieving its objectives for the in-scope TSC categories (security, and availability, processing integrity, confidentiality, or privacy if included), including fraud and change. This is COSO-aligned risk assessment language used in TSC, not ISO 31000 and not an EU AI Act risk system.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 4,
+      "title": "CC4 — Monitoring Activities",
+      "text": "Public TSC name: Monitoring Activities. Educational summary: the organization selects, performs, and evaluates ongoing and separate evaluations to ascertain whether TSC-relevant controls are present and functioning, and communicates deficiencies. SOC 2 Type 2 evidence often draws on this monitoring.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 5,
+      "title": "CC5 — Control Activities",
+      "text": "Public TSC name: Control Activities. Educational summary: the organization deploys control activities through policies and procedures that help ensure management directives to mitigate risks are carried out. Later CC6–CC9 specialize this into access, operations, change, and mitigation. Educational name-level overlay only.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 6,
+      "title": "CC6 — Logical and Physical Access Controls",
+      "text": "Public TSC name: Logical and Physical Access Controls. Educational summary: access to the system, its data, and supporting infrastructure is authorized, provisioned, reviewed, and revoked; physical access to facilities is likewise restricted. This is the TSC Security criterion customers most often associate with “SOC 2 access control.” It is not ISO/IEC 27001 Annex A and not GDPR Article 32, though themes overlap.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 7,
+      "title": "CC7 — System Operations",
+      "text": "Public TSC name: System Operations. Educational summary: the organization manages system capacity, detects and responds to threats and anomalies, and restores the system after incidents so that Security (and other in-scope) commitments continue to be met. Incident response evidence commonly lands here in SOC 2 examinations.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 8,
+      "title": "CC8 — Change Management",
+      "text": "Public TSC name: Change Management. Educational summary: infrastructure, data, software, and procedures are changed in a controlled manner — authorized, tested, documented, and reviewed — so that TSC commitments are not broken by unmanaged change. Distinct from ISO/IEC 23894 AI re-assessment, though both care about change.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 9,
+      "title": "CC9 — Risk Mitigation",
+      "text": "Public TSC name: Risk Mitigation. Educational summary: the organization identifies, selects, and develops risk-mitigation activities including vendor and business-partner (subservice organization) risk. SOC 2 reports often describe complementary user-entity controls and subservice organizations here or in the system description.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 1
+    },
+    {
+      "number": 10,
+      "title": "A1 — Availability",
+      "text": "Public TSC category Availability (criterion A1). Educational summary: when Availability is in the SOC 2 scope, the organization maintains, monitors, and evaluates controls so that the system is available for operation and use as committed. Typical themes: capacity, backup, disaster recovery, and availability commitments in customer contracts. Optional category — only in the report if selected.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 2
+    },
+    {
+      "number": 11,
+      "title": "C1 — Confidentiality",
+      "text": "Public TSC category Confidentiality (criterion C1). Educational summary: when Confidentiality is in scope, confidential information is identified and protected as committed (for example encryption, need-to-know, disposal). Confidentiality in TSC is about information designated confidential, which may or may not be personal data. Privacy is a separate TSC category.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 3
+    },
+    {
+      "number": 12,
+      "title": "PI1 — Processing Integrity",
+      "text": "Public TSC category Processing Integrity (criterion PI1). Educational summary: when Processing Integrity is in scope, system processing is complete, valid, accurate, timely, and authorized as committed. Relevant to payment, payroll, or other processing services. Not the EU Data Act processing-service switching rules.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 4
+    },
+    {
+      "number": 13,
+      "title": "P1 — Privacy criteria related to notice",
+      "text": "Public TSC Privacy criterion name (notice and communication of objectives related to privacy). Educational summary: when Privacy is in the SOC 2 scope, the organization provides notice about its privacy practices and objectives. This is TSC Privacy, not GDPR Articles 13–14, though both concern transparency. Use ISO/IEC 27701 or the GDPR instrument for those regimes.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 14,
+      "title": "P2 — Choice and consent",
+      "text": "Public TSC Privacy criterion name: Choice and Consent. Educational summary: the organization describes choices available to data subjects (TSC uses “data subjects” in Privacy criteria) and obtains consent where its privacy commitments require it. Not a GDPR lawful-basis catalogue (consent is only one GDPR basis).",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 15,
+      "title": "P3 — Collection",
+      "text": "Public TSC Privacy criterion name: Collection. Educational summary: personal information is collected consistent with the organization’s privacy notice and commitments, limited to what those commitments allow. Educational name-level overlay; Points of Focus remain AICPA copyrighted.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 16,
+      "title": "P4 — Use, retention, and disposal",
+      "text": "Public TSC Privacy criterion name: Use, Retention, and Disposal. Educational summary: personal information is used, retained, and disposed of in accordance with privacy commitments — including limiting secondary use and disposing of information when no longer needed. Analogous in theme to purpose limitation and storage limitation, but TSC is not GDPR.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 17,
+      "title": "P5 — Access",
+      "text": "Public TSC Privacy criterion name: Access. Educational summary: the organization provides data subjects with access to their personal information for review and update consistent with privacy commitments. Not the full GDPR Chapter III rights set (erasure, portability, objection, etc.), unless those appear in the organization’s own notice.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 18,
+      "title": "P6 — Disclosure and notification",
+      "text": "Public TSC Privacy criterion name: Disclosure and Notification. Educational summary: disclosure of personal information to third parties, and notification of incidents, follow the organization’s privacy commitments and applicable notice. Distinct from GDPR Articles 33–34 breach notification, though a company subject to both must satisfy the law as well as TSC commitments.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 19,
+      "title": "P7 — Quality",
+      "text": "Public TSC Privacy criterion name: Quality. Educational summary: the organization collects and maintains personal information that is accurate, complete, and current as needed for the purposes identified in its privacy notice. Theme overlap with data-quality principles in privacy law; TSC remains attestation criteria.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    },
+    {
+      "number": 20,
+      "title": "P8 — Monitoring and enforcement",
+      "text": "Public TSC Privacy criterion name: Monitoring and Enforcement. Educational summary: the organization monitors compliance with its privacy commitments and has procedures to address inquiries, complaints, and disputes. Closes the TSC Privacy set. For a certifiable privacy MSS, see ISO/IEC 27701 in this app; for EU law, see GDPR.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "chapter": 5
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — SOC 2 is an attestation, not a law",
+      "text": "SOC 2 is a System and Organization Controls report issued by a CPA under AICPA attestation standards, using the Trust Services Criteria (TSC). It is not a statute, not GDPR, and not an ISO management-system certification. A service organization commissions a SOC 2 report to give customers assurance over controls. This workspace includes SOC 2 because users asked for it as an international analogue alongside ISO privacy, cloud, and AI standards.",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — Type 1 vs Type 2",
+      "text": "In public AICPA descriptions, a Type 1 SOC 2 report describes the system and tests whether controls are suitably designed at a point in time. A Type 2 report also tests whether those controls operated effectively over a period. Buyers often prefer Type 2 for ongoing assurance. This overlay does not reproduce examination procedures from the attestation standards.",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Five TSC categories; Security is the usual core",
+      "text": "The AICPA Trust Services Criteria address five categories: Security, Availability, Processing Integrity, Confidentiality, and Privacy. Security (the Common Criteria, CC) is typically in every SOC 2. The other categories are included when they are relevant to the system and the report’s commitments. Criterion titles used in this corpus are the publicly listed TSC names, not the paid Points of Focus tables.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Not a GDPR analogue in the legal sense; Privacy category is TSC Privacy",
+      "text": "SOC 2 Privacy (P1–P8) is about whether the service organization meets its privacy commitments using TSC Privacy criteria (notice, choice and consent, collection, use/retention/disposal, access, disclosure, quality, monitoring). That is not the EU GDPR. ISO/IEC 27701 is this product’s GDPR analogue. SOC 2 is included as an additional international assurance instrument that customers often ask for next to ISO certifications.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "recital",
+      "id": "recital-5",
+      "number": 5,
+      "title": "Recital (5) — 2017 TSC with 2022 Points of Focus; copyright AICPA",
+      "text": "The current public AICPA download is titled “2017 Trust Services Criteria for Security, Availability, Processing Integrity, Confidentiality, and Privacy (with Revised Points of Focus — 2022)” (TSP section 100). AICPA holds copyright. This corpus uses category and criterion names plus original educational summaries. It does not copy Points of Focus, illustrative controls, or examination text. Obtain the TSC from AICPA for engagements.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "recital",
+      "id": "recital-6",
+      "number": 6,
+      "title": "Recital (6) — How this sits next to ISO 27701 / 19941 / 23894",
+      "text": "ISO/IEC 27701 is a certifiable-style PIMS standard; ISO/IEC 19941 is cloud interoperability vocabulary; ISO/IEC 23894 is AI risk-management guidance; SOC 2 is a CPA attestation over TSC. A company may hold ISO certificates and also issue a SOC 2 report. None of them is EU law. Use the EU instruments in this app for GDPR, the Data Act, and the AI Act.",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC1 — Control Environment",
+      "text": "CC1 — Control Environment Public Trust Services Criteria (TSC) category Security / Common Criteria name: Control Environment. Educational summary: the service organization demonstrates integrity, ethical values, board and management oversight, and a structure that makes security (and other in-scope Trust Services Criteria categories) possible. Without a sound control environment, later access and operations criteria have nothing to hang on. Not a GDPR accountability article.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC2 — Communication and Information",
+      "text": "CC2 — Communication and Information Public TSC name: Communication and Information. Educational summary: the organization obtains and internally communicates the information needed to support the functioning of controls, and communicates with external parties (customers, regulators, subprocessors) as needed for the system’s commitments. Relevant to how SOC 2 system descriptions and trust-services commitments are explained to user entities.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC3 — Risk Assessment",
+      "text": "CC3 — Risk Assessment Public TSC name: Risk Assessment. Educational summary: the organization identifies and assesses risks to achieving its objectives for the in-scope TSC categories (security, and availability, processing integrity, confidentiality, or privacy if included), including fraud and change. This is COSO-aligned risk assessment language used in TSC, not ISO 31000 and not an EU AI Act risk system.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC4 — Monitoring Activities",
+      "text": "CC4 — Monitoring Activities Public TSC name: Monitoring Activities. Educational summary: the organization selects, performs, and evaluates ongoing and separate evaluations to ascertain whether TSC-relevant controls are present and functioning, and communicates deficiencies. SOC 2 Type 2 evidence often draws on this monitoring.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC5 — Control Activities",
+      "text": "CC5 — Control Activities Public TSC name: Control Activities. Educational summary: the organization deploys control activities through policies and procedures that help ensure management directives to mitigate risks are carried out. Later CC6–CC9 specialize this into access, operations, change, and mitigation. Educational name-level overlay only.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC6 — Logical and Physical Access Controls",
+      "text": "CC6 — Logical and Physical Access Controls Public TSC name: Logical and Physical Access Controls. Educational summary: access to the system, its data, and supporting infrastructure is authorized, provisioned, reviewed, and revoked; physical access to facilities is likewise restricted. This is the TSC Security criterion customers most often associate with “SOC 2 access control.” It is not ISO/IEC 27001 Annex A and not GDPR Article 32, though themes overlap.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC7 — System Operations",
+      "text": "CC7 — System Operations Public TSC name: System Operations. Educational summary: the organization manages system capacity, detects and responds to threats and anomalies, and restores the system after incidents so that Security (and other in-scope) commitments continue to be met. Incident response evidence commonly lands here in SOC 2 examinations.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC8 — Change Management",
+      "text": "CC8 — Change Management Public TSC name: Change Management. Educational summary: infrastructure, data, software, and procedures are changed in a controlled manner — authorized, tested, documented, and reviewed — so that TSC commitments are not broken by unmanaged change. Distinct from ISO/IEC 23894 AI re-assessment, though both care about change.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapter": 1,
+      "chapterTitle": "Security — Common Criteria (CC1–CC9)",
+      "title": "CC9 — Risk Mitigation",
+      "text": "CC9 — Risk Mitigation Public TSC name: Risk Mitigation. Educational summary: the organization identifies, selects, and develops risk-mitigation activities including vendor and business-partner (subservice organization) risk. SOC 2 reports often describe complementary user-entity controls and subservice organizations here or in the system description.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapter": 2,
+      "chapterTitle": "Availability (A1)",
+      "title": "A1 — Availability",
+      "text": "A1 — Availability Public TSC category Availability (criterion A1). Educational summary: when Availability is in the SOC 2 scope, the organization maintains, monitors, and evaluates controls so that the system is available for operation and use as committed. Typical themes: capacity, backup, disaster recovery, and availability commitments in customer contracts. Optional category — only in the report if selected.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapter": 3,
+      "chapterTitle": "Confidentiality (C1)",
+      "title": "C1 — Confidentiality",
+      "text": "C1 — Confidentiality Public TSC category Confidentiality (criterion C1). Educational summary: when Confidentiality is in scope, confidential information is identified and protected as committed (for example encryption, need-to-know, disposal). Confidentiality in TSC is about information designated confidential, which may or may not be personal data. Privacy is a separate TSC category.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-12",
+      "number": 12,
+      "chapter": 4,
+      "chapterTitle": "Processing Integrity (PI1)",
+      "title": "PI1 — Processing Integrity",
+      "text": "PI1 — Processing Integrity Public TSC category Processing Integrity (criterion PI1). Educational summary: when Processing Integrity is in scope, system processing is complete, valid, accurate, timely, and authorized as committed. Relevant to payment, payroll, or other processing services. Not the EU Data Act processing-service switching rules.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-13",
+      "number": 13,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P1 — Privacy criteria related to notice",
+      "text": "P1 — Privacy criteria related to notice Public TSC Privacy criterion name (notice and communication of objectives related to privacy). Educational summary: when Privacy is in the SOC 2 scope, the organization provides notice about its privacy practices and objectives. This is TSC Privacy, not GDPR Articles 13–14, though both concern transparency. Use ISO/IEC 27701 or the GDPR instrument for those regimes.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-14",
+      "number": 14,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P2 — Choice and consent",
+      "text": "P2 — Choice and consent Public TSC Privacy criterion name: Choice and Consent. Educational summary: the organization describes choices available to data subjects (TSC uses “data subjects” in Privacy criteria) and obtains consent where its privacy commitments require it. Not a GDPR lawful-basis catalogue (consent is only one GDPR basis).",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-15",
+      "number": 15,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P3 — Collection",
+      "text": "P3 — Collection Public TSC Privacy criterion name: Collection. Educational summary: personal information is collected consistent with the organization’s privacy notice and commitments, limited to what those commitments allow. Educational name-level overlay; Points of Focus remain AICPA copyrighted.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-16",
+      "number": 16,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P4 — Use, retention, and disposal",
+      "text": "P4 — Use, retention, and disposal Public TSC Privacy criterion name: Use, Retention, and Disposal. Educational summary: personal information is used, retained, and disposed of in accordance with privacy commitments — including limiting secondary use and disposing of information when no longer needed. Analogous in theme to purpose limitation and storage limitation, but TSC is not GDPR.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-17",
+      "number": 17,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P5 — Access",
+      "text": "P5 — Access Public TSC Privacy criterion name: Access. Educational summary: the organization provides data subjects with access to their personal information for review and update consistent with privacy commitments. Not the full GDPR Chapter III rights set (erasure, portability, objection, etc.), unless those appear in the organization’s own notice.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-18",
+      "number": 18,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P6 — Disclosure and notification",
+      "text": "P6 — Disclosure and notification Public TSC Privacy criterion name: Disclosure and Notification. Educational summary: disclosure of personal information to third parties, and notification of incidents, follow the organization’s privacy commitments and applicable notice. Distinct from GDPR Articles 33–34 breach notification, though a company subject to both must satisfy the law as well as TSC commitments.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-19",
+      "number": 19,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P7 — Quality",
+      "text": "P7 — Quality Public TSC Privacy criterion name: Quality. Educational summary: the organization collects and maintains personal information that is accurate, complete, and current as needed for the purposes identified in its privacy notice. Theme overlap with data-quality principles in privacy law; TSC remains attestation criteria.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "type": "article",
+      "id": "article-20",
+      "number": 20,
+      "chapter": 5,
+      "chapterTitle": "Privacy (P1–P8)",
+      "title": "P8 — Monitoring and enforcement",
+      "text": "P8 — Monitoring and enforcement Public TSC Privacy criterion name: Monitoring and Enforcement. Educational summary: the organization monitors compliance with its privacy commitments and has procedures to address inquiries, complaints, and disputes. Closes the TSC Privacy set. For a certifiable privacy MSS, see ISO/IEC 27701 in this app; for EU law, see GDPR.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    }
+  ]
+}

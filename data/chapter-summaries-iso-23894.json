@@ -1,0 +1,13 @@
+{
+  "regulationId": "iso-23894",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T15:20:28.491Z",
+  "summaries": {
+    "1": "ISO/IEC 23894:2023 guidance on AI risk management for developers, providers, and users; overlay on ISO 31000.",
+    "2": "Context, leadership/governance, stakeholder engagement, and human oversight (educational).",
+    "3": "ISO 31000 risk process applied to AI: identify, analyse/evaluate, treat.",
+    "4": "Monitoring, records, and re-assessment across the AI life cycle.",
+    "5": "Related certifiable ISO/IEC 42001 AIMS; not the EU AI Act."
+  }
+}

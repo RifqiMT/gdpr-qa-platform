@@ -1,0 +1,12 @@
+{
+  "regulationId": "iso-27701",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T15:20:28.491Z",
+  "summaries": {
+    "1": "Public scope: PIMS requirements and guidance for PII controllers and processors; all organization types and sizes (ISO.org catalogue).",
+    "2": "Harmonized Structure clauses 4–10 (context, leadership, planning, support, operation, performance evaluation, improvement) applied to a PIMS.",
+    "3": "Educational split of PII controller vs PII processor responsibilities as described on ISO.org.",
+    "4": "Standalone MSS compatible with ISO/IEC 27001; helps demonstrate — not replace — GDPR and other privacy law."
+  }
+}

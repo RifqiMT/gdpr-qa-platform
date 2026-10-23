@@ -1,7 +1,7 @@
 # API contracts  
 ## Regulation Q&A Platform
 
-**Version:** 2.1 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22**
+**Version:** 2.2 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
 
 Base URL: same origin as the static app (e.g. `http://localhost:3847`).  
 Content type: JSON for all `/api/*` routes unless noted.  
@@ -15,7 +15,7 @@ Content type: JSON for all `/api/*` routes unless noted.
 
 ### Regulation scope
 
-Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (POST). The registry in `lib/regulations.js` defines **nine** valid ids:
+Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (POST). The registry in `lib/regulations.js` defines **thirteen** valid ids:
 
 | `regulation` id | Instrument | Jurisdiction (`jurisdiction`) | Legal force |
 |-----------------|------------|-------------------------------|-------------|
@@ -28,13 +28,17 @@ Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (PO
 | `us-ccpa` | California Consumer Privacy Act of 2018 (Cal. Civ. Code Title 1.81.5), as amended by the CPRA | `us` | Binding state statute (analogue) |
 | `us-admt` | Colorado Automated Decision-Making Technology Act (SB 26-189; C.R.S. 6-1-1701 et seq.) | `us` | Binding state statute (analogue) |
 | `us-open-data` | OPEN Government Data Act (Title II of Pub. L. 115-435) | `us` | Binding federal statute (public-sector open data) |
+| `iso-27701` | ISO/IEC 27701:2025 Privacy information management systems | `intl` | Voluntary standard (educational overlay) |
+| `iso-19941` | ISO/IEC 19941:2017 Cloud interoperability and portability | `intl` | Voluntary standard (educational overlay) |
+| `iso-23894` | ISO/IEC 23894:2023 AI risk-management guidance | `intl` | Voluntary guidance (educational overlay) |
+| `soc2` | AICPA Trust Services Criteria (SOC 2) | `intl` | Attestation criteria (not a law) |
 
 **United States entries are analogues, not federal equivalents.** The US has **no federal GDPR and no federal AI Act**: `us-ccpa` (California) and `us-admt` (Colorado) are state-level analogues to the GDPR and the EU AI Act respectively. `us-open-data` is the **OPEN Government Data Act (Pub. L. 115-435, Title II)**, a public-sector open-data law; it is **not** the **2014 DATA Act** (federal spending transparency) and **not** a private-sector IoT / cloud-switching analogue to the EU Data Act.
 
 - **Unknown or missing values** are coerced to **`gdpr`** by `normalizeRegulationId` (no `400`).
 - **Excluded from regulation scoping:** `/api/regulations`, `/api/news*`, `/api/industry-sectors`, `/api/validate-api-keys` (the SPA does not append `regulation=` to these).
 - **Client behaviour:** `appendRegulationParam()` adds `?regulation=` to every `/api/*` request except the excluded set; `mergeRegulationBody()` additionally sets `body.regulation` for **`POST /api/refresh`** and **`POST /api/answer`** only.
-- **Region picker is client-only:** the header **Region** control has four options — **All / EU / Indonesia / USA** — and filters which instruments the UI lists. The choice is stored in `localStorage` under **`gdpr-qa-region-v1`** with values **`all`** | **`eu`** | **`id`** | **`us`** and is **never** sent to the API. The API contract exposes `jurisdiction` / `jurisdictionLabel` per instrument so any client can implement the same grouping (`all` = no filter; `eu`/`id`/`us` map 1:1 to `jurisdiction`).
+- **Region picker is client-only:** the header **Region** control has four options — **All / EU / Indonesia / USA / INTL** — and filters which instruments the UI lists. The choice is stored in `localStorage` under **`gdpr-qa-region-v1`** with values **`all`** | **`eu`** | **`id`** | **`us`** | **`intl`** and is **never** sent to the API. The API contract exposes `jurisdiction` / `jurisdictionLabel` per instrument so any client can implement the same grouping (`all` = no filter; `eu`/`id`/`us`/`intl` map 1:1 to `jurisdiction`). Choosing **INTL** selects the default regulation **`iso-27701`**.
 
 ### General
 
@@ -43,7 +47,7 @@ Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (PO
 - **CORS:** Enabled for Express (`cors()` middleware).
 - **BYOK:** Client-supplied API keys travel in JSON request bodies as **`apiKeys`** (see below). The server **does not** persist BYOK keys to disk or log secret values.
 - **Language of content:** EU and US corpora are English; Indonesian corpora keep **Bahasa Indonesia legal text** with English structural titles (e.g. `Pasal` articles titled in English). Responses are not translated by the API.
-- **Provision nouns by jurisdiction:** EU → *Article* / *Recital*; Indonesia (`id-pdp`, `id-satu-data`) → *Pasal* / *Considering*; `id-ai-ethics` → *Section* / *Ethical value*; **United States → *Section* (e.g. `CCPA § 1798.100`, `ADMT § 6-1-1703`, `OPEN Data § 201`) / *Purpose note***. The API field names (`articles`, `recitals`, `type: "article" | "recital"`) are unchanged across jurisdictions.
+- **Provision nouns by jurisdiction:** EU → *Article* / *Recital*; Indonesia (`id-pdp`, `id-satu-data`) → *Pasal* / *Considering*; `id-ai-ethics` → *Section* / *Ethical value*; **United States → *Section* (e.g. `CCPA § 1798.100`, `ADMT § 6-1-1703`, `OPEN Data § 201`) / *Purpose note***; **International → *Clause* (`ISO 27701 clause N`, `ISO 19941 clause N`, `ISO 23894 clause N`) or *Criterion* (`SOC 2 criterion N`) / *Purpose note***. The API field names (`articles`, `recitals`, `type: "article" | "recital"`) are unchanged across jurisdictions.
 
 ---
 
@@ -52,7 +56,7 @@ Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (PO
 | Method | Path | Regulation-scoped | Purpose |
 |--------|------|:-----------------:|---------|
 | GET | `/health` | — | Liveness |
-| GET | `/api/regulations` | — | Nine-instrument catalog |
+| GET | `/api/regulations` | — | Thirteen-instrument catalog |
 | POST | `/api/validate-api-keys` | — | BYOK validation |
 | GET | `/api/meta` | ✓ | Freshness, ETL, credible sources, key status |
 | GET | `/api/chapters` | ✓ | Chapter list |
@@ -70,7 +74,7 @@ Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (PO
 | GET / POST | `/api/news/article-attachments` | — | Attachment discovery |
 | POST | `/api/news/attachments-summary` | — | Batch attachment counts |
 | POST | `/api/refresh` | ✓ | Corpus ETL (one instrument) |
-| GET | `/api/cron/daily-regulation-refresh` | — | Vercel cron (secured; all nine instruments) |
+| GET | `/api/cron/daily-regulation-refresh` | — | Vercel cron (secured; all thirteen instruments) |
 | GET | `/*` | — | SPA fallback |
 
 ---
@@ -87,13 +91,13 @@ Corpus routes accept **`?regulation=<id>`** (query) or **`body.regulation`** (PO
 
 ### `GET /api/regulations`
 
-**Response:** `{ regulations: [ … ] }` — always **nine** entries in **display order** (`REGULATION_DISPLAY_ORDER`): `gdpr`, `data-act`, `ai-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-open-data`, `us-admt` (EU, then Indonesia, then United States).
+**Response:** `{ regulations: [ … ] }` — always **thirteen** entries in **display order** (`REGULATION_DISPLAY_ORDER`): `gdpr`, `data-act`, `ai-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-open-data`, `us-admt`, `iso-27701`, `iso-19941`, `iso-23894`, `soc2` (EU, Indonesia, United States, International).
 
 Each entry (projected by `listRegulations()`):
 
 | Field | Type | Meaning |
 |-------|------|---------|
-| `id` | string | One of the nine ids |
+| `id` | string | One of the thirteen ids |
 | `shortName` | string | e.g. `GDPR`, `ID PDP Law`, `US CCPA`, `US CO ADMT`, `US OPEN Data` |
 | `legalLabel` | string | e.g. `GDPR`, `UU PDP`, `SE AI Ethics`, `CCPA/CPRA`, `CO ADMT`, `OPEN Data Act` |
 | `fullName` | string | Official title |
@@ -105,8 +109,8 @@ Each entry (projected by `listRegulations()`):
 | `eurLexUrl`, `eurLexLabel` | string | Official publication link (field names retained for EU legacy; Indonesian entries point to peraturan.go.id / JDIH; US entries point to California leginfo, Colorado session laws, or Congress.gov) |
 | `hasArticleTopics` | boolean | GDPR only: **`true`** |
 | `hasSuitableRecitals` | boolean | GDPR only: **`true`** |
-| `jurisdiction` | `"eu"` \| `"id"` \| `"us"` | Drives region picker grouping |
-| `jurisdictionLabel` | string | `European Union`, `Indonesia`, or `United States` |
+| `jurisdiction` | `"eu"` \| `"id"` \| `"us"` \| `"intl"` | Drives region picker grouping |
+| `jurisdictionLabel` | string | `European Union`, `Indonesia`, `United States`, or `International` |
 | `officialSiteName` | string | `EUR-Lex`, `peraturan.go.id`, `JDIH Komdigi`, `California Legislative Information`, `Colorado General Assembly`, or `govinfo` |
 
 Per-instrument `segmentMeta` / counts for the United States entries:
@@ -115,6 +119,10 @@ Per-instrument `segmentMeta` / counts for the United States entries:
 |------|:-------------:|:-------------:|:-------------:|------------------------|------------------------|
 | `us-ccpa` | 33 | 5 | 7 | `§§ 1798.100–1798.199.95` | `Purpose notes 1–5` |
 | `us-open-data` | 10 | 4 | 5 | `Title II §§ 201–202` | `Purpose notes 1–4` |
+| `iso-27701` | 14 | 5 | 4 | `Clauses 1–14` | `Purpose notes 1–5` |
+| `iso-19941` | 11 | 4 | 4 | `Clauses 1–11` | `Purpose notes 1–4` |
+| `iso-23894` | 12 | 5 | 5 | `Clauses 1–12` | `Purpose notes 1–5` |
+| `soc2` | 20 | 6 | 5 | `Criteria CC / A / C / PI / P` | `Purpose notes 1–6` |
 | `us-admt` | 14 | 5 | 7 | `C.R.S. 6-1-1701–1709` | `Purpose notes 1–5` |
 
 Example (Indonesian soft-law entry):
@@ -157,7 +165,27 @@ Example (United States entry):
 }
 ```
 
-**Flag source:** `hasArticleTopics` and `hasSuitableRecitals` are defined on each entry in the internal `REGULATIONS` registry (`lib/regulations.js`). The client merges API values with `regulation-profiles.js` / `regulation-profiles-id.js` / `regulation-profiles-us.js` via `getRegProfile()`. **GDPR:** both `true`; **all eight other instruments:** both `false`.
+Example (International entry):
+
+```json
+{
+  "id": "iso-27701",
+  "shortName": "ISO 27701",
+  "legalLabel": "ISO/IEC 27701",
+  "fullName": "ISO/IEC 27701:2025 Privacy information management systems — Requirements and guidance",
+  "maxArticles": 14,
+  "maxRecitals": 5,
+  "maxChapters": 4,
+  "segmentMeta": { "recitals": "Purpose notes 1–5", "articles": "Clauses 1–14" },
+  "hasArticleTopics": false,
+  "hasSuitableRecitals": false,
+  "jurisdiction": "intl",
+  "jurisdictionLabel": "International",
+  "officialSiteName": "ISO"
+}
+```
+
+**Flag source:** `hasArticleTopics` and `hasSuitableRecitals` are defined on each entry in the internal `REGULATIONS` registry (`lib/regulations.js`). The client merges API values with `regulation-profiles.js` / `regulation-profiles-id.js` / `regulation-profiles-us.js` / `regulation-profiles-iso.js` via `getRegProfile()`. **GDPR:** both `true`; **all twelve other instruments:** both `false`.
 
 ---
 
@@ -233,7 +261,7 @@ Regulation-scoped (`?regulation=`). **Response (selected fields):**
 }
 ```
 
-- **`regulations`:** same nine-entry array as `GET /api/regulations` (convenience for first paint).
+- **`regulations`:** same thirteen-entry array as `GET /api/regulations` (convenience for first paint).
 - **`byokSupported`:** Always **`true`** in current builds (BYOK UI + request-body keys).
 - **`askGroqServerConfigured`** / **`askTavilyServerConfigured`:** Server `.env` key presence flags for the Ask status line (legacy aliases `askGroqConfigured` / `askTavilyConfigured` removed).
 
@@ -241,7 +269,7 @@ Regulation-scoped (`?regulation=`). **Response (selected fields):**
 
 1. **`meta.sources`** from the loaded corpus file (`data/<id>-content.json`), written from the structure file on ETL.
 2. Else **`meta.sources`** from **`data/<id>-structure.json`**.
-3. Else, for **`ai-act`**, **`data-act`**, **all three `id-*` instruments**, and **all three `us-*` instruments**, an **empty array**. **Meta never falls back to GDPR-Info / EUR-Lex / EDPB for `us-*`, `id-*`, `ai-act`, or `data-act`** (**no cross-jurisdiction fallback**). United States sources are CPPA / California leginfo / California OAG (CCPA), Colorado General Assembly / session laws / coag.gov/ai (ADMT), and govinfo / data.gov / GSA (OPEN Data).
+3. Else, for **`ai-act`**, **`data-act`**, **all three `id-*` instruments**, **all three `us-*` instruments**, and **all four International instruments (`iso-27701`, `iso-19941`, `iso-23894`, `soc2`)**, an **empty array**. **Meta never falls back to GDPR-Info / EUR-Lex / EDPB for `us-*`, `id-*`, `iso-*`, `soc2`, `ai-act`, or `data-act`** (**no cross-jurisdiction fallback**). United States sources are CPPA / California leginfo / California OAG (CCPA), Colorado General Assembly / session laws / coag.gov/ai (ADMT), and govinfo / data.gov / GSA (OPEN Data). International sources are ISO.org catalogue pages and ISO/IEC JTC 1 committees (`iso-27701`), ISO.org plus related ISO/IEC 17788/17789 vocabulary (`iso-19941`), ISO.org plus ISO/IEC 42001 as a **related note only** and JTC 1/SC 42 (`iso-23894`), and AICPA & CIMA (`soc2`).
 4. Only **`gdpr`** may use the minimal emergency three-entry list.
 
 Indonesian sources are official portals: JDIH Komdigi, peraturan.go.id, JDIH Kemenko Infra (PDF salinan), JDIH Kemenkeu, Setkab, `data.go.id` (instrument-dependent).
@@ -262,7 +290,7 @@ Chapters for the active instrument, with `sourceUrl` / `gdprInfoChapterUrl` norm
 ```
 
 - **`inline-fallback`** applies **only** to `gdpr`. For every other instrument a missing file returns `summaries: {}` and **`source: "missing"`** (GDPR blurbs are never injected into other corpora).
-- Files: `chapter-summaries.json` (GDPR), `chapter-summaries-ai-act.json`, `chapter-summaries-data-act.json`, `chapter-summaries-id-pdp.json`, `chapter-summaries-id-satu-data.json`, `chapter-summaries-id-ai-ethics.json`, `chapter-summaries-us-ccpa.json`, `chapter-summaries-us-admt.json`, `chapter-summaries-us-open-data.json`.
+- Files: `chapter-summaries.json` (GDPR), `chapter-summaries-ai-act.json`, `chapter-summaries-data-act.json`, `chapter-summaries-id-pdp.json`, `chapter-summaries-id-satu-data.json`, `chapter-summaries-id-ai-ethics.json`, `chapter-summaries-us-ccpa.json`, `chapter-summaries-us-admt.json`, `chapter-summaries-us-open-data.json`, `chapter-summaries-iso-27701.json`, `chapter-summaries-iso-19941.json`, `chapter-summaries-iso-23894.json`, `chapter-summaries-soc2.json`.
 
 ### `POST /api/chapter-summaries/regenerate`
 
@@ -273,12 +301,12 @@ Chapters for the active instrument, with `sourceUrl` / `gdprInfoChapterUrl` norm
 ### `GET /api/articles` / `GET /api/articles/:number`
 
 - List returns the article array (for Indonesian laws these are **Pasal**; for `id-ai-ethics`, the seven **sections / bagian**; for United States instruments, **Sections** — `§` provisions such as `CCPA § 1798.100`).
-- Single article: article fields plus `chapter` (object), `contentAsOf`, **`suitableRecitals`** (merged editorial + text citations + fallbacks; **GDPR only**, `[]` for the other eight).
+- Single article: article fields plus `chapter` (object), `contentAsOf`, **`suitableRecitals`** (merged editorial + text citations + fallbacks; **GDPR only**, `[]` for the other twelve).
 - **404** `{ "error": "Article not found" }`.
 
 ### `GET /api/recitals` / `GET /api/recitals/:number`
 
-- List returns recitals. For Indonesian laws these are the **menimbang** (considering) clauses *a–d*; for `id-ai-ethics` they are the **nine ethical values** (*nilai etika*); for United States instruments they are editorial **Purpose notes** (e.g. `Purpose note (1)`).
+- List returns recitals. For Indonesian laws these are the **menimbang** (considering) clauses *a–d*; for `id-ai-ethics` they are the **nine ethical values** (*nilai etika*); for United States and International instruments they are editorial **Purpose notes** (e.g. `Purpose note (1)`).
 - Single recital includes `sourceUrl`, `eurLexUrl`, `contentAsOf`, **`suitableArticles`** (GDPR only populated).
 - **404** `{ "error": "Recital not found" }`.
 
@@ -297,7 +325,7 @@ When **`public/industry-sector-tree.json`** is present and valid, returns:
 }
 ```
 
-Otherwise returns a **plain array** of sector objects (same shape as `sectors[]` above) for backward compatibility. Static **`GET /industry-sector-tree.json`** is also available for the Ask UI when the API returns only the array. Sector framing applies to all nine instruments.
+Otherwise returns a **plain array** of sector objects (same shape as `sectors[]` above) for backward compatibility. Static **`GET /industry-sector-tree.json`** is also available for the Ask UI when the API returns only the array. Sector framing applies to all thirteen instruments.
 
 ---
 
@@ -322,9 +350,10 @@ Otherwise returns a **plain array** of sector objects (same shape as `sectors[]`
 }
 ```
 
-- **`regulation`:** one of the nine ids (default `gdpr`). Selects the corpus for BM25, the prompt label (`legalLabel`), and web-search context (`regulationSearchContext`: DuckDuckGo suffix + Tavily prefix per instrument, e.g. *Indonesia UU 27/2022 Pelindungan Data Pribadi PDP Law:* for `id-pdp`; *Colorado SB 26-189 Automated Decision-Making Technology ADMT C.R.S. 6-1-1701:* for `us-admt`; *OPEN Government Data Act Public Law 115-435 Title II 44 USC 3511:* for `us-open-data`).
+- **`regulation`:** one of the thirteen ids (default `gdpr`). Selects the corpus for BM25, the prompt label (`legalLabel`), and web-search context (`regulationSearchContext`: DuckDuckGo suffix + Tavily prefix per instrument, e.g. *Indonesia UU 27/2022 Pelindungan Data Pribadi PDP Law:* for `id-pdp`; *Colorado SB 26-189 Automated Decision-Making Technology ADMT C.R.S. 6-1-1701:* for `us-admt`; *OPEN Government Data Act Public Law 115-435 Title II 44 USC 3511:* for `us-open-data`).
 - **`id-ai-ethics` soft-law rule:** the Groq system prompt adds a **LEGAL FORCE** rule — answers must describe obligations as stemming from a *Surat Edaran* (guidance), **not** a binding statute, unless a cited source states otherwise.
 - **United States jurisdiction rules:** the prompt and search context carry a jurisdiction note so the model treats `us-*` corpora as **analogues** — the US has no federal GDPR or AI Act (`us-ccpa` is California; `us-admt` is Colorado, duties generally from 1 January 2027). For `us-open-data` the prompt adds a **JURISDICTION** rule: do not confuse with the **2014 DATA Act** (federal spending transparency); this corpus is Title II of Pub. L. 115-435 (44 U.S.C. §§ 3502, 3504, 3506, 3511), a public-sector open-data law, not a private-sector IoT / cloud-switching analogue to the EU Data Act.
+- **International legal-force rules:** `iso-27701`, `iso-19941`, `iso-23894`, and `soc2` carry a **LEGAL FORCE** note in the system prompt: they are **voluntary standards / attestation criteria, not laws**, and not substitutes for the GDPR, Data Act, or AI Act. The model must not invent paid ISO clause text or AICPA Points of Focus (corpora are copyright-safe educational overlays). `iso-27701` — the 2019 edition is withdrawn; `iso-19941` — a forthcoming ISO/IEC 19941-1 replacement is noted; `iso-23894` — ISO/IEC 42001 is a *related* certifiable AIMS and must not be described as 23894; `soc2` — Type 1 (design at a point in time) vs Type 2 (operating effectiveness over a period). Duplicate requests for ISO 23894 resolve to the **same single instrument**.
 - **`includeWeb`:** default `true`; the server may skip web search for general layperson "explain" queries.
 
 **Response:**
@@ -385,6 +414,7 @@ Runs the full crawl (EU publishers, `crawlIndonesiaOfficialNews`, and `crawlUnit
 - Indonesian items outside trusted tag hubs must pass the **Indonesian policy gate** (`indonesiaPolicyNewsRe` / `indonesiaNewsItemIsOnScope`) — UU PDP, *pelindungan data pribadi*, Satu Data, Perpres 39/2019, *etika kecerdasan artifisial*, SE 9/2023, etc.
 - **`ok: false`** still returns **HTTP 200** with `error` string and best-effort stored `items` plus **`topicTaxonomy`** on crawl failure/timeout (`NEWS_REFRESH_TIMEOUT_MS`).
 - Komdigi HTML may be WAF-blocked; this degrades gracefully (other Indonesian sources still populate).
+- International items (ISO news, ISO Insights, AICPA SOC for Service Organizations) are seeded by `internationalCatalogueNewsSeed()` / `scripts/seed-iso-soc-news.js` and gated by **`internationalPolicyNewsRe`** / **`internationalNewsItemIsOnScope`**; live crawl is best-effort.
 
 ### `GET` / `POST /api/news/article-attachments`
 
@@ -418,6 +448,7 @@ Regulation-scoped. Body `{ "regulation": "<id>" }` (or `?regulation=`). Dispatch
 | `data-act` | `data-act-scraper.js` |
 | `id-pdp`, `id-satu-data`, `id-ai-ethics` | `id-law-scraper.js` → `run(id)` |
 | `us-ccpa`, `us-admt`, `us-open-data` | `us-law-scraper.js` → `run(id)` |
+| `iso-27701`, `iso-19941`, `iso-23894`, `soc2` | `iso-soc-scraper.js` → `run(id)` |
 
 Each path: merge → **`normalizeCorpus`** (**`document-formatting-guardrails.js`**) → **`buildSearchIndex`** → write `<id>-content.json`; then the content cache is invalidated and **`loadContent()`** reloads so the running process serves the new file.
 
@@ -455,7 +486,7 @@ Each path: merge → **`normalizeCorpus`** (**`document-formatting-guardrails.js
 
 ### Cron (Vercel; not for browsers)
 
-`GET /api/cron/daily-regulation-refresh` — `Authorization: Bearer $CRON_SECRET`. Refreshes **all nine** instruments sequentially (`gdpr`, `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-admt`, `us-open-data`) and returns:
+`GET /api/cron/daily-regulation-refresh` — `Authorization: Bearer $CRON_SECRET`. Refreshes **all thirteen** instruments sequentially (`gdpr`, `ai-act`, `data-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-admt`, `us-open-data`, `iso-27701`, `iso-19941`, `iso-23894`, `soc2`) and returns:
 
 ```json
 {
@@ -469,7 +500,11 @@ Each path: merge → **`normalizeCorpus`** (**`document-formatting-guardrails.js
   "idAiEthics": { "lastRefreshed": "…", "lastChecked": "…" },
   "usCcpa": { "lastRefreshed": "…", "lastChecked": "…" },
   "usAdmt": { "lastRefreshed": "…", "lastChecked": "…" },
-  "usOpenData": { "lastRefreshed": "…", "lastChecked": "…" }
+  "usOpenData": { "lastRefreshed": "…", "lastChecked": "…" },
+  "iso27701": { "lastRefreshed": "…", "lastChecked": "…" },
+  "iso19941": { "lastRefreshed": "…", "lastChecked": "…" },
+  "iso23894": { "lastRefreshed": "…", "lastChecked": "…" },
+  "soc2": { "lastRefreshed": "…", "lastChecked": "…" }
 }
 ```
 
@@ -501,12 +536,12 @@ See [CHANGELOG.md](../CHANGELOG.md) § 1.2.6.
 
 ## Versioning
 
-- No URL version prefix (`/v1`); breaking changes should bump **package.json** version and this document together. Current package version: **1.2.9** (documentation standard **v2.9**, audit **2026-10-22**).
+- No URL version prefix (`/v1`); breaking changes should bump **package.json** version and this document together. Current package version: **1.3.0** (documentation standard **v3.1**, audit **2026-10-22**).
 
 ---
 
 ## See also
 
 - [VARIABLES.md](VARIABLES.md) — environment variables affecting behavior  
-- [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md) — JSON fragments for all nine corpora  
+- [DATA_SCHEMA_EXAMPLES.md](DATA_SCHEMA_EXAMPLES.md) — JSON fragments for all thirteen corpora  
 - [README.md §9](../README.md#9-api-reference-summary)

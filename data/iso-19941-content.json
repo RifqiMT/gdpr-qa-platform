@@ -1,0 +1,389 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-10-22T15:20:28.491Z",
+    "sources": [
+      {
+        "name": "ISO — ISO/IEC 19941:2017 catalogue",
+        "url": "https://www.iso.org/standard/66639.html",
+        "description": "Official ISO.org catalogue for ISO/IEC 19941:2017 Information technology — Cloud computing — Interoperability and portability. Confirmed 2023; ISO.org states it will be replaced by ISO/IEC 19941-1 (planned publication around November 2026).",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 19941:2017)",
+            "url": "https://www.iso.org/standard/66639.html"
+          },
+          {
+            "label": "ISO/IEC 19941-1 (forthcoming replacement)",
+            "url": "https://www.iso.org/standard/86724.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO — ISO/IEC 17788 and 17789 (related cloud vocabulary and architecture)",
+        "url": "https://www.iso.org/standard/60544.html",
+        "description": "Related cloud computing vocabulary (ISO/IEC 17788) and reference architecture (ISO/IEC 17789) that ISO/IEC 19941 uses for common terminology among cloud service customer, provider, and partner.",
+        "documents": [
+          {
+            "label": "ISO/IEC 17788 catalogue",
+            "url": "https://www.iso.org/standard/60544.html"
+          },
+          {
+            "label": "ISO/IEC 17789 catalogue",
+            "url": "https://www.iso.org/standard/60545.html"
+          }
+        ]
+      }
+    ],
+    "regulationId": "iso-19941",
+    "lastChecked": "2026-10-22T15:20:28.491Z",
+    "datasetHash": "63ad0f5213a8374de288710346b507eaf2277013020f7b60d98bbd9bcab981f5",
+    "etl": {
+      "extractedFrom": "iso-org-catalogue-19941-2017",
+      "fetched": false,
+      "significant": true,
+      "datasetHash": "63ad0f5213a8374de288710346b507eaf2277013020f7b60d98bbd9bcab981f5",
+      "articleCount": 11,
+      "recitalCount": 4,
+      "copyrightNote": "Educational overlay from public catalogue abstracts and publicly listed clause/criterion titles. Not the paid ISO or AICPA standard text."
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Voluntary status, 19941-1 replacement, Data Act analogue honesty, copyright.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "id": "chapters",
+      "title": "Interoperability and portability map",
+      "description": "Educational map from the ISO.org abstract: types, terminology, CSC/CSP/CSN, lock-in, life cycle.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Scope, related standards, and roles",
+      "articleRange": "1–3",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Interoperability and portability types",
+      "articleRange": "4–6",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Data and application movement; lock-in",
+      "articleRange": "7–9",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Life cycle and Data Act analogue note",
+      "articleRange": "10–11",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Voluntary cloud interoperability standard, not a law",
+      "text": "ISO/IEC 19941:2017 is a voluntary International Standard on cloud computing interoperability and portability. It is not the EU Data Act (Regulation (EU) 2023/2854), not a switching-fee ban, and not a statutory right to product data. Organizations and cloud providers may use it to agree common language for interoperability and portability. Buy the full text from ISO for the normative types and diagrams.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 2,
+      "title": "Confirmed 2023; replacement ISO/IEC 19941-1 expected",
+      "text": "ISO.org lists ISO/IEC 19941:2017 as confirmed in 2023 and states the document will be replaced by ISO/IEC 19941-1 (Information technology — Cloud computing — Interoperability and portability — Part 1: Overview), with a catalogue target around November 2026. Until that replacement is published, 19941:2017 remains the current International Standard in this workspace. Check ISO.org for the live stage code.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 3,
+      "title": "Closest international analogue to the EU Data Act for cloud switching — not a copy",
+      "text": "This workspace maps ISO/IEC 19941 to the EU Data Act because both address cloud interoperability, portability, and reducing lock-in. The Data Act creates binding switching and interoperability duties for data-processing services in the Union. ISO/IEC 19941 creates a shared technical vocabulary of interoperability and portability types for cloud service customers (CSC), cloud service providers (CSP), and cloud service partners (CSN). Use the Data Act instrument for Regulation (EU) 2023/2854.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 4,
+      "title": "Copyright: educational overlay only",
+      "text": "ISO owns the copyright in ISO/IEC 19941. This corpus uses the public catalogue abstract (interoperability and portability types; common terminology; CSC/CSP/CSN) plus original educational notes. It does not reproduce figures, type taxonomies, or paid clause text.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "Clause 1 — Scope (catalogue abstract)",
+      "text": "Public ISO.org abstract: ISO/IEC 19941 specifies cloud computing interoperability and portability types, and the relationship of these types. It also provides a common terminology for describing interoperability and portability between cloud services. The document is intended to be used by cloud service customers, cloud service providers, and cloud service partners. This educational overlay does not reproduce the full type catalogue from the paid standard.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 1
+    },
+    {
+      "number": 2,
+      "title": "Relationship to ISO/IEC 17788 and 17789",
+      "text": "ISO/IEC 19941 builds on the cloud computing vocabulary in ISO/IEC 17788 and the reference architecture in ISO/IEC 17789. Those related standards define roles such as cloud service customer (CSC), cloud service provider (CSP), and cloud service partner (CSN), and the service capabilities they exchange. Use 19941 for interoperability/portability types; use 17788/17789 for vocabulary and architecture. Catalogue links are on ISO.org.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 1
+    },
+    {
+      "number": 3,
+      "title": "Roles — CSC, CSP, and CSN",
+      "text": "Educational map of publicly described cloud roles: the cloud service customer (CSC) consumes cloud services; the cloud service provider (CSP) makes those services available; a cloud service partner (CSN) supports the customer or provider (for example a broker, auditor, or integrator). Interoperability and portability discussions in ISO/IEC 19941 are about how these parties exchange data, applications, and service interfaces without being trapped in a single provider’s stack.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 1
+    },
+    {
+      "number": 4,
+      "title": "Interoperability types (educational)",
+      "text": "The public abstract states that the standard specifies types of cloud computing interoperability and the relationship of these types. In this educational overlay, interoperability means the ability of distinct cloud systems or services to exchange information and to use the information that has been exchanged — for example API-level, application-level, or management-plane interoperability. Exact type names and diagrams are in the paid document.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 2
+    },
+    {
+      "number": 5,
+      "title": "Portability types (educational)",
+      "text": "The public abstract likewise specifies types of cloud computing portability. In this educational overlay, portability is the ability to move data or applications from one cloud service to another (or between on-premises and cloud) with an agreed level of functional equivalence. Typical public discussion distinguishes data portability from application (workload) portability. This is a technical classification, not an EU Data Act switching right.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 2
+    },
+    {
+      "number": 6,
+      "title": "Common terminology",
+      "text": "ISO.org highlights a common terminology so customers, providers, and partners can describe interoperability and portability consistently. Shared terms reduce failed migrations caused by each vendor meaning something different by “open”, “portable”, or “compatible”. The vocabulary sits alongside ISO/IEC 17788. Educational overlay only.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 2
+    },
+    {
+      "number": 7,
+      "title": "Avoiding cloud lock-in (educational purpose)",
+      "text": "A practical purpose of discussing interoperability and portability types is to make switching and multi-cloud architectures easier to specify in contracts and architectures. ISO/IEC 19941 does not prohibit exit fees or mandate switching assistance. The EU Data Act does create switching obligations for in-scope data-processing services. Keep that legal/technical split explicit when answering questions.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 3
+    },
+    {
+      "number": 8,
+      "title": "Data portability (educational)",
+      "text": "Data portability, in this educational map, concerns moving customer data (and associated metadata) out of one cloud service in a usable form. Buyers typically ask whether export formats are documented, complete, and importable by another CSP. ISO/IEC 19941 classifies portability types; it does not grant a statutory export right. For EU statutory switching and data export from data-processing services, see the Data Act instrument.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 3
+    },
+    {
+      "number": 9,
+      "title": "Application portability (educational)",
+      "text": "Application or workload portability concerns moving the software that processes data — containers, functions, or full stacks — between environments. Interoperability of management APIs often determines whether that move is practical. This overlay does not copy ISO type trees. Organizations still need contractual and engineering work on top of the standard’s vocabulary.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 3
+    },
+    {
+      "number": 10,
+      "title": "Forthcoming ISO/IEC 19941-1",
+      "text": "ISO.org states ISO/IEC 19941:2017 will be replaced by ISO/IEC 19941-1 (Part 1: Overview), with a catalogue indication around November 2026. When Part 1 is published, this workspace should be updated. Until then, answers should cite 19941:2017 as the current International Standard and note the planned replacement. Do not invent Part 1 clause numbers.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 4
+    },
+    {
+      "number": 11,
+      "title": "Not the EU Data Act",
+      "text": "ISO/IEC 19941 is an international technical standard on cloud interoperability and portability types. The EU Data Act is a binding regulation on fair access to and use of data, including switching between data-processing services and interoperability. Mapping them in this product is analogical (cloud portability / switching). They are not the same instrument, and ISO certification is not Data Act compliance.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/66639.html",
+      "chapter": 4
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Voluntary cloud interoperability standard, not a law",
+      "text": "ISO/IEC 19941:2017 is a voluntary International Standard on cloud computing interoperability and portability. It is not the EU Data Act (Regulation (EU) 2023/2854), not a switching-fee ban, and not a statutory right to product data. Organizations and cloud providers may use it to agree common language for interoperability and portability. Buy the full text from ISO for the normative types and diagrams.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — Confirmed 2023; replacement ISO/IEC 19941-1 expected",
+      "text": "ISO.org lists ISO/IEC 19941:2017 as confirmed in 2023 and states the document will be replaced by ISO/IEC 19941-1 (Information technology — Cloud computing — Interoperability and portability — Part 1: Overview), with a catalogue target around November 2026. Until that replacement is published, 19941:2017 remains the current International Standard in this workspace. Check ISO.org for the live stage code.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Closest international analogue to the EU Data Act for cloud switching — not a copy",
+      "text": "This workspace maps ISO/IEC 19941 to the EU Data Act because both address cloud interoperability, portability, and reducing lock-in. The Data Act creates binding switching and interoperability duties for data-processing services in the Union. ISO/IEC 19941 creates a shared technical vocabulary of interoperability and portability types for cloud service customers (CSC), cloud service providers (CSP), and cloud service partners (CSN). Use the Data Act instrument for Regulation (EU) 2023/2854.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Copyright: educational overlay only",
+      "text": "ISO owns the copyright in ISO/IEC 19941. This corpus uses the public catalogue abstract (interoperability and portability types; common terminology; CSC/CSP/CSN) plus original educational notes. It does not reproduce figures, type taxonomies, or paid clause text.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapter": 1,
+      "chapterTitle": "Scope, related standards, and roles",
+      "title": "Clause 1 — Scope (catalogue abstract)",
+      "text": "Clause 1 — Scope (catalogue abstract) Public ISO.org abstract: ISO/IEC 19941 specifies cloud computing interoperability and portability types, and the relationship of these types. It also provides a common terminology for describing interoperability and portability between cloud services. The document is intended to be used by cloud service customers, cloud service providers, and cloud service partners. This educational overlay does not reproduce the full type catalogue from the paid standard.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapter": 1,
+      "chapterTitle": "Scope, related standards, and roles",
+      "title": "Relationship to ISO/IEC 17788 and 17789",
+      "text": "Relationship to ISO/IEC 17788 and 17789 ISO/IEC 19941 builds on the cloud computing vocabulary in ISO/IEC 17788 and the reference architecture in ISO/IEC 17789. Those related standards define roles such as cloud service customer (CSC), cloud service provider (CSP), and cloud service partner (CSN), and the service capabilities they exchange. Use 19941 for interoperability/portability types; use 17788/17789 for vocabulary and architecture. Catalogue links are on ISO.org.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapter": 1,
+      "chapterTitle": "Scope, related standards, and roles",
+      "title": "Roles — CSC, CSP, and CSN",
+      "text": "Roles — CSC, CSP, and CSN Educational map of publicly described cloud roles: the cloud service customer (CSC) consumes cloud services; the cloud service provider (CSP) makes those services available; a cloud service partner (CSN) supports the customer or provider (for example a broker, auditor, or integrator). Interoperability and portability discussions in ISO/IEC 19941 are about how these parties exchange data, applications, and service interfaces without being trapped in a single provider’s stack.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapter": 2,
+      "chapterTitle": "Interoperability and portability types",
+      "title": "Interoperability types (educational)",
+      "text": "Interoperability types (educational) The public abstract states that the standard specifies types of cloud computing interoperability and the relationship of these types. In this educational overlay, interoperability means the ability of distinct cloud systems or services to exchange information and to use the information that has been exchanged — for example API-level, application-level, or management-plane interoperability. Exact type names and diagrams are in the paid document.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapter": 2,
+      "chapterTitle": "Interoperability and portability types",
+      "title": "Portability types (educational)",
+      "text": "Portability types (educational) The public abstract likewise specifies types of cloud computing portability. In this educational overlay, portability is the ability to move data or applications from one cloud service to another (or between on-premises and cloud) with an agreed level of functional equivalence. Typical public discussion distinguishes data portability from application (workload) portability. This is a technical classification, not an EU Data Act switching right.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapter": 2,
+      "chapterTitle": "Interoperability and portability types",
+      "title": "Common terminology",
+      "text": "Common terminology ISO.org highlights a common terminology so customers, providers, and partners can describe interoperability and portability consistently. Shared terms reduce failed migrations caused by each vendor meaning something different by “open”, “portable”, or “compatible”. The vocabulary sits alongside ISO/IEC 17788. Educational overlay only.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapter": 3,
+      "chapterTitle": "Data and application movement; lock-in",
+      "title": "Avoiding cloud lock-in (educational purpose)",
+      "text": "Avoiding cloud lock-in (educational purpose) A practical purpose of discussing interoperability and portability types is to make switching and multi-cloud architectures easier to specify in contracts and architectures. ISO/IEC 19941 does not prohibit exit fees or mandate switching assistance. The EU Data Act does create switching obligations for in-scope data-processing services. Keep that legal/technical split explicit when answering questions.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapter": 3,
+      "chapterTitle": "Data and application movement; lock-in",
+      "title": "Data portability (educational)",
+      "text": "Data portability (educational) Data portability, in this educational map, concerns moving customer data (and associated metadata) out of one cloud service in a usable form. Buyers typically ask whether export formats are documented, complete, and importable by another CSP. ISO/IEC 19941 classifies portability types; it does not grant a statutory export right. For EU statutory switching and data export from data-processing services, see the Data Act instrument.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapter": 3,
+      "chapterTitle": "Data and application movement; lock-in",
+      "title": "Application portability (educational)",
+      "text": "Application portability (educational) Application or workload portability concerns moving the software that processes data — containers, functions, or full stacks — between environments. Interoperability of management APIs often determines whether that move is practical. This overlay does not copy ISO type trees. Organizations still need contractual and engineering work on top of the standard’s vocabulary.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapter": 4,
+      "chapterTitle": "Life cycle and Data Act analogue note",
+      "title": "Forthcoming ISO/IEC 19941-1",
+      "text": "Forthcoming ISO/IEC 19941-1 ISO.org states ISO/IEC 19941:2017 will be replaced by ISO/IEC 19941-1 (Part 1: Overview), with a catalogue indication around November 2026. When Part 1 is published, this workspace should be updated. Until then, answers should cite 19941:2017 as the current International Standard and note the planned replacement. Do not invent Part 1 clause numbers.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapter": 4,
+      "chapterTitle": "Life cycle and Data Act analogue note",
+      "title": "Not the EU Data Act",
+      "text": "Not the EU Data Act ISO/IEC 19941 is an international technical standard on cloud interoperability and portability types. The EU Data Act is a binding regulation on fair access to and use of data, including switching between data-processing services and interoperability. Mapping them in this product is analogical (cloud portability / switching). They are not the same instrument, and ISO certification is not Data Act compliance.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    }
+  ]
+}

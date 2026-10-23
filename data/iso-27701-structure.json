@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "ISO — ISO/IEC 27701:2025 catalogue",
+        "url": "https://www.iso.org/standard/27701",
+        "description": "Official ISO.org catalogue for ISO/IEC 27701:2025 (2nd edition, published 14 October 2025): Privacy information management systems — Requirements and guidance. JTC 1/SC 27; 64 pages; ICS 35.030.",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 27701:2025)",
+            "url": "https://www.iso.org/standard/27701"
+          },
+          {
+            "label": "ISO webstore",
+            "url": "https://www.iso.org/standard/27701.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO/IEC JTC 1/SC 27",
+        "url": "https://www.iso.org/committee/45306.html",
+        "description": "ISO/IEC joint technical committee for information security, cybersecurity and privacy protection — the committee that developed ISO/IEC 27701.",
+        "documents": [
+          {
+            "label": "SC 27 committee page",
+            "url": "https://www.iso.org/committee/45306.html"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Voluntary-standard status, 2025 standalone PIMS, GDPR analogue honesty, and copyright limits.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "id": "chapters",
+      "title": "PIMS clause map",
+      "description": "Educational map of ISO/IEC 27701:2025 using public catalogue facts and Harmonized Structure titles.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Scope, references, and terms",
+      "articleRange": "1–3",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Privacy information management system (clauses 4–10)",
+      "articleRange": "4–10",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "PII controller and processor roles",
+      "articleRange": "11–12",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Relationship to ISO/IEC 27001 and privacy law",
+      "articleRange": "13–14",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    }
+  ]
+}

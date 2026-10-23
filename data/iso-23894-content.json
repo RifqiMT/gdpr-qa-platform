@@ -1,0 +1,440 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-10-22T15:20:28.491Z",
+    "sources": [
+      {
+        "name": "ISO — ISO/IEC 23894:2023 catalogue",
+        "url": "https://www.iso.org/standard/77304.html",
+        "description": "Official ISO.org catalogue for ISO/IEC 23894:2023 Information technology — Artificial intelligence — Guidance on risk management. Edition 1, published February 2023; JTC 1/SC 42; 26 pages. Guidance overlay on ISO 31000 — not a certifiable AI management system.",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 23894:2023)",
+            "url": "https://www.iso.org/standard/77304.html"
+          },
+          {
+            "label": "ISO 31000:2018 Risk management — Guidelines",
+            "url": "https://www.iso.org/standard/65694.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO — ISO/IEC 42001 (related AIMS)",
+        "url": "https://www.iso.org/standard/81230.html",
+        "description": "Related certifiable standard: ISO/IEC 42001 Artificial intelligence management system (AIMS). Distinct from ISO/IEC 23894, which is risk-management guidance rather than an MSS for certification.",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 42001)",
+            "url": "https://www.iso.org/standard/81230.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO/IEC JTC 1/SC 42",
+        "url": "https://www.iso.org/committee/6794475.html",
+        "description": "ISO/IEC committee for artificial intelligence — developer of ISO/IEC 23894 and ISO/IEC 42001.",
+        "documents": [
+          {
+            "label": "SC 42 committee page",
+            "url": "https://www.iso.org/committee/6794475.html"
+          }
+        ]
+      }
+    ],
+    "regulationId": "iso-23894",
+    "lastChecked": "2026-10-22T15:20:28.491Z",
+    "datasetHash": "1513a8cb67577c4d47a8857d4bdc913e495e3ccfa79a93234d5b5e2cd48128ec",
+    "etl": {
+      "extractedFrom": "iso-org-catalogue-23894-2023",
+      "fetched": false,
+      "significant": true,
+      "datasetHash": "1513a8cb67577c4d47a8857d4bdc913e495e3ccfa79a93234d5b5e2cd48128ec",
+      "articleCount": 12,
+      "recitalCount": 5,
+      "copyrightNote": "Educational overlay from public catalogue abstracts and publicly listed clause/criterion titles. Not the paid ISO or AICPA standard text."
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Guidance status, ISO 31000 overlay, related ISO/IEC 42001, AI Act analogue honesty, copyright.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "id": "chapters",
+      "title": "AI risk-management map",
+      "description": "Educational overlay of ISO 31000 process titles specialized to AI, plus 42001 relationship.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Scope and ISO 31000 relationship",
+      "articleRange": "1–2",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Context, leadership, and stakeholders",
+      "articleRange": "3–5",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "AI risk process (identify, analyse, treat)",
+      "articleRange": "6–8",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Monitoring, records, and improvement",
+      "articleRange": "9–10",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Related ISO/IEC 42001 and EU AI Act note",
+      "articleRange": "11–12",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Guidance on AI risk management, not a law",
+      "text": "ISO/IEC 23894:2023 is voluntary guidance on risk management for artificial intelligence. It is not the EU Artificial Intelligence Act (Regulation (EU) 2024/1689), not a prohibited-practices list, and not a high-risk conformity-assessment regime. Organizations may use it to structure AI risk processes. Buy the full text from ISO for the guidance clauses.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 2,
+      "title": "ISO 31000 overlay (catalogue and public comparisons)",
+      "text": "ISO.org and public OECD comparisons describe ISO/IEC 23894 as guidance that uses ISO 31000 (Risk management — Guidelines) as the foundation and adds AI-specific considerations. ISO 31000’s well-known public process is: communication and consultation; scope, context and criteria; risk assessment (identify, analyse, evaluate); risk treatment; monitoring and review; recording and reporting. ISO/IEC 23894 applies that process to AI systems across their life cycle.",
+      "sourceUrl": "https://www.iso.org/standard/65694.html",
+      "eurLexUrl": "https://www.iso.org/standard/65694.html"
+    },
+    {
+      "number": 3,
+      "title": "Related ISO/IEC 42001 is the certifiable AIMS",
+      "text": "ISO/IEC 42001 is a related but distinct International Standard: an Artificial Intelligence Management System (AIMS) that can be certified. ISO/IEC 23894 is guidance on AI risk management, not that certifiable MSS. This workspace maps 23894 (not 42001) as the AI Act analogue because the user asked for ISO 23894. Mentions of 42001 here are relationship notes only.",
+      "sourceUrl": "https://www.iso.org/standard/81230.html",
+      "eurLexUrl": "https://www.iso.org/standard/81230.html"
+    },
+    {
+      "number": 4,
+      "title": "Closest international analogue to the EU AI Act — not a copy",
+      "text": "This workspace maps ISO/IEC 23894 to the EU AI Act because both address AI risk, governance, and human oversight themes. The AI Act is binding Union law with prohibited practices, high-risk duties, GPAI rules, and market surveillance. ISO/IEC 23894 is committee guidance (JTC 1/SC 42, 26 pages, February 2023) for organizations developing, providing, or using AI. Use the AI Act instrument for Regulation (EU) 2024/1689.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 5,
+      "title": "Copyright: educational overlay only",
+      "text": "ISO owns the copyright in ISO/IEC 23894. This corpus uses public catalogue facts, the publicly known ISO 31000 process titles, and original educational notes (including OECD-published comparison themes such as governance, stakeholder engagement, human oversight, record-keeping, and re-assessment). It does not reproduce paid guidance paragraphs.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "Clause 1 — Scope (catalogue abstract)",
+      "text": "Public catalogue description: ISO/IEC 23894 provides guidance on how organizations that develop, produce, deploy or use products, systems and services that utilize artificial intelligence (AI) can manage risk specifically related to AI. It is intended to be used in connection with ISO 31000. Educational overlay — the paid document contains the full scope, exclusions, and examples.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 1
+    },
+    {
+      "number": 2,
+      "title": "Relationship to ISO 31000",
+      "text": "ISO 31000:2018 is ISO’s generic risk-management guideline (principles, framework, process). ISO/IEC 23894 is an AI-specific overlay: it does not replace ISO 31000. Public process titles reused here: communication and consultation; establishing scope, context and criteria; risk identification, analysis and evaluation; risk treatment; monitoring and review; recording and reporting. AI adds model behaviour, data quality, and autonomy as risk sources.",
+      "sourceUrl": "https://www.iso.org/standard/65694.html",
+      "eurLexUrl": "https://www.iso.org/standard/65694.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/65694.html",
+      "chapter": 1
+    },
+    {
+      "number": 3,
+      "title": "Organizational context for AI risk",
+      "text": "Before treating AI risk, an organization determines the internal and external context: which AI systems it develops or uses, who is affected, which legal regimes apply (for example the EU AI Act in the Union — a different instrument), and what risk criteria (severity, likelihood, human-rights impact) it will use. Context is an ISO 31000 step, specialized here to AI life cycles (design, training, deployment, monitoring, retirement).",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 2
+    },
+    {
+      "number": 4,
+      "title": "Leadership and AI governance (educational)",
+      "text": "Public comparisons of ISO/IEC 23894 with ISO 31000 note additional emphasis on governance for AI. In this educational map, leadership sets AI risk appetite, assigns accountability for models and data, and integrates AI risk into enterprise risk management. Governance is not an EU AI Act notified-body or CE-marking process.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 2
+    },
+    {
+      "number": 5,
+      "title": "Stakeholder engagement and human oversight (educational)",
+      "text": "Public OECD-style comparisons highlight stakeholder engagement and human oversight as AI-specific additions to generic risk management. Affected people, users, and oversight staff need to be considered when identifying AI risk and when treating it (for example retaining meaningful human review of consequential outputs). This is guidance, not the AI Act’s high-risk human-oversight article.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 2
+    },
+    {
+      "number": 6,
+      "title": "AI risk identification",
+      "text": "Risk identification asks what could go wrong because of an AI system: unsafe outputs, bias, privacy leakage, security of models and training data, loss of human control, environmental cost, or third-party model dependencies. Identification should cover the AI life cycle, not only production inference. Educational overlay using ISO 31000 process titles.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 3
+    },
+    {
+      "number": 7,
+      "title": "AI risk analysis and evaluation",
+      "text": "Analysis estimates likelihood and consequence of identified AI risks; evaluation compares those levels to the organization’s criteria to decide which risks need treatment. AI-specific difficulty includes uncertainty of model behaviour on unseen data and systemic effects when many actors use similar models. Evaluation does not create the AI Act’s high-risk list in Annex III.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 3
+    },
+    {
+      "number": 8,
+      "title": "AI risk treatment",
+      "text": "Treatment options follow ISO 31000: avoid, reduce, share, or retain risk. AI treatments commonly include data governance, evaluation and testing, access controls, human oversight, incident response, and contractual allocation with model providers. Residual risk should remain within appetite. This is management guidance, not a statutory conformity assessment.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 3
+    },
+    {
+      "number": 9,
+      "title": "Monitoring, tracking, and record-keeping (educational)",
+      "text": "Public comparisons note extra emphasis on monitoring, tracking, and records for AI. Models drift; data pipelines change; new use cases appear. Organizations are expected to monitor deployed AI, keep records that support review, and report risk status to leadership. Records here are risk-management records, not AI Act technical documentation annexes.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 4
+    },
+    {
+      "number": 10,
+      "title": "Continual improvement and re-assessment (educational)",
+      "text": "Public comparisons also note re-assessment: AI risk is not a one-time design-time exercise. After incidents, material model updates, or context changes, the organization repeats identification, analysis, evaluation, and treatment. Continual improvement closes the ISO 31000 cycle.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 4
+    },
+    {
+      "number": 11,
+      "title": "Related ISO/IEC 42001 Artificial intelligence management system",
+      "text": "ISO/IEC 42001 specifies a certifiable Artificial Intelligence Management System (AIMS). Organizations that want a certifiable MSS for AI should look at 42001. ISO/IEC 23894 remains the risk-management guidance overlay on ISO 31000. They can be used together: 42001 for the management system, 23894 for how to run the risk process. This product does not currently ship a 42001 corpus.",
+      "sourceUrl": "https://www.iso.org/standard/81230.html",
+      "eurLexUrl": "https://www.iso.org/standard/81230.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/81230.html",
+      "chapter": 5
+    },
+    {
+      "number": 12,
+      "title": "Not the EU Artificial Intelligence Act",
+      "text": "ISO/IEC 23894 does not prohibit AI practices, does not classify high-risk systems, does not regulate general-purpose AI models, and does not create an EU AI Office. The EU AI Act does those things as binding law. Mapping in this product is analogical (AI risk and governance). Use the AI Act instrument for Regulation (EU) 2024/1689.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html",
+      "gdprInfoUrl": "https://www.iso.org/standard/77304.html",
+      "chapter": 5
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Guidance on AI risk management, not a law",
+      "text": "ISO/IEC 23894:2023 is voluntary guidance on risk management for artificial intelligence. It is not the EU Artificial Intelligence Act (Regulation (EU) 2024/1689), not a prohibited-practices list, and not a high-risk conformity-assessment regime. Organizations may use it to structure AI risk processes. Buy the full text from ISO for the guidance clauses.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — ISO 31000 overlay (catalogue and public comparisons)",
+      "text": "ISO.org and public OECD comparisons describe ISO/IEC 23894 as guidance that uses ISO 31000 (Risk management — Guidelines) as the foundation and adds AI-specific considerations. ISO 31000’s well-known public process is: communication and consultation; scope, context and criteria; risk assessment (identify, analyse, evaluate); risk treatment; monitoring and review; recording and reporting. ISO/IEC 23894 applies that process to AI systems across their life cycle.",
+      "sourceUrl": "https://www.iso.org/standard/65694.html",
+      "eurLexUrl": "https://www.iso.org/standard/65694.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Related ISO/IEC 42001 is the certifiable AIMS",
+      "text": "ISO/IEC 42001 is a related but distinct International Standard: an Artificial Intelligence Management System (AIMS) that can be certified. ISO/IEC 23894 is guidance on AI risk management, not that certifiable MSS. This workspace maps 23894 (not 42001) as the AI Act analogue because the user asked for ISO 23894. Mentions of 42001 here are relationship notes only.",
+      "sourceUrl": "https://www.iso.org/standard/81230.html",
+      "eurLexUrl": "https://www.iso.org/standard/81230.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Closest international analogue to the EU AI Act — not a copy",
+      "text": "This workspace maps ISO/IEC 23894 to the EU AI Act because both address AI risk, governance, and human oversight themes. The AI Act is binding Union law with prohibited practices, high-risk duties, GPAI rules, and market surveillance. ISO/IEC 23894 is committee guidance (JTC 1/SC 42, 26 pages, February 2023) for organizations developing, providing, or using AI. Use the AI Act instrument for Regulation (EU) 2024/1689.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "recital",
+      "id": "recital-5",
+      "number": 5,
+      "title": "Recital (5) — Copyright: educational overlay only",
+      "text": "ISO owns the copyright in ISO/IEC 23894. This corpus uses public catalogue facts, the publicly known ISO 31000 process titles, and original educational notes (including OECD-published comparison themes such as governance, stakeholder engagement, human oversight, record-keeping, and re-assessment). It does not reproduce paid guidance paragraphs.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapter": 1,
+      "chapterTitle": "Scope and ISO 31000 relationship",
+      "title": "Clause 1 — Scope (catalogue abstract)",
+      "text": "Clause 1 — Scope (catalogue abstract) Public catalogue description: ISO/IEC 23894 provides guidance on how organizations that develop, produce, deploy or use products, systems and services that utilize artificial intelligence (AI) can manage risk specifically related to AI. It is intended to be used in connection with ISO 31000. Educational overlay — the paid document contains the full scope, exclusions, and examples.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapter": 1,
+      "chapterTitle": "Scope and ISO 31000 relationship",
+      "title": "Relationship to ISO 31000",
+      "text": "Relationship to ISO 31000 ISO 31000:2018 is ISO’s generic risk-management guideline (principles, framework, process). ISO/IEC 23894 is an AI-specific overlay: it does not replace ISO 31000. Public process titles reused here: communication and consultation; establishing scope, context and criteria; risk identification, analysis and evaluation; risk treatment; monitoring and review; recording and reporting. AI adds model behaviour, data quality, and autonomy as risk sources.",
+      "sourceUrl": "https://www.iso.org/standard/65694.html",
+      "eurLexUrl": "https://www.iso.org/standard/65694.html"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapter": 2,
+      "chapterTitle": "Context, leadership, and stakeholders",
+      "title": "Organizational context for AI risk",
+      "text": "Organizational context for AI risk Before treating AI risk, an organization determines the internal and external context: which AI systems it develops or uses, who is affected, which legal regimes apply (for example the EU AI Act in the Union — a different instrument), and what risk criteria (severity, likelihood, human-rights impact) it will use. Context is an ISO 31000 step, specialized here to AI life cycles (design, training, deployment, monitoring, retirement).",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapter": 2,
+      "chapterTitle": "Context, leadership, and stakeholders",
+      "title": "Leadership and AI governance (educational)",
+      "text": "Leadership and AI governance (educational) Public comparisons of ISO/IEC 23894 with ISO 31000 note additional emphasis on governance for AI. In this educational map, leadership sets AI risk appetite, assigns accountability for models and data, and integrates AI risk into enterprise risk management. Governance is not an EU AI Act notified-body or CE-marking process.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapter": 2,
+      "chapterTitle": "Context, leadership, and stakeholders",
+      "title": "Stakeholder engagement and human oversight (educational)",
+      "text": "Stakeholder engagement and human oversight (educational) Public OECD-style comparisons highlight stakeholder engagement and human oversight as AI-specific additions to generic risk management. Affected people, users, and oversight staff need to be considered when identifying AI risk and when treating it (for example retaining meaningful human review of consequential outputs). This is guidance, not the AI Act’s high-risk human-oversight article.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapter": 3,
+      "chapterTitle": "AI risk process (identify, analyse, treat)",
+      "title": "AI risk identification",
+      "text": "AI risk identification Risk identification asks what could go wrong because of an AI system: unsafe outputs, bias, privacy leakage, security of models and training data, loss of human control, environmental cost, or third-party model dependencies. Identification should cover the AI life cycle, not only production inference. Educational overlay using ISO 31000 process titles.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapter": 3,
+      "chapterTitle": "AI risk process (identify, analyse, treat)",
+      "title": "AI risk analysis and evaluation",
+      "text": "AI risk analysis and evaluation Analysis estimates likelihood and consequence of identified AI risks; evaluation compares those levels to the organization’s criteria to decide which risks need treatment. AI-specific difficulty includes uncertainty of model behaviour on unseen data and systemic effects when many actors use similar models. Evaluation does not create the AI Act’s high-risk list in Annex III.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapter": 3,
+      "chapterTitle": "AI risk process (identify, analyse, treat)",
+      "title": "AI risk treatment",
+      "text": "AI risk treatment Treatment options follow ISO 31000: avoid, reduce, share, or retain risk. AI treatments commonly include data governance, evaluation and testing, access controls, human oversight, incident response, and contractual allocation with model providers. Residual risk should remain within appetite. This is management guidance, not a statutory conformity assessment.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapter": 4,
+      "chapterTitle": "Monitoring, records, and improvement",
+      "title": "Monitoring, tracking, and record-keeping (educational)",
+      "text": "Monitoring, tracking, and record-keeping (educational) Public comparisons note extra emphasis on monitoring, tracking, and records for AI. Models drift; data pipelines change; new use cases appear. Organizations are expected to monitor deployed AI, keep records that support review, and report risk status to leadership. Records here are risk-management records, not AI Act technical documentation annexes.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapter": 4,
+      "chapterTitle": "Monitoring, records, and improvement",
+      "title": "Continual improvement and re-assessment (educational)",
+      "text": "Continual improvement and re-assessment (educational) Public comparisons also note re-assessment: AI risk is not a one-time design-time exercise. After incidents, material model updates, or context changes, the organization repeats identification, analysis, evaluation, and treatment. Continual improvement closes the ISO 31000 cycle.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapter": 5,
+      "chapterTitle": "Related ISO/IEC 42001 and EU AI Act note",
+      "title": "Related ISO/IEC 42001 Artificial intelligence management system",
+      "text": "Related ISO/IEC 42001 Artificial intelligence management system ISO/IEC 42001 specifies a certifiable Artificial Intelligence Management System (AIMS). Organizations that want a certifiable MSS for AI should look at 42001. ISO/IEC 23894 remains the risk-management guidance overlay on ISO 31000. They can be used together: 42001 for the management system, 23894 for how to run the risk process. This product does not currently ship a 42001 corpus.",
+      "sourceUrl": "https://www.iso.org/standard/81230.html",
+      "eurLexUrl": "https://www.iso.org/standard/81230.html"
+    },
+    {
+      "type": "article",
+      "id": "article-12",
+      "number": 12,
+      "chapter": 5,
+      "chapterTitle": "Related ISO/IEC 42001 and EU AI Act note",
+      "title": "Not the EU Artificial Intelligence Act",
+      "text": "Not the EU Artificial Intelligence Act ISO/IEC 23894 does not prohibit AI practices, does not classify high-risk systems, does not regulate general-purpose AI models, and does not create an EU AI Office. The EU AI Act does those things as binding law. Mapping in this product is analogical (AI risk and governance). Use the AI Act instrument for Regulation (EU) 2024/1689.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    }
+  ]
+}

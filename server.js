@@ -160,6 +160,21 @@ const DEFAULT_NEWS_FEEDS = [
     name: 'Federal Data Strategy',
     url: 'https://strategy.data.gov/',
     description: 'Federal Data Strategy — OPEN Government Data Act implementation'
+  },
+  {
+    name: 'ISO',
+    url: 'https://www.iso.org/news.html',
+    description: 'International Organization for Standardization — news and insights (ISO/IEC 27701, 19941, 23894)'
+  },
+  {
+    name: 'ISO Insights',
+    url: 'https://www.iso.org/insights/standards-world',
+    description: 'ISO Standards world — featured International Standards including privacy and AI'
+  },
+  {
+    name: 'AICPA',
+    url: 'https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations',
+    description: 'AICPA & CIMA — SOC for Service Organizations and Trust Services Criteria'
   }
 ];
 
@@ -185,7 +200,7 @@ const {
   listRegulations,
   getRegulationPaths
 } = require('./lib/regulation-content');
-const { getRegulation, ID_REGULATION_IDS, US_REGULATION_IDS } = require('./lib/regulations');
+const { getRegulation, ID_REGULATION_IDS, US_REGULATION_IDS, INTL_REGULATION_IDS } = require('./lib/regulations');
 
 const app = express();
 const PORT = process.env.PORT || 3847;
@@ -312,7 +327,13 @@ function resolveCredibleSourcesForRegulation(regId, data) {
   } catch (e) {
     console.warn('structure sources unreadable for', id, e && e.message ? e.message : e);
   }
-  if (ID_REGULATION_IDS.has(id) || US_REGULATION_IDS.has(id) || id === 'ai-act' || id === 'data-act') {
+  if (
+    ID_REGULATION_IDS.has(id) ||
+    US_REGULATION_IDS.has(id) ||
+    INTL_REGULATION_IDS.has(id) ||
+    id === 'ai-act' ||
+    id === 'data-act'
+  ) {
     return [];
   }
   return (
@@ -1319,6 +1340,51 @@ function regulationSearchContext(reg) {
         'Do not confuse with the 2014 DATA Act (federal spending transparency). Title II of Pub. L. 115-435 is the public-sector open-data analogue; there is no federal private-sector IoT/cloud-switching Data Act.'
     };
   }
+  if (r.id === 'iso-27701') {
+    return {
+      tavilyPrefix: 'ISO/IEC 27701:2025 privacy information management system PIMS ISO.org:',
+      ddgSuffix: ' ISO/IEC 27701:2025 PIMS PII controller processor ISO.org',
+      sectorRegPhrase: 'ISO/IEC 27701 privacy information management system',
+      corpusNote: 'ISO/IEC 27701',
+      jurisdictionNote:
+        'ISO/IEC 27701:2025 is a voluntary International Standard (standalone PIMS), not a law and not a substitute for the EU GDPR. Full clause text is sold by ISO; this corpus is an educational overlay from the public catalogue.',
+      softLawNote:
+        'Treat ISO/IEC 27701 as a voluntary management-system standard. Certification is not legal compliance. Do not invent paid clause text.'
+    };
+  }
+  if (r.id === 'iso-19941') {
+    return {
+      tavilyPrefix: 'ISO/IEC 19941:2017 cloud computing interoperability portability ISO.org:',
+      ddgSuffix: ' ISO/IEC 19941 cloud interoperability portability CSC CSP',
+      sectorRegPhrase: 'ISO/IEC 19941 cloud interoperability and portability',
+      corpusNote: 'ISO/IEC 19941',
+      jurisdictionNote:
+        'ISO/IEC 19941:2017 is a voluntary cloud interoperability/portability standard, not the EU Data Act. ISO.org notes a forthcoming replacement ISO/IEC 19941-1 (around November 2026).',
+      softLawNote: 'Treat ISO/IEC 19941 as a technical vocabulary standard, not a switching statute.'
+    };
+  }
+  if (r.id === 'iso-23894') {
+    return {
+      tavilyPrefix: 'ISO/IEC 23894:2023 artificial intelligence risk management ISO 31000:',
+      ddgSuffix: ' ISO/IEC 23894 AI risk management ISO 31000 SC 42',
+      sectorRegPhrase: 'ISO/IEC 23894 AI risk management guidance',
+      corpusNote: 'ISO/IEC 23894',
+      jurisdictionNote:
+        'ISO/IEC 23894:2023 is voluntary AI risk-management guidance (ISO 31000 overlay), not the EU AI Act. Related certifiable AIMS is ISO/IEC 42001 — do not treat 23894 as 42001.',
+      softLawNote: 'Treat ISO/IEC 23894 as guidance, not a prohibited-practices or high-risk legal regime.'
+    };
+  }
+  if (r.id === 'soc2') {
+    return {
+      tavilyPrefix: 'AICPA SOC 2 Trust Services Criteria 2017 2022 Points of Focus:',
+      ddgSuffix: ' SOC 2 Trust Services Criteria AICPA Type 1 Type 2',
+      sectorRegPhrase: 'SOC 2 Trust Services Criteria service organization controls',
+      corpusNote: 'SOC 2',
+      jurisdictionNote:
+        'SOC 2 is a CPA attestation using AICPA Trust Services Criteria, not a law, not GDPR, and not an ISO certification. Security (Common Criteria) is the usual core; other TSC categories are optional.',
+      softLawNote: 'Do not copy AICPA Points of Focus tables. Use publicly listed criterion names only.'
+    };
+  }
   return {
     tavilyPrefix: 'EU GDPR Regulation (EU) 2016/679:',
     ddgSuffix: ' EU GDPR personal data',
@@ -1458,7 +1524,13 @@ function querySeemsLaypersonExplain(q) {
     /\bwhat\s+is\s+(an?\s+)?(open government data asset|federal data catalogu?e)\b/i.test(s) ||
     /\bwhat\s+is\s+(the\s+)?(colorado\s+)?(admt|adai)\b/i.test(s) ||
     (/\bexplain\b.*\b(admt|adai|automated decision-making)\b/i.test(s) && !/\b(article|section|§)\s*\d+/i.test(s)) ||
-    /\bwhat\s+is\s+(a\s+)?(covered admt|consequential decision)\b/i.test(s)
+    /\bwhat\s+is\s+(a\s+)?(covered admt|consequential decision)\b/i.test(s) ||
+    /\bwhat\s+is\s+(iso\/?iec\s*)?(27701|19941|23894|42001)\b/i.test(s) ||
+    (/\bexplain\b.*\b(iso\/?iec\s*)?(27701|19941|23894)\b/i.test(s) && !/\b(clause|article|section)\s*\d+/i.test(s)) ||
+    /\bwhat\s+is\s+(a\s+)?(pims|privacy information management system)\b/i.test(s) ||
+    /\bwhat\s+is\s+(soc\s*2|trust services criteria)\b/i.test(s) ||
+    (/\bexplain\b.*\bsoc\s*2\b/i.test(s) && !/\b(cc\d|criterion|criteria)\b/i.test(s)) ||
+    /\btype\s*[12]\s+soc\b/i.test(s)
   );
 }
 
@@ -1472,6 +1544,18 @@ function laypersonSearchExpansion(regulationId) {
   }
   if (id === 'us-open-data') {
     return 'open government data asset federal data catalogue inventory chief data officer machine-readable data.gov';
+  }
+  if (id === 'iso-27701') {
+    return 'privacy information management system PIMS PII controller processor ISO/IEC 27001 standalone GDPR analogue voluntary standard';
+  }
+  if (id === 'iso-19941') {
+    return 'cloud computing interoperability portability CSC CSP CSN lock-in ISO/IEC 19941-1 data portability application portability';
+  }
+  if (id === 'iso-23894') {
+    return 'artificial intelligence risk management ISO 31000 human oversight stakeholder governance ISO/IEC 42001 guidance not law';
+  }
+  if (id === 'soc2') {
+    return 'SOC 2 Trust Services Criteria security availability processing integrity confidentiality privacy Type 1 Type 2 Common Criteria';
   }
   if (id === 'id-pdp') {
     return 'data pribadi pelindungan pengendali subjek data persetujuan hak';
@@ -1494,7 +1578,7 @@ function laypersonSearchExpansion(regulationId) {
 function defaultProvisionTitle(type, number, regulationId) {
   const id = String(regulationId || 'gdpr');
   if (type === 'recital') {
-    if (id.startsWith('us-')) return `Purpose note (${number})`;
+    if (id.startsWith('us-') || id.startsWith('iso-') || id === 'soc2') return `Purpose note (${number})`;
     if (id === 'id-pdp' || id === 'id-satu-data') return `Considering (${number})`;
     if (id === 'id-ai-ethics') return `Ethical value (${number})`;
     return `Recital (${number})`;
@@ -1502,6 +1586,10 @@ function defaultProvisionTitle(type, number, regulationId) {
   if (id === 'us-ccpa') return `CCPA § ${number}`;
   if (id === 'us-admt') return `ADMT § ${number}`;
   if (id === 'us-open-data') return `OPEN Data § ${number}`;
+  if (id === 'iso-27701') return `ISO 27701 clause ${number}`;
+  if (id === 'iso-19941') return `ISO 19941 clause ${number}`;
+  if (id === 'iso-23894') return `ISO 23894 clause ${number}`;
+  if (id === 'soc2') return `SOC 2 criterion ${number}`;
   if (id === 'id-pdp' || id === 'id-satu-data') return `Pasal ${number}`;
   if (id === 'id-ai-ethics') return `Section ${number}`;
   return `Article ${number}`;
@@ -1518,6 +1606,18 @@ function sectorBlendSearchQuery(regulationId, searchTerms) {
   }
   if (id === 'us-ccpa') {
     return `${st} personal information consumer rights opt-out sale share sensitive business`.trim();
+  }
+  if (id === 'iso-27701') {
+    return `${st} PIMS PII controller processor privacy information management ISO/IEC 27701`.trim();
+  }
+  if (id === 'iso-19941') {
+    return `${st} cloud interoperability portability CSC CSP lock-in ISO/IEC 19941`.trim();
+  }
+  if (id === 'iso-23894') {
+    return `${st} AI risk management ISO 31000 human oversight ISO/IEC 23894`.trim();
+  }
+  if (id === 'soc2') {
+    return `${st} SOC 2 Trust Services Criteria security availability confidentiality privacy`.trim();
   }
   return `${st} controller processor personal data security breach processing activities lawfulness transparency`.trim();
 }
@@ -1666,7 +1766,15 @@ SECTOR FILTER — LOCK-IN (highest priority; the user chose this in Ask):
           ? '\n7) JURISDICTION: The United States has no federal AI Act. This corpus is Colorado SB 26-189 (C.R.S. 6-1-1701 et seq.), which repealed and reenacted SB 24-205. Duties generally apply from 1 January 2027. Do not describe it as a federal statute.'
           : regulation.id === 'us-open-data'
             ? '\n7) JURISDICTION: Do not confuse this with the 2014 DATA Act (federal spending transparency). This corpus is Title II of Pub. L. 115-435 (OPEN Government Data Act / 44 U.S.C. §§ 3502, 3504, 3506, 3511). It is a public-sector open-data law, not a private-sector IoT or cloud-switching analogue to the EU Data Act.'
-            : '';
+            : regulation.id === 'iso-27701'
+              ? '\n7) LEGAL FORCE: ISO/IEC 27701:2025 is a voluntary International Standard (standalone PIMS), not a law. It can help demonstrate GDPR-style accountability but does not replace Regulation (EU) 2016/679. Do not invent paid ISO clause text; stay on the educational overlay and catalogue facts in the sources. The 2019 edition is withdrawn.'
+              : regulation.id === 'iso-19941'
+                ? '\n7) LEGAL FORCE: ISO/IEC 19941:2017 is a voluntary cloud interoperability and portability standard, not the EU Data Act. Note the forthcoming ISO/IEC 19941-1 replacement indicated on ISO.org (around November 2026). Do not invent paid type-taxonomy text.'
+                : regulation.id === 'iso-23894'
+                  ? '\n7) LEGAL FORCE: ISO/IEC 23894:2023 is voluntary AI risk-management guidance overlaying ISO 31000, not the EU AI Act. Related certifiable AIMS is ISO/IEC 42001 — do not describe 23894 as 42001 or as prohibited-practices law.'
+                  : regulation.id === 'soc2'
+                    ? '\n7) LEGAL FORCE: SOC 2 is a CPA attestation using AICPA Trust Services Criteria, not a statute, not GDPR, and not ISO certification. Security (Common Criteria) is the usual core; Availability, Processing Integrity, Confidentiality, and Privacy are optional categories. Type 1 is design at a point in time; Type 2 adds operating effectiveness over a period. Do not copy Points of Focus tables.'
+                    : '';
 
   const systemPrompt = `You are a careful ${regulation.shortName} Q&A assistant (${regulation.fullName}).
 You must answer using ONLY the provided sources below (regulation excerpts and optional web snippets).
@@ -2295,7 +2403,11 @@ if (process.argv.includes('--refresh-only')) {
       await runRegulationScraperAndReloadContent('us-ccpa');
       await runRegulationScraperAndReloadContent('us-admt');
       await runRegulationScraperAndReloadContent('us-open-data');
-      console.log('Daily regulation content refresh completed (EU + Indonesia + United States).');
+      await runRegulationScraperAndReloadContent('iso-27701');
+      await runRegulationScraperAndReloadContent('iso-19941');
+      await runRegulationScraperAndReloadContent('iso-23894');
+      await runRegulationScraperAndReloadContent('soc2');
+      console.log('Daily regulation content refresh completed (EU + Indonesia + United States + International).');
     } catch (e) {
       console.error('Daily refresh failed:', e.message);
     }

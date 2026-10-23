@@ -15,6 +15,64 @@ const NEWS_TOPIC_FALLBACK = 'Other GDPR & data protection topics';
 /** @type {NewsTopicGroup[]} */
 const NEWS_TOPIC_GROUPS = [
   {
+    category: 'International ISO 27701',
+    topics: [
+      {
+        label: 'ISO/IEC 27701 and PIMS',
+        patterns: [
+          /iso\/?iec\s*27701|\b27701\b|privacy information management system|\bpims\b|pii controller|pii processor/i
+        ]
+      },
+      {
+        label: 'ISO/IEC JTC 1/SC 27 privacy',
+        patterns: [/jtc\s*1\/?sc\s*27|iso\/?iec\s*27001.{0,24}privacy|privacy information management/i]
+      }
+    ]
+  },
+  {
+    category: 'International ISO 19941',
+    topics: [
+      {
+        label: 'ISO/IEC 19941 cloud interoperability',
+        patterns: [
+          /iso\/?iec\s*19941|\b19941\b|cloud computing.{0,24}(interoperability|portability)|cloud (interoperability|portability)/i
+        ]
+      },
+      {
+        label: 'ISO/IEC 19941-1 replacement',
+        patterns: [/iso\/?iec\s*19941-1|19941.{0,20}(part\s*1|replacement|will be replaced)/i]
+      }
+    ]
+  },
+  {
+    category: 'International ISO 23894',
+    topics: [
+      {
+        label: 'ISO/IEC 23894 AI risk management',
+        patterns: [
+          /iso\/?iec\s*23894|\b23894\b|ai risk management|artificial intelligence.{0,24}risk management|iso\s*31000.{0,20}ai/i
+        ]
+      },
+      {
+        label: 'Related ISO/IEC 42001 AIMS',
+        patterns: [/iso\/?iec\s*42001|artificial intelligence management system|\baims\b.{0,16}iso|jtc\s*1\/?sc\s*42/i]
+      }
+    ]
+  },
+  {
+    category: 'International SOC 2',
+    topics: [
+      {
+        label: 'SOC 2 and Trust Services Criteria',
+        patterns: [/\bsoc\s*2\b|trust services criteria|soc for service organizations|points of focus.{0,12}2022/i]
+      },
+      {
+        label: 'SOC 2 Type 1 and Type 2',
+        patterns: [/type\s*[12]\s+soc|soc\s*2.{0,20}(type\s*[12]|attestation|service organization)/i]
+      }
+    ]
+  },
+  {
     category: 'Indonesia Personal Data Protection',
     topics: [
       {

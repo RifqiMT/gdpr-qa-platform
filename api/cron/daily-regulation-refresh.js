@@ -20,6 +20,10 @@ module.exports = async (req, res) => {
     const usCcpa = await runRegulationScraperAndReloadContent('us-ccpa');
     const usAdmt = await runRegulationScraperAndReloadContent('us-admt');
     const usOpenData = await runRegulationScraperAndReloadContent('us-open-data');
+    const iso27701 = await runRegulationScraperAndReloadContent('iso-27701');
+    const iso19941 = await runRegulationScraperAndReloadContent('iso-19941');
+    const iso23894 = await runRegulationScraperAndReloadContent('iso-23894');
+    const soc2 = await runRegulationScraperAndReloadContent('soc2');
     res.json({
       ok: true,
       job: 'daily-regulation-refresh',
@@ -58,6 +62,22 @@ module.exports = async (req, res) => {
       usOpenData: {
         lastRefreshed: usOpenData.meta?.lastRefreshed ?? null,
         lastChecked: usOpenData.meta?.lastChecked ?? null
+      },
+      iso27701: {
+        lastRefreshed: iso27701.meta?.lastRefreshed ?? null,
+        lastChecked: iso27701.meta?.lastChecked ?? null
+      },
+      iso19941: {
+        lastRefreshed: iso19941.meta?.lastRefreshed ?? null,
+        lastChecked: iso19941.meta?.lastChecked ?? null
+      },
+      iso23894: {
+        lastRefreshed: iso23894.meta?.lastRefreshed ?? null,
+        lastChecked: iso23894.meta?.lastChecked ?? null
+      },
+      soc2: {
+        lastRefreshed: soc2.meta?.lastRefreshed ?? null,
+        lastChecked: soc2.meta?.lastChecked ?? null
       }
     });
   } catch (e) {

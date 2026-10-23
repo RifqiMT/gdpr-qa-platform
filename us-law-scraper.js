@@ -8,7 +8,6 @@ const { fetchText, buildSearchIndex, mergeWithExisting, computeDatasetHash } = r
 const {
   getRegulation,
   getRegulationPaths,
-  enrichArticlesWithChapter,
   US_REGULATION_IDS
 } = require('./lib/regulations');
 

@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "AICPA — 2017 Trust Services Criteria with 2022 Points of Focus",
+        "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+        "description": "Official AICPA & CIMA download page for the 2017 Trust Services Criteria for Security, Availability, Processing Integrity, Confidentiality, and Privacy, with revised Points of Focus 2022 (TSP section 100). This is attestation criteria, not a statute.",
+        "documents": [
+          {
+            "label": "TSC 2017 with 2022 Points of Focus (AICPA download)",
+            "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+          }
+        ]
+      },
+      {
+        "name": "AICPA — SOC for Service Organizations",
+        "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+        "description": "Official AICPA landing page for System and Organization Controls (SOC) for Service Organizations, including SOC 2 reports that use the Trust Services Criteria.",
+        "documents": [
+          {
+            "label": "SOC for Service Organizations",
+            "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Attestation vs law, Type 1/Type 2, five TSC categories, GDPR honesty, 2017/2022 edition, copyright.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    },
+    {
+      "id": "chapters",
+      "title": "Trust Services Criteria map",
+      "description": "Educational map of publicly listed TSC category and criterion names (CC, A, C, PI, P).",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Security — Common Criteria (CC1–CC9)",
+      "articleRange": "1–9",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Availability (A1)",
+      "articleRange": "10",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Confidentiality (C1)",
+      "articleRange": "11",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Processing Integrity (PI1)",
+      "articleRange": "12",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Privacy (P1–P8)",
+      "articleRange": "13–20",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    }
+  ]
+}

@@ -90,6 +90,21 @@
       "name": "Federal Data Strategy",
       "url": "https://strategy.data.gov/",
       "description": "Federal Data Strategy — OPEN Government Data Act implementation"
+    },
+    {
+      "name": "ISO",
+      "url": "https://www.iso.org/news.html",
+      "description": "International Organization for Standardization — news and insights (ISO/IEC 27701, 19941, 23894)"
+    },
+    {
+      "name": "ISO Insights",
+      "url": "https://www.iso.org/insights/standards-world",
+      "description": "ISO Standards world — featured International Standards including privacy and AI"
+    },
+    {
+      "name": "AICPA",
+      "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "description": "AICPA & CIMA — SOC for Service Organizations and Trust Services Criteria"
     }
   ],
   "items": [
@@ -25394,6 +25409,76 @@
       "snippet": null,
       "topic": "Institutional data protection",
       "topicCategory": "Oversight Areas"
+    },
+    {
+      "title": "ISO/IEC 27701:2025 Privacy information management systems — Requirements and guidance",
+      "url": "https://www.iso.org/standard/27701",
+      "sourceName": "ISO",
+      "sourceUrl": "https://www.iso.org/news.html",
+      "date": "2025-10-14",
+      "snippet": "ISO.org catalogue: standalone PIMS, 2nd edition, published 14 October 2025, JTC 1/SC 27, 64 pages.",
+      "topic": "ISO/IEC 27701 and PIMS",
+      "topicCategory": "International ISO 27701"
+    },
+    {
+      "title": "ISO/IEC 19941:2017 Cloud computing — Interoperability and portability",
+      "url": "https://www.iso.org/standard/66639.html",
+      "sourceName": "ISO",
+      "sourceUrl": "https://www.iso.org/news.html",
+      "date": "2017-01-01",
+      "snippet": "ISO.org catalogue: cloud interoperability and portability types; confirmed 2023; replacement ISO/IEC 19941-1 forthcoming.",
+      "topic": "ISO/IEC 19941 cloud interoperability",
+      "topicCategory": "International ISO 19941"
+    },
+    {
+      "title": "ISO/IEC 23894:2023 Artificial intelligence — Guidance on risk management",
+      "url": "https://www.iso.org/standard/77304.html",
+      "sourceName": "ISO",
+      "sourceUrl": "https://www.iso.org/news.html",
+      "date": "2023-02-01",
+      "snippet": "ISO.org catalogue: AI risk-management guidance overlaying ISO 31000; JTC 1/SC 42; 26 pages.",
+      "topic": "ISO/IEC 23894 AI risk management",
+      "topicCategory": "International ISO 23894"
+    },
+    {
+      "title": "ISO/IEC 42001 Artificial intelligence management system (related AIMS)",
+      "url": "https://www.iso.org/standard/81230.html",
+      "sourceName": "ISO",
+      "sourceUrl": "https://www.iso.org/news.html",
+      "date": null,
+      "snippet": "Related certifiable AIMS — distinct from ISO/IEC 23894 risk-management guidance.",
+      "topic": "ISO/IEC 23894 AI risk management",
+      "topicCategory": "International ISO 23894"
+    },
+    {
+      "title": "ISO Insights: Standards world featuring ISO/IEC 27701:2025",
+      "url": "https://www.iso.org/insights/standards-world",
+      "sourceName": "ISO Insights",
+      "sourceUrl": "https://www.iso.org/insights/standards-world",
+      "date": null,
+      "snippet": "ISO Standards world highlights published International Standards including ISO/IEC 27701:2025 privacy information management.",
+      "topic": "ISO/IEC 27701 and PIMS",
+      "topicCategory": "International ISO 27701"
+    },
+    {
+      "title": "2017 Trust Services Criteria with Revised Points of Focus — 2022",
+      "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "sourceName": "AICPA",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "date": "2022-01-01",
+      "snippet": "AICPA TSC for Security, Availability, Processing Integrity, Confidentiality, and Privacy used in SOC 2 reports.",
+      "topic": "SOC 2 and Trust Services Criteria",
+      "topicCategory": "International SOC 2"
+    },
+    {
+      "title": "SOC for Service Organizations (SOC 2)",
+      "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "sourceName": "AICPA",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "date": null,
+      "snippet": "Official AICPA landing page for System and Organization Controls reports, including SOC 2 Type 1 and Type 2.",
+      "topic": "SOC 2 and Trust Services Criteria",
+      "topicCategory": "International SOC 2"
     }
   ]
 }

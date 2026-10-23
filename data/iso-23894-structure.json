@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "ISO — ISO/IEC 23894:2023 catalogue",
+        "url": "https://www.iso.org/standard/77304.html",
+        "description": "Official ISO.org catalogue for ISO/IEC 23894:2023 Information technology — Artificial intelligence — Guidance on risk management. Edition 1, published February 2023; JTC 1/SC 42; 26 pages. Guidance overlay on ISO 31000 — not a certifiable AI management system.",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 23894:2023)",
+            "url": "https://www.iso.org/standard/77304.html"
+          },
+          {
+            "label": "ISO 31000:2018 Risk management — Guidelines",
+            "url": "https://www.iso.org/standard/65694.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO — ISO/IEC 42001 (related AIMS)",
+        "url": "https://www.iso.org/standard/81230.html",
+        "description": "Related certifiable standard: ISO/IEC 42001 Artificial intelligence management system (AIMS). Distinct from ISO/IEC 23894, which is risk-management guidance rather than an MSS for certification.",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 42001)",
+            "url": "https://www.iso.org/standard/81230.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO/IEC JTC 1/SC 42",
+        "url": "https://www.iso.org/committee/6794475.html",
+        "description": "ISO/IEC committee for artificial intelligence — developer of ISO/IEC 23894 and ISO/IEC 42001.",
+        "documents": [
+          {
+            "label": "SC 42 committee page",
+            "url": "https://www.iso.org/committee/6794475.html"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Guidance status, ISO 31000 overlay, related ISO/IEC 42001, AI Act analogue honesty, copyright.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "id": "chapters",
+      "title": "AI risk-management map",
+      "description": "Educational overlay of ISO 31000 process titles specialized to AI, plus 42001 relationship.",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Scope and ISO 31000 relationship",
+      "articleRange": "1–2",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Context, leadership, and stakeholders",
+      "articleRange": "3–5",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "AI risk process (identify, analyse, treat)",
+      "articleRange": "6–8",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Monitoring, records, and improvement",
+      "articleRange": "9–10",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    },
+    {
+      "number": 5,
+      "roman": "V",
+      "title": "Related ISO/IEC 42001 and EU AI Act note",
+      "articleRange": "11–12",
+      "sourceUrl": "https://www.iso.org/standard/77304.html",
+      "eurLexUrl": "https://www.iso.org/standard/77304.html"
+    }
+  ]
+}

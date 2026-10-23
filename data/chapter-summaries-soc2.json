@@ -1,0 +1,13 @@
+{
+  "regulationId": "soc2",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T15:20:28.491Z",
+  "summaries": {
+    "1": "Security Common Criteria CC1–CC9 (control environment through risk mitigation) — usual core of every SOC 2.",
+    "2": "Availability A1 — optional TSC category for system availability commitments.",
+    "3": "Confidentiality C1 — optional TSC category for information designated confidential.",
+    "4": "Processing Integrity PI1 — optional TSC category for complete, valid, accurate, timely, authorized processing.",
+    "5": "Privacy P1–P8 — optional TSC Privacy criteria (notice through monitoring); not the EU GDPR."
+  }
+}

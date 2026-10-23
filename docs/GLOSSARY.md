@@ -1,9 +1,9 @@
 # Glossary  
 ## Regulation Q&A Platform
 
-**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22**
+**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
 
-Short definitions of **acronyms and product-specific terms** used across documentation and the UI. Indonesian legal terms are given in *italics* with an English gloss. Sections: [A. Instruments and law](#a-instruments-and-law) · [B. Indonesian legal and institutional terms](#b-indonesian-legal-and-institutional-terms) · [C. EU legal terms](#c-eu-legal-terms) · [C2. United States legal and institutional terms](#c2-united-states-legal-and-institutional-terms) · [D. Product, UI, and engineering terms](#d-product-ui-and-engineering-terms).
+Short definitions of **acronyms and product-specific terms** used across documentation and the UI. Indonesian legal terms are given in *italics* with an English gloss. Sections: [A. Instruments and law](#a-instruments-and-law) · [B. Indonesian legal and institutional terms](#b-indonesian-legal-and-institutional-terms) · [C. EU legal terms](#c-eu-legal-terms) · [C2. United States legal and institutional terms](#c2-united-states-legal-and-institutional-terms) · [C3. International standards terms](#c3-international-standards-terms) · [D. Product, UI, and engineering terms](#d-product-ui-and-engineering-terms).
 
 ---
 
@@ -22,10 +22,15 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **ADMT** | *Automated decision-making technology* — in this product, the **Colorado ADMT Act** (SB 26-189; 2026 Colo. Sess. Laws ch. 131; C.R.S. 6-1-1701 et seq.), regulation id **`us-admt`**; analogue to the EU AI Act for consequential automated decisions only. A **Colorado** statute — there is **no federal AI Act**. 14 sections, 5 purpose notes; duties generally from 1 January 2027. |
 | **OPEN Data Act** | **OPEN Government Data Act** — Title II of the Foundations for Evidence-Based Policymaking Act of 2018 (Pub. L. 115-435; 44 U.S.C. §§ 3502, 3504, 3506, 3511); regulation id **`us-open-data`**; public-sector open-data analogue to the EU Data Act. 10 sections, 4 purpose notes. |
 | **2014 DATA Act** | *Digital Accountability and Transparency Act of 2014* (Pub. L. 113-101) — federal **spending transparency** law. A **false friend**: it is **not** the OPEN Government Data Act and **not** the EU Data Act analogue; it is deliberately **not** modelled by this product (guardrails **BG-10**, **TG-US-02**). |
+| **ISO/IEC 27701** | *Privacy information management systems — Requirements and guidance* (2nd edition **2025**, standalone; 2019 add-on edition withdrawn); regulation id **`iso-27701`**; voluntary **GDPR-accountability analogue** — **not a law**. 14 clauses, 5 purpose notes. |
+| **ISO/IEC 19941** | *Cloud computing — Interoperability and portability* (2017; confirmed 2023; 19941-1 replacement forthcoming); regulation id **`iso-19941`**; voluntary **Data Act analogue** — **not a law**. 11 clauses, 4 purpose notes. |
+| **ISO/IEC 23894** | *Artificial intelligence — Guidance on risk management* (2023; overlays ISO 31000); regulation id **`iso-23894`**; voluntary **AI Act analogue** — **not a law** and **not ISO/IEC 42001**. 12 clauses, 5 purpose notes. |
+| **SOC 2** | CPA attestation (SOC for Service Organizations) against the AICPA **2017 Trust Services Criteria** (Points of Focus 2022); regulation id **`soc2`**; voluntary assurance framework — **not a statute** and **not ISO certification**. 20 criteria, 6 purpose notes. |
+| **Voluntary standard** | A consensus standard or attestation framework adopted by choice (ISO/IEC 27701, 19941, 23894; SOC 2). Distinct from **hard law** and **soft law**; Ask answers must say so (**LEGAL FORCE** rule, **TG-LLM-07**, **BG-22**). |
 | **Soft law** | Guidance that is authoritative but **not legally binding in itself**. In this product only **`id-ai-ethics`** (an *Surat Edaran*) is soft law; Ask answers must say obligations stem from the circular/guidance, not a statute (**LEGAL FORCE** prompt rule). See [GUARDRAILS.md](GUARDRAILS.md). |
-| **Hard law** | Binding statute or regulation. All instruments except **`id-ai-ethics`**. For Indonesia, **UU ITE** and **UU PDP** are the hard-law backbone around AI/data. |
-| **Jurisdiction** | Registry field **`jurisdiction`**: **`eu`** (European Union), **`id`** (Indonesia), or **`us`** (United States), with display **`jurisdictionLabel`**. Drives the region picker, chip, and grouped regulation select. |
-| **Region** | UI-only filter in the header: **All**, **EU**, **Indonesia**, **USA** (`gdpr-qa-region-v1`). Not an API parameter — the API receives the **regulation id**. |
+| **Hard law** | Binding statute or regulation. All EU, Indonesian, and U.S. instruments except **`id-ai-ethics`** (soft law) and the four International **voluntary standards**. For Indonesia, **UU ITE** and **UU PDP** are the hard-law backbone around AI/data. |
+| **Jurisdiction** | Registry field **`jurisdiction`**: **`eu`** (European Union), **`id`** (Indonesia), **`us`** (United States), or **`intl`** (International), with display **`jurisdictionLabel`**. Drives the region picker, chip, and grouped regulation select. |
+| **Region** | UI-only filter in the header: **All**, **EU**, **Indonesia**, **USA**, **INTL** (`gdpr-qa-region-v1` ∈ `all\|eu\|id\|us\|intl`; INTL defaults to `iso-27701`). Not an API parameter — the API receives the **regulation id**. |
 | **RPerpres** | *Rancangan Peraturan Presiden* — draft Presidential Regulation. Two RPerpres (AI ethics; national AI roadmap 2026–2029) were awaiting signature as of September 2026; tracked via Komdigi notices, **not** part of the corpus. |
 
 ---
@@ -82,7 +87,7 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **GDPR-Info** | Unofficial but widely used website **gdpr-info.eu**; default primary source for paragraph structure in the GDPR corpus. |
 | **ICO** | Information Commissioner's Office (UK) — credible source in News and Sources. |
 | **Recital** | Non-operative preamble paragraph of an EU act; for Indonesia the closest analogue is *menimbang*. |
-| **CELEX** | EU document identifier (e.g. `32016R0679`); `null` for Indonesian and United States instruments. |
+| **CELEX** | EU document identifier (e.g. `32016R0679`); `null` for Indonesian, United States, and International instruments. |
 
 ---
 
@@ -105,17 +110,43 @@ Short definitions of **acronyms and product-specific terms** used across documen
 
 ---
 
+## C3. International standards terms
+
+| Term | Definition |
+|------|------------|
+| **ISO** | International Organization for Standardization — publisher of ISO/IEC standards; **ISO.org catalogue** pages are the official source pinged by the ETL. Full text is paywalled; this product ships only a copyright-safe educational overlay. |
+| **IEC** | International Electrotechnical Commission — co-publisher of ISO/IEC joint standards. |
+| **JTC 1 / SC 27 / SC 42** | ISO/IEC Joint Technical Committee 1 subcommittees: **SC 27** (information security, cybersecurity and privacy protection — ISO/IEC 27701) and **SC 42** (artificial intelligence — ISO/IEC 23894, 42001). |
+| **PIMS** | *Privacy Information Management System* — the management-system construct of ISO/IEC 27701 (PII controller / processor requirements). |
+| **PII controller / PII processor** | ISO/IEC 27701 roles analogous to (but not identical with) the GDPR controller and processor. |
+| **Harmonized Structure (HLS)** | ISO common management-system clause structure (clauses 4–10) used as the skeleton of the ISO 27701 overlay. |
+| **ISO 31000** | Risk-management guidelines; ISO/IEC 23894 applies its principles, framework, and process to AI. |
+| **ISO/IEC 42001** | Certifiable *AI management system* (AIMS) standard. **Related note only** under `iso-23894` — not a separate corpus, and not the same as 23894. |
+| **ISO/IEC 17788 / 17789** | Cloud computing vocabulary / reference architecture — related references for ISO/IEC 19941. |
+| **Cloud interoperability / portability** | Subject matter of ISO/IEC 19941 (interoperability and portability types and their relationships). |
+| **AICPA / CIMA** | American Institute of CPAs / Chartered Institute of Management Accountants — publisher of the Trust Services Criteria and the SOC suite. |
+| **TSC** | AICPA **Trust Services Criteria** — Security (Common Criteria), Availability, Processing Integrity, Confidentiality, Privacy. |
+| **Points of Focus** | Illustrative AICPA considerations under each criterion (2022 revision). **Not shipped** in this product (paywall/copyright guardrail **TG-INTL-02**). |
+| **Common Criteria (CC)** | The Security criteria (CC1–CC9) that apply to every SOC 2 engagement. |
+| **SOC 2 Type 1 / Type 2** | Type 1 = design of controls at a **point in time**; Type 2 = design **and operating effectiveness** over a period. |
+| **Clause / Criterion** | International analogue of an *Article*: reader headings `ISO 27701 clause N`, `ISO 19941 clause N`, `ISO 23894 clause N`, `SOC 2 criterion N`; anchors `#clause-N` / `#criterion-N`. |
+| **Educational overlay** | The bundled, copyright-safe International corpus: ISO.org catalogue abstracts, Harmonized Structure / ISO 31000 titles, and public TSC names, with purpose notes (`Purpose note (N)`, anchors `#purpose-N`). Not the licensed standard text. |
+| **Catalogue seed** | `internationalCatalogueNewsSeed()` — official ISO / AICPA catalogue headlines always merged into International News; persisted by `scripts/seed-iso-soc-news.js`. |
+
+---
+
 ## D. Product, UI, and engineering terms
 
 | Term | Definition |
 |------|------------|
 | **Regulation Q&A Platform** | Current product brand (repository still named `gdpr-qa-platform`; storage keys keep the `gdpr-qa-` prefix for continuity). |
-| **Instrument** | Any one of the **nine** supported legal texts (3 EU + 3 Indonesia + 3 United States). Used interchangeably with "regulation" in UI/API (`regulation` parameter). |
-| **regulation** | API/UI parameter: **`gdpr`** \| **`ai-act`** \| **`data-act`** \| **`id-pdp`** \| **`id-satu-data`** \| **`id-ai-ethics`** \| **`us-ccpa`** \| **`us-open-data`** \| **`us-admt`** selecting the active corpus; unknown ⇒ `gdpr`. |
-| **REGULATION_DISPLAY_ORDER** | Registry array fixing list order: `gdpr`, `data-act`, `ai-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-open-data`, `us-admt`. |
+| **Instrument** | Any one of the **thirteen** supported instruments (3 EU + 3 Indonesia + 3 United States + 4 International voluntary standards). Used interchangeably with "regulation" in UI/API (`regulation` parameter). |
+| **regulation** | API/UI parameter: **`gdpr`** \| **`ai-act`** \| **`data-act`** \| **`id-pdp`** \| **`id-satu-data`** \| **`id-ai-ethics`** \| **`us-ccpa`** \| **`us-open-data`** \| **`us-admt`** \| **`iso-27701`** \| **`iso-19941`** \| **`iso-23894`** \| **`soc2`** selecting the active corpus; unknown ⇒ `gdpr`. |
+| **REGULATION_DISPLAY_ORDER** | Registry array fixing list order: `gdpr`, `data-act`, `ai-act`, `id-pdp`, `id-satu-data`, `id-ai-ethics`, `us-ccpa`, `us-open-data`, `us-admt`, `iso-27701`, `iso-19941`, `iso-23894`, `soc2`. |
 | **ID_REGULATION_IDS** | Set of the three Indonesian ids; gates `id-law-scraper.js` and the "no cross-jurisdiction source fallback" rule. |
 | **US_REGULATION_IDS** | Set of the three United States ids (`us-ccpa`, `us-admt`, `us-open-data`); gates `us-law-scraper.js`, US source blurbs, and the no-GDPR-fallback rule in `GET /api/meta`. |
-| **Region picker** | `#regionFilter` radiogroup (All / EU / Indonesia / USA) with sliding thumb, plus **jurisdiction chip** and **regulation select**; part of `#headerInstrumentPicker`. |
+| **INTL_REGULATION_IDS** | Set of the four International ids (`iso-27701`, `iso-19941`, `iso-23894`, `soc2`); gates `iso-soc-scraper.js`, International source blurbs, and the no-GDPR-fallback rule in `GET /api/meta`. |
+| **Region picker** | `#regionFilter` radiogroup (All / EU / Indonesia / USA / INTL) with sliding thumb, plus **jurisdiction chip** and **regulation select**; part of `#headerInstrumentPicker`. |
 | **CalPrivacy** | Public brand of the California Privacy Protection Agency (CPPA); News listings live under `cppa.ca.gov/announcements/YYYY/`. |
 | **CPPA** | California Privacy Protection Agency — CCPA/CPRA supervisor and a News source. |
 | **Colorado ADMT Act** | See § A (**ADMT**); also repeals and re-enacts SB 24-205 (Colorado AI Act). |
@@ -126,19 +157,21 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **catalogForRegion** | Client helper returning the instruments visible for the current region. |
 | **alignRegionWithRegulation** | Client helper that switches the region filter when a selected instrument belongs to another jurisdiction. |
 | **BM25** | Best Matching 25 — ranking function for Ask excerpt retrieval (`server.js`). |
-| **Corpus** | Regulation texts + search index from `data/<id>-content.json` (nine files), normalized on read/write via **`document-formatting-guardrails.js`**. |
-| **ETL** | Extract, transform, load — fetching regulation HTML/TXT/PDF-derived text, parsing, merging, normalizing, and writing `<id>-content.json`. Nine paths (see [ARCHITECTURE.md](ARCHITECTURE.md)). |
+| **Corpus** | Regulation texts + search index from `data/<id>-content.json` (thirteen files), normalized on read/write via **`document-formatting-guardrails.js`**. |
+| **ETL** | Extract, transform, load — fetching regulation HTML/TXT/PDF-derived text, parsing, merging, normalizing, and writing `<id>-content.json`. Thirteen paths (see [ARCHITECTURE.md](ARCHITECTURE.md)). |
 | **id-law-scraper.js** | ETL module for the three Indonesian instruments: `run(regulationId)`; prefers the bundled official corpus when live JDIH HTML is incomplete. |
 | **us-law-scraper.js** | ETL module for the three United States instruments: `run(regulationId)`; pings the official source and keeps the bundled official corpus; env `MIN_US_CCPA_*`, `MIN_US_ADMT_*`, `MIN_US_OPEN_DATA_*`, `US_*_FORCE_CORPUS_WRITE`. |
+| **iso-soc-scraper.js** | ETL module for the four International instruments: `run(regulationId)`; **ping-only** (`pingOfficialSource`), keeps the bundled educational overlay, hash-compares before writing; env `MIN_ISO_27701_*`, `MIN_ISO_19941_*`, `MIN_ISO_23894_*`, `MIN_SOC2_*`, `ISO_*_FORCE_CORPUS_WRITE`, `SOC2_FORCE_CORPUS_WRITE`; never scrapes paywalled text. |
 | **Bundled official corpus** | Indonesian and United States text shipped in `data/` (built by `scripts/build-id-corpora.py` from JDIH HTML / official PDF, and `scripts/build-us-corpora.py` from CPPA / Colorado session laws / govinfo) and kept when a live fetch is thin or only pinged. ETL label `bundled-official` (or the corpus-specific `extractedFrom`). |
+| **regulation-profiles-iso.js** | Client module extending `REGULATION_PROFILES` with the four **International** profiles (themes `iso-27701`, `iso-19941`, `iso-23894`, `soc2`; headings `ISO 27701 clause N` … `SOC 2 criterion N`). |
 | **regulation-profiles.js** | Client module: per-regulation copy for the **EU** instruments (`askUi`, `sourcesUi`, `newsUi`, `browseUi`, `citationsUi`), URLs, heading patterns. |
 | **regulation-profiles-id.js** | Client module extending `REGULATION_PROFILES` with the three **Indonesian** profiles (same UI keys; themes `id-pdp`, `id-satu-data`, `id-ai-ethics`). |
 | **regulation-profiles-us.js** | Client module extending `REGULATION_PROFILES` with the three **United States** profiles (themes `us-ccpa`, `us-open-data`, `us-admt`; headings `CCPA § N` / `OPEN Data § N` / `ADMT § N`). |
 | **citationsUi** | Per-regulation object defining citation sidebar panel titles, HTML leads, and toggle labels (e.g. "Related circular sections" for SE AI Ethics). |
 | **syncCitationSidebarChrome** | Client function applying **`citationsUi`** to Browse detail aside when regulation changes. |
 | **syncRegulationChrome** | Client function updating Browse/Ask/Sources/News labels, filters, and citation sidebar after regulation switch. |
-| **officialSiteName** | Registry/profile label for the official publication site (`EUR-Lex`, `peraturan.go.id`, `JDIH Komdigi`, `California Legislative Information`, `Colorado General Assembly`, `govinfo`). |
-| **SEED_FILES** | Internal manifest in `lib/paths.js` — **29** bundled JSON files copied to `/tmp/gdpr-qa-data` on Vercel cold start when missing. |
+| **officialSiteName** | Registry/profile label for the official publication site (`EUR-Lex`, `peraturan.go.id`, `JDIH Komdigi`, `California Legislative Information`, `Colorado General Assembly`, `govinfo`, `ISO.org catalogue`, `AICPA`). |
+| **SEED_FILES** | Internal manifest in `lib/paths.js` — **41** bundled JSON files (26 corpus/structure + news + 13 chapter summaries + GDPR suitable recitals) copied to `/tmp/gdpr-qa-data` on Vercel cold start when missing. |
 | **Page \| Full** | Reader toolbar mode: **Page** shows one article/pasal or recital; **Full** stacks the entire on-screen corpus. Preference: `localStorage` key `gdprQaReaderViewMode`. PDF export follows the active mode. |
 | **Deep link** | Hash route `#/{regulationId}/article\|recital/{n}` that opens a provision on first paint without bouncing to the Browse home grid. |
 | **IS_VERCEL** | Read-only flag (`process.env.VERCEL`) that switches `getDataDir()` to writable `/tmp` with one-time seed copy. |
@@ -155,8 +188,9 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **PRD** | Product Requirements Document — [PRD.md](PRD.md). |
 | **TG / BG / DG** | Prefixes for guardrail ids in [GUARDRAILS.md](GUARDRAILS.md): **technical**, **business**, **data/privacy/documentation**. |
 | **News deduplication (consolidated)** | Two-pass merge in **`news-crawler.js`** / **`server.js`**: (1) normalized URL key, (2) semantic key (source + date + title fingerprint) with **`mergeNewsDuplicate`**; mirrored in the browser by **`public/news-dedupe.js`** as **`GDPR_NEWS_DEDUPE`**. |
-| **news-topics.js** | Server module: topic **taxonomy** (EU AI Act, EU Data Act, three Indonesia categories, and three United States categories), classification, and client filter support. |
+| **news-topics.js** | Server module: topic **taxonomy** (EU AI Act, EU Data Act, three Indonesia categories, three United States categories, and four International categories — 22 categories / 91 leaf labels), classification, and client filter support. |
 | **indonesiaPolicyNewsRe** | Regex gate in `news-crawler.js` for Indonesian policy headlines (UU PDP, Satu Data, AI ethics terms, Komdigi, …); exported with `indonesiaNewsItemIsOnScope`. |
+| **internationalPolicyNewsRe** | Regex gate in `news-crawler.js` for International headlines (ISO/IEC 27701 / 19941 / 23894 / 42001, PIMS, SOC 2, Trust Services Criteria, JTC 1 SC 27 / SC 42); exported with `internationalNewsItemIsOnScope`. |
 | **Antara tag hub** | `antaranews.com/tag/<slug>` listing page harvested by `crawlAntaraPolicyTagPages`; trusted tags bypass the keyword gate. |
 | **itemMatchesNewsRegulationScope** | Client function filtering News items per selected instrument (regex + topic-category checks). |
 | **CANONICAL_ARTICLE_TITLES** | GDPR-only map in `public/app.js` (Articles 1–99 official short titles); used by **`getArticleDisplayTitle`** when regulation is **`gdpr`**. |
@@ -167,12 +201,13 @@ Short definitions of **acronyms and product-specific terms** used across documen
 | **syncHeaderToolbarStatus** | Client function syncing one-line freshness and BYOK hints in the Tools panel without duplicate status cards. |
 | **newsUi** | Per-regulation News hero copy and theme (intro, scope, tags, refresh labels). |
 | **browseUi** | Per-regulation Browse welcome copy: description, highlights, theme, mark badge. |
-| **browseWelcomeGrid** | Desktop overview of all nine instruments on the Browse placeholder, grouped in region sections. |
+| **browseWelcomeGrid** | Desktop overview of all thirteen instruments on the Browse placeholder, grouped in region sections. |
 | **resetChaptersFilters** | Clears chapter/category/article/sub-category filters and syncs combobox inputs; runs on regulation change. |
 | **loadChaptersRequestId** | Generation counter preventing stale chapter list API results from overwriting the active regulation. |
 | **indo-parity.test.js** | `test/indo-parity.test.js` — `npm test` suite covering Indonesian registry, corpora, news helpers, and persisted news. |
 | **us-parity.test.js** | `test/us-parity.test.js` — registry, corpora/sources without EU bleed, news helpers, persisted US headlines, Ask retrieval, and UI source blurbs for the United States instruments. |
-| **browse-routes.test.js / reader-view.test.js** | Guards for browse hash routing and the reader Page \| Full mode. Together with the parity suites: `npm test` = **40 pass / 17 suites** (2026-10-22). |
+| **iso-parity.test.js** | `test/iso-parity.test.js` — registry, honest analogue mapping, corpora/sources without EU bleed, news helpers, persisted ISO / AICPA headlines, Ask retrieval, and UI source blurbs for the International instruments. |
+| **browse-routes.test.js / reader-view.test.js** | Guards for browse hash routing and the reader Page \| Full mode. Together with the parity suites: `npm test` = **58 pass / 24 suites** (2026-10-22). |
 
 ---
 

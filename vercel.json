@@ -8,11 +8,11 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 300,
-      "includeFiles": "data/**,ai-act-scraper.js,data-act-scraper.js,id-law-scraper.js,us-law-scraper.js"
+      "includeFiles": "data/**,ai-act-scraper.js,data-act-scraper.js,id-law-scraper.js,us-law-scraper.js,iso-soc-scraper.js"
     },
     "api/cron/daily-regulation-refresh.js": {
       "maxDuration": 300,
-      "includeFiles": "data/**,ai-act-scraper.js,data-act-scraper.js,id-law-scraper.js,us-law-scraper.js"
+      "includeFiles": "data/**,ai-act-scraper.js,data-act-scraper.js,id-law-scraper.js,us-law-scraper.js,iso-soc-scraper.js"
     }
   },
   "rewrites": [

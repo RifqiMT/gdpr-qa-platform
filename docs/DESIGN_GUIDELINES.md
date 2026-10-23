@@ -1,7 +1,7 @@
 # Design guidelines  
 ## Regulation Q&A Platform
 
-**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22** · Nine theme accents (EU · Indonesia · United States)  
+**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen theme accents (EU · Indonesia · United States · International)  
 **Source of truth for tokens:** `public/styles.css` (`:root` + `[data-browse-theme]` / `[data-news-theme]` / `[data-sources-theme]`).
 
 ---
@@ -65,12 +65,23 @@ Themes set **local** tokens on `.browse-welcome[data-browse-theme]`, `.news-hero
 | `us-ccpa` (US · California, blue) | `#1d4ed8` | `rgba(29,78,216,0.12)` | `0.24` | `0.30` | Browse `rgba(191,219,254,0.50)` · News/Sources `0.45` |
 | `us-open-data` (US · federal, teal-cyan) | `#0f766e` | `rgba(15,118,110,0.12)` | `0.24` | `0.30` | Browse `rgba(153,246,228,0.50)` · News/Sources `0.45` |
 | `us-admt` (US · Colorado, violet) | `#6d28d9` | `rgba(109,40,217,0.12)` | `0.24` | `0.30` | Browse `rgba(221,214,254,0.50)` · News/Sources `0.45` |
+| `iso-27701` (INTL · PIMS, teal) | `#0f766e` | `rgba(15,118,110,0.12)` | `0.24` | `0.30` | Browse `rgba(204,251,241,0.50)` · News/Sources `0.45` |
+| `iso-19941` (INTL · cloud, sky) | `#0369a1` | `rgba(3,105,161,0.12)` | `0.24` | `0.30` | Browse `rgba(186,230,253,0.50)` · News/Sources `0.45` |
+| `iso-23894` (INTL · AI risk, violet) | `#5b21b6` | `rgba(91,33,182,0.12)` | `0.24` | `0.30` | Browse `rgba(221,214,254,0.50)` · News/Sources `0.45` |
+| `soc2` (INTL · attestation, amber) | `#b45309` | `rgba(180,83,9,0.12)` | `0.24` | `0.30` | Browse `rgba(254,243,199,0.50)` · News/Sources `0.45` |
 
 **United States theme notes**
 
 - `us-open-data` deliberately shares the teal accent `#0f766e` with `gdpr` and the global `--accent`; it is distinguished by the cyan-leaning gradient wash, the **USA** region context, and the `OG` card monogram. Do not reuse `#0f766e` for any other US theme.
 - `us-ccpa` blue (`#1d4ed8`) and `us-admt` violet (`#6d28d9`) must remain distinct from the EU indigo (`ai-act` `#4f46e5`) and sky (`data-act` `#0369a1`) so jurisdiction can be inferred at a glance; verify contrast on `#ffffff` surfaces (both exceed WCAG AA for large and normal text).
 - Card monograms: `CA` (CCPA), `OG` (OPEN Data), `CO` (ADMT). Headings use **Section / Purpose note** nouns, never *Article / Recital*, in US surfaces.
+
+**International theme notes**
+
+- International instruments are **voluntary standards / attestation criteria, not laws**; theme accents must never imply statutory force. Browse / Ask / News copy carries the "not a law" signal; the accent only orients the user.
+- `iso-27701` (teal `#0f766e`) shares its accent with `gdpr` and the global `--accent` (different gradient wash: `rgba(204,251,241,0.50)`); `iso-19941` (sky `#0369a1`) shares `data-act`'s accent; `soc2` (amber `#b45309`) shares `id-ai-ethics`'s accent; `iso-23894` (deep violet `#5b21b6`) is unique. Distinction relies on the **INTL** region context, the jurisdiction chip, and the card monograms.
+- Card monograms: `PIMS` (ISO 27701), `CLOUD` (ISO 19941), `AI` (ISO 23894), `SOC` (SOC 2). Headings use **Clause / Criterion / Purpose note** nouns (`ISO 27701 clause N`, `SOC 2 criterion N`), never *Article / Recital*, in International surfaces.
+- Verify contrast of all four accents on `#ffffff` surfaces (all exceed WCAG AA for normal text).
 
 **CSS var names**
 
@@ -80,7 +91,7 @@ Themes set **local** tokens on `.browse-welcome[data-browse-theme]`, `.news-hero
 
 ### 2.1a Region picker thumb colors
 
-The region radiogroup (`#regionFilter`: **All · EU · Indonesia · USA**) uses a sliding thumb whose fill follows `data-region`:
+The region radiogroup (`#regionFilter`: **All · EU · Indonesia · USA · INTL**) uses a sliding thumb whose fill follows `data-region`:
 
 | `data-region` | Thumb fill |
 |---------------|------------|
@@ -88,6 +99,7 @@ The region radiogroup (`#regionFilter`: **All · EU · Indonesia · USA**) uses 
 | `eu` | `linear-gradient(180deg, #14b8a6, #0f766e)` |
 | `id` | `linear-gradient(180deg, #0f766e, #0d5c56)` |
 | `us` | `linear-gradient(180deg, #1d4ed8, #1e3a8a)` |
+| `intl` | `linear-gradient(180deg, #475569, #334155)` (slate) |
 
 The global `--accent` is **not** overridden by region or regulation theme; only the thumb and themed surfaces change.
 
@@ -152,10 +164,10 @@ Duration ~160–220ms with `--ease-smooth`. Prefer `transform` / `opacity`.
 
 | Component | Notes |
 |-----------|-------|
-| Region + Regulation picker | Unified shell; region thumb (teal EU/ID, blue USA); custom select grouped by jurisdiction under **All**; jurisdiction chip (European Union / Indonesia / United States) |
+| Region + Regulation picker | Unified shell; region thumb (teal EU/ID, blue USA, slate INTL); custom select grouped by jurisdiction under **All**; jurisdiction chip (European Union / Indonesia / United States / International; INTL chip text `#334155`, border tint `#475569`) |
 | Segmented tabs | Full-width track + sliding thumb |
 | Tools menu | ≤899px disclosure for freshness / keys / refresh |
-| Browse welcome cards | Themed; Chapters primary CTA; nine cards in three region rows (EU, Indonesia, USA) |
+| Browse welcome cards | Themed; Chapters primary CTA; thirteen cards in four region rows (EU, Indonesia, USA, International) |
 | Browse docs (Chapters / Recitals) | Shared `.browse-docs` chrome (eyebrow + compact header); flat teal toolbar/filter strip; dense chapter panels + article/recital cards; enter motion with reduced-motion off |
 | Filter bar | Desktop grid (chapters: 4-col ≥1100px); mobile collapsible Filters; News keeps richer card shell |
 | Reader | Centered header; numbered paragraphs; citation sidebar |
@@ -165,7 +177,7 @@ Duration ~160–220ms with `--ease-smooth`. Prefer `transform` / `opacity`.
 | Ask answer | `[S#]` chips; status chip for LLM/extractive |
 | BYOK dialog | Themed header + privacy callout; accent switch; provider cards with reveal toggles; single-row **Check · Clear · Save** (Save primary, flex grow; ≤439px Save full-width on top); validation panel states valid/invalid/skipped |
 | News hero | Themed bar + expandable details on mobile |
-| News controls | Soft strip: search + Source/Topic + Clear + By source|All (no nested filter card) |
+| News controls | Soft strip: search + Source/Topic + Clear + By source \| All (no nested filter card) |
 | News source blocks | Flat details headers + count pill; hairline divider (no box-in-box) |
 | News cards | Title-first; quiet meta/topic; light hover lift + accent bar; flat **All** feed |
 | News empty | Soft teal panel + Refresh / Clear CTAs |
@@ -193,14 +205,14 @@ Inline SVG for Tools chevron, credits social icons, freshness. No emoji in core 
 
 ## 10. Future theming (optional)
 
-Dark mode and per-tenant branding are **out of scope**. If introduced later: extend token tables without breaking regulation accent contracts; keep soft-law (`id-ai-ethics`) and jurisdiction (EU / Indonesia / USA) signals intact.
+Dark mode and per-tenant branding are **out of scope**. If introduced later: extend token tables without breaking regulation accent contracts; keep soft-law (`id-ai-ethics`) and jurisdiction (EU / Indonesia / USA / INTL) and voluntary-standard (`iso-*`, `soc2`) signals intact.
 
 ---
 
 ## References
 
 - `public/styles.css`  
-- `public/regulation-profiles.js` / `public/regulation-profiles-id.js` / `public/regulation-profiles-us.js`  
+- `public/regulation-profiles.js` / `public/regulation-profiles-id.js` / `public/regulation-profiles-us.js` / `public/regulation-profiles-iso.js`  
 - [VARIABLES.md §7.3](VARIABLES.md#73-regulation-theme-accents) — token values by theme  
 - [FEATURE_CATALOG.md](FEATURE_CATALOG.md)  
 - [../PRODUCT_DOCUMENTATION_STANDARD.md](../PRODUCT_DOCUMENTATION_STANDARD.md)

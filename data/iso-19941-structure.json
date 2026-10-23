@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "lastRefreshed": null,
+    "sources": [
+      {
+        "name": "ISO — ISO/IEC 19941:2017 catalogue",
+        "url": "https://www.iso.org/standard/66639.html",
+        "description": "Official ISO.org catalogue for ISO/IEC 19941:2017 Information technology — Cloud computing — Interoperability and portability. Confirmed 2023; ISO.org states it will be replaced by ISO/IEC 19941-1 (planned publication around November 2026).",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 19941:2017)",
+            "url": "https://www.iso.org/standard/66639.html"
+          },
+          {
+            "label": "ISO/IEC 19941-1 (forthcoming replacement)",
+            "url": "https://www.iso.org/standard/86724.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO — ISO/IEC 17788 and 17789 (related cloud vocabulary and architecture)",
+        "url": "https://www.iso.org/standard/60544.html",
+        "description": "Related cloud computing vocabulary (ISO/IEC 17788) and reference architecture (ISO/IEC 17789) that ISO/IEC 19941 uses for common terminology among cloud service customer, provider, and partner.",
+        "documents": [
+          {
+            "label": "ISO/IEC 17788 catalogue",
+            "url": "https://www.iso.org/standard/60544.html"
+          },
+          {
+            "label": "ISO/IEC 17789 catalogue",
+            "url": "https://www.iso.org/standard/60545.html"
+          }
+        ]
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Voluntary status, 19941-1 replacement, Data Act analogue honesty, copyright.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "id": "chapters",
+      "title": "Interoperability and portability map",
+      "description": "Educational map from the ISO.org abstract: types, terminology, CSC/CSP/CSN, lock-in, life cycle.",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Scope, related standards, and roles",
+      "articleRange": "1–3",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Interoperability and portability types",
+      "articleRange": "4–6",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "Data and application movement; lock-in",
+      "articleRange": "7–9",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Life cycle and Data Act analogue note",
+      "articleRange": "10–11",
+      "sourceUrl": "https://www.iso.org/standard/66639.html",
+      "eurLexUrl": "https://www.iso.org/standard/66639.html"
+    }
+  ]
+}

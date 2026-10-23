@@ -13,7 +13,7 @@
 
   var REG_STORAGE_KEY = 'gdpr-qa-regulation-v1';
   var REGION_STORAGE_KEY = 'gdpr-qa-region-v1';
-  var REGION_IDS = { all: 1, eu: 1, id: 1, us: 1 };
+  var REGION_IDS = { all: 1, eu: 1, id: 1, us: 1, intl: 1 };
   var currentRegion = 'all';
   var currentRegulation = {
     id: 'gdpr',
@@ -78,6 +78,26 @@
         recital: 'Purpose note',
         recitals: 'purpose notes',
         articleShort: '§',
+        recitalShort: 'Note'
+      };
+    }
+    if (id.indexOf('iso-') === 0) {
+      return {
+        article: 'Clause',
+        articles: 'clauses',
+        recital: 'Purpose note',
+        recitals: 'purpose notes',
+        articleShort: 'Cl.',
+        recitalShort: 'Note'
+      };
+    }
+    if (id === 'soc2') {
+      return {
+        article: 'Criterion',
+        articles: 'criteria',
+        recital: 'Purpose note',
+        recitals: 'purpose notes',
+        articleShort: 'CC',
         recitalShort: 'Note'
       };
     }
@@ -392,7 +412,11 @@
         s === 'id-ai-ethics' ||
         s === 'us-ccpa' ||
         s === 'us-admt' ||
-        s === 'us-open-data'
+        s === 'us-open-data' ||
+        s === 'iso-27701' ||
+        s === 'iso-19941' ||
+        s === 'iso-23894' ||
+        s === 'soc2'
       )
         return s;
     } catch (e) {}
@@ -421,12 +445,13 @@
 
   function regulationJurisdiction(reg) {
     if (!reg) return 'eu';
-    if (reg.jurisdiction === 'id' || reg.jurisdiction === 'eu' || reg.jurisdiction === 'us') {
+    if (reg.jurisdiction === 'id' || reg.jurisdiction === 'eu' || reg.jurisdiction === 'us' || reg.jurisdiction === 'intl') {
       return reg.jurisdiction;
     }
     var id = String(reg.id || '');
     if (id.indexOf('id-') === 0) return 'id';
     if (id.indexOf('us-') === 0) return 'us';
+    if (id.indexOf('iso-') === 0 || id === 'soc2') return 'intl';
     return 'eu';
   }
 
@@ -449,7 +474,11 @@
       'id-ai-ethics',
       'us-ccpa',
       'us-open-data',
-      'us-admt'
+      'us-admt',
+      'iso-27701',
+      'iso-19941',
+      'iso-23894',
+      'soc2'
     ];
     return ids.map(function (id) {
       var p = getRegulationProfileById(id) || { id: id, shortName: id };
@@ -458,7 +487,14 @@
         id: p.id || id,
         shortName: p.shortName || id,
         jurisdiction: juris,
-        jurisdictionLabel: juris === 'id' ? 'Indonesia' : juris === 'us' ? 'United States' : 'European Union'
+        jurisdictionLabel:
+          juris === 'id'
+            ? 'Indonesia'
+            : juris === 'us'
+              ? 'United States'
+              : juris === 'intl'
+                ? 'International'
+                : 'European Union'
       };
     });
   }
@@ -487,6 +523,13 @@
         }) || list[0]
       );
     }
+    if (region === 'intl') {
+      return (
+        list.find(function (r) {
+          return r.id === 'iso-27701';
+        }) || list[0]
+      );
+    }
     return (
       list.find(function (r) {
         return r.id === (currentRegulation && currentRegulation.id);
@@ -509,7 +552,9 @@
             ? 'Indonesia'
             : regulationJurisdiction(r) === 'us'
               ? 'United States'
-              : 'European Union');
+              : regulationJurisdiction(r) === 'intl'
+                ? 'International'
+                : 'European Union');
         if (groupLabel !== lastGroup) {
           og = document.createElement('optgroup');
           og.label = groupLabel;
@@ -537,7 +582,9 @@
           ? 'Switch EU regulation'
           : currentRegion === 'us'
             ? 'Switch United States regulation'
-            : 'Switch between EU, Indonesian, and United States regulations';
+            : currentRegion === 'intl'
+              ? 'Switch international standard'
+              : 'Switch between EU, Indonesian, United States, and international instruments';
   }
 
   function positionRegionFilterThumb() {
@@ -602,7 +649,13 @@
     var jur = regulationJurisdiction(reg);
     var label =
       (reg && reg.jurisdictionLabel) ||
-      (jur === 'id' ? 'Indonesia' : jur === 'us' ? 'United States' : 'European Union');
+      (jur === 'id'
+        ? 'Indonesia'
+        : jur === 'us'
+          ? 'United States'
+          : jur === 'intl'
+            ? 'International'
+            : 'European Union');
     var prev = chip.getAttribute('data-jurisdiction');
     chip.textContent = label;
     chip.setAttribute('data-jurisdiction', jur);
@@ -670,12 +723,19 @@
         lead.textContent =
           'In-force U.S. analogues — not federal GDPR, AI Act, or Data Act copies. Select a card to focus Browse and Ask.';
       }
+    } else if (currentRegion === 'intl') {
+      if (kicker) kicker.textContent = 'International';
+      if (title) title.textContent = 'Choose an international standard';
+      if (lead) {
+        lead.textContent =
+          'Voluntary ISO and AICPA instruments — not laws. Analogues of the GDPR, Data Act, and AI Act, plus SOC 2 attestation.';
+      }
     } else {
       if (kicker) kicker.textContent = 'Regulation workspace';
       if (title) title.textContent = 'Choose a regulation';
       if (lead) {
         lead.textContent =
-          'Nine instruments across the European Union, Indonesia, and the United States. Filter by region in the header, then select a card.';
+          'Thirteen instruments across the European Union, Indonesia, the United States, and international standards. Filter by region in the header, then select a card.';
       }
     }
   }
@@ -787,6 +847,18 @@
   var US_ADMT_NEWS_SCOPE_RE =
     /\badmt\b|\badai\b|automated decision-making technology|anti-discrimination in ai|colorado.{0,40}(ai act|artificial intelligence)|sb\s*26-189|sb26-189|sb\s*24-205|consequential decision|meaningful human review|colorado attorney general.{0,20}ai|c\.?r\.?s\.?\s*6-1-170/i;
 
+  var ISO_27701_NEWS_SCOPE_RE =
+    /iso\/?iec\s*27701|\b27701\b|privacy information management system|\bpims\b|pii controller|pii processor|iso\/?iec\s*27001.{0,20}privacy/i;
+
+  var ISO_19941_NEWS_SCOPE_RE =
+    /iso\/?iec\s*19941|\b19941\b|cloud computing.{0,24}(interoperability|portability)|cloud (interoperability|portability)|iso\/?iec\s*19941-1|csc.{0,12}csp.{0,12}csn/i;
+
+  var ISO_23894_NEWS_SCOPE_RE =
+    /iso\/?iec\s*23894|\b23894\b|ai risk management|artificial intelligence.{0,24}risk management|iso\s*31000.{0,20}ai|iso\/?iec\s*42001|artificial intelligence management system|\baims\b.{0,12}iso/i;
+
+  var SOC2_NEWS_SCOPE_RE =
+    /\bsoc\s*2\b|trust services criteria|\btsc\b.{0,12}(aicpa|soc)|soc for service organizations|points of focus.{0,12}2022|type\s*[12]\s+soc/i;
+
   function newsItemTextBlob(item) {
     return (
       (item.title || '') +
@@ -887,6 +959,35 @@
       }
       return false;
     }
+    if (reg.id === 'iso-27701') {
+      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+      if (ISO_27701_NEWS_SCOPE_RE.test(text)) return true;
+      if (/International ISO 27701|ISO\/IEC 27701|Privacy information management/i.test(cat)) return true;
+      if (/iso\.org/i.test(item.url || '') && /27701|pims|privacy information|sc\s*27/i.test(text)) return true;
+      return false;
+    }
+    if (reg.id === 'iso-19941') {
+      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+      if (ISO_19941_NEWS_SCOPE_RE.test(text)) return true;
+      if (/International ISO 19941|ISO\/IEC 19941|cloud interoperability/i.test(cat)) return true;
+      if (/iso\.org/i.test(item.url || '') && /19941|interoperability|portability|cloud computing/i.test(text)) return true;
+      return false;
+    }
+    if (reg.id === 'iso-23894') {
+      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+      if (ISO_23894_NEWS_SCOPE_RE.test(text)) return true;
+      if (/International ISO 23894|ISO\/IEC 23894|AI risk management/i.test(cat)) return true;
+      if (/iso\.org/i.test(item.url || '') && /23894|42001|ai risk|artificial intelligence.{0,20}risk|sc\s*42/i.test(text))
+        return true;
+      return false;
+    }
+    if (reg.id === 'soc2') {
+      if (!newsFeedIsInternational({ name: item.sourceName, url: item.url })) return false;
+      if (SOC2_NEWS_SCOPE_RE.test(text)) return true;
+      if (/International SOC 2|Trust Services Criteria|SOC for Service Organizations/i.test(cat)) return true;
+      if (/aicpa-cima\.com/i.test(item.url || '') && /soc\s*2|trust services|service organization/i.test(text)) return true;
+      return false;
+    }
     return true;
   }
 
@@ -910,7 +1011,9 @@
           ? 'Indonesian official references'
           : regulationJurisdiction(reg) === 'us'
             ? 'United States official references'
-            : 'Official & specialist references');
+            : regulationJurisdiction(reg) === 'intl'
+              ? 'Official ISO and AICPA references'
+              : 'Official & specialist references');
     }
     var sourcesTitle = document.getElementById('sourcesHeaderTitle');
     if (sourcesTitle) sourcesTitle.textContent = sources.title || ((reg && reg.shortName) || 'Regulation') + ': credible sources';
@@ -1057,7 +1160,11 @@
     'id-ai-ethics',
     'us-ccpa',
     'us-open-data',
-    'us-admt'
+    'us-admt',
+    'iso-27701',
+    'iso-19941',
+    'iso-23894',
+    'soc2'
   ];
   var BROWSE_WELCOME_REGIONS = [
     { id: 'eu', label: 'European Union', hint: 'Binding EU regulations', ids: ['gdpr', 'data-act', 'ai-act'] },
@@ -1067,6 +1174,12 @@
       label: 'United States',
       hint: 'In-force analogues — not federal GDPR, AI Act, or Data Act copies',
       ids: ['us-ccpa', 'us-open-data', 'us-admt']
+    },
+    {
+      id: 'intl',
+      label: 'International',
+      hint: 'Voluntary ISO and AICPA instruments — not laws',
+      ids: ['iso-27701', 'iso-19941', 'iso-23894', 'soc2']
     }
   ];
   var BROWSE_WELCOME_LAYOUT = 'regions-v2';
@@ -1135,6 +1248,12 @@
     if (id === 'us-ccpa' || id === 'us-admt' || id === 'us-open-data') {
       return { articles: 'Sections', recitals: 'Purpose notes' };
     }
+    if (id.indexOf('iso-') === 0) {
+      return { articles: 'Clauses', recitals: 'Purpose notes' };
+    }
+    if (id === 'soc2') {
+      return { articles: 'Criteria', recitals: 'Purpose notes' };
+    }
     return { articles: 'Articles', recitals: 'Recitals' };
   }
 
@@ -1142,9 +1261,11 @@
     var id = profile && profile.id ? String(profile.id) : '';
     if (profile && profile.jurisdiction === 'id') return { id: 'id', label: 'ID' };
     if (profile && profile.jurisdiction === 'us') return { id: 'us', label: 'US' };
+    if (profile && profile.jurisdiction === 'intl') return { id: 'intl', label: 'INTL' };
     if (profile && profile.jurisdiction === 'eu') return { id: 'eu', label: 'EU' };
     if (id.indexOf('id-') === 0) return { id: 'id', label: 'ID' };
     if (id.indexOf('us-') === 0) return { id: 'us', label: 'US' };
+    if (id.indexOf('iso-') === 0 || id === 'soc2') return { id: 'intl', label: 'INTL' };
     return { id: 'eu', label: 'EU' };
   }
 
@@ -2422,7 +2543,11 @@
     'id-ai-ethics': 1,
     'us-ccpa': 1,
     'us-admt': 1,
-    'us-open-data': 1
+    'us-open-data': 1,
+    'iso-27701': 1,
+    'iso-19941': 1,
+    'iso-23894': 1,
+    soc2: 1
   };
   var APP_ROUTE_KNOWN_VIEWS = { browse: 1, ask: 1, news: 1, sources: 1 };
   var suppressAppRouteSync = false;
@@ -3155,7 +3280,26 @@
     'U.S. Government Publishing Office (govinfo)':
       'Official HTML/PDF of Public Law 115-435, including Title II (OPEN Government Data Act).',
     'data.gov — Federal data catalogue': 'Public interface maintained under 44 U.S.C. § 3511 as the Federal data catalogue.',
-    'U.S. General Services Administration': 'GSA administers the Federal data catalogue interface required by the OPEN Government Data Act.'
+    'U.S. General Services Administration': 'GSA administers the Federal data catalogue interface required by the OPEN Government Data Act.',
+    ISO: 'International Organization for Standardization — news and catalogue pages for ISO/IEC 27701, 19941, 23894, and related JTC 1 committees.',
+    'ISO Insights': 'ISO Standards world and insights featuring published International Standards (privacy, AI, cloud).',
+    AICPA: 'AICPA & CIMA — SOC for Service Organizations and Trust Services Criteria updates.',
+    'ISO — ISO/IEC 27701:2025 catalogue':
+      'Official ISO.org catalogue for ISO/IEC 27701:2025 (standalone PIMS, 2nd edition, published 14 October 2025).',
+    'ISO/IEC JTC 1/SC 27': 'ISO/IEC committee for information security, cybersecurity and privacy protection — developer of ISO/IEC 27701.',
+    'ISO — ISO/IEC 19941:2017 catalogue':
+      'Official ISO.org catalogue for ISO/IEC 19941:2017 cloud interoperability and portability (replacement ISO/IEC 19941-1 forthcoming).',
+    'ISO — ISO/IEC 17788 and 17789 (related cloud vocabulary and architecture)':
+      'Related cloud computing vocabulary and reference architecture used by ISO/IEC 19941.',
+    'ISO — ISO/IEC 23894:2023 catalogue':
+      'Official ISO.org catalogue for ISO/IEC 23894:2023 AI risk-management guidance (ISO 31000 overlay, JTC 1/SC 42).',
+    'ISO — ISO/IEC 42001 (related AIMS)':
+      'Related certifiable Artificial Intelligence Management System — distinct from ISO/IEC 23894 guidance.',
+    'ISO/IEC JTC 1/SC 42': 'ISO/IEC committee for artificial intelligence — developer of ISO/IEC 23894 and ISO/IEC 42001.',
+    'AICPA — 2017 Trust Services Criteria with 2022 Points of Focus':
+      'Official AICPA download page for the Trust Services Criteria used in SOC 2 reports (TSP section 100).',
+    'AICPA — SOC for Service Organizations':
+      'Official AICPA landing page for System and Organization Controls reports, including SOC 2.'
   };
 
   /** Catch-all leaf topic; must match `NEWS_TOPIC_FALLBACK` in `news-topics.js`. */
@@ -3182,6 +3326,9 @@
     'data.gov',
     'GSA',
     'Federal Data Strategy',
+    'ISO',
+    'ISO Insights',
+    'AICPA',
     'European Data Protection Board (EDPB)',
     'EDPB',
     'European Data Protection Supervisor (EDPS)',
@@ -4426,6 +4573,16 @@
     );
   }
 
+  function newsFeedIsInternational(feed) {
+    var blob =
+      String((feed && feed.name) || '') +
+      ' ' +
+      String((feed && feed.url) || '') +
+      ' ' +
+      String((feed && feed.description) || '');
+    return /iso\.org|\biso\b|aicpa-cima\.com|\baicpa\b|trust services criteria|soc for service organizations/i.test(blob);
+  }
+
   function newsFeedsForCurrentScope(feeds) {
     var list = Array.isArray(feeds) ? feeds : [];
     var id = (getRegProfile() && getRegProfile().id) || 'gdpr';
@@ -4435,9 +4592,12 @@
     if (currentRegion === 'us' || String(id).indexOf('us-') === 0) {
       return list.filter(newsFeedIsUnitedStates);
     }
+    if (currentRegion === 'intl' || String(id).indexOf('iso-') === 0 || id === 'soc2') {
+      return list.filter(newsFeedIsInternational);
+    }
     if (currentRegion === 'eu' || id === 'ai-act' || id === 'data-act') {
       return list.filter(function (f) {
-        return !newsFeedIsIndonesian(f) && !newsFeedIsUnitedStates(f);
+        return !newsFeedIsIndonesian(f) && !newsFeedIsUnitedStates(f) && !newsFeedIsInternational(f);
       });
     }
     return list;
@@ -4474,6 +4634,14 @@
       allow = { 'United States OPEN Data': 1, General: 1 };
     } else if (id === 'us-admt') {
       allow = { 'United States ADMT': 1, 'AI and Emerging Tech': 1, General: 1 };
+    } else if (id === 'iso-27701') {
+      allow = { 'International ISO 27701': 1, General: 1 };
+    } else if (id === 'iso-19941') {
+      allow = { 'International ISO 19941': 1, General: 1 };
+    } else if (id === 'iso-23894') {
+      allow = { 'International ISO 23894': 1, 'AI and Emerging Tech': 1, General: 1 };
+    } else if (id === 'soc2') {
+      allow = { 'International SOC 2': 1, General: 1 };
     }
     if (!allow) return groups;
     return groups.filter(function (g) {

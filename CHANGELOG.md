@@ -8,6 +8,28 @@ All notable changes to the **Regulation Q&A Platform** (repository: `gdpr-qa-pla
 
 ---
 
+## [1.3.0] — 2026-10-23
+
+### Added
+
+- **International jurisdiction (four voluntary instruments):** ISO/IEC 27701:2025 (`iso-27701`, GDPR analogue PIMS), ISO/IEC 19941:2017 (`iso-19941`, Data Act cloud-portability analogue), ISO/IEC 23894:2023 (`iso-23894`, AI Act risk-management analogue; related ISO/IEC 42001 noted only), and AICPA SOC 2 / Trust Services Criteria (`soc2`). Mapping is honest: these are **not laws**. Duplicate ISO 23894 in the request is treated as one instrument.
+- **Copyright-safe corpora:** Educational overlays from ISO.org catalogue abstracts, Harmonized Structure clause titles, ISO 31000 process titles, and publicly listed TSC criterion names. Paywalled ISO/AICPA body text is not scraped. Ping-only ETL in `iso-soc-scraper.js`.
+- **Region picker INTL:** Header thumb All / EU / Indonesia / USA / INTL; welcome grid fourth row; jurisdiction chip “International”; default `iso-27701`.
+- **International news:** ISO.org news/insights and AICPA SOC/TSC pages, plus catalogue-notice seeds; topic groups `International ISO 27701` / `19941` / `23894` / `SOC 2`.
+- **Tests:** `test/iso-parity.test.js` (registry, corpora/sources, news helpers, Ask retrieval, UI blurbs). `npm test` — 58 pass / 24 suites.
+- **Vercel seeding:** `SEED_FILES` = **41**; cron refresh covers ISO/SOC instruments; `vercel.json` `includeFiles` lists `iso-soc-scraper.js`.
+
+### Removed
+
+- **Unused import:** `enrichArticlesWithChapter` from `us-law-scraper.js` (US corpora ship with chapter already assigned).
+- **Unused CSS:** `@keyframes fadeIn` (never referenced; `docContentFadeIn` remains).
+
+### Documentation
+
+- Product documentation standard **v3.0** → **v3.1** (audit 2026-10-23): thirteen instruments (EU + Indonesia + United States + International), jurisdictions `eu` / `id` / `us` / `intl`. ISO/SOC ETL env vars and refresh scripts documented end to end. Honesty guardrails BG-22…24 and TG-INTL-01…08. Personas, Epic stories, PRD, traceability BR-INTL-*, metrics OKR O14, and full satellite doc lockstep.
+
+---
+
 ## [1.2.9] — 2026-10-22
 
 ### Added

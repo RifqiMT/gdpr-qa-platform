@@ -1,11 +1,11 @@
 # Data schema examples  
 ## Regulation Q&A Platform
 
-**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22**
+**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22**
 
-Illustrative **JSON fragments** for integrators, covering all **nine** corpora (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`). Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md). Text is abbreviated with `…`; Indonesian legal text is kept in **Bahasa Indonesia**, with **English structural titles**; United States text is English statutory language.
+Illustrative **JSON fragments** for integrators, covering all **thirteen** corpora (EU: `gdpr`, `ai-act`, `data-act`; Indonesia: `id-pdp`, `id-satu-data`, `id-ai-ethics`; United States: `us-ccpa`, `us-open-data`, `us-admt`; International voluntary standards: `iso-27701`, `iso-19941`, `iso-23894`, `soc2`). Authoritative fields: [VARIABLES.md](VARIABLES.md), [API_CONTRACTS.md](API_CONTRACTS.md). Text is abbreviated with `…`; Indonesian legal text is kept in **Bahasa Indonesia**, with **English structural titles**; United States text is English statutory language; International text is an English **educational overlay** (not the paywalled ISO / AICPA standard text).
 
-**Common corpus shape** (all nine `data/<id>-content.json` files): `meta` · `categories` · `chapters` · `articles` · `recitals` · `searchIndex`. The `chapter` number on each article is **added at load time** by `enrichArticlesWithChapter` using the registry `chapterRanges`; it is not required in the stored file.
+**Common corpus shape** (all thirteen `data/<id>-content.json` files): `meta` · `categories` · `chapters` · `articles` · `recitals` · `searchIndex`. The `chapter` number on each article is **added at load time** by `enrichArticlesWithChapter` using the registry `chapterRanges`; it is not required in the stored file.
 
 ---
 
@@ -318,9 +318,92 @@ For `us-ccpa` and `us-open-data` only `id`, names, counts (`33 / 5 / 7` and `10 
 
 ---
 
+## 1k. International — SOC 2 corpus (`data/soc2-content.json`) — excerpts
+
+International corpora reuse the EU field names. **Articles are Clauses / Criteria** (`iso-27701`, `iso-19941`, `iso-23894` → *clause N*; `soc2` → *criterion N*); **recitals are Purpose notes**. Text is an English **educational overlay** built from public ISO.org / AICPA catalogue abstracts and publicly listed clause / criterion names — **never** the paid standard body or AICPA Points of Focus tables. The same shape applies to `iso-27701-content.json`, `iso-19941-content.json`, and `iso-23894-content.json`.
+
+```json
+{
+  "meta": {
+    "regulationId": "soc2",
+    "lastRefreshed": "2026-10-22T15:20:28.491Z",
+    "lastChecked": "2026-10-22T15:20:28.491Z",
+    "datasetHash": "3d02c9c9…",
+    "etl": {
+      "extractedFrom": "aicpa-tsc-2017-pof-2022-catalogue",
+      "fetched": false,
+      "significant": true,
+      "datasetHash": "3d02c9c9…",
+      "articleCount": 20,
+      "recitalCount": 6,
+      "copyrightNote": "Educational overlay from public catalogue abstracts and publicly listed clause/criterion titles. Not the paid ISO or AICPA standard text."
+    },
+    "sources": [
+      {
+        "name": "AICPA — 2017 Trust Services Criteria with 2022 Points of Focus",
+        "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+        "description": "Official AICPA & CIMA download page … This is attestation criteria, not a statute.",
+        "documents": [{ "label": "TSC 2017 with 2022 Points of Focus (AICPA download)", "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022" }]
+      }
+    ]
+  },
+  "chapters": [
+    { "number": 1, "roman": "I", "title": "Security — Common Criteria (CC1–CC9)", "articleRange": "1–9", "sourceUrl": "https://www.aicpa-cima.com/…", "eurLexUrl": "https://www.aicpa-cima.com/…" }
+  ],
+  "recitals": [
+    { "number": 1, "title": "SOC 2 is an attestation, not a law", "text": "SOC 2 is a System and Organization Controls report issued by a CPA under AICPA attestation standards … It is not a statute, not GDPR, and not an ISO management-system certification. …" }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "CC1 — Control Environment",
+      "text": "Public Trust Services Criteria (TSC) category Security / Common Criteria name: Control Environment. Educational summary: … Not a GDPR accountability article.",
+      "sourceUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "eurLexUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "gdprInfoUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022"
+    }
+  ],
+  "searchIndex": [
+    { "type": "recital", "id": "recital-1", "number": 1, "title": "Recital (1) — SOC 2 is an attestation, not a law", "text": "…" }
+  ]
+}
+```
+
+Notes: `extractedFrom` values per corpus — `iso-27701`: `iso-org-catalogue-27701-2025`; `iso-19941`: `iso-org-catalogue-19941-2017`; `iso-23894`: `iso-org-catalogue-23894-2023`; `soc2`: `aicpa-tsc-2017-pof-2022-catalogue`. `etl.fetched` is `false` for the bundled overlay (the ETL only pings the official page). `eurLexUrl` and `gdprInfoUrl` are compatibility field names that point to ISO.org / AICPA pages — **never** to EUR-Lex or GDPR-Info. Reader headings are built client-side (`ISO 27701 clause N`, `ISO 19941 clause N`, `ISO 23894 clause N`, `SOC 2 criterion N`, `Purpose note (N)`); anchors are `#clause-N`, `#criterion-N`, and `#purpose-N`. Chapter summaries use the same shape as §1g (`chapter-summaries-iso-27701.json`, `chapter-summaries-iso-19941.json`, `chapter-summaries-iso-23894.json`, `chapter-summaries-soc2.json`).
+
+---
+
+## 1l. Regulation catalog entry (`GET /api/regulations`) — International
+
+```json
+{
+  "id": "soc2",
+  "shortName": "SOC 2",
+  "legalLabel": "SOC 2",
+  "fullName": "SOC 2 — AICPA 2017 Trust Services Criteria for Security, Availability, Processing Integrity, Confidentiality, and Privacy (with Revised Points of Focus — 2022)",
+  "maxArticles": 20,
+  "maxRecitals": 6,
+  "maxChapters": 5,
+  "segmentMeta": { "recitals": "Purpose notes 1–6", "articles": "Criteria CC / A / C / PI / P" },
+  "infoBaseUrl": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+  "infoSiteName": "AICPA & CIMA",
+  "eurLexUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+  "eurLexLabel": "AICPA SOC for Service Organizations",
+  "hasArticleTopics": false,
+  "hasSuitableRecitals": false,
+  "jurisdiction": "intl",
+  "jurisdictionLabel": "International",
+  "officialSiteName": "AICPA"
+}
+```
+
+For `iso-27701`, `iso-19941`, and `iso-23894` only `id`, names, counts (`14 / 5 / 4`, `11 / 4 / 4`, and `12 / 5 / 5` for articles / recitals / chapters), source URLs (ISO.org catalogue), and `officialSiteName` (`ISO`) differ. International instruments are **voluntary standards, not laws**.
+
+---
+
 ## 2. News cache (`data/gdpr-news.json`) — excerpts
 
-One shared cache for EU, Indonesian, **and** United States items; per-instrument scope is applied client-side.
+One shared cache for EU, Indonesian, United States, **and** International items; per-instrument scope is applied client-side.
 
 ```json
 {
@@ -368,12 +451,22 @@ One shared cache for EU, Indonesian, **and** United States items; per-instrument
       "snippet": "…",
       "topic": "Colorado ADMT Act",
       "topicCategory": "United States ADMT"
+    },
+    {
+      "title": "2017 Trust Services Criteria with Revised Points of Focus — 2022",
+      "url": "https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022",
+      "sourceName": "AICPA",
+      "sourceUrl": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-for-service-organizations",
+      "date": "2022-01-01",
+      "snippet": "AICPA TSC for Security, Availability, Processing Integrity, Confidentiality, and Privacy used in SOC 2 reports.",
+      "topic": "SOC 2 and Trust Services Criteria",
+      "topicCategory": "International SOC 2"
     }
   ]
 }
 ```
 
-Indonesian `topicCategory` values: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**. United States `topicCategory` values: **United States CCPA**, **United States ADMT**, **United States OPEN Data**. `date` may be `null` when the publisher listing page exposes none.
+Indonesian `topicCategory` values: **Indonesia Personal Data Protection**, **Indonesia Satu Data**, **Indonesia AI Ethics**. United States `topicCategory` values: **United States CCPA**, **United States ADMT**, **United States OPEN Data**. International `topicCategory` values: **International ISO 27701**, **International ISO 19941**, **International ISO 23894**, **International SOC 2**. `date` may be `null` when the publisher listing page exposes none.
 
 ---
 
@@ -443,7 +536,7 @@ Indonesian response fragment (UU PDP; `kind: "regulation"` sources link to JDIH 
 }
 ```
 
-`llm.provider` is `groq`, `tavily`, or `null` (extractive fallback, `used: false`). For `id-ai-ethics` the Groq prompt adds a soft-law (LEGAL FORCE) rule.
+`llm.provider` is `groq`, `tavily`, or `null` (extractive fallback, `used: false`). For `id-ai-ethics` the Groq prompt adds a soft-law (LEGAL FORCE) rule; for `iso-27701`, `iso-19941`, `iso-23894`, and `soc2` it adds a **voluntary-standard** LEGAL FORCE rule (not a law; no invented paid text).
 
 ---
 
@@ -491,6 +584,6 @@ Indonesian response fragment (UU PDP; `kind: "regulation"` sources link to JDIH 
 
 ## References
 
-- [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) — corpus normalization contract (all nine corpora)  
+- [DOCUMENT_FORMATTING_GUARDRAILS.md](DOCUMENT_FORMATTING_GUARDRAILS.md) — corpus normalization contract (all thirteen corpora)  
 - [VARIABLES.md](VARIABLES.md) — full dictionary  
 - [API_CONTRACTS.md](API_CONTRACTS.md) — request/response contracts (live routes only)

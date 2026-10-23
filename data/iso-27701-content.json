@@ -1,0 +1,461 @@
+{
+  "meta": {
+    "lastRefreshed": "2026-10-22T15:20:28.491Z",
+    "sources": [
+      {
+        "name": "ISO — ISO/IEC 27701:2025 catalogue",
+        "url": "https://www.iso.org/standard/27701",
+        "description": "Official ISO.org catalogue for ISO/IEC 27701:2025 (2nd edition, published 14 October 2025): Privacy information management systems — Requirements and guidance. JTC 1/SC 27; 64 pages; ICS 35.030.",
+        "documents": [
+          {
+            "label": "ISO.org catalogue (ISO/IEC 27701:2025)",
+            "url": "https://www.iso.org/standard/27701"
+          },
+          {
+            "label": "ISO webstore",
+            "url": "https://www.iso.org/standard/27701.html"
+          }
+        ]
+      },
+      {
+        "name": "ISO/IEC JTC 1/SC 27",
+        "url": "https://www.iso.org/committee/45306.html",
+        "description": "ISO/IEC joint technical committee for information security, cybersecurity and privacy protection — the committee that developed ISO/IEC 27701.",
+        "documents": [
+          {
+            "label": "SC 27 committee page",
+            "url": "https://www.iso.org/committee/45306.html"
+          }
+        ]
+      }
+    ],
+    "regulationId": "iso-27701",
+    "lastChecked": "2026-10-22T15:20:28.491Z",
+    "datasetHash": "9c4fe16345944d5e04b6964e9bafe13bd73234367c222aabc29a40ffe3fc754f",
+    "etl": {
+      "extractedFrom": "iso-org-catalogue-27701-2025",
+      "fetched": false,
+      "significant": true,
+      "datasetHash": "9c4fe16345944d5e04b6964e9bafe13bd73234367c222aabc29a40ffe3fc754f",
+      "articleCount": 14,
+      "recitalCount": 5,
+      "copyrightNote": "Educational overlay from public catalogue abstracts and publicly listed clause/criterion titles. Not the paid ISO or AICPA standard text."
+    }
+  },
+  "categories": [
+    {
+      "id": "recitals",
+      "title": "Purpose and jurisdiction notes",
+      "description": "Voluntary-standard status, 2025 standalone PIMS, GDPR analogue honesty, and copyright limits.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "id": "chapters",
+      "title": "PIMS clause map",
+      "description": "Educational map of ISO/IEC 27701:2025 using public catalogue facts and Harmonized Structure titles.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "roman": "I",
+      "title": "Scope, references, and terms",
+      "articleRange": "1–3",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 2,
+      "roman": "II",
+      "title": "Privacy information management system (clauses 4–10)",
+      "articleRange": "4–10",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 3,
+      "roman": "III",
+      "title": "PII controller and processor roles",
+      "articleRange": "11–12",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 4,
+      "roman": "IV",
+      "title": "Relationship to ISO/IEC 27001 and privacy law",
+      "articleRange": "13–14",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    }
+  ],
+  "recitals": [
+    {
+      "number": 1,
+      "title": "Voluntary international standard, not a law",
+      "text": "ISO/IEC 27701:2025 is a voluntary International Standard published by ISO and IEC. It is not a statute, regulation, or court judgment. An organization may choose to implement a Privacy Information Management System (PIMS) and, where a certification scheme exists, seek independent certification. Certification is not the same as legal compliance with the EU GDPR or any other privacy law. Buy the full text from ISO if you need the normative requirements.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 2,
+      "title": "2025 edition is a standalone PIMS; 2019 is withdrawn",
+      "text": "The ISO.org catalogue lists ISO/IEC 27701:2025 as Edition 2, published 14 October 2025 (stage 60.60), 64 pages, committee ISO/IEC JTC 1/SC 27. The 2019 edition is withdrawn. ISO.org states that the 2025 document is an independent management system standard (MSS): it can be used alone and remains compatible with ISO/IEC 27001. The 2019 edition was commonly implemented as an extension to an ISMS; that dependency is no longer required.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 3,
+      "title": "Closest international analogue to the EU GDPR — not a GDPR substitute",
+      "text": "This workspace maps ISO/IEC 27701 to the EU GDPR because ISO.org publicly describes the standard as helping organizations demonstrate compliance with global privacy regulations such as the GDPR, and because it addresses PII controllers and PII processors. That mapping is analogical. ISO/IEC 27701 does not copy GDPR articles, does not create data-subject rights, and does not appoint a supervisory authority. Use the GDPR instrument in this app for Regulation (EU) 2016/679.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 4,
+      "title": "Copyright: educational overlay only",
+      "text": "ISO owns the copyright in ISO/IEC 27701. This corpus is an original educational overlay: public catalogue facts, Harmonized Structure (Annex SL) clause titles that ISO publishes for management-system standards, and original summaries. It is not the paid standard and must not be treated as a substitute for purchasing ISO/IEC 27701:2025.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "number": 5,
+      "title": "What a PIMS is (ISO.org public FAQ)",
+      "text": "ISO.org’s public FAQ for ISO/IEC 27701 describes a privacy information management system (PIMS) as a structured framework for managing personally identifiable information (PII) responsibly and in line with privacy laws and standards. The catalogue page states the document specifies requirements for establishing, implementing, maintaining and continually improving a PIMS, with guidance to assist implementation, for PII controllers and PII processors holding responsibility and accountability for PII processing, applicable to organizations of all types and sizes.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    }
+  ],
+  "articles": [
+    {
+      "number": 1,
+      "title": "Clause 1 — Scope (catalogue abstract)",
+      "text": "Public ISO.org abstract: ISO/IEC 27701 specifies requirements for establishing, implementing, maintaining and continually improving a privacy information management system (PIMS). Guidance is also provided to assist implementation. The document is intended for personally identifiable information (PII) controllers and PII processors holding responsibility and accountability for PII processing. It is applicable to all types and sizes of organizations, including public and private companies, government entities and not-for-profit organizations. This clause map is educational; the paid standard contains the full normative scope.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 1
+    },
+    {
+      "number": 2,
+      "title": "Clause 2 — Normative references",
+      "text": "As a Harmonized Structure management-system standard, ISO/IEC 27701:2025 includes a normative-references clause. ISO.org states the 2025 edition can be used alone and still aligns with existing ISO/IEC 27001 systems. Organizations that already run an information security management system (ISMS) can integrate PIMS processes; organizations without ISO/IEC 27001 can still implement a standalone PIMS. Always check the purchased document for the exact dated references.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 1
+    },
+    {
+      "number": 3,
+      "title": "Clause 3 — Terms and definitions (PII controller and processor)",
+      "text": "ISO.org’s public page distinguishes PII controllers and PII processors as the parties that hold responsibility and accountability for processing personally identifiable information. In this educational overlay: a PII controller determines purposes and means of PII processing; a PII processor processes PII on behalf of a controller. These roles are analogous to GDPR controller/processor concepts but are defined inside the ISO/IEC vocabulary, not inside Regulation (EU) 2016/679. Confirm defined terms in the purchased standard and in ISO/IEC 29100 where referenced.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 1
+    },
+    {
+      "number": 4,
+      "title": "Clause 4 — Context of the organization",
+      "text": "Harmonized Structure clause 4 (public MSS title: Context of the organization) typically requires the organization to determine internal and external issues, interested parties, and the scope of the management system. For a PIMS, that context includes privacy expectations of individuals whose PII is processed, applicable privacy law (for example the GDPR, CCPA, or UU PDP — none of which this standard replaces), contractual processor duties, and the relationship to any existing ISMS. Educational map only.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 5,
+      "title": "Clause 5 — Leadership",
+      "text": "Harmonized Structure clause 5 (Leadership) typically requires top-management commitment, a privacy policy, and assignment of roles. ISO.org lists “facilitates accountability and evidence-based privacy management” among public benefits of ISO/IEC 27701. In a PIMS, leadership is expected to direct privacy objectives, provide resources, and remain accountable for PII processing whether the organization acts as controller, processor, or both.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 6,
+      "title": "Clause 6 — Planning",
+      "text": "Harmonized Structure clause 6 (Planning) typically covers actions to address risks and opportunities, management-system objectives, and planning of changes. For a PIMS, planning includes privacy-risk identification for PII processing, treating those risks, and setting measurable privacy objectives. ISO.org notes the standard helps organizations manage risks around personally identifiable information. This is a management-system planning clause, not a GDPR data-protection impact assessment article.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 7,
+      "title": "Clause 7 — Support",
+      "text": "Harmonized Structure clause 7 (Support) typically covers resources, competence, awareness, communication, and documented information. A PIMS needs people who understand PII handling, awareness of privacy policy, internal and external communication about privacy, and controlled documented information (policies, records of processing activities analogue, processor contracts analogue). Educational overlay — buy the standard for normative shall-statements.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 8,
+      "title": "Clause 8 — Operation",
+      "text": "Harmonized Structure clause 8 (Operation) typically requires operational planning and control of the processes needed to meet management-system requirements. For a PIMS this is where day-to-day PII processing controls live: collection, use, storage, sharing, retention, deletion, and processor oversight. ISO.org’s public benefits include strengthening data privacy and protection capabilities. Operation is not an EU GDPR Chapter III rights catalogue.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 9,
+      "title": "Clause 9 — Performance evaluation",
+      "text": "Harmonized Structure clause 9 (Performance evaluation) typically covers monitoring, measurement, analysis, evaluation, internal audit, and management review. A PIMS uses these activities to check whether privacy objectives and PII controls work, and to present evidence to leadership and (where used) certification bodies. Evidence-based privacy management is listed on ISO.org as a public benefit of ISO/IEC 27701.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 10,
+      "title": "Clause 10 — Improvement",
+      "text": "Harmonized Structure clause 10 (Improvement) typically covers nonconformity, corrective action, and continual improvement. When a PII incident, audit finding, or complaint shows the PIMS is not effective, the organization is expected to correct the issue and improve the system. ISO.org describes the document as covering establishing, implementing, maintaining and continually improving a PIMS.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 2
+    },
+    {
+      "number": 11,
+      "title": "PII controller responsibilities (educational map)",
+      "text": "ISO.org states the standard is intended for PII controllers (and processors) that hold responsibility and accountability for PII processing. In this educational map, controller-side PIMS activities typically include determining processing purposes, implementing privacy by design in the organization’s own processing, handling individual requests according to applicable law, and instructing processors. This overlay does not reproduce ISO annexes. Legal rights of individuals still come from the applicable statute (for example GDPR), not from ISO/IEC 27701.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 3
+    },
+    {
+      "number": 12,
+      "title": "PII processor responsibilities (educational map)",
+      "text": "ISO.org also addresses PII processors. In this educational map, processor-side PIMS activities typically include processing only on documented instructions, implementing agreed security and privacy controls, assisting the controller, and not using PII for the processor’s own purposes unless allowed. This is analogous to GDPR Article 28 themes but is a management-system role split, not a statutory contract clause. Confirm processor annexes in the purchased 2025 text.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 3
+    },
+    {
+      "number": 13,
+      "title": "Relationship to ISO/IEC 27001",
+      "text": "ISO.org states ISO/IEC 27701 aligns with existing ISO/IEC 27001 systems to streamline implementation, and that the 2025 edition can be used alone as an independent MSS. Organizations may run a combined ISMS+PIMS or a standalone PIMS. Information security (confidentiality, integrity, availability of information) is related to, but not the same as, privacy management of PII. Do not treat ISO/IEC 27001 certification as GDPR compliance, and do not treat ISO/IEC 27701 certification as a legal adequacy decision.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 4
+    },
+    {
+      "number": 14,
+      "title": "Relationship to GDPR and other privacy law",
+      "text": "ISO.org publicly lists among benefits: “Helps demonstrate compliance with global privacy regulations such as GDPR.” Demonstration is not equivalence. A PIMS can produce policies, risk records, and audit evidence that a GDPR programme also needs (accountability, security of processing, processor oversight). It does not grant or limit data-subject rights, set administrative fines, or replace a supervisory authority. Use this instrument for the international PIMS analogue; use the GDPR instrument for Regulation (EU) 2016/679.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701",
+      "gdprInfoUrl": "https://www.iso.org/standard/27701",
+      "chapter": 4
+    }
+  ],
+  "searchIndex": [
+    {
+      "type": "recital",
+      "id": "recital-1",
+      "number": 1,
+      "title": "Recital (1) — Voluntary international standard, not a law",
+      "text": "ISO/IEC 27701:2025 is a voluntary International Standard published by ISO and IEC. It is not a statute, regulation, or court judgment. An organization may choose to implement a Privacy Information Management System (PIMS) and, where a certification scheme exists, seek independent certification. Certification is not the same as legal compliance with the EU GDPR or any other privacy law. Buy the full text from ISO if you need the normative requirements.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "recital",
+      "id": "recital-2",
+      "number": 2,
+      "title": "Recital (2) — 2025 edition is a standalone PIMS; 2019 is withdrawn",
+      "text": "The ISO.org catalogue lists ISO/IEC 27701:2025 as Edition 2, published 14 October 2025 (stage 60.60), 64 pages, committee ISO/IEC JTC 1/SC 27. The 2019 edition is withdrawn. ISO.org states that the 2025 document is an independent management system standard (MSS): it can be used alone and remains compatible with ISO/IEC 27001. The 2019 edition was commonly implemented as an extension to an ISMS; that dependency is no longer required.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "recital",
+      "id": "recital-3",
+      "number": 3,
+      "title": "Recital (3) — Closest international analogue to the EU GDPR — not a GDPR substitute",
+      "text": "This workspace maps ISO/IEC 27701 to the EU GDPR because ISO.org publicly describes the standard as helping organizations demonstrate compliance with global privacy regulations such as the GDPR, and because it addresses PII controllers and PII processors. That mapping is analogical. ISO/IEC 27701 does not copy GDPR articles, does not create data-subject rights, and does not appoint a supervisory authority. Use the GDPR instrument in this app for Regulation (EU) 2016/679.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "recital",
+      "id": "recital-4",
+      "number": 4,
+      "title": "Recital (4) — Copyright: educational overlay only",
+      "text": "ISO owns the copyright in ISO/IEC 27701. This corpus is an original educational overlay: public catalogue facts, Harmonized Structure (Annex SL) clause titles that ISO publishes for management-system standards, and original summaries. It is not the paid standard and must not be treated as a substitute for purchasing ISO/IEC 27701:2025.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "recital",
+      "id": "recital-5",
+      "number": 5,
+      "title": "Recital (5) — What a PIMS is (ISO.org public FAQ)",
+      "text": "ISO.org’s public FAQ for ISO/IEC 27701 describes a privacy information management system (PIMS) as a structured framework for managing personally identifiable information (PII) responsibly and in line with privacy laws and standards. The catalogue page states the document specifies requirements for establishing, implementing, maintaining and continually improving a PIMS, with guidance to assist implementation, for PII controllers and PII processors holding responsibility and accountability for PII processing, applicable to organizations of all types and sizes.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-1",
+      "number": 1,
+      "chapter": 1,
+      "chapterTitle": "Scope, references, and terms",
+      "title": "Clause 1 — Scope (catalogue abstract)",
+      "text": "Clause 1 — Scope (catalogue abstract) Public ISO.org abstract: ISO/IEC 27701 specifies requirements for establishing, implementing, maintaining and continually improving a privacy information management system (PIMS). Guidance is also provided to assist implementation. The document is intended for personally identifiable information (PII) controllers and PII processors holding responsibility and accountability for PII processing. It is applicable to all types and sizes of organizations, including public and private companies, government entities and not-for-profit organizations. This clause map is educational; the paid standard contains the full normative scope.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-2",
+      "number": 2,
+      "chapter": 1,
+      "chapterTitle": "Scope, references, and terms",
+      "title": "Clause 2 — Normative references",
+      "text": "Clause 2 — Normative references As a Harmonized Structure management-system standard, ISO/IEC 27701:2025 includes a normative-references clause. ISO.org states the 2025 edition can be used alone and still aligns with existing ISO/IEC 27001 systems. Organizations that already run an information security management system (ISMS) can integrate PIMS processes; organizations without ISO/IEC 27001 can still implement a standalone PIMS. Always check the purchased document for the exact dated references.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-3",
+      "number": 3,
+      "chapter": 1,
+      "chapterTitle": "Scope, references, and terms",
+      "title": "Clause 3 — Terms and definitions (PII controller and processor)",
+      "text": "Clause 3 — Terms and definitions (PII controller and processor) ISO.org’s public page distinguishes PII controllers and PII processors as the parties that hold responsibility and accountability for processing personally identifiable information. In this educational overlay: a PII controller determines purposes and means of PII processing; a PII processor processes PII on behalf of a controller. These roles are analogous to GDPR controller/processor concepts but are defined inside the ISO/IEC vocabulary, not inside Regulation (EU) 2016/679. Confirm defined terms in the purchased standard and in ISO/IEC 29100 where referenced.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-4",
+      "number": 4,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 4 — Context of the organization",
+      "text": "Clause 4 — Context of the organization Harmonized Structure clause 4 (public MSS title: Context of the organization) typically requires the organization to determine internal and external issues, interested parties, and the scope of the management system. For a PIMS, that context includes privacy expectations of individuals whose PII is processed, applicable privacy law (for example the GDPR, CCPA, or UU PDP — none of which this standard replaces), contractual processor duties, and the relationship to any existing ISMS. Educational map only.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-5",
+      "number": 5,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 5 — Leadership",
+      "text": "Clause 5 — Leadership Harmonized Structure clause 5 (Leadership) typically requires top-management commitment, a privacy policy, and assignment of roles. ISO.org lists “facilitates accountability and evidence-based privacy management” among public benefits of ISO/IEC 27701. In a PIMS, leadership is expected to direct privacy objectives, provide resources, and remain accountable for PII processing whether the organization acts as controller, processor, or both.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-6",
+      "number": 6,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 6 — Planning",
+      "text": "Clause 6 — Planning Harmonized Structure clause 6 (Planning) typically covers actions to address risks and opportunities, management-system objectives, and planning of changes. For a PIMS, planning includes privacy-risk identification for PII processing, treating those risks, and setting measurable privacy objectives. ISO.org notes the standard helps organizations manage risks around personally identifiable information. This is a management-system planning clause, not a GDPR data-protection impact assessment article.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-7",
+      "number": 7,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 7 — Support",
+      "text": "Clause 7 — Support Harmonized Structure clause 7 (Support) typically covers resources, competence, awareness, communication, and documented information. A PIMS needs people who understand PII handling, awareness of privacy policy, internal and external communication about privacy, and controlled documented information (policies, records of processing activities analogue, processor contracts analogue). Educational overlay — buy the standard for normative shall-statements.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-8",
+      "number": 8,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 8 — Operation",
+      "text": "Clause 8 — Operation Harmonized Structure clause 8 (Operation) typically requires operational planning and control of the processes needed to meet management-system requirements. For a PIMS this is where day-to-day PII processing controls live: collection, use, storage, sharing, retention, deletion, and processor oversight. ISO.org’s public benefits include strengthening data privacy and protection capabilities. Operation is not an EU GDPR Chapter III rights catalogue.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-9",
+      "number": 9,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 9 — Performance evaluation",
+      "text": "Clause 9 — Performance evaluation Harmonized Structure clause 9 (Performance evaluation) typically covers monitoring, measurement, analysis, evaluation, internal audit, and management review. A PIMS uses these activities to check whether privacy objectives and PII controls work, and to present evidence to leadership and (where used) certification bodies. Evidence-based privacy management is listed on ISO.org as a public benefit of ISO/IEC 27701.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-10",
+      "number": 10,
+      "chapter": 2,
+      "chapterTitle": "Privacy information management system (clauses 4–10)",
+      "title": "Clause 10 — Improvement",
+      "text": "Clause 10 — Improvement Harmonized Structure clause 10 (Improvement) typically covers nonconformity, corrective action, and continual improvement. When a PII incident, audit finding, or complaint shows the PIMS is not effective, the organization is expected to correct the issue and improve the system. ISO.org describes the document as covering establishing, implementing, maintaining and continually improving a PIMS.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-11",
+      "number": 11,
+      "chapter": 3,
+      "chapterTitle": "PII controller and processor roles",
+      "title": "PII controller responsibilities (educational map)",
+      "text": "PII controller responsibilities (educational map) ISO.org states the standard is intended for PII controllers (and processors) that hold responsibility and accountability for PII processing. In this educational map, controller-side PIMS activities typically include determining processing purposes, implementing privacy by design in the organization’s own processing, handling individual requests according to applicable law, and instructing processors. This overlay does not reproduce ISO annexes. Legal rights of individuals still come from the applicable statute (for example GDPR), not from ISO/IEC 27701.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-12",
+      "number": 12,
+      "chapter": 3,
+      "chapterTitle": "PII controller and processor roles",
+      "title": "PII processor responsibilities (educational map)",
+      "text": "PII processor responsibilities (educational map) ISO.org also addresses PII processors. In this educational map, processor-side PIMS activities typically include processing only on documented instructions, implementing agreed security and privacy controls, assisting the controller, and not using PII for the processor’s own purposes unless allowed. This is analogous to GDPR Article 28 themes but is a management-system role split, not a statutory contract clause. Confirm processor annexes in the purchased 2025 text.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-13",
+      "number": 13,
+      "chapter": 4,
+      "chapterTitle": "Relationship to ISO/IEC 27001 and privacy law",
+      "title": "Relationship to ISO/IEC 27001",
+      "text": "Relationship to ISO/IEC 27001 ISO.org states ISO/IEC 27701 aligns with existing ISO/IEC 27001 systems to streamline implementation, and that the 2025 edition can be used alone as an independent MSS. Organizations may run a combined ISMS+PIMS or a standalone PIMS. Information security (confidentiality, integrity, availability of information) is related to, but not the same as, privacy management of PII. Do not treat ISO/IEC 27001 certification as GDPR compliance, and do not treat ISO/IEC 27701 certification as a legal adequacy decision.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    },
+    {
+      "type": "article",
+      "id": "article-14",
+      "number": 14,
+      "chapter": 4,
+      "chapterTitle": "Relationship to ISO/IEC 27001 and privacy law",
+      "title": "Relationship to GDPR and other privacy law",
+      "text": "Relationship to GDPR and other privacy law ISO.org publicly lists among benefits: “Helps demonstrate compliance with global privacy regulations such as GDPR.” Demonstration is not equivalence. A PIMS can produce policies, risk records, and audit evidence that a GDPR programme also needs (accountability, security of processing, processor oversight). It does not grant or limit data-subject rights, set administrative fines, or replace a supervisory authority. Use this instrument for the international PIMS analogue; use the GDPR instrument for Regulation (EU) 2016/679.",
+      "sourceUrl": "https://www.iso.org/standard/27701",
+      "eurLexUrl": "https://www.iso.org/standard/27701"
+    }
+  ]
+}

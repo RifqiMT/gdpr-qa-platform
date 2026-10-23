@@ -1,0 +1,12 @@
+{
+  "regulationId": "iso-19941",
+  "source": "inline-fallback",
+  "llm": false,
+  "generatedAt": "2026-10-22T15:20:28.491Z",
+  "summaries": {
+    "1": "Scope from ISO.org: interoperability and portability types and common terminology for CSC, CSP, and CSN; related 17788/17789.",
+    "2": "Educational split of interoperability types, portability types, and shared vocabulary.",
+    "3": "Data vs application portability and the lock-in problem the vocabulary is meant to make discussable.",
+    "4": "ISO/IEC 19941-1 forthcoming replacement; not the EU Data Act."
+  }
+}

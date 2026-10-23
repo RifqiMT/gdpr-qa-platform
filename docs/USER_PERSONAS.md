@@ -1,9 +1,9 @@
 # User Personas  
 ## Regulation Q&A Platform
 
-Personas represent primary users of the platform across **European Union**, **Indonesian**, and **United States** instruments. They inform features, user stories, and documentation.
+Personas represent primary users of the platform across **European Union**, **Indonesian**, **United States**, and **International** instruments. They inform features, user stories, and documentation.
 
-**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22** · Instruments: nine (EU + Indonesia + United States)
+**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Instruments: thirteen (EU + Indonesia + United States + International)
 
 ---
 
@@ -13,7 +13,7 @@ Personas represent primary users of the platform across **European Union**, **In
 |-----------|-------------|
 | **Name** | Alex (Legal / Compliance) |
 | **Role** | In-house counsel or compliance officer working across privacy, AI, and data-access instruments. |
-| **Goals** | Find the right Article/Pasal or Recital quickly; cite official publishers; compare EU, Indonesian, and United States analogues without treating them as legally equivalent. |
+| **Goals** | Find the right Article/Pasal or Recital quickly; cite official publishers; compare EU, Indonesian, United States, and International (ISO / SOC 2) analogues without treating them as legally equivalent. |
 | **Pain points** | Long PDFs; instrument overlap; no single searchable multi-jurisdiction workspace. |
 | **Needs** | Region + regulation picker; Browse welcome hub; Ask with `[S#]` citations; PDF export; Credible sources; mobile Tools menu. |
 | **Relevant features** | Region picker, Browse welcome, Browse, Ask, Sources, Export PDF, Refresh sources, responsive chrome. |
@@ -187,15 +187,67 @@ Personas represent primary users of the platform across **European Union**, **In
 
 ---
 
-## Persona 15: Engineering / DevOps
+## Persona 15: Privacy programme lead (ISO/IEC 27701)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Noor (PIMS programme lead) |
+| **Role** | Implements a Privacy Information Management System against **ISO/IEC 27701:2025** (standalone PIMS; 2019 withdrawn). |
+| **Goals** | Understand PII controller vs processor roles, relationship to ISO/IEC 27001, and how a PIMS can *help demonstrate* GDPR-style accountability without replacing the GDPR. |
+| **Pain points** | Paywalled ISO clause text; confusion with GDPR articles; treating certification as legal compliance. |
+| **Needs** | `iso-27701` Browse/Ask/Sources (ISO.org catalogue); educational clause map; News from ISO.org; explicit “not a law” copy. |
+| **Relevant features** | `iso-27701` Browse / Ask / Sources / News filter, `refresh-iso-27701`, theme teal `#0f766e`. |
+
+---
+
+## Persona 16: Cloud architect (ISO/IEC 19941)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Mateo (Cloud interoperability architect) |
+| **Role** | Specifies cloud switching and multi-cloud portability using **ISO/IEC 19941:2017** vocabulary (CSC/CSP/CSN). |
+| **Goals** | Distinguish interoperability vs portability types; watch ISO/IEC 19941-1 replacement; contrast with the EU Data Act’s binding switching rules. |
+| **Pain points** | Confusing a technical standard with a switching statute; lock-in discussions without shared terminology. |
+| **Needs** | `iso-19941` Browse/Ask; ISO.org catalogue links; 19941-1 life-cycle note. |
+| **Relevant features** | `iso-19941` Browse / Ask / Sources / News filter, theme sky `#0369a1`. |
+
+---
+
+## Persona 17: AI risk officer (ISO/IEC 23894)
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Hana (AI risk manager) |
+| **Role** | Runs AI risk management using **ISO/IEC 23894:2023** (guidance overlaying ISO 31000) alongside EU AI Act readiness work. |
+| **Goals** | Map the AI risk process (establish context, identify, analyse, evaluate, treat, monitor, re-assess); know that **ISO/IEC 42001** is the related certifiable AI management system (a *related note only*, never the same instrument); explain to EU colleagues that 23894 is voluntary guidance, not the AI Act. |
+| **Pain points** | Equating 23894 with the EU AI Act or with ISO/IEC 42001; paywalled clause text; duplicate or conflicting requests for "the AI risk standard". |
+| **Needs** | `iso-23894` Browse / Ask / Sources (ISO.org catalogue, JTC 1/SC 42); educational clause map and purpose notes; ISO-scoped News; explicit "voluntary guidance, not a law" copy. A repeated ISO 23894 request resolves to **one** instrument. |
+| **Relevant features** | `iso-23894` Browse / Ask / Sources / News filter, LEGAL FORCE answer rule (see [API_CONTRACTS.md](API_CONTRACTS.md)), `refresh-iso-23894`, theme violet `#5b21b6`. |
+
+---
+
+## Persona 18: SOC 2 assurance auditor / report reviewer
+
+| Attribute | Description |
+|-----------|-------------|
+| **Name** | Sasha (SOC 2 auditor / assurance buyer) |
+| **Role** | CPA-adjacent auditor, vendor-risk analyst, or security lead who prepares for or reviews **SOC 2** reports built on the **AICPA 2017 Trust Services Criteria** (with Revised Points of Focus, 2022). |
+| **Goals** | Navigate TSC categories (Security / Common Criteria CC; optional Availability A, Processing Integrity PI, Confidentiality C, Privacy P); distinguish **Type 1** (design at a point in time) from **Type 2** (operating effectiveness over a period); cite AICPA & CIMA sources. |
+| **Pain points** | Treating SOC 2 as a privacy law, an ISO certificate, or a GDPR substitute; paywalled or copyrighted Points of Focus tables. |
+| **Needs** | `soc2` Browse / Ask / Sources (AICPA TSC download page, SOC for Service Organizations hub); criterion-name map and purpose notes (copyright-safe educational overlay); AICPA-scoped News; explicit "attestation criteria, not a law" copy. |
+| **Relevant features** | `soc2` Browse / Ask / Sources / News filter, LEGAL FORCE answer rule, `refresh-soc2`, theme amber `#b45309`. |
+
+---
+
+## Persona 19: Engineering / DevOps
 
 | Attribute | Description |
 |-----------|-------------|
 | **Name** | Avery (Platform Engineer) |
 | **Role** | Operates Node/Vercel deployment, cron, env, corpora. |
-| **Goals** | Reliable refresh for nine instruments; seed on cold start (`SEED_FILES` = 29); green `npm test`; documented env (`MIN_US_*`, `US_*_FORCE_CORPUS_WRITE`). |
-| **Pain points** | Stale docs listing removed APIs; Indo WAF blocking news; `/tmp` ephemerality on Vercel. |
-| **Needs** | OPERATIONS_RUNBOOK; VARIABLES; VERCEL_DEPLOY; CRON_SECRET; Indonesian and US refresh scripts (`refresh-id-*`, `refresh-us-*`); parity tests (40 pass / 17 suites). |
+| **Goals** | Reliable refresh for thirteen instruments; seed on cold start (`SEED_FILES` = 41); green `npm test`; documented env (`MIN_US_*`, `MIN_ISO_*`, `US_*_FORCE_CORPUS_WRITE`). |
+| **Pain points** | Stale docs listing removed APIs; Indo WAF blocking news; `/tmp` ephemerality on Vercel; ISO copyright (must not scrape paid text). |
+| **Needs** | OPERATIONS_RUNBOOK; VARIABLES; VERCEL_DEPLOY; CRON_SECRET; Indonesian, US, and International refresh scripts (`refresh-id-*`, `refresh-us-*`, `refresh-iso-*`, `refresh-soc2`); parity tests (58 pass / 24 suites). |
 | **Relevant features** | ETL CLI, cron, `/health`, Refresh sources/news, documentation set. |
 
 ---
@@ -204,7 +256,11 @@ Personas represent primary users of the platform across **European Union**, **In
 
 | Persona | Primary jurisdiction | Primary instruments | Top jobs |
 |---------|---------------------|---------------------|----------|
-| Alex | EU / ID / US | All nine | Switch, browse, cite |
+| Alex | EU / ID / US / INTL | All thirteen | Switch, browse, cite |
+| Noor | International | ISO 27701 | PIMS clause map, GDPR analogue honesty |
+| Mateo | International | ISO 19941 | Cloud portability vocabulary |
+| Hana | International | ISO 23894 | AI risk-management guidance; 42001 related note |
+| Sasha | International | SOC 2 | TSC categories; Type 1 vs Type 2 attestation |
 | Sam | EU | GDPR | Ask, News, suitable recitals |
 | Dewi | ID | UU PDP | Pasal browse, Ask, Indo news |
 | Bima | ID | Satu Data | Perpres browse, Ask |
@@ -218,7 +274,7 @@ Personas represent primary users of the platform across **European Union**, **In
 | Cameron | US (California) | CCPA/CPRA | Cite Civil Code sections; CPPA / OAG news |
 | Devon | US (Colorado) | ADMT | Consequential-decision duties; ADAI rulemaking news |
 | Priya | US (federal) | OPEN Data Act | Data inventory / open-data duties; avoid the 2014 DATA Act false friend |
-| Avery | Ops | All nine (ETL) | Refresh, deploy, test |
+| Avery | Ops | All thirteen (ETL) | Refresh, deploy, test |
 
 ---
 

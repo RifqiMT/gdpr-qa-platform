@@ -1,7 +1,7 @@
 # Product metrics and OKRs  
 ## Regulation Q&A Platform
 
-**Version:** 2.9 · **Last updated:** 2026-10-22 · Documentation standard **v2.9** · Product **1.2.9** · Audit date **2026-10-22** · Nine instruments · `SEED_FILES` = 29 · `npm test` 40 pass / 17 suites
+**Version:** 3.1 · **Last updated:** 2026-10-22 · Documentation standard **v3.1** · Product **1.3.0** · Audit date **2026-10-22** · Thirteen instruments · `SEED_FILES` = 41 · `npm test` 58 pass / 24 suites
 
 **Important:** The application does **not** currently ship an analytics SDK. Metrics below are **definitions and targets** for the product team. Instrument when approved (privacy-preserving, no secrets).
 
@@ -23,7 +23,7 @@
 | `ask_extractive_share` | Extractive fallback share | Share of Ask completed via extractive path | `asks_extractive / asks_total` | `llm.provider` / note | `0.15` |
 | `byok_adoption` | BYOK adoption | Share of Ask with client keys | `asks_byok / asks_total` | `llm.byokGroq` / `byokTavily` | `0.20` |
 | `regulation_mix` | Instrument mix | Distribution of active regulation per session | `count by regulation_id / sessions` | client `currentRegulation` | `{gdpr:0.4, id-pdp:0.2, …}` |
-| `jurisdiction_mix` | Jurisdiction mix | All vs EU vs Indonesia vs USA filter usage | `count by region_filter / sessions` | region picker (`gdpr-qa-region-v1`) | `{eu:0.45, id:0.25, us:0.15, all:0.15}` |
+| `jurisdiction_mix` | Jurisdiction mix | All vs EU vs Indonesia vs USA vs INTL filter usage | `count by region_filter / sessions` | region picker (`gdpr-qa-region-v1` ∈ `all\|eu\|id\|us\|intl`) | `{eu:0.40, id:0.20, us:0.15, intl:0.10, all:0.15}` |
 | `browse_to_ask_rate` | Browse→Ask conversion | Sessions that Browse then Ask | `sessions_browse_then_ask / sessions_browse` | client funnel | `0.35` |
 | `citation_click_rate` | Citation engagement | Asks where user opens a `[S#]` or View in app | `asks_with_citation_nav / asks_with_sources` | client | `0.45` |
 | `news_refresh_success` | News refresh success | Successful `POST /api/news/refresh` | `refresh_ok / refresh_attempts` | server logs | `0.90` |
@@ -33,6 +33,10 @@
 | `us_ask_share` | United States Ask share | Ask under any `us-*` instrument | `asks_us / asks_total` where `regulation ∈ {us-ccpa, us-admt, us-open-data}` | regulation param | monitor only |
 | `us_news_nonempty_rate` | USA news non-empty | USA-filtered News lists with ≥1 item after load | `nonempty_us_views / us_news_views` | client filter (`itemMatchesNewsRegulationScope`) | `0.80` |
 | `us_ask_with_sources_rate` | US Ask success | `us-*` Ask requests returning ≥1 local `[S#]` source from the US corpus | `us_asks_with_local_sources / us_asks_total` | `/api/answer` | `≥0.90` |
+| `intl_ask_share` | International Ask share | Ask under any `iso-*` / `soc2` instrument | `asks_intl / asks_total` where `regulation ∈ {iso-27701, iso-19941, iso-23894, soc2}` | regulation param | monitor only |
+| `intl_news_nonempty_rate` | INTL news non-empty | INTL-filtered News lists with ≥1 item after load | `nonempty_intl_views / intl_news_views` | client filter (`itemMatchesNewsRegulationScope`) | `0.80` |
+| `intl_ask_with_sources_rate` | International Ask success | `iso-*` / `soc2` Ask requests returning ≥1 local `[S#]` source from the educational overlay | `intl_asks_with_local_sources / intl_asks_total` | `/api/answer` | `≥0.90` |
+| `intl_voluntary_label_rate` | Voluntary-standard labelling | International Ask answers whose framing states "voluntary standard / attestation, not a law" (LEGAL FORCE rule) | `intl_asks_with_legal_force_note / intl_asks_total` | prompt audit / sampling | `1.00` (sample audit) |
 | `reader_full_share` | Reader Full-mode share | Sessions that set `gdprQaReaderViewMode = full` | `sessions_full / sessions_reader` | client | monitor only |
 
 ### 1.3 Quality and risk metrics
@@ -40,8 +44,10 @@
 | Metric | Definition | Threshold guidance |
 |--------|------------|--------------------|
 | Empty Ask rate | Answers with zero sources when corpus non-empty | Investigate if >5% |
-| Wrong-sources fallback | Meta sources incorrectly showing GDPR for ID **or US** regs | **Must be 0** (regression) |
+| Wrong-sources fallback | Meta sources incorrectly showing GDPR for ID, US, **or International** regs | **Must be 0** (regression) |
 | US false-friend incidents | US surface treating the 2014 DATA Act as the EU Data Act analogue, or implying a federal GDPR / AI Act | **Must be 0** |
+| International legal-force incidents | An International surface (UI copy, Ask answer, docs) presenting ISO/IEC 27701 / 19941 / 23894 or SOC 2 as a law, certification of compliance, or reproducing paid ISO / AICPA body text | **Must be 0** |
+| EU leakage into INTL News | ICO / EDPB / EDPS / FTC items shown under `iso-*` / `soc2` News | **Must be 0** |
 | EU leakage into USA News | ICO / EDPB / EDPS items shown under `us-*` News | **Must be 0** |
 | Stale chapter blurbs | Non-GDPR chapter summaries showing GDPR text | **Must be 0** |
 | Guardrail validation failures | `validateCorpusFormatting` fail on refresh | **Must be 0** for release |
@@ -51,9 +57,10 @@
 | Check | Definition | Formula |
 |-------|------------|---------|
 | Article/pasal count vs registry mins | Corpus meets `minArticles` / `minRecitals` | `count ≥ min_*` |
-| SEED completeness | Vercel seed has 29 files (18 corpus/structure + 9 summaries + news + suitable recitals) | `len(SEED_FILES)=29` |
+| SEED completeness | Vercel seed has 41 files (26 corpus/structure + 13 summaries + news + suitable recitals) | `len(SEED_FILES)=41` |
+| International corpus floors | International corpora meet registry mins | `iso-27701 ≥ 14 / 5`, `iso-19941 ≥ 11 / 4`, `iso-23894 ≥ 12 / 5`, `soc2 ≥ 20 / 6` (articles / recitals) |
 | US corpus floors | US corpora meet registry mins | `us-ccpa ≥ 30 / 5`, `us-admt ≥ 12 / 5`, `us-open-data ≥ 8 / 4` (articles / recitals) |
-| Parity and UI tests | `npm test` green | **40 pass / 0 fail / 17 suites** (indo-parity, us-parity, browse-routes, reader-view) |
+| Parity and UI tests | `npm test` green | **58 pass / 0 fail / 24 suites** (indo-parity, us-parity, iso-parity, browse-routes, reader-view; verified 2026-10-22) |
 
 ---
 
@@ -64,7 +71,7 @@
 | `/health` availability | Uptime of liveness | ≥99.5% |
 | Ask p95 latency | Time to `/api/answer` response | < 12s with Groq |
 | News refresh duration | Wall time of refresh | < `NEWS_REFRESH_TIMEOUT_MS` |
-| Cron completion | Daily nine-instrument refresh finishes (`gdpr`, `aiAct`, `dataAct`, `idPdp`, `idSatuData`, `idAiEthics`, `usCcpa`, `usAdmt`, `usOpenData`) | 7/7 days |
+| Cron completion | Daily thirteen-instrument refresh finishes (`gdpr`, `aiAct`, `dataAct`, `idPdp`, `idSatuData`, `idAiEthics`, `usCcpa`, `usAdmt`, `usOpenData`, `iso27701`, `iso19941`, `iso23894`, `soc2`) | 7/7 days |
 | Cold-start seed | `/tmp` seed without missing critical JSON | 100% of deploys |
 
 ---
@@ -79,12 +86,12 @@
 | KR2 | Citation click rate ≥ 40% |
 | KR3 | Zero critical “unsourced legal claim” support tickets |
 
-### Objective O2: Corpora stay current and discoverable across nine instruments.
+### Objective O2: Corpora stay current and discoverable across thirteen instruments.
 
 | KR | Target |
 |----|--------|
 | KR1 | ETL success rate ≥ 95% per instrument |
-| KR2 | Cron completes all nine daily |
+| KR2 | Cron completes all thirteen daily |
 | KR3 | Guardrail validation failures = 0 on scheduled runs |
 
 ### Objective O3: News and credible sources add value without noise.
@@ -151,13 +158,13 @@
 | KR | Target |
 |----|--------|
 | KR1 | Zero false-empty chapters after regulation switch |
-| KR2 | Welcome hub shows all nine cards (EU, Indonesia, USA rows) on desktop |
+| KR2 | Welcome hub shows all thirteen cards (EU, Indonesia, USA, International rows) on desktop |
 
 ### Objective O12: Engineering maintainability keeps the codebase auditable.
 
 | KR | Target |
 |----|--------|
-| KR1 | Docs standard **v2.9** aligned with package **1.2.9** (incl. Page \| Full, browse-route tests, nine-instrument lockstep) |
+| KR1 | Docs standard **v3.1** aligned with package **1.3.0** (incl. Page \| Full, browse-route tests, thirteen-instrument lockstep, `SEED_FILES` = 41) |
 | KR2 | No dead APIs documented as live |
 | KR3 | Module public APIs listed in SOURCE_CODE_INVENTORY |
 
@@ -171,6 +178,17 @@
 | KR4 | Zero support tickets or UI copy equating the OPEN Government Data Act with the 2014 DATA Act or claiming a federal GDPR / AI Act |
 | KR5 | ETL: `npm run refresh-us-*` and cron succeed ≥ 95% (floors `MIN_US_*` held) |
 
+### Objective O14: International voluntary standards are first-class and honest.
+
+| KR | Target |
+|----|--------|
+| KR1 | `iso-27701`, `iso-19941`, `iso-23894`, `soc2` selectable (region **INTL**, default `iso-27701`) with Browse / Ask / Sources / News; `iso-parity` tests green before every release (58 pass / 24 suites baseline) |
+| KR2 | International Ask with local sources ≥ 90%; zero wrong-sources fallback incidents (no GDPR-Info / EUR-Lex for `iso-*` / `soc2`) |
+| KR3 | INTL News non-empty rate ≥ 80% after refresh (ISO / AICPA feeds); zero EU / US leakage |
+| KR4 | Zero International legal-force incidents: no UI copy or answer presents ISO / SOC 2 as a law; zero paid ISO / AICPA body text in `data/` |
+| KR5 | ETL: `npm run refresh-iso-*` / `refresh-soc2` and cron succeed ≥ 95% (floors `MIN_ISO_*` / `MIN_SOC2_*` held) |
+| KR6 | INTL share of sessions (`jurisdiction_mix.intl`) tracked as a monitor-only adoption signal |
+
 ---
 
 ## 4. Instrumentation guidance
@@ -178,7 +196,7 @@
 1. Prefer **privacy-preserving** event logs (no question text in third-party analytics by default).  
 2. Never log API keys, BYOK payloads, or full `.env`.  
 3. Tag events with `regulation_id`, `jurisdiction`, `llm_path` (`groq` \| `tavily` \| `extractive`).  
-4. Until instrumentation exists, use **manual smoke + `npm test` + cron logs** as proxy evidence for OKRs O2/O8/O12.
+4. Until instrumentation exists, use **manual smoke + `npm test` + cron logs** as proxy evidence for OKRs O2/O8/O12/O13/O14.
 
 ---
 

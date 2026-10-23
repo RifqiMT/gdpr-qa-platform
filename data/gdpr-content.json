@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastChecked": "2026-10-21T00:00:02.517Z",
-    "lastRefreshed": "2026-10-21T00:00:02.517Z",
+    "lastChecked": "2026-10-23T00:00:03.128Z",
+    "lastRefreshed": "2026-10-23T00:00:03.128Z",
     "etl": {
       "primaryRequested": "gdpr-info",
       "minGdprInfoArticles": 99,
